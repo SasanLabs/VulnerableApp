@@ -22,5 +22,5 @@ Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp
 2. Simple Annotation based and URL Path based vulnerable code execution
 3. Easy integration with any of the Web Application Vulnerability Finding Tools.
 4. Scenarios included are very common and exploitable using any Vulnerability finding tools.
-5. Tried to cover as many scenarios which working for ZAP
+5. Tried to cover as many scenarios while contributing code to ZAP
 ```
