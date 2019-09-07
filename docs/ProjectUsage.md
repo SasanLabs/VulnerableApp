@@ -4,7 +4,7 @@ it is very tough to check if the Payloads added or Scripts added are working as 
 
 # Solutions
 ``` 
-1. Generally developers are writing vulnerable applications for testing Payloads before contributing to these tools.
+1. Generally developers are writing vulnerable applications for testing Payloads before contributing to these tools or
 2. Writing Unit test cases
 ```
 Both the above approaches are having flows like 
