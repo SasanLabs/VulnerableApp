@@ -1,5 +1,5 @@
 # Usecase
-There are many tools for finding Web Application Vulnerability like ZAP, Burp etc but while contributing to these Open Source Tools 
+There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
 it is very tough to check if the Payloads added or Scripts added are working as expected.
 
 # Solutions
@@ -16,11 +16,11 @@ which are not reviewed by anyone
 Approach 2: Simulating every scenario using unit tests are not feasible.
 ```
 
-Solutions provided by VulnerableApp:
+Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp):
 ```
 1. Simple SpringBoot Application which is very easy to run.
 2. Simple Annotation based and URL Path based vulnerable code execution
 3. Easy integration with any of the Web Application Vulnerability Finding Tools.
 4. Scenarios included are very common and exploitable using any Vulnerability finding tools.
-5. Tried to cover as many scenarios which working for Markup : [ZAP](https://github.com/zaproxy) [GitHub Pages](https://pages.github.com/)
+5. Tried to cover as many scenarios which working for ZAP
 ```
