@@ -5,6 +5,10 @@ import static org.sasanlabs.vulnerability.utils.Constants.NULL_BYTE_CHARACTER;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.websocket.server.PathParam;
+
+import org.sasanlabs.internal.utility.AnnotationScannerUtility;
+import org.sasanlabs.internal.utility.VulnerableServiceRestEndPoint;
 import org.sasanlabs.vulnerability.UrlParamBean;
 import org.sasanlabs.vulnerability.xss.UrlParamWithNullByteBasedInsideDivTagInjection;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SecurityTestingController {
 
-	@RequestMapping("/vulnerable")
-	public String vulnerable(@RequestParam Map<String, String> allParams) throws IOException {
+	@RequestMapping("/vulnerable/{endPoint}")
+	public String vulnerable(@RequestParam Map<String, String> allParams, @PathParam("endPoint") String endPoint)
+			throws IOException {
 		UrlParamBean urlParamBean = new UrlParamBean();
 		if (allParams != null) {
 			urlParamBean.setParamKeyValueMap(allParams);
@@ -57,6 +62,18 @@ public class SecurityTestingController {
 		} else {
 			return urlWithNullByteBasedOutOfHtmlTagInjection.getVulnerablePayload();
 		}
+	}
+
+	@RequestMapping("/allEndPoint")
+	public String allEndPoints() {
+		String payloadplaceHolder = "<html><body>%s</body></html>";
+		StringBuilder payload = new StringBuilder();
+		Map<String, Class<?>> context = AnnotationScannerUtility.CONTEXT;
+		for(Map.Entry<String, Class<?>> entry : context.entrySet()) {
+			payload.append("Name : ").append(entry.getKey()).append("Type : ").
+			append(entry.getValue().getAnnotation(VulnerableServiceRestEndPoint.class).type());
+		}
+		return String.format(payloadplaceHolder, payload.toString());
 	}
 
 }
