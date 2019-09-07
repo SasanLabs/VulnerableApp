@@ -1,8 +1,9 @@
 # Usecase
+
 There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
 it is very tough to check if the Payloads added or Scripts added are working as expected.
 
-# Solutions
+## Solutions
 ``` 
 1. Generally developers are writing vulnerable applications for testing Payloads before contributing to these tools or
 2. Writing Unit test cases
@@ -24,3 +25,10 @@ Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp
 4. Scenarios included are very common and exploitable using any Vulnerability finding tools.
 5. Tried to cover as many scenarios while contributing code to ZAP
 ```
+
+Other Benefits :-
+```
+Learning Web Application Security is very tough reason being, it is not legal and there are very less vulnerable application which are provided for testing.
+This Application is deliberately made vulnerable to attacks so that users can learn not only about how to attack but also how to secure their applications.
+```
+
