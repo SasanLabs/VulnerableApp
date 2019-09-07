@@ -20,6 +20,7 @@ bootJar {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 sourceCompatibility = 1.8
@@ -31,6 +32,7 @@ dependencies {
     runtime("com.h2database:h2:1.3.176")
     // https://mvnrepository.com/artifact/org.zaproxy/zap
 	compile group: 'org.zaproxy', name: 'zap', version: '2.7.0'
-    
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
 }
 
