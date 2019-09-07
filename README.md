@@ -28,8 +28,8 @@ Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp
 
 Other Benefits :-
 ```
-Learning Web Application Security is very tough reason being, it is not legal and 
-there are very less vulnerable application which are provided for testing.
-This Application is deliberately made vulnerable to attacks so that users will not
-only learn about attacking Web Applications but also learn about ways of Securing them.
+1. Learning Web Application Security is very tough, as it is not legal and 
+2. there are very less vulnerable application for Security testing.
 ```
+
+This Application is deliberately made vulnerable to attacks so that users can learn from not only about attacks and attack vectors but also about securing Web Applications against those attacks.
