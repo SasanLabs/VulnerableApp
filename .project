@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>spring-boot-app-zap</name>
-	<comment>Project spring-boot-app-zap created by Buildship.</comment>
+	<name>VulnerableApp</name>
+	<comment>Project VulnerableApp created by KSASAN.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
