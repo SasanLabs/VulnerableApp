@@ -32,4 +32,4 @@ Other Benefits :-
 2. there are very less vulnerable application for Security testing.
 ```
 
-This Application is deliberately made vulnerable to attacks so that users can learn from not only about attacks and attack vectors but also about securing Web Applications against those attacks.
+This Application is deliberately made vulnerable to attacks so that users can learn not only about attacks and attack vectors but also about securing Web Applications against those attacks.
