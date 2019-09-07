@@ -26,3 +26,8 @@ Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp
 5. Tried to cover as many scenarios while contributing code to ZAP
 ```
 
+Other Benefits :-
+```
+Learning Web Application Security is very tough reason being, it is not legal and there are very less vulnerable application which are provided for testing.
+This Application is deliberately made vulnerable to attacks so that users can learn not only about how to attack but also how to secure the applications.
+```
