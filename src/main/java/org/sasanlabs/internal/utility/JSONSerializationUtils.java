@@ -15,4 +15,8 @@ public class JSONSerializationUtils {
 		return MAPPER.writeValueAsString(object);
 	}
 	
+	public static <T> String serializeWithPrettyPrintJSON(T object) throws JsonProcessingException {
+		return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+	}
+	
 }
