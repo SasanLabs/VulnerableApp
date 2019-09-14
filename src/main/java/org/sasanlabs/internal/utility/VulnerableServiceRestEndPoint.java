@@ -29,7 +29,7 @@ public @interface VulnerableServiceRestEndPoint {
 	 * For Rest Endpoint to know about all the available Scenarios
 	 * @return
 	 */
-	String description();
+	String descriptionLabel();
 	
 	/**
 	 * Type of Vulnerability

@@ -1,5 +1,9 @@
 package org.sasanlabs.beans;
 
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
 /**
@@ -7,6 +11,14 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
  *
  */
 public class AllEndPointsResponseBean {
+
+	private String name;
+
+	private String description;
+
+	private VulnerabilityType vulnerabilityType;
+
+	private Set<LevelResponseBean> levelDescriptionSet = new TreeSet<>();
 
 	public String getName() {
 		return name;
@@ -32,9 +44,12 @@ public class AllEndPointsResponseBean {
 		this.vulnerabilityType = vulnerabilityType;
 	}
 
-	private String name;
+	public Set<LevelResponseBean> getLevelDescriptionSet() {
+		return levelDescriptionSet;
+	}
 
-	private String description;
+	public void setLevelDescriptionSet(Set<LevelResponseBean> levelDescriptionSet) {
+		this.levelDescriptionSet = levelDescriptionSet;
+	}
 
-	private VulnerabilityType vulnerabilityType;
 }

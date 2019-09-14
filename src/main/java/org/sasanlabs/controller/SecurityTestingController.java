@@ -1,18 +1,25 @@
 package org.sasanlabs.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.sasanlabs.beans.AllEndPointsResponseBean;
+import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
+import org.sasanlabs.internal.utility.LevelEnum;
 import org.sasanlabs.internal.utility.MessageBundle;
+import org.sasanlabs.internal.utility.VulnerabilityLevel;
 import org.sasanlabs.internal.utility.VulnerableServiceRestEndPoint;
 import org.sasanlabs.service.IEndPointResolver;
+import org.sasanlabs.service.IGetAllSupportedEndPoints;
 import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
 import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
+import org.sasanlabs.service.vulnerability.xss.impl.UrlParamBasedImgTagAttrInjection;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,57 +35,37 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @RestController
 public class SecurityTestingController {
 
-	private EnvUtils envUtils;
-
 	private IEndPointResolver<IGetInjectionPayload> endPointResolver;
 
-	private MessageBundle messageBundle;
+	private IGetAllSupportedEndPoints getAllSupportedEndPoints;
 
 	@Autowired
-	public SecurityTestingController(EnvUtils envUtils, IEndPointResolver<IGetInjectionPayload> endPointResolver,
-			MessageBundle messageBundle) {
-		this.envUtils = envUtils;
+	public SecurityTestingController(IEndPointResolver<IGetInjectionPayload> endPointResolver,
+			IGetAllSupportedEndPoints getAllSupportedEndPoints) {
 		this.endPointResolver = endPointResolver;
-		this.messageBundle = messageBundle;
+		this.getAllSupportedEndPoints = getAllSupportedEndPoints;
 	}
 
-	@RequestMapping("/vulnerable/{endPoint}")
-	public String vulnerable(@RequestParam Map<String, String> allParams, @PathVariable("endPoint") String endPoint)
-			throws IOException {
+	@RequestMapping("/vulnerable/{level}/{endPoint}")
+	public String vulnerable(@RequestParam Map<String, String> allParams, @PathVariable("endPoint") String endPoint,
+			@PathVariable("level") LevelEnum level) throws IOException {
 		UrlParamBean urlParamBean = new UrlParamBean();
 		if (allParams != null) {
 			urlParamBean.setParamKeyValueMap(allParams);
 		}
 		String generalPayload = "<html><title>Security Testing</title><body><h1>Vulnerable Application </h1> %s </body></html>";
-		IGetInjectionPayload payload = endPointResolver.resolve(urlParamBean, endPoint);
+		UrlParamBasedImgTagAttrInjection payload = (UrlParamBasedImgTagAttrInjection)endPointResolver.resolve(urlParamBean, endPoint);
 		if (payload.inclusionInBodyTag()) {
-			return String.format(generalPayload, payload.getVulnerablePayload());
+			 return String.format(generalPayload, payload.getVulnerablePayloadLevelMedium());
 		} else {
-			return payload.getVulnerablePayload();
+			 return payload.getVulnerablePayloadLevelLow();
 		}
+		
 	}
 
 	@RequestMapping("/allEndPoint")
 	public String allEndPoints() throws JsonProcessingException {
-		List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
-		Map<String, IGetInjectionPayload> nameVsIGetInjectionPayloadMap = envUtils
-				.getAllClassesExtendingIGetInjectionPayload();
-		for (Map.Entry<String, IGetInjectionPayload> entry : nameVsIGetInjectionPayloadMap.entrySet()) {
-			String name = entry.getKey();
-			Class<? extends IGetInjectionPayload> clazz = entry.getValue().getClass();
-			if (clazz.isAnnotationPresent(VulnerableServiceRestEndPoint.class)) {
-				VulnerableServiceRestEndPoint vulnerableServiceRestEndPoint = clazz
-						.getAnnotation(VulnerableServiceRestEndPoint.class);
-				String description = vulnerableServiceRestEndPoint.description();
-				VulnerabilityType vulnerabilityType = vulnerableServiceRestEndPoint.type();
-				AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
-				allEndPointsResponseBean.setName(name);
-				allEndPointsResponseBean.setDescription(messageBundle.getString(description,null));
-				allEndPointsResponseBean.setVulnerabilityType(vulnerabilityType);
-				allEndpoints.add(allEndPointsResponseBean);
-			}
-		}
-		return JSONSerializationUtils.serialize(allEndpoints);
+		return "<pre>" + getAllSupportedEndPoints.getSupportedEndPoints() + "</pre>";
 	}
 
 }
