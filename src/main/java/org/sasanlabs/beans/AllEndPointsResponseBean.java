@@ -16,7 +16,7 @@ public class AllEndPointsResponseBean {
 
 	private String description;
 
-	private VulnerabilityType vulnerabilityType;
+	private VulnerabilityType[] vulnerabilityTypes;
 
 	private Set<LevelResponseBean> levelDescriptionSet = new TreeSet<>();
 
@@ -36,12 +36,12 @@ public class AllEndPointsResponseBean {
 		this.description = description;
 	}
 
-	public VulnerabilityType getVulnerabilityType() {
-		return vulnerabilityType;
+	public VulnerabilityType[] getVulnerabilityType() {
+		return vulnerabilityTypes;
 	}
 
-	public void setVulnerabilityType(VulnerabilityType vulnerabilityType) {
-		this.vulnerabilityType = vulnerabilityType;
+	public void setVulnerabilityTypes(VulnerabilityType[] vulnerabilityTypes) {
+		this.vulnerabilityTypes = vulnerabilityTypes;
 	}
 
 	public Set<LevelResponseBean> getLevelDescriptionSet() {

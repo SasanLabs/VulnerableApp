@@ -7,8 +7,8 @@ import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
  * @author KSASAN preetkaran20@gmail.com
  *
  */
-public interface IEndPointResolver<T> {
+public interface BuildPayload {
 
-	T resolve(UrlParamBean urlParamBean, String name) throws ServiceApplicationException;
+	String build(UrlParamBean urlParamBean, String endPoint, String level, String generalPayload) throws ServiceApplicationException;
 	
 }

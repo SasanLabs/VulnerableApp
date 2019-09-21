@@ -2,6 +2,7 @@ package org.sasanlabs.service.impl;
 
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.service.IEndPointResolver;
+import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
 import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class EndPointResolver implements IEndPointResolver<IGetInjectionPayload>
 	private EnvUtils envUtils;
 
 	@Override
-	public IGetInjectionPayload resolve(UrlParamBean urlParamBean, String name) {
+	public IGetInjectionPayload resolve(UrlParamBean urlParamBean, String name) throws ServiceApplicationException {
 		IGetInjectionPayload getInjectionPayload = envUtils.getInstance(IGetInjectionPayload.class, name);
 		getInjectionPayload.setUrlParamBean(urlParamBean);
 		return getInjectionPayload;
