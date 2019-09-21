@@ -36,7 +36,7 @@ public class AllEndPointsResponseBean {
 		this.description = description;
 	}
 
-	public VulnerabilityType[] getVulnerabilityType() {
+	public VulnerabilityType[] getVulnerabilityTypes() {
 		return vulnerabilityTypes;
 	}
 
