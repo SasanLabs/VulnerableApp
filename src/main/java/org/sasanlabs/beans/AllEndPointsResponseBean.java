@@ -1,6 +1,5 @@
 package org.sasanlabs.beans;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -36,7 +35,7 @@ public class AllEndPointsResponseBean {
 		this.description = description;
 	}
 
-	public VulnerabilityType[] getVulnerabilityType() {
+	public VulnerabilityType[] getVulnerabilityTypes() {
 		return vulnerabilityTypes;
 	}
 
