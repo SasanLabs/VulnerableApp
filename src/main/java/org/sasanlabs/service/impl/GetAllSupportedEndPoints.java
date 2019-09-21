@@ -49,11 +49,11 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 				VulnerableServiceRestEndPoint vulnerableServiceRestEndPoint = clazz
 						.getAnnotation(VulnerableServiceRestEndPoint.class);
 				String description = vulnerableServiceRestEndPoint.descriptionLabel();
-				VulnerabilityType vulnerabilityType = vulnerableServiceRestEndPoint.type();
+				VulnerabilityType[] vulnerabilityTypes = vulnerableServiceRestEndPoint.type();
 				AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
 				allEndPointsResponseBean.setName(name);
 				allEndPointsResponseBean.setDescription(messageBundle.getString(description, null));
-				allEndPointsResponseBean.setVulnerabilityType(vulnerabilityType);
+				allEndPointsResponseBean.setVulnerabilityTypes(vulnerabilityTypes);
 
 				Method[] methods = clazz.getDeclaredMethods();
 				for (Method method : methods) {

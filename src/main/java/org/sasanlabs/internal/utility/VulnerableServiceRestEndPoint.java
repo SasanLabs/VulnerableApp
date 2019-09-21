@@ -35,5 +35,5 @@ public @interface VulnerableServiceRestEndPoint {
 	 * Type of Vulnerability
 	 * @return
 	 */
-	VulnerabilityType type(); 
+	VulnerabilityType[] type(); 
 }
