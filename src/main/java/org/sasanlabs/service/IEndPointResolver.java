@@ -1,7 +1,6 @@
 package org.sasanlabs.service;
 
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -9,6 +8,6 @@ import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
  */
 public interface IEndPointResolver<T> {
 
-	T resolve(UrlParamBean urlParamBean, String name) throws ServiceApplicationException;
+	T resolve(String name) throws ServiceApplicationException;
 	
 }

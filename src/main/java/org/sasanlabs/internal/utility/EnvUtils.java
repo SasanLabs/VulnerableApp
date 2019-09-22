@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

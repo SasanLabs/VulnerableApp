@@ -1,7 +1,8 @@
 package org.sasanlabs.service;
 
+import org.sasanlabs.service.bean.RequestBean;
+import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -9,6 +10,6 @@ import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
  */
 public interface BuildPayload {
 
-	String build(UrlParamBean urlParamBean, String endPoint, String level, String generalPayload) throws ServiceApplicationException;
+	ResponseBean build(RequestBean requestBean) throws ServiceApplicationException;
 	
 }
