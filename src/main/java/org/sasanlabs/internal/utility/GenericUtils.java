@@ -3,9 +3,10 @@ package org.sasanlabs.internal.utility;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
 
 public class GenericUtils {
 
@@ -17,14 +18,14 @@ public class GenericUtils {
 	 * 
 	 *                                     Invokes the Method as per the Level given
 	 */
-	public static String invokeMethod(IGetInjectionPayload iGetInjectionPayload, LevelEnum level)
+	public static ResponseBean invokeMethod(IGetInjectionPayload iGetInjectionPayload, LevelEnum level)
 			throws ServiceApplicationException {
 		for (Method method : iGetInjectionPayload.getClass().getMethods()) {
 			if (method.isAnnotationPresent(VulnerabilityLevel.class)) {
 				VulnerabilityLevel vulnerabilityLevel = method.getAnnotation(VulnerabilityLevel.class);
 				if (vulnerabilityLevel.value() == level) {
 					try {
-						return (String) method.invoke(iGetInjectionPayload);
+						return (ResponseBean) method.invoke(iGetInjectionPayload);
 					} catch (IllegalAccessException e) {
 						throw new ServiceApplicationException(
 								"Access Issue, please check the visibility of the annotated method ", e,
@@ -45,4 +46,8 @@ public class GenericUtils {
 				iGetInjectionPayload.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).name());
 	}
 
+	public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {
+		String generalPayload = "<html><title>Security Testing</title><body><h1>Vulnerable Application </h1> %s </body></html>";
+		return String.format(generalPayload, payload);
+	}
 }

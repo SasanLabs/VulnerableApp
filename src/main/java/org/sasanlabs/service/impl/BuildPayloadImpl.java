@@ -4,9 +4,11 @@ import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.LevelEnum;
 import org.sasanlabs.service.BuildPayload;
 import org.sasanlabs.service.IEndPointResolver;
+import org.sasanlabs.service.bean.RequestBean;
+import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
-import org.sasanlabs.service.vulnerability.xss.UrlParamBean;
+import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ParameterBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +23,17 @@ public class BuildPayloadImpl implements BuildPayload {
 	}
 
 	@Override
-	public String build(UrlParamBean urlParamBean, String endPoint, String level, String generalPayload)
-			throws ServiceApplicationException {
+	public ResponseBean build(RequestBean request) throws ServiceApplicationException {
+		String level = request.getLevel();
+		String endPoint = request.getEndPoint();
 		LevelEnum levelEnum = LevelEnum.getLevelEnumByName(level);
-		IGetInjectionPayload payload = (IGetInjectionPayload) endPointResolver.resolve(urlParamBean, endPoint);
-		if (payload.inclusionInBodyTag()) {
-			return String.format(generalPayload, GenericUtils.invokeMethod(payload, levelEnum));
-		} else {
-			return GenericUtils.invokeMethod(payload, levelEnum);
-		}
+		IGetInjectionPayload payload = (IGetInjectionPayload) endPointResolver.resolve(endPoint);
+
+		ParameterBean paramBean = new ParameterBean();
+		paramBean.setQueryParamKeyValueMap(request.getQueryParams());
+		payload.setParameterBean(paramBean);
+
+		return GenericUtils.invokeMethod(payload, levelEnum);
 	}
 
 }

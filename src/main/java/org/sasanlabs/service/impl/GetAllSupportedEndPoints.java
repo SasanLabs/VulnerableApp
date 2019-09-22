@@ -13,7 +13,7 @@ import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.VulnerabilityLevel;
 import org.sasanlabs.internal.utility.VulnerableServiceRestEndPoint;
 import org.sasanlabs.service.IGetAllSupportedEndPoints;
-import org.sasanlabs.service.vulnerability.xss.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
