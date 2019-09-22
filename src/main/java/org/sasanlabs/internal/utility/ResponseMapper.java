@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.sasanlabs.service.bean.ResponseBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -13,17 +14,18 @@ import org.springframework.http.ResponseEntity;
  */
 public class ResponseMapper {
 
-	private static <T> void populateHeaderInResponseEntity(ResponseEntity<T> responseEntity,
-			Map<String, List<String>> headers) {
+	private static HttpHeaders populateHeaderInResponseEntity(Map<String, List<String>> headers) {
+		HttpHeaders httpHeaders = new HttpHeaders();
 		for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-			responseEntity.getHeaders().addAll(entry.getKey(), entry.getValue());
+			httpHeaders.addAll(entry.getKey(), entry.getValue());
 		}
+		return httpHeaders;
 	}
 
 	public static ResponseEntity<String> buildResponseEntity(ResponseBean responseBean) {
-		ResponseEntity<String> responseEntity = new ResponseEntity<String>(responseBean.getBody(),
+		HttpHeaders httpHeaders = populateHeaderInResponseEntity(responseBean.getResponseHeaders());
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>(responseBean.getBody(), httpHeaders,
 				HttpStatus.valueOf(responseBean.getHttpStatusCode()));
-		populateHeaderInResponseEntity(responseEntity, responseBean.getResponseHeaders());
 		return responseEntity;
 	}
 

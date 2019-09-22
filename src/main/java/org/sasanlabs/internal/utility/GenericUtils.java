@@ -43,7 +43,7 @@ public class GenericUtils {
 		}
 		throw new ServiceApplicationException("Unable to find the Method for Level :- " + level,
 				ExceptionStatusCodeEnum.UNAVAILABLE_LEVEL, level,
-				iGetInjectionPayload.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).name());
+				iGetInjectionPayload.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).value());
 	}
 
 	public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {

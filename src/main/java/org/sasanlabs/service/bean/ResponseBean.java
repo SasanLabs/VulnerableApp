@@ -47,4 +47,20 @@ public class ResponseBean {
 		this.responseHeaders = responseHeader;
 		this.body = body;
 	}
+
+	public ResponseBean(int httpStatusCode, String body) {
+		this.httpStatusCode = httpStatusCode;
+		this.body = body;
+	}
+	
+	public ResponseBean(int httpStatusCode,Map<String, List<String>> responseHeader) {
+		this.httpStatusCode = httpStatusCode;
+		this.responseHeaders = responseHeader;
+	}
+
+	public ResponseBean(Map<String, List<String>> responseHeader, String body, int httpStatusCode) {
+		this.responseHeaders = responseHeader;
+		this.body = body;
+		this.httpStatusCode = httpStatusCode;
+	}
 }

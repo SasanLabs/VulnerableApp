@@ -22,8 +22,8 @@ public @interface VulnerableServiceRestEndPoint {
 	 * Unique name (Endpoint Name)
 	 * @return
 	 */
-	@AliasFor(annotation = Service.class, value="value")
-	String name();
+	@AliasFor(annotation = Service.class)
+	String value();
 	
 	/**
 	 * For Rest Endpoint to know about all the available Scenarios
