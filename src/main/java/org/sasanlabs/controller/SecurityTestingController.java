@@ -3,6 +3,8 @@ package org.sasanlabs.controller;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.sasanlabs.controller.exception.ControllerException;
 import org.sasanlabs.internal.utility.ResponseMapper;
 import org.sasanlabs.service.BuildPayload;
@@ -42,7 +44,7 @@ public class SecurityTestingController {
 
 	@RequestMapping("/vulnerable/{level}/{endPoint}")
 	public ResponseEntity<String> vulnerable(@RequestParam Map<String, String> allParams, @PathVariable("endPoint") String endPoint,
-			@PathVariable("level") String level) throws IOException, ControllerException {
+			@PathVariable("level") String level, HttpServletRequest request) throws IOException, ControllerException {
 		ParameterBean urlParamBean = new ParameterBean();
 		if (allParams != null) {
 			urlParamBean.setQueryParamKeyValueMap(allParams);
@@ -51,6 +53,7 @@ public class SecurityTestingController {
 		requestBean.setEndPoint(endPoint);
 		requestBean.setLevel(level);
 		requestBean.setQueryParams(allParams);
+		requestBean.setUrl(request.getRequestURL().toString());
 		try {
 			ResponseBean responseBean = buildPayload.build(requestBean);
 			return ResponseMapper.buildResponseEntity(responseBean);
