@@ -32,6 +32,7 @@ public class BuildPayloadImpl implements BuildPayload {
 		ParameterBean paramBean = new ParameterBean();
 		paramBean.setQueryParamKeyValueMap(request.getQueryParams());
 		payload.setParameterBean(paramBean);
+		paramBean.setUrl(request.getUrl());
 
 		return GenericUtils.invokeMethod(payload, levelEnum);
 	}
