@@ -31,6 +31,7 @@ public class BuildPayloadImpl implements BuildPayload {
 
 		ParameterBean paramBean = new ParameterBean();
 		paramBean.setQueryParamKeyValueMap(request.getQueryParams());
+		paramBean.setRequestHeadersMap(request.getHeaders());
 		payload.setParameterBean(paramBean);
 		paramBean.setUrl(request.getUrl());
 

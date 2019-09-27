@@ -1,6 +1,7 @@
 package org.sasanlabs.service.bean;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +12,7 @@ import java.util.Map;
 public class RequestBean {
 
 	private Map<String, String> queryParams = new HashMap<>();
+	private Map<String, List<String>> headers = new HashMap<>();
 	private String level;
 	private String endPoint;
 	private String url;
@@ -47,4 +49,13 @@ public class RequestBean {
 		this.endPoint = endPoint;
 	}
 
+	public Map<String, List<String>> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(Map<String, List<String>> headers) {
+		this.headers = headers;
+	}
+
+	
 }

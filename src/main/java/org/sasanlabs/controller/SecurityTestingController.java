@@ -1,6 +1,9 @@
 package org.sasanlabs.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +57,16 @@ public class SecurityTestingController {
 		requestBean.setLevel(level);
 		requestBean.setQueryParams(allParams);
 		requestBean.setUrl(request.getRequestURL().toString());
+		Enumeration<String> headerNames = request.getHeaderNames();
+		
+		while(headerNames.hasMoreElements()) {
+			String headerName = headerNames.nextElement();
+			requestBean.getHeaders().put(headerName, new ArrayList<>());
+			Enumeration<String> headerValueEnumeration = request.getHeaders(headerName);
+			while(headerValueEnumeration.hasMoreElements()) {
+				requestBean.getHeaders().get(headerName).add(headerValueEnumeration.nextElement());
+			}
+		}
 		try {
 			ResponseBean responseBean = buildPayload.build(requestBean);
 			return ResponseMapper.buildResponseEntity(responseBean);
