@@ -3,6 +3,8 @@ package org.sasanlabs.internal.utility;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.sasanlabs.internal.utility.annotations.VulnerabilityLevel;
+import org.sasanlabs.internal.utility.annotations.VulnerableServiceRestEndPoint;
 import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
