@@ -8,7 +8,7 @@ import org.sasanlabs.service.exception.ServiceApplicationException;
  */
 public enum LevelEnum {
 
-	UNSECURE, LOW, MEDIUM, HIGH, VERY_HIGH, SECURE;
+	LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, SECURE;
 
 	public static LevelEnum getLevelEnumByName(String name) throws ServiceApplicationException {
 		for (LevelEnum levelEnum : LevelEnum.values()) {

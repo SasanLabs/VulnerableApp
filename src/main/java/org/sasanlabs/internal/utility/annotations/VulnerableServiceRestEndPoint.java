@@ -1,4 +1,4 @@
-package org.sasanlabs.internal.utility;
+package org.sasanlabs.internal.utility.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
