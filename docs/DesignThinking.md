@@ -26,7 +26,13 @@ Looking at the requirements/desired output we can think of something that can be
 So from above we can say approach should be Interfaces and Annotation based.
 
 ## Current Design ##
+Component Diagram :-
 
+Gliffy :- [ComponentDiagram Gliffy](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/VulnerableApp%20ComponentDesign.gliffy)
+
+Image :- [ComponentDiagram png](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/ComponentDiagram%20VulnerableApp.png)
+
+More Granular Diagram :-
 
 
 
