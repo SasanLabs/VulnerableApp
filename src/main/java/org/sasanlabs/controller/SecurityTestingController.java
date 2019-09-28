@@ -19,7 +19,7 @@ import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.sasanlabs.service.vulnerability.ParameterBean;
-import org.sasanlabs.service.vulnerability.nosqlInjection.mongo.UserRepository;
+import org.sasanlabs.service.vulnerability.nosqlInjection.mongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

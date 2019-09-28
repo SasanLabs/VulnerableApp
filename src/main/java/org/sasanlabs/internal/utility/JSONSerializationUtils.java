@@ -2,7 +2,6 @@ package org.sasanlabs.internal.utility;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,5 +28,10 @@ public class JSONSerializationUtils {
 	public static <T> T deserialize(InputStream in, TypeReference<T> typeReference)
 			throws JsonParseException, JsonMappingException, IOException {
 		return MAPPER.readValue(in, typeReference);
+	}
+	
+	public static <T> T deserialize(InputStream in, Class<T> clazz)
+			throws JsonParseException, JsonMappingException, IOException {
+		return MAPPER.readValue(in, clazz);
 	}
 }
