@@ -8,8 +8,8 @@ import org.sasanlabs.service.exception.ServiceApplicationException;
  * @author KSASAN preetkaran20@gmail.com
  *
  */
-public interface BuildPayload {
+public interface RequestDelegator {
 
-	ResponseBean build(RequestBean requestBean) throws ServiceApplicationException;
+	ResponseBean delegate(RequestBean requestBean) throws ServiceApplicationException;
 	
 }

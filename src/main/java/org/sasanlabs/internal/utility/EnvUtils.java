@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -41,8 +41,8 @@ public class EnvUtils {
 		}
 	}
 
-	public Map<String, IGetInjectionPayload> getAllClassesExtendingIGetInjectionPayload() {
-		return context.getBeansOfType(IGetInjectionPayload.class);
+	public Map<String, ICustomVulnerableEndPoint> getAllClassesExtendingIGetInjectionPayload() {
+		return context.getBeansOfType(ICustomVulnerableEndPoint.class);
 	}
 
 }

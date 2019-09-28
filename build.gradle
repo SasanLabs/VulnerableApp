@@ -34,5 +34,8 @@ dependencies {
 	compile group: 'org.zaproxy', name: 'zap', version: '2.7.0'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+	// Mongo Dependencies
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo'
 }
 

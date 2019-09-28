@@ -24,4 +24,5 @@ public class VulnerableAppConfiguration {
 		return messageSource;
 	}
 	
+	
 }

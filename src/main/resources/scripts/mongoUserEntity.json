@@ -1,0 +1,47 @@
+[
+	{
+		"name": "MITTAL",
+		"dob": "1993-02-11",
+		"userId": "1"
+	},
+	{
+		"name": "AMIT",
+		"dob": "1993-04-11",
+		"userId": "2"
+	},
+	{
+		"name": "JP",
+		"dob": "1993-09-10",
+		"userId": "3"
+	},
+	{
+		"name": "SHERA",
+		"dob": "1993-07-05",
+		"userId": "4"
+	},
+	{
+		"name": "KARN",
+		"dob": "1992-05-22",
+		"userId": "5"
+	},
+	{
+		"name": "GUDDU",
+		"dob": "1993-05-10",
+		"userId": "6"
+	},
+	{
+		"name": "KUMAR",
+		"dob": "1993-12-09",
+		"userId": "7"
+	},
+	{
+		"name": "MANI",
+		"dob": "1993-10-11",
+		"userId": "8"
+	},
+	{
+		"name": "TEJI",
+		"dob": "1992-04-09",
+		"userId": "9"
+	}
+]
