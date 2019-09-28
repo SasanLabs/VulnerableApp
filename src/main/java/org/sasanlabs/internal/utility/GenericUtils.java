@@ -8,7 +8,7 @@ import org.sasanlabs.internal.utility.annotations.VulnerableServiceRestEndPoint;
 import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 
 public class GenericUtils {
 
@@ -20,7 +20,7 @@ public class GenericUtils {
 	 * 
 	 *                                     Invokes the Method as per the Level given
 	 */
-	public static ResponseBean invokeMethod(IGetInjectionPayload iGetInjectionPayload, LevelEnum level)
+	public static ResponseBean invokeMethod(ICustomVulnerableEndPoint iGetInjectionPayload, LevelEnum level)
 			throws ServiceApplicationException {
 		for (Method method : iGetInjectionPayload.getClass().getMethods()) {
 			if (method.isAnnotationPresent(VulnerabilityLevel.class)) {

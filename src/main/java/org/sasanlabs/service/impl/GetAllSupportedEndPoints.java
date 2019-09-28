@@ -13,7 +13,7 @@ import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.VulnerabilityLevel;
 import org.sasanlabs.internal.utility.annotations.VulnerableServiceRestEndPoint;
 import org.sasanlabs.service.IGetAllSupportedEndPoints;
-import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,11 +40,11 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 	@Override
 	public String getSupportedEndPoints() throws JsonProcessingException {
 		List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
-		Map<String, IGetInjectionPayload> nameVsIGetInjectionPayloadMap = envUtils
+		Map<String, ICustomVulnerableEndPoint> nameVsIGetInjectionPayloadMap = envUtils
 				.getAllClassesExtendingIGetInjectionPayload();
-		for (Map.Entry<String, IGetInjectionPayload> entry : nameVsIGetInjectionPayloadMap.entrySet()) {
+		for (Map.Entry<String, ICustomVulnerableEndPoint> entry : nameVsIGetInjectionPayloadMap.entrySet()) {
 			String name = entry.getKey();
-			Class<? extends IGetInjectionPayload> clazz = entry.getValue().getClass();
+			Class<? extends ICustomVulnerableEndPoint> clazz = entry.getValue().getClass();
 			if (clazz.isAnnotationPresent(VulnerableServiceRestEndPoint.class)) {
 				VulnerableServiceRestEndPoint vulnerableServiceRestEndPoint = clazz
 						.getAnnotation(VulnerableServiceRestEndPoint.class);

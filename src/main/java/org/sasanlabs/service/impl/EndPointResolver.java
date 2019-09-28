@@ -3,7 +3,7 @@ package org.sasanlabs.service.impl;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.service.IEndPointResolver;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class EndPointResolver implements IEndPointResolver<IGetInjectionPayload> {
+public class EndPointResolver implements IEndPointResolver<ICustomVulnerableEndPoint> {
 
 	@Autowired
 	private EnvUtils envUtils;
 
 	@Override
-	public IGetInjectionPayload resolve(String name) throws ServiceApplicationException {
-		IGetInjectionPayload getInjectionPayload = envUtils.getInstance(IGetInjectionPayload.class, name);
+	public ICustomVulnerableEndPoint resolve(String name) throws ServiceApplicationException {
+		ICustomVulnerableEndPoint getInjectionPayload = envUtils.getInstance(ICustomVulnerableEndPoint.class, name);
 		return getInjectionPayload;
 	}
 

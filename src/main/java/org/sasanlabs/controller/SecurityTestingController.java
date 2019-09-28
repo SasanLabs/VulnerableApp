@@ -9,15 +9,17 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.sasanlabs.controller.exception.ControllerException;
+import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
-import org.sasanlabs.service.BuildPayload;
+import org.sasanlabs.service.RequestDelegator;
 import org.sasanlabs.service.IEndPointResolver;
 import org.sasanlabs.service.IGetAllSupportedEndPoints;
 import org.sasanlabs.service.bean.RequestBean;
 import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.IGetInjectionPayload;
+import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.sasanlabs.service.vulnerability.ParameterBean;
+import org.sasanlabs.service.vulnerability.nosqlInjection.mongo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,25 +35,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @RestController
 public class SecurityTestingController {
 
-	private BuildPayload buildPayload;
+	private RequestDelegator requestDelegator;
 
 	private IGetAllSupportedEndPoints getAllSupportedEndPoints;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
-	public SecurityTestingController(BuildPayload buildPayload,
-			IEndPointResolver<IGetInjectionPayload> endPointResolver,
+	public SecurityTestingController(RequestDelegator buildPayload,
+			IEndPointResolver<ICustomVulnerableEndPoint> endPointResolver,
 			IGetAllSupportedEndPoints getAllSupportedEndPoints) {
-		this.buildPayload = buildPayload;
+		this.requestDelegator = buildPayload;
 		this.getAllSupportedEndPoints = getAllSupportedEndPoints;
 	}
 
 	@RequestMapping("/vulnerable/{level}/{endPoint}")
 	public ResponseEntity<String> vulnerable(@RequestParam Map<String, String> allParams, @PathVariable("endPoint") String endPoint,
 			@PathVariable("level") String level, HttpServletRequest request) throws IOException, ControllerException {
-		ParameterBean urlParamBean = new ParameterBean();
-		if (allParams != null) {
-			urlParamBean.setQueryParamKeyValueMap(allParams);
-		}
 		RequestBean requestBean = new RequestBean();
 		requestBean.setEndPoint(endPoint);
 		requestBean.setLevel(level);
@@ -68,7 +69,7 @@ public class SecurityTestingController {
 			}
 		}
 		try {
-			ResponseBean responseBean = buildPayload.build(requestBean);
+			ResponseBean responseBean = requestDelegator.delegate(requestBean);
 			return ResponseMapper.buildResponseEntity(responseBean);
 		} catch (ServiceApplicationException e) {
 			throw new ControllerException(e);
@@ -80,4 +81,9 @@ public class SecurityTestingController {
 		return "<pre>" + getAllSupportedEndPoints.getSupportedEndPoints() + "</pre>";
 	}
 
+	
+	@RequestMapping("/dummyTesting")
+	public String dummyTesting() throws JsonProcessingException {
+		return "<pre>" + JSONSerializationUtils.serialize(userRepository.findAll())  + "</pre>";
+	}
 }
