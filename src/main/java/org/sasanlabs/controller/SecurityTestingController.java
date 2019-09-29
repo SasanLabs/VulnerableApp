@@ -3,23 +3,20 @@ package org.sasanlabs.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.sasanlabs.controller.exception.ControllerException;
-import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
-import org.sasanlabs.service.RequestDelegator;
 import org.sasanlabs.service.IEndPointResolver;
 import org.sasanlabs.service.IGetAllSupportedEndPoints;
+import org.sasanlabs.service.RequestDelegator;
 import org.sasanlabs.service.bean.RequestBean;
 import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
-import org.sasanlabs.service.vulnerability.ParameterBean;
-import org.sasanlabs.service.vulnerability.nosqlInjection.mongo.repository.UserRepository;
+import org.sasanlabs.service.vulnerability.nosqlInjection.mongo.MongoDBInjectionController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +37,7 @@ public class SecurityTestingController {
 	private IGetAllSupportedEndPoints getAllSupportedEndPoints;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private MongoDBInjectionController mongoDBInjectionController;
 
 	@Autowired
 	public SecurityTestingController(RequestDelegator buildPayload,
@@ -50,7 +47,7 @@ public class SecurityTestingController {
 		this.getAllSupportedEndPoints = getAllSupportedEndPoints;
 	}
 
-	@RequestMapping("/vulnerable/{level}/{endPoint}")
+	@RequestMapping("/vulnerable/{endPoint}/{level}")
 	public ResponseEntity<String> vulnerable(@RequestParam Map<String, String> allParams, @PathVariable("endPoint") String endPoint,
 			@PathVariable("level") String level, HttpServletRequest request) throws IOException, ControllerException {
 		RequestBean requestBean = new RequestBean();
@@ -83,7 +80,8 @@ public class SecurityTestingController {
 
 	
 	@RequestMapping("/dummyTesting")
-	public String dummyTesting() throws JsonProcessingException {
-		return "<pre>" + JSONSerializationUtils.serialize(userRepository.findAll())  + "</pre>";
+	public ResponseEntity<String> dummyTesting() throws JsonProcessingException {
+		
+		return ResponseMapper.buildResponseEntity(mongoDBInjectionController.simpleWhereClauseInjectionLow());
 	}
 }
