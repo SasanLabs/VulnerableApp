@@ -51,7 +51,7 @@ public class ConfigurationSetupOnBootingApplication {
 			HiddenEntity hiddenEntity = JSONSerializationUtils.deserialize(mongoHiddenEntityStream, HiddenEntity.class);
 			hiddenRepository.insert(hiddenEntity);
 		} catch (IOException e) {
-			// Need to do something.Setup Logger.
+			// Need to do something. Setup Logger.
 			System.out.print(e);
 		}
 	}
