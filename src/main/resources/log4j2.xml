@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+	<Properties>
+		<Property name="LOG_PATTERN">
+			<!-- %d{DEFAULT_NANOS} -> Date (till NanoSecond), %-5p left justified 
+				priority level 5 characters eg below for log [params] {WARN [params]} {DEBUG 
+				[params]} %t is thread name. %c{precision} precision for logger which published 
+				event. -->
+			%d{DEFAULT_NANOS} %-5p [%t] %c{10} (%F:%L) - %m%n%throwable{100}
+		</Property>
+		<Property name="logPath">
+			./logs
+		</Property>
+		<Property name="rollingFileName">
+			server
+		</Property>
+	</Properties>
+
+
+	<Appenders>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+		<RollingFile name="ROLLING_LOG_FILE"
+			fileName="${logPath}/${rollingFileName}.log"
+			filePattern="${logPath}/${rollingFileName}_%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<!-- Causes a rollover if the log file is older than the current JVM's 
+					start time -->
+				<OnStartupTriggeringPolicy />
+				<!-- Causes a rollover once the date/time pattern no longer applies to 
+					the active file -->
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+
+
+	<Loggers>
+		<AsyncLogger name="org.sasanlabs" level="info">
+			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="ROLLING_LOG_FILE" />
+		</AsyncLogger>
+		<Root level="ALL">
+			<AppenderRef ref="ROLLING_LOG_FILE" />
+		</Root>
+	</Loggers>
+</Configuration>
