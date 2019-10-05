@@ -7,7 +7,7 @@
 				priority level 5 characters eg below for log [params] {WARN [params]} {DEBUG 
 				[params]} %t is thread name. %c{precision} precision for logger which published 
 				event. -->
-			%d{DEFAULT_NANOS} %-5p [%t] %c{10} (%F:%L) - %m%n%throwable{100}
+			%d{DEFAULT_NANOS} %-5p [%t] %c{10} (%F:%L) - %m%n%throwable{full}
 		</Property>
 		<Property name="logPath">
 			./logs
@@ -40,7 +40,7 @@
 
 
 	<Loggers>
-		<AsyncLogger name="org.sasanlabs" level="info">
+		<AsyncLogger name="org.sasanlabs" level="ALL">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="ROLLING_LOG_FILE" />
 		</AsyncLogger>
