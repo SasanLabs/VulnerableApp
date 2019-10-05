@@ -18,6 +18,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- For SQL Injection kind of Vulnerability -->
@@ -37,17 +43,23 @@
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.zaproxy/zap -->
-		<dependency>
-			<groupId>org.zaproxy</groupId>
-			<artifactId>zap</artifactId>
-			<version>2.7.0</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
 			<version>1.8</version>
+		</dependency>
+
+		<!-- Log4j dependencies -->
+		<!-- Add Log4j2 Dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<!-- Used by Log4j2 for Async Logging -->
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.4.0</version>
 		</dependency>
 	</dependencies>
 
