@@ -30,14 +30,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  * @author KSASAN preetkaran20@gmail.com
  */
 @RestController
-public class SecurityTestingController {
+public class VulnerableAppRestController {
 
 	private RequestDelegator requestDelegator;
 
 	private IGetAllSupportedEndPoints getAllSupportedEndPoints;
 
 	@Autowired
-	public SecurityTestingController(RequestDelegator buildPayload,
+	public VulnerableAppRestController(RequestDelegator buildPayload,
 			IEndPointResolver<ICustomVulnerableEndPoint> endPointResolver,
 			IGetAllSupportedEndPoints getAllSupportedEndPoints) {
 		this.requestDelegator = buildPayload;
@@ -77,11 +77,6 @@ public class SecurityTestingController {
 	@RequestMapping("/allEndPoint")
 	public String allEndPoints() throws JsonProcessingException {
 		return "<pre>" + getAllSupportedEndPoints.getSupportedEndPoints() + "</pre>";
-	}
-
-	@GetMapping("/")
-	public String getTemplate() throws JsonProcessingException {
-		return "";
 	}
 
 }
