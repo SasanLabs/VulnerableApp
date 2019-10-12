@@ -34,6 +34,7 @@ public class RequestDelegatorImpl implements RequestDelegator {
 		paramBean.setRequestHeadersMap(request.getHeaders());
 		payload.setParameterBean(paramBean);
 		paramBean.setUrl(request.getUrl());
+		paramBean.setBody(request.getBody());
 
 		return GenericUtils.invokeMethod(payload, levelEnum);
 	}

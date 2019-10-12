@@ -16,6 +16,7 @@ public class RequestBean {
 	private String level;
 	private String endPoint;
 	private String url;
+	private String body;
 	
 	public Map<String, String> getQueryParams() {
 		return queryParams;
@@ -57,5 +58,11 @@ public class RequestBean {
 		this.headers = headers;
 	}
 
-	
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
 }
