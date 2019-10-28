@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE")
     }
 }
 
@@ -37,8 +37,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
 	// Mongo Dependencies
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
-	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.0.RELEASE'
+	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
 	//Log4j Dependencies
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
   	// for Async Logging. Used by Log4j2
