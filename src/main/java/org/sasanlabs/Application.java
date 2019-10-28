@@ -12,8 +12,6 @@ import org.springframework.context.ApplicationContext;
 public class Application {
 
 	public static void main(String[] args) {
-		String s = "" + null;
-		
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);		
 	}
 
