@@ -13,7 +13,7 @@ public class ResponseBean {
 
 	private Map<String, List<String>> responseHeaders = new LinkedHashMap<>();
 	private String body;
-	private int httpStatusCode;
+	private int httpStatusCode = 200;
 
 	public Map<String, List<String>> getResponseHeaders() {
 		return responseHeaders;

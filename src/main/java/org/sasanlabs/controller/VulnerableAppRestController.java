@@ -72,7 +72,6 @@ public class VulnerableAppRestController {
 		}
 	}
 	
-
 	@RequestMapping("/allEndPoint")
 	public String allEndPoints() throws JsonProcessingException {
 		return "<pre>" + getAllSupportedEndPoints.getSupportedEndPoints() + "</pre>";
