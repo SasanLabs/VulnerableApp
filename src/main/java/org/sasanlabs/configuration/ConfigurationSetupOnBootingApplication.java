@@ -45,8 +45,8 @@ public class ConfigurationSetupOnBootingApplication {
 	 */
 	@EventListener
 	public void populateMongoDB(ApplicationReadyEvent event) {
-		InputStream mongoUserEntityStream = this.getClass().getResourceAsStream("/scripts/mongoUserEntity.json");
-		InputStream mongoHiddenEntityStream = this.getClass().getResourceAsStream("/scripts/mongoHiddenEntity.json");
+		InputStream mongoUserEntityStream = this.getClass().getResourceAsStream("/scripts/mongoDB/mongoUserEntity.json");
+		InputStream mongoHiddenEntityStream = this.getClass().getResourceAsStream("/scripts/mongoDB/mongoHiddenEntity.json");
 		try {
 			List<UserEntity> userEntities = JSONSerializationUtils.deserialize(mongoUserEntityStream,
 					new TypeReference<List<UserEntity>>() {
