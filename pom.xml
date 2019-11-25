@@ -63,6 +63,36 @@
 			<artifactId>disruptor</artifactId>
 			<version>3.4.0</version>
 		</dependency>
+
+
+		<!-- Below are the JJWT library dependencies for JWT Starts -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.10.7</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.10.7</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.10.7</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- this next dependency are if we want to use RSASSA-PSS (PS256, PS384, 
+			PS512) algorithms: -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.60</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- JJWT library dependencies for JWT Ends -->
+
 	</dependencies>
 
 	<properties>

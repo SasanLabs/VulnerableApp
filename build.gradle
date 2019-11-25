@@ -43,5 +43,13 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
   	// for Async Logging. Used by Log4j2
 	compile group: 'com.lmax', name: 'disruptor', version: '3.4.0'
+
+	//Below are the JJWT library dependencies for JWT Starts
+    compile 'io.jsonwebtoken:jjwt-api:0.10.7'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.10.7',
+    // below the next line is incase you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+    'org.bouncycastle:bcprov-jdk15on:1.60',
+    'io.jsonwebtoken:jjwt-jackson:0.10.7'
+    //JJWT library dependencies for JWT ends
 }
 
