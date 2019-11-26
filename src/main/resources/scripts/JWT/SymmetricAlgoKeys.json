@@ -1,0 +1,7 @@
+[
+	{
+		"algorithm": "HS256",
+		"strength": "LOW",
+		"key": "password"
+	}
+]
