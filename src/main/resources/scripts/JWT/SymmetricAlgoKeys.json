@@ -1,5 +1,12 @@
 [
 	{
+		"library": "JJWT",
+		"algorithm": "HS256",
+		"strength": "LOW",
+		"key": "password01234567password01234567password01234567"
+	},
+	{
+		"library": "CUSTOM",
 		"algorithm": "HS256",
 		"strength": "LOW",
 		"key": "password"
