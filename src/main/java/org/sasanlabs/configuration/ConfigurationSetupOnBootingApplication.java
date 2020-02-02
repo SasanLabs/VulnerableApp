@@ -25,14 +25,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
  *         Incase of you want to do some operations on server startup. Insert
  *         all the configuration loading code in this class.
  */
-@Configuration
+//@Configuration
 public class ConfigurationSetupOnBootingApplication {
 
 	private UserRepository userRepository;
 	private HiddenRepository hiddenRepository;
 	private static final Logger LOGGER = LogManager.getLogger(ConfigurationSetupOnBootingApplication.class);
 
-	@Autowired
+	//@Autowired
 	public ConfigurationSetupOnBootingApplication(UserRepository userRepository, HiddenRepository hiddenRepository) {
 		this.userRepository = userRepository;
 		this.hiddenRepository = hiddenRepository;
@@ -43,7 +43,7 @@ public class ConfigurationSetupOnBootingApplication {
 	 * 
 	 * @param event
 	 */
-	@EventListener
+	//@EventListener
 	public void populateMongoDB(ApplicationReadyEvent event) {
 		InputStream mongoUserEntityStream = this.getClass().getResourceAsStream("/scripts/mongoDB/mongoUserEntity.json");
 		InputStream mongoHiddenEntityStream = this.getClass().getResourceAsStream("/scripts/mongoDB/mongoHiddenEntity.json");
