@@ -51,5 +51,9 @@ dependencies {
     'org.bouncycastle:bcprov-jdk15on:1.60',
     'io.jsonwebtoken:jjwt-jackson:0.10.7'
     //JJWT library dependencies for JWT ends
+    
+    // https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20190722'
+    
 }
 
