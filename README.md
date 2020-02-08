@@ -39,5 +39,5 @@ This Application is deliberately made vulnerable to attacks so that users can le
 [How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
 
 ## Contact ##
-Please raise a github issue for enhancement/issues in VulnerableApp or send email to preetkaran20@gmail.com
+Please raise a github issue for enhancement/issues in VulnerableApp or send email to preetkaran20@gmail.com regarding queries
 we will try to resolve issues asap.
