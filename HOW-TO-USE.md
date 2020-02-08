@@ -1,3 +1,9 @@
+# How to start this tool #
+This tool is a spring boot based app so for starting this app you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin as this is developed using gradle. however this app supports maven too but it is not tested fully using maven. As this is developed in eclipse so eclipse is recommended IDE for now.
+After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090/allEndPoint` , for eg: `http://localhost:9090/allEndPoint` url and it should return a json like structure (More information in below section).
+
+we are working on making this app available as a tomcat embedded jar, for now only way available is to setup using IDE.
+
 # How we can use this project for learning security #
 There can be difficulties in using this tool reason being the User interface is not yet developed.
 so following are the simple steps on how to use this tool:
