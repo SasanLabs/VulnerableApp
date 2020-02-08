@@ -5,18 +5,24 @@ import java.util.TreeSet;
 
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author KSASAN preetkaran20@gmail.com
  *
  */
 public class AllEndPointsResponseBean {
 
+	@JsonProperty("Name")
 	private String name;
 
+	@JsonProperty("Description")
 	private String description;
-
+	
+	@JsonProperty("VulnerabilityTypes")	
 	private VulnerabilityType[] vulnerabilityTypes;
-
+	
+	@JsonProperty("Detailed Information")	
 	private Set<LevelResponseBean> levelDescriptionSet = new TreeSet<>();
 
 	public String getName() {

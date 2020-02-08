@@ -39,6 +39,11 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 
 	@Override
 	public String getSupportedEndPoints() throws JsonProcessingException {
+		return "<pre>" + JSONSerializationUtils.serializeWithPrettyPrintJSON(this.getSupportedEndPoints()) + "</pre>";
+	}
+	
+	@Override
+	public List<AllEndPointsResponseBean> getSupportedEndPoint() throws JsonProcessingException {
 		List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
 		Map<String, ICustomVulnerableEndPoint> nameVsIGetInjectionPayloadMap = envUtils
 				.getAllClassesExtendingIGetInjectionPayload();
@@ -68,7 +73,7 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 				allEndpoints.add(allEndPointsResponseBean);
 			}
 		}
-		return JSONSerializationUtils.serializeWithPrettyPrintJSON(allEndpoints);
+		return allEndpoints;
 	}
 
 }

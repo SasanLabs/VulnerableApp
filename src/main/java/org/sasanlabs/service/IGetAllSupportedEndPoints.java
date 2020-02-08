@@ -1,5 +1,9 @@
 package org.sasanlabs.service;
 
+import java.util.List;
+
+import org.sasanlabs.beans.AllEndPointsResponseBean;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
@@ -10,4 +14,5 @@ public interface IGetAllSupportedEndPoints {
 
 	String getSupportedEndPoints() throws JsonProcessingException;
 	
+	List<AllEndPointsResponseBean> getSupportedEndPoint() throws JsonProcessingException;
 }
