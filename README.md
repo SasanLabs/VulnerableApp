@@ -34,3 +34,6 @@ Other Benefits :-
 ```
 
 This Application is deliberately made vulnerable to attacks so that users can learn not only about attacks and attack vectors but also about securing Web Applications against those attacks.
+
+## How to use this tool ##
+[How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
