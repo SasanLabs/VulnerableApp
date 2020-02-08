@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.controller.exception.ControllerException;
+import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
 import org.sasanlabs.service.IEndPointResolver;
 import org.sasanlabs.service.IGetAllSupportedEndPoints;
@@ -74,7 +76,12 @@ public class VulnerableAppRestController {
 	
 	@RequestMapping("/allEndPoint")
 	public String allEndPoints() throws JsonProcessingException {
-		return "<pre>" + getAllSupportedEndPoints.getSupportedEndPoints() + "</pre>";
+		return "<pre>" + JSONSerializationUtils.serializeWithPrettyPrintJSON(getAllSupportedEndPoints.getSupportedEndPoint()) + "</pre>";
 	}
 
+	
+	@RequestMapping("/allEndPointJson")
+	public List<AllEndPointsResponseBean> allEndPointsJsonResponse() throws JsonProcessingException {
+		return getAllSupportedEndPoints.getSupportedEndPoint();
+	}
 }
