@@ -16,3 +16,9 @@ so following are the simple steps on how to use this tool:
   `http://localhost:9090/vulnerable/UrlParamWithNullByteBasedImgTagAttrInjection/LEVEL_1`
 2. Now from step 1.4 we know how to find the vulnerable endpoint 
 3. Now using active scanner like burp or zap or by running manual scanning you can try to exploit that vulnerability
+
+### Note ###
+we are developing a simple UI where we will give a table structure with list of vulnerability types and links to them so that it is easier for user to access the vulnerable links with specific vulnerability. 
+For accessing this simple UI please go to `http://<base-url>:9090`
+
+Target state for the UI is something like a Master Detail view where master will show the name of vulnerability and vulnerability types and detail view contains all the details of vulnerability like way to attack/hints, how we can protect our websites against this kind of vulnerability/attacks.
