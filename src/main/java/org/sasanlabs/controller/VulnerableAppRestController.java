@@ -50,6 +50,14 @@ public class VulnerableAppRestController {
 			@PathVariable("endPoint") String endPoint, @PathVariable("level") String level,
 			RequestEntity<String> requestEntity) throws ControllerException {
 		RequestBean requestBean = new RequestBean();
+		//Added to restrict buffer overflow reported by ZAP and Burp
+		if(endPoint.length() > 250) {
+			endPoint = endPoint.substring(0, 250);
+		}
+		
+		if(level.length() > 250) {
+			level = level.substring(0, 250);
+		}
 		requestBean.setEndPoint(endPoint);
 		requestBean.setLevel(level);
 		requestBean.setQueryParams(allParams);
