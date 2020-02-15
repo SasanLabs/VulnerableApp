@@ -1,4 +1,4 @@
-# VulnerableApp
+# VulnerableApp [![Build Status](https://travis-ci.com/SasanLabs/VulnerableApp.svg?branch=master)](https://travis-ci.com/SasanLabs/VulnerableApp)
 
 There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
 it is very tough to check if the Payloads added or Scripts added are working as expected.
