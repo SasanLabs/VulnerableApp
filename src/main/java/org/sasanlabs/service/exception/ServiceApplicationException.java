@@ -6,6 +6,7 @@ package org.sasanlabs.service.exception;
  */
 public class ServiceApplicationException extends Exception {
 
+	private static final long serialVersionUID = 1L;
 	private ExceptionStatusCodeEnum exceptionStatusCode;
 	private Object[] args;
 
