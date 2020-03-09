@@ -1,0 +1,92 @@
+.title {
+    font-size: 32px;
+    border-bottom: 2px solid #4cd4b0;
+    padding: 15px;
+    color: #4cd4b0;
+}
+
+.master {
+    padding: 25px;
+    border: none;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.hidden-md {
+    display: inline;
+}
+
+.hidden-md-down {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.master-item {
+    font-size: 24px;
+    border-bottom: 2px solid #4cd4b0;
+    padding: 15px;
+}
+
+.master-item:hover, .active-item{
+    background: #4cd4b0;
+    color: white;
+    cursor: pointer;
+}
+
+/* For Phones */
+[class*='col-'] {
+    width: 100%;
+    float: left;
+}
+
+.detail {
+    padding: 25px;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 11;
+    color: #4cd4b0;
+    height: 100vh;
+    background: white;
+}
+
+#backBtn {
+    color: #4cd4b0;
+    border: 1px solid #4cd4b0;
+    background: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    top: 0;
+    left: 0;
+}
+
+#backBtn:hover {
+    cursor: pointer;
+    color: white;
+    background: #4cd4b0;
+}
+
+@media only screen and (min-width: 786px) {
+    .col-3 {
+        width: 25%;
+    }
+    
+    .col-9 {
+        width: 75%;
+    }
+
+    .detail {
+        position: static;
+    }
+
+    .hidden-md {
+        display: none;
+    }
+
+    .master {
+        border-right: 3px solid #4cd4b0;
+    }
+
+}
