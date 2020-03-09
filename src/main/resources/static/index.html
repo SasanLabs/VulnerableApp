@@ -8,11 +8,12 @@
 </head>
 
 <body onload="doGetAjaxCall(generateMasterDetail, 'allEndPointJson', true);" >
-	<!-- Video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
+	<!-- Special thanks to video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
 	<h1 class="title text-center">Vulnerable App</h1>
 	<div class="container">
 		<div class="col-3 master"></div>
-		<div class="col-9 detail">
+		<div class="col-2 inner-master master"></div>
+		<div class="col-6 detail">
 			<button id="backBtn" onclick="back()" class="hidden-md"> < Back</button>
 			<h1 class="detail-title text-center"></h1>
 		</div>

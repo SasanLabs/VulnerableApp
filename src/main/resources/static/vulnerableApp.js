@@ -1,28 +1,71 @@
 const detail = document.querySelector('.detail');
 const detailTitle = document.querySelector('.detail-title');
 const master = document.querySelector('.master');
+const innerMaster = document.querySelector('.inner-master');
+
+
+function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
+	if (vulnerableAppEndPointData.length > 0) {
+		detailTitle.innerHTML = vulnerableAppEndPointData[0]["Description"];
+		for (let key in vulnerableAppEndPointData[0]["Detailed Information"]) {
+			let column = document.createElement("div");
+			let textNode = document.createTextNode(vulnerableAppEndPointData[0]["Detailed Information"][key]["Level"]);
+			column.appendChild(textNode);
+			column.className = "inner-master-item";
+			column.addEventListener('click', function () {
+				clearSelectedInnerMaster();
+				this.classList.add('active-item');
+				doGetAjaxCall((responseText) => { detailTitle.innerHTML = responseText; }, "templates/" + vulnerableAppEndPointData[0]["Detailed Information"][key]["HtmlTemplate"]);
+			});
+			innerMaster.appendChild(column);
+		}
+	}
+}
 
 function update(vulnerableAppEndPointData) {
 	const masterItems = document.querySelectorAll('.master-item');
-	vulnerableAppEndPointData.length > 0 ? detailTitle.innerHTML = vulnerableAppEndPointData[0]["Description"] : "";
+	handleFirstElementAutoSelection(vulnerableAppEndPointData);
+
 	masterItems.forEach(item => {
 		item.addEventListener('click', function () {
-			clearSelected();
+			clearSelectedMaster();
 			this.classList.add('active-item');
 			detail.classList.remove('hidden-md-down');
-			doGetAjaxCall((responseText) => { detailTitle.innerHTML = responseText; }, "sasan.html");
-			//detailTitle.innerHTML = /*this.innerHTML*/ /*vulnerableAppEndPointData[this.id]["Description"]*/ "<div><a href='google.com'>google</a></div>";
+			innerMaster.innerHTML = "";
+			for (let key in vulnerableAppEndPointData[this.id]["Detailed Information"]) {
+				let column = document.createElement("div");
+				let textNode = document.createTextNode(vulnerableAppEndPointData[this.id]["Detailed Information"][key]["Level"]);
+				column.appendChild(textNode);
+				column.className = "inner-master-item";
+				let that = this;
+				column.addEventListener('click', function () {
+					clearSelectedInnerMaster();
+					this.classList.add('active-item');
+					doGetAjaxCall((responseText) => { detailTitle.innerHTML = responseText; }, "templates/" + vulnerableAppEndPointData[that.id]["Detailed Information"][key]["HtmlTemplate"]);
+				});
+				innerMaster.appendChild(column);
+			}
 		});
 	});
 }
 
-function clearSelected() {
-	//console.log('Clicked item');
-	const masterItems = document.querySelectorAll('.master-item');
-	for (let item of masterItems) {
+function _clearActiveItemClass(items) {
+	for (let item of items) {
 		//to clear out the already active item
 		item.classList.remove('active-item');
 	}
+}
+
+function clearSelectedMaster() {
+	//console.log('Clicked item');
+	const masterItems = document.querySelectorAll('.master-item');
+	_clearActiveItemClass(masterItems);
+}
+
+function clearSelectedInnerMaster() {
+	//console.log('Clicked item');
+	const innerMasterItems = document.querySelectorAll('.inner-master-item');
+	_clearActiveItemClass(innerMasterItems);
 }
 
 function back() {
@@ -70,23 +113,6 @@ function generateMasterDetail(vulnerableAppEndPointData) {
 		let textNode = document.createTextNode(vulnerableAppEndPointData[index]["Name"]);
 		column.appendChild(textNode);
 		master.appendChild(column);
-		//} else {
-		// var levels = vulnerableAppEndPointData[index][key];
-		// let orderedList = document.createElement("ol");
-		// for(let levelIndex in levels) {
-		// 	let list = document.createElement("li");
-		// 	let linkNode = document.createElement("a");
-		// 	let linkText = document.createTextNode(levels[levelIndex]["Description"]);
-		// 	linkNode.appendChild(linkText);
-		// 	linkNode.title = levels[levelIndex]["Description"];
-		// 	linkNode.href = "/vulnerable/" + vulnerableAppEndPointData[index]["Name"] + "/" + levels[levelIndex]["Level"];
-		// 	list.append(linkNode);
-		// 	orderedList.append(list);
-		// }
-		// column.append(orderedList);
-		//}
-
-		//}
 	}
 	update(vulnerableAppEndPointData);
 }
