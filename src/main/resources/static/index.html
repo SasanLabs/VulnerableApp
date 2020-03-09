@@ -7,19 +7,14 @@
 	<link rel="stylesheet" href="vulnerableApp.css"/>
 </head>
 
-<body onload="doAjaxCall();" >
+<body onload="doGetAjaxCall(generateMasterDetail, 'allEndPointJson', true);" >
 	<!-- Video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
 	<h1 class="title text-center">Vulnerable App</h1>
 	<div class="container">
-		<div class="col-3 master">
-			<div class="master-item active-item">Option 1</div>
-			<div class="master-item">Option 2</div>
-			<div class="master-item">Option 3</div>
-			<div class="master-item">Option 4</div>
-		</div>
+		<div class="col-3 master"></div>
 		<div class="col-9 detail">
 			<button id="backBtn" onclick="back()" class="hidden-md"> < Back</button>
-			<h1 class="detail-title text-center">Option 1</h1>
+			<h1 class="detail-title text-center"></h1>
 		</div>
 	</div>
 	<script src="vulnerableApp.js"></script>
