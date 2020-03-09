@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Vulnerable App</title>
-<script src="vulnerableApp.js"></script>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Vulnerable App</title>
+	<link rel="stylesheet" href="vulnerableApp.css"/>
 </head>
-<body onload="generateTable()" >
-<!-- For now create a simple table based UI but going in future need to add master detail kind of pages.  -->
-	<!-- Master View with Links -->
-	<div id="app"></div>
-	<!-- Child Pages which comes from Templates defined in an Annotation -->
+
+<body onload="doGetAjaxCall(generateMasterDetail, 'allEndPointJson', true);" >
+	<!-- Special thanks to video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
+	<h1 class="title text-center">Vulnerable App</h1>
+	<div class="container">
+		<div class="col-3 master"></div>
+		<div class="col-2 inner-master master"></div>
+		<div class="col-6 detail">
+			<button id="backBtn" onclick="back()" class="hidden-md"> < Back</button>
+			<h1 class="detail-title text-center"></h1>
+		</div>
+	</div>
+	<script src="vulnerableApp.js"></script>
 </body>
 </html>

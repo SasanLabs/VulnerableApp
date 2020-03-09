@@ -16,6 +16,9 @@ public class LevelResponseBean implements Comparable<LevelResponseBean>{
 	@JsonProperty("Description")
 	private String description;
 
+	@JsonProperty("HtmlTemplate")
+	private String htmlTemplate;
+	
 	public LevelEnum getLevelEnum() {
 		return levelEnum;
 	}
@@ -30,6 +33,14 @@ public class LevelResponseBean implements Comparable<LevelResponseBean>{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getHtmlTemplate() {
+		return htmlTemplate;
+	}
+
+	public void setHtmlTemplate(String htmlTemplate) {
+		this.htmlTemplate = htmlTemplate;
 	}
 
 	@Override

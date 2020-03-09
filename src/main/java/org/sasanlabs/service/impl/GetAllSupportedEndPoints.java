@@ -67,6 +67,7 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 						LevelResponseBean levelResponseBean = new LevelResponseBean();
 						levelResponseBean.setLevelEnum(level.value());
 						levelResponseBean.setDescription(messageBundle.getString(level.descriptionLabel(), null));
+						levelResponseBean.setHtmlTemplate(level.htmlTemplate());
 						allEndPointsResponseBean.getLevelDescriptionSet().add(levelResponseBean);
 					}
 				}
