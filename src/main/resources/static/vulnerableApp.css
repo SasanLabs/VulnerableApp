@@ -1,10 +1,13 @@
 .title {
-    font-size: 32px;
+    font-size: 36px;
     border-bottom: 2px solid #4cd4b0;
     padding: 15px;
     color: #4cd4b0;
 }
 
+.container {
+    background: bisque;
+}
 .master {
     padding: 25px;
     border: none;
@@ -30,19 +33,19 @@
     padding: 15px;
 }
 
-.master-item:hover, .active-item{
+.master-item:hover, .master-item.active-item{
     background: #4cd4b0;
     color: white;
     cursor: pointer;
 }
 
 .inner-master-item {
-    font-size: 24px;
+    font-size: 18px;
     border-bottom: 2px solid #4cd4b0;
     padding: 15px;
 }
 
-.inner-master-item:hover, .active-item{
+.inner-master-item:hover, .inner-master-item.active-item{
     background: #4cd4b0;
     color: white;
     cursor: pointer;
