@@ -6,7 +6,7 @@
 }
 
 .container {
-    background: bisque;
+    background: #4cd4b0;
 }
 .master {
     padding: 25px;
@@ -30,7 +30,7 @@
 .master-item {
     font-size: 24px;
     border-bottom: 2px solid #4cd4b0;
-    padding: 15px;
+    padding: 10px;
 }
 
 .master-item:hover, .master-item.active-item{
@@ -42,7 +42,7 @@
 .inner-master-item {
     font-size: 18px;
     border-bottom: 2px solid #4cd4b0;
-    padding: 15px;
+    padding: 10px;
 }
 
 .inner-master-item:hover, .inner-master-item.active-item{
@@ -63,8 +63,14 @@
     position: absolute;
     z-index: 11;
     color: #4cd4b0;
-    height: 100vh;
+    height: 100%;
     background: white;
+}
+
+#vulnerabilityDescription {
+    color: black;
+    font-size: 20px;
+    padding: 15px;
 }
 
 #backBtn {
