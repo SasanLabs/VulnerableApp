@@ -33,7 +33,9 @@ function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key,
 		vulnerabilityLevelSelected = vulnerableAppEndPointData[id]["Detailed Information"][key]["Level"];
 		this.classList.add('active-item');
 		let htmlTemplate = vulnerableAppEndPointData[id]["Detailed Information"][key]["HtmlTemplate"];
-		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected + "/" + htmlTemplate;
+		let vulnerabilityDescription = vulnerableAppEndPointData[id]["Detailed Information"][key]["Description"];
+		document.getElementById("vulnerabilityDescription").innerHTML = vulnerabilityDescription;
+		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" +  htmlTemplate;
 		let parentNodeWithAllDynamicScripts = document.getElementById("dynamicScripts");
 		var dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
 		//Might not require to iterate but iterating for safe side. can be removed after proper testing. 
