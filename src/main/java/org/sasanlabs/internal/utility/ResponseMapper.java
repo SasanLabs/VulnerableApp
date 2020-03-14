@@ -22,9 +22,9 @@ public class ResponseMapper {
 		return httpHeaders;
 	}
 
-	public static ResponseEntity<String> buildResponseEntity(ResponseBean responseBean) {
+	public static <T> ResponseEntity<T> buildResponseEntity(ResponseBean<T> responseBean) {
 		HttpHeaders httpHeaders = populateHeaderInResponseEntity(responseBean.getResponseHeaders());
-		ResponseEntity<String> responseEntity = new ResponseEntity<String>(responseBean.getBody(), httpHeaders,
+		ResponseEntity<T> responseEntity = new ResponseEntity<T>(responseBean.getBody(), httpHeaders,
 				HttpStatus.valueOf(responseBean.getHttpStatusCode()));
 		return responseEntity;
 	}

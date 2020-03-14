@@ -9,10 +9,10 @@ import java.util.Map;
  * 
  *         DTO which is send from the Service Layer to Controller Layer
  */
-public class ResponseBean {
+public class ResponseBean<T> {
 
 	private Map<String, List<String>> responseHeaders = new LinkedHashMap<>();
-	private String body;
+	private T body;
 	private int httpStatusCode = 200;
 
 	public Map<String, List<String>> getResponseHeaders() {
@@ -23,11 +23,11 @@ public class ResponseBean {
 		this.responseHeaders = responseHeaders;
 	}
 
-	public String getBody() {
+	public T getBody() {
 		return body;
 	}
 
-	public void setBody(String body) {
+	public void setBody(T body) {
 		this.body = body;
 	}
 
@@ -39,16 +39,16 @@ public class ResponseBean {
 		this.httpStatusCode = httpStatusCode;
 	}
 
-	public ResponseBean(String body) {
+	public ResponseBean(T body) {
 		this.body = body;
 	}
 
-	public ResponseBean(Map<String, List<String>> responseHeader, String body) {
+	public ResponseBean(Map<String, List<String>> responseHeader, T body) {
 		this.responseHeaders = responseHeader;
 		this.body = body;
 	}
 
-	public ResponseBean(int httpStatusCode, String body) {
+	public ResponseBean(int httpStatusCode, T body) {
 		this.httpStatusCode = httpStatusCode;
 		this.body = body;
 	}
@@ -58,7 +58,7 @@ public class ResponseBean {
 		this.responseHeaders = responseHeader;
 	}
 
-	public ResponseBean(Map<String, List<String>> responseHeader, String body, int httpStatusCode) {
+	public ResponseBean(Map<String, List<String>> responseHeader, T body, int httpStatusCode) {
 		this.responseHeaders = responseHeader;
 		this.body = body;
 		this.httpStatusCode = httpStatusCode;
