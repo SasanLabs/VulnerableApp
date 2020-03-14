@@ -24,7 +24,7 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
 
 function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key, vulnerabilitySelected) {
 	return function () {
-		if(currentId == id && currentKey == key) {
+		if (currentId == id && currentKey == key) {
 			return;
 		}
 		currentId = id;
@@ -35,7 +35,7 @@ function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key,
 		let htmlTemplate = vulnerableAppEndPointData[id]["Detailed Information"][key]["HtmlTemplate"];
 		let vulnerabilityDescription = vulnerableAppEndPointData[id]["Detailed Information"][key]["Description"];
 		document.getElementById("vulnerabilityDescription").innerHTML = vulnerabilityDescription;
-		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" +  htmlTemplate;
+		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" + htmlTemplate;
 		let parentNodeWithAllDynamicScripts = document.getElementById("dynamicScripts");
 		var dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
 		//Might not require to iterate but iterating for safe side. can be removed after proper testing. 
@@ -51,12 +51,17 @@ function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
 	if (vulnerableAppEndPointData.length > 0) {
 		vulnerabilitySelected = vulnerableAppEndPointData[0]["Name"];
 		detailTitle.innerHTML = vulnerableAppEndPointData[0]["Description"];
+		let isFirst = true;
 		for (let key in vulnerableAppEndPointData[0]["Detailed Information"]) {
 			let column = document.createElement("div");
 			let textNode = document.createTextNode(vulnerableAppEndPointData[0]["Detailed Information"][key]["Level"]);
 			column.appendChild(textNode);
 			column.className = "inner-master-item";
 			column.addEventListener('click', _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, 0, key, vulnerabilitySelected));
+			if(isFirst) {
+				column.click();
+				isFirst = false;
+			}
 			innerMaster.appendChild(column);
 		}
 	}
@@ -72,16 +77,22 @@ function update(vulnerableAppEndPointData) {
 			detail.classList.remove('hidden-md-down');
 			innerMaster.innerHTML = "";
 			vulnerabilitySelected = vulnerableAppEndPointData[this.id]["Name"];
+			let isFirst = true;
 			for (let key in vulnerableAppEndPointData[this.id]["Detailed Information"]) {
 				let column = document.createElement("div");
 				let textNode = document.createTextNode(vulnerableAppEndPointData[this.id]["Detailed Information"][key]["Level"]);
 				column.appendChild(textNode);
 				column.className = "inner-master-item";
 				column.addEventListener('click', _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, this.id, key, vulnerabilitySelected));
+				if(isFirst) {
+					column.click();
+					isFirst = false;
+				}
 				innerMaster.appendChild(column);
 			}
 		});
 	});
+	_addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData);
 }
 
 function _clearActiveItemClass(items) {
@@ -158,4 +169,18 @@ function generateMasterDetail(vulnerableAppEndPointData) {
 		master.appendChild(column);
 	}
 	update(vulnerableAppEndPointData);
+}
+
+function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
+	document.getElementById("showHelp").addEventListener("click", function () {
+		document.getElementById("showHelp").disabled = true;
+		document.getElementById("helpText").innerHTML = vulnerableAppEndPointData[currentId]["Detailed Information"][currentKey]["Description"];
+		document.getElementById("hideHelp").disabled = false;
+	});
+
+	document.getElementById("hideHelp").addEventListener("click", function () {
+		document.getElementById("showHelp").disabled = false;
+		document.getElementById("helpText").innerHTML = "";
+		document.getElementById("hideHelp").disabled = true;
+	});
 }
