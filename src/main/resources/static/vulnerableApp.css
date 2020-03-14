@@ -67,6 +67,12 @@
     background: white;
 }
 
+#vulnerabilityDescription {
+    color: black;
+    font-size: 20px;
+    padding: 15px;
+}
+
 #backBtn {
     color: #4cd4b0;
     border: 1px solid #4cd4b0;
