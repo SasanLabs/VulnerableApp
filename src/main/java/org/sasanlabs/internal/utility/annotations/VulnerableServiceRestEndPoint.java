@@ -11,29 +11,34 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
- *
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Service
 public @interface VulnerableServiceRestEndPoint {
 
 	/**
 	 * Unique name (Endpoint Name)
+	 * 
 	 * @return
 	 */
 	@AliasFor(annotation = Service.class)
 	String value();
-	
+
 	/**
-	 * For Rest Endpoint to know about all the available Scenarios
-	 * @return
+	 * This is used for describing about the vulnerability like say LFI is there
+	 * than this helps in understanding what does LFI means and how that can impact
+	 * an application if present in that application.
+	 * it can also have links to resources.
+	 * 
+	 * @return Localization key
 	 */
 	String descriptionLabel();
-	
+
 	/**
 	 * Type of Vulnerability
+	 * 
 	 * @return
 	 */
-	VulnerabilityType[] type(); 
+	VulnerabilityType[] type();
 }
