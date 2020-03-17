@@ -34,7 +34,8 @@ function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key,
 		this.classList.add('active-item');
 		let htmlTemplate = vulnerableAppEndPointData[id]["Detailed Information"][key]["HtmlTemplate"];
 		let vulnerabilityDescription = vulnerableAppEndPointData[id]["Detailed Information"][key]["Description"];
-		document.getElementById("vulnerabilityDescription").innerHTML = vulnerabilityDescription;
+		document.getElementById("vulnerabilityDescription").innerHTML = vulnerableAppEndPointData[id]["Description"];
+		document.getElementById("vulnerabilityLevelDescription").innerHTML = vulnerabilityDescription;
 		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" + htmlTemplate;
 		let parentNodeWithAllDynamicScripts = document.getElementById("dynamicScripts");
 		var dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
