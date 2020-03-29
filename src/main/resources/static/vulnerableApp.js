@@ -185,3 +185,13 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
 		document.getElementById("hideHelp").disabled = true;
 	});
 }
+
+document.getElementById("learnAndPracticeBtn").addEventListener("click",()=> {
+	document.getElementById("testScanner").classList.add("hide-component");
+	document.getElementById("learnAndPractice").classList.remove("hide-component");
+});
+
+document.getElementById("testScannerBtn").addEventListener("click",()=> {
+	document.getElementById("testScanner").classList.remove("hide-component");
+	document.getElementById("learnAndPractice").classList.add("hide-component");
+});

@@ -1,13 +1,86 @@
-.title {
-    font-size: 36px;
-    border-bottom: 2px solid #4cd4b0;
-    padding: 15px;
-    color: #4cd4b0;
+body, html { 
+    height: 100% 
 }
 
-.container {
-    background: #4cd4b0;
+/** Navigation bar properties **/
+.navbar {
+    display: flex;
+    height: 15%;
+    align-items: center;
 }
+
+.navbar-item {
+    flex: 1;
+}
+
+.navbar-brand {
+    flex: 4;
+    align-content: flex-start;
+    font-size: 30px;
+    color: black;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.navbar-item-menu {
+    flex: 1;
+    font-size: 20px;
+    align-items: center;
+    color: darkgrey;
+    align-content: center;
+}
+
+div.navbar-item-menu a {
+    text-decoration: none;
+}
+
+.active {
+    color: black;
+}
+
+/** Navigation bar properties ended here. **/
+
+.hide-component {
+    display: none;
+}
+
+
+.container {
+    background: darkgray;
+    display: flex;
+    height: 85%;
+    flex-direction: column;
+    text-align: center;
+}
+
+.chooseMode, .header, .footer{
+    flex: 1;
+    align-items: center;
+}
+
+.chooseMode {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 30px;
+}
+
+.mode-item {
+    flex: 1;
+}
+
+#learnAndPracticeBtn , #testScannerBtn{
+    display: inline-block;
+    padding: 10px 35px;
+    margin: 3px;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    transition: 0.2s opacity;
+    background: black;
+    color: #FFF;
+    font-size: 18px;
+}
+
 .master {
     padding: 25px;
     border: none;
@@ -27,26 +100,29 @@
     text-align: center;
 }
 
+/**
+4cd4b0
+*/
 .master-item {
     font-size: 24px;
-    border-bottom: 2px solid #4cd4b0;
+    border-bottom: 2px solid darkgray;
     padding: 10px;
 }
 
 .master-item:hover, .master-item.active-item{
-    background: #4cd4b0;
+    background: darkgray;
     color: white;
     cursor: pointer;
 }
 
 .inner-master-item {
     font-size: 18px;
-    border-bottom: 2px solid #4cd4b0;
+    border-bottom: 2px solid darkgray;
     padding: 10px;
 }
 
 .inner-master-item:hover, .inner-master-item.active-item{
-    background: #4cd4b0;
+    background: darkgray;
     color: white;
     cursor: pointer;
 }
@@ -62,7 +138,7 @@
     box-sizing: border-box;
     position: absolute;
     z-index: 11;
-    color: #4cd4b0;
+    color: black;
     height: 100%;
     background: white;
 }
@@ -82,8 +158,8 @@
 }
 
 #backBtn {
-    color: #4cd4b0;
-    border: 1px solid #4cd4b0;
+    color: black;
+    border: 1px solid darkgray;
     background: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -94,7 +170,7 @@
 #backBtn:hover {
     cursor: pointer;
     color: white;
-    background: #4cd4b0;
+    background: darkgray;
 }
 
 @media only screen and (min-width: 786px) {
@@ -119,7 +195,7 @@
     }
 
     .master {
-        border-right: 3px solid #4cd4b0;
+        border-right: 3px solid darkgray;
     }
 
 }
