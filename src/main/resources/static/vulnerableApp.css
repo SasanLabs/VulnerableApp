@@ -1,5 +1,6 @@
 body, html { 
-    height: 100% 
+    height: 100%;
+    overflow: auto;
 }
 
 /** Navigation bar properties **/
@@ -48,12 +49,13 @@ div.navbar-item-menu a {
 .container {
     background: darkgray;
     display: flex;
-    height: 85%;
+    min-height: 85%;
     flex-direction: column;
     text-align: center;
+    overflow-y: auto;
 }
 
-.chooseMode, .header, .footer{
+.chooseMode, .header, .description{
     flex: 1;
     align-items: center;
 }
