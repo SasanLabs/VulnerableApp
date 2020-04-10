@@ -189,9 +189,25 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
 document.getElementById("learnAndPracticeBtn").addEventListener("click",()=> {
 	document.getElementById("testScanner").classList.add("hide-component");
 	document.getElementById("learnAndPractice").classList.remove("hide-component");
+	document.getElementById("chooseMode").classList.add("hide-component");
 });
 
 document.getElementById("testScannerBtn").addEventListener("click",()=> {
 	document.getElementById("testScanner").classList.remove("hide-component");
 	document.getElementById("learnAndPractice").classList.add("hide-component");
+	document.getElementById("chooseMode").classList.add("hide-component");
+});
+
+document.getElementById("vulnPracticeBtn").addEventListener("click",()=> {
+	document.getElementById("vulnPractice").classList.remove("hide-component");
+	document.getElementById("vulnerabilityDescription").classList.add("hide-component");
+	document.getElementById("vulnLearnBtn").classList.remove("hide-component");
+	document.getElementById("vulnPracticeBtn").classList.add("hide-component");
+});
+
+document.getElementById("vulnLearnBtn").addEventListener("click",()=> {
+	document.getElementById("vulnPractice").classList.add("hide-component");
+	document.getElementById("vulnerabilityDescription").classList.remove("hide-component");
+	document.getElementById("vulnPracticeBtn").classList.remove("hide-component");
+	document.getElementById("vulnLearnBtn").classList.add("hide-component");
 });
