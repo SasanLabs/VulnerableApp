@@ -40,19 +40,25 @@ div.navbar-item-menu a {
 }
 
 /** Navigation bar properties ended here. **/
-/** It as not working for chooseMode so added !important. Might not be a correct way. Need to make it proper.*/
+/** It is not working for chooseMode so added !important. Might not be a correct way. Need to make it proper.*/
 .hide-component {
     display: none !important;
 }
 
-
-.container {
+.homeContainer, .aboutContainer {
     background: darkgray;
     display: flex;
-    min-height: 85%;
     flex-direction: column;
     text-align: center;
     overflow-y: auto;
+}
+
+.homeContainer {
+    min-height: 85%;
+}
+
+.aboutContainer {
+    font-size: 18px;
 }
 
 .chooseMode{
@@ -76,7 +82,7 @@ div.navbar-item-menu a {
     flex: 1;
 }
 
-#learnAndPracticeBtn , #testScannerBtn, #vulnInformationBtn, #vulnPracticeBtn, #vulnLearnBtn{
+#learnAndPracticeBtn , #testScannerBtn, #vulnInformationBtn{
     display: inline-block;
     padding: 10px 35px;
     margin: 3px;
@@ -91,6 +97,15 @@ div.navbar-item-menu a {
 #vulnPracticeBtn, #vulnLearnBtn {
     display: flex;
     justify-items: left;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 2px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    background: black;
+    color: #FFF;
+    font-size: 12px;
 }
 
 .master {
