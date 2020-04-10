@@ -25,7 +25,7 @@
 				Home
 			</div>
 			<div class="navbar-item-menu" id="about">
-				About
+				About Us
 			</div>
 			<div class="navbar-item-menu" id="mode">
 				Mode
@@ -37,44 +37,54 @@
 	</div>
 	<!-- Special thanks to video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
 	<div class="container">
-		<div class="chooseMode">
+		<div id="chooseMode" class="chooseMode">
 			<h2>
-				Welcome to VulnerableApp
+				Welcome Security enthusiast
 			</h2>
-			Please select the mode from below:
+			Are you looking to
 			<div>
-				<button id="learnAndPracticeBtn" class="mode-item">Learn And Practice</button>
+				<button id="learnAndPracticeBtn" class="mode-item">Learn Security</button>
 				<button id="testScannerBtn" class="mode-item">Test Scanner</button>
 			</div>
 		</div>
 		<div class="description">
-			As Web Applications are becoming very popular these days, there comes the needs to secure them and there are many security vulnerability finding tools but while developing those tools developers need to test them but there are no or very less such extensible vulnerable apps for testing those tools. There are deliberately vulnerable applications exists in the market but they are not written with such an intent and hence lags extensibility e.g. adding new vulnerablities is quite difficult.
-
-			So generally developer write there own vulnerable applications but that cause productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
+			<!-- TODO need to write it. -->
 		</div>
 		<div id="learnAndPractice" class="hide-component">
+			<div class="chooseVulnerability">
+				<h2>Please choose the vulnerability which you are looking to learn.</h2>
+			</div>
 			<div class="col-3 master"></div>
-			<div class="col-2 inner-master master"></div>
-			<div class="col-6 detail">
+			<div>
 				<div id="vulnerabilityDescription"></div>
-				<div id="vulnerabilityLevelDescription"></div>
-				<button id="backBtn" onclick="back()" class="hidden-md">
-					< Back</button>
-						<h1 class="detail-title text-center"></h1>
-						<div>
-							<button id="showHelp">Show Help</button>
-							<button id="hideHelp" disabled=true>Hide Help</button>
-							<div id="helpText"></div>
-						</div>
+				<button id="vulnPracticeBtn" class="mode-item">Practice Vulnerability</button>
+				<div id="vulnPractice" class="hide-component">
+					<div class="col-2 inner-master master"></div>
+					<div class="col-6 detail">
+						<!-- <div id="vulnerabilityDescription"></div> -->
+						<div id="vulnerabilityLevelDescription"></div>
+						<button id="backBtn" onclick="back()" class="hidden-md">
+							< Back</button>
+								<h1 class="detail-title text-center"></h1>
+								<div>
+									<button id="showHelp">Show Help</button>
+									<button id="hideHelp" disabled=true>Hide Help</button>
+									<div id="helpText"></div>
+								</div>
+					</div>
+				</div>
+				<button id="vulnLearnBtn" class="mode-item hide-component">Learn Vulnerability</button>
+				<div id="dynamicScripts">
+				</div>
 			</div>
-			<div id="dynamicScripts">
+			<div id="testScanner" class="hide-component">
+				Search
+			</div>
+			<div>
+				<h4>Want to contribute to VulnerableApp ?</h4>
 			</div>
 		</div>
-		<div id="testScanner" class="hide-component">
-			Search
-		</div>
-	</div>
-	<script src="vulnerableApp.js"></script>
+		<script src="vulnerableApp.js"></script>
 </body>
 
 </html>
