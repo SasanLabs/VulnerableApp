@@ -59,7 +59,7 @@ function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
 			column.appendChild(textNode);
 			column.className = "inner-master-item";
 			column.addEventListener('click', _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, 0, key, vulnerabilitySelected));
-			if(isFirst) {
+			if (isFirst) {
 				column.click();
 				isFirst = false;
 			}
@@ -85,7 +85,7 @@ function update(vulnerableAppEndPointData) {
 				column.appendChild(textNode);
 				column.className = "inner-master-item";
 				column.addEventListener('click', _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, this.id, key, vulnerabilitySelected));
-				if(isFirst) {
+				if (isFirst) {
 					column.click();
 					isFirst = false;
 				}
@@ -186,28 +186,37 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
 	});
 }
 
-document.getElementById("learnAndPracticeBtn").addEventListener("click",()=> {
-	document.getElementById("testScanner").classList.add("hide-component");
-	document.getElementById("learnAndPractice").classList.remove("hide-component");
-	document.getElementById("chooseMode").classList.add("hide-component");
-});
+/**
+ * Autoregistered Event listeners
+ */
+(function _autoRegister() {
+	document.getElementById("learnAndPracticeBtn").addEventListener("click", () => {
+		document.getElementById("testScanner").classList.add("hide-component");
+		document.getElementById("learnAndPractice").classList.remove("hide-component");
+		document.getElementById("chooseMode").classList.add("hide-component");
+	});
 
-document.getElementById("testScannerBtn").addEventListener("click",()=> {
-	document.getElementById("testScanner").classList.remove("hide-component");
-	document.getElementById("learnAndPractice").classList.add("hide-component");
-	document.getElementById("chooseMode").classList.add("hide-component");
-});
+	document.getElementById("testScannerBtn").addEventListener("click", () => {
+		document.getElementById("testScanner").classList.remove("hide-component");
+		document.getElementById("learnAndPractice").classList.add("hide-component");
+		document.getElementById("chooseMode").classList.add("hide-component");
+	});
 
-document.getElementById("vulnPracticeBtn").addEventListener("click",()=> {
-	document.getElementById("vulnPractice").classList.remove("hide-component");
-	document.getElementById("vulnerabilityDescription").classList.add("hide-component");
-	document.getElementById("vulnLearnBtn").classList.remove("hide-component");
-	document.getElementById("vulnPracticeBtn").classList.add("hide-component");
-});
+	document.getElementById("vulnPracticeBtn").addEventListener("click", () => {
+		document.getElementById("vulnPractice").classList.remove("hide-component");
+		document.getElementById("vulnerabilityDescription").classList.add("hide-component");
+		document.getElementById("vulnLearnBtn").classList.remove("hide-component");
+		document.getElementById("vulnPracticeBtn").classList.add("hide-component");
+	});
 
-document.getElementById("vulnLearnBtn").addEventListener("click",()=> {
-	document.getElementById("vulnPractice").classList.add("hide-component");
-	document.getElementById("vulnerabilityDescription").classList.remove("hide-component");
-	document.getElementById("vulnPracticeBtn").classList.remove("hide-component");
-	document.getElementById("vulnLearnBtn").classList.add("hide-component");
-});
+	document.getElementById("vulnLearnBtn").addEventListener("click", () => {
+		document.getElementById("vulnPractice").classList.add("hide-component");
+		document.getElementById("vulnerabilityDescription").classList.remove("hide-component");
+		document.getElementById("vulnPracticeBtn").classList.remove("hide-component");
+		document.getElementById("vulnLearnBtn").classList.add("hide-component");
+	});
+
+	document.getElementById("about").addEventListener("click", () => {
+		document.getElementById("aboutContainer").scrollIntoView(true);
+	});
+})();

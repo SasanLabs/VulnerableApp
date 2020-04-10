@@ -22,10 +22,10 @@
 		<!-- TODO Add active to mode when clicked-->
 		<div class="navbar navbar-item">
 			<div class="navbar-item-menu active" id="home">
-				Home
+				<a href="/">Home</a>
 			</div>
 			<div class="navbar-item-menu" id="about">
-				About Us
+				<a href="#about">About Us</a>
 			</div>
 			<div class="navbar-item-menu" id="mode">
 				Mode
@@ -36,12 +36,12 @@
 		</div>
 	</div>
 	<!-- Special thanks to video on Master Detail: https://www.youtube.com/watch?v=cZ6HB6pv23M -->
-	<div class="container">
+	<div id="homeContainer" class="homeContainer">
 		<div id="chooseMode" class="chooseMode">
 			<h2>
 				Welcome Security enthusiast
 			</h2>
-			Are you looking to
+			Are you looking to ?
 			<div>
 				<button id="learnAndPracticeBtn" class="mode-item">Learn Security</button>
 				<button id="testScannerBtn" class="mode-item">Test Scanner</button>
@@ -85,6 +85,25 @@
 			</div>
 		</div>
 		<script src="vulnerableApp.js"></script>
+	</div>
+
+	<div id="aboutContainer" class="aboutContainer">
+		<div>
+			As Web Applications are becoming very popular these days, there comes the needs to
+			secure them and there are many security vulnerability finding tools but while
+			developing those tools developers need to test them but there are no or
+			very less such extensible vulnerable apps for testing those tools.
+			There are deliberately vulnerable applications exists in the market but they
+			are not written with such an intent and hence lags extensibility e.g. adding new vulnerablities is quite
+			difficult.
+		</div>
+		<div>
+			So generally developer write there own vulnerable applications but that cause productivity loss and
+			also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this
+			project
+			is scalable, extensible, easiers to integrate and easier to learn.
+		</div>
+	</div>
 </body>
 
 </html>
