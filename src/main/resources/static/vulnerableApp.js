@@ -38,7 +38,7 @@ function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key,
 		document.getElementById("vulnerabilityLevelDescription").innerHTML = vulnerabilityDescription;
 		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" + htmlTemplate;
 		let parentNodeWithAllDynamicScripts = document.getElementById("dynamicScripts");
-		var dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
+		let dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
 		//Might not require to iterate but iterating for safe side. can be removed after proper testing. 
 		while (dynamicScriptNode) {
 			dynamicScriptNode.remove();
@@ -107,12 +107,14 @@ function clearSelectedMaster() {
 	//console.log('Clicked item');
 	const masterItems = document.querySelectorAll('.master-item');
 	_clearActiveItemClass(masterItems);
+	_clearHelp();
 }
 
 function clearSelectedInnerMaster() {
 	//console.log('Clicked item');
 	const innerMasterItems = document.querySelectorAll('.inner-master-item');
 	_clearActiveItemClass(innerMasterItems);
+	_clearHelp();
 }
 
 function back() {
@@ -172,17 +174,31 @@ function generateMasterDetail(vulnerableAppEndPointData) {
 	update(vulnerableAppEndPointData);
 }
 
+
+function _clearHelp() {
+	document.getElementById("showHelp").disabled = false;
+	document.getElementById("helpText").innerHTML = "";
+	document.getElementById("hideHelp").disabled = true;
+}
+
 function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
 	document.getElementById("showHelp").addEventListener("click", function () {
 		document.getElementById("showHelp").disabled = true;
-		document.getElementById("helpText").innerHTML = vulnerableAppEndPointData[currentId]["Detailed Information"][currentKey]["Description"];
+		let helpText = "<ol>";
+		for(let index in vulnerableAppEndPointData[currentId]["Detailed Information"][currentKey]["AttackVectors"]) {
+			let attackVector = vulnerableAppEndPointData[currentId]["Detailed Information"][currentKey]["AttackVectors"][index];
+			let curlPayload = attackVector["CurlPayload"]
+			let description = attackVector["Description"];
+			helpText = helpText + "<li><b>Description about the attack:</b> " 
+			+ description + "<br/><b>Payload:</b> " + curlPayload +"</li>"
+		}
+		helpText = helpText + "</ol>";
+		document.getElementById("helpText").innerHTML = helpText;
 		document.getElementById("hideHelp").disabled = false;
 	});
 
 	document.getElementById("hideHelp").addEventListener("click", function () {
-		document.getElementById("showHelp").disabled = false;
-		document.getElementById("helpText").innerHTML = "";
-		document.getElementById("hideHelp").disabled = true;
+		_clearHelp();
 	});
 }
 
