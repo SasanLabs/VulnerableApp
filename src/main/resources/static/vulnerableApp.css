@@ -200,6 +200,11 @@ div.navbar-item-menu a {
     background: darkgray;
 }
 
+#helpText {
+    text-align: left;
+    overflow-wrap: normal;
+}
+
 @media only screen and (min-width: 786px) {
     .col-2 {
         width: 15%;

@@ -22,23 +22,22 @@ public @interface AttackVector {
 
 	/**
 	 * Major usage is when we can do a Combined Attack.
-	 * @return
+	 * @return Vulnerability Types
 	 */
 	VulnerabilityType[] vulnerabilityExposed();
 
 	/**
-	 * @return Key that Identifies URL payload
-	 */
-	String urlPayload();
-
-	/**
+	 * This Key's value will be picked up from attackvectors resource folder.
+	 * Please make sure Key mentioned in AttackVector annotation is present in
+	 * the vulnerability's payload properties file.
+	 * 
 	 * @return Key that Identifies Curl request
 	 */
-	String curlPayload();
+	String curlPayload() default "NOT_APPLICABLE";
 
 	/**
 	 * Should be a Label Key
-	 * @return
+	 * @return description of the AttackVector.
 	 */
 	String description();
 
