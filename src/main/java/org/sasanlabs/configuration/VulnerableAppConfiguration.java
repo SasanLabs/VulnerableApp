@@ -18,6 +18,9 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 @Configuration
 public class VulnerableAppConfiguration {
 
+	private static final String I18N_MESSAGE_FILE_LOCATION = "classpath:i18n/messages";
+	private static final String ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN = "classpath:/attackvectors/*.properties";
+	
 	/**
 	 * Will Inject MessageBundle into messageSource bean.
 	 * 
@@ -26,7 +29,7 @@ public class VulnerableAppConfiguration {
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:i18n/messages");
+		messageSource.setBasename(I18N_MESSAGE_FILE_LOCATION);
 		messageSource.setCacheSeconds(100);
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
@@ -34,7 +37,7 @@ public class VulnerableAppConfiguration {
 
 	/**
 	 * This method reads all the property which are useful for vulnerableApp and
-	 * then injects them into the context so that entire application use it.
+	 * then injects them into the context so that entire application can use it.
 	 * 
 	 * @param resourceLoader
 	 * @return {@link VulnerableAppProperties} which is injected in spring context.
@@ -43,7 +46,7 @@ public class VulnerableAppConfiguration {
 	@Bean
 	public VulnerableAppProperties propertyLoader(ResourceLoader resourceLoader) throws IOException {
 		Resource[] attackVectorsResources = new PathMatchingResourcePatternResolver()
-				.getResources("classpath:/attackvectors/*.properties");
+				.getResources(ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN);
 		Properties attackVectorProperties = new Properties();
 		for (Resource attackVectorResource : attackVectorsResources) {
 			PropertiesLoaderUtils.fillProperties(attackVectorProperties, attackVectorResource);

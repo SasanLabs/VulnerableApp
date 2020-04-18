@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This class is the response bean for the attack vector annotation. Provides
  * the hint for the vulnerability level.
  * 
- * Note: As there beans are returned to UI so they expects that
+ * Note: As these beans are returned to UI so they expects that
  * all the labels/property keys are resolved to their respective values.
  * Like here {@code curlPayload} is a property key stored in {@code classpath:attackvectors/*properties}
  * and {@code description} is label which is stored in {@code i18n}

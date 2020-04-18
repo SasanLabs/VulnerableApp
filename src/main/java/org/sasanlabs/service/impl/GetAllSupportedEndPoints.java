@@ -19,7 +19,6 @@ import org.sasanlabs.service.IGetAllSupportedEndPoints;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
