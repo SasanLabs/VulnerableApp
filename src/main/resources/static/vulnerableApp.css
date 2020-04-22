@@ -27,7 +27,7 @@ body, html {
     flex: 1;
     font-size: 20px;
     align-items: center;
-    color: darkgrey;
+    color: burlywood;
     align-content: center;
 }
 
@@ -46,7 +46,7 @@ div.navbar-item-menu a {
 }
 
 .homeContainer, .aboutContainer {
-    background: darkgray;
+    background: burlywood;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -132,24 +132,24 @@ div.navbar-item-menu a {
 */
 .master-item {
     font-size: 24px;
-    border-bottom: 2px solid darkgray;
+    border-bottom: 2px solid burlywood;
     padding: 10px;
 }
 
 .master-item:hover, .master-item.active-item{
-    background: darkgray;
+    background: burlywood;
     color: white;
     cursor: pointer;
 }
 
 .inner-master-item {
     font-size: 18px;
-    border-bottom: 2px solid darkgray;
+    border-bottom: 2px solid burlywood;
     padding: 10px;
 }
 
 .inner-master-item:hover, .inner-master-item.active-item{
-    background: darkgray;
+    background: burlywood;
     color: white;
     cursor: pointer;
 }
@@ -167,7 +167,6 @@ div.navbar-item-menu a {
     z-index: 11;
     color: black;
     height: 100%;
-    background: darkgray;
 }
 
 #vulnerabilityDescription {
@@ -186,7 +185,7 @@ div.navbar-item-menu a {
 
 #backBtn {
     color: black;
-    border: 1px solid darkgray;
+    border: 1px solid;
     background: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -197,12 +196,33 @@ div.navbar-item-menu a {
 #backBtn:hover {
     cursor: pointer;
     color: white;
-    background: darkgray;
 }
 
 #helpText {
     text-align: left;
     overflow-wrap: normal;
+}
+
+#showHelp, #hideHelp {
+    background: blueviolet;
+    display: inline-block;
+    padding: 4px 4px;
+    margin: 1px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 10px;
+}
+
+#pageContainer {
+    background: burlywood;
+    overflow-y: auto;
+    height: 100%;
+}
+
+#contribution {
+    font-size: 15px;
 }
 
 @media only screen and (min-width: 786px) {
@@ -227,7 +247,7 @@ div.navbar-item-menu a {
     }
 
     .master {
-        border-right: 3px solid darkgray;
+        border-right: 3px solid burlywood;
     }
 
 }
