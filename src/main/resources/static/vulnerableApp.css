@@ -167,7 +167,6 @@ div.navbar-item-menu a {
     z-index: 11;
     color: black;
     height: 100%;
-    background: burlywood;
 }
 
 #vulnerabilityDescription {
@@ -186,7 +185,7 @@ div.navbar-item-menu a {
 
 #backBtn {
     color: black;
-    border: 1px solid burlywood;
+    border: 1px solid;
     background: white;
     border-radius: 5px;
     padding: 5px 10px;
@@ -197,7 +196,6 @@ div.navbar-item-menu a {
 #backBtn:hover {
     cursor: pointer;
     color: white;
-    background: burlywood;
 }
 
 #helpText {
@@ -215,6 +213,16 @@ div.navbar-item-menu a {
     transition: 0.2s opacity;
     color: #FFF;
     font-size: 10px;
+}
+
+#pageContainer {
+    background: burlywood;
+    overflow-y: auto;
+    height: 100%;
+}
+
+#contribution {
+    font-size: 15px;
 }
 
 @media only screen and (min-width: 786px) {
