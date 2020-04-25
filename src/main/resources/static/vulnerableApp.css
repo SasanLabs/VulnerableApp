@@ -1,11 +1,14 @@
 body, html { 
+    display: flex;
+    flex-flow: column;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 /** Navigation bar properties **/
 .navbar {
     display: flex;
+    min-height: 15%;
     height: 15%;
     align-items: center;
 }
@@ -50,11 +53,6 @@ div.navbar-item-menu a {
     display: flex;
     flex-direction: column;
     text-align: center;
-    overflow-y: auto;
-}
-
-.homeContainer {
-    min-height: 85%;
 }
 
 .aboutContainer {
@@ -112,7 +110,6 @@ div.navbar-item-menu a {
     padding: 25px;
     border: none;
     box-sizing: border-box;
-    height: 100%;
 }
 
 .hidden-md {
@@ -166,7 +163,6 @@ div.navbar-item-menu a {
     position: absolute;
     z-index: 11;
     color: black;
-    height: 100%;
 }
 
 #vulnerabilityDescription {
@@ -217,8 +213,7 @@ div.navbar-item-menu a {
 
 #pageContainer {
     background: burlywood;
-    overflow-y: auto;
-    height: 100%;
+    flex: 1;
 }
 
 #contribution {
