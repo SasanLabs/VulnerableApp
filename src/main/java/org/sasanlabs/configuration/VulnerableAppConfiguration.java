@@ -32,6 +32,7 @@ public class VulnerableAppConfiguration {
 		messageSource.setBasename(I18N_MESSAGE_FILE_LOCATION);
 		messageSource.setCacheSeconds(100);
 		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setAlwaysUseMessageFormat(true);
 		return messageSource;
 	}
 
