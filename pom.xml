@@ -33,18 +33,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- For NoSQL kind of Vulnerability -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-			<version>2.2.0.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>2.2.0</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>

@@ -135,7 +135,7 @@ function doGetAjaxCall(callBack, url, isJson) {
 	let xmlHttpRequest = new XMLHttpRequest();
 	xmlHttpRequest.onreadystatechange = function () {
 		if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-			if (xmlHttpRequest.status == 200) {
+			if (xmlHttpRequest.status == 200 || xmlHttpRequest.status == 401) {
 				if (isJson) {
 					callBack(JSON.parse(xmlHttpRequest.responseText));
 				} else {
@@ -146,7 +146,7 @@ function doGetAjaxCall(callBack, url, isJson) {
 				alert('There was an error 400');
 			}
 			else {
-				alert('something else other than 200 was returned');
+				alert('something else other than 200/401 was returned');
 			}
 		}
 	};

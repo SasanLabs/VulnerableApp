@@ -36,9 +36,6 @@ dependencies {
     runtime("com.h2database:h2:1.3.176")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
-	// Mongo Dependencies
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.0.RELEASE'
-	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '2.2.0'
 	//Log4j Dependencies
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
   	// for Async Logging. Used by Log4j2
