@@ -48,15 +48,19 @@ div.navbar-item-menu a {
     display: none !important;
 }
 
-.homeContainer, .aboutContainer {
+.homeContainer {
     background: burlywood;
+    flex: 1;
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
 .aboutContainer {
+    background: burlywood;
     font-size: 18px;
+    flex-direction: column;
+    text-align: center;
 }
 
 .chooseMode{
@@ -214,6 +218,8 @@ div.navbar-item-menu a {
 #pageContainer {
     background: burlywood;
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #contribution {
