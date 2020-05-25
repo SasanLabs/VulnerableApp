@@ -36,7 +36,7 @@ function _callbackForInnerMasterOnClickEvent(vulnerableAppEndPointData, id, key,
 		let vulnerabilityDescription = vulnerableAppEndPointData[id]["Detailed Information"][key]["Description"];
 		document.getElementById("vulnerabilityDescription").innerHTML = vulnerableAppEndPointData[id]["Description"];
 		document.getElementById("vulnerabilityLevelDescription").innerHTML = vulnerabilityDescription;
-		let urlToFetchHtmlTemplate = "templates/" + vulnerabilitySelected + "/" + htmlTemplate;
+		let urlToFetchHtmlTemplate = htmlTemplate ? "templates/" + vulnerabilitySelected + "/" + htmlTemplate : "sasan";
 		let parentNodeWithAllDynamicScripts = document.getElementById("dynamicScripts");
 		let dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
 		//Might not require to iterate but iterating for safe side. can be removed after proper testing. 
@@ -106,6 +106,8 @@ function _clearActiveItemClass(items) {
 function clearSelectedMaster() {
 	//console.log('Clicked item');
 	const masterItems = document.querySelectorAll('.master-item');
+	//Making back to learning vulnerability
+	document.getElementById("vulnLearnBtn").click();
 	_clearActiveItemClass(masterItems);
 	_clearHelp();
 }
