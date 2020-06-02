@@ -23,20 +23,19 @@ public class RequestDelegatorImpl implements RequestDelegator {
 	}
 
 	@Override
-	public ResponseBean delegate(RequestBean request) throws ServiceApplicationException {
+	public ResponseBean<?> delegate(RequestBean request) throws ServiceApplicationException {
 		String level = request.getLevel();
 		String endPoint = request.getEndPoint();
 		LevelEnum levelEnum = LevelEnum.getLevelEnumByName(level);
-		ICustomVulnerableEndPoint payload = (ICustomVulnerableEndPoint) endPointResolver.resolve(endPoint);
+		ICustomVulnerableEndPoint customVulnerableEndPoint = (ICustomVulnerableEndPoint) endPointResolver.resolve(endPoint);
 
 		ParameterBean paramBean = new ParameterBean();
 		paramBean.setQueryParamKeyValueMap(request.getQueryParams());
 		paramBean.setRequestHeadersMap(request.getHeaders());
-		payload.setParameterBean(paramBean);
 		paramBean.setUrl(request.getUrl());
 		paramBean.setBody(request.getBody());
 
-		return GenericUtils.invokeMethod(payload, levelEnum);
+		return GenericUtils.invokeMethod(customVulnerableEndPoint, paramBean, levelEnum);
 	}
 
 }
