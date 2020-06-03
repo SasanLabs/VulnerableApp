@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 @Service
 public class EndPointResolver implements IEndPointResolver<ICustomVulnerableEndPoint> {
@@ -19,8 +18,8 @@ public class EndPointResolver implements IEndPointResolver<ICustomVulnerableEndP
 
 	@Override
 	public ICustomVulnerableEndPoint resolve(String name) throws ServiceApplicationException {
-		ICustomVulnerableEndPoint getInjectionPayload = envUtils.getInstance(ICustomVulnerableEndPoint.class, name);
-		return getInjectionPayload;
+		ICustomVulnerableEndPoint iCustomVulnerableEndPoint = envUtils.getInstance(ICustomVulnerableEndPoint.class, name);
+		return iCustomVulnerableEndPoint;
 	}
 
 }

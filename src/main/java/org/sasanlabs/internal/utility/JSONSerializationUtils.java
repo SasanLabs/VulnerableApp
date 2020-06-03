@@ -10,8 +10,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * This is the Generic Serialization Utility for the VulnerableApp.
+ * 
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 public class JSONSerializationUtils {
 

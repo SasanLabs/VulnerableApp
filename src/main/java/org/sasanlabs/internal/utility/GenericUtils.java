@@ -18,8 +18,8 @@ import org.sasanlabs.service.vulnerability.ParameterBean;
 public class GenericUtils {
 
 	/**
-	 * This is the utility method for invoking the vulnerableEndpoint 
-	 * providing ParameterBean which wraps around the HttpRequest bean.
+	 * This is the utility method for invoking the {@link ICustomVulnerableEndPoint} 
+	 * providing {@code ParameterBean} which wraps around the HttpRequest bean.
 	 * 
 	 * @param customVulnerableEndPoint
 	 * @param parameterBean
@@ -56,6 +56,11 @@ public class GenericUtils {
 				customVulnerableEndPoint.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).value());
 	}
 
+	/**
+	 * @deprecated
+	 * @param payload
+	 * @return
+	 */
 	public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {
 		String generalPayload = "<html><title>Security Testing</title><body><h1>Vulnerable Application </h1> %s </body></html>";
 		return String.format(generalPayload, payload);

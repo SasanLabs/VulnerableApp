@@ -9,11 +9,10 @@ import java.lang.annotation.Target;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
 /**
+ * Purpose of this file is just to help user to know various payloads
+ * and ways to bypass security
+ * 
  * @author KSASAN preetkaran20@gmail.com
- * 
- * 
- *         Purpose of this file is just to help user to know various payloads
- *         and ways to bypass security
  */
 @Repeatable(AttackVector.AttackVectors.class)
 @Retention(RetentionPolicy.RUNTIME)

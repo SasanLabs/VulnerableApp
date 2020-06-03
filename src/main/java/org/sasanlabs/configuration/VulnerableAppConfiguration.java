@@ -12,8 +12,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
- * @author KSASAN preetkaran20@gmail.com Configuration Class for Injecting
- *         Configurations into Context.
+ * This is the Configuration Class for Injecting Configurations into the Context.
+ * 
+ * @author KSASAN preetkaran20@gmail.com 
  */
 @Configuration
 public class VulnerableAppConfiguration {

@@ -10,6 +10,9 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Service;
 
 /**
+ * This annotation marks the class as the vulnerable rest controller for VulnerableApp.
+ * Can be visualized as {@link org.springframework.stereotype.Controller} Annotation
+ * 
  * @author KSASAN preetkaran20@gmail.com
  */
 @Target({ ElementType.TYPE })

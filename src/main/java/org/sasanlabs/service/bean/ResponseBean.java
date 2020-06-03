@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * DTO which is send from the Service Layer to Controller Layer
  * @author KSASAN preetkaran20@gmail.com
- * 
- *         DTO which is send from the Service Layer to Controller Layer
  */
 public class ResponseBean<T> {
 

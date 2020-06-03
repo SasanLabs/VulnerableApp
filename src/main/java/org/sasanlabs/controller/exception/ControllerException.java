@@ -5,7 +5,6 @@ import org.sasanlabs.service.exception.ServiceApplicationException;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 public class ControllerException extends Exception {
 

@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * DTO which is passed from the controller layer to service layer.
  * @author KSASAN preetkaran20@gmail.com
- * 
- *         DTO which is passed from the controller layer to service layer.
  */
 public class RequestBean {
 
