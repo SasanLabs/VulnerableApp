@@ -9,25 +9,33 @@ import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
+import org.sasanlabs.service.vulnerability.ParameterBean;
 
+/**
+ * Generic Internal Utility class.
+ * @author KSASAN preetkaran20@gmail.com
+ */
 public class GenericUtils {
 
 	/**
-	 * @param iGetInjectionPayload
+	 * This is the utility method for invoking the vulnerableEndpoint 
+	 * providing ParameterBean which wraps around the HttpRequest bean.
+	 * 
+	 * @param customVulnerableEndPoint
+	 * @param parameterBean
 	 * @param level
 	 * @return
 	 * @throws ServiceApplicationException
-	 * 
-	 *                                     Invokes the Method as per the Level given
 	 */
-	public static ResponseBean invokeMethod(ICustomVulnerableEndPoint iGetInjectionPayload, LevelEnum level)
+	@SuppressWarnings("unchecked")
+	public static <T> ResponseBean<T> invokeMethod(ICustomVulnerableEndPoint customVulnerableEndPoint, ParameterBean parameterBean, LevelEnum level)
 			throws ServiceApplicationException {
-		for (Method method : iGetInjectionPayload.getClass().getMethods()) {
+		for (Method method : customVulnerableEndPoint.getClass().getMethods()) {
 			if (method.isAnnotationPresent(VulnerabilityLevel.class)) {
 				VulnerabilityLevel vulnerabilityLevel = method.getAnnotation(VulnerabilityLevel.class);
 				if (vulnerabilityLevel.value() == level) {
 					try {
-						return (ResponseBean) method.invoke(iGetInjectionPayload);
+						return (ResponseBean<T>) method.invoke(customVulnerableEndPoint, parameterBean);
 					} catch (IllegalAccessException e) {
 						throw new ServiceApplicationException(
 								"Access Issue, please check the visibility of the annotated method ", e,
@@ -45,7 +53,7 @@ public class GenericUtils {
 		}
 		throw new ServiceApplicationException("Unable to find the Method for Level :- " + level,
 				ExceptionStatusCodeEnum.UNAVAILABLE_LEVEL, level,
-				iGetInjectionPayload.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).value());
+				customVulnerableEndPoint.getClass().getAnnotation(VulnerableServiceRestEndPoint.class).value());
 	}
 
 	public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {
