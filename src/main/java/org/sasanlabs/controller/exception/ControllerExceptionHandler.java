@@ -13,8 +13,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
+ * Exception Handler for all the VulnerableApp's exceptions. 
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {

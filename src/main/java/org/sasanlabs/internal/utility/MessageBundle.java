@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 @Component
 public class MessageBundle {

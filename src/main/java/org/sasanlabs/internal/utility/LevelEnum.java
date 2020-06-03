@@ -4,7 +4,9 @@ import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 
 /**
- * @author KSASAN preetkaran20@gmail.com Depicts the Level of Security
+ * Represents the Level of the Vulnerability Type.
+ * 
+ * @author KSASAN preetkaran20@gmail.com
  */
 public enum LevelEnum {
 

@@ -52,9 +52,9 @@ public class GetAllSupportedEndPoints implements IGetAllSupportedEndPoints {
 	@Override
 	public List<AllEndPointsResponseBean> getSupportedEndPoint() throws JsonProcessingException {
 		List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
-		Map<String, ICustomVulnerableEndPoint> nameVsIGetInjectionPayloadMap = envUtils
+		Map<String, ICustomVulnerableEndPoint> nameVsCustomVulnerableEndPoint = envUtils
 				.getAllClassesExtendingIGetInjectionPayload();
-		for (Map.Entry<String, ICustomVulnerableEndPoint> entry : nameVsIGetInjectionPayloadMap.entrySet()) {
+		for (Map.Entry<String, ICustomVulnerableEndPoint> entry : nameVsCustomVulnerableEndPoint.entrySet()) {
 			String name = entry.getKey();
 			Class<? extends ICustomVulnerableEndPoint> clazz = entry.getValue().getClass();
 			if (clazz.isAnnotationPresent(VulnerableServiceRestEndPoint.class)) {

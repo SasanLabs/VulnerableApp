@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-/**
+/**  
  * @author KSASAN preetkaran20@gmail.com
  */
 @RestController
@@ -45,6 +45,20 @@ public class VulnerableAppRestController {
 		this.getAllSupportedEndPoints = getAllSupportedEndPoints;
 	}
 
+	/**
+	 * Rest end point which is used to route calls to respective VulnerableServiceRestEndpoints 
+	 * based on the Level and vulnerability type.
+	 * 
+	 * This is the backbone behind all the intelligent routing in the VulnerableApp.
+	 * 
+	 * @param <T> ResonseType
+	 * @param allParams Represents the Query Params
+	 * @param endPoint This is the vulnerability name
+	 * @param level Level of the Vulnerability.
+	 * @param requestEntity
+	 * @return ResponseEntity
+	 * @throws ControllerException
+	 */
 	@RequestMapping("/vulnerable/{endPoint}/{level}")
 	public <T> ResponseEntity<T> endPointHandler(@RequestParam Map<String, String> allParams,
 			@PathVariable("endPoint") String endPoint, @PathVariable("level") String level,
@@ -82,12 +96,25 @@ public class VulnerableAppRestController {
 		}
 	}
 	
+	/**
+	 * @return Entire information for the application.
+	 * @throws JsonProcessingException
+	 */
 	@RequestMapping("/allEndPoint")
 	public String allEndPoints() throws JsonProcessingException {
 		return "<pre>" + JSONSerializationUtils.serializeWithPrettyPrintJSON(getAllSupportedEndPoints.getSupportedEndPoint()) + "</pre>";
 	}
 
-	
+	/**
+	 * This Endpoint is used to provide the entire information about the application like Supported Vulnerabilities, Levels etc.
+	 * Currently our thought process is that UI can be built entirely using this information alone and 
+	 * we have build the UI by only using information provided by this Rest Endpoint.
+	 * 
+	 * This is the backbone behind the entire UI of VulnerableApp.
+	 * 
+	 * @return Entire information for the application.
+	 * @throws JsonProcessingException
+	 */
 	@RequestMapping("/allEndPointJson")
 	public List<AllEndPointsResponseBean> allEndPointsJsonResponse() throws JsonProcessingException {
 		return getAllSupportedEndPoints.getSupportedEndPoint();

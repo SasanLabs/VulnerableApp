@@ -9,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
+ * This class is used to Map the response from the Service Layer to the Controller Layer.
+ * 
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 public class ResponseMapper {
 

@@ -8,8 +8,10 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * This is the Response Bean which contains information about all the present endpoints.
+ * This bean is the Backbone behind the VulnerableApp Master-Detail UI design.
+ * 
  * @author KSASAN preetkaran20@gmail.com
- *
  */
 public class AllEndPointsResponseBean {
 
