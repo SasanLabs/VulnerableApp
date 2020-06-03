@@ -46,7 +46,7 @@ public class VulnerableAppRestController {
 	}
 
 	@RequestMapping("/vulnerable/{endPoint}/{level}")
-	public ResponseEntity<String> endPointHandler(@RequestParam Map<String, String> allParams,
+	public <T> ResponseEntity<T> endPointHandler(@RequestParam Map<String, String> allParams,
 			@PathVariable("endPoint") String endPoint, @PathVariable("level") String level,
 			RequestEntity<String> requestEntity) throws ControllerException {
 		RequestBean requestBean = new RequestBean();
@@ -75,7 +75,7 @@ public class VulnerableAppRestController {
 			requestBean.setBody(requestEntity.getBody());
 		}
 		try {
-			ResponseBean responseBean = requestDelegator.delegate(requestBean);
+			ResponseBean<T> responseBean = requestDelegator.delegate(requestBean);
 			return ResponseMapper.buildResponseEntity(responseBean);
 		} catch (ServiceApplicationException e) {
 			throw new ControllerException(e);

@@ -27,14 +27,15 @@ public class GenericUtils {
 	 * @return
 	 * @throws ServiceApplicationException
 	 */
-	public static ResponseBean<?> invokeMethod(ICustomVulnerableEndPoint customVulnerableEndPoint, ParameterBean parameterBean, LevelEnum level)
+	@SuppressWarnings("unchecked")
+	public static <T> ResponseBean<T> invokeMethod(ICustomVulnerableEndPoint customVulnerableEndPoint, ParameterBean parameterBean, LevelEnum level)
 			throws ServiceApplicationException {
 		for (Method method : customVulnerableEndPoint.getClass().getMethods()) {
 			if (method.isAnnotationPresent(VulnerabilityLevel.class)) {
 				VulnerabilityLevel vulnerabilityLevel = method.getAnnotation(VulnerabilityLevel.class);
 				if (vulnerabilityLevel.value() == level) {
 					try {
-						return (ResponseBean<?>) method.invoke(customVulnerableEndPoint, parameterBean);
+						return (ResponseBean<T>) method.invoke(customVulnerableEndPoint, parameterBean);
 					} catch (IllegalAccessException e) {
 						throw new ServiceApplicationException(
 								"Access Issue, please check the visibility of the annotated method ", e,

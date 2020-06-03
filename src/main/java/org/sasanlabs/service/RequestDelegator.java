@@ -10,6 +10,6 @@ import org.sasanlabs.service.exception.ServiceApplicationException;
  */
 public interface RequestDelegator {
 
-	ResponseBean<?> delegate(RequestBean requestBean) throws ServiceApplicationException;
+	<T> ResponseBean<T> delegate(RequestBean requestBean) throws ServiceApplicationException;
 	
 }

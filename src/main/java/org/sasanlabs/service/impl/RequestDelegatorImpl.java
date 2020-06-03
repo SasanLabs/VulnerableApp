@@ -23,7 +23,7 @@ public class RequestDelegatorImpl implements RequestDelegator {
 	}
 
 	@Override
-	public ResponseBean<?> delegate(RequestBean request) throws ServiceApplicationException {
+	public <T> ResponseBean<T> delegate(RequestBean request) throws ServiceApplicationException {
 		String level = request.getLevel();
 		String endPoint = request.getEndPoint();
 		LevelEnum levelEnum = LevelEnum.getLevelEnumByName(level);
