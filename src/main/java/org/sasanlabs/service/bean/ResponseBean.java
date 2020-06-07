@@ -6,60 +6,61 @@ import java.util.Map;
 
 /**
  * DTO which is send from the Service Layer to Controller Layer
+ *
  * @author KSASAN preetkaran20@gmail.com
  */
 public class ResponseBean<T> {
 
-	private Map<String, List<String>> responseHeaders = new LinkedHashMap<>();
-	private T body;
-	private int httpStatusCode = 200;
+    private Map<String, List<String>> responseHeaders = new LinkedHashMap<>();
+    private T body;
+    private int httpStatusCode = 200;
 
-	public Map<String, List<String>> getResponseHeaders() {
-		return responseHeaders;
-	}
+    public Map<String, List<String>> getResponseHeaders() {
+        return responseHeaders;
+    }
 
-	public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
-		this.responseHeaders = responseHeaders;
-	}
+    public void setResponseHeaders(Map<String, List<String>> responseHeaders) {
+        this.responseHeaders = responseHeaders;
+    }
 
-	public T getBody() {
-		return body;
-	}
+    public T getBody() {
+        return body;
+    }
 
-	public void setBody(T body) {
-		this.body = body;
-	}
+    public void setBody(T body) {
+        this.body = body;
+    }
 
-	public int getHttpStatusCode() {
-		return httpStatusCode;
-	}
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
 
-	public void setHttpStatusCode(int httpStatusCode) {
-		this.httpStatusCode = httpStatusCode;
-	}
+    public void setHttpStatusCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
+    }
 
-	public ResponseBean(T body) {
-		this.body = body;
-	}
+    public ResponseBean(T body) {
+        this.body = body;
+    }
 
-	public ResponseBean(Map<String, List<String>> responseHeader, T body) {
-		this.responseHeaders = responseHeader;
-		this.body = body;
-	}
+    public ResponseBean(Map<String, List<String>> responseHeader, T body) {
+        this.responseHeaders = responseHeader;
+        this.body = body;
+    }
 
-	public ResponseBean(int httpStatusCode, T body) {
-		this.httpStatusCode = httpStatusCode;
-		this.body = body;
-	}
-	
-	public ResponseBean(int httpStatusCode,Map<String, List<String>> responseHeader) {
-		this.httpStatusCode = httpStatusCode;
-		this.responseHeaders = responseHeader;
-	}
+    public ResponseBean(int httpStatusCode, T body) {
+        this.httpStatusCode = httpStatusCode;
+        this.body = body;
+    }
 
-	public ResponseBean(Map<String, List<String>> responseHeader, T body, int httpStatusCode) {
-		this.responseHeaders = responseHeader;
-		this.body = body;
-		this.httpStatusCode = httpStatusCode;
-	}
+    public ResponseBean(int httpStatusCode, Map<String, List<String>> responseHeader) {
+        this.httpStatusCode = httpStatusCode;
+        this.responseHeaders = responseHeader;
+    }
+
+    public ResponseBean(Map<String, List<String>> responseHeader, T body, int httpStatusCode) {
+        this.responseHeaders = responseHeader;
+        this.body = body;
+        this.httpStatusCode = httpStatusCode;
+    }
 }
