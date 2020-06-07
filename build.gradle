@@ -41,6 +41,10 @@ spotless {
         clearSteps()
         googleJavaFormat().aosp()
     }
+    format 'javascript', {
+    	target 'src/main/resources/**/*.js'
+    	prettier().config(['filepath': 'file.js'])
+  	}
 }
 
 dependencies {
