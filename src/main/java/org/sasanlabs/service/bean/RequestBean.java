@@ -6,62 +6,63 @@ import java.util.Map;
 
 /**
  * DTO which is passed from the controller layer to service layer.
+ *
  * @author KSASAN preetkaran20@gmail.com
  */
 public class RequestBean {
 
-	private Map<String, String> queryParams = new HashMap<>();
-	private Map<String, List<String>> headers = new HashMap<>();
-	private String level;
-	private String endPoint;
-	private String url;
-	private String body;
-	
-	public Map<String, String> getQueryParams() {
-		return queryParams;
-	}
+    private Map<String, String> queryParams = new HashMap<>();
+    private Map<String, List<String>> headers = new HashMap<>();
+    private String level;
+    private String endPoint;
+    private String url;
+    private String body;
 
-	public void setQueryParams(Map<String, String> urlParams) {
-		this.queryParams = urlParams;
-	}
+    public Map<String, String> getQueryParams() {
+        return queryParams;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public void setQueryParams(Map<String, String> urlParams) {
+        this.queryParams = urlParams;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getLevel() {
-		return level;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setLevel(String level) {
-		this.level = level;
-	}
+    public String getLevel() {
+        return level;
+    }
 
-	public String getEndPoint() {
-		return endPoint;
-	}
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
-	public void setEndPoint(String endPoint) {
-		this.endPoint = endPoint;
-	}
+    public String getEndPoint() {
+        return endPoint;
+    }
 
-	public Map<String, List<String>> getHeaders() {
-		return headers;
-	}
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
 
-	public void setHeaders(Map<String, List<String>> headers) {
-		this.headers = headers;
-	}
+    public Map<String, List<String>> getHeaders() {
+        return headers;
+    }
 
-	public String getBody() {
-		return body;
-	}
+    public void setHeaders(Map<String, List<String>> headers) {
+        this.headers = headers;
+    }
 
-	public void setBody(String body) {
-		this.body = body;
-	}
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }
