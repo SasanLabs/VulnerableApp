@@ -9,7 +9,7 @@ buildscript {
 
 //Community Plugins
 plugins {
-    id("com.diffplug.gradle.spotless") version "3.27.2"
+    id("com.diffplug.gradle.spotless") version "4.3.0"
 }
 
 apply plugin: 'java'
