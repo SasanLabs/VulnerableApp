@@ -84,7 +84,7 @@ div.navbar-item-menu a {
     flex: 1;
 }
 
-#learnAndPracticeBtn , #testScannerBtn, #vulnInformationBtn{
+#learnAndPracticeBtn, #testScannerBtn, #analyseReportBtn, #vulnInformationBtn{
     display: inline-block;
     padding: 10px 35px;
     margin: 3px;
@@ -181,21 +181,6 @@ div.navbar-item-menu a {
     font-size: 18px;
     padding: 15px;
     font-weight: bold;
-}
-
-#backBtn {
-    color: black;
-    border: 1px solid;
-    background: white;
-    border-radius: 5px;
-    padding: 5px 10px;
-    top: 0;
-    left: 0;
-}
-
-#backBtn:hover {
-    cursor: pointer;
-    color: white;
 }
 
 #helpText {
