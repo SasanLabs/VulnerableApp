@@ -1,119 +1,18 @@
-body, html { 
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-    overflow-y: auto;
+.title {
+    font-size: 36px;
+    border-bottom: 2px solid #4cd4b0;
+    padding: 15px;
+    color: #4cd4b0;
 }
 
-/** Navigation bar properties **/
-.navbar {
-    display: flex;
-    min-height: 15%;
-    height: 15%;
-    align-items: center;
+.container {
+    background: bisque;
 }
-
-.navbar-item {
-    flex: 1;
-}
-
-.navbar-brand {
-    flex: 3;
-    align-content: flex-start;
-    font-size: 30px;
-    color: black;
-    margin-left: 20px;
-    text-decoration: none;
-}
-
-.navbar-item-menu {
-    flex: 1;
-    font-size: 20px;
-    align-items: center;
-    color: burlywood;
-    align-content: center;
-}
-
-div.navbar-item-menu a {
-    text-decoration: none;
-}
-
-.active {
-    color: black;
-}
-
-/** Navigation bar properties ended here. **/
-/** It is not working for chooseMode so added !important. Might not be a correct way. Need to make it proper.*/
-.hide-component {
-    display: none !important;
-}
-
-.homeContainer {
-    background: burlywood;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.aboutContainer {
-    background: burlywood;
-    font-size: 18px;
-    flex-direction: column;
-    text-align: center;
-}
-
-.chooseMode{
-    flex: 1;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 30px;
-}
-
-.chooseVulnerability {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.mode-item {
-    flex: 1;
-}
-
-#learnAndPracticeBtn, #testScannerBtn, #analyseReportBtn, #vulnInformationBtn{
-    display: inline-block;
-    padding: 10px 35px;
-    margin: 3px;
-    border: 3px solid transparent;
-    border-radius: 4px;
-    transition: 0.2s opacity;
-    background: black;
-    color: #FFF;
-    font-size: 18px;
-}
-
-#vulnPracticeBtn, #vulnLearnBtn {
-    display: flex;
-    justify-items: left;
-    display: inline-block;
-    padding: 8px 8px;
-    margin: 2px;
-    border: 2px solid transparent;
-    border-radius: 3px;
-    transition: 0.2s opacity;
-    background: black;
-    color: #FFF;
-    font-size: 12px;
-}
-
 .master {
     padding: 25px;
     border: none;
     box-sizing: border-box;
+    height: 100%;
 }
 
 .hidden-md {
@@ -128,29 +27,26 @@ div.navbar-item-menu a {
     text-align: center;
 }
 
-/**
-4cd4b0
-*/
 .master-item {
     font-size: 24px;
-    border-bottom: 2px solid burlywood;
-    padding: 10px;
+    border-bottom: 2px solid #4cd4b0;
+    padding: 15px;
 }
 
 .master-item:hover, .master-item.active-item{
-    background: burlywood;
+    background: #4cd4b0;
     color: white;
     cursor: pointer;
 }
 
 .inner-master-item {
     font-size: 18px;
-    border-bottom: 2px solid burlywood;
-    padding: 10px;
+    border-bottom: 2px solid #4cd4b0;
+    padding: 15px;
 }
 
 .inner-master-item:hover, .inner-master-item.active-item{
-    background: burlywood;
+    background: #4cd4b0;
     color: white;
     cursor: pointer;
 }
@@ -166,49 +62,25 @@ div.navbar-item-menu a {
     box-sizing: border-box;
     position: absolute;
     z-index: 11;
-    color: black;
+    color: #4cd4b0;
+    height: 100vh;
+    background: white;
 }
 
-#vulnerabilityDescription {
-    color: black;
-    font-size: 18px;
-    padding: 15px;
+#backBtn {
+    color: #4cd4b0;
+    border: 1px solid #4cd4b0;
+    background: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    top: 0;
+    left: 0;
 }
 
-
-#vulnerabilityLevelDescription {
-    color: black;
-    font-size: 18px;
-    padding: 15px;
-    font-weight: bold;
-}
-
-#helpText {
-    text-align: left;
-    overflow-wrap: normal;
-}
-
-#showHelp, #hideHelp {
-    background: blueviolet;
-    display: inline-block;
-    padding: 4px 4px;
-    margin: 1px;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    transition: 0.2s opacity;
-    color: #FFF;
-    font-size: 10px;
-}
-
-#pageContainer {
-    background: burlywood;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#contribution {
-    font-size: 15px;
+#backBtn:hover {
+    cursor: pointer;
+    color: white;
+    background: #4cd4b0;
 }
 
 @media only screen and (min-width: 786px) {
@@ -233,7 +105,7 @@ div.navbar-item-menu a {
     }
 
     .master {
-        border-right: 3px solid burlywood;
+        border-right: 3px solid #4cd4b0;
     }
 
 }
