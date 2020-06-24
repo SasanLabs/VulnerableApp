@@ -46,6 +46,7 @@
 				<div>
 					<button id="learnAndPracticeBtn" class="mode-item">Learn Security</button>
 					<button id="testScannerBtn" class="mode-item">Test Scanner</button>
+					<button id="analyseReportBtn" class="mode-item">Analyse Report</button>
 				</div>
 			</div>
 			<div class="description">
@@ -63,8 +64,6 @@
 						<div class="col-2 inner-master master"></div>
 						<div class="col-6 detail">
 							<div id="vulnerabilityLevelDescription"></div>
-							<button id="backBtn" onclick="back()" class="hidden-md">
-								< Back</button>
 									<h1 class="detail-title text-center"></h1>
 									<div>
 										<button id="showHelp">Show Help</button>
@@ -77,9 +76,16 @@
 					<div id="dynamicScripts">
 					</div>
 				</div>
-				<div id="testScanner" class="hide-component">
-					Search
-				</div>
+			</div>
+			<div id="testScanner" class="hide-component">
+				Search
+			</div>
+
+			<div id="analyseReport" class="hide-component">
+				<h2>Insert the Vulnerability Report.
+				Wait for me to check :)</h2>
+				<input type="file" id="scannerReport" />
+				<button id="uploadScannerReport" >upload</button>
 			</div>
 			<script src="vulnerableApp.js"></script>
 		</div>

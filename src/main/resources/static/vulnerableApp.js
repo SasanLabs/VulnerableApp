@@ -274,12 +274,21 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
       document
         .getElementById("learnAndPractice")
         .classList.remove("hide-component");
+      document.getElementById("analyseReport").classList.add("hide-component");
       document.getElementById("chooseMode").classList.add("hide-component");
     });
 
   document.getElementById("testScannerBtn").addEventListener("click", () => {
     document.getElementById("testScanner").classList.remove("hide-component");
     document.getElementById("learnAndPractice").classList.add("hide-component");
+    document.getElementById("analyseReport").classList.add("hide-component");
+    document.getElementById("chooseMode").classList.add("hide-component");
+  });
+
+  document.getElementById("analyseReportBtn").addEventListener("click", () => {
+    document.getElementById("analyseReport").classList.remove("hide-component");
+    document.getElementById("learnAndPractice").classList.add("hide-component");
+    document.getElementById("testScanner").classList.add("hide-component");
     document.getElementById("chooseMode").classList.add("hide-component");
   });
 
@@ -303,6 +312,11 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
     document.getElementById("vulnLearnBtn").classList.add("hide-component");
   });
 
+  document
+    .getElementById("uploadScannerReport")
+    .addEventListener("click", () => {
+      //Do a post call to the vulnerableApp and compare the results.
+    });
   document.getElementById("about").addEventListener("click", () => {
     document.getElementById("aboutContainer").scrollIntoView(true);
   });
