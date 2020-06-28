@@ -226,6 +226,16 @@ div.navbar-item-menu a {
     font-size: 15px;
 }
 
+/**
+ * Basic Animation for all the buttons in the VulnerableApp Application.
+ */
+button:active, input[type="button"]:active, input[type="submit"]:active { 
+    transform: scale(0.98); 
+    /* Scaling button to 0.98 to its original size */ 
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
+    /* Lowering the shadow */ 
+}
+
 @media only screen and (min-width: 786px) {
     .col-2 {
         width: 15%;

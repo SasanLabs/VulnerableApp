@@ -45,6 +45,7 @@
 			<AppenderRef ref="ROLLING_LOG_FILE" />
 		</AsyncLogger>
 		<Root level="ALL">
+			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="ROLLING_LOG_FILE" />
 		</Root>
 	</Loggers>
