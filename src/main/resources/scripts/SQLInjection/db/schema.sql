@@ -12,3 +12,7 @@ CREATE TABLE CARS (
 	name VARCHAR(250) NOT NULL,
 	image VARCHAR(500) NOT NULL
 );
+
+CREATE USER application PASSWORD 'hacker';
+GRANT SELECT ON USERS TO application;
+GRANT SELECT ON CARS TO application;
