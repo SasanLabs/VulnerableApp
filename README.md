@@ -43,6 +43,9 @@ This Application is deliberately made vulnerable to attacks so that users can le
 Contributing to opensource is always good from learning prespective as open source is the community for learn-help-grow-ing together. 
 We really appreciate the contribution to this project but as this project is in its initial phase so we have not set any guidelines so if you are interested in contributing to this project please send an email to preetkaran20@gmail.com and we will try our best to onboard you to this project. if you are already onboarded please raise a Github Pull Request, we will review and merge that into the master repository.
 
+### Another way of Contribution ###
+As we have added some of the vulnerabilities so in case you are trying to learn some vulnerability and you have found some different kind of vulnerability which is not known to us or it is unintentionally not being addressed, please let us know by raising an **issue**  with Title containing **$Vulnerability_Missed$** so that we can add those vulnerable payload or vulnerabilities in code.
+
 ## Contact ##
 Please raise a github issue for enhancement/issues in VulnerableApp or send email to preetkaran20@gmail.com regarding queries
 we will try to resolve issues asap.
