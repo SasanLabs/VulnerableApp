@@ -1,12 +1,15 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.controller.exception.ControllerException;
+import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
 import org.sasanlabs.service.IEndPointResolver;
@@ -17,6 +20,7 @@ import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +37,17 @@ public class VulnerableAppRestController {
 
     private IGetAllSupportedEndPoints getAllSupportedEndPoints;
 
+    private int port;
+
     @Autowired
     public VulnerableAppRestController(
             RequestDelegator buildPayload,
             IEndPointResolver<ICustomVulnerableEndPoint> endPointResolver,
-            IGetAllSupportedEndPoints getAllSupportedEndPoints) {
+            IGetAllSupportedEndPoints getAllSupportedEndPoints,
+            @Value("${server.port}") int port) {
         this.requestDelegator = buildPayload;
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
+        this.port = port;
     }
 
     /**
@@ -123,5 +131,51 @@ public class VulnerableAppRestController {
     public List<AllEndPointsResponseBean> allEndPointsJsonResponse()
             throws JsonProcessingException {
         return getAllSupportedEndPoints.getSupportedEndPoint();
+    }
+
+    /**
+     * This Endpoint is exposed to help the scanners in finding the Vulnerable EndPoints. Here we
+     * are not using any library as we need a very basic sitemap and we don't want to make
+     * VulnerableApp heavy.
+     *
+     * @return XML String which is representing the sitemap format.
+     * @throws JsonProcessingException
+     * @throws UnknownHostException
+     */
+    @RequestMapping("/sitemap.xml")
+    public String sitemapForPassiveScanners1()
+            throws JsonProcessingException, UnknownHostException {
+        List<AllEndPointsResponseBean> allEndPoints = allEndPointsJsonResponse();
+        StringBuilder xmlBuilder =
+                new StringBuilder(
+                        FrameworkConstants.GENERAL_XML_HEADER
+                                + FrameworkConstants.SITEMAP_URLSET_TAG_START);
+        String ipAddress = InetAddress.getLocalHost().getHostAddress();
+        for (AllEndPointsResponseBean endPoint : allEndPoints) {
+            endPoint.getLevelDescriptionSet()
+                    .forEach(
+                            level -> {
+                                xmlBuilder
+                                        .append(FrameworkConstants.SITEMAP_URL_TAG_START)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.HTTP)
+                                        .append(ipAddress)
+                                        .append(FrameworkConstants.COLON)
+                                        .append(port)
+                                        .append(FrameworkConstants.SLASH)
+                                        .append(endPoint.getName())
+                                        .append(FrameworkConstants.SLASH)
+                                        .append(level.getLevelEnum().name())
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_URL_TAG_END)
+                                        .append(FrameworkConstants.NEXT_LINE);
+                            });
+        }
+        xmlBuilder.append(FrameworkConstants.SITEMAP_URLSET_TAG_END);
+        return xmlBuilder.toString();
     }
 }
