@@ -1,12 +1,12 @@
 package org.sasanlabs.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.controller.exception.ControllerException;
@@ -30,8 +30,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /** @author KSASAN preetkaran20@gmail.com */
 @RestController
@@ -140,16 +138,17 @@ public class VulnerableAppRestController {
     }
 
     /**
-     * This Endpoint is used to provide the vulnerability information which is useful for testing scanners
-     * like ZAP/Burp
-     * 
+     * This Endpoint is used to provide the vulnerability information which is useful for testing
+     * scanners like ZAP/Burp
+     *
      * @return {@link ScannerResponseBean}s
      * @throws JsonProcessingException
      * @throws UnknownHostException
      */
     @GetMapping
     @RequestMapping("/scanner")
-    public List<ScannerResponseBean> getScannerRelatedEndpointInformation() throws JsonProcessingException, UnknownHostException {
+    public List<ScannerResponseBean> getScannerRelatedEndpointInformation()
+            throws JsonProcessingException, UnknownHostException {
         return getAllSupportedEndPoints.getScannerRelatedEndPointInformation();
     }
 
@@ -163,8 +162,7 @@ public class VulnerableAppRestController {
      * @throws UnknownHostException
      */
     @RequestMapping("/sitemap.xml")
-    public String sitemapForPassiveScanners()
-            throws JsonProcessingException, UnknownHostException {
+    public String sitemapForPassiveScanners() throws JsonProcessingException, UnknownHostException {
         List<AllEndPointsResponseBean> allEndPoints = allEndPointsJsonResponse();
         StringBuilder xmlBuilder =
                 new StringBuilder(
