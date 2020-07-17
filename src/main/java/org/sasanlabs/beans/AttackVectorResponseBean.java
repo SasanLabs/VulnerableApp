@@ -1,6 +1,7 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
 /**
@@ -17,7 +18,7 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
 public class AttackVectorResponseBean {
 
     @JsonProperty("VulnerabilityTypes")
-    private VulnerabilityType[] vulnerabilityTypes;
+    private List<VulnerabilityType> vulnerabilityTypes;
 
     @JsonProperty("CurlPayload")
     private String curlPayload;
@@ -26,14 +27,14 @@ public class AttackVectorResponseBean {
     private String description;
 
     public AttackVectorResponseBean(
-            VulnerabilityType[] vulnerabilityTypes, String curlPayload, String description) {
+            List<VulnerabilityType> vulnerabilityTypes, String curlPayload, String description) {
         super();
         this.vulnerabilityTypes = vulnerabilityTypes;
         this.curlPayload = curlPayload;
         this.description = description;
     }
 
-    public VulnerabilityType[] getVulnerabilityTypes() {
+    public List<VulnerabilityType> getVulnerabilityTypes() {
         return vulnerabilityTypes;
     }
 
