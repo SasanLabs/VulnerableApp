@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
+import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.controller.exception.ControllerException;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
 import org.sasanlabs.service.IEndPointResolver;
-import org.sasanlabs.service.IGetAllSupportedEndPoints;
+import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.service.RequestDelegator;
 import org.sasanlabs.service.bean.RequestBean;
 import org.sasanlabs.service.bean.ResponseBean;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +37,7 @@ public class VulnerableAppRestController {
 
     private RequestDelegator requestDelegator;
 
-    private IGetAllSupportedEndPoints getAllSupportedEndPoints;
+    private IEndPointsInformationProvider getAllSupportedEndPoints;
 
     private int port;
 
@@ -43,7 +45,7 @@ public class VulnerableAppRestController {
     public VulnerableAppRestController(
             RequestDelegator buildPayload,
             IEndPointResolver<ICustomVulnerableEndPoint> endPointResolver,
-            IGetAllSupportedEndPoints getAllSupportedEndPoints,
+            IEndPointsInformationProvider getAllSupportedEndPoints,
             @Value("${server.port}") int port) {
         this.requestDelegator = buildPayload;
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
@@ -108,11 +110,12 @@ public class VulnerableAppRestController {
      * @return Entire information for the application.
      * @throws JsonProcessingException
      */
+    @GetMapping
     @RequestMapping("/allEndPoint")
     public String allEndPoints() throws JsonProcessingException {
         return "<pre>"
                 + JSONSerializationUtils.serializeWithPrettyPrintJSON(
-                        getAllSupportedEndPoints.getSupportedEndPoint())
+                        getAllSupportedEndPoints.getSupportedEndPoints())
                 + "</pre>";
     }
 
@@ -127,10 +130,26 @@ public class VulnerableAppRestController {
      * @return Entire information for the application.
      * @throws JsonProcessingException
      */
+    @GetMapping
     @RequestMapping("/allEndPointJson")
     public List<AllEndPointsResponseBean> allEndPointsJsonResponse()
             throws JsonProcessingException {
-        return getAllSupportedEndPoints.getSupportedEndPoint();
+        return getAllSupportedEndPoints.getSupportedEndPoints();
+    }
+
+    /**
+     * This Endpoint is used to provide the vulnerability information which is useful for testing
+     * scanners like ZAP/Burp
+     *
+     * @return {@link ScannerResponseBean}s
+     * @throws JsonProcessingException
+     * @throws UnknownHostException
+     */
+    @GetMapping
+    @RequestMapping("/scanner")
+    public List<ScannerResponseBean> getScannerRelatedEndpointInformation()
+            throws JsonProcessingException, UnknownHostException {
+        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation();
     }
 
     /**
@@ -143,8 +162,7 @@ public class VulnerableAppRestController {
      * @throws UnknownHostException
      */
     @RequestMapping("/sitemap.xml")
-    public String sitemapForPassiveScanners1()
-            throws JsonProcessingException, UnknownHostException {
+    public String sitemapForPassiveScanners() throws JsonProcessingException, UnknownHostException {
         List<AllEndPointsResponseBean> allEndPoints = allEndPointsJsonResponse();
         StringBuilder xmlBuilder =
                 new StringBuilder(
@@ -164,6 +182,8 @@ public class VulnerableAppRestController {
                                         .append(ipAddress)
                                         .append(FrameworkConstants.COLON)
                                         .append(port)
+                                        .append(FrameworkConstants.SLASH)
+                                        .append(FrameworkConstants.VULNERABLE)
                                         .append(FrameworkConstants.SLASH)
                                         .append(endPoint.getName())
                                         .append(FrameworkConstants.SLASH)
