@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
@@ -116,63 +115,33 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
         List<AllEndPointsResponseBean> allEndPointsResponseBeans = this.getSupportedEndPoints();
         List<ScannerResponseBean> scannerResponseBeans = new ArrayList<>();
         String ipAddress = InetAddress.getLocalHost().getHostAddress();
-        allEndPointsResponseBeans.stream()
-                .forEach(
-                        allEndPointsResponseBean -> {
-                            allEndPointsResponseBean
-                                    .getLevelDescriptionSet()
-                                    .forEach(
-                                            levelResponseBean -> {
-                                                levelResponseBean.getAttackVectorResponseBeans()
-                                                        .stream()
-                                                        .map(
-                                                                attackVectorResponseBean ->
-                                                                        scannerResponseBeans.add(
-                                                                                new ScannerResponseBean(
-                                                                                        new StringBuilder()
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .HTTP)
-                                                                                                .append(
-                                                                                                        ipAddress)
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .COLON)
-                                                                                                .append(
-                                                                                                        port)
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .SLASH)
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .VULNERABLE)
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .SLASH)
-                                                                                                .append(
-                                                                                                        allEndPointsResponseBean
-                                                                                                                .getName())
-                                                                                                .append(
-                                                                                                        FrameworkConstants
-                                                                                                                .SLASH)
-                                                                                                .append(
-                                                                                                        levelResponseBean
-                                                                                                                .getLevelEnum()
-                                                                                                                .name())
-                                                                                                .toString(),
-                                                                                        levelResponseBean
-                                                                                                .getRequestParameterLocation(),
-                                                                                        levelResponseBean
-                                                                                                .getParameterName(),
-                                                                                        levelResponseBean
-                                                                                                .getSampleValues(),
-                                                                                        levelResponseBean
-                                                                                                .getHttpMethod(),
-                                                                                        attackVectorResponseBean
-                                                                                                .getVulnerabilityTypes())))
-                                                        .collect(Collectors.toList());
-                                            });
-                        });
+        for (AllEndPointsResponseBean allEndPointsResponseBean : allEndPointsResponseBeans) {
+            for (LevelResponseBean levelResponseBean :
+                    allEndPointsResponseBean.getLevelDescriptionSet()) {
+                for (AttackVectorResponseBean attackVectorResponseBean :
+                        levelResponseBean.getAttackVectorResponseBeans()) {
+                    scannerResponseBeans.add(
+                            new ScannerResponseBean(
+                                    new StringBuilder()
+                                            .append(FrameworkConstants.HTTP)
+                                            .append(ipAddress)
+                                            .append(FrameworkConstants.COLON)
+                                            .append(port)
+                                            .append(FrameworkConstants.SLASH)
+                                            .append(FrameworkConstants.VULNERABLE)
+                                            .append(FrameworkConstants.SLASH)
+                                            .append(allEndPointsResponseBean.getName())
+                                            .append(FrameworkConstants.SLASH)
+                                            .append(levelResponseBean.getLevelEnum().name())
+                                            .toString(),
+                                    levelResponseBean.getRequestParameterLocation(),
+                                    levelResponseBean.getParameterName(),
+                                    levelResponseBean.getSampleValues(),
+                                    levelResponseBean.getHttpMethod(),
+                                    attackVectorResponseBean.getVulnerabilityTypes()));
+                }
+            }
+        }
         return scannerResponseBeans;
     }
 }
