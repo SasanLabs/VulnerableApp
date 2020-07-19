@@ -39,6 +39,42 @@ This Application is deliberately made vulnerable to attacks so that users can le
 ## How to use this tool ##
 [How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
 
+## How can Vulnerability Scanning tools use VulnerableApp ? ##
+VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein few endpoints are exposed only for helping them.
+Following are the endpoints exposed:
+[Scanner Endpoint](/scanner)
+[SiteMap Endpoint](/sitemap.xml)
+
+### Scanner Endpoint ###
+Scanner is specially crafted endpoint to provide information about each vulnerability present in VulnerableApp.
+#### Sample Json Response ####
+```
+[
+  {
+    "url": "http://192.168.0.148:9090/vulnerable/JWTVulnerability/LEVEL_1",
+    "location": "QUERY_PARAM",
+    "parameter": "JWT",
+    "sampleValues": [
+      "ey.."
+    ],
+    "method": "GET",
+    "vulnerabilityTypes": [
+      "CLIENT_SIDE_VULNERABLE_JWT"
+    ]
+  }
+]
+```
+Following is the Json Response explanation:
+- url of the vulnerable endpoint
+- location of the parameter like Query Param/Header etc.
+- method like GET/POST accepted by vulnerable endpoint
+- parameter name which represents the input to the endpoint
+- type of vulnerabilities exposed by the endpoint
+- Sample input to the endpoint
+
+As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. In case Vulnerability Scanning Tools wants to use VulnerableApp, you need to understand the output of Scanner endpoint and only that information alone can suffice for all needs. These tools can also use sitemap for the same but that might not suffice for all usecases.
+
+
 ## Contributing to Project ##
 Contributing to opensource is always good from learning prespective as open source is the community for learn-help-grow-ing together. 
 We really appreciate the contribution to this project but as this project is in its initial phase so we have not set any guidelines so if you are interested in contributing to this project please send an email to preetkaran20@gmail.com and we will try our best to onboard you to this project. if you are already onboarded please raise a Github Pull Request, we will review and merge that into the master repository.
