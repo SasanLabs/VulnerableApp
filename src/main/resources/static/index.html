@@ -77,14 +77,43 @@
 					<div id="dynamicScripts">
 					</div>
 				</div>
-				<div id="testScanner" class="hide-component">
-					Search
+			</div>
+			<div id="testScanner" class="hide-component">
+				<h2>How can Vulnerability Scanning Tools use VulnerableApp?</h2>
+				<hr>
+				<div>
+				VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein
+				few endpoints are exposed only for helping them.
+				<br/>
+				<b>Following are the endpoints exposed: </b>
+				<ol>
+				<li><a href="/scanner">Scanner Endpoint</a></li>
+				<li><a href="/sitemap.xml">SiteMap Endpoint</a></li>
+				</ol>
+				
+				<b>Scanner Endpoint</b><br/>
+				Scanner is specially crafted endpoint to provide information about each vulnerability present in VulnerableApp.<br/>
+				Following is the Json Response explanation:
+				<ol>
+				<li>Url of the vulnerable endpoint</li>
+				<li>Http method like GET/POST accepted by vulnerable endpoint</li>
+				<li>Parameter name which represents the input to the endpoint</li>
+				<li>Type of vulnerabilities exposed by the endpoint</li>
+				<li>Sample input to the endpoint</li>
+				<li>Location of the parameter like Query Param/Header etc.</li>
+				</ol>
+				As Vulnerability Scanning Tools use "sitemap.xml", "robots.txt" etc in order to find the exposed endpoints
+				so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp.
+				
+				In case Vulnerability Scanning Tools wants to use VulnerableApp, you need to understand the
+				output of Scanner endpoint and only that information alone can suffice for all needs. These tools can also 
+				use sitemap for the same but that might not suffice for all usecases.
 				</div>
 			</div>
 			<script src="vulnerableApp.js"></script>
 		</div>
-		<div id="contribution">
-			<h3>Want to contribute to VulnerableApp ?</h3>
+		<!-- <div id="contribution">
+			For Contribution to Vulnerable App visit <a href="https://github.com/SasanLabs/VulnerableApp/blob/master/README.md#contributing-to-project">Github</a>
 		</div>
 		<div id="aboutContainer" class="aboutContainer">
 			<div>
@@ -103,7 +132,7 @@
 				project
 				is scalable, extensible, easiers to integrate and easier to learn.
 			</div>
-		</div>
+		</div> -->
 	</div>
 </body>
 

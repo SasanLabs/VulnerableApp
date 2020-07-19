@@ -61,6 +61,17 @@ div.navbar-item-menu a {
     font-size: 18px;
     flex-direction: column;
     text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#testScanner {
+    font-size: 18px;
+    text-align: left;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-bottom: 5%;
 }
 
 .chooseMode{
@@ -82,6 +93,15 @@ div.navbar-item-menu a {
 
 .mode-item {
     flex: 1;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid black;
+    margin-left: 10%
+    padding: 0;
 }
 
 #learnAndPracticeBtn , #testScannerBtn, #vulnInformationBtn{
@@ -173,6 +193,8 @@ div.navbar-item-menu a {
     color: black;
     font-size: 18px;
     padding: 15px;
+    text-align: left;
+    margin-left: 25%;
 }
 
 
@@ -181,6 +203,8 @@ div.navbar-item-menu a {
     font-size: 18px;
     padding: 15px;
     font-weight: bold;
+    text-align: left;
+    margin-left: 25%;
 }
 
 #backBtn {
@@ -223,7 +247,8 @@ div.navbar-item-menu a {
 }
 
 #contribution {
-    font-size: 15px;
+    font-size: 20px;
+    margin-left: 5%;
 }
 
 /**
