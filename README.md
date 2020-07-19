@@ -42,8 +42,8 @@ This Application is deliberately made vulnerable to attacks so that users can le
 ## How can Vulnerability Scanning tools use VulnerableApp ? ##
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein few endpoints are exposed only for helping them.
 Following are the endpoints exposed:
-[Scanner Endpoint](/scanner)
-[SiteMap Endpoint](/sitemap.xml)
+- `/scanner`
+- `/sitemap.xml`
 
 ### Scanner Endpoint ###
 Scanner is specially crafted endpoint to provide information about each vulnerability present in VulnerableApp.
