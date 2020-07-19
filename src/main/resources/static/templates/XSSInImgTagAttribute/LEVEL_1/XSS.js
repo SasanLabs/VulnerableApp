@@ -3,7 +3,7 @@ function addingEventListenerToLoadImageButton() {
     let url = getUrlForVulnerabilityLevel();
     doGetAjaxCall(
       appendResponseCallback,
-      url + "?value=images/" + document.getElementById("images").value,
+      url + "?src=images/" + document.getElementById("images").value,
       false
     );
   });
