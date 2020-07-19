@@ -2,7 +2,7 @@ package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
+import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
 
 /**
  * This class is the response bean for the attack vector annotation. Provides the hint for the
@@ -18,7 +18,7 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
 public class AttackVectorResponseBean {
 
     @JsonProperty("VulnerabilityTypes")
-    private List<VulnerabilityType> vulnerabilityTypes;
+    private List<VulnerabilitySubType> vulnerabilityTypes;
 
     @JsonProperty("CurlPayload")
     private String curlPayload;
@@ -27,14 +27,14 @@ public class AttackVectorResponseBean {
     private String description;
 
     public AttackVectorResponseBean(
-            List<VulnerabilityType> vulnerabilityTypes, String curlPayload, String description) {
+            List<VulnerabilitySubType> vulnerabilityTypes, String curlPayload, String description) {
         super();
         this.vulnerabilityTypes = vulnerabilityTypes;
         this.curlPayload = curlPayload;
         this.description = description;
     }
 
-    public List<VulnerabilityType> getVulnerabilityTypes() {
+    public List<VulnerabilitySubType> getVulnerabilityTypes() {
         return vulnerabilityTypes;
     }
 

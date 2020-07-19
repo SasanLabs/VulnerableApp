@@ -5,7 +5,7 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
+import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
 
 /**
  * Purpose of this file is just to help user to know various payloads and ways to bypass security
@@ -22,7 +22,7 @@ public @interface AttackVector {
      *
      * @return Vulnerability Types
      */
-    VulnerabilityType[] vulnerabilityExposed();
+    VulnerabilitySubType[] vulnerabilityExposed();
 
     /**
      * This Key's value will be picked up from attackvectors resource folder. Please make sure Key
