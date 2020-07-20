@@ -1,8 +1,8 @@
 # VulnerableApp ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+As Web Applications are becoming very popular these days, there comes the needs to secure them and there are many Vulnerability Scanning Tools but while developing those tools developers need to test them but there are no or very less such extensible vulnerable apps for testing those tools. There are deliberately vulnerable applications exists in the market but they are not written with such an intent and hence lags extensibility e.g. adding new vulnerablities is quite difficult.
 
-There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
-it is very tough to check if the Payloads added or Scripts added are working as expected.
+So generally developer write there own vulnerable applications but that cause productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
 
 ## Solutions
 ``` 
@@ -27,14 +27,8 @@ Solutions provided by [VulnerableApp](https://github.com/SasanLabs/VulnerableApp
 4. Scenarios included are very common and exploitable using any Vulnerability finding tools.
 5. Tried to cover as many scenarios while contributing code to ZAP
 ```
-
-Other Benefits :-
-```
-1. Learning Web Application Security is very tough, as it is not legal and 
-2. there are very less vulnerable application for Security testing.
-```
-
-This Application is deliberately made vulnerable to attacks so that users can learn not only about attacks and attack vectors but also about securing Web Applications against those attacks.
+### Other Benefits
+This project is not just limited to Payload testing for Vulnerability Scanning tools but with addition of various kind of vulnerabilities, it can become a very good platform to **learn various security vulnerabilities** and can also be used to **host CTF** and in future can become a **compliance for Vulnerability Scanning tools.**
 
 ## How to use this tool ##
 [How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
