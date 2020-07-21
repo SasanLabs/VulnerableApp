@@ -4,15 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
+import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.controller.exception.ControllerException;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.ResponseMapper;
+import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointResolver;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.service.RequestDelegator;
@@ -20,6 +23,7 @@ import org.sasanlabs.service.bean.RequestBean;
 import org.sasanlabs.service.bean.ResponseBean;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
+import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -147,9 +151,25 @@ public class VulnerableAppRestController {
      */
     @GetMapping
     @RequestMapping("/scanner")
-    public List<ScannerResponseBean> getScannerRelatedEndpointInformation()
+    public List<ScannerResponseBean> getScannerRelatedInformation()
             throws JsonProcessingException, UnknownHostException {
         return getAllSupportedEndPoints.getScannerRelatedEndPointInformation();
+    }
+
+    /**
+     * This Endpoint is used to provide the metadata about the scanner response bean which is useful
+     * for mapping naming conventions across applications.
+     *
+     * @return {@link ScannerMetaResponseBean}
+     * @throws JsonProcessingException
+     * @throws UnknownHostException
+     */
+    @GetMapping
+    @RequestMapping("/scanner/metadata")
+    public ScannerMetaResponseBean getScannerRelatedMetaInformation() {
+        return new ScannerMetaResponseBean(
+                Arrays.asList(VulnerabilitySubType.values()),
+                Arrays.asList(RequestParameterLocation.values()));
     }
 
     /**
