@@ -1,0 +1,22 @@
+[
+	{
+		"Name" : "NirraIshq",
+		"Branch": "Jigri Yaar",
+		"From": "Punjab"
+	},
+	{
+		"Name" : "Jayant Mittal",
+		"Branch": "Mechanical",
+		"From": "Matili"
+	},
+	{
+		"Name" : "Amit Kumar",
+		"Branch": "Civil",
+		"From": "Suratgarh"
+	},
+	{
+		"Name" : "Karn Singh",
+		"Branch": "Computer Science",
+		"From": "Chandigarh"
+	}
+]

@@ -42,13 +42,8 @@ function _callbackForInnerMasterOnClickEvent(
       vulnerableAppEndPointData[id]["Detailed Information"][key][
         "HtmlTemplate"
       ];
-    let vulnerabilityDescription =
-      vulnerableAppEndPointData[id]["Detailed Information"][key]["Description"];
     document.getElementById("vulnerabilityDescription").innerHTML =
       vulnerableAppEndPointData[id]["Description"];
-    document.getElementById(
-      "vulnerabilityLevelDescription"
-    ).innerHTML = vulnerabilityDescription;
     let urlToFetchHtmlTemplate = htmlTemplate
       ? "templates/" + vulnerabilitySelected + "/" + htmlTemplate
       : "sasan";

@@ -1,0 +1,26 @@
+#LoadUserInfo, #Information {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+#loadButton {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
+#InfoColumn {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+}
+#InfoTable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
