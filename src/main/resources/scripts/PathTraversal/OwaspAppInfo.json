@@ -1,0 +1,12 @@
+[{
+	"Project Name": "VulnerableApp",
+	"Project Leader" : "Karan Preet Singh Sasan",
+ 	"WebSite": "https://owasp.org/www-project-vulnerableapp/",
+ 	"Git Repo": "https://github.com/SasanLabs/VulnerableApp"
+},
+{
+	"Project Name": "ZAP",
+	"Project Leader" : "Simon Bennetts",
+ 	"WebSite": "https://owasp.org/www-project-zap/",
+ 	"Git Repo": "https://github.com/zaproxy/zaproxy"
+}]
