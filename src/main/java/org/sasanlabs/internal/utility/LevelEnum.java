@@ -19,6 +19,8 @@ public enum LevelEnum {
     LEVEL_8,
     LEVEL_9,
     LEVEL_10,
+    LEVEL_11,
+    LEVEL_12,
     SECURE;
 
     public static LevelEnum getLevelEnumByName(String name) throws ServiceApplicationException {
