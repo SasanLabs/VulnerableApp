@@ -100,7 +100,7 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid black;
-    margin-left: 10%
+    margin-left: 10%;
     padding: 0;
 }
 
@@ -117,7 +117,6 @@ hr {
 }
 
 #vulnPracticeBtn, #vulnLearnBtn {
-    display: flex;
     justify-items: left;
     display: inline-block;
     padding: 8px 8px;
