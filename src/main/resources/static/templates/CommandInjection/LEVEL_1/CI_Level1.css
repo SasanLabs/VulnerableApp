@@ -1,13 +1,26 @@
-#sqlinjection_level_1 {
+#ci_level_1 {
     color: black;
     text-align: center;
 }
 
-#carInformation {
+#pingUtilityResponse {
     font-size: 15px;
 }
 
-#checkIfCarPresentButton {
+#pingUtility {
+    display: flex;
+    flex-direction: column;
+}
+
+#heading {
+	font-size: 20px;
+}
+
+#input {
+	font-size: 15px;
+}
+
+#pingBtn {
     background: blueviolet;
     display: inline-block;
     padding: 8px 8px;
