@@ -85,8 +85,8 @@ public class VulnerableAppConfiguration {
     @ConfigurationProperties("spring.datasource.admin.configuration")
     public DataSource adminDataSource(
             @Qualifier("adminDataSourceProperties")
-                    DataSourceProperties writeDataSourceProperties) {
-        return writeDataSourceProperties
+                    DataSourceProperties adminDataSourceProperties) {
+        return adminDataSourceProperties
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
@@ -102,8 +102,8 @@ public class VulnerableAppConfiguration {
     @ConfigurationProperties("spring.datasource.application.configuration")
     public DataSource applicationDataSource(
             @Qualifier("applicationDataSourceProperties")
-                    DataSourceProperties readDataSourceProperties) {
-        return readDataSourceProperties
+                    DataSourceProperties applicationDataSourceProperties) {
+        return applicationDataSourceProperties
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
@@ -111,7 +111,7 @@ public class VulnerableAppConfiguration {
 
     @Bean
     public JdbcTemplate applicationJdbcTemplate(
-            @Qualifier("applicationDataSource") DataSource readDataSource) {
-        return new JdbcTemplate(readDataSource);
+            @Qualifier("applicationDataSource") DataSource applicationDataSource) {
+        return new JdbcTemplate(applicationDataSource);
     }
 }
