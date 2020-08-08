@@ -2,3 +2,15 @@
     font-size: 15px;
     font-weight: normal;
 }
+
+#loadImage {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
