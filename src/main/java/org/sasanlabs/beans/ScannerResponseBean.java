@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
-import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * This class represents the response which is used by the scanners for executing attacks on the
@@ -31,7 +31,7 @@ public class ScannerResponseBean {
     private String[] sampleValues;
 
     @JsonProperty("method")
-    private HttpMethod httpMethod;
+    private RequestMethod httpMethod;
 
     @JsonProperty("vulnerabilityTypes")
     private List<VulnerabilitySubType> vulnerabilityTypes;
@@ -41,7 +41,7 @@ public class ScannerResponseBean {
             RequestParameterLocation requestParameterLocation,
             String parameterName,
             String[] sampleValues,
-            HttpMethod httpMethod,
+            RequestMethod httpMethod,
             List<VulnerabilitySubType> vulnerabilityTypes) {
         super();
         this.url = url;
@@ -68,7 +68,7 @@ public class ScannerResponseBean {
         return sampleValues;
     }
 
-    public HttpMethod getHttpMethod() {
+    public RequestMethod getHttpMethod() {
         return httpMethod;
     }
 

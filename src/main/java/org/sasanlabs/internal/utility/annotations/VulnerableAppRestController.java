@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This annotation marks the class as the vulnerable rest controller for VulnerableApp. Can be
@@ -16,15 +17,16 @@ import org.springframework.stereotype.Service;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Service
-public @interface VulnerableServiceRestEndPoint {
+@RestController
+@RequestMapping
+public @interface VulnerableAppRestController {
 
     /**
      * Unique name (Endpoint Name)
      *
      * @return
      */
-    @AliasFor(annotation = Service.class)
+    @AliasFor(annotation = RequestMapping.class)
     String value();
 
     /**
