@@ -25,4 +25,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: run command
-      run: ls -la
+      run: ls build/libs
+    - name: SasanTesting
+      run: cd..
