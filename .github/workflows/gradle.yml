@@ -27,7 +27,7 @@ jobs:
     - name: run command
       run: ls build/libs
     - name: SasanTesting
-      run: cd..
+      run: cd ..
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
       with:
