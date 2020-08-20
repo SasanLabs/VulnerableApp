@@ -19,7 +19,6 @@ public interface FrameworkConstants {
 
     String HTTP = "http://";
     String COLON = ":";
-    String VULNERABLE = "vulnerable";
     String SLASH = "/";
     String NEXT_LINE = "\n";
 }
