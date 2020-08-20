@@ -75,7 +75,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         AttackVector[] attackVectors =
                                 method.getAnnotationsByType(AttackVector.class);
                         LevelResponseBean levelResponseBean = new LevelResponseBean();
-                        levelResponseBean.setLevelEnum(vulnLevel.value());
+                        levelResponseBean.setLevel(vulnLevel.value());
                         levelResponseBean.setDescription(
                                 messageBundle.getString(vulnLevel.descriptionLabel(), null));
                         levelResponseBean.setHtmlTemplate(vulnLevel.htmlTemplate());
@@ -131,7 +131,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .append(FrameworkConstants.SLASH)
                                             .append(allEndPointsResponseBean.getName())
                                             .append(FrameworkConstants.SLASH)
-                                            .append(levelResponseBean.getLevelEnum())
+                                            .append(levelResponseBean.getLevel())
                                             .toString(),
                                     levelResponseBean.getRequestParameterLocation(),
                                     levelResponseBean.getParameterName(),

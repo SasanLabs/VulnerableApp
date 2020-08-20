@@ -5,7 +5,7 @@ package org.sasanlabs.internal.utility;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
-public interface LevelEnum {
+public interface LevelConstants {
     String LEVEL_1 = "LEVEL_1";
     String LEVEL_2 = "LEVEL_2";
     String LEVEL_3 = "LEVEL_3";
@@ -20,13 +20,10 @@ public interface LevelEnum {
     String LEVEL_12 = "LEVEL_12";
     String SECURE = "SECURE";
 
-    //    public static LevelEnum getLevelEnumByName(String name) throws ServiceApplicationException
-    // {
-    //        for (LevelEnum levelEnum : LevelEnum.values()) {
-    //            if (levelEnum.name().equalsIgnoreCase(name)) {
-    //                return levelEnum;
-    //            }
-    //        }
-    //        throw new ServiceApplicationException(ExceptionStatusCodeEnum.INVALID_LEVEL, name);
-    //    }
+    static int getOrdinal(String level) {
+        if (level.indexOf("_") > 0) {
+            return Integer.parseInt(level.substring(level.indexOf("_") + 1));
+        }
+        return Integer.MAX_VALUE;
+    }
 }

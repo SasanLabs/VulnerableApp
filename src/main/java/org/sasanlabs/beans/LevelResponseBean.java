@@ -3,6 +3,7 @@ package org.sasanlabs.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
-    private String levelEnum;
+    private String level;
 
     @JsonProperty("Description")
     private String description;
@@ -33,12 +34,12 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     @JsonProperty("AttackVectors")
     private List<AttackVectorResponseBean> attackVectorResponseBeans = new ArrayList<>();
 
-    public String getLevelEnum() {
-        return levelEnum;
+    public String getLevel() {
+        return level;
     }
 
-    public void setLevelEnum(String levelEnum) {
-        this.levelEnum = levelEnum;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getDescription() {
@@ -100,6 +101,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @Override
     public int compareTo(LevelResponseBean levelResponseBean) {
-        return this.levelEnum.compareTo(levelResponseBean.levelEnum);
+        return LevelConstants.getOrdinal(this.level)
+                - LevelConstants.getOrdinal(levelResponseBean.getLevel());
     }
 }

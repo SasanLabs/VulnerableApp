@@ -36,60 +36,6 @@ public class VulnerableAppRestController {
     }
 
     /**
-     * Rest end point which is used to route calls to respective VulnerableServiceRestEndpoints
-     * based on the Level and vulnerability type.
-     *
-     * <p>This is the backbone behind all the intelligent routing in the VulnerableApp.
-     *
-     * @param <T> ResonseType
-     * @param allParams Represents the Query Params
-     * @param endPoint This is the vulnerability name
-     * @param level Level of the Vulnerability.
-     * @param requestEntity
-     * @return ResponseEntity
-     * @throws ControllerException
-     */
-    //    @RequestMapping("/vulnerable/{endPoint}/{level}")
-    //    public <T> ResponseEntity<T> endPointHandler(
-    //            @RequestParam Map<String, String> allParams,
-    //            @PathVariable("endPoint") String endPoint,
-    //            @PathVariable("level") String level,
-    //            RequestEntity<String> requestEntity)
-    //            throws ControllerException {
-    //        RequestBean requestBean = new RequestBean();
-    //        // Added to restrict buffer overflow reported by ZAP and Burp
-    //        if (endPoint.length() > 250) {
-    //            endPoint = endPoint.substring(0, 250);
-    //        }
-    //
-    //        if (level.length() > 250) {
-    //            level = level.substring(0, 250);
-    //        }
-    //        requestBean.setEndPoint(endPoint);
-    //        requestBean.setLevel(level);
-    //        requestBean.setQueryParams(allParams);
-    //        requestBean.setUrl(requestEntity.getUrl().toString());
-    //        Set<String> headerNames = requestEntity.getHeaders().keySet();
-    //
-    //        for (String headerName : headerNames) {
-    //            requestBean.getHeaders().put(headerName, new ArrayList<>());
-    //            List<String> headerValues = requestEntity.getHeaders().get(headerName);
-    //            for (String headerValue : headerValues) {
-    //                requestBean.getHeaders().get(headerName).add(headerValue);
-    //            }
-    //        }
-    //        if (requestEntity.getMethod().equals(HttpMethod.POST) && requestEntity.hasBody()) {
-    //            requestBean.setBody(requestEntity.getBody());
-    //        }
-    //        try {
-    //            ResponseBean<T> responseBean = requestDelegator.delegate(requestBean);
-    //            return ResponseMapper.buildResponseEntity(responseBean);
-    //        } catch (ServiceApplicationException e) {
-    //            throw new ControllerException(e);
-    //        }
-    //    }
-
-    /**
      * @return Entire information for the application.
      * @throws JsonProcessingException
      */
@@ -186,7 +132,7 @@ public class VulnerableAppRestController {
                                         .append(FrameworkConstants.SLASH)
                                         .append(endPoint.getName())
                                         .append(FrameworkConstants.SLASH)
-                                        .append(level.getLevelEnum())
+                                        .append(level.getLevel())
                                         .append(FrameworkConstants.NEXT_LINE)
                                         .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
                                         .append(FrameworkConstants.NEXT_LINE)
