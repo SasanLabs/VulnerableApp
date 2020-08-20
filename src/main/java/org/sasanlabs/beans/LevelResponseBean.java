@@ -3,15 +3,15 @@ package org.sasanlabs.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.sasanlabs.internal.utility.LevelEnum;
+import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
-import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /** @author KSASAN preetkaran20@gmail.com */
 public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
-    private LevelEnum levelEnum;
+    private String level;
 
     @JsonProperty("Description")
     private String description;
@@ -29,17 +29,17 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     private String[] sampleValues;
 
     @JsonProperty("HttpMethod")
-    private HttpMethod httpMethod;
+    private RequestMethod httpMethod;
 
     @JsonProperty("AttackVectors")
     private List<AttackVectorResponseBean> attackVectorResponseBeans = new ArrayList<>();
 
-    public LevelEnum getLevelEnum() {
-        return levelEnum;
+    public String getLevel() {
+        return level;
     }
 
-    public void setLevelEnum(LevelEnum levelEnum) {
-        this.levelEnum = levelEnum;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getDescription() {
@@ -82,11 +82,11 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
         this.sampleValues = sampleValues;
     }
 
-    public HttpMethod getHttpMethod() {
+    public RequestMethod getHttpMethod() {
         return httpMethod;
     }
 
-    public void setHttpMethod(HttpMethod httpMethod) {
+    public void setHttpMethod(RequestMethod httpMethod) {
         this.httpMethod = httpMethod;
     }
 
@@ -101,6 +101,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @Override
     public int compareTo(LevelResponseBean levelResponseBean) {
-        return this.levelEnum.ordinal() - levelResponseBean.levelEnum.ordinal();
+        return LevelConstants.getOrdinal(this.level)
+                - LevelConstants.getOrdinal(levelResponseBean.getLevel());
     }
 }

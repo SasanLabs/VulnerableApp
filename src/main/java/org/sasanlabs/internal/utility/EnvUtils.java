@@ -1,9 +1,9 @@
 package org.sasanlabs.internal.utility;
 
 import java.util.Map;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -61,8 +61,7 @@ public class EnvUtils {
         }
     }
 
-    /** @return all the classes/springbeans of {@link ICustomVulnerableEndPoint} type */
-    public Map<String, ICustomVulnerableEndPoint> getAllClassesExtendingIGetInjectionPayload() {
-        return context.getBeansOfType(ICustomVulnerableEndPoint.class);
+    public Map<String, Object> getAllClassesAnnotatedWithVulnerableAppRestController() {
+        return context.getBeansWithAnnotation(VulnerableAppRestController.class);
     }
 }

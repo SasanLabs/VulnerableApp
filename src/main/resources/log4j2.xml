@@ -40,7 +40,7 @@
 
 
 	<Loggers>
-		<AsyncLogger name="org.sasanlabs" level="ALL">
+		<AsyncLogger name="org.sasanlabs" level="ERROR">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="ROLLING_LOG_FILE" />
 		</AsyncLogger>

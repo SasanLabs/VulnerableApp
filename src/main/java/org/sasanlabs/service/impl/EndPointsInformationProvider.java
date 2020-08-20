@@ -17,10 +17,9 @@ import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
-import org.sasanlabs.internal.utility.annotations.VulnerabilityLevel;
-import org.sasanlabs.internal.utility.annotations.VulnerableServiceRestEndPoint;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
-import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,15 +52,14 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
     @Override
     public List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException {
         List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
-        Map<String, ICustomVulnerableEndPoint> nameVsCustomVulnerableEndPoint =
-                envUtils.getAllClassesExtendingIGetInjectionPayload();
-        for (Map.Entry<String, ICustomVulnerableEndPoint> entry :
-                nameVsCustomVulnerableEndPoint.entrySet()) {
+        Map<String, Object> nameVsCustomVulnerableEndPoint =
+                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController();
+        for (Map.Entry<String, Object> entry : nameVsCustomVulnerableEndPoint.entrySet()) {
             String name = entry.getKey();
-            Class<? extends ICustomVulnerableEndPoint> clazz = entry.getValue().getClass();
-            if (clazz.isAnnotationPresent(VulnerableServiceRestEndPoint.class)) {
-                VulnerableServiceRestEndPoint vulnerableServiceRestEndPoint =
-                        clazz.getAnnotation(VulnerableServiceRestEndPoint.class);
+            Class<?> clazz = entry.getValue().getClass();
+            if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
+                VulnerableAppRestController vulnerableServiceRestEndPoint =
+                        clazz.getAnnotation(VulnerableAppRestController.class);
                 String description = vulnerableServiceRestEndPoint.descriptionLabel();
                 VulnerabilityType[] vulnerabilityTypes = vulnerableServiceRestEndPoint.type();
                 AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
@@ -71,12 +69,13 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
 
                 Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
-                    VulnerabilityLevel vulnLevel = method.getAnnotation(VulnerabilityLevel.class);
+                    VulnerableAppRequestMapping vulnLevel =
+                            method.getAnnotation(VulnerableAppRequestMapping.class);
                     if (vulnLevel != null) {
                         AttackVector[] attackVectors =
                                 method.getAnnotationsByType(AttackVector.class);
                         LevelResponseBean levelResponseBean = new LevelResponseBean();
-                        levelResponseBean.setLevelEnum(vulnLevel.value());
+                        levelResponseBean.setLevel(vulnLevel.value());
                         levelResponseBean.setDescription(
                                 messageBundle.getString(vulnLevel.descriptionLabel(), null));
                         levelResponseBean.setHtmlTemplate(vulnLevel.htmlTemplate());
@@ -132,7 +131,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .append(FrameworkConstants.SLASH)
                                             .append(allEndPointsResponseBean.getName())
                                             .append(FrameworkConstants.SLASH)
-                                            .append(levelResponseBean.getLevelEnum().name())
+                                            .append(levelResponseBean.getLevel())
                                             .toString(),
                                     levelResponseBean.getRequestParameterLocation(),
                                     levelResponseBean.getParameterName(),

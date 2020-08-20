@@ -1,7 +1,5 @@
 package org.sasanlabs.internal.utility.annotations;
 
-import org.sasanlabs.service.vulnerability.ICustomVulnerableEndPoint;
-
 /**
  * Usage of this is to distinguish what is the response type from the {@link
  * ICustomVulnerableEndPoint}. Actually we want backend to provide entire information to frontend so

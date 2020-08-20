@@ -164,9 +164,7 @@ function back() {
 }
 
 function getUrlForVulnerabilityLevel() {
-  return (
-    "/vulnerable/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected
-  );
+  return vulnerabilitySelected + "/" + vulnerabilityLevelSelected;
 }
 
 function doGetAjaxCallForVulnerabilityLevel(callBack, isJson) {

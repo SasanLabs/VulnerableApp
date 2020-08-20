@@ -4,20 +4,23 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.sasanlabs.internal.utility.LevelEnum;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /** @author KSASAN preetkaran20@gmail.com */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
-public @interface VulnerabilityLevel {
+@RequestMapping
+public @interface VulnerableAppRequestMapping {
 
     /**
      * Specify the level of the vulnerability. Url end point is exposed for each level.
      *
      * @return level
      */
-    LevelEnum value();
+    @AliasFor(annotation = RequestMapping.class)
+    String value();
 
     /**
      * Describes the information about the input type, expected output and other factors. like say
@@ -70,7 +73,8 @@ public @interface VulnerabilityLevel {
      *
      * @return {@code HttpMethod} for the Level
      */
-    HttpMethod httpMethod() default HttpMethod.GET;
+    @AliasFor(attribute = "method", annotation = RequestMapping.class)
+    RequestMethod httpMethod() default RequestMethod.GET;
 
     /**
      * ResponseType helps the implementer to know what is the type of response returned from the
