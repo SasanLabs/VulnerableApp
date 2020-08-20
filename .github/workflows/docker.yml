@@ -1,14 +1,16 @@
-# This workflow will build a Java project with Gradle and then push docker image to docker hub repo.
-name: Java CI with Gradle
+# This workflow will build a Java project with Gradle and push a new docker image to docker hub
+name: Build and Push Image to DockerHub
 
 on:
   push:
     branches: [ master ]
+
 jobs:
   build:
-  
+
     runs-on: ubuntu-latest
-     steps:
+
+    steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
