@@ -20,7 +20,7 @@ We really appreciate the contribution to this project but as this project is in 
 you can also raise an issue in case you are looking for learning some kind of vulnerability which is not present in the VulnerableApp, we will try to add that vulnerability asap.
 
 ## Contact ##
-Please raise a github issue for enhancement/issues in VulnerableApp or send email to preetkaran20@gmail.com regarding queries
+Please raise a github issue for enhancement/issues in VulnerableApp or send email to karan.sasan@owasp.org regarding queries
 we will try to resolve issues asap.
 
 ## Website ##
