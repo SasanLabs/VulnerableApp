@@ -15,7 +15,7 @@ As going further this application might becomes a database for vulnerabilities h
 
 ## Contributing to Project ##
 Contributing to opensource is always good from learning prespective as open source is the community for learn-help-grow-ing together. 
-We really appreciate the contribution to this project but as this project is in its initial phase so we have not set any guidelines so if you are interested in contributing to this project please send an email to preetkaran20@gmail.com or Raise an issue in the Repository and we will try our best to onboard you to this project. if you are already onboarded please raise a Github Pull Request, we will review and merge that into the master repository.
+We really appreciate the contribution to this project but as this project is in its initial phase so we have not set any guidelines so if you are interested in contributing to this project please send an email to karan.sasan@owasp.org or Raise an issue in the Repository and we will try our best to onboard you to this project. if you are already onboarded please raise a Github Pull Request, we will review and merge that into the master repository.
 
 you can also raise an issue in case you are looking for learning some kind of vulnerability which is not present in the VulnerableApp, we will try to add that vulnerability asap.
 
