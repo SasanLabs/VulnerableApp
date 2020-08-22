@@ -71,7 +71,7 @@ public @interface VulnerableAppRequestMapping {
      * This information is not useful for now because we are for now only handling Get requests but
      * going further we might use this information and hence this is very useful for scanner.
      *
-     * @return {@code RequestMethodMethod} for the Level
+     * @return {@code RequestMethod} for the Level
      */
     @AliasFor(attribute = "method", annotation = RequestMapping.class)
     RequestMethod requestMethod() default RequestMethod.GET;
