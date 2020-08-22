@@ -31,7 +31,7 @@ public class ScannerResponseBean {
     private String[] sampleValues;
 
     @JsonProperty("method")
-    private RequestMethod httpMethod;
+    private RequestMethod requestMethod;
 
     @JsonProperty("vulnerabilityTypes")
     private List<VulnerabilitySubType> vulnerabilityTypes;
@@ -41,14 +41,14 @@ public class ScannerResponseBean {
             RequestParameterLocation requestParameterLocation,
             String parameterName,
             String[] sampleValues,
-            RequestMethod httpMethod,
+            RequestMethod requestMethod,
             List<VulnerabilitySubType> vulnerabilityTypes) {
         super();
         this.url = url;
         this.requestParameterLocation = requestParameterLocation;
         this.parameterName = parameterName;
         this.sampleValues = sampleValues;
-        this.httpMethod = httpMethod;
+        this.requestMethod = requestMethod;
         this.vulnerabilityTypes = vulnerabilityTypes;
     }
 
@@ -68,8 +68,8 @@ public class ScannerResponseBean {
         return sampleValues;
     }
 
-    public RequestMethod getHttpMethod() {
-        return httpMethod;
+    public RequestMethod getRequestMethod() {
+        return requestMethod;
     }
 
     public List<VulnerabilitySubType> getVulnerabilityTypes() {
