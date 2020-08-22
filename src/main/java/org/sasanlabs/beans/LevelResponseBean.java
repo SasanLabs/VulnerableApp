@@ -29,7 +29,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     private String[] sampleValues;
 
     @JsonProperty("HttpMethod")
-    private RequestMethod httpMethod;
+    private RequestMethod requestMethod;
 
     @JsonProperty("AttackVectors")
     private List<AttackVectorResponseBean> attackVectorResponseBeans = new ArrayList<>();
@@ -82,12 +82,12 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
         this.sampleValues = sampleValues;
     }
 
-    public RequestMethod getHttpMethod() {
-        return httpMethod;
+    public RequestMethod getRequestMethod() {
+        return requestMethod;
     }
 
-    public void setHttpMethod(RequestMethod httpMethod) {
-        this.httpMethod = httpMethod;
+    public void setRequestMethod(RequestMethod httpMethod) {
+        this.requestMethod = httpMethod;
     }
 
     public List<AttackVectorResponseBean> getAttackVectorResponseBeans() {

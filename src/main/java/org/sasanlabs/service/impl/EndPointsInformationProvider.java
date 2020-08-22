@@ -84,7 +84,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                 vulnLevel.requestParameterLocation());
                         levelResponseBean.setParameterName(vulnLevel.parameterName());
                         levelResponseBean.setSampleValues(vulnLevel.sampleValues());
-                        levelResponseBean.setHttpMethod(vulnLevel.httpMethod());
+                        levelResponseBean.setRequestMethod(vulnLevel.requestMethod());
                         for (AttackVector attackVector : attackVectors) {
                             levelResponseBean
                                     .getAttackVectorResponseBeans()
@@ -134,7 +134,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     levelResponseBean.getRequestParameterLocation(),
                                     levelResponseBean.getParameterName(),
                                     levelResponseBean.getSampleValues(),
-                                    levelResponseBean.getHttpMethod(),
+                                    levelResponseBean.getRequestMethod(),
                                     attackVectorResponseBean.getVulnerabilityTypes()));
                 }
             }
