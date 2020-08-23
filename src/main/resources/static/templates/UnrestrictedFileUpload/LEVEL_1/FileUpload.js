@@ -18,28 +18,23 @@ function doPostAjaxCall(callBack, url, isJson, data) {
   };
 
   xmlHttpRequest.open("POST", url, true);
-  xmlHttpRequest.setRequestHeader(
-    "Content-Type",
-    isJson ? "application/json" : "text/html"
-  );
   xmlHttpRequest.send(data);
 }
 
 function addingEventListenerToFetchCarInfoButton() {
   document
-    .getElementById("fetchCarImageButton")
+    .getElementById("upload")
     .addEventListener("click", function() {
-      var form = document.getElementById("sasan");
+      var form = document.getElementById("file");
       var file = form.files[0];
       var formData = new FormData();
       formData.append("file", file);
       let url = getUrlForVulnerabilityLevel();
-      doPostAjaxCall(fetchCarInfoCallBack, url, true, formData);
+      doPostAjaxCall(fetchCarInfoCallBack, url, false, formData);
     });
 }
 addingEventListenerToFetchCarInfoButton();
 
 function fetchCarInfoCallBack(data) {
-  document.getElementById("carInformation").innerHTML =
-    "<img src='" + data.imagePath + "' width='900'/>";
+  document.getElementById("uploaded_file_info").innerHTML = "File uploaded at location:" + data;
 }
