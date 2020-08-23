@@ -60,8 +60,6 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
 	//Log4j Dependencies
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
-  	// for Async Logging. Used by Log4j2
-    implementation group: 'com.lmax', name: 'disruptor', version: '3.4.0'
 
     // https://mvnrepository.com/artifact/org.json/json
     implementation group: 'org.json', name: 'json', version: '20190722'
