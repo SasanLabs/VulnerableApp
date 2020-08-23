@@ -40,13 +40,9 @@
 
 
 	<Loggers>
-		<AsyncLogger name="org.sasanlabs" level="ERROR">
-			<AppenderRef ref="CONSOLE" />
-			<AppenderRef ref="ROLLING_LOG_FILE" />
-		</AsyncLogger>
-		<Root level="ALL">
-			<AppenderRef ref="CONSOLE" />
-			<AppenderRef ref="ROLLING_LOG_FILE" />
+		<Root level="TRACE">
+			<AppenderRef ref="CONSOLE" level="INFO"/>
+			<AppenderRef ref="ROLLING_LOG_FILE" level="DEBUG"/>
 		</Root>
 	</Loggers>
 </Configuration>
