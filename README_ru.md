@@ -1,10 +1,10 @@
 # VulnerableApp
 
-![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg)[](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg)![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg)[](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
 Поскольку в наши дни веб-приложения становятся очень популярными, возникает необходимость в их защите, и существует множество инструментов сканирования уязвимостей, но при разработке этих инструментов разработчикам необходимо тестировать эти инструменты, а не только то, что им также необходимо знать, насколько хорошо выполняется сканирование уязвимостей. инструмент работает, но таких уязвимых приложений нет или существует очень мало для тестирования этих инструментов. На рынке существуют преднамеренно уязвимые приложения, но они не написаны с таким намерением и, следовательно, отстают от расширяемости, например, довольно сложно добавить новые уязвимости.
 
-So generally developer write there own vulnerable applications but that causes productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
+Так что обычно разработчик пишет там собственные уязвимые приложения, но это приводит к потере производительности, а также часто требуется переделка. Это приложение Project VulnerableApp создано с учетом этих факторов, поэтому этот проект является масштабируемым, расширяемым, более легким для интеграции и более легким в освоении.
 
 Поскольку решение вышеуказанной проблемы требует добавления различных уязвимостей, это становится очень хорошей платформой для изучения различных уязвимостей безопасности.
 
