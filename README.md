@@ -5,10 +5,10 @@ As Web Applications are becoming very popular these days, there comes the needs 
 
 So generally developer write there own vulnerable applications but that causes productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
 
-As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to **learn various security vulnerabilities**. 
+As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities. 
 
 ### Future Goal
-As going further this application might becomes a database for vulnerabilities hence in future it can be used for **hosting CTF's** and also can be come a **compliance for Vulnerability Scanning tools.**
+As going further this application might becomes a database for vulnerabilities hence in future it can be used for hosting CTF's and also can be come a compliance for Vulnerability Scanning tools.
 
 ## How to use this tool ##
 [How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
