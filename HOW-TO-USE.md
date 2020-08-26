@@ -3,7 +3,7 @@ Following are the ways in which you can use the VulnerableApp:
 1. Running it as a **docker container**, Please visit [Docker Repository](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp)
 2. Running it as an **executable**, Downloading released jar from [Releases](https://github.com/SasanLabs/VulnerableApp/releases) and run the application by executing following command ```java -jar  VulnerableApp-1.0.0.jar ```
 3. Running it by **Building manually**, as VulnerableApp is a spring boot based application so for starting this application you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin or maven. As this project is developed in eclipse so eclipse is recommended IDE for now.
-After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090` , for eg: `http://localhost:9090` url and a User Interface will guide you for next steps.
+After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090` , for eg: `http://localhost:9090` url and a User Interface will guide you to next steps.
 
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
