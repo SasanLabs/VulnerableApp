@@ -1,31 +1,31 @@
 # VulnerableApp
 
-![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![OWASP ਇਨਕਿubਬੇਟਰ](https://img.shields.io/badge/owasp-incubator-blue.svg)[](https://opensource.org/licenses/Apache-2.0)![ਲਾਇਸੈਂਸ](https://img.shields.io/badge/License-Apache%202.0-blue.svg)![ਗ੍ਰਾਡਲ ਦੇ ਨਾਲ ਜਾਵਾ ਸੀ.ਆਈ.](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg)![ਮਵੇਨ ਨਾਲ ਜਾਵਾ ਸੀ.ਆਈ.](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg)[](http://makeapullrequest.com)![PRs ਜੀ ਆਇਆਂ ਨੂੰ](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
 ਜਿਵੇਂ ਕਿ ਅੱਜ ਕਲ ਵੈਬ ਐਪਲੀਕੇਸ਼ਨਸ ਬਹੁਤ ਮਸ਼ਹੂਰ ਹੋ ਰਹੇ ਹਨ, ਉਹਨਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੀਆਂ ਜ਼ਰੂਰਤਾਂ ਆਉਂਦੀਆਂ ਹਨ ਅਤੇ ਬਹੁਤ ਸਾਰੇ ਕਮਜ਼ੋਰੀ ਦੀ ਜਾਂਚ ਕਰਨ ਵਾਲੇ ਉਪਕਰਣ ਹਨ ਪਰ ਉਹਨਾਂ ਸਾਧਨਾਂ ਨੂੰ ਵਿਕਸਿਤ ਕਰਦੇ ਸਮੇਂ ਉਹਨਾਂ ਸਾਧਨਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਦੀ ਜ਼ਰੂਰਤ ਹੁੰਦੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਇਹ ਜਾਣਨ ਦੀ ਵੀ ਜ਼ਰੂਰਤ ਹੁੰਦੀ ਹੈ ਕਿ ਕਮਜ਼ੋਰਤਾ ਸਕੈਨਿੰਗ ਕਿੰਨੀ ਚੰਗੀ ਪ੍ਰਦਰਸ਼ਨ ਕਰ ਰਿਹਾ ਹੈ ਪਰ ਉਨ੍ਹਾਂ ਸਾਧਨਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ ਅਜਿਹੀਆਂ ਕਮਜ਼ੋਰ ਐਪਲੀਕੇਸ਼ਨਾਂ ਮੌਜੂਦ ਨਹੀਂ ਹਨ ਜਾਂ ਬਹੁਤ ਘੱਟ ਹਨ. ਮਾਰਕੀਟ ਵਿੱਚ ਜਾਣ ਬੁੱਝ ਕੇ ਕਮਜ਼ੋਰ ਐਪਲੀਕੇਸ਼ਨ ਮੌਜੂਦ ਹਨ ਪਰ ਉਹ ਅਜਿਹੀ ਨੀਅਤ ਨਾਲ ਨਹੀਂ ਲਿਖੇ ਗਏ ਹਨ ਅਤੇ ਇਸ ਲਈ ਵਿਸਥਾਰਤਾ ਤੋਂ ਪਛੜ ਜਾਂਦੇ ਹਨ ਜਿਵੇਂ ਕਿ ਨਵੀਂ ਕਮਜ਼ੋਰੀ ਜੋੜਨਾ ਕਾਫ਼ੀ ਮੁਸ਼ਕਲ ਹੈ.
 
-So generally developer write there own vulnerable applications but that causes productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
+ਇਸ ਲਈ ਆਮ ਤੌਰ ਤੇ ਡਿਵੈਲਪਰ ਉਥੇ ਕਮਜ਼ੋਰ ਐਪਲੀਕੇਸ਼ਨ ਲਿਖਦੇ ਹਨ ਪਰ ਇਸ ਨਾਲ ਉਤਪਾਦਕਤਾ ਘਾਟੇ ਦਾ ਕਾਰਨ ਬਣਦੀ ਹੈ ਅਤੇ ਕਈ ਵਾਰ ਰੀਵਰਕਿੰਗ ਵੀ ਹੋ ਜਾਂਦੀ ਹੈ. ਇਹ ਪ੍ਰੋਜੈਕਟ ਕਮਜ਼ੋਰ ਐਪ ਇਨ੍ਹਾਂ ਕਾਰਕਾਂ ਨੂੰ ਧਿਆਨ ਵਿੱਚ ਰੱਖਦਿਆਂ ਬਣਾ ਰਿਹਾ ਹੈ ਤਾਂ ਜੋ ਇਹ ਪ੍ਰੋਜੈਕਟ ਸਕੇਲੇਬਲ, ਐਕਸਟੈਂਸੀਬਲ, ਏਕੀਕ੍ਰਿਤ ਕਰਨ ਲਈ ਅਸਾਨ ਅਤੇ ਸਿੱਖਣ ਵਿੱਚ ਅਸਾਨ ਹੋਵੇ.
 
-As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities.
+ਜਿਵੇਂ ਕਿ ਉਪਰੋਕਤ ਮੁੱਦੇ ਨੂੰ ਹੱਲ ਕਰਨ ਲਈ ਵੱਖੋ ਵੱਖਰੀਆਂ ਕਮਜ਼ੋਰੀਆਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਜ਼ਰੂਰਤ ਹੈ, ਇਸ ਲਈ ਸੁਰੱਖਿਆ ਦੀਆਂ ਕਈ ਕਮਜ਼ੋਰੀਆਂ ਸਿੱਖਣ ਲਈ ਇਹ ਇਕ ਬਹੁਤ ਵਧੀਆ ਪਲੇਟਫਾਰਮ ਬਣ ਜਾਂਦਾ ਹੈ.
 
-### Future Goal
+### ਭਵਿੱਖ ਦਾ ਟੀਚਾ
 
-As going further this application might becomes a database for vulnerabilities hence in future it can be used for hosting CTF's and also can be come a compliance for Vulnerability Scanning tools.
+ਜਿਵੇਂ ਕਿ ਅੱਗੇ ਵਧਣ ਨਾਲ ਇਹ ਕਾਰਜ ਕਮਜ਼ੋਰਤਾਵਾਂ ਲਈ ਇੱਕ ਡੇਟਾਬੇਸ ਬਣ ਸਕਦਾ ਹੈ ਇਸ ਲਈ ਭਵਿੱਖ ਵਿੱਚ ਇਸਦੀ ਵਰਤੋਂ ਸੀਟੀਐਫ ਦੀ ਮੇਜ਼ਬਾਨੀ ਕਰਨ ਲਈ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ ਅਤੇ ਕਮਜ਼ੋਰਪਨਤਾ ਸਕੈਨਿੰਗ ਉਪਕਰਣਾਂ ਦੀ ਪਾਲਣਾ ਵੀ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ.
 
-## How to use this tool
+## ਇਸ ਟੂਲ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ
 
-[How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[ਗਾਈਡ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
 
-## Contributing to Project
+## ਪ੍ਰੋਜੈਕਟ ਲਈ ਯੋਗਦਾਨ
 
-Contributing to opensource is always good from learning prespective as open source is the community for learn-help-grow-ing together. We really appreciate the contribution to this project but as this project is in its initial phase so we have not set any guidelines so if you are interested in contributing to this project please send an email to karan.sasan@owasp.org or Raise an issue in the Repository and we will try our best to onboard you to this project. if you are already onboarded please raise a Github Pull Request, we will review and merge that into the master repository.
+ਓਪਨਸੋਰਸ ਵਿੱਚ ਯੋਗਦਾਨ ਦੇਣਾ ਹਮੇਸ਼ਾਂ ਮੁ learningਲੇ ਸਿਖਿਆ ਤੋਂ ਚੰਗਾ ਹੁੰਦਾ ਹੈ ਕਿਉਂਕਿ ਓਪਨ ਸੋਰਸ ਇਕੱਠੇ ਹੋ ਕੇ ਸਿੱਖਣ-ਸਹਾਇਤਾ-ਵਧਾਉਣ ਲਈ ਕਮਿ communityਨਿਟੀ ਹੈ. ਅਸੀਂ ਇਸ ਪ੍ਰਾਜੈਕਟ ਵਿਚ ਯੋਗਦਾਨ ਦੀ ਸੱਚਮੁੱਚ ਪ੍ਰਸ਼ੰਸਾ ਕਰਦੇ ਹਾਂ ਪਰ ਕਿਉਂਕਿ ਇਹ ਪ੍ਰਾਜੈਕਟ ਸ਼ੁਰੂਆਤੀ ਪੜਾਅ ਵਿਚ ਹੈ ਇਸ ਲਈ ਅਸੀਂ ਕੋਈ ਦਿਸ਼ਾ ਨਿਰਦੇਸ਼ ਤੈਅ ਨਹੀਂ ਕੀਤੇ ਹਨ ਇਸ ਲਈ ਜੇ ਤੁਸੀਂ ਇਸ ਪ੍ਰੋਜੈਕਟ ਵਿਚ ਯੋਗਦਾਨ ਪਾਉਣ ਵਿਚ ਦਿਲਚਸਪੀ ਰੱਖਦੇ ਹੋ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ karan.sasan@owasp.org ਨੂੰ ਈਮੇਲ ਭੇਜੋ ਜਾਂ ਕੋਈ ਮੁੱਦਾ ਉਠਾਓ. ਰਿਪੋਜ਼ਟਰੀ ਵਿਚ ਹੈ ਅਤੇ ਅਸੀਂ ਤੁਹਾਨੂੰ ਇਸ ਪ੍ਰਾਜੈਕਟ ਵਿਚ ਲਿਆਉਣ ਦੀ ਪੂਰੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ. ਜੇ ਤੁਸੀਂ ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਜਹਾਜ਼ ਵਿਚ ਹਨ ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਇਕ ਗਿੱਥਬ ਪੁਲ ਬੇਨਤੀ ਵਧਾਓ, ਅਸੀਂ ਇਸ ਦੀ ਸਮੀਖਿਆ ਕਰਾਂਗੇ ਅਤੇ ਇਸ ਨੂੰ ਮਾਸਟਰ ਰਿਪੋਜ਼ਟਰੀ ਵਿਚ ਮਿਲਾ ਦੇਵਾਂਗੇ.
 
-you can also raise an issue in case you are looking for learning some kind of vulnerability which is not present in the VulnerableApp, we will try to add that vulnerability asap.
+ਤੁਸੀਂ ਕਿਸੇ ਮੁੱਦੇ ਨੂੰ ਵੀ ਉਠਾ ਸਕਦੇ ਹੋ ਜੇ ਤੁਸੀਂ ਕਿਸੇ ਕਿਸਮ ਦੀ ਕਮਜ਼ੋਰੀ ਸਿੱਖਣ ਦੀ ਭਾਲ ਕਰ ਰਹੇ ਹੋ ਜੋ ਕਿ ਕਮਜ਼ੋਰ ਐਪ ਵਿੱਚ ਮੌਜੂਦ ਨਹੀਂ ਹੈ, ਅਸੀਂ ਉਸ ਕਮਜ਼ੋਰੀ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਜੋੜਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ.
 
-## Contact
+## ਸੰਪਰਕ
 
-Please raise a github issue for enhancement/issues in VulnerableApp or send email to karan.sasan@owasp.org regarding queries we will try to resolve issues asap.
+ਕਿਰਪਾ ਕਰਕੇ ਵੁਲਨੇਬਲ ਐਪ ਵਿੱਚ ਸੁਧਾਰ / ਮੁੱਦਿਆਂ ਲਈ ਇੱਕ ਗਿੱਥਬ ਮੁੱਦਾ ਉਠਾਓ ਜਾਂ ਪੁੱਛਗਿੱਛਾਂ ਦੇ ਸੰਬੰਧ ਵਿੱਚ karan.sasan@owasp.org ਨੂੰ ਈਮੇਲ ਭੇਜੋ ਅਸੀਂ ਮੁੱਦਿਆਂ ਨੂੰ ਅਸਥਾਈ ਤੌਰ ਤੇ ਹੱਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ.
 
-## Website
+## ਵੈੱਬਸਾਈਟ
 
 <a>VulnerableApp</a>
