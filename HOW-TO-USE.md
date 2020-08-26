@@ -39,7 +39,7 @@ Following is the Json Response explanation:
 - type of vulnerabilities exposed by the endpoint
 - Sample input to the endpoint which helps in knowing the format of input like JWT's have a specific format.
 
-As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. For a better usage of VulnerableApp, Vulnerability Scanning tools need to understand the output of `\scanner` endpoint and that information alone can suffice for all needs. 
+As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc. in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. For a better usage of VulnerableApp, Vulnerability Scanning tools need to understand the output of `\scanner` endpoint and that information alone can suffice for all needs. 
 
 ## Glimpse of the tool ##
 Tool's Starting Screen:
