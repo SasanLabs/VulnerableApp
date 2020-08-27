@@ -1,6 +1,12 @@
 # VulnerableApp 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+[Readme Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
+[Readme Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
+[Readme Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
+[Readme Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
+
+
 As Web Applications are becoming very popular these days, there comes the needs to secure them and there are many Vulnerability Scanning Tools but while developing those tools developers need to test those tools, not only that they also need to know how well is the Vulnerability Scanning tool performing but there are no or very less such vulnerable applications exists for testing those tools. There are deliberately vulnerable applications exist in the market but they are not written with such an intent and hence lags extensibility e.g. adding new vulnerabilities is quite difficult.
 
 So generally developer write there own vulnerable applications but that causes productivity loss and also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so this project is scalable, extensible, easiers to integrate and easier to learn.
