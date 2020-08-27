@@ -1,6 +1,6 @@
-#theme: "just-the-docs"
-remote_theme: pmarsceill/just-the-docs
-exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile","README.md", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
+theme: "just-the-docs"
+
+exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "README.md","Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
 
 
 aux_links:
@@ -9,7 +9,7 @@ aux_links:
 
 title: Vulnerable App
 description: Documentation for VulnerableApp
-baseurl: "/VulnerableApp/" # the subpath of your site, e.g. /blog
+baseurl: "/sasn" # the subpath of your site, e.g. /blog
 url: "https://hemantgs.github.io/" # the base hostname & protocol for your site, e.g. http://example.com"
 
 # Makes Aux links open in a new tab. Default is false

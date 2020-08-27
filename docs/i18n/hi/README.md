@@ -1,3 +1,8 @@
+---
+layout: default
+title: Hindi
+parent: Locale
+---
 # VulnerableApp
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)

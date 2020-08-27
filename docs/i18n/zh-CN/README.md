@@ -1,3 +1,8 @@
+---
+layout: default
+title: Chinese
+parent: Locale
+---
 # VulnerableApp
 
 ![OWASP孵化器](https://img.shields.io/badge/owasp-incubator-blue.svg)[](https://opensource.org/licenses/Apache-2.0)![执照](https://img.shields.io/badge/License-Apache%202.0-blue.svg)![Java CI与Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg)![Java CI与Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg)[](http://makeapullrequest.com)![公关欢迎](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)

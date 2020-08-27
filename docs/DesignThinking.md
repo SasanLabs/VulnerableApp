@@ -1,4 +1,9 @@
-# Design thinking/brainstorming for VulnerableApp #
+---
+layout: default
+title: Design
+nav_order: 4
+---
+# Idea behind VulnerableApp #
 
 ## Problems we are trying to solve ##
 ```
@@ -12,7 +17,7 @@ A Simple Web Application which has an :-
 2. easy way to Add Vulnerable code to existing vulnerabilities (New Attack vectors introduction)
 3. easy way to Expose Vulnerable code.
 ```
-## Analsis on approaches and issues ##
+## Analysis on approaches and issues ##
 Looking at the requirements/desired output we can think of something that can be easily pluggable and extensible.
 
 

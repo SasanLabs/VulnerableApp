@@ -1,5 +1,11 @@
+---
+layout: default
+title: How To Use
+nav_order: 3
+---
+
 # How to start this tool #
-Following are the ways in which you can use the VulnerableApp:
+
 1. Running it as a **docker container**, Please visit [Docker Repository](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp)
 2. Running it as an **executable**, downloading released jar from [Releases](https://github.com/SasanLabs/VulnerableApp/releases) and run the application by executing following command `java -jar  VulnerableApp-1.0.0.jar`
 3. Running it by **Building manually**, as VulnerableApp is a spring boot based application so for starting this application you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin or maven. As this project is developed in eclipse so eclipse is recommended IDE for now.
@@ -7,13 +13,13 @@ After importing the project, run the app and it should start a server and try to
 
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
-VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein few endpoints are exposed only for helping them.
+VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerabilities via a few endpoints
 Following are the endpoints exposed:
 - `/scanner`
 - `/sitemap.xml`
 
 ### Scanner Endpoint ###
-Scanner is specially crafted endpoint to provide information about each vulnerability present in VulnerableApp.
+Scanner is a specifically crafted endpoint to provide information about each vulnerability present in VulnerableApp.
 #### Sample Json Response ####
 ```
 [
@@ -46,11 +52,11 @@ Tool's Starting Screen:
 ![Welcome](/docs/Starting%20Screen.png)
 
 On Clicking **Learn Security** following screen pops up:
-![Learning Security](docs/Vulnerability%20list.png)
+![Learning Security](Vulnerability list.png)
 This screen contains the List of Vulnerabilities, there information and useful links for learning more about them.
 
 On Clicking **Practice Vulnerability** following screen pops up:
-![Practice Vulnerability](docs/Choosing%20Vulnerability%20Level%20Screen.png)
+![Practice Vulnerability](Choosing Vulnerability Level Screen.png)
 This screen contains list of Levels present under the selected vulnerability, help at each level etc.
 
 #### Get Set Go for the Journey of Learning about the Web Application Security, MR. Security Enthusiast !!! ####
