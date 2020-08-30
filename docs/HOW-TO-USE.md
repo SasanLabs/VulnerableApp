@@ -13,7 +13,7 @@ After importing the project, run the app and it should start a server and try to
 
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
-VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerabilities via a few endpoints
+VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints
 Following are the endpoints exposed:
 - `/scanner`
 - `/sitemap.xml`
@@ -49,7 +49,7 @@ As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc. in order to
 
 ## Glimpse of the tool ##
 Tool's Starting Screen:
-![Welcome](/docs/Starting%20Screen.png)
+![Welcome](Starting%20Screen.png)
 
 On Clicking **Learn Security** following screen pops up:
 ![Learning Security](Vulnerability list.png)
@@ -59,4 +59,4 @@ On Clicking **Practice Vulnerability** following screen pops up:
 ![Practice Vulnerability](Choosing Vulnerability Level Screen.png)
 This screen contains list of Levels present under the selected vulnerability, help at each level etc.
 
-#### Get Set Go for the Journey of Learning about the Web Application Security, MR. Security Enthusiast !!! ####
+### Get Set Go for the Journey of Learning about the Web Application Security, MR. Security Enthusiast !!! ###

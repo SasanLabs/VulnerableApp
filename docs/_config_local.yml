@@ -9,8 +9,8 @@ aux_links:
 
 title: Vulnerable App
 description: Documentation for VulnerableApp
-baseurl: "/sasn" # the subpath of your site, e.g. /blog
-url: "https://hemantgs.github.io/" # the base hostname & protocol for your site, e.g. http://example.com"
+baseurl: "/VulnerableApp" # the subpath of your site, e.g. /blog
+url: "https://sasanlabs.github.io" # the base hostname & protocol for your site, e.g. http://example.com"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true

@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Why VulnerableApp
-nav_order: 5
+nav_order: 2
 ---
-# Why VulnerableApp
+### Why VulnerableApp
 
 There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
 it is very tough to check if the Payloads added or Scripts added are working as expected.
 
-## What used to be the solution
+### What used to be the solution
 ``` 
 1. Tool developers had to manually write applications that are prone to separate security flaws that the tool
 they are developing is able to flag.
@@ -21,13 +21,13 @@ develop their own versions of a flawed web-app , debugging those apps might quic
 
 Approach 2: Simulating every scenario using unit tests are not feasible.
 ```
-## What we propose
+### What we propose
 #### The [VulnerableApp](https://github.com/SasanLabs/VulnerableApp):
 ```
-1. Simple SpringBoot Application which is very easy to run.
-2. Simple Annotation based and URL Path based vulnerable code execution
-3. Easy integration with any of the Web Application Vulnerability Finding Tools.
-4. Scenarios included are very common and exploitable using any Vulnerability finding tools.
+1. A simple web app built on top of the popular Spring framework
+2. Docker ready , can simply fire up the image and we are good to go
+3. Fully extensible , annotation and path based vulnerability execution
+4. Simple integration with security tools since VulnerableApp exposes REST APIs
 5. Developed from experience gathered collaborating for ZAP
 ```
 

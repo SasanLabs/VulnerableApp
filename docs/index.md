@@ -17,10 +17,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 As going further this application might becomes a database for vulnerabilities hence in future it can be used for hosting CTF's and also can be come a compliance for Vulnerability Scanning tools.
 
 ## How to use this tool ##
-- [See configuration options]({{ site.baseurl }}{% link docs/HOW-TO-USE.md %})
-
-## Contributing to Project ##
-- [For Contributions]({{ site.baseurl }}{% link docs/CONTRIBUTING.md %})
+- [See configuration options]({{ site.baseurl }}{% link HOW-TO-USE.md %})
 
 you can also raise an issue in case you are looking for learning some kind of vulnerability which is not present in the VulnerableApp, we will try to add that vulnerability asap.
 
