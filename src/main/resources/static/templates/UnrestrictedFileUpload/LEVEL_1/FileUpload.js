@@ -11,6 +11,7 @@ function addingEventListenerToFetchCarInfoButton() {
 addingEventListenerToFetchCarInfoButton();
 
 function fetchCarInfoCallBack(data) {
-  document.getElementById("uploaded_file_info").innerHTML =
-    data.isValid ? "File uploaded at location:" + data.content : data.content;
+  document.getElementById("uploaded_file_info").innerHTML = data.isValid
+    ? "File uploaded at location:" + data.content
+    : data.content;
 }

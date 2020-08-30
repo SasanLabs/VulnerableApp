@@ -193,7 +193,7 @@ function doGetAjaxCall(callBack, url, isJson) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function() {
     genericResponseHandler(xmlHttpRequest, callBack, isJson);
-  }
+  };
   xmlHttpRequest.open("GET", url, true);
   xmlHttpRequest.setRequestHeader(
     "Content-Type",
@@ -204,13 +204,12 @@ function doGetAjaxCall(callBack, url, isJson) {
 
 function doPostAjaxCall(callBack, url, isJson, data) {
   let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function() { 
-    return genericResponseHandler(xmlHttpRequest, callBack, isJson)
+  xmlHttpRequest.onreadystatechange = function() {
+    return genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
   xmlHttpRequest.open("POST", url, true);
   xmlHttpRequest.send(data);
 }
-
 
 function generateMasterDetail(vulnerableAppEndPointData) {
   let isFirst = true;
