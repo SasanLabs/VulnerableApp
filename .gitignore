@@ -27,3 +27,6 @@ hs_err_pid*
 #Idea
 .idea
 build/
+
+/_site
+/docs/_site

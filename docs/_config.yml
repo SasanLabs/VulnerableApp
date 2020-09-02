@@ -1,0 +1,25 @@
+#theme: "just-the-docs"
+remote_theme: pmarsceill/just-the-docs
+exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile","README.md", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
+
+
+aux_links:
+  "VulnerableApp":
+    - "https://github.com/SasanLabs/VulnerableApp"
+
+title: Vulnerable App
+description: Documentation for VulnerableApp
+baseurl: "/VulnerableApp" # the subpath of your site, e.g. /blog
+url: "https://sasanlabs.github.io" # the base hostname & protocol for your site, e.g. http://example.com"
+
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: true
+
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
+
+gh_edit_link: true # show or hide edit this page link
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/SasanLabs/VulnerableApp" # the github URL for your repo
+gh_edit_branch: "master" # the branch that your docs is served from
+gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
