@@ -31,7 +31,5 @@ Please raise a github issue for enhancement/issues in VulnerableApp or send emai
 we will try to resolve issues asap.
 
 ## Website ##
-[Our Docs Page](https://sasanlabs.github.io/VulnerableApp)
-
-## Website ##
-[VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
+[Documentation](https://sasanlabs.github.io/VulnerableApp)
+[Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
