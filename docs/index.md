@@ -19,8 +19,6 @@ As going further this application might becomes a database for vulnerabilities h
 ## How to use this tool ##
 - [See configuration options]({{ site.baseurl }}{% link HOW-TO-USE.md %})
 
-you can also raise an issue in case you are looking for learning some kind of vulnerability which is not present in the VulnerableApp, we will try to add that vulnerability asap.
-
 ## Contact ##
 Please raise a github issue for enhancement/issues in VulnerableApp or send email to karan.sasan@owasp.org regarding queries
 we will try to resolve issues asap.
