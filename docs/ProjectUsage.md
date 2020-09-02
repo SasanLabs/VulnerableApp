@@ -16,8 +16,8 @@ they are developing is able to flag.
 ```
 ### Why would the above not work 
 ```
-Approach 1: Tool developers have to focus on ways to crash test their apps , which is cumbersome as each might have to
-develop their own versions of a flawed web-app , debugging those apps might quickly become overwhelming 
+Approach 1: Tool developers have to focus on ways to crash test their apps, which is cumbersome as each might have to
+develop their own versions of a flawed web-app, debugging those apps might quickly become overwhelming 
 
 Approach 2: Simulating every scenario using unit tests are not feasible.
 ```
@@ -25,8 +25,8 @@ Approach 2: Simulating every scenario using unit tests are not feasible.
 #### The [VulnerableApp](https://github.com/SasanLabs/VulnerableApp):
 ```
 1. A simple web app built on top of the popular Spring framework
-2. Docker ready , can simply fire up the image and we are good to go
-3. Fully extensible , annotation and path based vulnerability execution
+2. Docker ready, can simply fire up the image and we are good to go
+3. Fully extensible, annotation and path based vulnerability execution
 4. Simple integration with security tools since VulnerableApp exposes REST APIs
 5. Developed from experience gathered collaborating for ZAP
 ```
