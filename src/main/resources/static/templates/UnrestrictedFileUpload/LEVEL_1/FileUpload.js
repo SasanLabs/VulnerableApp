@@ -1,16 +1,16 @@
-function addingEventListenerToFetchCarInfoButton() {
+function addingEventListenerToUploadImage() {
   document.getElementById("upload").addEventListener("click", function() {
     var form = document.getElementById("file");
     var file = form.files[0];
     var formData = new FormData();
     formData.append("file", file);
     let url = getUrlForVulnerabilityLevel();
-    doPostAjaxCall(fetchCarInfoCallBack, url, true, formData);
+    doPostAjaxCall(uploadImage, url, true, formData);
   });
 }
-addingEventListenerToFetchCarInfoButton();
+addingEventListenerToUploadImage();
 
-function fetchCarInfoCallBack(data) {
+function uploadImage(data) {
   document.getElementById("uploaded_file_info").innerHTML = data.isValid
     ? "File uploaded at location:" + data.content
     : data.content;
