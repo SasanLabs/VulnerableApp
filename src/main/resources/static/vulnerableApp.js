@@ -167,6 +167,23 @@ function getUrlForVulnerabilityLevel() {
   return vulnerabilitySelected + "/" + vulnerabilityLevelSelected;
 }
 
+function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
+  if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {
+    // XMLHttpRequest.DONE == 4
+    if (xmlHttpRequest.status == 200 || xmlHttpRequest.status == 401) {
+      if (isJson) {
+        callBack(JSON.parse(xmlHttpRequest.responseText));
+      } else {
+        callBack(xmlHttpRequest.responseText);
+      }
+    } else if (xmlHttpRequest.status == 400) {
+      alert("There was an error 400");
+    } else {
+      alert("something else other than 200/401 was returned");
+    }
+  }
+}
+
 function doGetAjaxCallForVulnerabilityLevel(callBack, isJson) {
   let url = getUrlForVulnerabilityLevel();
   this.doGetAjaxCall(callBack, url, isJson);
@@ -175,28 +192,23 @@ function doGetAjaxCallForVulnerabilityLevel(callBack, isJson) {
 function doGetAjaxCall(callBack, url, isJson) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function() {
-    if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {
-      // XMLHttpRequest.DONE == 4
-      if (xmlHttpRequest.status == 200 || xmlHttpRequest.status == 401) {
-        if (isJson) {
-          callBack(JSON.parse(xmlHttpRequest.responseText));
-        } else {
-          callBack(xmlHttpRequest.responseText);
-        }
-      } else if (xmlHttpRequest.status == 400) {
-        alert("There was an error 400");
-      } else {
-        alert("something else other than 200/401 was returned");
-      }
-    }
+    genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
-
   xmlHttpRequest.open("GET", url, true);
   xmlHttpRequest.setRequestHeader(
     "Content-Type",
     isJson ? "application/json" : "text/html"
   );
   xmlHttpRequest.send();
+}
+
+function doPostAjaxCall(callBack, url, isJson, data) {
+  let xmlHttpRequest = new XMLHttpRequest();
+  xmlHttpRequest.onreadystatechange = function() {
+    return genericResponseHandler(xmlHttpRequest, callBack, isJson);
+  };
+  xmlHttpRequest.open("POST", url, true);
+  xmlHttpRequest.send(data);
 }
 
 function generateMasterDetail(vulnerableAppEndPointData) {
