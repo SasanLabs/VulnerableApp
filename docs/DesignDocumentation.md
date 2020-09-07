@@ -14,3 +14,6 @@ For adding a new Vulnerability following are the steps which needs to be done:
 2. Adding Html Pages
 
 
+#Annotations:
+**VulnerableAppRestController** is the annotation which exposes the vulnerability as a Rest Endpoint. This annotation is annotated with Spring's meta annotation **RestController** which is used to expose the Rest Endpoints.
+Information added to this annotation will be visible in the UI and helps the users to understand about the vulnerability.
