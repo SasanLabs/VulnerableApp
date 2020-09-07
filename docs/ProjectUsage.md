@@ -8,6 +8,10 @@ nav_order: 2
 There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Open Source Tools 
 it is very tough to check if the Payloads added or Scripts added are working as expected.
 
+## TODO TDD
+## TODO Bank of Vulnerabilities
+## Maintainable Code and Reviewed because when developers write applications they might miss some points as that code is not reviewed. 
+
 ### What used to be the solution
 ``` 
 1. Tool developers had to manually write applications that are prone to separate security flaws that the tool
