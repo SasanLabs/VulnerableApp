@@ -17,17 +17,17 @@ There are 3 annotations which are driving entire VunerableApp, specifically User
 This annotation is annotated with the Spring's **RestController** annotation and hences exposes the Vulnerability as Rest Endpoint. 
 Along with exposing the vulnerability as endpoint this annotation is also used to generate the description of the Vulnerability which is shown in the UI for learning about the vunerability.
 
-For creating a new Vulnerability developers need to add this annotation to there class and a Rest endpoint will get exposes automatically and a UI will be built for the same.
+For creating a new Vulnerability developers need to add this annotation to there class and a Rest endpoint will get exposed automatically and a UI will be built for the same.
 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/VulnerableAppRestController.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java)
 
 **VulnerableAppRequestMapping**:
-This annotation is annotated with Spring's **RequestMapping** annotation and is used to add the Levels under the Vulnerability which we have specified using the **VulnerableAppRestController** annotation.
+This annotation is annotated with Spring's **RequestMapping** annotation and is used to add the *Levels* under the Vulnerability which we have specified using the **VulnerableAppRestController** annotation.
 
 Along with adding Levels to vulnerabilities, there are many parameters in this annotation. 
 lets talk about some of them:
-1. descriptionLabel: It is used to describe the Endpoints requirements in human readable form like if an input is passed as a URL Query param or Cookie etc.
+1. descriptionLabel: It is used to describe the Endpoint requirements in human readable form like if an input is passed as a URL Query param or Cookie etc.
 2. htmlTemplate: As UI is driven from annotations so other things in UI like Name of Vulnerabilities, Levels etc are generically populated in the UI but the specific endpoint requirements which are described using **descriptionLabel** field need to be shown in the UI and the template name mentioned here is used to generate that specific portion of the UI. Template name is appended with *.js*, *.css* and *.html* to find the respective javascript/styling and html for the level.
 
 All the other parameters in the annotations are used for generating information for scanners, specifically */scanner* endpoint. 
