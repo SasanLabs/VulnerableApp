@@ -39,3 +39,10 @@ This annotation is mainly used to help user's to expose the vulnerability. This 
 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/AttackVector.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java)
+
+## Generic VulnerableApp UserInterface
+
+
+## Html Template:
+how to write html template
+what are the methods already present in vulnerableApp.js which gets invoked automatically etc
