@@ -1,12 +1,12 @@
 # Technical Design Documentation
 
-While designing VulnerableApp, major emphasis was given on **Ease of adding Vulnerabilities** such that developers of Vulnerability Scanners need to put minimal effort for adding new Vulnerabilities for testing there payloads/attack vectors.
+While designing VulnerableApp, major emphasis was given on **Ease of adding Vulnerabilities** such that developers of Vulnerability Scanners need to put minimal effort for adding new Vulnerabilities for testing their payload/attack vectors.
 
 ## Design:
 UserInterface for VulnerableApp is driven from backend endpoint "/allEndPointJson" which provides entire information about all the Vulnerabilities present in the VulnerableApp. This information is dynamic and is generated from the annotations present over the java class.
 
 ### Annotations:
-There are 3 annotations which are driving entire VunerableApp, specifically UserInterface, Vulnerability definition for **Scanners**, Exposing Vulnerabilities and its help etc.
+There are 3 annotations which are driving entire VulnerableApp, specifically UserInterface, Vulnerability definition for **Scanners**, Exposing Vulnerabilities and its help etc.
 
 1. VulnerableAppRestController
 2. VulnerableAppRequestMapping
@@ -36,7 +36,7 @@ All the other parameters in the annotations are used for generating information 
 3. [Example Templates](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/resources/static/templates)
 
 **AttackVector**:
-This annotation is mainly used to help user's to expose the vulnerability. This annotation is used to help students/security enthusiasts about various payloads/ways to expose the vulnerability.
+This annotation is mainly used to help users to expose the vulnerability. This annotation is used to help students/security enthusiasts about various payloads/ways to expose the vulnerability.
 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/AttackVector.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java)
