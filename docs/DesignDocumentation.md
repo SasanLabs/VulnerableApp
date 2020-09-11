@@ -17,7 +17,7 @@ There are 3 annotations which are driving entire VunerableApp, specifically User
 This annotation is annotated with the Spring's **RestController** annotation and hences exposes the Vulnerability as Rest Endpoint. 
 Along with exposing the vulnerability as endpoint this annotation is also used to generate the description of the Vulnerability which is shown in the UI for learning about the vunerability.
 
-For creating a new Vulnerability developers need to add this annotation to these class and a Rest endpoint will get exposes automatically and a UI will be built for the same.
+For creating a new Vulnerability developers need to add this annotation to there class and a Rest endpoint will get exposes automatically and a UI will be built for the same.
 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/VulnerableAppRestController.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java)
