@@ -33,6 +33,7 @@ lets talk about some of them:
 All the other parameters in the annotations are used for generating information for scanners, specifically */scanner* endpoint. 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/VulnerableAppRequestMapping.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java)
+3. [Example Templates](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/resources/static/templates)
 
 **AttackVector**:
 This annotation is mainly used to help user's to expose the vulnerability. This annotation is used to help students/security enthusiasts about various payloads/ways to expose the vulnerability.
@@ -40,7 +41,14 @@ This annotation is mainly used to help user's to expose the vulnerability. This 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/AttackVector.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java)
 
-## Generic VulnerableApp UserInterface
+## VulnerableApp UserInterface Framework
+VulnerableApp's UI framework is divided into 3 parts:
+1. [index.html](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/index.html) 
+2. [VulnerableApp.js](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.js)
+3. [VulnerableApp.css](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.css)
+
+The VulnerableApp's screen is divided into 4 parts where 3 parts are generated using above mentioned files and 1 part is generated using *htmlTemplate* mentioned above.
+
 
 
 ## Html Template:
