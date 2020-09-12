@@ -34,9 +34,12 @@ Approach 2: Simulating every scenario using unit tests are not feasible.
 
 Other Benefits :-
 ```
-1. Going further it will become a Bank of Vulnerabilities and hence can be used as a platform for learning Web Application Security
-2. It can also become a very good benchmarking platform to compare between multiple releases and across various scanning tools.
-3. Scanners can follow the practise of writing a Vulnerability first before exposing it using scanner something like a TDD approach.
+1. Going further it will become a Bank of Vulnerabilities and hence 
+can be used as a platform for learning Web Application Security
+2. It can also become a very good benchmarking platform to compare 
+between multiple releases and across various scanning tools.
+3. Scanners can follow the practise of writing a Vulnerability first 
+before exposing it using scanner something like a TDD approach.
 ```
 
 This Application is deliberately vulnerable to attacks so that users can learn not only about attacks and attack vectors but also about securing Web Applications against those attacks.
