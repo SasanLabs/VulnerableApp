@@ -17,7 +17,8 @@ There are 3 annotations which are driving entire VulnerableApp, specifically Use
 2. VulnerableAppRequestMapping
 3. AttackVector
 
-#### Description
+**Description**
+
 **VulnerableAppRestController**: 
 This annotation is annotated with the Spring's **RestController** annotation and hences exposes the Vulnerability as Rest Endpoint. 
 Along with exposing the vulnerability as endpoint this annotation is also used to generate the description of the Vulnerability which is shown in the UI for learning about the vunerability.
