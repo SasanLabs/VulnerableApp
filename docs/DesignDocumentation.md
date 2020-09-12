@@ -55,10 +55,11 @@ VulnerableApp's UI framework is divided into 3 parts:
 The VulnerableApp's screen is divided into 4 parts where 3 parts are generated using above mentioned files and 1 part is generated using *htmlTemplate* mentioned above.
 
 For more detailed information please look at below labeled images:
-![VulnerabilitySelection Page Description](/docs/Vulnerability%20list%20Description.jpg)
-![VulnerabilityLevel Page Description](/docs/VulnerabilityLevel%20Description.jpg)
+![VulnerabilitySelection Page Description](Vulnerability%20list%20Description.jpg)
+![VulnerabilityLevel Page Description](VulnerabilityLevel%20Description.jpg)
 
-#### Html Template:
+**Html Template:**
+
 The html template section is generated using *htmlTemplate* parameter of the annotation and VulnerableApp's UI looks for the html/js/css files to generate the User Interface for the selected level in the selected Vulnerability.
 VulnerableApp's UI will always look for the htmlTemplate under `src/main/resources/static/templates/<Vulnerability Name>`. Vulnerability Name is same as the value of **VulnerableAppRestController** annotation's value parameter.
 
