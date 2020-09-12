@@ -10,15 +10,15 @@ it is very tough to check if the Payloads added or Scripts added are working as 
 
 ### What used to be the solution
 ``` 
-1. Tool developers had to manually write applications that are prone to separate security flaws that the tool
-they are developing is able to flag.
+1. Tool developers had to manually write applications that are prone to separate security flaws 
+that the tool they are developing is able to flag.
 2. Slog it out with unit tests
 ```
 ### Why would the above not work 
 ```
-Approach 1: Tool developers have to focus on ways to crash test their apps, which is cumbersome as each might have to
-develop their own versions of a flawed web-app, debugging those apps might quickly become overwhelming. 
-Along with that those VulnerableApp's are not reviewed and hence might contain bugs.
+Approach 1: Tool developers have to focus on ways to crash test their apps, which is cumbersome 
+as each might have to develop their own versions of a flawed web-app, which are not reviewed 
+and debugging those apps might quickly become overwhelming.
 
 Approach 2: Simulating every scenario using unit tests are not feasible.
 ```
