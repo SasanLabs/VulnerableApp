@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Technical Design Documentation
+title: Design Documentation
 nav_order: 4
 ---
-# Technical Design Documentation
+# Design Documentation
 
 While designing VulnerableApp, major emphasis was given on **Ease of adding Vulnerabilities** such that developers of Vulnerability Scanners need to put minimal effort for adding new Vulnerabilities for testing their payload/attack vectors.
 
@@ -55,8 +55,8 @@ VulnerableApp's UI framework is divided into 3 parts:
 The VulnerableApp's screen is divided into 4 parts where 3 parts are generated using above mentioned files and 1 part is generated using *htmlTemplate* mentioned above.
 
 For more detailed information please look at below labeled images:
-![VulnerabilitySelection Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/Vulnerability%20list%20Description.jpg)
-![VulnerabilityLevel Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/VulnerabilityLevel%20Description.jpg)
+![VulnerabilitySelection Page Description](/docs/Vulnerability%20list%20Description.jpg)
+![VulnerabilityLevel Page Description](/docs/VulnerabilityLevel%20Description.jpg)
 
 #### Html Template:
 The html template section is generated using *htmlTemplate* parameter of the annotation and VulnerableApp's UI looks for the html/js/css files to generate the User Interface for the selected level in the selected Vulnerability.
