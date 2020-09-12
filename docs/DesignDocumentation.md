@@ -41,7 +41,7 @@ This annotation is mainly used to help users to expose the vulnerability. This a
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/AttackVector.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java)
 
-## VulnerableApp UserInterface Framework
+### VulnerableApp UserInterface Framework
 VulnerableApp's UI framework is divided into 3 parts:
 1. [index.html](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/index.html) 
 2. [VulnerableApp.js](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.js)
@@ -53,11 +53,8 @@ For more detailed information please look at below labeled images:
 ![VulnerabilitySelection Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/Vulnerability%20list%20Description.jpg)
 ![VulnerabilityLevel Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/VulnerabilityLevel%20Description.jpg)
 
-## Html Template:
+#### Html Template:
 The html template section is generated using *htmlTemplate* parameter of the annotation and VulnerableApp's UI looks for the html/js/css files to generate the User Interface for the selected level in the selected Vulnerability.
 VulnerableApp's UI will always look for the htmlTemplate under `src/main/resources/static/templates/<Vulnerability Name>`. Vulnerability Name is same as the value of **VulnerableAppRestController** annotation's value parameter.
 
 VulnerableApp's UI exposes some of the functionality Out-Of-The-Box like generic utility for doing Ajax Calls, generic css for button animation/look and feel etc.
-
-[VulnerableApp.js](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.js)
-[VulnerableApp.css](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.css)
