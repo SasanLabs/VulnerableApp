@@ -1,3 +1,8 @@
+---
+layout: default
+title: Technical Design Documentation
+nav_order: 3
+---
 # Technical Design Documentation
 
 While designing VulnerableApp, major emphasis was given on **Ease of adding Vulnerabilities** such that developers of Vulnerability Scanners need to put minimal effort for adding new Vulnerabilities for testing their payload/attack vectors.
