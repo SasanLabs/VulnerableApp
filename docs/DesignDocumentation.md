@@ -49,7 +49,9 @@ VulnerableApp's UI framework is divided into 3 parts:
 
 The VulnerableApp's screen is divided into 4 parts where 3 parts are generated using above mentioned files and 1 part is generated using *htmlTemplate* mentioned above.
 
-
+For more detailed information please look at below labeled images:
+![VulnerabilitySelection Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/Vulnerability%20list%20Description.jpg)
+![VulnerabilityLevel Page Description](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/VulnerabilityLevel%20Description.jpg)
 
 ## Html Template:
 how to write html template
