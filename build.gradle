@@ -10,7 +10,7 @@ buildscript {
 //Community Plugins
 plugins {
     id("com.diffplug.gradle.spotless") version "4.3.0"
-     id("com.google.cloud.tools.jib") version "2.5.0"
+    id("com.google.cloud.tools.jib") version "2.5.0"
 }
 
 apply plugin: 'java'
@@ -50,10 +50,10 @@ spotless {
 
 jib {
 	from {
-    	image = 'openjdk:8-jre-alpine'
+    	  image = 'openjdk:8-jre-alpine'
   	}
   	to {
-    	image = 'sasanlabs/owasp-vulnerableapp:unreleased'
+    	  image = 'sasanlabs/owasp-vulnerableapp:unreleased'
   	}
 }
 
