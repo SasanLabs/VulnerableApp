@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       -
-        name: build
+        name: Checkout new changes
         uses: actions/checkout@v2
         with:
           java-version: 1.8
