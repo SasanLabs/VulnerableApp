@@ -5,7 +5,7 @@ parent: Locale
 ---
 # VulnerableApp
 
-![OWASP孵化器](https://img.shields.io/badge/owasp-incubator-blue.svg)[](https://opensource.org/licenses/Apache-2.0)![执照](https://img.shields.io/badge/License-Apache%202.0-blue.svg)![Java CI与Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg)![Java CI与Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg)[](http://makeapullrequest.com)![公关欢迎](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![OWASP孵化器](https://img.shields.io/badge/owasp-incubator-blue.svg)[](https://opensource.org/licenses/Apache-2.0)![执照](https://img.shields.io/badge/License-Apache%202.0-blue.svg)![Java CI与Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [](http://makeapullrequest.com)![公关欢迎](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
 随着近些年来Web应用程序变得越来越流行，需要保护它们的安全，并且有许多漏洞扫描工具，但是在开发这些工具时，开发人员需要测试这些工具，不仅他们还需要知道漏洞扫描的程度如何工具执行，但没有或没有这样的易受攻击的应用程序来测试这些工具。市场上故意存在易受攻击的应用程序，但这些应用程序并非以这种意图编写的，因此延后了可扩展性，例如添加新的漏洞非常困难。
 

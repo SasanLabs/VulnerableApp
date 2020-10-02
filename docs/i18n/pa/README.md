@@ -5,7 +5,7 @@ parent: Locale
 ---
 # VulnerableApp
 
-![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 ਜਿਵੇਂ ਕਿ ਅੱਜ ਕਲ ਵੈਬ ਐਪਲੀਕੇਸ਼ਨਸ ਬਹੁਤ ਮਸ਼ਹੂਰ ਹੋ ਰਹੇ ਹਨ, ਉਹਨਾਂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਦੀਆਂ ਜ਼ਰੂਰਤਾਂ ਆਉਂਦੀਆਂ ਹਨ ਅਤੇ ਬਹੁਤ ਸਾਰੇ ਕਮਜ਼ੋਰੀ ਦੀ ਜਾਂਚ ਕਰਨ ਵਾਲੇ ਉਪਕਰਣ ਹਨ ਪਰ ਉਹਨਾਂ ਸਾਧਨਾਂ ਨੂੰ ਵਿਕਸਿਤ ਕਰਦੇ ਸਮੇਂ ਉਹਨਾਂ ਸਾਧਨਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਦੀ ਜ਼ਰੂਰਤ ਹੁੰਦੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਇਹ ਜਾਣਨ ਦੀ ਵੀ ਜ਼ਰੂਰਤ ਹੁੰਦੀ ਹੈ ਕਿ ਕਮਜ਼ੋਰਤਾ ਸਕੈਨਿੰਗ ਕਿੰਨੀ ਚੰਗੀ ਪ੍ਰਦਰਸ਼ਨ ਕਰ ਰਿਹਾ ਹੈ ਪਰ ਉਨ੍ਹਾਂ ਸਾਧਨਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ ਅਜਿਹੀਆਂ ਕਮਜ਼ੋਰ ਐਪਲੀਕੇਸ਼ਨਾਂ ਮੌਜੂਦ ਨਹੀਂ ਹਨ ਜਾਂ ਬਹੁਤ ਘੱਟ ਹਨ. ਮਾਰਕੀਟ ਵਿੱਚ ਜਾਣ ਬੁੱਝ ਕੇ ਕਮਜ਼ੋਰ ਐਪਲੀਕੇਸ਼ਨ ਮੌਜੂਦ ਹਨ ਪਰ ਉਹ ਅਜਿਹੀ ਨੀਅਤ ਨਾਲ ਨਹੀਂ ਲਿਖੇ ਗਏ ਹਨ ਅਤੇ ਇਸ ਲਈ ਵਿਸਥਾਰਤਾ ਤੋਂ ਪਛੜ ਜਾਂਦੇ ਹਨ ਜਿਵੇਂ ਕਿ ਨਵੀਂ ਕਮਜ਼ੋਰੀ ਜੋੜਨਾ ਕਾਫ਼ੀ ਮੁਸ਼ਕਲ ਹੈ.
 
