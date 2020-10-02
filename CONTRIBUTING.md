@@ -18,6 +18,7 @@ Its worth checking to see if its already been requested, and including as much i
 ### Adding code to VulnerableApp
 Fixing [issues](https://github.com/SasanLabs/VulnerableApp/issues) is very valuable (ones flagged as [Good First issue](https://github.com/SasanLabs/VulnerableApp/issues?q=is%3Aopen+is%3Aissue++label%3A%22good+first+issue%22+) are good ones to start on) and there are always many improvements we want to make.
 
+For more understanding on VulnerableApp's internal framework please visit: [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
 #### Guidelines for Pull Request (PR) submission and processing:
 
 ##### Format/Style Java Code
