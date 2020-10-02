@@ -21,7 +21,6 @@ import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
 
     int port;
 
-    @Autowired
     public EndPointsInformationProvider(
             EnvUtils envUtils,
             MessageBundle messageBundle,
