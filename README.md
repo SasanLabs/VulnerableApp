@@ -20,7 +20,7 @@ Going further, this application might becomes a database for vulnerabilities. He
 
 ## How to use this tool
 
-[How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
 
 ## Contributing to Project
 
