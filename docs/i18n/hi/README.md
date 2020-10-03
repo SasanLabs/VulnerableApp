@@ -5,7 +5,7 @@ parent: Locale
 ---
 # VulnerableApp
 
-![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) ![Java CI with Maven](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Maven/badge.svg) [](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
+![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) [](https://opensource.org/licenses/Apache-2.0)![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [](http://makeapullrequest.com)![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
 
 चूंकि इन दिनों वेब एप्लिकेशन बहुत लोकप्रिय हो रहे हैं, इसलिए उन्हें सुरक्षित करने की आवश्यकताएं आती हैं और कई वल्नरेबिलिटी स्कैनिंग टूल हैं, लेकिन उन टूल्स को विकसित करते समय डेवलपर्स को उन टूल्स का परीक्षण करने की आवश्यकता होती है, इतना ही नहीं उन्हें यह भी पता होना चाहिए कि वल्नरेबिलिटी स्कैनिंग कितनी अच्छी प्रदर्शन कर रहे हैं, लेकिन उन उपकरणों के परीक्षण के लिए इस तरह के कोई भी कमजोर अनुप्रयोग मौजूद नहीं हैं। बाजार में जानबूझकर कमजोर अनुप्रयोग मौजूद हैं, लेकिन वे इस तरह के इरादे से नहीं लिखे गए हैं और इसलिए अतिरिक्त अस्थिरता है जैसे कि नई कमजोरियों को जोड़ना काफी मुश्किल है।
 

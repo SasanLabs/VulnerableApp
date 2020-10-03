@@ -4,7 +4,6 @@ import java.util.Map;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,6 @@ public class EnvUtils {
 
     private ApplicationContext context;
 
-    @Autowired
     public EnvUtils(ApplicationContext context) {
         this.context = context;
     }
