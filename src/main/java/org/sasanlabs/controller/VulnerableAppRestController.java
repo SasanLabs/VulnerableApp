@@ -13,7 +13,6 @@ import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,6 @@ public class VulnerableAppRestController {
 
     private int port;
 
-    @Autowired
     public VulnerableAppRestController(
             IEndPointsInformationProvider getAllSupportedEndPoints,
             @Value("${server.port}") int port) {
