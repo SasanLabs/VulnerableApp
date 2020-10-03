@@ -79,5 +79,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
 }
 
