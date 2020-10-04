@@ -60,10 +60,14 @@ jib {
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
-    testCompile "org.mockito:mockito-core:3.+"
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.5.13'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.0'
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.17.2'
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.1.RELEASE'
