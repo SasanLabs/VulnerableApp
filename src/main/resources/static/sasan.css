@@ -1,6 +1,24 @@
 #content {
-    justify-content: center;
+    
     font-size: 18px;
     font-weight: normal;
+    justify-content: center;
     color: brown;
+}
+
+.sademoji
+{
+   font-size: 30px;
+    margin-bottom: 0px;
+}
+p
+{
+    margin-top: 0px;
+    padding-top: 0px;
+    font-family: 'Secular One', sans-serif;
+    text-align: center;
+}
+.p1{
+    color:dodgerblue;
+    font:bold;
 }
