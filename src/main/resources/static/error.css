@@ -1,0 +1,26 @@
+#content {
+    
+    font-size: 18px;
+    font-weight: normal;
+    justify-content: center;
+    color: brown;
+}
+
+.erroremoji
+{
+   font-size: 30px;
+    margin-bottom: 0px;
+}
+p
+{
+    margin-top: 0px;
+    padding-top: 0px;
+    font-family: 'Secular One', sans-serif;
+    text-align: center;
+}
+
+.error-solution{
+    color:dodgerblue;
+    font:bold;
+}
+
