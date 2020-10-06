@@ -10,17 +10,21 @@
 {
    font-size: 30px;
     margin-bottom: 0px;
+    text-align: center;
 }
-p
+.error-reason
 {
     margin-top: 0px;
     padding-top: 0px;
     font-family: 'Secular One', sans-serif;
     text-align: center;
+   
 }
 
 .error-solution{
     color:dodgerblue;
     font:bold;
+    text-align: center;
+    font-family: 'Secular One', sans-serif;
 }
 
