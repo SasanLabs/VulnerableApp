@@ -20,21 +20,13 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
   cssElement.type = "text/css";
   cssElement.rel = "stylesheet";
   dynamicScriptsElement.appendChild(cssElement);
-       if(urlToFetchHtmlTemplate === "error")
-        {
-            document.getElementById("hideHelp").style.display="none";  
-             document.getElementById("showHelp").style.display="none";
-        }
-        else
-        {
-            document.getElementById("hideHelp").style.display="inline-block";  
-             document.getElementById("showHelp").style.display="inline-block";
-        }
-    
-    
-        
-        
-      
+  if (urlToFetchHtmlTemplate === "error") {
+    document.getElementById("hideHelp").style.display = "none";
+    document.getElementById("showHelp").style.display = "none";
+  } else {
+    document.getElementById("hideHelp").style.display = "inline-block";
+    document.getElementById("showHelp").style.display = "inline-block";
+  }
 }
 
 function _callbackForInnerMasterOnClickEvent(
