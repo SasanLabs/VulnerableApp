@@ -22,15 +22,8 @@ Going further, this application might becomes a database for vulnerabilities. He
 - Java8
 - Spring Boot
 - Vanilla Javascript
-- CSS
-- Inmemory H2 database
-- Other small libraries used are:
-    - Unit Testing libraries:
-        - mockito
-        - AssertJ
-        - jupiter
-    - nimbus-jose library for jwt
-#### Note: we are not limited to these technologies and if required open to expand to other technologies.
+
+#### Note: we are not limited to these technologies and if required, open to expand to other technologies.
     
 ## Currently handled Vulnerability types
 
