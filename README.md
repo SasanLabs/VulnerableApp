@@ -23,10 +23,14 @@ Going further, this application might becomes a database for vulnerabilities. He
 - Spring Boot
 - Vanilla Javascript
 - CSS
+- Inmemory H2 database
 - Other small libraries used are:
-    - JUnit 5
-    - Inmemory H2 database
+    - Unit Testing libraries:
+        - mockito
+        - AssertJ
+        - jupiter
     - nimbus-jose library for jwt
+#### Note: we are not limited to these technologies and if required open to expand to other technologies.
     
 ## Currently handled Vulnerability types
 
