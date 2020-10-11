@@ -11,14 +11,7 @@ While designing VulnerableApp, major emphasis was given on **Ease of adding Vuln
 - Java8
 - Spring Boot
 - Vanilla Javascript
-- CSS
-- Inmemory H2 database
-- Other small libraries used are:
-    - Unit Testing libraries:
-        - mockito
-        - AssertJ
-        - jupiter
-    - nimbus-jose library for jwt
+
 #### Note: we are not limited to these technologies and if required open to expand to other technologies.
 
 ## Design:
