@@ -1,5 +1,5 @@
 function addingEventListenerToUploadImage() {
-  document.getElementById("upload").addEventListener("click", function() {
+  document.getElementById("upload").addEventListener("click", function () {
     var form = document.getElementById("file");
     var file = form.files[0];
     var formData = new FormData();
