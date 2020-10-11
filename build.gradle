@@ -9,8 +9,8 @@ buildscript {
 
 //Community Plugins
 plugins {
-    id("com.diffplug.gradle.spotless") version "4.3.0"
-    id("com.google.cloud.tools.jib") version "2.5.0"
+    id("com.diffplug.gradle.spotless") version "5.6.1"
+    id("com.google.cloud.tools.jib") version "2.6.0"
 }
 
 apply plugin: 'java'
