@@ -18,10 +18,16 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 
 Going further, this application might becomes a database for vulnerabilities. Hence, in future, it can be used for hosting CTFs and can also become a compliance/benchmark for Vulnerability Scanning tools.
 
-## How to use this tool
-
-[How to use guide](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
-
+## Technologies used
+- Java8
+- Spring Boot
+- Vanilla Javascript
+- CSS
+- Other small libraries used are:
+    - JUnit 5
+    - Inmemory H2 database
+    - nimbus-jose library for jwt
+    
 ## Currently handled Vulnerability types
 
 1. [JWT Vulnerability](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/)
@@ -37,6 +43,10 @@ Going further, this application might becomes a database for vulnerabilities. He
     2. [Reflected XSS](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xss/reflected)
 7. [XXE](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xxe)
 
+
+## How to use this tool
+
+[How to use guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
 
 ## Contributing to Project
 
