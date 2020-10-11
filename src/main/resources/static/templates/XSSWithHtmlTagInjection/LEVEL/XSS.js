@@ -1,5 +1,5 @@
 function addingEventListenerToLoadImageButton() {
-  document.getElementById("submit").addEventListener("click", function() {
+  document.getElementById("submit").addEventListener("click", function () {
     let url = getUrlForVulnerabilityLevel();
     doGetAjaxCall(
       appendResponseCallback,

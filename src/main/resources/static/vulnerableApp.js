@@ -20,6 +20,13 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
   cssElement.type = "text/css";
   cssElement.rel = "stylesheet";
   dynamicScriptsElement.appendChild(cssElement);
+  if (urlToFetchHtmlTemplate === "error") {
+    document.getElementById("hideHelp").style.display = "none";
+    document.getElementById("showHelp").style.display = "none";
+  } else {
+    document.getElementById("hideHelp").style.display = "inline-block";
+    document.getElementById("showHelp").style.display = "inline-block";
+  }
 }
 
 function _callbackForInnerMasterOnClickEvent(
@@ -28,7 +35,7 @@ function _callbackForInnerMasterOnClickEvent(
   key,
   vulnerabilitySelected
 ) {
-  return function() {
+  return function () {
     if (currentId == id && currentKey == key) {
       return;
     }
@@ -46,7 +53,7 @@ function _callbackForInnerMasterOnClickEvent(
       vulnerableAppEndPointData[id]["Description"];
     let urlToFetchHtmlTemplate = htmlTemplate
       ? "templates/" + vulnerabilitySelected + "/" + htmlTemplate
-      : "sasan";
+      : "error";
     let parentNodeWithAllDynamicScripts = document.getElementById(
       "dynamicScripts"
     );
@@ -56,7 +63,7 @@ function _callbackForInnerMasterOnClickEvent(
       dynamicScriptNode.remove();
       dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
     }
-    doGetAjaxCall(responseText => {
+    doGetAjaxCall((responseText) => {
       detailTitle.innerHTML = responseText;
       _loadDynamicJSAndCSS(urlToFetchHtmlTemplate);
     }, urlToFetchHtmlTemplate + ".html");
@@ -96,8 +103,8 @@ function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
 function update(vulnerableAppEndPointData) {
   const masterItems = document.querySelectorAll(".master-item");
   handleFirstElementAutoSelection(vulnerableAppEndPointData);
-  masterItems.forEach(item => {
-    item.addEventListener("click", function() {
+  masterItems.forEach((item) => {
+    item.addEventListener("click", function () {
       clearSelectedMaster();
       this.classList.add("active-item");
       detail.classList.remove("hidden-md-down");
@@ -191,7 +198,7 @@ function doGetAjaxCallForVulnerabilityLevel(callBack, isJson) {
 
 function doGetAjaxCall(callBack, url, isJson) {
   let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function() {
+  xmlHttpRequest.onreadystatechange = function () {
     genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
   xmlHttpRequest.open("GET", url, true);
@@ -204,7 +211,7 @@ function doGetAjaxCall(callBack, url, isJson) {
 
 function doPostAjaxCall(callBack, url, isJson, data) {
   let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function() {
+  xmlHttpRequest.onreadystatechange = function () {
     return genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
   xmlHttpRequest.open("POST", url, true);
@@ -238,7 +245,7 @@ function _clearHelp() {
 }
 
 function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
-  document.getElementById("showHelp").addEventListener("click", function() {
+  document.getElementById("showHelp").addEventListener("click", function () {
     document.getElementById("showHelp").disabled = true;
     let helpText = "<ol>";
     for (let index in vulnerableAppEndPointData[currentId][
@@ -263,7 +270,7 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
     document.getElementById("hideHelp").disabled = false;
   });
 
-  document.getElementById("hideHelp").addEventListener("click", function() {
+  document.getElementById("hideHelp").addEventListener("click", function () {
     _clearHelp();
   });
 }
