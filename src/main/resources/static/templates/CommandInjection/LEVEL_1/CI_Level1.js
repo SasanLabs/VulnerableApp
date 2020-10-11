@@ -1,5 +1,5 @@
 function addingEventListenerToPingButton() {
-  document.getElementById("pingBtn").addEventListener("click", function() {
+  document.getElementById("pingBtn").addEventListener("click", function () {
     let url = getUrlForVulnerabilityLevel();
     doGetAjaxCall(
       pingUtilityCallback,

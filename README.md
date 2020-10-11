@@ -26,7 +26,7 @@ Going further, this application might becomes a database for vulnerabilities. He
 
 Contributing to open source is always good from learning perspective as open source is the community to collaborate and grow together.
 
-We really appreciate contributions to this project. As this project is in it's initial phase, we have not set any guidelines. So, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to onboard you to this project. If you are already onboarded, we actively welcome your Pull Requests.
+We really appreciate contributions to this project. As this project is in it's initial phase, we have not set any guidelines. So, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to onboard you to this project. If you are already onboarded, we actively welcome your Pull Requests. Visit [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html) for internal implementation details.
 
 You can also raise an issue, in case you are looking for learning some kind of vulnerability which is not present in VulnerableApp. We will try to add that vulnerability ASAP!
 
