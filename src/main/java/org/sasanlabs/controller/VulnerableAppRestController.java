@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
-import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.internal.utility.FrameworkConstants;
@@ -96,30 +95,6 @@ public class VulnerableAppRestController {
                 Arrays.asList(RequestParameterLocation.values()));
     }
 
-    private void appendIpAddressToSiteMap(
-            StringBuilder xmlBuilder,
-            String ipAddress,
-            AllEndPointsResponseBean endPoint,
-            LevelResponseBean level) {
-        xmlBuilder
-                .append(FrameworkConstants.SITEMAP_URL_TAG_START)
-                .append(FrameworkConstants.NEXT_LINE)
-                .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
-                .append(FrameworkConstants.NEXT_LINE)
-                .append(FrameworkConstants.HTTP)
-                .append(ipAddress)
-                .append(FrameworkConstants.COLON)
-                .append(port)
-                .append(FrameworkConstants.SLASH)
-                .append(endPoint.getName())
-                .append(FrameworkConstants.SLASH)
-                .append(level.getLevel())
-                .append(FrameworkConstants.NEXT_LINE)
-                .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
-                .append(FrameworkConstants.NEXT_LINE)
-                .append(FrameworkConstants.SITEMAP_URL_TAG_END)
-                .append(FrameworkConstants.NEXT_LINE);
-    }
     /**
      * This Endpoint is exposed to help the scanners in finding the Vulnerable EndPoints. Here we
      * are not using any library as we need a very basic sitemap and we don't want to make
@@ -141,8 +116,24 @@ public class VulnerableAppRestController {
             endPoint.getLevelDescriptionSet()
                     .forEach(
                             level -> {
-                                appendIpAddressToSiteMap(xmlBuilder, ipAddress, endPoint, level);
-                                appendIpAddressToSiteMap(xmlBuilder, "localhost", endPoint, level);
+                                xmlBuilder
+                                        .append(FrameworkConstants.SITEMAP_URL_TAG_START)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.HTTP)
+                                        .append(ipAddress)
+                                        .append(FrameworkConstants.COLON)
+                                        .append(port)
+                                        .append(FrameworkConstants.SLASH)
+                                        .append(endPoint.getName())
+                                        .append(FrameworkConstants.SLASH)
+                                        .append(level.getLevel())
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
+                                        .append(FrameworkConstants.NEXT_LINE)
+                                        .append(FrameworkConstants.SITEMAP_URL_TAG_END)
+                                        .append(FrameworkConstants.NEXT_LINE);
                             });
         }
         xmlBuilder.append(FrameworkConstants.SITEMAP_URLSET_TAG_END);
