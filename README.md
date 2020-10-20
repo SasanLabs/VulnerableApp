@@ -46,7 +46,7 @@ We really appreciate contributions to this project. As this project is in it's i
 
 You can also raise an issue, in case you are looking for learning some kind of vulnerability which is not present in VulnerableApp. We will try to add that vulnerability ASAP!
 
-#### Documentation in other languages
+## Documentation in other languages
 
 1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
 2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
