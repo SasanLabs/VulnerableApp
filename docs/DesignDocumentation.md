@@ -12,7 +12,7 @@ While designing VulnerableApp, major emphasis was given on **Ease of adding Vuln
 - Spring Boot
 - Vanilla Javascript
 
-#### Note: we are not limited to these technologies and if required, open to expand to other technologies.
+**Note: we are not limited to these technologies and if required, open to expand to other technologies.**
 
 ## Design:
 UserInterface for VulnerableApp is driven from backend endpoint "/allEndPointJson" which provides entire information about all the Vulnerabilities present in the VulnerableApp. This information is dynamic and is generated from the annotations present over the java class.
