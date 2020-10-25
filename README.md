@@ -7,6 +7,8 @@ As Web Applications are becoming popular these days, there comes a dire need to 
 **VulnerableApp** is built keeping these factors in mind. This project is scalable, extensible, easier to integrate and easier to learn.
 As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities.
 
+![Owasp Vulnerable Graphic Representation](/docs/gifs/Owasp%20VulnerableApp.gif)
+
 ### Future Goal
 
 Going further, this application might becomes a database for vulnerabilities. Hence, in future, it can be used for hosting CTFs and can also become a compliance/benchmark for Vulnerability Scanning tools.
