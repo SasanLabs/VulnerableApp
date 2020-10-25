@@ -60,7 +60,8 @@ You can also raise an issue, in case you are looking for learning some kind of v
 Please raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) or send an email to karan.sasan@owasp.org for any queries.
 We will try to resolve the issues ASAP.
 
-## Website
+## Other details
 
 1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
 2. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
+3. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
