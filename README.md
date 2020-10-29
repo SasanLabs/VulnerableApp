@@ -65,3 +65,7 @@ We will try to resolve the issues ASAP.
 1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
 2. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
 3. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+
+## Blogs
+1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
+2. [Overview of Owasp-VulnerableApp - Blogspot post](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
