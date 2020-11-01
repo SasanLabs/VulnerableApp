@@ -13,11 +13,13 @@ The great thing about these applications(BWAPP and DVWA) is that they cover a lo
 
 The existing vulnerable applications are not meeting the demands of developers of vulnerability scanning tools, the developers end up writing their own vulnerable applications to test their scanning tools and those applications are not reviewed or maintained. They are usually forgotten once the testing needs are met for the vulnerability scanning tool.
 
-```
+{: .fs-9 }
+
 These vulnerable applications should be reviewed and maintained, 
 so that multiple vulnerability scanning tools could make 
 effective use of these vulnerable applications
-```
+{: .fs-6 .fw-300 }
+
 
 A tweet by OWASP ZAP project lead highlighting the lack of well maintained vulnerable applications targeting vulnerability scanning tools - 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Not that many. The ones I know of are:<br>- <a href="https://t.co/cduavcFRYO">https://t.co/cduavcFRYO</a><br>- <a href="https://t.co/d5DVDYl2ag">https://t.co/d5DVDYl2ag</a><br>- <a href="https://t.co/QMIL906Qxa">https://t.co/QMIL906Qxa</a> *<br>- <a href="https://t.co/uhtl2ilPRb">https://t.co/uhtl2ilPRb</a> *<br>- <a href="https://t.co/NdkheyXTYh">https://t.co/NdkheyXTYh</a><br>- <a href="https://t.co/M9i8xcrEcW">https://t.co/M9i8xcrEcW</a><br><br>Only the 2 stared are being maintained right now.</p>&mdash; Simon Bennetts (@psiinon) <a href="https://twitter.com/psiinon/status/1293844526390480896?ref_src=twsrc%5Etfw">August 13, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
