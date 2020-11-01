@@ -18,7 +18,8 @@ The existing vulnerable applications are not meeting the demands of developers o
 >multiple vulnerability scanning tools could make effective use of these
 >vulnerable applications.
 
-A tweet by OWASP ZAP project lead highlighting the lack off well maintained vulnerable applications targeting vulnerability scanning tools - https://twitter.com/psiinon/status/1293844526390480896
+A tweet by OWASP ZAP project lead highlighting the lack off well maintained vulnerable applications targeting vulnerability scanning tools - 
+{% twitter https://twitter.com/psiinon/status/1293844526390480896%}
 
 I came across a new vulnerable web Application, named [VulnerableApp](https://sasanlabs.github.io/VulnerableApp/), which has taken care of the above concerns and it can be easily extended to add yet another vulnerable scenario into the web application. The major advantage of this VulnerableApp is that developers need not spend extra effort in writing a new Vulnerable Application and have the new scenarios covered. VulnerableApp, since its open source application and its constantly being reviewed and updated, it can be used by various scanning tools.
 
