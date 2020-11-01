@@ -13,10 +13,11 @@ The great thing about these applications(BWAPP and DVWA) is that they cover a lo
 
 The existing vulnerable applications are not meeting the demands of developers of vulnerability scanning tools, the developers end up writing their own vulnerable applications to test their scanning tools and those applications are not reviewed or maintained. They are usually forgotten once the testing needs are met for the vulnerability scanning tool.
 
-These vulnerable applications should be reviewed and maintained, 
-so that multiple vulnerability scanning tools could make 
-effective use of these vulnerable applications
-{: .label .label-purple }
+```
+These vulnerable applications should be reviewed and maintained, so that multiple vulnerability scanning tools could make effective use of 
+these vulnerable applications
+```
+{: .fs-8 }
 
 
 A tweet by OWASP ZAP project lead highlighting the lack of well maintained vulnerable applications targeting vulnerability scanning tools - 
