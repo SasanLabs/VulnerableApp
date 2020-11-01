@@ -1,6 +1,5 @@
 #theme: "just-the-docs"
 remote_theme: pmarsceill/just-the-docs
-plugins: ['jekyll-twitter-plugin']
 exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile","README.md", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"]
 
 aux_links:
