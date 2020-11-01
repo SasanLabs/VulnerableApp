@@ -18,7 +18,7 @@ These vulnerable applications should be reviewed and maintained, so that
 multiple vulnerability scanning tools could make effective use of these 
 vulnerable applications
 ```
-{: .fs-4 }
+{: .fs-5 }
 
 
 A tweet by OWASP ZAP project lead highlighting the lack of well maintained vulnerable applications targeting vulnerability scanning tools - 
