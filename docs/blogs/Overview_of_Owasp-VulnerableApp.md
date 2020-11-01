@@ -1,7 +1,9 @@
 ---
 layout: default
 title: Overview of Owasp VulnerableApp
-nav_order: 1
+has_children: false
+parent: Blogs
+---
 ---
 
 ### An extensible Vulnerable Application for testing the Vulnerability scanning tools
