@@ -18,7 +18,7 @@ The existing vulnerable applications are not meeting the demands of developers o
 These vulnerable applications should be reviewed and maintained, 
 so that multiple vulnerability scanning tools could make 
 effective use of these vulnerable applications
-{: .fs-6 .fw-300 }
+{: .fs-3 .fw-100 }
 
 
 A tweet by OWASP ZAP project lead highlighting the lack of well maintained vulnerable applications targeting vulnerability scanning tools - 
