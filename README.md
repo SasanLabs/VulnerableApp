@@ -36,9 +36,9 @@ Going further, this application might becomes a database for vulnerabilities. He
 7. [XXE](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xxe)
 
 
-## How to use this tool
+## Setup details
 
-[How to use guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
+[Setup Guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
 
 ## Contributing to Project
 
