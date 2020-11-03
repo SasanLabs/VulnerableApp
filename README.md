@@ -13,6 +13,10 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 
 Going further, this application might becomes a database for vulnerabilities. Hence, in future, it can be used for hosting CTFs and can also become a compliance/benchmark for Vulnerability Scanning tools.
 
+## Project Setup
+
+[Setup Guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
+
 ## Technologies used
 - Java8
 - Spring Boot
@@ -34,11 +38,6 @@ Going further, this application might becomes a database for vulnerabilities. He
     1. [Persistent XSS](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xss/persistent)
     2. [Reflected XSS](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xss/reflected)
 7. [XXE](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/xxe)
-
-
-## Setup details
-
-[Setup Guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
 
 ## Contributing to Project
 
