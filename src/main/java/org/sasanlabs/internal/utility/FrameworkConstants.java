@@ -18,6 +18,7 @@ public interface FrameworkConstants {
     String SITEMAP_URLSET_TAG_END = "</urlset>";
 
     String HTTP = "http://";
+    String HTTPS = "https://";
     String COLON = ":";
     String SLASH = "/";
     String NEXT_LINE = "\n";

@@ -77,6 +77,7 @@ function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
     let isFirst = true;
     for (let key in vulnerableAppEndPointData[0]["Detailed Information"]) {
       let column = document.createElement("div");
+      column.id = "0." + key;
       let textNode = document.createTextNode(
         vulnerableAppEndPointData[0]["Detailed Information"][key]["Level"]
       );
@@ -115,6 +116,7 @@ function update(vulnerableAppEndPointData) {
         "Detailed Information"
       ]) {
         let column = document.createElement("div");
+        column.id = this.id + "." + key;
         let textNode = document.createTextNode(
           vulnerableAppEndPointData[this.id]["Detailed Information"][key][
             "Level"
