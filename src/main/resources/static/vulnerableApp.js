@@ -13,7 +13,7 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
   let dynamicScriptsElement = document.getElementById("dynamicScripts");
   let jsElement = document.createElement("script");
   jsElement.type = "module";
-  jsElement.src = urlToFetchHtmlTemplate + ".js";
+  jsElement.src = urlToFetchHtmlTemplate + ".js?p=" + new Date().getTime();
   dynamicScriptsElement.appendChild(jsElement);
   let cssElement = document.createElement("link");
   cssElement.href = urlToFetchHtmlTemplate + ".css";
