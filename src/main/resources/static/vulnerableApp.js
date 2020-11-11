@@ -321,3 +321,24 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
     document.getElementById("aboutContainer").scrollIntoView(true);
   });
 })();
+
+
+document.getElementById("learnAndPracticeBtn").addEventListener("click", pushToVulnerabilities);
+let previousUrl;
+
+function pushToVulnerabilities() {
+  let b = document.getElementById("learnAndPracticeBtn");
+  previousUrl = './learnVulnerabilities';
+  let id = b.id;
+  history.pushState({id}, 'Learning Vulnerabilities', './learnVulnerabilities')
+}
+
+window.addEventListener('popstate', e => {
+  if (previousUrl === './learnVulnerabilities') {
+    returnToHome();
+  }
+});
+
+function returnToHome() {
+  document.getElementById("homeLink").click(); // Click on the checkbox
+}
