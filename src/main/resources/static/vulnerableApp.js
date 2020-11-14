@@ -317,7 +317,7 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
     document.getElementById("vulnLearnBtn").classList.add("hide-component");
   });
 
-  document.getElementById("about").addEventListener("click", () => {
-    document.getElementById("aboutContainer").scrollIntoView(true);
-  });
+//  document.getElementById("about").addEventListener("click", () => {
+//    document.getElementById("aboutContainer").scrollIntoView(true);
+//  });
 })();
