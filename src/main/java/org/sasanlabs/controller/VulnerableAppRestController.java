@@ -1,7 +1,6 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +8,7 @@ import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.internal.utility.FrameworkConstants;
+import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointsInformationProvider;
@@ -111,7 +111,6 @@ public class VulnerableAppRestController {
                 new StringBuilder(
                         FrameworkConstants.GENERAL_XML_HEADER
                                 + FrameworkConstants.SITEMAP_URLSET_TAG_START);
-        String ipAddress = InetAddress.getLocalHost().getHostAddress();
         for (AllEndPointsResponseBean endPoint : allEndPoints) {
             endPoint.getLevelDescriptionSet()
                     .forEach(
@@ -122,7 +121,7 @@ public class VulnerableAppRestController {
                                         .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
                                         .append(FrameworkConstants.NEXT_LINE)
                                         .append(FrameworkConstants.HTTP)
-                                        .append(ipAddress)
+                                        .append(GenericUtils.LOCALHOST)
                                         .append(FrameworkConstants.COLON)
                                         .append(port)
                                         .append(FrameworkConstants.SLASH)
