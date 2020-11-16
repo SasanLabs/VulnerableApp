@@ -7,6 +7,8 @@ package org.sasanlabs.internal.utility;
  */
 public class GenericUtils {
 
+    public static final String LOCALHOST = "127.0.0.1";
+
     /**
      * @deprecated
      * @param payload

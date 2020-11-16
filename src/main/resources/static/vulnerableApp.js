@@ -11,10 +11,6 @@ let currentKey;
 
 function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
   let dynamicScriptsElement = document.getElementById("dynamicScripts");
-  let jsElement = document.createElement("script");
-  jsElement.type = "module";
-  jsElement.src = urlToFetchHtmlTemplate + ".js?p=" + new Date().getTime();
-  dynamicScriptsElement.appendChild(jsElement);
   let cssElement = document.createElement("link");
   cssElement.href = urlToFetchHtmlTemplate + ".css";
   cssElement.type = "text/css";
@@ -26,6 +22,10 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
   } else {
     document.getElementById("hideHelp").style.display = "inline-block";
     document.getElementById("showHelp").style.display = "inline-block";
+    let jsElement = document.createElement("script");
+    jsElement.type = "module";
+    jsElement.src = urlToFetchHtmlTemplate + ".js?p=" + new Date().getTime();
+    dynamicScriptsElement.appendChild(jsElement);
   }
 }
 

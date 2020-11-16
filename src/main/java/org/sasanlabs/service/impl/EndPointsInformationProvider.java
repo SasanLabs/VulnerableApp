@@ -2,7 +2,6 @@ package org.sasanlabs.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +14,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
+import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
@@ -111,7 +111,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             throws JsonProcessingException, UnknownHostException {
         List<AllEndPointsResponseBean> allEndPointsResponseBeans = this.getSupportedEndPoints();
         List<ScannerResponseBean> scannerResponseBeans = new ArrayList<>();
-        String ipAddress = InetAddress.getLocalHost().getHostAddress();
         for (AllEndPointsResponseBean allEndPointsResponseBean : allEndPointsResponseBeans) {
             for (LevelResponseBean levelResponseBean :
                     allEndPointsResponseBean.getLevelDescriptionSet()) {
@@ -121,7 +120,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                             new ScannerResponseBean(
                                     new StringBuilder()
                                             .append(FrameworkConstants.HTTP)
-                                            .append(ipAddress)
+                                            .append(GenericUtils.LOCALHOST)
                                             .append(FrameworkConstants.COLON)
                                             .append(port)
                                             .append(FrameworkConstants.SLASH)
