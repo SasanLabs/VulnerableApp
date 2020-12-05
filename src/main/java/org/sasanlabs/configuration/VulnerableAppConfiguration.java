@@ -114,4 +114,5 @@ public class VulnerableAppConfiguration {
             @Qualifier("applicationDataSource") DataSource applicationDataSource) {
         return new JdbcTemplate(applicationDataSource);
     }
+
 }
