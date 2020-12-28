@@ -18,5 +18,10 @@
 		"Name" : "Karn Singh",
 		"Branch": "Computer Science",
 		"From": "Chandigarh"
+	},
+	{
+		"Name" : "Onkar Singh",
+		"Branch": "Computer Science",
+		"From": "Raisinghnagar"
 	}
 ]
