@@ -19,7 +19,7 @@ parent: Locale
 
 ## 如何使用这个工具
 
-[如何使用指南](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[如何使用指南](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
 
 ## 为项目做贡献
 
