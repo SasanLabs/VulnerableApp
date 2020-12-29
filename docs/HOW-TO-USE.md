@@ -11,6 +11,8 @@ nav_order: 3
 3. Running it by **Building manually**, as VulnerableApp is a spring boot based application so for starting this application you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin. As this project is developed in eclipse so eclipse is recommended IDE for now.
 After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090` , for eg: `http://localhost:9090` url and a User Interface will guide you to next steps.
 
+#### As we are moving towards the goal of Distributed VulnerableApplication so if you are downloading latest code or you are accessing unreleased docker image please use following url `http://<base-url>:9090/VulnerableApp`.
+
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints
