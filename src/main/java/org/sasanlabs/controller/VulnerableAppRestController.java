@@ -47,6 +47,19 @@ public class VulnerableAppRestController {
     }
 
     /**
+     * Endpoint used by VulnerableApp-nginx for making a distributed vulnerable application.
+     *
+     * @return
+     * @throws JsonProcessingException
+     */
+    @GetMapping
+    @RequestMapping("/VulnerabilityDefinitions")
+    public List<AllEndPointsResponseBean> getVulnerabilityDefinitions()
+            throws JsonProcessingException {
+        return getAllSupportedEndPoints.getSupportedEndPoints();
+    }
+
+    /**
      * This Endpoint is used to provide the entire information about the application like Supported
      * Vulnerabilities, Levels etc. Currently our thought process is that UI can be built entirely
      * using this information alone and we have build the UI by only using information provided by
