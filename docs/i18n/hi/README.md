@@ -19,7 +19,7 @@ parent: Locale
 
 ## इस टूल का उपयोग कैसे करें
 
-[गाइड का उपयोग कैसे करें](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[गाइड का उपयोग कैसे करें](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
 
 ## परियोजना में योगदान
 
