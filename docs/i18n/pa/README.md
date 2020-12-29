@@ -19,7 +19,7 @@ parent: Locale
 
 ## ਇਸ ਟੂਲ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ
 
-[ਗਾਈਡ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[ਗਾਈਡ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
 
 ## ਪ੍ਰੋਜੈਕਟ ਲਈ ਯੋਗਦਾਨ
 
