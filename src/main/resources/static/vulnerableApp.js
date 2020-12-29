@@ -52,7 +52,7 @@ function _callbackForInnerMasterOnClickEvent(
     document.getElementById("vulnerabilityDescription").innerHTML =
       vulnerableAppEndPointData[id]["Description"];
     let urlToFetchHtmlTemplate = htmlTemplate
-      ? "templates/" + vulnerabilitySelected + "/" + htmlTemplate
+      ? "/VulnerableApp/templates/" + vulnerabilitySelected + "/" + htmlTemplate
       : "error";
     let parentNodeWithAllDynamicScripts = document.getElementById(
       "dynamicScripts"
@@ -173,7 +173,9 @@ function back() {
 }
 
 function getUrlForVulnerabilityLevel() {
-  return vulnerabilitySelected + "/" + vulnerabilityLevelSelected;
+  return (
+    "/VulnerableApp/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected
+  );
 }
 
 function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
