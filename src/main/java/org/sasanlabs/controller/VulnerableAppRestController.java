@@ -33,11 +33,6 @@ public class VulnerableAppRestController {
         this.port = port;
     }
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
-
     /**
      * @return Entire information for the application.
      * @throws JsonProcessingException
