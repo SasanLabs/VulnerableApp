@@ -18,7 +18,7 @@ parent: Locale
 
 ## Как пользоваться этим инструментом
 
-[Как пользоваться руководством](https://github.com/SasanLabs/VulnerableApp/blob/master/HOW-TO-USE.md)
+[Как пользоваться руководством](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/HOW-TO-USE.md)
 
 ## Содействие проекту
 
