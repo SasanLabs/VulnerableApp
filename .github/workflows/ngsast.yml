@@ -1,0 +1,52 @@
+---
+# This workflow integrates ShiftLeft NG SAST with GitHub code scanning
+# Visit https://docs.shiftleft.io for help
+name: ShiftLeft Code scanning
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  NextGen-Static-Analysis:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Java JDK
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 1.8
+    - name: Download ShiftLeft cli
+      run: |
+        curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Build and Analyze
+      run: |
+          chmod +x gradlew
+          ./gradlew build
+          jar_name=`ls build/libs/*.jar`
+          ${GITHUB_WORKSPACE}/sl analyze --wait --sca --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --java --cpg $jar_name
+      env:
+        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+        SL_CPG_OPTS: "-J-Xms2g -J-Xmx7g"
+        SHIFTLEFT_JAVA_OPTS: "-Xms2g -Xmx7g"
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Download findings using api and convert to sarif
+      run: |
+        mkdir -p ${GITHUB_WORKSPACE}/reports
+        curl -H "Authorization: Bearer ${SHIFTLEFT_ACCESS_TOKEN}" -L "https://www.shiftleft.io/api/v4/orgs/${SHIFTLEFT_ORG_ID}/apps/VulnerableApp/findings?per_page=249&type=secret&type=vuln&type=extscan" -o ${GITHUB_WORKSPACE}/reports/findings.json
+        sudo pip install joern2sarif
+        joern2sarif -t ng-sast -i ${GITHUB_WORKSPACE}/reports/findings.json -o ${GITHUB_WORKSPACE}/reports/ngsast-findings.sarif
+      env:
+        WORKSPACE: "src/main/java"
+        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+        SHIFTLEFT_ORG_ID: ${{ secrets.SHIFTLEFT_ORG_ID }}
+    - name: Upload sarif
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: reports
