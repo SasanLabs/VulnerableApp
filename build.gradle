@@ -11,6 +11,7 @@ buildscript {
 plugins {
     id("com.diffplug.spotless") version "5.6.1"
     id("com.google.cloud.tools.jib") version "2.6.0"
+    id("org.sonarqube") version "3.1"
 }
 
 apply plugin: 'java'
