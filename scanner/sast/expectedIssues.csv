@@ -1,0 +1,30 @@
+CWE,Vulnerability Type,File,Line,Number of Sources
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java,56,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java,82,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,68,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,115,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,165,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,218,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,50,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,77,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,102,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,45,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,72,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,101,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedImgTagAttrInjection.java,60,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedImgTagAttrInjection.java,82,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,101,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,119,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,141,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,165,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,196,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,226,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,257,1
+CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,276,1
+CWE-22,Path Traversal,src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java,65,12 
+CWE-601,Open Redirect,src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java,66,6
+CWE-601,Open Redirect,src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java,214,1
+CWE-601,Open Redirect,src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java,244,1
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,46,5
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,51,5
+CWE-434,Unrestricted File Upload,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,117,9
