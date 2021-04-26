@@ -70,75 +70,86 @@ function _callbackForInnerMasterOnClickEvent(
   };
 }
 
-function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
-  if (vulnerableAppEndPointData.length > 0) {
-    vulnerabilitySelected = vulnerableAppEndPointData[0]["Name"];
-    detailTitle.innerHTML = vulnerableAppEndPointData[0]["Description"];
-    let isFirst = true;
-    for (let key in vulnerableAppEndPointData[0]["Detailed Information"]) {
-      let column = document.createElement("div");
-      column.id = "0." + key;
-      let textNode = document.createTextNode(
-        vulnerableAppEndPointData[0]["Detailed Information"][key]["Level"]
-      );
-      column.appendChild(textNode);
-      column.className = "inner-master-item";
-      column.addEventListener(
+function getVariant(detailedInformation) {
+  return detailedInformation["Variant"] === "SECURE";
+}
+
+function getSvgVariant(isSecure) {
+  let svg = document.createElement("img");
+  svg.classList.add("vector");
+  svg.setAttribute("src", "vectors/" + (isSecure ? "secure" : "unsecure") + ".svg");
+
+  return svg;
+}
+
+function createColumn(detailedInformationArray, key) {
+  let detailedInformation = detailedInformationArray[key];
+  let isSecure = getVariant(detailedInformation);
+
+  let column = document.createElement("div");
+  column.id = "0." + key;
+  column.appendChild(getSvgVariant(isSecure));
+  column.appendChild(document.createTextNode(detailedInformation["Level"]));
+  column.classList.add("inner-master-item");
+
+  if (isSecure) {
+    column.classList.add("secure-vulnerability");
+  }
+
+  return column;
+}
+
+function appendNewColumn(vulnerableAppEndPointData, id) {
+  let detailedInformationArray = vulnerableAppEndPointData[id]["Detailed Information"];
+  let isFirst = true;
+
+  for (let key in detailedInformationArray) {
+    if (!detailedInformationArray.hasOwnProperty(key)) {
+      continue;
+    }
+    let column = createColumn(detailedInformationArray, key);
+    column.addEventListener(
         "click",
         _callbackForInnerMasterOnClickEvent(
-          vulnerableAppEndPointData,
-          0,
-          key,
-          vulnerabilitySelected
+            vulnerableAppEndPointData,
+            id,
+            key,
+            vulnerabilitySelected
         )
-      );
-      if (isFirst) {
-        column.click();
-        isFirst = false;
-      }
-      innerMaster.appendChild(column);
+    );
+    if (isFirst) {
+      column.click();
+      isFirst = false;
     }
+    innerMaster.appendChild(column);
   }
+}
+
+function handleElementAutoSelection(vulnerableAppEndPointData, id = 0) {
+  if (!vulnerableAppEndPointData.length) {
+    return;
+  }
+
+  if (id) {
+    innerMaster.innerHTML = "";
+  } else {
+    detailTitle.innerHTML = vulnerableAppEndPointData[id]["Description"];
+  }
+
+  vulnerabilitySelected = vulnerableAppEndPointData[id]["Name"];
+  detailTitle.innerHTML = vulnerableAppEndPointData[id]["Description"];
+  appendNewColumn(vulnerableAppEndPointData, id);
 }
 
 function update(vulnerableAppEndPointData) {
   const masterItems = document.querySelectorAll(".master-item");
-  handleFirstElementAutoSelection(vulnerableAppEndPointData);
+  handleElementAutoSelection(vulnerableAppEndPointData, 0);
   masterItems.forEach((item) => {
     item.addEventListener("click", function () {
       clearSelectedMaster();
       this.classList.add("active-item");
       detail.classList.remove("hidden-md-down");
-      innerMaster.innerHTML = "";
-      vulnerabilitySelected = vulnerableAppEndPointData[this.id]["Name"];
-      let isFirst = true;
-      for (let key in vulnerableAppEndPointData[this.id][
-        "Detailed Information"
-      ]) {
-        let column = document.createElement("div");
-        column.id = this.id + "." + key;
-        let textNode = document.createTextNode(
-          vulnerableAppEndPointData[this.id]["Detailed Information"][key][
-            "Level"
-          ]
-        );
-        column.appendChild(textNode);
-        column.className = "inner-master-item";
-        column.addEventListener(
-          "click",
-          _callbackForInnerMasterOnClickEvent(
-            vulnerableAppEndPointData,
-            this.id,
-            key,
-            vulnerabilitySelected
-          )
-        );
-        if (isFirst) {
-          column.click();
-          isFirst = false;
-        }
-        innerMaster.appendChild(column);
-      }
+      handleElementAutoSelection(vulnerableAppEndPointData, this.id);
     });
   });
   _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData);

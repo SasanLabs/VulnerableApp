@@ -3,15 +3,22 @@ package org.sasanlabs.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 import org.sasanlabs.internal.utility.LevelConstants;
+import org.sasanlabs.internal.utility.SecureConstants;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
     private String level;
+
+    @JsonProperty("Variant")
+    private String variant;
 
     @JsonProperty("Description")
     private String description;
@@ -40,6 +47,14 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getVariant() {
+        return variant;
+    }
+
+    public void setVariant(String variant) {
+        this.variant = variant;
     }
 
     public String getDescription() {
@@ -101,7 +116,12 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @Override
     public int compareTo(LevelResponseBean levelResponseBean) {
-        return LevelConstants.getOrdinal(this.level)
-                - LevelConstants.getOrdinal(levelResponseBean.getLevel());
+        ToIntFunction<String> variantOrdinal = level ->
+                level.contains("SECURE")
+                        ? SecureConstants.getIncrementedOrdinal(level)
+                        : LevelConstants.getOrdinal(level);
+
+        return variantOrdinal.applyAsInt(this.getLevel())
+                - variantOrdinal.applyAsInt(levelResponseBean.getLevel());
     }
 }
