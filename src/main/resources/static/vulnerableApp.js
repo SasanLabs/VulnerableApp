@@ -109,13 +109,13 @@ function appendNewColumn(vulnerableAppEndPointData, id) {
     }
     let column = createColumn(detailedInformationArray, key);
     column.addEventListener(
-        "click",
-        _callbackForInnerMasterOnClickEvent(
-            vulnerableAppEndPointData,
-            id,
-            key,
-            vulnerabilitySelected
-        )
+      "click",
+      _callbackForInnerMasterOnClickEvent(
+        vulnerableAppEndPointData,
+        id,
+        key,
+        vulnerabilitySelected
+      )
     );
     if (isFirst) {
       column.click();
