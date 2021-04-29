@@ -70,25 +70,27 @@ function _callbackForInnerMasterOnClickEvent(
   };
 }
 
-function getVariant(detailedInformation) {
+function _getVariant(detailedInformation) {
   return detailedInformation["Variant"] === "SECURE";
 }
 
-function getSvgVariant(isSecure) {
+function _getSvgElementForVariant(isSecure) {
   let svg = document.createElement("img");
   svg.classList.add("vector");
-  svg.setAttribute("src", "vectors/" + (isSecure ? "secure" : "unsecure") + ".svg");
+  const svgVariantName = isSecure ? "secure" : "unsecure";
+
+  svg.setAttribute("src", "vectors/" + svgVariantName + ".svg");
 
   return svg;
 }
 
 function createColumn(detailedInformationArray, key) {
   let detailedInformation = detailedInformationArray[key];
-  let isSecure = getVariant(detailedInformation);
+  let isSecure = _getVariant(detailedInformation);
 
   let column = document.createElement("div");
   column.id = "0." + key;
-  column.appendChild(getSvgVariant(isSecure));
+  column.appendChild(_getSvgElementForVariant(isSecure));
   column.appendChild(document.createTextNode(detailedInformation["Level"]));
   column.classList.add("inner-master-item");
 
@@ -100,7 +102,8 @@ function createColumn(detailedInformationArray, key) {
 }
 
 function appendNewColumn(vulnerableAppEndPointData, id) {
-  let detailedInformationArray = vulnerableAppEndPointData[id]["Detailed Information"];
+  let detailedInformationArray =
+    vulnerableAppEndPointData[id]["Detailed Information"];
   let isFirst = true;
 
   for (let key in detailedInformationArray) {
@@ -125,15 +128,21 @@ function appendNewColumn(vulnerableAppEndPointData, id) {
   }
 }
 
+/**
+ * Replace vulnerability description and append a column with all of the vulnerability levels.
+ * Each level is assigned with an event listener that aims to handle specific level selection.
+ * @param {Object} vulnerableAppEndPointData - data from the API describing the vulnerability
+ * @param {number} id - master-item identifier
+ */
 function handleElementAutoSelection(vulnerableAppEndPointData, id = 0) {
   if (!vulnerableAppEndPointData.length) {
     return;
   }
 
-  if (id) {
-    innerMaster.innerHTML = "";
-  } else {
+  if (id === 0) {
     detailTitle.innerHTML = vulnerableAppEndPointData[id]["Description"];
+  } else {
+    innerMaster.innerHTML = "";
   }
 
   vulnerabilitySelected = vulnerableAppEndPointData[id]["Name"];

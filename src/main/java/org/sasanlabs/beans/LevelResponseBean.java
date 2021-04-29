@@ -10,9 +10,7 @@ import org.sasanlabs.internal.utility.VariantConstants;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * @author KSASAN preetkaran20@gmail.com
- */
+/** @author KSASAN preetkaran20@gmail.com */
 public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
@@ -117,10 +115,11 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @Override
     public int compareTo(LevelResponseBean levelResponseBean) {
-        ToIntFunction<String> variantOrdinal = level ->
-                level.contains(VariantConstants.SECURE)
-                        ? SecureConstants.getIncrementedOrdinal(level)
-                        : LevelConstants.getOrdinal(level);
+        ToIntFunction<String> variantOrdinal =
+                level ->
+                        level.contains(VariantConstants.SECURE)
+                                ? SecureConstants.getIncrementedOrdinal(level)
+                                : LevelConstants.getOrdinal(level);
 
         return variantOrdinal.applyAsInt(this.getLevel())
                 - variantOrdinal.applyAsInt(levelResponseBean.getLevel());
