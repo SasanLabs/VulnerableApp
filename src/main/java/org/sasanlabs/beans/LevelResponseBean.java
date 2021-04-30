@@ -3,9 +3,7 @@ package org.sasanlabs.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToIntFunction;
 import org.sasanlabs.internal.utility.LevelConstants;
-import org.sasanlabs.internal.utility.SecureConstants;
 import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -115,13 +113,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @Override
     public int compareTo(LevelResponseBean levelResponseBean) {
-        ToIntFunction<String> variantOrdinal =
-                level ->
-                        level.contains(Variant.SECURE.toString())
-                                ? SecureConstants.getIncrementedOrdinal(level)
-                                : LevelConstants.getOrdinal(level);
-
-        return variantOrdinal.applyAsInt(this.getLevel())
-                - variantOrdinal.applyAsInt(levelResponseBean.getLevel());
+        return LevelConstants.getOrdinal(this.level)
+                - LevelConstants.getOrdinal(levelResponseBean.getLevel());
     }
 }
