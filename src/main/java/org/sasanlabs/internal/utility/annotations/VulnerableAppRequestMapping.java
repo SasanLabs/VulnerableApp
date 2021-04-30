@@ -4,7 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.sasanlabs.internal.utility.VariantConstants;
+import org.sasanlabs.internal.utility.Variant;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +28,7 @@ public @interface VulnerableAppRequestMapping {
      *
      * @return variant
      */
-    String variant() default VariantConstants.UNSECURE;
+    Variant variant() default Variant.UNSECURE;
 
     /**
      * Describes the information about the input type, expected output and other factors. like say

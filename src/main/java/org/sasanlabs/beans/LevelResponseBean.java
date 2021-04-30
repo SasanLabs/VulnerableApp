@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.ToIntFunction;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.SecureConstants;
-import org.sasanlabs.internal.utility.VariantConstants;
+import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,7 +17,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     private String level;
 
     @JsonProperty("Variant")
-    private String variant;
+    private Variant variant;
 
     @JsonProperty("Description")
     private String description;
@@ -48,11 +48,11 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
         this.level = level;
     }
 
-    public String getVariant() {
+    public Variant getVariant() {
         return variant;
     }
 
-    public void setVariant(String variant) {
+    public void setVariant(Variant variant) {
         this.variant = variant;
     }
 
@@ -117,7 +117,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     public int compareTo(LevelResponseBean levelResponseBean) {
         ToIntFunction<String> variantOrdinal =
                 level ->
-                        level.contains(VariantConstants.SECURE)
+                        level.contains(Variant.SECURE.toString())
                                 ? SecureConstants.getIncrementedOrdinal(level)
                                 : LevelConstants.getOrdinal(level);
 

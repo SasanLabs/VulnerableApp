@@ -130,7 +130,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .append(levelResponseBean.getLevel())
                                             .toString(),
                                     levelResponseBean.getLevel(),
-                                    levelResponseBean.getVariant(),
+                                    levelResponseBean.getVariant().toString(),
                                     levelResponseBean.getRequestParameterLocation(),
                                     levelResponseBean.getParameterName(),
                                     levelResponseBean.getSampleValues(),
