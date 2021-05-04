@@ -3,6 +3,11 @@ const detailTitle = document.querySelector(".detail-title");
 const master = document.querySelector(".master");
 const innerMaster = document.querySelector(".inner-master");
 
+const variantTooltip = {
+  secure: "Implementation considered secure",
+  unsecure: "Implementation considered unsecure"
+};
+
 let vulnerabilitySelected = "";
 let vulnerabilityLevelSelected = "";
 
@@ -70,13 +75,14 @@ function _callbackForInnerMasterOnClickEvent(
   };
 }
 
-function _getVariant(detailedInformation) {
+function _isSecureVariant(detailedInformation) {
   return detailedInformation["Variant"] === "SECURE";
 }
 
 function _getSvgElementForVariant(isSecure) {
   let svg = document.createElement("img");
   svg.classList.add("vector");
+  svg.classList.add("tooltip");
   const svgVariantName = isSecure ? "secure" : "unsecure";
 
   svg.setAttribute("src", "vectors/" + svgVariantName + ".svg");
@@ -86,11 +92,23 @@ function _getSvgElementForVariant(isSecure) {
 
 function createColumn(detailedInformationArray, key) {
   let detailedInformation = detailedInformationArray[key];
-  let isSecure = _getVariant(detailedInformation);
+  let isSecure = _isSecureVariant(detailedInformation);
 
   let column = document.createElement("div");
   column.id = "0." + key;
-  column.appendChild(_getSvgElementForVariant(isSecure));
+
+  let svgWithTooltip = document.createElement("div");
+  svgWithTooltip.classList.add("tooltip");
+
+  let span = document.createElement("span");
+  span.classList.add("tooltip-text");
+  span.classList.add(isSecure ? "secure-variant-tooltip-text" : "unsecure-variant-tooltip-text");
+  span.innerHTML = isSecure ? variantTooltip.secure : variantTooltip.unsecure;
+
+  svgWithTooltip.appendChild(span);
+  svgWithTooltip.appendChild(_getSvgElementForVariant(isSecure));
+  column.appendChild(svgWithTooltip);
+
   column.appendChild(document.createTextNode(detailedInformation["Level"]));
   column.classList.add("inner-master-item");
 
