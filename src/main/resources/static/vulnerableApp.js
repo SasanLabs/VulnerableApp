@@ -5,7 +5,7 @@ const innerMaster = document.querySelector(".inner-master");
 
 const variantTooltip = {
   secure: "Implementation considered secure",
-  unsecure: "Implementation considered unsecure"
+  unsecure: "Implementation considered unsecure",
 };
 
 let vulnerabilitySelected = "";
@@ -102,7 +102,9 @@ function createColumn(detailedInformationArray, key) {
 
   let span = document.createElement("span");
   span.classList.add("tooltip-text");
-  span.classList.add(isSecure ? "secure-variant-tooltip-text" : "unsecure-variant-tooltip-text");
+  span.classList.add(
+    isSecure ? "secure-variant-tooltip-text" : "unsecure-variant-tooltip-text"
+  );
   span.innerHTML = isSecure ? variantTooltip.secure : variantTooltip.unsecure;
 
   svgWithTooltip.appendChild(span);
