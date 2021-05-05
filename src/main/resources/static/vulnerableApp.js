@@ -4,8 +4,8 @@ const master = document.querySelector(".master");
 const innerMaster = document.querySelector(".inner-master");
 
 const variantTooltip = {
-  secure: "Implementation considered secure",
-  unsecure: "Implementation considered unsecure",
+  secure: "Secure implementation",
+  unsecure: "Unsecure implementation",
 };
 
 let vulnerabilitySelected = "";
