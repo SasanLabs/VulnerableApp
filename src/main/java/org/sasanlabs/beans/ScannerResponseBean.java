@@ -21,6 +21,12 @@ public class ScannerResponseBean {
     @JsonProperty("url")
     private String url;
 
+    @JsonProperty("level")
+    private String level;
+
+    @JsonProperty("variant")
+    private String variant;
+
     @JsonProperty("location")
     private RequestParameterLocation requestParameterLocation;
 
@@ -38,6 +44,8 @@ public class ScannerResponseBean {
 
     public ScannerResponseBean(
             String url,
+            String level,
+            String variant,
             RequestParameterLocation requestParameterLocation,
             String parameterName,
             String[] sampleValues,
@@ -45,6 +53,8 @@ public class ScannerResponseBean {
             List<VulnerabilitySubType> vulnerabilityTypes) {
         super();
         this.url = url;
+        this.level = level;
+        this.variant = variant;
         this.requestParameterLocation = requestParameterLocation;
         this.parameterName = parameterName;
         this.sampleValues = sampleValues;

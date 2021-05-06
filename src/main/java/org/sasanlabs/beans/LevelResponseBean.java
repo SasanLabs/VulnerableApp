@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.sasanlabs.internal.utility.LevelConstants;
+import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,6 +13,9 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
     private String level;
+
+    @JsonProperty("Variant")
+    private Variant variant;
 
     @JsonProperty("Description")
     private String description;
@@ -40,6 +44,14 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public Variant getVariant() {
+        return variant;
+    }
+
+    public void setVariant(Variant variant) {
+        this.variant = variant;
     }
 
     public String getDescription() {

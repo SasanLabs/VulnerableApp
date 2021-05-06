@@ -151,26 +151,91 @@ hr {
 */
 .master-item {
     font-size: 24px;
-    border-bottom: 2px solid burlywood;
-    padding: 10px;
-}
-
-.master-item:hover, .master-item.active-item{
-    background: burlywood;
-    color: white;
-    cursor: pointer;
 }
 
 .inner-master-item {
     font-size: 18px;
+}
+
+.master-item,
+.inner-master-item {
     border-bottom: 2px solid burlywood;
     padding: 10px;
 }
 
-.inner-master-item:hover, .inner-master-item.active-item{
+.master-item:hover,
+.master-item.active-item,
+.inner-master-item:hover,
+.inner-master-item.active-item {
     background: burlywood;
-    color: white;
+    font-weight: bold;
     cursor: pointer;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    padding: 10% 30%;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: initial;
+    white-space: nowrap;
+    transform: translate(-51%, 135%);
+    transition: all 100ms ease-in-out 50ms;
+}
+
+.tooltip-text:after {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-width: 7px;
+    border-style: solid;
+}
+
+.tooltip:hover .tooltip-text:not(.tooltip-text:hover) {
+    visibility: visible;
+    opacity: 1;
+}
+
+.secure-variant-tooltip-text {
+    background-color: #37a93c;
+}
+
+.secure-variant-tooltip-text:after {
+    border-color: transparent transparent #37a93c transparent;
+}
+
+.unsecure-variant-tooltip-text {
+    background-color: black;
+}
+
+.unsecure-variant-tooltip-text:after {
+    border-color: transparent transparent black transparent;
+}
+
+.vector {
+    transform: scale(0.82);
+    margin-bottom: -6px;
+    padding-right: 6px;
+}
+
+:not(.active-item).inner-master-item:hover .vector {
+    transform: scale(0.9);
+}
+
+.secure-vulnerability {
+    color: #37a93c;
 }
 
 /* For Phones */

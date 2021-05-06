@@ -3,6 +3,11 @@ const detailTitle = document.querySelector(".detail-title");
 const master = document.querySelector(".master");
 const innerMaster = document.querySelector(".inner-master");
 
+const variantTooltip = {
+  secure: "Secure implementation",
+  unsecure: "Unsecure implementation",
+};
+
 let vulnerabilitySelected = "";
 let vulnerabilityLevelSelected = "";
 
@@ -70,75 +75,110 @@ function _callbackForInnerMasterOnClickEvent(
   };
 }
 
-function handleFirstElementAutoSelection(vulnerableAppEndPointData) {
-  if (vulnerableAppEndPointData.length > 0) {
-    vulnerabilitySelected = vulnerableAppEndPointData[0]["Name"];
-    detailTitle.innerHTML = vulnerableAppEndPointData[0]["Description"];
-    let isFirst = true;
-    for (let key in vulnerableAppEndPointData[0]["Detailed Information"]) {
-      let column = document.createElement("div");
-      column.id = "0." + key;
-      let textNode = document.createTextNode(
-        vulnerableAppEndPointData[0]["Detailed Information"][key]["Level"]
-      );
-      column.appendChild(textNode);
-      column.className = "inner-master-item";
-      column.addEventListener(
-        "click",
-        _callbackForInnerMasterOnClickEvent(
-          vulnerableAppEndPointData,
-          0,
-          key,
-          vulnerabilitySelected
-        )
-      );
-      if (isFirst) {
-        column.click();
-        isFirst = false;
-      }
-      innerMaster.appendChild(column);
-    }
+function _isSecureVariant(detailedInformation) {
+  return detailedInformation["Variant"] === "SECURE";
+}
+
+function _getSvgElementForVariant(isSecure) {
+  let svg = document.createElement("img");
+  svg.classList.add("vector");
+  svg.classList.add("tooltip");
+  const svgVariantName = isSecure ? "secure" : "unsecure";
+
+  svg.setAttribute("src", "vectors/" + svgVariantName + ".svg");
+
+  return svg;
+}
+
+function createColumn(detailedInformationArray, key) {
+  let detailedInformation = detailedInformationArray[key];
+  let isSecure = _isSecureVariant(detailedInformation);
+
+  let column = document.createElement("div");
+  column.id = "0." + key;
+
+  let svgWithTooltip = document.createElement("div");
+  svgWithTooltip.classList.add("tooltip");
+
+  let span = document.createElement("span");
+  span.classList.add("tooltip-text");
+  span.classList.add(
+    isSecure ? "secure-variant-tooltip-text" : "unsecure-variant-tooltip-text"
+  );
+  span.innerHTML = isSecure ? variantTooltip.secure : variantTooltip.unsecure;
+
+  svgWithTooltip.appendChild(span);
+  svgWithTooltip.appendChild(_getSvgElementForVariant(isSecure));
+  column.appendChild(svgWithTooltip);
+
+  column.appendChild(document.createTextNode(detailedInformation["Level"]));
+  column.classList.add("inner-master-item");
+
+  if (isSecure) {
+    column.classList.add("secure-vulnerability");
   }
+
+  return column;
+}
+
+function appendNewColumn(vulnerableAppEndPointData, id) {
+  let detailedInformationArray =
+    vulnerableAppEndPointData[id]["Detailed Information"];
+  let isFirst = true;
+
+  for (let key in detailedInformationArray) {
+    if (!detailedInformationArray.hasOwnProperty(key)) {
+      continue;
+    }
+    let column = createColumn(detailedInformationArray, key);
+    column.addEventListener(
+      "click",
+      _callbackForInnerMasterOnClickEvent(
+        vulnerableAppEndPointData,
+        id,
+        key,
+        vulnerabilitySelected
+      )
+    );
+    if (isFirst) {
+      column.click();
+      isFirst = false;
+    }
+    innerMaster.appendChild(column);
+  }
+}
+
+/**
+ * Replace vulnerability description and append a column with all of the vulnerability levels.
+ * Each level is assigned with an event listener that aims to handle specific level selection.
+ * @param {Object} vulnerableAppEndPointData - data from the API describing the vulnerability
+ * @param {number} id - master-item identifier
+ */
+function handleElementAutoSelection(vulnerableAppEndPointData, id = 0) {
+  if (!vulnerableAppEndPointData.length) {
+    return;
+  }
+
+  if (id === 0) {
+    detailTitle.innerHTML = vulnerableAppEndPointData[id]["Description"];
+  } else {
+    innerMaster.innerHTML = "";
+  }
+
+  vulnerabilitySelected = vulnerableAppEndPointData[id]["Name"];
+  detailTitle.innerHTML = vulnerableAppEndPointData[id]["Description"];
+  appendNewColumn(vulnerableAppEndPointData, id);
 }
 
 function update(vulnerableAppEndPointData) {
   const masterItems = document.querySelectorAll(".master-item");
-  handleFirstElementAutoSelection(vulnerableAppEndPointData);
+  handleElementAutoSelection(vulnerableAppEndPointData, 0);
   masterItems.forEach((item) => {
     item.addEventListener("click", function () {
       clearSelectedMaster();
       this.classList.add("active-item");
       detail.classList.remove("hidden-md-down");
-      innerMaster.innerHTML = "";
-      vulnerabilitySelected = vulnerableAppEndPointData[this.id]["Name"];
-      let isFirst = true;
-      for (let key in vulnerableAppEndPointData[this.id][
-        "Detailed Information"
-      ]) {
-        let column = document.createElement("div");
-        column.id = this.id + "." + key;
-        let textNode = document.createTextNode(
-          vulnerableAppEndPointData[this.id]["Detailed Information"][key][
-            "Level"
-          ]
-        );
-        column.appendChild(textNode);
-        column.className = "inner-master-item";
-        column.addEventListener(
-          "click",
-          _callbackForInnerMasterOnClickEvent(
-            vulnerableAppEndPointData,
-            this.id,
-            key,
-            vulnerabilitySelected
-          )
-        );
-        if (isFirst) {
-          column.click();
-          isFirst = false;
-        }
-        innerMaster.appendChild(column);
-      }
+      handleElementAutoSelection(vulnerableAppEndPointData, this.id);
     });
   });
   _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData);
