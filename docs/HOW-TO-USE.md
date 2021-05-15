@@ -13,6 +13,10 @@ After importing the project, run the app and it should start a server and try to
 
 **As we are moving towards the goal of Distributed Vulnerable Application so if you are downloading latest code or you are accessing unreleased docker image please use following url `http://<base-url>:9090/VulnerableApp`**
 
+# FAQ
+**Question**: While running the code manually causing exception `java.nio.file.FileSystemException: /contentDispositionUpload: Read-only file system`. How to fix ?
+
+**Answer**: For file upload vulnerability we need to write the uploaded file to filesystem and hence we need to access the file system to write. so in case write previleges are not given to the executing process then we face this issue. Please run the application with `sudo` or with right previledges.
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints
