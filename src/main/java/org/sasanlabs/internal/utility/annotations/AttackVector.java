@@ -31,7 +31,7 @@ public @interface AttackVector {
      *
      * @return Key that Identifies Curl request
      */
-    String curlPayload() default "NOT_APPLICABLE";
+    String payload() default "NOT_APPLICABLE";
 
     /**
      * Should be a Label Key
