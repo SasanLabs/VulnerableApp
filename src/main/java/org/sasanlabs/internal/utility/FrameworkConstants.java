@@ -22,4 +22,7 @@ public interface FrameworkConstants {
     String COLON = ":";
     String SLASH = "/";
     String NEXT_LINE = "\n";
+
+    // As VulnerableApp is added to each URL hence creating a constant for reference.
+    String VULNERABLE_APP = "VulnerableApp";
 }
