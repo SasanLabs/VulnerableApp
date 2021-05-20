@@ -94,7 +94,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                                     attackVector
                                                                             .vulnerabilityExposed())),
                                                     vulnerableAppProperties.getAttackVectorProperty(
-                                                            attackVector.curlPayload()),
+                                                            attackVector.payload()),
                                                     messageBundle.getString(
                                                             attackVector.description(), null)));
                         }
