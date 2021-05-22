@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
 
 /**
  * This is used for providing the entire information about the vulnerableApp like
@@ -23,6 +24,13 @@ public interface IEndPointsInformationProvider {
      * @throws JsonProcessingException
      */
     List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException;
+
+    /**
+     * This Api provides information required by VulnerableApp-Facade for providing a facade
+     * interface for various vulnerability definitions.
+     */
+    List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
+            throws JsonProcessingException;
 
     /**
      * This Api provides information about the exposed vulnerable endpoints by the application. This
