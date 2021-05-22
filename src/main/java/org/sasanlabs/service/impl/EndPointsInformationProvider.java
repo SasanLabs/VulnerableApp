@@ -12,6 +12,8 @@ import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
+import org.sasanlabs.facade.beans.FacadeResourceInformation;
+import org.sasanlabs.facade.beans.FacadeResourceURI;
 import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
 import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelDefinition;
 import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelHint;
@@ -163,6 +165,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                 FacadeVulnerabilityDefinition facadeVulnerabilityDefinition =
                         new FacadeVulnerabilityDefinition();
                 facadeVulnerabilityDefinition.setName(name);
+                facadeVulnerabilityDefinition.setId(name);
                 facadeVulnerabilityDefinition.setDescription(
                         messageBundle.getString(description, null));
                 List<FacadeVulnerabilityType> facadeVulnerabilityTypes =
@@ -171,6 +174,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                     facadeVulnerabilityTypes.add(
                             new FacadeVulnerabilityType("Custom", vulnerabilityType.name()));
                 }
+                facadeVulnerabilityDefinition.setVulnerabilityTypes(facadeVulnerabilityTypes);
                 Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
                     VulnerableAppRequestMapping vulnLevel =
@@ -184,8 +188,28 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         facadeVulnerabilityLevelDefinition.setVariant(vulnLevel.variant());
                         facadeVulnerabilityLevelDefinition.setDescription(
                                 messageBundle.getString(vulnLevel.descriptionLabel(), null));
-                        facadeVulnerabilityLevelDefinition.setHtmlTemplate(
-                                vulnLevel.htmlTemplate());
+                        FacadeResourceInformation resourceInformation =
+                                new FacadeResourceInformation();
+                        facadeVulnerabilityLevelDefinition.setResourceInformation(
+                                resourceInformation);
+                        resourceInformation.setStaticResources(
+                                Arrays.asList(
+                                        new FacadeResourceURI(
+                                                true,
+                                                "http://localhost:9090/VulnerableApp/"
+                                                        + vulnLevel.htmlTemplate()
+                                                        + ".css"),
+                                        new FacadeResourceURI(
+                                                true,
+                                                "http://localhost:9090/VulnerableApp/"
+                                                        + vulnLevel.htmlTemplate()
+                                                        + ".js")));
+                        resourceInformation.setHtmlResource(
+                                new FacadeResourceURI(
+                                        true,
+                                        "http://localhost:9090/VulnerableApp/"
+                                                + vulnLevel.htmlTemplate()
+                                                + ".html"));
                         for (AttackVector attackVector : attackVectors) {
                             List<FacadeVulnerabilityType> facadeLevelVulnerabilityTypes =
                                     new ArrayList<FacadeVulnerabilityType>();

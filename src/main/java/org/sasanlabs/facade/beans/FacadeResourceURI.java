@@ -10,19 +10,17 @@ public class FacadeResourceURI {
     @JsonProperty("uri")
     private String uri;
 
+    public FacadeResourceURI(boolean isAbsolute, String uri) {
+        super();
+        this.isAbsolute = isAbsolute;
+        this.uri = uri;
+    }
+
     public boolean isAbsolute() {
         return isAbsolute;
     }
 
-    public void setAbsolute(boolean isAbsolute) {
-        this.isAbsolute = isAbsolute;
-    }
-
     public String getUri() {
         return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 }
