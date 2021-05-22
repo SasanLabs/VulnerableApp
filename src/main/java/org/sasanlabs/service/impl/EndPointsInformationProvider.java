@@ -199,7 +199,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     .add(
                                             new FacadeVulnerabilityLevelHint(
                                                     facadeLevelVulnerabilityTypes,
-                                                    attackVector.curlPayload()));
+                                                    attackVector.payload()));
                         }
                         facadeVulnerabilityDefinition
                                 .getLevelDescriptionSet()
