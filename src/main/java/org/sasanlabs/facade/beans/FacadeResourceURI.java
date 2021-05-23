@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FacadeResourceURI {
 
+    @JsonProperty("resourceType")
+    private String resourceType = FacadeResourceType.HTML.name();
+
     @JsonProperty("isAbsolute")
     private boolean isAbsolute;
 
@@ -16,11 +19,22 @@ public class FacadeResourceURI {
         this.uri = uri;
     }
 
+    public FacadeResourceURI(boolean isAbsolute, String uri, String resourceType) {
+        super();
+        this.isAbsolute = isAbsolute;
+        this.uri = uri;
+        this.resourceType = resourceType;
+    }
+
     public boolean isAbsolute() {
         return isAbsolute;
     }
 
     public String getUri() {
         return uri;
+    }
+
+    public String getResourceType() {
+        return resourceType;
     }
 }

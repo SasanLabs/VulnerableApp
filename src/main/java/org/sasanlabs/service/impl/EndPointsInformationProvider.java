@@ -13,6 +13,7 @@ import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.facade.beans.FacadeResourceInformation;
+import org.sasanlabs.facade.beans.FacadeResourceType;
 import org.sasanlabs.facade.beans.FacadeResourceURI;
 import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
 import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelDefinition;
@@ -198,12 +199,14 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 true,
                                                 "http://localhost:9090/VulnerableApp/"
                                                         + vulnLevel.htmlTemplate()
-                                                        + ".css"),
+                                                        + ".css",
+                                                FacadeResourceType.CSS.name()),
                                         new FacadeResourceURI(
                                                 true,
                                                 "http://localhost:9090/VulnerableApp/"
                                                         + vulnLevel.htmlTemplate()
-                                                        + ".js")));
+                                                        + ".js",
+                                                FacadeResourceType.JAVASCRIPT.name())));
                         resourceInformation.setHtmlResource(
                                 new FacadeResourceURI(
                                         true,
