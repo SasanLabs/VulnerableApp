@@ -1,0 +1,39 @@
+#title {
+    font-size: 1em;
+}
+
+#message {
+    font-size: .6em;
+    color: rgb(43, 43, 43);
+}
+
+#input {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#url-input {
+    line-height: 1.5em;
+    width: 100%;
+}
+
+#ssrf_level_1 {
+    text-align: center;
+}
+
+#image {
+    width: 300px;
+    height: auto;
+}
+
+#showBtn {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
