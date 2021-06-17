@@ -12,12 +12,12 @@
     margin-right: 15%;
 }
 
-#url-input {
+#urlInput {
     line-height: 1.5em;
     width: 100%;
 }
 
-#ssrf_level_1 {
+#ssrfLevel1 {
     text-align: center;
 }
 
@@ -36,4 +36,8 @@
     transition: 0.2s opacity;
     color: #FFF;
     font-size: 12px;
+}
+
+#imageResponse {
+    font-size: .5em;
 }
