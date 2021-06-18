@@ -39,5 +39,6 @@
 }
 
 #imageResponse {
-    font-size: .5em;
+    font-size: .4em;
+    display: block;
 }
