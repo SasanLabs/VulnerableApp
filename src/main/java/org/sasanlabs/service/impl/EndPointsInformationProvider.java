@@ -149,6 +149,40 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
         return scannerResponseBeans;
     }
 
+    private void addFacadeResourceInformation(
+            FacadeVulnerabilityDefinition facadeVulnerabilityDefinition,
+            FacadeVulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition,
+            String template) {
+        FacadeResourceInformation resourceInformation = new FacadeResourceInformation();
+        facadeVulnerabilityLevelDefinition.setResourceInformation(resourceInformation);
+        resourceInformation.setStaticResources(
+                Arrays.asList(
+                        new FacadeResourceURI(
+                                false,
+                                "/VulnerableApp/templates/"
+                                        + facadeVulnerabilityDefinition.getName()
+                                        + "/"
+                                        + template
+                                        + ".css",
+                                FacadeResourceType.CSS.name()),
+                        new FacadeResourceURI(
+                                false,
+                                "/VulnerableApp/templates/"
+                                        + facadeVulnerabilityDefinition.getName()
+                                        + "/"
+                                        + template
+                                        + ".js",
+                                FacadeResourceType.JAVASCRIPT.name())));
+        resourceInformation.setHtmlResource(
+                new FacadeResourceURI(
+                        false,
+                        "/VulnerableApp/templates/"
+                                + facadeVulnerabilityDefinition.getName()
+                                + "/"
+                                + template
+                                + ".html"));
+    }
+
     @Override
     public List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
             throws JsonProcessingException {
@@ -189,36 +223,10 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         facadeVulnerabilityLevelDefinition.setVariant(vulnLevel.variant());
                         facadeVulnerabilityLevelDefinition.setDescription(
                                 messageBundle.getString(vulnLevel.descriptionLabel(), null));
-                        FacadeResourceInformation resourceInformation =
-                                new FacadeResourceInformation();
-                        facadeVulnerabilityLevelDefinition.setResourceInformation(
-                                resourceInformation);
-                        resourceInformation.setStaticResources(
-                                Arrays.asList(
-                                        new FacadeResourceURI(
-                                                false,
-                                                "/VulnerableApp/templates/"
-                                                        + facadeVulnerabilityDefinition.getName()
-                                                        + "/"
-                                                        + vulnLevel.htmlTemplate()
-                                                        + ".css",
-                                                FacadeResourceType.CSS.name()),
-                                        new FacadeResourceURI(
-                                                false,
-                                                "/VulnerableApp/templates/"
-                                                        + facadeVulnerabilityDefinition.getName()
-                                                        + "/"
-                                                        + vulnLevel.htmlTemplate()
-                                                        + ".js",
-                                                FacadeResourceType.JAVASCRIPT.name())));
-                        resourceInformation.setHtmlResource(
-                                new FacadeResourceURI(
-                                        false,
-                                        "/VulnerableApp/templates/"
-                                                + facadeVulnerabilityDefinition.getName()
-                                                + "/"
-                                                + vulnLevel.htmlTemplate()
-                                                + ".html"));
+                        addFacadeResourceInformation(
+                                facadeVulnerabilityDefinition,
+                                facadeVulnerabilityLevelDefinition,
+                                vulnLevel.htmlTemplate());
                         for (AttackVector attackVector : attackVectors) {
                             List<FacadeVulnerabilityType> facadeLevelVulnerabilityTypes =
                                     new ArrayList<FacadeVulnerabilityType>();
