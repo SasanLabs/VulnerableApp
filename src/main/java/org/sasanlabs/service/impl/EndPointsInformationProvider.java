@@ -196,21 +196,27 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         resourceInformation.setStaticResources(
                                 Arrays.asList(
                                         new FacadeResourceURI(
-                                                true,
-                                                "http://localhost:9090/VulnerableApp/"
+                                                false,
+                                                "/VulnerableApp/templates/"
+                                                        + facadeVulnerabilityDefinition.getName()
+                                                        + "/"
                                                         + vulnLevel.htmlTemplate()
                                                         + ".css",
                                                 FacadeResourceType.CSS.name()),
                                         new FacadeResourceURI(
-                                                true,
-                                                "http://localhost:9090/VulnerableApp/"
+                                                false,
+                                                "/VulnerableApp/templates/"
+                                                        + facadeVulnerabilityDefinition.getName()
+                                                        + "/"
                                                         + vulnLevel.htmlTemplate()
                                                         + ".js",
                                                 FacadeResourceType.JAVASCRIPT.name())));
                         resourceInformation.setHtmlResource(
                                 new FacadeResourceURI(
-                                        true,
-                                        "http://localhost:9090/VulnerableApp/"
+                                        false,
+                                        "/VulnerableApp/templates/"
+                                                + facadeVulnerabilityDefinition.getName()
+                                                + "/"
                                                 + vulnLevel.htmlTemplate()
                                                 + ".html"));
                         for (AttackVector attackVector : attackVectors) {

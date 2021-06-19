@@ -3,6 +3,7 @@ package org.sasanlabs.facade.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+/** @author preetkaran20@gmail.com KSASAN */
 public class FacadeResourceInformation {
 
     @JsonProperty("htmlResource")
