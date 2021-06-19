@@ -7,6 +7,7 @@ import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
@@ -54,9 +55,9 @@ public class VulnerableAppRestController {
      */
     @GetMapping
     @RequestMapping("/VulnerabilityDefinitions")
-    public List<AllEndPointsResponseBean> getVulnerabilityDefinitions()
+    public List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
             throws JsonProcessingException {
-        return getAllSupportedEndPoints.getSupportedEndPoints();
+        return getAllSupportedEndPoints.getVulnerabilityDefinitions();
     }
 
     /**

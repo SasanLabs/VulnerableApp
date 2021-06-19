@@ -235,11 +235,6 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
   }
 }
 
-function doGetAjaxCallForVulnerabilityLevel(callBack, isJson) {
-  let url = getUrlForVulnerabilityLevel();
-  this.doGetAjaxCall(callBack, url, isJson);
-}
-
 function doGetAjaxCall(callBack, url, isJson) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function () {

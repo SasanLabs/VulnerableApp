@@ -12,6 +12,13 @@ import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
+import org.sasanlabs.facade.beans.FacadeResourceInformation;
+import org.sasanlabs.facade.beans.FacadeResourceType;
+import org.sasanlabs.facade.beans.FacadeResourceURI;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelDefinition;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelHint;
+import org.sasanlabs.facade.beans.FacadeVulnerabilityType;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.GenericUtils;
@@ -140,5 +147,109 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             }
         }
         return scannerResponseBeans;
+    }
+
+    private void addFacadeResourceInformation(
+            FacadeVulnerabilityDefinition facadeVulnerabilityDefinition,
+            FacadeVulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition,
+            String template) {
+        FacadeResourceInformation resourceInformation = new FacadeResourceInformation();
+        facadeVulnerabilityLevelDefinition.setResourceInformation(resourceInformation);
+        resourceInformation.setStaticResources(
+                Arrays.asList(
+                        new FacadeResourceURI(
+                                false,
+                                "/VulnerableApp/templates/"
+                                        + facadeVulnerabilityDefinition.getName()
+                                        + "/"
+                                        + template
+                                        + ".css",
+                                FacadeResourceType.CSS.name()),
+                        new FacadeResourceURI(
+                                false,
+                                "/VulnerableApp/templates/"
+                                        + facadeVulnerabilityDefinition.getName()
+                                        + "/"
+                                        + template
+                                        + ".js",
+                                FacadeResourceType.JAVASCRIPT.name())));
+        resourceInformation.setHtmlResource(
+                new FacadeResourceURI(
+                        false,
+                        "/VulnerableApp/templates/"
+                                + facadeVulnerabilityDefinition.getName()
+                                + "/"
+                                + template
+                                + ".html"));
+    }
+
+    @Override
+    public List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
+            throws JsonProcessingException {
+        List<FacadeVulnerabilityDefinition> vulnerabilityDefinitions = new ArrayList<>();
+        Map<String, Object> nameVsCustomVulnerableEndPoint =
+                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController();
+        for (Map.Entry<String, Object> entry : nameVsCustomVulnerableEndPoint.entrySet()) {
+            String name = entry.getKey();
+            Class<?> clazz = entry.getValue().getClass();
+            if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
+                VulnerableAppRestController vulnerableServiceRestEndPoint =
+                        clazz.getAnnotation(VulnerableAppRestController.class);
+                String description = vulnerableServiceRestEndPoint.descriptionLabel();
+                VulnerabilityType[] vulnerabilityTypes = vulnerableServiceRestEndPoint.type();
+                FacadeVulnerabilityDefinition facadeVulnerabilityDefinition =
+                        new FacadeVulnerabilityDefinition();
+                facadeVulnerabilityDefinition.setName(name);
+                facadeVulnerabilityDefinition.setId(name);
+                facadeVulnerabilityDefinition.setDescription(
+                        messageBundle.getString(description, null));
+                List<FacadeVulnerabilityType> facadeVulnerabilityTypes =
+                        new ArrayList<FacadeVulnerabilityType>();
+                for (VulnerabilityType vulnerabilityType : vulnerabilityTypes) {
+                    facadeVulnerabilityTypes.add(
+                            new FacadeVulnerabilityType("Custom", vulnerabilityType.name()));
+                }
+                facadeVulnerabilityDefinition.setVulnerabilityTypes(facadeVulnerabilityTypes);
+                Method[] methods = clazz.getDeclaredMethods();
+                for (Method method : methods) {
+                    VulnerableAppRequestMapping vulnLevel =
+                            method.getAnnotation(VulnerableAppRequestMapping.class);
+                    if (vulnLevel != null) {
+                        AttackVector[] attackVectors =
+                                method.getAnnotationsByType(AttackVector.class);
+                        FacadeVulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition =
+                                new FacadeVulnerabilityLevelDefinition();
+                        facadeVulnerabilityLevelDefinition.setLevel(vulnLevel.value());
+                        facadeVulnerabilityLevelDefinition.setVariant(vulnLevel.variant());
+                        facadeVulnerabilityLevelDefinition.setDescription(
+                                messageBundle.getString(vulnLevel.descriptionLabel(), null));
+                        addFacadeResourceInformation(
+                                facadeVulnerabilityDefinition,
+                                facadeVulnerabilityLevelDefinition,
+                                vulnLevel.htmlTemplate());
+                        for (AttackVector attackVector : attackVectors) {
+                            List<FacadeVulnerabilityType> facadeLevelVulnerabilityTypes =
+                                    new ArrayList<FacadeVulnerabilityType>();
+                            for (VulnerabilityType vulnerabilityType : vulnerabilityTypes) {
+                                facadeLevelVulnerabilityTypes.add(
+                                        new FacadeVulnerabilityType(
+                                                "Custom", vulnerabilityType.name()));
+                            }
+                            facadeVulnerabilityLevelDefinition
+                                    .getHints()
+                                    .add(
+                                            new FacadeVulnerabilityLevelHint(
+                                                    facadeLevelVulnerabilityTypes,
+                                                    attackVector.payload()));
+                        }
+                        facadeVulnerabilityDefinition
+                                .getLevelDescriptionSet()
+                                .add(facadeVulnerabilityLevelDefinition);
+                    }
+                }
+                vulnerabilityDefinitions.add(facadeVulnerabilityDefinition);
+            }
+        }
+        return vulnerabilityDefinitions;
     }
 }
