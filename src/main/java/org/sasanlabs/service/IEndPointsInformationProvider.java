@@ -26,8 +26,9 @@ public interface IEndPointsInformationProvider {
     List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException;
 
     /**
-     * This Api provides information required by VulnerableApp-Facade for providing a facade
-     * interface for various vulnerability definitions.
+     * This Api provides information required by VulnerableApp-Facade for building a facade User
+     * Interface. For more information visit: {@link
+     * https://github.com/SasanLabs/VulnerableApp-facade}
      */
     List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
             throws JsonProcessingException;
