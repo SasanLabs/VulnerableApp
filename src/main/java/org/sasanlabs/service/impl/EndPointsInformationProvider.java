@@ -240,7 +240,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     .add(
                                             new FacadeVulnerabilityLevelHint(
                                                     facadeLevelVulnerabilityTypes,
-                                                    attackVector.payload()));
+                                                    messageBundle.getString(
+                                                            attackVector.description(), null)));
                         }
                         facadeVulnerabilityDefinition
                                 .getLevelDescriptionSet()
