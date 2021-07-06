@@ -65,17 +65,6 @@ public @interface VulnerableAppRequestMapping {
     String parameterName() default "";
 
     /**
-     * This information is very useful for scanners in case of attacks which depends on the sample
-     * values like JWT. In case of JWT there are two steps for the attack: 1. Fetch the token 2.
-     * Fuzz and try
-     *
-     * <p>Sample values can be very helpful in removing the step 1.
-     *
-     * @return array of sample values.
-     */
-    String[] sampleValues() default {};
-
-    /**
      * This information is not useful for now because we are for now only handling Get requests but
      * going further we might use this information and hence this is very useful for scanner.
      *
