@@ -89,7 +89,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         levelResponseBean.setRequestParameterLocation(
                                 vulnLevel.requestParameterLocation());
                         levelResponseBean.setParameterName(vulnLevel.parameterName());
-                        levelResponseBean.setSampleValues(vulnLevel.sampleValues());
                         levelResponseBean.setRequestMethod(vulnLevel.requestMethod());
                         for (AttackVector attackVector : attackVectors) {
                             levelResponseBean

@@ -29,9 +29,6 @@ Scanner is a specifically crafted endpoint to provide information about each vul
     "url": "http://192.168.0.148:9090/vulnerable/JWTVulnerability/LEVEL_1",
     "location": "QUERY_PARAM",
     "parameter": "JWT",
-    "sampleValues": [
-      "ey.."
-    ],
     "method": "GET",
     "vulnerabilityTypes": [
       "CLIENT_SIDE_VULNERABLE_JWT"
@@ -45,7 +42,6 @@ Following is the Json Response explanation:
 - method like GET/POST accepted by vulnerable endpoint
 - parameter name which represents the input to the endpoint
 - type of vulnerabilities exposed by the endpoint
-- Sample input to the endpoint which helps in knowing the format of input like JWT's have a specific format.
 
 As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc. in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. For a better usage of VulnerableApp, Vulnerability Scanning tools need to understand the output of `\scanner` endpoint and that information alone can suffice for all needs. 
 
