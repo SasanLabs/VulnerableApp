@@ -91,7 +91,7 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
     
-    implementation group: 'io.github.sasanlabs', name:	'facade-schema', version:	'1.0.0'
+    implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.0'
 }
 
 test {
