@@ -13,7 +13,7 @@ import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
-import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityDefinition;
+import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +55,7 @@ public class VulnerableAppRestController {
      */
     @GetMapping
     @RequestMapping("/VulnerabilityDefinitions")
-    public List<FacadeVulnerabilityDefinition> getVulnerabilityDefinitions()
+    public List<VulnerabilityDefinition> getVulnerabilityDefinitions()
             throws JsonProcessingException {
         return getAllSupportedEndPoints.getVulnerabilityDefinitions();
     }
