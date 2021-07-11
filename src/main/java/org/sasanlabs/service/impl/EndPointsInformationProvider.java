@@ -12,13 +12,6 @@ import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
-import org.sasanlabs.facade.beans.FacadeResourceInformation;
-import org.sasanlabs.facade.beans.FacadeResourceType;
-import org.sasanlabs.facade.beans.FacadeResourceURI;
-import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
-import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelDefinition;
-import org.sasanlabs.facade.beans.FacadeVulnerabilityLevelHint;
-import org.sasanlabs.facade.beans.FacadeVulnerabilityType;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.GenericUtils;
@@ -28,6 +21,14 @@ import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeResourceInformation;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeResourceType;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeResourceURI;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityDefinition;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityLevelDefinition;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityLevelHint;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityType;
+import org.sasanlabs.vulnerableapp.facade.schema.Variant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -220,7 +221,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         FacadeVulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition =
                                 new FacadeVulnerabilityLevelDefinition();
                         facadeVulnerabilityLevelDefinition.setLevel(vulnLevel.value());
-                        facadeVulnerabilityLevelDefinition.setVariant(vulnLevel.variant());
+                        facadeVulnerabilityLevelDefinition.setVariant(
+                                Variant.valueOf(vulnLevel.variant().name()));
                         facadeVulnerabilityLevelDefinition.setDescription(
                                 messageBundle.getString(vulnLevel.descriptionLabel(), null));
                         addFacadeResourceInformation(

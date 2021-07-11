@@ -33,6 +33,7 @@ configurations {
 repositories {
     mavenCentral()
     gradlePluginPortal()
+    mavenLocal()
 }
 
 sourceCompatibility = 1.8
@@ -89,6 +90,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+    
+    implementation group: 'org.sasanlabs.vulnerableapp', name: 'facade-schema', version: '1.0.0'
 }
 
 test {

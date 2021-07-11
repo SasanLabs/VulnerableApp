@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
-import org.sasanlabs.facade.beans.FacadeVulnerabilityDefinition;
+import org.sasanlabs.vulnerableapp.facade.schema.FacadeVulnerabilityDefinition;
 
 /**
  * This is used for providing the entire information about the vulnerableApp like
