@@ -1,0 +1,20 @@
+<div id="LFI_level_1">
+    <div>
+        Local file inclusion (also known as LFI) is the process of including files,
+        that are already locally present on the server, through the exploiting of
+        vulnerable inclusion procedures implemented in the application.
+        This vulnerability occurs, for example, when a page receives, as input,
+        the path to the file that has to be included and this input is not properly
+        sanitized, allowing directory traversal characters (such as dot-dot-slash)
+        to be injected.
+        <br /> <br />
+        Try to find the password file inside the secretFiles folder using the URL param: <i>file</i>
+    </div>
+    <br /> <br />
+    <div>
+        <b>please enter a URL:</b>
+        <input type="text" id="url"/>
+        <button id="verifyUrl">Verify URL</button>
+        <div id="verificationResponse"></div>
+    </div>
+</div>
