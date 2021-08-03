@@ -9,16 +9,14 @@ nav_order: 3
 1. Running it as a **docker container**, Please visit [Docker Repository](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp)
 2. Running it as an **executable**, downloading released jar from [Releases](https://github.com/SasanLabs/VulnerableApp/releases) and run the application by executing following command `java -jar  VulnerableApp-1.0.0.jar`
 3. Running it by **Building manually**, as VulnerableApp is a spring boot based application so for starting this application you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin. As this project is developed in eclipse so eclipse is recommended IDE for now.
-After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090` , for eg: `http://localhost:9090` url and a User Interface will guide you to next steps.
-4. Running it in newer **React based User Interface**, Visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade by default is integrated with Owasp VulnerableApp.
-
-**As we are moving towards the goal of Distributed Vulnerable Application so if you are downloading latest code or you are accessing unreleased docker image please use following url `http://<base-url>:9090/VulnerableApp`**
+After importing the project, run the app and it should start a server and try to go to `http://<base-url>:9090/VulnerableApp` , for eg: `http://localhost:9090/VulnerableApp` url and a User Interface will guide you to next steps.
+4. Running it in newer **React based User Interface**, Visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade is integrated with Owasp VulnerableApp. In order to run it, visit [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start)
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints
 Following are the endpoints exposed:
-- `/scanner`
-- `/sitemap.xml`
+- `VulnerableApp/scanner`
+- `VulnerableApp/sitemap.xml`
 
 ### Scanner Endpoint ###
 Scanner is a specifically crafted endpoint to provide information about each vulnerability present in VulnerableApp.
