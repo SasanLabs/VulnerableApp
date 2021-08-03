@@ -59,4 +59,4 @@ On Clicking **Practice Vulnerability** following screen pops up:
 ![Practice Vulnerability](Choosing Vulnerability Level Screen.png)
 This screen contains list of Levels present under the selected vulnerability, help at each level etc.
 
-### Get Set Go for the Journey of Learning about the Web Application Security, MR. Security Enthusiast !!! ###
+### Get Set Go for the Journey of Learning about the Web Application Security ###
