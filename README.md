@@ -17,8 +17,6 @@ Going further, this application might becomes a database for vulnerabilities. He
 
 [Setup Guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
 
-**As we are moving towards the goal of Distributed VulnerableApplication so if you are downloading latest code or you are accessing unreleased docker image please use following url `http://<base-url>:9090/VulnerableApp`**
-
 ## Technologies used
 - Java8
 - Spring Boot
