@@ -60,6 +60,6 @@ On Clicking **Practice Vulnerability** following screen pops up:
 This screen contains list of Levels present under the selected vulnerability, help at each level etc.
 
 ## Glimpse of React based User Interface ##
-![VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docs/images/gif/VulnerableApp-Facade.gif)
+![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ### Get Set Go for the Journey of Learning about the Web Application Security ###
