@@ -9,6 +9,10 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 
 ![Owasp Vulnerable Graphic Representation](/docs/gifs/VulnerableApp.gif)
 
+
+## Glimpse of React based User Interface ##
+![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+
 ### Future Goal
 
 Going further, this application might becomes a database for vulnerabilities. Hence, in future, it can be used for hosting CTFs and can also become a compliance/benchmark for Vulnerability Scanning tools.
