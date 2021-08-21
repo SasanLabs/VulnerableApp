@@ -132,6 +132,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .append(FrameworkConstants.COLON)
                                             .append(port)
                                             .append(FrameworkConstants.SLASH)
+                                            .append(FrameworkConstants.VULNERABLE_APP)
+                                            .append(FrameworkConstants.SLASH)
                                             .append(allEndPointsResponseBean.getName())
                                             .append(FrameworkConstants.SLASH)
                                             .append(levelResponseBean.getLevel())

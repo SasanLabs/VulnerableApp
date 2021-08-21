@@ -139,6 +139,8 @@ public class VulnerableAppRestController {
                                         .append(FrameworkConstants.COLON)
                                         .append(port)
                                         .append(FrameworkConstants.SLASH)
+                                        .append(FrameworkConstants.VULNERABLE_APP)
+                                        .append(FrameworkConstants.SLASH)
                                         .append(endPoint.getName())
                                         .append(FrameworkConstants.SLASH)
                                         .append(level.getLevel())
