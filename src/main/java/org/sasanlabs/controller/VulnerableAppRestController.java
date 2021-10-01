@@ -12,7 +12,7 @@ import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointsInformationProvider;
-import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
+import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,7 +105,7 @@ public class VulnerableAppRestController {
     @RequestMapping("/scanner/metadata")
     public ScannerMetaResponseBean getScannerRelatedMetaInformation() {
         return new ScannerMetaResponseBean(
-                Arrays.asList(VulnerabilitySubType.values()),
+                Arrays.asList(VulnerabilityType.values()),
                 Arrays.asList(RequestParameterLocation.values()));
     }
 

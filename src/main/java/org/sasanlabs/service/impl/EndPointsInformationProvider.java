@@ -66,12 +66,9 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                 VulnerableAppRestController vulnerableServiceRestEndPoint =
                         clazz.getAnnotation(VulnerableAppRestController.class);
                 String description = vulnerableServiceRestEndPoint.descriptionLabel();
-                org.sasanlabs.vulnerability.types.VulnerabilityType[] vulnerabilityTypes =
-                        vulnerableServiceRestEndPoint.type();
                 AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
                 allEndPointsResponseBean.setName(name);
                 allEndPointsResponseBean.setDescription(messageBundle.getString(description, null));
-                allEndPointsResponseBean.setVulnerabilityTypes(vulnerabilityTypes);
 
                 Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
@@ -198,8 +195,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                 VulnerableAppRestController vulnerableServiceRestEndPoint =
                         clazz.getAnnotation(VulnerableAppRestController.class);
                 String description = vulnerableServiceRestEndPoint.descriptionLabel();
-                org.sasanlabs.vulnerability.types.VulnerabilityType[] vulnerabilityTypes =
-                        vulnerableServiceRestEndPoint.type();
                 VulnerabilityDefinition facadeVulnerabilityDefinition =
                         new VulnerabilityDefinition();
                 facadeVulnerabilityDefinition.setName(name);
@@ -208,11 +203,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         messageBundle.getString(description, null));
                 List<VulnerabilityType> facadeVulnerabilityTypes =
                         new ArrayList<VulnerabilityType>();
-                for (org.sasanlabs.vulnerability.types.VulnerabilityType vulnerabilityType :
-                        vulnerabilityTypes) {
-                    facadeVulnerabilityTypes.add(
-                            new VulnerabilityType("Custom", vulnerabilityType.name()));
-                }
                 facadeVulnerabilityDefinition.setVulnerabilityTypes(facadeVulnerabilityTypes);
                 Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
@@ -235,11 +225,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         for (AttackVector attackVector : attackVectors) {
                             List<VulnerabilityType> facadeLevelVulnerabilityTypes =
                                     new ArrayList<VulnerabilityType>();
-                            for (org.sasanlabs.vulnerability.types.VulnerabilityType
-                                    vulnerabilityType : vulnerabilityTypes) {
-                                facadeLevelVulnerabilityTypes.add(
-                                        new VulnerabilityType("Custom", vulnerabilityType.name()));
-                            }
                             facadeVulnerabilityLevelDefinition
                                     .getHints()
                                     .add(

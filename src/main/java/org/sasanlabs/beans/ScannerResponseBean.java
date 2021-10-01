@@ -3,7 +3,7 @@ package org.sasanlabs.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
-import org.sasanlabs.vulnerability.types.VulnerabilitySubType;
+import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
@@ -40,7 +40,7 @@ public class ScannerResponseBean {
     private RequestMethod requestMethod;
 
     @JsonProperty("vulnerabilityTypes")
-    private List<VulnerabilitySubType> vulnerabilityTypes;
+    private List<VulnerabilityType> vulnerabilityTypes;
 
     public ScannerResponseBean(
             String url,
@@ -50,7 +50,7 @@ public class ScannerResponseBean {
             String parameterName,
             String[] sampleValues,
             RequestMethod requestMethod,
-            List<VulnerabilitySubType> vulnerabilityTypes) {
+            List<VulnerabilityType> vulnerabilityTypes) {
         super();
         this.url = url;
         this.level = level;
@@ -82,7 +82,7 @@ public class ScannerResponseBean {
         return requestMethod;
     }
 
-    public List<VulnerabilitySubType> getVulnerabilityTypes() {
+    public List<VulnerabilityType> getVulnerabilityTypes() {
         return vulnerabilityTypes;
     }
 }
