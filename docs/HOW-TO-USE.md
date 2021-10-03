@@ -5,6 +5,10 @@ nav_order: 3
 ---
 
 # How to start this tool #
+
+## New UI
+Running it in newer **React based User Interface**, Visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade is integrated with Owasp VulnerableApp. In order to run it, visit [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start)
+
 ## Legacy UI
 1. Running it as a **docker container**, Please visit [Docker Repository](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp)
 2. Running it as an **executable**, downloading released jar from [Releases](https://github.com/SasanLabs/VulnerableApp/releases) and run the application by executing following command `java -jar  VulnerableApp-1.0.0.jar`
@@ -12,9 +16,6 @@ nav_order: 3
 After importing the project, run the app and it should start a server.
 
 Navigate to `http://<base-url>:9090/VulnerableApp` , for eg: `http://localhost:9090/VulnerableApp` url and a User Interface will guide you to next steps.
-
-## New UI
-Running it in newer **React based User Interface**, Visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade is integrated with Owasp VulnerableApp. In order to run it, visit [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start)
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints
@@ -47,7 +48,11 @@ Following is the Json Response explanation:
 
 As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc. in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. For a better usage of VulnerableApp, Vulnerability Scanning tools need to understand the output of `VulnerableApp/scanner` endpoint and that information alone can suffice for all needs. 
 
-## Glimpse of the tool ##
+
+## Glimpse of React based User Interface ##
+![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+
+## Glimpse of the Legacy User Interface ##
 Tool's Starting Screen:
 ![Welcome](Starting%20Screen.png)
 
@@ -58,8 +63,5 @@ This screen contains the List of Vulnerabilities, there information and useful l
 On Clicking **Practice Vulnerability** following screen pops up:
 ![Practice Vulnerability](Choosing Vulnerability Level Screen.png)
 This screen contains list of Levels present under the selected vulnerability, help at each level etc.
-
-## Glimpse of React based User Interface ##
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ### Get Set Go for the Journey of Learning about the Web Application Security ###
