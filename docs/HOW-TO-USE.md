@@ -7,7 +7,7 @@ nav_order: 3
 # How to start this tool #
 
 ## New UI
-Running it in newer **React based User Interface**, Visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade is integrated with Owasp VulnerableApp. In order to run it, visit [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start)
+Running it in newer **React based User Interface**, visit [Owasp VulnerableApp-facade UI](https://github.com/SasanLabs/VulnerableApp-facade). VulnerableApp-Facade is integrated with Owasp VulnerableApp. In order to run it, visit [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start)
 
 ## Legacy UI
 1. Running it as a **docker container**, Please visit [Docker Repository](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp)
