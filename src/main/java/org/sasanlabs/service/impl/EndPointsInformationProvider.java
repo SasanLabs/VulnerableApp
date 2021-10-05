@@ -225,6 +225,27 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         for (AttackVector attackVector : attackVectors) {
                             List<VulnerabilityType> facadeLevelVulnerabilityTypes =
                                     new ArrayList<VulnerabilityType>();
+                            org.sasanlabs.vulnerability.types.VulnerabilityType[]
+                                    vulnerabilityTypes = attackVector.vulnerabilityExposed();
+                            for (org.sasanlabs.vulnerability.types.VulnerabilityType
+                                    vulnerabilityType : vulnerabilityTypes) {
+                                facadeLevelVulnerabilityTypes.add(
+                                        new VulnerabilityType("Custom", vulnerabilityType.name()));
+                                facadeVulnerabilityTypes.add(
+                                        new VulnerabilityType(
+                                                "CWE",
+                                                null != vulnerabilityType.getCWE_ID()
+                                                        ? String.valueOf(
+                                                                vulnerabilityType.getCWE_ID())
+                                                        : null));
+                                facadeVulnerabilityTypes.add(
+                                        new VulnerabilityType(
+                                                "WASC",
+                                                null != vulnerabilityType.getWASC_ID()
+                                                        ? String.valueOf(
+                                                                vulnerabilityType.getCWE_ID())
+                                                        : null));
+                            }
                             facadeVulnerabilityLevelDefinition
                                     .getHints()
                                     .add(
