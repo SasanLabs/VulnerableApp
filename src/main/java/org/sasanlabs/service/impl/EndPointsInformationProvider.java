@@ -240,7 +240,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     facadeVulnerabilityTypes.add(
                                             new VulnerabilityType(
                                                     "WASC",
-                                                    String.valueOf(vulnerabilityType.getCWE_ID())));
+                                                    String.valueOf(vulnerabilityType.getWASC_ID())));
                             }
                             facadeVulnerabilityLevelDefinition
                                     .getHints()
