@@ -231,17 +231,16 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     vulnerabilityType : vulnerabilityTypes) {
                                 facadeLevelVulnerabilityTypes.add(
                                         new VulnerabilityType("Custom", vulnerabilityType.name()));
-                                if (null != vulnerabilityType.getCWE_ID())
+                                if (null != vulnerabilityType.getCweID())
                                     facadeLevelVulnerabilityTypes.add(
                                             new VulnerabilityType(
                                                     "CWE",
-                                                    String.valueOf(vulnerabilityType.getCWE_ID())));
-                                if (null != vulnerabilityType.getWASC_ID())
+                                                    String.valueOf(vulnerabilityType.getCweID())));
+                                if (null != vulnerabilityType.getWascID())
                                     facadeVulnerabilityTypes.add(
                                             new VulnerabilityType(
                                                     "WASC",
-                                                    String.valueOf(
-                                                            vulnerabilityType.getWASC_ID())));
+                                                    String.valueOf(vulnerabilityType.getWascID())));
                             }
                             facadeVulnerabilityLevelDefinition
                                     .getHints()
