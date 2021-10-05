@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,11 +36,4 @@ public @interface VulnerableAppRestController {
      * @return Localization key
      */
     String descriptionLabel();
-
-    /**
-     * Type of Vulnerability
-     *
-     * @return
-     */
-    VulnerabilityType[] type();
 }
