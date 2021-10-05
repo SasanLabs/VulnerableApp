@@ -231,20 +231,16 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     vulnerabilityType : vulnerabilityTypes) {
                                 facadeLevelVulnerabilityTypes.add(
                                         new VulnerabilityType("Custom", vulnerabilityType.name()));
-                                facadeVulnerabilityTypes.add(
-                                        new VulnerabilityType(
-                                                "CWE",
-                                                null != vulnerabilityType.getCWE_ID()
-                                                        ? String.valueOf(
-                                                                vulnerabilityType.getCWE_ID())
-                                                        : null));
-                                facadeVulnerabilityTypes.add(
-                                        new VulnerabilityType(
-                                                "WASC",
-                                                null != vulnerabilityType.getWASC_ID()
-                                                        ? String.valueOf(
-                                                                vulnerabilityType.getCWE_ID())
-                                                        : null));
+                                if (null != vulnerabilityType.getCWE_ID())
+                                    facadeLevelVulnerabilityTypes.add(
+                                            new VulnerabilityType(
+                                                    "CWE",
+                                                    String.valueOf(vulnerabilityType.getCWE_ID())));
+                                if (null != vulnerabilityType.getWASC_ID())
+                                    facadeVulnerabilityTypes.add(
+                                            new VulnerabilityType(
+                                                    "WASC",
+                                                    String.valueOf(vulnerabilityType.getCWE_ID())));
                             }
                             facadeVulnerabilityLevelDefinition
                                     .getHints()
