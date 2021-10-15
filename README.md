@@ -8,15 +8,8 @@ As Web Applications are becoming popular these days, there comes a dire need to 
 **VulnerableApp** is built keeping these factors in mind. This project is scalable, extensible, easier to integrate and easier to learn.
 As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities.
 
-### Newer React based User Interface ###
+### User Interface ###
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
-
-### Older Interface ###
-![Owasp Vulnerable Graphic Representation](/docs/gifs/VulnerableApp.gif)
-
-### Future Goal
-
-Going further, this application might becomes a database for vulnerabilities. Hence, in future, it can be used for hosting CTFs and can also become a compliance/benchmark for Vulnerability Scanning tools.
 
 ## Project Setup
 
@@ -25,9 +18,8 @@ Going further, this application might becomes a database for vulnerabilities. He
 ## Technologies used
 - Java8
 - Spring Boot
+- ReactJS
 - Vanilla Javascript
-
-#### Note: we are not limited to these technologies and if required, open to expand to other technologies.
     
 ## Currently handled Vulnerability types
 
@@ -54,24 +46,24 @@ We really appreciate contributions to this project. As this project is in it's i
 
 You can also raise an issue, in case you are looking for learning some kind of vulnerability which is not present in VulnerableApp. We will try to add that vulnerability ASAP!
 
-## Documentation in other languages
-
-1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
-2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
-3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
-4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
-
 ## Contact
 
 Please raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) or send an email to karan.sasan@owasp.org for any queries.
 We will try to resolve the issues ASAP.
 
-## Other details
+## Documentation and References
 
 1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
 2. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
 3. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
 
-## Blogs
+### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
 2. [Overview of Owasp-VulnerableApp - Blogspot post](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
+
+### Readme in other languages
+
+1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
+2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
+3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
+4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
