@@ -11,10 +11,6 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 ### User Interface ###
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
-## Project Setup
-
-[Setup Guide](https://sasanlabs.github.io/VulnerableApp/HOW-TO-USE.html)
-
 ## Technologies used
 - Java8
 - Spring Boot
