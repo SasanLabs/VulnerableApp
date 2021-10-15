@@ -40,11 +40,22 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 
 ## Contributing to Project
 
-Contributing to open source is always good from learning perspective as open source is the community to collaborate and grow together.
+There are multiple ways in which you can contribute to the project:
+1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
+2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments which will help in adding new Vulnerability.
+3. In case you are looking to contribute the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issuer and we can discuss over them.
 
-We really appreciate contributions to this project. As this project is in it's initial phase, we have not set any guidelines. So, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to onboard you to this project. If you are already onboarded, we actively welcome your Pull Requests. Visit [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html) for internal implementation details.
+## Building the project
+There are 2 ways in which this project can be built and used:
+1. As a SringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
+    1. Import the project into your favorite IDE and run it
+    2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
+2. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker application, follow following steps:
+    1. Build the docker image by running `./gradlew jibDockerBuild`
+    2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run in the same directory `docker-compose up`
+    3. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
 
-You can also raise an issue, in case you are looking for learning some kind of vulnerability which is not present in VulnerableApp. We will try to add that vulnerability ASAP!
+In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to onboard you to this project.
 
 ## Contact
 
@@ -54,8 +65,9 @@ We will try to resolve the issues ASAP.
 ## Documentation and References
 
 1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
-2. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
-3. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+2. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
+3. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
+4. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
 
 ### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
