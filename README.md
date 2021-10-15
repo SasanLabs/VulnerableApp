@@ -51,12 +51,8 @@ There are 2 ways in which this project can be built and used:
     2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run in the same directory `docker-compose up`
     3. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
 
-In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to onboard you to this project.
-
 ## Contact
-
-Please raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) or send an email to karan.sasan@owasp.org for any queries.
-We will try to resolve the issues ASAP.
+In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 
 ## Documentation and References
 
