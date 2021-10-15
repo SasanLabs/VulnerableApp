@@ -69,6 +69,24 @@ jib {
   	}
 }
 
+tasks.register('GenerateSampleVulnerability'){
+	group = 'SasanLabs'
+	description = 'Generates Sample Vulnerability template'
+	println 'Copying SampleVulnerability java file to org.sasanlabs.service.vulnerability.sampleVulnerability package'
+	copy {
+    	from(file('src/main/resources/sampleVulnerability/sampleVulnerability'))
+    	into(file('src/main/java/org/sasanlabs/service/vulnerability/sampleVulnerability'))
+    }
+    println 'Copy of java file is completed'
+    println 'Copying SampleVulnerability html/css/js files to static/templates/SampleVulnerability/LEVEL_1'
+    copy {
+    	from(file('src/main/resources/sampleVulnerability/staticResources/LEVEL_1'))
+    	into(file('src/main/resources/static/templates/SampleVulnerability/LEVEL_1'))
+    }
+    println 'Copy of html/css/js files is completed'
+    println 'SampleVulnerability is generated !!!'
+}
+
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
