@@ -36,6 +36,7 @@ public @interface VulnerableAppRequestMapping {
      *
      * @return Localization Key
      */
+    @Deprecated
     String descriptionLabel() default "EMPTY_LABEL";
 
     /**
@@ -62,6 +63,7 @@ public @interface VulnerableAppRequestMapping {
      *
      * @return name of the parameter which holds the value
      */
+    @Deprecated
     String parameterName() default "";
 
     /**
