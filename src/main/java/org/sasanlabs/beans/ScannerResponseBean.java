@@ -27,7 +27,7 @@ public class ScannerResponseBean {
 
     @JsonProperty("variant")
     private String variant;
-    
+
     @Deprecated
     @JsonProperty("location")
     private RequestParameterLocation requestParameterLocation;
