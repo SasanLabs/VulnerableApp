@@ -6,7 +6,11 @@ nav_order: 2
 ### Why VulnerableApp
 
 There are many tools for finding Web Application Vulnerability like [ZAP](https://github.com/zaproxy), Burp etc but while contributing to these Tools 
-it is very tough to check if the Scan Rule added is working properly.
+it is very tough to check if the Scan Rule added is working properly. The Vulnerable Applications present in the market are not written with Scanners as there targets. 
+
+A tweet by OWASP ZAP project lead highlighting the lack of well maintained vulnerable applications targeting vulnerability scanning tools -
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Not that many. The ones I know of are:<br>- <a href="https://t.co/cduavcFRYO">https://t.co/cduavcFRYO</a><br>- <a href="https://t.co/d5DVDYl2ag">https://t.co/d5DVDYl2ag</a><br>- <a href="https://t.co/QMIL906Qxa">https://t.co/QMIL906Qxa</a> *<br>- <a href="https://t.co/uhtl2ilPRb">https://t.co/uhtl2ilPRb</a> *<br>- <a href="https://t.co/NdkheyXTYh">https://t.co/NdkheyXTYh</a><br>- <a href="https://t.co/M9i8xcrEcW">https://t.co/M9i8xcrEcW</a><br><br>Only the 2 stared are being maintained right now.</p>&mdash; Simon Bennetts (@psiinon) <a href="https://twitter.com/psiinon/status/1293844526390480896?ref_src=twsrc%5Etfw">August 13, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ### What used to be the solution
 
