@@ -6,10 +6,10 @@ nav_order: 3
 
 # How to run the project
  
-## React based User Interface 
-1. Running it as a full-fledged VulnerableApplication for learning and testing is very easy. Follow the steps mentioned at [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start) and it is quite straightforward.
+## Running as full-fledged Vulnerable Application 
+1. It is very easy to run the VulnerableApp as full-fledged VulnerableApplication. Follow the steps mentioned at [Simple Start](https://github.com/SasanLabs/VulnerableApp-facade#simple-start) and it is quite straightforward.
 
-## Legacy way with Legacy User Interface
+## Running as standalone Vulnerable Application
 1. Running it as a **docker container** in order to run it as docker container, you just need to run `docker run --rm -p 9090:9090 --name=owasp-vulnerableapp sasanlabs/owasp-vulnerableapp:latest`
 
 2. Running it as an **executable**, download released jar from [Releases](https://github.com/SasanLabs/VulnerableApp/releases) and run the application by executing following command `java -jar  VulnerableApp-1.0.0.jar`
@@ -17,7 +17,7 @@ nav_order: 3
 3. Running it by **Building manually**, as VulnerableApp is a spring boot based application so for starting this application you need to import this project in IDE like eclipse or intellij. IDE should have buildship/gradle plugin. As this project is developed in eclipse so eclipse is recommended IDE for now.
 After importing the project, run the app and it should start a server.
 
-After starting the application, Navigate to `http://<base-url>:9090/VulnerableApp` , for eg: `http://localhost:9090/VulnerableApp` url and a User Interface will guide you to next steps.
+After starting the application, Navigate to `http://<base-url>:9090/VulnerableApp` , for eg: `http://localhost:9090/VulnerableApp` url and a User Interface will guide you to next steps. Running as standalone Vulnerable Application gives the **Legacy User Interface**
 
 # How to build the project
 There are 2 ways in which this project can be built and used:
@@ -39,28 +39,3 @@ There are 2 ways in which this project can be built and used:
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints:
 - `VulnerableApp/scanner`
 - `VulnerableApp/sitemap.xml`
-
-### Scanner Endpoint ###
-Scanner is a specifically crafted endpoint to provide information about each vulnerability present in VulnerableApp.
-#### Sample Json Response ####
-```
-[
-  {
-    "url": "http://192.168.0.148:9090/vulnerable/JWTVulnerability/LEVEL_1",
-    "location": "QUERY_PARAM",
-    "parameter": "JWT",
-    "method": "GET",
-    "vulnerabilityTypes": [
-      "CLIENT_SIDE_VULNERABLE_JWT"
-    ]
-  }
-]
-```
-Following is the Json Response explanation:
-- url of the vulnerable endpoint
-- location of the parameter like Query Param/Header etc.
-- method like GET/POST accepted by vulnerable endpoint
-- parameter name which represents the input to the endpoint
-- type of vulnerabilities exposed by the endpoint
-
-As Vulnerability Scanning Tools use `sitemap.xml`, `robots.txt` etc. in order to find the exposed endpoints so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp. For a better usage of VulnerableApp, Vulnerability Scanning tools need to understand the output of `VulnerableApp/scanner` endpoint and that information alone can suffice for all needs. 
