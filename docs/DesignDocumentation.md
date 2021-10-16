@@ -74,7 +74,7 @@ VulnerableApp's User Interface will always look for the htmlTemplate under `src/
 
 VulnerableApp's user interface exposes some of the functionality Out-Of-The-Box like generic utility for doing Ajax Calls, generic css for button animation/look and feel etc.
 
-### ReactJS based User Interface**
+### ReactJS based User Interface
 
 This user interface is provided by one of SasanLabs projects called [VulnerableApp-facade](https://github.com/SasanLabs/VulnerableApp-facade).VulnerableApp exposes an endpoint `/VulnerabilityDefinitions` which holds the information about the Vulnerabilities along with the static resources, which will be leveraged by VulnerableApp-facade to build the User Interface. The information used by VulnerableApp-facade is very similar to the legacy user interface and is derived from the same 3 annotations mentioned above.
 
