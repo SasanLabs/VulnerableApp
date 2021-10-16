@@ -80,13 +80,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         LevelResponseBean levelResponseBean = new LevelResponseBean();
                         levelResponseBean.setLevel(vulnLevel.value());
                         levelResponseBean.setVariant(vulnLevel.variant());
-                        levelResponseBean.setDescription(
-                                messageBundle.getString(vulnLevel.descriptionLabel(), null));
                         levelResponseBean.setHtmlTemplate(vulnLevel.htmlTemplate());
-
-                        levelResponseBean.setRequestParameterLocation(
-                                vulnLevel.requestParameterLocation());
-                        levelResponseBean.setParameterName(vulnLevel.parameterName());
                         levelResponseBean.setRequestMethod(vulnLevel.requestMethod());
                         for (AttackVector attackVector : attackVectors) {
                             levelResponseBean
@@ -135,11 +129,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .append(FrameworkConstants.SLASH)
                                             .append(levelResponseBean.getLevel())
                                             .toString(),
-                                    levelResponseBean.getLevel(),
                                     levelResponseBean.getVariant().toString(),
-                                    levelResponseBean.getRequestParameterLocation(),
-                                    levelResponseBean.getParameterName(),
-                                    levelResponseBean.getSampleValues(),
                                     levelResponseBean.getRequestMethod(),
                                     attackVectorResponseBean.getVulnerabilityTypes()));
                 }
@@ -216,8 +206,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         facadeVulnerabilityLevelDefinition.setLevel(vulnLevel.value());
                         facadeVulnerabilityLevelDefinition.setVariant(
                                 Variant.valueOf(vulnLevel.variant().name()));
-                        facadeVulnerabilityLevelDefinition.setDescription(
-                                messageBundle.getString(vulnLevel.descriptionLabel(), null));
                         addFacadeResourceInformation(
                                 facadeVulnerabilityDefinition,
                                 facadeVulnerabilityLevelDefinition,

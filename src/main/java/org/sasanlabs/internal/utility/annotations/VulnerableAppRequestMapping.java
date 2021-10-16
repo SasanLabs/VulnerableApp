@@ -31,15 +31,6 @@ public @interface VulnerableAppRequestMapping {
     Variant variant() default Variant.UNSECURE;
 
     /**
-     * Describes the information about the input type, expected output and other factors. like say
-     * input is needed as a URL or as a Cookie etc.
-     *
-     * @return Localization Key
-     */
-    @Deprecated
-    String descriptionLabel() default "EMPTY_LABEL";
-
-    /**
      * Template name is used to construct the url for static resources like js/css/html. UI will
      * look for path to static templates like static/templates/JWTVulnerabilities/{htmlTemplate}.{js
      * or css or html} to construct final Html.
@@ -49,25 +40,6 @@ public @interface VulnerableAppRequestMapping {
     String htmlTemplate() default "";
 
     /**
-     * This information can be used by Scanners to know location in request where payload can be
-     * injected. Default value is {@link RequestParameterLocation#QUERY_PARAM}
-     *
-     * @return location of parameter
-     */
-    @Deprecated
-    RequestParameterLocation requestParameterLocation() default
-            RequestParameterLocation.QUERY_PARAM;
-
-    /**
-     * This information can be used by Scanners to know the name of the key whose value is read by
-     * the endpoint/vulnerability level for performing the operation.
-     *
-     * @return name of the parameter which holds the value
-     */
-    @Deprecated
-    String parameterName() default "";
-
-    /**
      * This information is not useful for now because we are for now only handling Get requests but
      * going further we might use this information and hence this is very useful for scanner.
      *
@@ -75,14 +47,4 @@ public @interface VulnerableAppRequestMapping {
      */
     @AliasFor(attribute = "method", annotation = RequestMapping.class)
     RequestMethod requestMethod() default RequestMethod.GET;
-
-    /**
-     * ResponseType helps the implementer to know what is the type of response returned from the
-     * rest/http api call. This is important for vulnerabilities which returns entire html or tags
-     * like XSS vulnerability. The default responseType is {@link ResponseType#JSON}.
-     *
-     * @return ResonseType for the vulnerability level.
-     */
-    @Deprecated
-    ResponseType responseType() default ResponseType.JSON;
 }

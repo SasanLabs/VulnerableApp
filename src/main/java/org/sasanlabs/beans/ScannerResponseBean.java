@@ -2,7 +2,6 @@ package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,24 +20,8 @@ public class ScannerResponseBean {
     @JsonProperty("url")
     private String url;
 
-    @Deprecated
-    @JsonProperty("level")
-    private String level;
-
     @JsonProperty("variant")
     private String variant;
-
-    @Deprecated
-    @JsonProperty("location")
-    private RequestParameterLocation requestParameterLocation;
-
-    @Deprecated
-    @JsonProperty("parameter")
-    private String parameterName;
-
-    @Deprecated
-    @JsonProperty("sampleValues")
-    private String[] sampleValues;
 
     @JsonProperty("method")
     private RequestMethod requestMethod;
@@ -48,38 +31,18 @@ public class ScannerResponseBean {
 
     public ScannerResponseBean(
             String url,
-            String level,
             String variant,
-            RequestParameterLocation requestParameterLocation,
-            String parameterName,
-            String[] sampleValues,
             RequestMethod requestMethod,
             List<VulnerabilityType> vulnerabilityTypes) {
         super();
         this.url = url;
-        this.level = level;
         this.variant = variant;
-        this.requestParameterLocation = requestParameterLocation;
-        this.parameterName = parameterName;
-        this.sampleValues = sampleValues;
         this.requestMethod = requestMethod;
         this.vulnerabilityTypes = vulnerabilityTypes;
     }
 
     public String getUrl() {
         return url;
-    }
-
-    public RequestParameterLocation getRequestParameterLocation() {
-        return requestParameterLocation;
-    }
-
-    public String getParameterName() {
-        return parameterName;
-    }
-
-    public String[] getSampleValues() {
-        return sampleValues;
     }
 
     public RequestMethod getRequestMethod() {
