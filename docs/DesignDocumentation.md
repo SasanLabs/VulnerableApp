@@ -48,13 +48,14 @@ All the other parameters in the annotations are used for generating information 
 3. [Example Templates](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/resources/static/templates)
 
 **AttackVector**:
+
 This annotation is mainly used to help users to exploit the vulnerability. This annotation is used to help students/security enthusiasts about various payloads/ways to expose the vulnerability.
 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/AttackVector.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java)
 
-### VulnerableApp UserInterface Framework
-**Legacy User Interface**
+### VulnerableApp Legacy User Interface
+
 VulnerableApp's UI framework is divided into 3 parts:
 1. [index.html](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/index.html) 
 2. [VulnerableApp.js](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/static/vulnerableApp.js)
@@ -73,7 +74,8 @@ VulnerableApp's User Interface will always look for the htmlTemplate under `src/
 
 VulnerableApp's user interface exposes some of the functionality Out-Of-The-Box like generic utility for doing Ajax Calls, generic css for button animation/look and feel etc.
 
-**ReactJS based User Interface**
+### ReactJS based User Interface**
+
 This user interface is provided by one of SasanLabs projects called [VulnerableApp-facade](https://github.com/SasanLabs/VulnerableApp-facade).VulnerableApp exposes an endpoint `/VulnerabilityDefinitions` which holds the information about the Vulnerabilities along with the static resources, which will be leveraged by VulnerableApp-facade to build the User Interface. The information used by VulnerableApp-facade is very similar to the legacy user interface and is derived from the same 3 annotations mentioned above.
 
 ### Currently handled Vulnerability types
