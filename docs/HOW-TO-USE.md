@@ -34,3 +34,30 @@ There are 2 ways in which this project can be built and used:
 
 ## Glimpse of the Legacy User Interface ##
 ![VulnerableApp-Legacy UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/VulnerableApp.gif)
+
+# How SAST or DAST can use the project
+As VulnerableApp is built for scanning tools hence there are multiple ways in which they can leverage the VulnerableApp.
+1. Developer of these scanning tools can add new vulnerabilities for testing there scan rules, payload testing etc. They can even go with TDD approach where they first write the Vulnerable code and then they can write the Scan Rules.
+2. For Evaluation of scanning tools
+   1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner` which provides information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate themselves.
+   2. For SAST, we have added a [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) file which has vulnerabilities and their line numbers which SAST tools can use to evaluate themselves.
+
+## Details about scanner endpoint
+scanner endpoint exposes following information which DAST tools can leverage:
+```
+url: The URL of the endpoint in VulnerableApp. 
+variant: Whether the endpoint is SECURE or UNSECURE. SECURE is helpful in figuring out the false positives.
+method: Type of HTTP method for the endpoint like GET or POST
+vulnerabilityTypes: List of vulnerability types present in the endpoint to validate if scanner is fully finding all the vulnerabilities in an endpoint.
+```
+Note: [VulnerabilityTypes](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java) are custom values as no single standard represent all the Vulnerabilities. However we are working on creating a mapping between VulnerabilityType and CWE/WASC.
+## Details about ExpectedIssues.csv
+[ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) contains following information which SAST tools can leverage:
+```
+Vulnerability Type: type of vulnerability present
+CWE: CWE id for the Vulnerability
+WASC: WASC id for the Vulnerability
+File: Full path of the file containing the Vulnerability
+Line: Line number in the file containing the Vulnerability
+Source: Number of times that line is executed. 
+```
