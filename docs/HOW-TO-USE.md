@@ -33,7 +33,7 @@ There are 2 ways in which this project can be built and used:
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ## Glimpse of the Legacy User Interface ##
-![VulnerableApp-Legacy UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/VulnerableApp.gif)
+![VulnerableApp-Legacy UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/VulnerableApp.gif)
 
 # How can Vulnerability Scanning tools use VulnerableApp ? #
 VulnerableApp is specifically designed for the Vulnerability Scanning Tools like ZAP wherein we expose vulnerability definitions via the following endpoints:
