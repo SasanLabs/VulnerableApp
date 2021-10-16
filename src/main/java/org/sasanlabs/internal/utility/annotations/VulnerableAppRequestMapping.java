@@ -54,6 +54,7 @@ public @interface VulnerableAppRequestMapping {
      *
      * @return location of parameter
      */
+    @Deprecated
     RequestParameterLocation requestParameterLocation() default
             RequestParameterLocation.QUERY_PARAM;
 
@@ -82,5 +83,6 @@ public @interface VulnerableAppRequestMapping {
      *
      * @return ResonseType for the vulnerability level.
      */
+    @Deprecated
     ResponseType responseType() default ResponseType.JSON;
 }

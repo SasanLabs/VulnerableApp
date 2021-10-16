@@ -21,18 +21,22 @@ public class ScannerResponseBean {
     @JsonProperty("url")
     private String url;
 
+    @Deprecated
     @JsonProperty("level")
     private String level;
 
     @JsonProperty("variant")
     private String variant;
 
+    @Deprecated
     @JsonProperty("location")
     private RequestParameterLocation requestParameterLocation;
 
+    @Deprecated
     @JsonProperty("parameter")
     private String parameterName;
 
+    @Deprecated
     @JsonProperty("sampleValues")
     private String[] sampleValues;
 
