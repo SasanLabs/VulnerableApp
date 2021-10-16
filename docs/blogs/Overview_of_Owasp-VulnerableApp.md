@@ -5,7 +5,7 @@ has_children: false
 parent: Blogs
 ---
 
-### An extensible Vulnerable Application for testing the Vulnerability scanning tools
+## An extensible Vulnerable Application for testing the Vulnerability scanning tools
 
 Anyone working in the cyber security domain or starting with cyber security will be introduced to one or the other Vulnerable applications as their playground. These applications are used to understand each vulnerability and to learn about how to mitigate them. I was introduced to BWAPP(Buggy Web Application) and DVWA(Damn Vulnerable Web Application).
 
