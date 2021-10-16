@@ -29,7 +29,7 @@ There are 2 ways in which this project can be built and used:
     2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run in the same directory `docker-compose up`
     3. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
 
-## Glimpse of React based User Interface ##
+## Glimpse of ReactJS based User Interface ##
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ## Glimpse of the Legacy User Interface ##
