@@ -10,7 +10,7 @@ buildscript {
 //Community Plugins
 plugins {
     id("com.diffplug.spotless") version "5.6.1"
-    id("com.google.cloud.tools.jib") version "2.6.0"
+    id("com.google.cloud.tools.jib") version "3.1.4"
     id("org.sonarqube") version "3.3"
 }
 
