@@ -225,7 +225,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                     "CWE",
                                                     String.valueOf(vulnerabilityType.getCweID())));
                                 if (null != vulnerabilityType.getWascID())
-                                    facadeVulnerabilityTypes.add(
+                                    facadeLevelVulnerabilityTypes.add(
                                             new VulnerabilityType(
                                                     "WASC",
                                                     String.valueOf(vulnerabilityType.getWascID())));
