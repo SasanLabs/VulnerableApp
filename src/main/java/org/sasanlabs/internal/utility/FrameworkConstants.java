@@ -5,24 +5,24 @@ package org.sasanlabs.internal.utility;
  *
  * @author preetkaran20@gmail.com KSASAN
  */
-public interface FrameworkConstants {
+public class FrameworkConstants {
 
     // Site map related constants
-    String GENERAL_XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    String SITEMAP_URLSET_TAG_START =
+    public static final String GENERAL_XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    public static final String SITEMAP_URLSET_TAG_START =
             "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n";
-    String SITEMAP_URL_TAG_START = "<url>";
-    String SITEMAP_URL_TAG_END = "</url>";
-    String SITEMAP_LOC_TAG_START = "<loc>";
-    String SITEMAP_LOC_TAG_END = "</loc>";
-    String SITEMAP_URLSET_TAG_END = "</urlset>";
+    public static final String SITEMAP_URL_TAG_START = "<url>";
+    public static final String SITEMAP_URL_TAG_END = "</url>";
+    public static final String SITEMAP_LOC_TAG_START = "<loc>";
+    public static final String SITEMAP_LOC_TAG_END = "</loc>";
+    public static final String SITEMAP_URLSET_TAG_END = "</urlset>";
 
-    String HTTP = "http://";
-    String HTTPS = "https://";
-    String COLON = ":";
-    String SLASH = "/";
-    String NEXT_LINE = "\n";
+    public static final String HTTP = "http://";
+    public static final String HTTPS = "https://";
+    public static final String COLON = ":";
+    public static final String SLASH = "/";
+    public static final String NEXT_LINE = "\n";
 
     // As VulnerableApp is added to each URL hence creating a constant for reference.
-    String VULNERABLE_APP = "VulnerableApp";
+    public static final String VULNERABLE_APP = "VulnerableApp";
 }
