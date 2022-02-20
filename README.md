@@ -14,7 +14,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 - Java8
 - Spring Boot
 - ReactJS
-- Vanilla Javascript
+- Javascript/TypeScript
     
 ## Currently handled Vulnerability types
 
