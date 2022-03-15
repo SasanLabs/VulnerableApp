@@ -6,11 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
@@ -18,14 +17,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
 
-@ExtendWith(MockitoExtension.class)
 class ControllerExceptionHandlerTest {
 
     @Mock private MessageBundle messageBundle;
 
     @Mock private WebRequest webRequest;
 
-    @InjectMocks private ControllerExceptionHandler controllerExceptionHandler;
+    private ControllerExceptionHandler controllerExceptionHandler;
+
+    @BeforeEach
+    void setup() {
+        MockitoAnnotations.initMocks(this);
+        controllerExceptionHandler = new ControllerExceptionHandler(messageBundle);
+    }
 
     @Test
     void shouldHandleControllerExceptions() {
