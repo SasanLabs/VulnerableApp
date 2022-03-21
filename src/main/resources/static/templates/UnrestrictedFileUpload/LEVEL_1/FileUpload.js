@@ -10,7 +10,7 @@ function genericResponseHandler2(xmlHttpRequest, callBack, isJson) {
       alert("There was an error 400");
     } else if (xmlHttpRequest.status == 500) {
       document.getElementById("uploaded_file_info").innerHTML =
-          "No space left on the device";
+        "No space left on the device";
     } else {
       alert("something else other than 200/401 was returned");
     }
@@ -23,10 +23,10 @@ function addingEventListenerToUploadImage() {
     const file = form.files[0];
     if (file.size > 1048576) {
       document.getElementById("uploaded_file_info").innerHTML =
-          "Max upload size exceeded exception : " +
-          "the request was rejected because its size (" +
-          file.size +
-          ") exceeds the configured maximum (1048576)";
+        "Max upload size exceeded exception : " +
+        "the request was rejected because its size (" +
+        file.size +
+        ") exceeds the configured maximum (1048576)";
     } else {
       let formData = new FormData();
       formData.append("file", file);
@@ -45,6 +45,6 @@ addingEventListenerToUploadImage();
 
 function uploadImage(data) {
   document.getElementById("uploaded_file_info").innerHTML = data.isValid
-      ? "File uploaded at location:" + data.content
-      : data.content;
+    ? "File uploaded at location:" + data.content
+    : data.content;
 }
