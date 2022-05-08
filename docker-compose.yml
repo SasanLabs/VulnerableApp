@@ -1,0 +1,6 @@
+version: "2.2"
+services:
+  VulnerableApp-base:
+    image: sasanlabs/owasp-vulnerableapp:unreleased
+    ports:
+      - "9090:9090"
