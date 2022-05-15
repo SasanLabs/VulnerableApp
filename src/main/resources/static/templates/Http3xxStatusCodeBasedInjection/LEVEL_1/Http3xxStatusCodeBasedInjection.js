@@ -1,7 +1,7 @@
 function updatePlaceholderDiv() {
   let placeholderAnchorElement = document.getElementById("placeholder");
   placeholderAnchorElement.href =
-    getUrlForVulnerabilityLevel() + "?returnTo=/VulnerableApp";
+    getUrlForVulnerabilityLevel() + "?returnTo=/index.html";
   placeholderAnchorElement.innerText = "Click here";
 }
 
