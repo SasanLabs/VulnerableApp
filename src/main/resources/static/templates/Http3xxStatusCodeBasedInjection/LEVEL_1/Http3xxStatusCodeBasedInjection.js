@@ -1,6 +1,5 @@
 function updatePlaceholderDiv() {
   let placeholderAnchorElement = document.getElementById("placeholder");
-  console.log(placeholderAnchorElement);
   let url = window.location.href;
   if (url.endsWith(":9090/VulnerableApp/")){
     placeholderAnchorElement.href =
