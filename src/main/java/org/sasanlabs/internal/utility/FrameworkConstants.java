@@ -19,6 +19,8 @@ public interface FrameworkConstants {
 
     String HTTP = "http://";
     String HTTPS = "https://";
+
+    String WWW = "www.";
     String COLON = ":";
     String SLASH = "/";
     String NEXT_LINE = "\n";
