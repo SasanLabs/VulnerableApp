@@ -17,6 +17,8 @@ public class JSONSerializationUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    private static JSONSerializationUtils() {}
+
     public static <T> String serialize(T object) throws JsonProcessingException {
         return MAPPER.writeValueAsString(object);
     }
