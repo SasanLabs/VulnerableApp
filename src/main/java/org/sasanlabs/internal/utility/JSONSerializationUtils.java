@@ -13,11 +13,11 @@ import java.io.InputStream;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
-public class JSONSerializationUtils {
+public final class JSONSerializationUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private static JSONSerializationUtils() {}
+    private JSONSerializationUtils() {}
 
     public static <T> String serialize(T object) throws JsonProcessingException {
         return MAPPER.writeValueAsString(object);
