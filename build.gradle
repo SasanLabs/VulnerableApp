@@ -70,6 +70,11 @@ jib {
   	}
 }
 
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/jacoco")
+}
+
 tasks.register('GenerateSampleVulnerability'){
 	group = 'SasanLabs'
 	description = 'Generates Sample Vulnerability template'
@@ -124,4 +129,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
 }
