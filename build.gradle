@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.6.4")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.4.5")
     }
 }
 
@@ -12,6 +12,7 @@ plugins {
     id("com.diffplug.spotless") version "5.6.1"
     id("com.google.cloud.tools.jib") version "3.1.4"
     id("org.sonarqube") version "3.3"
+    id("jacoco")
 }
 
 apply plugin: 'java'
@@ -67,6 +68,11 @@ jib {
   	to {
     	  image = 'sasanlabs/owasp-vulnerableapp:unreleased'
   	}
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/jacoco")
 }
 
 tasks.register('GenerateSampleVulnerability'){
@@ -125,4 +131,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+            xml.enabled true
+            html.enabled true
+            csv.enabled false
+            xml.destination file("${buildDir}/reports/jacoco.xml")
+    }
 }

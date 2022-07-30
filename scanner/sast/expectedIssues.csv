@@ -8,9 +8,9 @@ CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInject
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,50,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,77,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,102,1
-CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,45,1
-CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,72,1
-CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedHtmlTagInjection.java,101,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java,45,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java,72,1
+CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java,101,1
 CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedImgTagAttrInjection.java,60,1
 CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/UrlParamBasedImgTagAttrInjection.java,82,1
 CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java,101,1

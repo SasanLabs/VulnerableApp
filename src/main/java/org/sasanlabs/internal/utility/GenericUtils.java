@@ -5,15 +5,18 @@ package org.sasanlabs.internal.utility;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
-public class GenericUtils {
+public final class GenericUtils {
 
     public static final String LOCALHOST = "127.0.0.1";
+
+    private GenericUtils() {}
 
     /**
      * @deprecated
      * @param payload
      * @return
      */
+    @Deprecated
     public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {
         String generalPayload =
                 "<html><title>Security Testing</title><body><h1>Vulnerable Application </h1> %s </body></html>";

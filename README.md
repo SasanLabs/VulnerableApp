@@ -42,14 +42,23 @@ There are multiple ways in which you can contribute to the project:
 
 ## Building the project
 There are 2 ways in which this project can be built and used:
-1. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
-    1. Import the project into your favorite IDE and run it
-    2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
-2. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker application, follow following steps:
+1. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker application, follow following steps:
     1. Build the docker image by running `./gradlew jibDockerBuild`
     2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run in the same directory `docker-compose up`
     3. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
+2. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
+    1. Import the project into your favorite IDE and run it
+    2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
+    
+### Connecting to embedded H2 database
+For accessing database from browser, visit: `http://localhost:9090/VulnerableApp/h2`
 
+Database Connection properties:
+```properties
+JDBC Url: jdbc:h2:mem:testdb
+User Name: admin
+Password: hacker
+```
 ## Contact
 In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 
