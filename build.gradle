@@ -125,6 +125,8 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
     
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
+    
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 }
 
 test {
