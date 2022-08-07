@@ -22,7 +22,7 @@ jobs:
           java-version: 1.8
           fetch-depth: 0
       -
-        name: Setup Gitveresion action
+        name: Setup GitVersion action
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
           versionSpec: '5.x'
