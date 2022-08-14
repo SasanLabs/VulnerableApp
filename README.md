@@ -54,7 +54,7 @@ git commit -m "+semver:patch some text"
 ```
 By default, if the version is not provided in the commit message, then patch is incremented.
 
-The updated version is used to create a tag for the latest published release on GitHub and DockerHub.
+The updated version is used to create a tag on GitHub and the most recent build on DockerHub.
 
 <em>Which version should be incremented?</em>
 
