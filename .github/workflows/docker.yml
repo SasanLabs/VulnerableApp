@@ -31,7 +31,7 @@ jobs:
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0.9.7
       -
-        name: Create tag for repo
+        name: Create tag for GitHub
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -43,4 +43,4 @@ jobs:
         name: Build with Gradle and Push
         run: |
           ./gradlew jib \
-          -Djib.to.tags='latest',$GITVERSION_SEMVER
+          -Djib.to.tags='unreleased',$GITVERSION_SEMVER
