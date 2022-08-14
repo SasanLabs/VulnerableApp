@@ -40,6 +40,33 @@ There are multiple ways in which you can contribute to the project:
 1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
+### Semantic Versioning ###
+Leveraging GitHub workflow and actions, semantic versioning is automated.
+When committing your feature, you have the option to increment the version's major, minor, or patch value
+by including <code>+semver:[major|minor|patch]</code> in your commit message. Major, minor, patch values are the
+strings 'major', 'minor', and 'patch'.
+
+Examples:
+```properties
+git commit -m "some text +semver:major"
+git commit -m "+semver:minor some text"
+git commit -m "+semver:patch some text"
+```
+By default, if the version is not provided in the commit message, then patch is incremented.
+
+The updated version is used to create a tag for the latest published release on GitHub and DockerHub.
+
+<em>Which version should be incremented?</em>
+
+<table>
+<thead><td>Version</td><td>Description</td></thead>
+<tr><td>Major</td><td>Changes that break backwards compatibility</td></tr>
+<tr><td>Minor</td><td>New features that are backwards compatible</td></tr>
+<tr><td>Patch</td><td>Bug fixes that are backwards compatible</td></tr>
+</table>
+More information can be found at <a href="https://semver.org/" alt="semantic versioning specification">Semantic 
+Versioning 
+Specifiction</a>.
 
 ## Building the project
 There are 2 ways in which this project can be built and used:
