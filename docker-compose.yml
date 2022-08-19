@@ -5,11 +5,9 @@ services:
       
     VulnerableApp-jsp:
       image: sasanlabs/owasp-vulnerableapp-jsp:latest
-      pull_policy: always
  
     VulnerableApp-php:
       image: sasanlabs/owasp-vulnerableapp-php:latest
-      pull_policy: always
     
     VulnerableApp-facade:
       depends_on:
@@ -17,7 +15,6 @@ services:
         - VulnerableApp-jsp
         - VulnerableApp-php
       image: sasanlabs/owasp-vulnerableapp-facade
-      pull_policy: always    
       volumes:
        - ./templates:/etc/nginx/templates
       ports:
