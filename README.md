@@ -41,6 +41,20 @@ There are multiple ways in which you can contribute to the project:
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
 
+## Running the project
+There are 2 ways to run the project:
+1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
+    1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
+    2. Clone this Github repository
+    3. Open the terminal and Navigate to the Project root directory
+    4. Run the command ```docker-compose pull && docker-compose up```
+    5. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
+2. Another way to run the VulnerableApp is as standalone Vulnerable Application is:
+    1. Navigate to [Releases Section](https://github.com/SasanLabs/VulnerableApp/releases) in github and download the Jar for the latest released version
+    2. Open the terminal and navigate to the project root directory
+    3. Run the command ```java -jar VulnerableApp-*```
+    4. Navigate to browser and visit `http://localhost:9090/VulnerableApp`. This will give the Legacy User Interface for the VulnerableApp.
+
 ## Building the project
 There are 2 ways in which this project can be built and used:
 1. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker application, follow following steps:
