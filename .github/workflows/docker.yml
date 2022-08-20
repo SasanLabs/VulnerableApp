@@ -1,5 +1,5 @@
-# This workflow will build a Java project with Gradle and push a new docker image to docker hub
-name: Build and Push Image to DockerHub
+# This workflow will build a Java project with Gradle, create repository tag, and push a new docker image to docker hub
+name: Create Tag, Build and Push Unreleased Image to DockerHub
 
 on:
   push:
@@ -43,4 +43,5 @@ jobs:
         name: Build with Gradle and Push
         run: |
           ./gradlew jib \
-          -Djib.to.tags='unreleased',$GITVERSION_SEMVER
+          -Djib.to.image=sasanlabs/owasp-vulnerableapp:unreleased \
+          -Djib.to.tags=$GITVERSION_SEMVER
