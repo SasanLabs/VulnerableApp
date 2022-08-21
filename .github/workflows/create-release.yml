@@ -1,5 +1,5 @@
 # This workflow automates release creation and builds and deploys to DockerHub
-name: Automates release gets latest tag, creates release, builds and push to DockerHub with latest tag
+name: Release project
 
 on:
   workflow_dispatch:
@@ -44,5 +44,4 @@ jobs:
         name: Build and push image to Docker using JIB
         run: |
             ./gradlew jib \
-            -Djib.to.image=sasanlabs/owasp-vulnerableapp:latest \
             -Djib.to.tags=${{ steps.TAG.outputs.LATEST_VERSION }}

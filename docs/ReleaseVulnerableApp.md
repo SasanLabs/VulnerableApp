@@ -29,8 +29,7 @@ there is an option to provide release notes.
 
 To initialize the workflow, from the repository:
 1. Select the 'Actions' tab.
-2. Under 'Workflows' select 'Automates release gets latest tag, creates release, builds and push to DockerHub with 
-latest tag'.
+2. Under 'Workflows' select 'Release project' workflow.
 3. Select 'Run Workflow' where it says 'This workflow has a workflow_dispatch event trigger'.
 4. Then select 'run workflow' again (can include optional release notes).
 

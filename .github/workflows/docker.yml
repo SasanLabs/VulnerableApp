@@ -1,5 +1,5 @@
 # This workflow will build a Java project with Gradle, create repository tag, and push a new docker image to docker hub
-name: Create Tag, Build and Push Unreleased Image to DockerHub
+name: Create Tag and Push Image to DockerHub
 
 on:
   push:
