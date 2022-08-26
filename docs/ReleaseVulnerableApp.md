@@ -1,7 +1,9 @@
 # Releasing VulnerableApp #
 
-VulnerableApp is Leveraging GitHub workflow and actions for creating new releases automatically.
-When committing the feature, we have the option to increment the version's to major, minor, or patch value
+VulnerableApp is leveraging multiple GitHub workflows and actions for creating new releases automatically.
+The first workflow automates semantic versioning, repository tag creation, building and deploying as unreleased to 
+DockerHub.
+When committing a feature, we have the option to increment the version's major, minor, or patch value
 by including <code>+semver:[major|minor|patch]</code> in the commit message. Major, minor, patch values are the
 strings 'major', 'minor', and 'patch'.
 
@@ -17,8 +19,17 @@ Examples of version change considering the current version is 1.10.0:
 2. For minor release, the newer version will be 1.11.0
 3. for major release, the newer version will be 2.0.0
 
-The github action will create a tag for the latest published release on GitHub and DockerHub.
+More information can be found at [Semantic
+   Versioning
+   Specifiction](https://semver.org/)
 
-More information can be found at [Semantic 
-Versioning 
-Specifiction](https://semver.org/)
+The second workflow automates release creation. Using <code>workflow_dispatch</code>, this will get the latest 
+repository tag, create a GitHub release, build and deploy as latest to DockerHub. When initializing this workflow, 
+there is an option to provide release notes. 
+
+To initialize the workflow, from the repository:
+1. Select the 'Actions' tab.
+2. Under 'Workflows' select 'Release project' workflow.
+3. Select 'Run Workflow' where it says 'This workflow has a workflow_dispatch event trigger'.
+4. Then select 'run workflow' again (can include optional release notes).
+
