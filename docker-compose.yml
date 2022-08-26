@@ -1,7 +1,7 @@
 version: "3.9"
 services:
     VulnerableApp-base:
-      image: sasanlabs/owasp-vulnerableapp:latest
+      image: sasanlabs/owasp-vulnerableapp:unreleased
       
     VulnerableApp-jsp:
       image: sasanlabs/owasp-vulnerableapp-jsp:latest
