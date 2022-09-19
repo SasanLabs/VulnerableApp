@@ -11,5 +11,11 @@ pipeline {
              sh "npm install"        
       }
     }
+       stage('Testing') {
+            steps {
+                sh "npm i"
+                sh "npx cypress run --browserchrome"
+            }
+        }
   }
 }
