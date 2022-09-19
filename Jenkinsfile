@@ -6,5 +6,10 @@ pipeline {
                 echo "Building the application"
             }
         }
+        stage('Dependencies') {
+          steps {
+             sh "npm install"        
+      }
+    }
   }
 }
