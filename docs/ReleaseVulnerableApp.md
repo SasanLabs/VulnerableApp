@@ -1,4 +1,4 @@
-# Releasing VulnerableApp #
+# Releasing VulnerableApp
 
 VulnerableApp is leveraging multiple GitHub workflows and actions for creating new releases automatically.
 The first workflow automates semantic versioning, repository tag creation, building and deploying as unreleased to 
