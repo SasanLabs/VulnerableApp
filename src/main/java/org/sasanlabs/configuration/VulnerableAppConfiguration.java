@@ -45,14 +45,13 @@ public class VulnerableAppConfiguration {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-    
+
     @Bean
     public AcceptHeaderLocaleResolver localeResolver() {
         final AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
         resolver.setDefaultLocale(Locale.US);
         return resolver;
     }
-
 
     /**
      * This method reads all the property which are useful for vulnerableApp and then injects them
