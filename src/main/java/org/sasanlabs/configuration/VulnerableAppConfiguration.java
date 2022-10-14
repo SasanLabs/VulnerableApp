@@ -2,6 +2,7 @@ package org.sasanlabs.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 /**
  * This is the Configuration Class for Injecting Configurations into the Context.
@@ -43,6 +45,14 @@ public class VulnerableAppConfiguration {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
+    
+    @Bean
+    public AcceptHeaderLocaleResolver localeResolver() {
+        final AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
+        resolver.setDefaultLocale(Locale.US);
+        return resolver;
+    }
+
 
     /**
      * This method reads all the property which are useful for vulnerableApp and then injects them
