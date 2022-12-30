@@ -65,6 +65,7 @@ jib {
 	from {
     	  image = 'openjdk:8-jre-alpine'
 	  platforms {
+	  
 	    platform {
 	      architecture = 'amd64'
 	      os = 'linux'
@@ -86,6 +87,7 @@ jib {
 	      os = 'linux'
 	    }
 	  }
+	  
   	}
 	to {
 	  image = 'sasanlabs/owasp-vulnerableapp:unreleased'
