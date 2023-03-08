@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+    VulnerableApp-base:
+      image: sasanlabs/owasp-vulnerableapp:unreleased
+      
+    VulnerableApp-jsp:
+      image: sasanlabs/owasp-vulnerableapp-jsp:latest
+ 
+    VulnerableApp-php:
+      image: sasanlabs/owasp-vulnerableapp-php:latest
+    
+    VulnerableApp-facade:
+      depends_on:
+        - VulnerableApp-base
+        - VulnerableApp-jsp
+        - VulnerableApp-php
+      image: sasanlabs/owasp-vulnerableapp-facade
+      volumes:
+       - ./templates:/etc/nginx/templates
+      ports:
+       - "80:80"
+      environment:
+       - NGINX_HOST=foobar.com
+       - NGINX_PORT=80
