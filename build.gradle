@@ -129,6 +129,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.17.2'
 
+    testImplementation group: 'org.springframework', name: 'spring-test'
+
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.1.RELEASE'
 
@@ -149,6 +151,8 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
     
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
+
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 }
 
 test {

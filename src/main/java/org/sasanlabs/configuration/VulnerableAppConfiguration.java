@@ -2,9 +2,14 @@ package org.sasanlabs.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import org.sasanlabs.internal.utility.LevelConstants;
+import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,11 +17,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 /**
@@ -30,6 +39,9 @@ public class VulnerableAppConfiguration {
     private static final String I18N_MESSAGE_FILE_LOCATION = "classpath:i18n/messages";
     private static final String ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN =
             "classpath:/attackvectors/*.properties";
+    private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
+            Arrays.asList(
+                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_10);
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -122,5 +134,30 @@ public class VulnerableAppConfiguration {
     public JdbcTemplate applicationJdbcTemplate(
             @Qualifier("applicationDataSource") DataSource applicationDataSource) {
         return new JdbcTemplate(applicationDataSource);
+    }
+
+    /**
+     * Customized MultipartFilter bean disables default max upload size for multipart files and
+     * their overall requests, for select paths. See {@link
+     * UnrestrictedFileUpload#getVulnerablePayloadLevel10()} for usage.
+     */
+    @Bean
+    @Order(0)
+    public MultipartFilter multipartFilter() {
+        class CustomMF extends MultipartFilter {
+            @Override
+            protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
+                if (MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS.contains(request.getServletPath())) {
+                    CommonsMultipartResolver multipart = new CommonsMultipartResolver();
+                    multipart.setMaxUploadSize(-1);
+                    multipart.setMaxUploadSizePerFile(-1);
+                    return multipart;
+                } else {
+                    // returns default implementation
+                    return lookupMultipartResolver();
+                }
+            }
+        };
+        return new CustomMF();
     }
 }
