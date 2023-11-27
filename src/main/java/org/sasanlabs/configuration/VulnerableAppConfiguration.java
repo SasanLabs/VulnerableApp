@@ -144,7 +144,7 @@ public class VulnerableAppConfiguration {
     @Bean
     @Order(0)
     public MultipartFilter multipartFilter() {
-        class CustomMF extends MultipartFilter {
+        class MaxUploadSizeOverrideMultipartFilter extends MultipartFilter {
             @Override
             protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
                 if (MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS.contains(request.getServletPath())) {
@@ -158,6 +158,6 @@ public class VulnerableAppConfiguration {
                 }
             }
         };
-        return new CustomMF();
+        return new MaxUploadSizeOverrideMultipartFilter();
     }
 }
