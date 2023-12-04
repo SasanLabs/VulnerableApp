@@ -93,7 +93,6 @@ In case you are stuck with any of the steps or understanding anything related to
 3. [Introduction to Owasp VulnerableApp by Kenji Nakajima](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 
 ### Troubleshooting references
-
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
 
 ### Readme in other languages
