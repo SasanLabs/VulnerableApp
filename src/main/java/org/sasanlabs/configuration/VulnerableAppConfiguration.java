@@ -41,7 +41,7 @@ public class VulnerableAppConfiguration {
             "classpath:/attackvectors/*.properties";
     private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
             Arrays.asList(
-                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_10);
+                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
 
     /**
      * Will Inject MessageBundle into messageSource bean.
