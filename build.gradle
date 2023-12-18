@@ -62,36 +62,40 @@ spotless {
 }
 
 jib {
-	from {
-    	  image = 'openjdk:8-jre-alpine'
-	  platforms {
-	  
-	    platform {
-	      architecture = 'amd64'
-	      os = 'linux'
-	    }
-	    platform {
-	      architecture = 'arm64'
-	      os = 'linux'
-	    }
-	    platform {
-	      architecture = '386'
-	      os = 'linux'
-	    }
-	    platform {
-	      architecture = 's390x'
-	      os = 'linux'
-	    }
-	    platform {
-	      architecture = 'ppc64le'
-	      os = 'linux'
-	    }
-	  }
-	  
-  	}
-	to {
-	  image = 'sasanlabs/owasp-vulnerableapp:unreleased'
-	}
+    to {
+        image = 'sasanlabs/owasp-vulnerableapp:unreleased'
+    }
+    
+    // Set up multi-platform build only if the task is not :jibDockerBuild
+    if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
+        logger.info("JIB: Enabling Multi-Platform Images")
+
+        from {
+            image = 'openjdk:8-jre-alpine'
+            platforms {
+                platform {
+                    architecture = 'amd64'
+                    os = 'linux'
+                }
+                platform {
+                    architecture = 'arm64'
+                    os = 'linux'
+                }
+                platform {
+                    architecture = '386'
+                    os = 'linux'
+                }
+                platform {
+                    architecture = 's390x'
+                    os = 'linux'
+                }
+                platform {
+                    architecture = 'ppc64le'
+                    os = 'linux'
+                }
+            }
+        }
+    }
 }
 
 jacoco {
@@ -115,6 +119,7 @@ tasks.register('GenerateSampleVulnerability'){
     }
     println 'Copy of html/css/js files is completed'
     println 'SampleVulnerability is generated !!!'
+    enabled = false
 }
 
 dependencies {
@@ -149,6 +154,8 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
     
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
+
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 }
 
 test {
