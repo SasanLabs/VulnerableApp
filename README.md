@@ -15,6 +15,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 - Spring Boot
 - ReactJS
 - Javascript/TypeScript
+- OpenAI
     
 ## Currently handled Vulnerability types
 
