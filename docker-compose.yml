@@ -21,4 +21,4 @@ services:
        - "80:80"
       environment:
        - NGINX_HOST=foobar.com
-       - NGINX_PORT=80
+       - NGINX_PORT=8080
