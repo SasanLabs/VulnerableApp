@@ -235,7 +235,7 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
   }
 }
 
-function doGetAjaxCall(callBack, url, isJson) {
+function doGetAjaxCall(callBack, url, isJson, headers = {}) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function () {
     genericResponseHandler(xmlHttpRequest, callBack, isJson);
@@ -245,6 +245,11 @@ function doGetAjaxCall(callBack, url, isJson) {
     "Content-Type",
     isJson ? "application/json" : "text/html"
   );
+
+  for (const header in headers) {
+    xmlHttpRequest.setRequestHeader(header, headers[header]);
+  }
+
   xmlHttpRequest.send();
 }
 
