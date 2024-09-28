@@ -150,7 +150,7 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20190722'
 
 	//https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.3'
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.31'
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
@@ -158,6 +158,11 @@ dependencies {
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
 
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+
+    // https://mvnrepository.com/artifact/com.auth0/java-jwt
+    implementation group: 'com.auth0', name: 'java-jwt', version: '4.2.1'
+
+
 }
 
 test {
