@@ -1,1 +1,3 @@
-from
+openai
+PyGithub
+gitpython
