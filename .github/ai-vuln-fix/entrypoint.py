@@ -39,3 +39,42 @@ for m in matches:
         prompt = f"""
 You are a secure code assistant. Vulnerability {vuln_id} in {pkg_name} detected.
 Here is the code:
+Suggest a secure fix.
+"""
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        fix = response.choices[0].message.content
+        print(f"🛠️ Proposed fix for {f}:\n{fix[:500]}...")
+
+        with open(f, "w") as file:
+            file.write(fix)
+        changes_made = True
+
+# 4. Validate
+result = subprocess.run(["pytest"], capture_output=True)
+if result.returncode != 0:
+    print("❌ Tests failed after applying fix.")
+    exit(1)
+
+# 5. Commit & PR
+if changes_made:
+    branch = "ai-fix-branch"
+    repo.git.checkout("-b", branch)
+    repo.git.add(".")
+    repo.git.commit("-m", "AI automated fix for vulnerabilities")
+    repo.git.push("origin", branch)
+
+    gh = Github(os.getenv("GITHUB_TOKEN"))
+    gh_repo = gh.get_repo(os.getenv("GITHUB_REPOSITORY"))
+    gh_repo.create_pull(
+        title="AI Automated Vulnerability Fix",
+        body="This PR includes auto-generated fixes for detected CVEs.",
+        head=branch,
+        base="main"
+    )
+    print("✅ PR created with fixes!")
+
+else:
+    print("✅ No changes needed.")
