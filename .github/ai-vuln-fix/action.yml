@@ -1,0 +1,19 @@
+name: "AI Vulnerability Remediator"
+description: "Scan, patch, and PR open source vulnerabilities using LLM"
+
+inputs:
+  openai_api_key:
+    description: "OpenAI API Key"
+    required: true
+  github_token:
+    description: "GitHub Token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: python ai-vuln-fix/entrypoint.py
+      shell: bash
+      env:
+        OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}

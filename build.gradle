@@ -23,7 +23,7 @@ apply plugin: 'io.spring.dependency-management'
 
 bootJar {
     baseName = 'VulnerableApp'
-    version =  '1.0.0'
+    version =  '1.10.2'
 }
 
 configurations {
