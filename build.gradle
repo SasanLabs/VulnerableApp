@@ -41,7 +41,7 @@ repositories {
 
 sonar {
   properties {
-    property "sonar.projectKey", "koronet-network_java-repo-sonar-PoC_876a925a-e56e-4105-a238-c6389300793d"
+    property "sonar.projectKey", "koronet-network_VulnerableApp-scan-sonar-poc_59f97f9c-0bbf-4f64-83f4-0022a525cd24"
     property "sonar.projectName", "java-repo-sonar-PoC"
   }
 }
