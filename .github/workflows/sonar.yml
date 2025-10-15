@@ -1,7 +1,13 @@
 name: Sonar Validation
-on: push
+on:
+  push:
+    branches:
+      - '*master*'
+  pull_request:
+    types: [synchronize]
 jobs:
   build:
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.head_ref, 'master')) }}
     name: Build
     runs-on: ubuntu-latest
     steps:
