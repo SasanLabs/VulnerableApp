@@ -1,4 +1,3 @@
-version: "3.9"
 services:
     VulnerableApp-base:
       image: sasanlabs/owasp-vulnerableapp:unreleased
@@ -14,7 +13,7 @@ services:
         - VulnerableApp-base
         - VulnerableApp-jsp
         - VulnerableApp-php
-      image: sasanlabs/owasp-vulnerableapp-facade
+      image: sasanlabs/owasp-vulnerableapp-facade:1.2.1
       volumes:
        - ./templates:/etc/nginx/templates
       ports:
