@@ -1,0 +1,26 @@
+npm i -D cypress-grep
+Support File -> require('cypress-grep')()
+Plugin -> ---
+// cypress/plugins/index.js
+module.exports = (on, config) => {
+  // optional: register cypress-grep plugin code
+  // https://github.com/bahmutov/cypress-grep
+  require('cypress-grep/src/plugin')(config)
+}
+------
+
+it('works as an array', { tags: ['config', 'some-other-tag'] }, () => {
+  expect(true).to.be.true
+})
+
+it('works as a string', { tags: 'config' }, () => {
+  expect(true).to.be.true
+})
+
+By Describe / Test Title
+npx cypress run --spec cypress/integration/tags/*.js --env grep="regression"
+npx cypress run --spec cypress/integration/tags/*.js --env grep="-regression"
+By Tags
+npx cypress run --spec cypress/integration/tags/*.js --env grepTags=@regressionTag
+npx cypress run --spec cypress/integration/tags/*.js --env grepTags=-@regressionTag
+AND npx cypress run --spec cypress/integration/tags/*.js --env grepTags='@regressionTag+@sanityTag'
