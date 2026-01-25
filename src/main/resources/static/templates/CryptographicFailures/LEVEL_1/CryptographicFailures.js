@@ -4,14 +4,14 @@ function addingEventListenerToSubmitButton() {
     let password = document.getElementById("password").value;
     let data = document.getElementById("data").value;
     let params = new URLSearchParams();
-    
+
     if (password) {
       params.append("password", password);
     }
     if (data) {
       params.append("data", data);
     }
-    
+
     doGetAjaxCall(
       appendResponseCallback,
       url + "?" + params.toString(),
