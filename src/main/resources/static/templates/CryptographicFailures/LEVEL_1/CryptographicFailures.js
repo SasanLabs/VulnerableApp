@@ -1,23 +1,25 @@
 function addingEventListenerToSubmitButton() {
-  document.getElementById("submitButton").addEventListener("click", function () {
-    let url = getUrlForVulnerabilityLevel();
-    let password = document.getElementById("password").value;
-    let data = document.getElementById("data").value;
-    let params = new URLSearchParams();
+  document
+    .getElementById("submitButton")
+    .addEventListener("click", function () {
+      let url = getUrlForVulnerabilityLevel();
+      let password = document.getElementById("password").value;
+      let data = document.getElementById("data").value;
+      let params = new URLSearchParams();
 
-    if (password) {
-      params.append("password", password);
-    }
-    if (data) {
-      params.append("data", data);
-    }
+      if (password) {
+        params.append("password", password);
+      }
+      if (data) {
+        params.append("data", data);
+      }
 
-    doGetAjaxCall(
-      appendResponseCallback,
-      url + "?" + params.toString(),
-      true
-    );
-  });
+      doGetAjaxCall(
+        appendResponseCallback,
+        url + "?" + params.toString(),
+        true
+      );
+    });
 }
 addingEventListenerToSubmitButton();
 
