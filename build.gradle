@@ -73,7 +73,7 @@ jib {
         logger.info("JIB: Enabling Multi-Platform Images")
 
         from {
-            image = 'eclipse-temurin:8-jre'
+            image = 'amazoncorretto:8'
             platforms {
                 platform {
                     architecture = 'amd64'
@@ -81,6 +81,10 @@ jib {
                 }
                 platform {
                     architecture = 'arm64'
+                    os = 'linux'
+                }
+                platform {
+                    architecture = '386'
                     os = 'linux'
                 }
                 platform {
