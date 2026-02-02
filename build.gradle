@@ -83,18 +83,6 @@ jib {
                     architecture = 'arm64'
                     os = 'linux'
                 }
-                platform {
-                    architecture = '386'
-                    os = 'linux'
-                }
-                platform {
-                    architecture = 's390x'
-                    os = 'linux'
-                }
-                platform {
-                    architecture = 'ppc64le'
-                    os = 'linux'
-                }
             }
         }
     }
