@@ -84,10 +84,6 @@ jib {
                     os = 'linux'
                 }
                 platform {
-                    architecture = '386'
-                    os = 'linux'
-                }
-                platform {
                     architecture = 's390x'
                     os = 'linux'
                 }
