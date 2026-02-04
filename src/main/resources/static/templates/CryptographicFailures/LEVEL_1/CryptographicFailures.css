@@ -1,0 +1,29 @@
+#CryptographicFailures {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+#submitButton {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
+
+#password, #data {
+    margin: 10px;
+    padding: 5px;
+    width: 300px;
+}
+
+#result {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}

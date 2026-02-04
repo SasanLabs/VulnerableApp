@@ -1,6 +1,6 @@
 services:
     VulnerableApp-base:
-      image: sasanlabs/owasp-vulnerableapp:unreleased
+      image: sasanlabs/owasp-vulnerableapp:latest
       
     VulnerableApp-jsp:
       image: sasanlabs/owasp-vulnerableapp-jsp:latest

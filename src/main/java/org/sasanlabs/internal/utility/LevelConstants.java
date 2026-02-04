@@ -19,6 +19,9 @@ public interface LevelConstants {
     String LEVEL_11 = "LEVEL_11";
     String LEVEL_12 = "LEVEL_12";
     String LEVEL_13 = "LEVEL_13";
+    String LEVEL_14 = "LEVEL_14";
+    String LEVEL_15 = "LEVEL_15";
+    String LEVEL_16 = "LEVEL_16";
 
     static int getOrdinal(String level) {
         if (level.indexOf("_") > 0) {
