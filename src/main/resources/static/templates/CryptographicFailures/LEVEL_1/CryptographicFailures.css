@@ -1,0 +1,68 @@
+#CryptographicFailures {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+#challenge {
+    margin: 10px;
+    padding: 15px;
+    border: 2px solid #333;
+    background-color: #2d2d2d;
+    color: #f0f0f0;
+    font-family: monospace;
+    font-size: 13px;
+    word-break: break-all;
+    border-radius: 5px;
+}
+
+.challenge-vulnerable {
+    border-color: #cc0000 !important;
+}
+
+.challenge-secure {
+    border-color: #00aa00 !important;
+}
+
+#submitButton {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#submitButton:hover {
+    opacity: 0.85;
+}
+
+#password {
+    margin: 10px;
+    padding: 8px;
+    width: 350px;
+    font-size: 13px;
+}
+
+#result {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 3px;
+}
+
+.result-success {
+    color: green;
+    border-color: #00aa00 !important;
+    background-color: #f0fff0 !important;
+}
+
+.result-failure {
+    color: red;
+    border-color: #cc0000 !important;
+    background-color: #fff0f0 !important;
+}
