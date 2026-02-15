@@ -149,6 +149,9 @@ dependencies {
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
 
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+    
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 }
 
 test {
