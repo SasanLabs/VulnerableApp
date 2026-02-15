@@ -3,7 +3,9 @@ package org.sasanlabs.controller.exception;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 public class ControllerException extends Exception {
 
     private static final long serialVersionUID = 1L;

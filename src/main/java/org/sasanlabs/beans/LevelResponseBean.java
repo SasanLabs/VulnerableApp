@@ -8,7 +8,9 @@ import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("Level")
