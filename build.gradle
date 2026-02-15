@@ -11,10 +11,6 @@ plugins {
     id 'jacoco'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-
 bootJar {
     baseName = 'VulnerableApp'
     version =  '1.0.0'
@@ -28,7 +24,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    gradlePluginPortal()
     mavenLocal()
 }
 
