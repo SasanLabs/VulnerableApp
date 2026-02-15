@@ -15,19 +15,23 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
-
+import org.springframework.context.annotation.Lazy;
 /**
  * This is the Configuration Class for Injecting Configurations into the Context.
  *
@@ -113,13 +117,37 @@ public class VulnerableAppConfiguration {
                 .build();
     }
 
+    /**
+     * Initializes the admin DataSource by running schema and data SQL scripts.
+     * This creates tables, the 'application' H2 DB user, and grants permissions.
+     * Must run before the applicationDataSource bean tries to connect.
+     */
     @Bean
+    public DataSourceInitializer adminDataSourceInitializer(
+            @Qualifier("adminDataSource") DataSource adminDataSource) {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("scripts/SQLInjection/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/xss/PersistentXSS/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/XXEVulnerability/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/SQLInjection/db/data.sql"));
+        populator.setSeparator(";");
+
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(adminDataSource);
+        initializer.setDatabasePopulator(populator);
+        return initializer;
+    }
+
+    @Bean
+    @Lazy
     @ConfigurationProperties("spring.datasource.application")
     public DataSourceProperties applicationDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean
+    @Lazy
+    @DependsOn("adminDataSourceInitializer")
     @ConfigurationProperties("spring.datasource.application.configuration")
     public DataSource applicationDataSource(
             @Qualifier("applicationDataSourceProperties")
@@ -131,6 +159,7 @@ public class VulnerableAppConfiguration {
     }
 
     @Bean
+    @Lazy
     public JdbcTemplate applicationJdbcTemplate(
             @Qualifier("applicationDataSource") DataSource applicationDataSource) {
         return new JdbcTemplate(applicationDataSource);

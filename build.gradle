@@ -11,10 +11,11 @@ plugins {
     id 'jacoco'
 }
 
-bootJar {
-    baseName = 'VulnerableApp'
-    version =  '1.0.0'
+tasks.named("bootJar") {
+    archiveBaseName.set("VulnerableApp")
+    archiveVersion.set("1.0.0")
 }
+
 
 configurations {
     all {
@@ -37,8 +38,12 @@ sonarqube {
   }
 }
 
-sourceCompatibility = 17
-targetCompatibility = 17
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 
 spotless {
     java {
@@ -56,13 +61,15 @@ jib {
     to {
         image = 'sasanlabs/owasp-vulnerableapp:unreleased'
     }
-    
+    from {
+        image = 'eclipse-temurin:17-jre-alpine'
+    }
     // Set up multi-platform build only if the task is not :jibDockerBuild
     if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
         logger.info("JIB: Enabling Multi-Platform Images")
 
         from {
-            image = 'amazoncorretto:17'
+            image = 'eclipse-temurin:17-jre-alpine'
             platforms {
                 platform {
                     architecture = 'amd64'
@@ -79,7 +86,6 @@ jib {
 
 jacoco {
     toolVersion = "0.8.11"
-    reportsDir = file("$buildDir/jacoco")
 }
 
 tasks.register('GenerateSampleVulnerability'){
@@ -148,12 +154,14 @@ test {
     finalizedBy jacocoTestReport
 }
 
-jacocoTestReport {
-    dependsOn test
+tasks.named("jacocoTestReport") {
+    dependsOn(tasks.test)
+
     reports {
-            xml.enabled true
-            html.enabled true
-            csv.enabled false
-            xml.destination file("${buildDir}/reports/jacoco.xml")
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco.xml"))
     }
 }

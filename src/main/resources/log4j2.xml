@@ -41,6 +41,7 @@
 
 	<Loggers>
 		<Root level="TRACE">
+			<!-- update level to DEBUG to see all the logs in Console -->
 			<AppenderRef ref="CONSOLE" level="INFO"/>
 			<AppenderRef ref="ROLLING_LOG_FILE" level="DEBUG"/>
 		</Root>
