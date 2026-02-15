@@ -16,6 +16,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.annotation.Order;
@@ -31,7 +32,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
-import org.springframework.context.annotation.Lazy;
+
 /**
  * This is the Configuration Class for Injecting Configurations into the Context.
  *
@@ -118,9 +119,9 @@ public class VulnerableAppConfiguration {
     }
 
     /**
-     * Initializes the admin DataSource by running schema and data SQL scripts.
-     * This creates tables, the 'application' H2 DB user, and grants permissions.
-     * Must run before the applicationDataSource bean tries to connect.
+     * Initializes the admin DataSource by running schema and data SQL scripts. This creates tables,
+     * the 'application' H2 DB user, and grants permissions. Must run before the
+     * applicationDataSource bean tries to connect.
      */
     @Bean
     public DataSourceInitializer adminDataSourceInitializer(
