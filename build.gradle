@@ -69,7 +69,7 @@ jib {
         logger.info("JIB: Enabling Multi-Platform Images")
 
         from {
-            image = 'eclipse-temurin:17-jre-alpine'
+            image = 'eclipse-temurin:17-jre'
             platforms {
                 platform {
                     architecture = 'amd64'
