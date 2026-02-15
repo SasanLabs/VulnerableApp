@@ -59,9 +59,8 @@ function _callbackForInnerMasterOnClickEvent(
     let urlToFetchHtmlTemplate = htmlTemplate
       ? "/VulnerableApp/templates/" + vulnerabilitySelected + "/" + htmlTemplate
       : "error";
-    let parentNodeWithAllDynamicScripts = document.getElementById(
-      "dynamicScripts"
-    );
+    let parentNodeWithAllDynamicScripts =
+      document.getElementById("dynamicScripts");
     let dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
     //Might not require to iterate but iterating for safe side. can be removed after proper testing.
     while (dynamicScriptNode) {

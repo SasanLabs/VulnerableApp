@@ -4,7 +4,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 @Component
 public class MessageBundle {
 

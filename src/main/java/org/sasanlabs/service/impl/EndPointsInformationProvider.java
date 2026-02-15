@@ -31,7 +31,9 @@ import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 @Service
 public class EndPointsInformationProvider implements IEndPointsInformationProvider {
 

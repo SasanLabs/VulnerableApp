@@ -157,7 +157,8 @@ public class VulnerableAppConfiguration {
                     return lookupMultipartResolver();
                 }
             }
-        };
+        }
+        ;
         return new MaxUploadSizeOverrideMultipartFilter();
     }
 }

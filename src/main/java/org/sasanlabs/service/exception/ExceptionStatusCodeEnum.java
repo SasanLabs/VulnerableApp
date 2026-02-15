@@ -2,7 +2,9 @@ package org.sasanlabs.service.exception;
 
 import org.sasanlabs.internal.utility.MessageBundle;
 
-/** @author KSASAN preetkaran20@gmail.com */
+/**
+ * @author KSASAN preetkaran20@gmail.com
+ */
 public enum ExceptionStatusCodeEnum {
     INVALID_END_POINT("INVALID_END_POINT"),
     INVALID_LEVEL("INVALID_LEVEL"),
