@@ -150,6 +150,10 @@ dependencies {
     
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+
+    // NoSQL Injection Dependencies
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+    implementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo'
 }
 
 test {
