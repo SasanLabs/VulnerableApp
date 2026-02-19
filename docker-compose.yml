@@ -13,7 +13,8 @@ services:
         - VulnerableApp-base
         - VulnerableApp-jsp
         - VulnerableApp-php
-      image: sasanlabs/owasp-vulnerableapp-facade:1.2.1
+      # All services use :latest tag for consistency and easier deployment
+      image: sasanlabs/owasp-vulnerableapp-facade:latest
       volumes:
        - ./templates:/etc/nginx/templates
       ports:
