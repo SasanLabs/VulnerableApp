@@ -53,6 +53,7 @@ spotless {
     }
     format 'javascript', {
     	target 'src/main/resources/**/*.js'
+        targetExclude 'src/main/resources/static/templates/LLMVulnerability/**/*.js'
     	prettier().config(['filepath': 'file.js'])
   	}
 }
