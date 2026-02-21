@@ -191,4 +191,24 @@ public class VulnerableAppConfiguration {
         ;
         return new MaxUploadSizeOverrideMultipartFilter();
     }
+
+    @Bean
+    public org.springframework.boot.CommandLineRunner initData(
+            org.springframework.data.mongodb.core.MongoTemplate mongoTemplate) {
+        return args -> {
+            if (mongoTemplate.collectionExists(
+                    org.sasanlabs.service.vulnerability.nosql.User.class)) {
+                mongoTemplate.dropCollection(org.sasanlabs.service.vulnerability.nosql.User.class);
+            }
+            mongoTemplate.save(
+                    new org.sasanlabs.service.vulnerability.nosql.User(
+                            "admin", "SecretPassword123", "Admin User"));
+            mongoTemplate.save(
+                    new org.sasanlabs.service.vulnerability.nosql.User(
+                            "user1", "UserPassword456", "Normal User"));
+            mongoTemplate.save(
+                    new org.sasanlabs.service.vulnerability.nosql.User(
+                            "guest", "guest", "Guest User"));
+        };
+    }
 }
