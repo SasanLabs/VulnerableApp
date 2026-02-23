@@ -1,0 +1,16 @@
+[
+  {
+    "email": "myUser",
+    "password": "myPassword"
+  },
+  {
+    "title": "test",
+    "completed": true,
+    "id": "1"
+  },
+  {
+    "title": "wash dishes",
+    "completed": false,
+    "id": "2"
+  }
+]
