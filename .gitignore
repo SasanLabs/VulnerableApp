@@ -30,3 +30,7 @@ build/
 
 /_site
 /docs/_site
+
+# GuardLink
+.guardlink/*.json
+!.guardlink/config.json
