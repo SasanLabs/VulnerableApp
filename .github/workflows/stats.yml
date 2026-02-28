@@ -110,8 +110,8 @@ jobs:
            TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
         run: |
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
           git add metrics/traffic.csv metrics/referrers.csv IMPACT.md
           git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
-          git push https://x-access-token:${TOKEN}@github.com/SasanLabs/VulnerableApp.git master
+          git push origin master
