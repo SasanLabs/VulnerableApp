@@ -2,7 +2,7 @@ name: Collect All Repo Traffic Metrics
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Every hour
+    - cron: "0 1 * * *"  # Every day
   workflow_dispatch:
 
 jobs:
