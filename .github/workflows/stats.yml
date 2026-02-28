@@ -1,9 +1,9 @@
-name: Collect GitHub Traffic Metrics
+name: Collect All Repo Traffic Metrics
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Every hour at minute 0
-  workflow_dispatch:     # Allows manual run
+    - cron: "0 * * * *"  # Every hour
+  workflow_dispatch:
 
 jobs:
   collect:
@@ -13,54 +13,102 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch & Aggregate GitHub Traffic
+      - name: Fetch & Aggregate All Repo Traffic
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
-          REPO: ${{ github.repository }}
         run: |
-          # Use ISO-8601 UTC timestamp
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-          # Fetch clones and views from GitHub API
-          CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/$REPO/traffic/clones)
-
-          VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/$REPO/traffic/views)
-
-          # Extract totals using jq
-          TOTAL_CLONES=$(echo $CLONES_JSON | jq '.count')
-          UNIQUE_CLONERS=$(echo $CLONES_JSON | jq '.uniques')
-          TOTAL_VIEWS=$(echo $VIEWS_JSON | jq '.count')
-          UNIQUE_VISITORS=$(echo $VIEWS_JSON | jq '.uniques')
-
-          # Prepare metrics folder
           mkdir -p metrics
-          FILE=metrics/traffic.csv
+          TRAFFIC_FILE=metrics/traffic.csv
+          REFERRERS_FILE=metrics/referrers.csv
 
-          # If file does not exist, create header
-          if [ ! -f "$FILE" ]; then
-            echo "timestamp,clones,unique_cloners,views,unique_visitors" > $FILE
+          # Create traffic CSV if not exists
+          if [ ! -f "$TRAFFIC_FILE" ]; then
+            echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > $TRAFFIC_FILE
           fi
 
-          # Check last row to avoid duplicates
-          LAST=$(tail -n 1 $FILE | cut -d',' -f2-5)
-          CURRENT="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
-
-          if [ "$LAST" != "$CURRENT" ]; then
-            echo "$TIMESTAMP,$CURRENT" >> $FILE
-            echo "Metrics appended for $TIMESTAMP"
-          else
-            echo "No change in metrics — skipping append"
+          # Create referrers CSV if not exists
+          if [ ! -f "$REFERRERS_FILE" ]; then
+            echo "repo,timestamp,referrer,views" > $REFERRERS_FILE
           fi
 
-      - name: Commit and Push Metrics
+          # Hardcoded list of repos
+          REPOS=(
+            "SasanLabs/VulnerableApp"
+            "SasanLabs/VulnerableApp-facade"
+            "SasanLabs/LLMForge"
+            "SasanLabs/SAFE"
+          )
+
+          for REPO in "${REPOS[@]}"; do
+            echo "Fetching traffic for $REPO"
+
+            # Fetch clones and views
+            CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$REPO/traffic/clones)
+
+            VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$REPO/traffic/views)
+
+            TOTAL_CLONES=$(echo $CLONES_JSON | jq '.count')
+            UNIQUE_CLONERS=$(echo $CLONES_JSON | jq '.uniques')
+            TOTAL_VIEWS=$(echo $VIEWS_JSON | jq '.count')
+            UNIQUE_VISITORS=$(echo $VIEWS_JSON | jq '.uniques')
+
+            # Append traffic to CSV (avoid duplicates)
+            LAST=$(grep "^$REPO," $TRAFFIC_FILE | tail -n1 | cut -d',' -f3-6)
+            CURRENT="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
+            if [ "$LAST" != "$CURRENT" ]; then
+              echo "$REPO,$TIMESTAMP,$CURRENT" >> $TRAFFIC_FILE
+            fi
+
+            # Fetch referrers
+            REFERRERS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/$REPO/traffic/popular/referrers)
+
+            # Append each referrer to separate CSV
+            echo $REFERRERS_JSON | jq -r --arg REPO "$REPO" --arg TS "$TIMESTAMP" \
+              '.[] | "\($REPO),\($TS),\(.referrer),\(.count)"' >> $REFERRERS_FILE
+
+          done
+
+      - name: Generate IMPACT.md
         run: |
+          TRAFFIC_FILE=metrics/traffic.csv
+          REFERRERS_FILE=metrics/referrers.csv
+          IMPACT=IMPACT.md
+
+          echo "## 📊 VulnerableApp OSS Adoption Metrics Across Repos" > $IMPACT
+          echo "" >> $IMPACT
+          echo "| Repo | Total Clones | Unique Users | Avg Hourly Clones | Records | Unique Referrers |" >> $IMPACT
+          echo "|------|--------------|--------------|-----------------|--------|-----------------|" >> $IMPACT
+
+          tail -n +2 $TRAFFIC_FILE | awk -F, -v ref_file="$REFERRERS_FILE" '
+          {
+            repo=$1
+            clones+=$3
+            unique+=$4
+            sum[repo]+=$3
+            count[repo]++
+          }
+          END {
+            for (r in count) {
+              # Count unique referrers from referrers.csv
+              cmd="grep ^"r" " ref_file " | cut -d, -f3 | sort | uniq | wc -l"
+              cmd | getline ref_count
+              close(cmd)
+              printf "|%s|%d|%d|%d|%d|%s|\n", r, sum[r], unique, int(sum[r]/count[r]), count[r], ref_count
+            }
+          }' >> $IMPACT
+
+      - name: Commit & Push
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-
-          git add metrics/traffic.csv
-          git commit -m "Update GitHub traffic metrics $TIMESTAMP" || echo "No changes to commit"
+          git add metrics/traffic.csv metrics/referrers.csv IMPACT.md
+          git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
           git push
