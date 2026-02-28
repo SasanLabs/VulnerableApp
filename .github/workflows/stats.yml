@@ -45,9 +45,8 @@ jobs:
             UNIQUE_VISITORS=$(echo "$VIEWS_JSON" | jq -r '.uniques // 0')
 
             # Only append if new/different from last entry
-            LAST_ENTRY=$(grep "^$REPO," "$TRAFFIC_FILE" | tail -n1 | cut -d',' -f3-6)
             CURRENT_ENTRY="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
-            [ "$LAST_ENTRY" != "$CURRENT_ENTRY" ] && echo "$REPO,$TIMESTAMP,$CURRENT_ENTRY" >> "$TRAFFIC_FILE"
+            echo "$REPO,$TIMESTAMP,$CURRENT_ENTRY" >> "$TRAFFIC_FILE"
 
             # Referrers
             curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/popular/referrers \
