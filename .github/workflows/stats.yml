@@ -1,0 +1,66 @@
+name: Collect GitHub Traffic Metrics
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # Every hour at minute 0
+  workflow_dispatch:     # Allows manual run
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch & Aggregate GitHub Traffic
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Use ISO-8601 UTC timestamp
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          # Fetch clones and views from GitHub API
+          CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/traffic/clones)
+
+          VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/traffic/views)
+
+          # Extract totals using jq
+          TOTAL_CLONES=$(echo $CLONES_JSON | jq '.count')
+          UNIQUE_CLONERS=$(echo $CLONES_JSON | jq '.uniques')
+          TOTAL_VIEWS=$(echo $VIEWS_JSON | jq '.count')
+          UNIQUE_VISITORS=$(echo $VIEWS_JSON | jq '.uniques')
+
+          # Prepare metrics folder
+          mkdir -p metrics
+          FILE=metrics/traffic.csv
+
+          # If file does not exist, create header
+          if [ ! -f "$FILE" ]; then
+            echo "timestamp,clones,unique_cloners,views,unique_visitors" > $FILE
+          fi
+
+          # Check last row to avoid duplicates
+          LAST=$(tail -n 1 $FILE | cut -d',' -f2-5)
+          CURRENT="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
+
+          if [ "$LAST" != "$CURRENT" ]; then
+            echo "$TIMESTAMP,$CURRENT" >> $FILE
+            echo "Metrics appended for $TIMESTAMP"
+          else
+            echo "No change in metrics — skipping append"
+          fi
+
+      - name: Commit and Push Metrics
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add metrics/traffic.csv
+          git commit -m "Update GitHub traffic metrics $TIMESTAMP" || echo "No changes to commit"
+          git push
