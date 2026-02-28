@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository using PAT
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TRAFFIC_TOKEN }}
 
       - name: Fetch & Aggregate All Repo Traffic
         env:
@@ -22,33 +24,19 @@ jobs:
           TRAFFIC_FILE=metrics/traffic.csv
           REFERRERS_FILE=metrics/referrers.csv
 
-          # Create traffic CSV if not exists
-          if [ ! -f "$TRAFFIC_FILE" ]; then
-            echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > $TRAFFIC_FILE
-          fi
+          # Initialize CSVs if not exist
+          [ ! -f "$TRAFFIC_FILE" ] && echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > $TRAFFIC_FILE
+          [ ! -f "$REFERRERS_FILE" ] && echo "repo,timestamp,referrer,views" > $REFERRERS_FILE
 
-          # Create referrers CSV if not exists
-          if [ ! -f "$REFERRERS_FILE" ]; then
-            echo "repo,timestamp,referrer,views" > $REFERRERS_FILE
-          fi
-
-          # Hardcoded list of repos
-          REPOS=(
-            "SasanLabs/VulnerableApp"
-            "SasanLabs/VulnerableApp-facade"
-            "SasanLabs/LLMForge"
-            "SasanLabs/SAFE"
-          )
+          REPOS=("SasanLabs/VulnerableApp" "SasanLabs/VulnerableApp-facade" "SasanLabs/LLMForge" "SasanLabs/SAFE")
 
           for REPO in "${REPOS[@]}"; do
             echo "Fetching traffic for $REPO"
 
-            # Fetch clones and views
             CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/$REPO/traffic/clones)
-            echo "Raw clones JSON for $REPO:"
-            echo "$CLONES_JSON"
+
             VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/$REPO/traffic/views)
@@ -58,22 +46,16 @@ jobs:
             TOTAL_VIEWS=$(echo $VIEWS_JSON | jq '.count')
             UNIQUE_VISITORS=$(echo $VIEWS_JSON | jq '.uniques')
 
-            # Append traffic to CSV (avoid duplicates)
             LAST=$(grep "^$REPO," $TRAFFIC_FILE | tail -n1 | cut -d',' -f3-6)
             CURRENT="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
-            if [ "$LAST" != "$CURRENT" ]; then
-              echo "$REPO,$TIMESTAMP,$CURRENT" >> $TRAFFIC_FILE
-            fi
+            [ "$LAST" != "$CURRENT" ] && echo "$REPO,$TIMESTAMP,$CURRENT" >> $TRAFFIC_FILE
 
-            # Fetch referrers
             REFERRERS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/$REPO/traffic/popular/referrers)
 
-            # Append each referrer to separate CSV
             echo $REFERRERS_JSON | jq -r --arg REPO "$REPO" --arg TS "$TIMESTAMP" \
               '.[] | "\($REPO),\($TS),\(.referrer),\(.count)"' >> $REFERRERS_FILE
-
           done
 
       - name: Generate IMPACT.md
@@ -97,7 +79,6 @@ jobs:
           }
           END {
             for (r in count) {
-              # Count unique referrers from referrers.csv
               cmd="grep ^"r" " ref_file " | cut -d, -f3 | sort | uniq | wc -l"
               cmd | getline ref_count
               close(cmd)
@@ -105,13 +86,13 @@ jobs:
             }
           }' >> $IMPACT
 
-      - name: Commit & Push
+      - name: Commit & Push changes
         env:
-           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
         run: |
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
           git add metrics/traffic.csv metrics/referrers.csv IMPACT.md
           git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
-          git push origin master
+          git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/SAFE.git" HEAD:master
