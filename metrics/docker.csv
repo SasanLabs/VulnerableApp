@@ -1,3 +1,5 @@
 repo,timestamp,docker_image,pull_count,last_updated,stars,forks,official,automated
 owasp-vulnerableapp,2026-02-28T23:21:27Z,sasanlabs/owasp-vulnerableapp,53469,2026-02-28T23:21:18.660757Z,2,0,false,false
 owasp-vulnerableapp-facade,2026-02-28T23:21:27Z,sasanlabs/owasp-vulnerableapp-facade,28130,2026-02-19T18:57:56.113035Z,1,0,false,false
+owasp-vulnerableapp,2026-02-28T23:22:01Z,sasanlabs/owasp-vulnerableapp,53469,2026-02-28T23:21:18.660757Z,2,0,false,false
+owasp-vulnerableapp-facade,2026-02-28T23:22:01Z,sasanlabs/owasp-vulnerableapp-facade,28130,2026-02-19T18:57:56.113035Z,1,0,false,false
