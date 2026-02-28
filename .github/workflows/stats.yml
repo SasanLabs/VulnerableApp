@@ -28,7 +28,7 @@ jobs:
           REFERRERS_FILE=metrics/referrers.csv
 
           # Initialize CSVs if not exist
-          [ ! -f "$TRAFFIC_FILE" ] && echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > "$TRAFFIC_FILE"
+          [ ! -f "$TRAFFIC_FILE" ] && echo "repo,timestamp,clones,unique_cloners,views,unique_visitors,github_stars,github_forks" > "$TRAFFIC_FILE"
           [ ! -f "$REFERRERS_FILE" ] && echo "repo,timestamp,referrer,views" > "$REFERRERS_FILE"
 
           REPOS=("SasanLabs/VulnerableApp" "SasanLabs/VulnerableApp-facade" "SasanLabs/LLMForge" "SasanLabs/SAFE")
@@ -36,17 +36,20 @@ jobs:
           for REPO in "${REPOS[@]}"; do
             echo "Fetching traffic for $REPO"
 
+            # GitHub metrics
             CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/clones)
             VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/views)
+            REPO_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO)
 
             TOTAL_CLONES=$(echo "$CLONES_JSON" | jq -r '.count // 0')
             UNIQUE_CLONERS=$(echo "$CLONES_JSON" | jq -r '.uniques // 0')
             TOTAL_VIEWS=$(echo "$VIEWS_JSON" | jq -r '.count // 0')
             UNIQUE_VISITORS=$(echo "$VIEWS_JSON" | jq -r '.uniques // 0')
+            GITHUB_STARS=$(echo "$REPO_JSON" | jq -r '.stargazers_count // 0')
+            GITHUB_FORKS=$(echo "$REPO_JSON" | jq -r '.forks_count // 0')
 
-            # Only append if new/different from last entry
-            CURRENT_ENTRY="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
-            echo "$REPO,$TIMESTAMP,$CURRENT_ENTRY" >> "$TRAFFIC_FILE"
+            # Append to traffic.csv
+            echo "$REPO,$TIMESTAMP,$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS,$GITHUB_STARS,$GITHUB_FORKS" >> "$TRAFFIC_FILE"
 
             # Referrers
             curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/popular/referrers \
@@ -76,34 +79,6 @@ jobs:
             echo "$REPO,$TIMESTAMP,$IMAGE,$PULL_COUNT,$LAST_UPDATED,$STARS,$FORKS,$OFFICIAL,$AUTOMATED" >> "$DOCKER_FILE"
           done
 
-      - name: Generate IMPACT.md
-        run: |
-          TRAFFIC_FILE=metrics/traffic.csv
-          REFERRERS_FILE=metrics/referrers.csv
-          IMPACT=IMPACT.md
-
-          echo "## 📊 VulnerableApp OSS Adoption Metrics Across Repos" > $IMPACT
-          echo "Generated on: $(date -u)" >> $IMPACT
-          echo "" >> $IMPACT
-          echo "| Repository | Total Clones | Unique Visitors | Records | Unique Referrers |" >> $IMPACT
-          echo "|------------|--------------|-----------------|--------|-----------------|" >> $IMPACT
-
-          # Only latest entry per repo
-          tail -n +2 $TRAFFIC_FILE | sort -t, -k1,1 -k2,2 | awk -F, -v ref_file="$REFERRERS_FILE" '
-          {
-            repo=$1
-            latest[$1]=$0
-          }
-          END {
-            for (r in latest) {
-              split(latest[r], arr, ",")
-              cmd="grep ^" r " " ref_file " | cut -d, -f3 | sort | uniq | wc -l"
-              cmd | getline ref_count
-              close(cmd)
-              printf "|%s|%s|%s|%s|%s|\n", arr[1], arr[3], arr[6], 1, ref_count
-            }
-          }' >> $IMPACT
-
       - name: Commit & Push changes
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
@@ -111,6 +86,6 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add metrics/traffic.csv metrics/referrers.csv metrics/docker.csv IMPACT.md
+          git add metrics/traffic.csv metrics/referrers.csv metrics/docker.csv
           git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
           git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master
