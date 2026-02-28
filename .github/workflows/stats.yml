@@ -95,4 +95,4 @@ jobs:
           git config user.email "preetkaran20@gmail.com"
           git add metrics/traffic.csv metrics/referrers.csv IMPACT.md
           git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
-          git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/SAFE.git" HEAD:master
+          git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master
