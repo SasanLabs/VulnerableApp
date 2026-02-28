@@ -1,4 +1,9 @@
 //Community Plugins
+pluginRepositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
 plugins {
     id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
@@ -24,7 +29,6 @@ configurations {
 }
 
 repositories {
-	gradlePluginPortal()
     mavenCentral()
     mavenLocal()
 }
