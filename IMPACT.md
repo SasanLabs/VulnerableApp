@@ -2,7 +2,7 @@
 
 | Repo | Total Clones | Unique Users | Avg Hourly Clones | Records | Unique Referrers |
 |------|--------------|--------------|-----------------|--------|-----------------|
-|SasanLabs/LLMForge|87|377|87|1|1|
-|SasanLabs/VulnerableApp-facade|70|377|70|1|4|
-|SasanLabs/SAFE|12|377|12|1|1|
-|SasanLabs/VulnerableApp|795|377|795|1|11|
+|SasanLabs/LLMForge|175|476|87|2|1|
+|SasanLabs/VulnerableApp-facade|141|476|70|2|5|
+|SasanLabs/SAFE|12|476|12|1|1|
+|SasanLabs/VulnerableApp|795|476|795|1|12|
