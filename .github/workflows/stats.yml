@@ -60,7 +60,7 @@ jobs:
           DOCKER_FILE=metrics/docker.csv
           [ ! -f "$DOCKER_FILE" ] && echo "repo,timestamp,docker_image,pull_count,last_updated,stars,forks,official,automated" > "$DOCKER_FILE"
 
-          DOCKER_IMAGES=("sasanlabs/owasp-vulnerableapp" "sasanlabs/vulnerableapp-facade")
+          DOCKER_IMAGES=("sasanlabs/owasp-vulnerableapp" "sasanlabs/owasp-vulnerableapp-facade")
 
           for IMAGE in "${DOCKER_IMAGES[@]}"; do
             echo "Fetching Docker metrics for $IMAGE"
