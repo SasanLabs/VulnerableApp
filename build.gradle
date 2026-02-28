@@ -1,9 +1,4 @@
 //Community Plugins
-pluginRepositories {
-    gradlePluginPortal()
-    mavenCentral()
-}
-
 plugins {
     id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
@@ -12,7 +7,7 @@ plugins {
     id 'idea'
     id 'com.diffplug.spotless' version '6.25.0'
     id 'com.google.cloud.tools.jib' version '3.3.1'
-    id "org.sonarqube" version "4.4.0.3225"
+    id("org.sonarqube") version "7.2.2.6593"
     id 'jacoco'
 }
 
@@ -96,20 +91,22 @@ jacoco {
 tasks.register('GenerateSampleVulnerability'){
 	group = 'SasanLabs'
 	description = 'Generates Sample Vulnerability template'
-	println 'Copying SampleVulnerability java file to org.sasanlabs.service.vulnerability.sampleVulnerability package'
-	copy {
-    	from(file('src/main/resources/sampleVulnerability/sampleVulnerability'))
-    	into(file('src/main/java/org/sasanlabs/service/vulnerability/sampleVulnerability'))
-    }
-    println 'Copy of java file is completed'
-    println 'Copying SampleVulnerability html/css/js files to static/templates/SampleVulnerability/LEVEL_1'
-    copy {
-    	from(file('src/main/resources/sampleVulnerability/staticResources/LEVEL_1'))
-    	into(file('src/main/resources/static/templates/SampleVulnerability/LEVEL_1'))
-    }
-    println 'Copy of html/css/js files is completed'
-    println 'SampleVulnerability is generated !!!'
-    enabled = false
+	doLast {
+		println 'Copying SampleVulnerability java file to org.sasanlabs.service.vulnerability.sampleVulnerability package'
+		copy {
+	    	from(file('src/main/resources/sampleVulnerability/sampleVulnerability'))
+	    	into(file('src/main/java/org/sasanlabs/service/vulnerability/sampleVulnerability'))
+	    }
+	    println 'Copy of java file is completed'
+	    println 'Copying SampleVulnerability html/css/js files to static/templates/SampleVulnerability/LEVEL_1'
+	    copy {
+	    	from(file('src/main/resources/sampleVulnerability/staticResources/LEVEL_1'))
+	    	into(file('src/main/resources/static/templates/SampleVulnerability/LEVEL_1'))
+	    }
+	    println 'Copy of html/css/js files is completed'
+	    println 'SampleVulnerability is generated !!!'
+	    enabled = false
+	}
 }
 
 dependencies {
