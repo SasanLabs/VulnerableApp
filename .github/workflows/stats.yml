@@ -2,20 +2,23 @@ name: Collect All Repo Traffic Metrics
 
 on:
   schedule:
-    - cron: "0 1 * * *"  # Every day
+    - cron: "0 1 * * *"  # Every day at 01:00 UTC
   workflow_dispatch:
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for pushing changes
 
     steps:
-      - name: Checkout repository using PAT
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          fetch-depth: 0
 
-      - name: Fetch & Aggregate All Repo Traffic
+      - name: Fetch & Aggregate GitHub Traffic Metrics
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
         run: |
@@ -25,37 +28,53 @@ jobs:
           REFERRERS_FILE=metrics/referrers.csv
 
           # Initialize CSVs if not exist
-          [ ! -f "$TRAFFIC_FILE" ] && echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > $TRAFFIC_FILE
-          [ ! -f "$REFERRERS_FILE" ] && echo "repo,timestamp,referrer,views" > $REFERRERS_FILE
+          [ ! -f "$TRAFFIC_FILE" ] && echo "repo,timestamp,clones,unique_cloners,views,unique_visitors" > "$TRAFFIC_FILE"
+          [ ! -f "$REFERRERS_FILE" ] && echo "repo,timestamp,referrer,views" > "$REFERRERS_FILE"
 
           REPOS=("SasanLabs/VulnerableApp" "SasanLabs/VulnerableApp-facade" "SasanLabs/LLMForge" "SasanLabs/SAFE")
 
           for REPO in "${REPOS[@]}"; do
             echo "Fetching traffic for $REPO"
 
-            CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/$REPO/traffic/clones)
+            CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/clones)
+            VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/views)
 
-            VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/$REPO/traffic/views)
+            TOTAL_CLONES=$(echo "$CLONES_JSON" | jq -r '.count // 0')
+            UNIQUE_CLONERS=$(echo "$CLONES_JSON" | jq -r '.uniques // 0')
+            TOTAL_VIEWS=$(echo "$VIEWS_JSON" | jq -r '.count // 0')
+            UNIQUE_VISITORS=$(echo "$VIEWS_JSON" | jq -r '.uniques // 0')
 
-            TOTAL_CLONES=$(echo $CLONES_JSON | jq '.count')
-            UNIQUE_CLONERS=$(echo $CLONES_JSON | jq '.uniques')
-            TOTAL_VIEWS=$(echo $VIEWS_JSON | jq '.count')
-            UNIQUE_VISITORS=$(echo $VIEWS_JSON | jq '.uniques')
+            # Only append if new/different from last entry
+            LAST_ENTRY=$(grep "^$REPO," "$TRAFFIC_FILE" | tail -n1 | cut -d',' -f3-6)
+            CURRENT_ENTRY="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
+            [ "$LAST_ENTRY" != "$CURRENT_ENTRY" ] && echo "$REPO,$TIMESTAMP,$CURRENT_ENTRY" >> "$TRAFFIC_FILE"
 
-            LAST=$(grep "^$REPO," $TRAFFIC_FILE | tail -n1 | cut -d',' -f3-6)
-            CURRENT="$TOTAL_CLONES,$UNIQUE_CLONERS,$TOTAL_VIEWS,$UNIQUE_VISITORS"
-            [ "$LAST" != "$CURRENT" ] && echo "$REPO,$TIMESTAMP,$CURRENT" >> $TRAFFIC_FILE
+            # Referrers
+            curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/popular/referrers \
+              | jq -r --arg REPO "$REPO" --arg TS "$TIMESTAMP" '.[] | "\($REPO),\($TS),\(.referrer),\(.count)"' >> "$REFERRERS_FILE"
+          done
 
-            REFERRERS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/$REPO/traffic/popular/referrers)
+      - name: Fetch & Aggregate Docker Hub Metrics
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          DOCKER_FILE=metrics/docker.csv
+          [ ! -f "$DOCKER_FILE" ] && echo "repo,timestamp,docker_image,pull_count,last_updated,stars,forks,official,automated" > "$DOCKER_FILE"
 
-            echo $REFERRERS_JSON | jq -r --arg REPO "$REPO" --arg TS "$TIMESTAMP" \
-              '.[] | "\($REPO),\($TS),\(.referrer),\(.count)"' >> $REFERRERS_FILE
+          DOCKER_IMAGES=("sasanlabs/owasp-vulnerableapp" "sasanlabs/vulnerableapp-facade")
+
+          for IMAGE in "${DOCKER_IMAGES[@]}"; do
+            echo "Fetching Docker metrics for $IMAGE"
+            REPO=$(echo $IMAGE | cut -d/ -f2)
+
+            DOCKER_JSON=$(curl -s "https://hub.docker.com/v2/repositories/$IMAGE/")
+            PULL_COUNT=$(echo "$DOCKER_JSON" | jq -r '.pull_count // 0')
+            LAST_UPDATED=$(echo "$DOCKER_JSON" | jq -r '.last_updated // "N/A"')
+            STARS=$(echo "$DOCKER_JSON" | jq -r '.star_count // 0')
+            FORKS=$(echo "$DOCKER_JSON" | jq -r '.fork_count // 0')
+            OFFICIAL=$(echo "$DOCKER_JSON" | jq -r '.is_official // false')
+            AUTOMATED=$(echo "$DOCKER_JSON" | jq -r '.is_automated // false')
+
+            echo "$REPO,$TIMESTAMP,$IMAGE,$PULL_COUNT,$LAST_UPDATED,$STARS,$FORKS,$OFFICIAL,$AUTOMATED" >> "$DOCKER_FILE"
           done
 
       - name: Generate IMPACT.md
@@ -65,24 +84,24 @@ jobs:
           IMPACT=IMPACT.md
 
           echo "## 📊 VulnerableApp OSS Adoption Metrics Across Repos" > $IMPACT
+          echo "Generated on: $(date -u)" >> $IMPACT
           echo "" >> $IMPACT
-          echo "| Repo | Total Clones | Unique Users | Avg Hourly Clones | Records | Unique Referrers |" >> $IMPACT
-          echo "|------|--------------|--------------|-----------------|--------|-----------------|" >> $IMPACT
+          echo "| Repository | Total Clones | Unique Visitors | Records | Unique Referrers |" >> $IMPACT
+          echo "|------------|--------------|-----------------|--------|-----------------|" >> $IMPACT
 
-          tail -n +2 $TRAFFIC_FILE | awk -F, -v ref_file="$REFERRERS_FILE" '
+          # Only latest entry per repo
+          tail -n +2 $TRAFFIC_FILE | sort -t, -k1,1 -k2,2 | awk -F, -v ref_file="$REFERRERS_FILE" '
           {
             repo=$1
-            clones+=$3
-            unique+=$4
-            sum[repo]+=$3
-            count[repo]++
+            latest[$1]=$0
           }
           END {
-            for (r in count) {
-              cmd="grep ^"r" " ref_file " | cut -d, -f3 | sort | uniq | wc -l"
+            for (r in latest) {
+              split(latest[r], arr, ",")
+              cmd="grep ^" r " " ref_file " | cut -d, -f3 | sort | uniq | wc -l"
               cmd | getline ref_count
               close(cmd)
-              printf "|%s|%d|%d|%d|%d|%s|\n", r, sum[r], unique, int(sum[r]/count[r]), count[r], ref_count
+              printf "|%s|%s|%s|%s|%s|\n", arr[1], arr[3], arr[6], 1, ref_count
             }
           }' >> $IMPACT
 
@@ -93,6 +112,6 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add metrics/traffic.csv metrics/referrers.csv IMPACT.md
+          git add metrics/traffic.csv metrics/referrers.csv metrics/docker.csv IMPACT.md
           git commit -m "Update multi-repo traffic metrics ($TIMESTAMP)" || echo "No changes"
           git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master
