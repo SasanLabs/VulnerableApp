@@ -29,7 +29,8 @@ public final class PasswordHashingUtils {
     public static String sha256Hex(String salt, String rawPassword) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
-            byte[] digest = messageDigest.digest((salt + rawPassword).getBytes(StandardCharsets.UTF_8));
+            byte[] digest =
+                    messageDigest.digest((salt + rawPassword).getBytes(StandardCharsets.UTF_8));
             return bytesToHex(digest);
         } catch (NoSuchAlgorithmException exception) {
             throw new IllegalStateException("Failed to compute password hash", exception);

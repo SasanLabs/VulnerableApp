@@ -1,21 +1,35 @@
 name: Sonar Validation
-on: push
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      # Checkout code
+      - uses: actions/checkout@v3
+
+      # Setup JDK 11
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Make gradlew executable
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      # Build & test
       - name: Build with Gradle
-        run: ./gradlew clean build test -x spotlessJavaCheck
-      - name: Build and analyze
+        run: ./gradlew clean build -x spotlessJavaCheck --info
+
+      # SonarCloud analysis
+      - name: SonarCloud analysis
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build -x spotlessJavaCheck sonarqube --info
+        run: ./gradlew sonar --info
