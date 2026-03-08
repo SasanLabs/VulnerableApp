@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author KSASAN preetkaran20@gmail.com
  */
+// @comment -- "Top-level REST endpoints that enumerate and describe vulnerable endpoints for UI and
+// scanners."
+// @flows #browser -> #web-controllers via HTTP -- "Enumerates endpoints and returns JSON/XML to
+// clients"
 @RestController
 public class VulnerableAppRestController {
 

@@ -38,6 +38,16 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
+// @comment -- "Wires core assets: i18n, attack vector payloads, DB initialization, and multipart
+// handling used by vulnerable modules."
+// @flows #app -> #db-h2 via JDBC -- "Initializes schemas/data and provides JdbcTemplate to
+// vulnerability services"
+// @flows #browser -> #fs via multipart upload -- "Some endpoints intentionally allow risky file
+// upload behavior"
+// @audit #db-h2 -- "Confirm DB user/permissions model matches intended blast-radius limitations for
+// injection demos"
+// @audit #fs -- "MultipartFilter overrides max upload size for specific paths; ensure it is limited
+// to demo endpoints only"
 @Configuration
 public class VulnerableAppConfiguration {
 

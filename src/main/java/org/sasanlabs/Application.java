@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
+// @boundary between #browser and #app (#bdy-browser-app) -- "Internet user to application trust
+// boundary"
+// @flows #browser -> #web-controllers via HTTP -- "All requests enter via Spring MVC controllers"
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
