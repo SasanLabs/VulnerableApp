@@ -11,7 +11,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ## Technologies used
-- Java8
+- Java17
 - Spring Boot
 - ReactJS
 - Javascript/TypeScript
@@ -34,6 +34,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 9. [Open Redirect](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/urlRedirection)
     1. [Http 3xx Status code based](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/urlRedirection/Http3xxStatusCodeBasedInjection.java)
 10. [SSRF](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ssrf)
+11. [IODR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
 
 ## Contributing to Project
 
