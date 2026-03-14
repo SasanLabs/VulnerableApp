@@ -30,3 +30,7 @@ build/
 
 /_site
 /docs/_site
+
+.project
+.settings
+.vscode/
