@@ -79,6 +79,19 @@ JDBC Url: jdbc:h2:mem:testdb
 User Name: admin
 Password: hacker
 ```
+
+## Testing with Modern UI
+VulnerableApp-facade provides a modern UI for VulnerableApp. To test your local changes with the Modern UI:
+
+1. **Prerequisite**: Ensure you have Docker and Docker-Compose installed.
+2. **Run Testing Script**:
+   - On Windows: `.\scripts\testWithModernUI.bat`
+   - On Linux/Mac: `./scripts/testWithModernUI.sh`
+
+This script will build your local changes into a Docker image (`sasanlabs/owasp-vulnerableapp:unreleased`) and start the full stack (including facade, jsp, and php services) using `docker-compose.local.yml`.
+
+3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
+
 ## Contact
 In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 
