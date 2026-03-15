@@ -43,11 +43,10 @@ jobs:
             echo "------ $REPO CLONES RESPONSE ------"
             echo "$CLONES_JSON" | jq
             # Per-day clones/views for yesterday
-            TOTAL_CLONES=$(echo "$CLONES_JSON" | jq -r --arg Y "$YESTERDAY" '(.clones[] | select(.timestamp | startswith($Y)) | .count) // 0')
-            UNIQUE_CLONERS=$(echo "$CLONES_JSON" | jq -r --arg Y "$YESTERDAY" '(.clones[] | select(.timestamp | startswith($Y)) | .uniques) // 0')
-            TOTAL_VIEWS=$(echo "$VIEWS_JSON" | jq -r --arg Y "$YESTERDAY" '(.views[] | select(.timestamp | startswith($Y)) | .count) // 0')
-            UNIQUE_VISITORS=$(echo "$VIEWS_JSON" | jq -r --arg Y "$YESTERDAY" '(.views[] | select(.timestamp | startswith($Y)) | .uniques) // 0')
-
+            TOTAL_CLONES=$(echo "$CLONES_JSON" | jq -r '.clones[-1].count // 0')
+            UNIQUE_CLONERS=$(echo "$CLONES_JSON" | jq -r '.clones[-1].uniques // 0')
+            TOTAL_VIEWS=$(echo "$VIEWS_JSON" | jq -r '.views[-1].count // 0')
+            UNIQUE_VISITORS=$(echo "$VIEWS_JSON" | jq -r '.views[-1].uniques // 0')
             GITHUB_STARS=$(echo "$REPO_JSON" | jq -r '.stargazers_count // 0')
             GITHUB_FORKS=$(echo "$REPO_JSON" | jq -r '.forks_count // 0')
 
