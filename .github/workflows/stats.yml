@@ -40,7 +40,8 @@ jobs:
             CLONES_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/clones)
             VIEWS_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO/traffic/views)
             REPO_JSON=$(curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/$REPO)
-            
+            echo "------ $REPO CLONES RESPONSE ------"
+            echo "$CLONES_JSON" | jq
             # Per-day clones/views for yesterday
             TOTAL_CLONES=$(echo "$CLONES_JSON" | jq -r --arg Y "$YESTERDAY" '(.clones[] | select(.timestamp | startswith($Y)) | .count) // 0')
             UNIQUE_CLONERS=$(echo "$CLONES_JSON" | jq -r --arg Y "$YESTERDAY" '(.clones[] | select(.timestamp | startswith($Y)) | .uniques) // 0')
