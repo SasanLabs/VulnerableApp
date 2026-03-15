@@ -32,5 +32,6 @@ build/
 /docs/_site
 
 .project
+.settings
+.vscode/
 .classpath
-.settings/
