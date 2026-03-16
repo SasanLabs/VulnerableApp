@@ -39,12 +39,10 @@ services:
           condition: service_healthy
       environment:
        - OLLAMA_HOST=http://ollama:11434
-      command: ["pull", "phi3:mini"]
+      command: ["pull", "${OLLAMA_MODEL:-phi3:mini}"]
       volumes:
        - ollama_data:/root/.ollama
       restart: "no"
-      profiles:
-        - setup
       networks:
         - app_net
 
@@ -54,11 +52,13 @@ services:
       depends_on:
         ollama:
           condition: service_healthy
+        ollama-model-init:
+          condition: service_completed_successfully
       ports:
        - "8000:8000"
       environment:
        - OLLAMA_URL=http://ollama:11434
-       - OLLAMA_MODEL=phi3:mini
+       - OLLAMA_MODEL=${OLLAMA_MODEL:-phi3:mini}
        - FACADE_ROUTE_PREFIX=/llmforge
       networks:
         app_net:
