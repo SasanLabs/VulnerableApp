@@ -1,36 +1,49 @@
-<div id="cachePoisoningLevel1">
-    <div class="cache-poisoning-panel">
-        <h2 class="cache-poisoning-title">Shared cache keyed only by route</h2>
-        <p class="cache-poisoning-copy">
-            Send one request as the attacker with a custom banner and then a second request as the
-            victim without the query parameter.
-        </p>
+<div id="cachePoisoningLevel1" class="cache-poisoning-shell">
+    <h3 class="cache-poisoning-title">Cache Poisoning</h3>
+    <p class="cache-poisoning-subtitle">
+        A shared cache stores responses by route only. Use the controls below and rely on the app
+        help panel for exploitation guidance.
+    </p>
 
-        <label class="cache-poisoning-label" for="bannerInput">Banner</label>
-        <input
-            class="cache-poisoning-input"
-            type="text"
-            id="bannerInput"
-            value="FAKE URGENT UPDATE" />
-
-        <div class="cache-poisoning-actions">
-            <button id="poisonCacheBtn">Send attacker request</button>
-            <button id="victimRequestBtn">Send victim request</button>
-        </div>
-
-        <div class="cache-poisoning-diagnostics">
-            <div class="diagnostic-card">
-                <span class="diagnostic-label">Cache status</span>
-                <code id="cacheStatus">-</code>
+    <div class="cache-poisoning-layout">
+        <section class="cache-poisoning-block">
+            <h5>Controls</h5>
+            <div class="cache-poisoning-form">
+                <div class="cache-poisoning-field">
+                    <label class="cache-poisoning-label" for="bannerInput">Attacker banner</label>
+                    <input
+                        class="cache-poisoning-input"
+                        type="text"
+                        id="bannerInput"
+                        value="FAKE URGENT UPDATE" />
+                </div>
+                <div class="cache-poisoning-actions">
+                    <button id="poisonCacheBtn">Send attacker request</button>
+                    <button id="victimRequestBtn">Send victim request</button>
+                </div>
             </div>
-            <div class="diagnostic-card">
-                <span class="diagnostic-label">Cache key</span>
-                <code id="cacheKey">-</code>
-            </div>
-        </div>
+        </section>
 
-        <div id="cachePoisoningResponse" class="cache-poisoning-output">
-            Use the buttons above to poison the cache and replay the cached response.
-        </div>
+        <section class="cache-poisoning-block">
+            <h5>Cache Signals</h5>
+            <div class="cache-poisoning-diagnostics">
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache status</span>
+                    <code id="cacheStatus">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache key</span>
+                    <code id="cacheKey">-</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="cache-poisoning-block">
+            <h5>Observed Response</h5>
+            <div id="cachePoisoningResponse" class="cache-poisoning-output">
+                Use the controls above to poison the cache and verify whether the victim receives
+                the attacker-controlled banner.
+            </div>
+        </section>
     </div>
 </div>

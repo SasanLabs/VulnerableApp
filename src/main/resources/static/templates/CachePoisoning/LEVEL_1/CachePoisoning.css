@@ -1,88 +1,176 @@
-#cachePoisoningLevel1 {
-  padding: 12px 0;
-}
-
-.cache-poisoning-panel {
-  border: 1px solid #d9d9d9;
-  border-radius: 10px;
-  padding: 20px;
-  background: #fafafa;
+.cache-poisoning-shell {
+    width: 100%;
+    max-width: 720px;
+    margin: 12px auto;
+    padding: 6px;
+    box-sizing: border-box;
+    color: black;
+    text-align: center;
 }
 
 .cache-poisoning-title {
-  margin-top: 0;
-  margin-bottom: 10px;
+    margin: 0 0 6px;
+    font-size: 22px;
 }
 
-.cache-poisoning-copy {
-  margin-bottom: 16px;
-  line-height: 1.5;
+.cache-poisoning-subtitle {
+    max-width: 560px;
+    margin: 0 auto 10px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.cache-poisoning-layout {
+    display: grid;
+    gap: 12px;
+}
+
+.cache-poisoning-block {
+    border: 1px solid black;
+    border-left: 6px solid burlywood;
+    border-radius: 4px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.4);
+    text-align: left;
+}
+
+.cache-poisoning-block h5 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cache-poisoning-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cache-poisoning-field {
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
 }
 
 .cache-poisoning-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .cache-poisoning-input {
-  width: 100%;
-  max-width: 420px;
-  padding: 10px 12px;
-  border: 1px solid #b9b9b9;
-  border-radius: 6px;
-  margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 34px;
+    padding: 4px 8px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    font-size: 12px;
 }
 
 .cache-poisoning-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
 }
 
 .cache-poisoning-actions button {
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 6px;
-  background: #13315c;
-  color: #fff;
-  cursor: pointer;
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 10px;
+    margin: 2px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #fff;
+    font-size: 12px;
 }
 
 .cache-poisoning-actions button:hover {
-  background: #0f2748;
+    opacity: 0.9;
+    cursor: pointer;
 }
 
 .cache-poisoning-diagnostics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
 }
 
 .diagnostic-card {
-  padding: 12px;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #e1e1e1;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.55);
+    text-align: center;
 }
 
 .diagnostic-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  color: #3d3d3d;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#cacheStatus,
+#cacheKey {
+    display: block;
+    padding: 6px 8px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.85);
+    word-break: break-word;
+    font-size: 12px;
 }
 
 .cache-poisoning-output {
-  min-height: 120px;
-  padding: 14px;
-  background: #fff;
-  border: 1px solid #e1e1e1;
-  border-radius: 6px;
+    min-height: 110px;
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.55);
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.cache-poisoning-response h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
 }
 
 .cache-poisoning-response p {
-  margin: 8px 0;
+    margin: 8px 0;
+}
+
+@media (max-width: 640px) {
+    .cache-poisoning-shell {
+        margin: 8px auto;
+        padding: 2px;
+    }
+
+    .cache-poisoning-title {
+        font-size: 20px;
+    }
+
+    .cache-poisoning-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cache-poisoning-field {
+        align-items: stretch;
+    }
+
+    .cache-poisoning-input,
+    .cache-poisoning-actions button {
+        width: 100%;
+    }
 }
