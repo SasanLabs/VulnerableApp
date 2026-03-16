@@ -1,0 +1,88 @@
+#cachePoisoningLevel1 {
+  padding: 12px 0;
+}
+
+.cache-poisoning-panel {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fafafa;
+}
+
+.cache-poisoning-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.cache-poisoning-copy {
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.cache-poisoning-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cache-poisoning-input {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 12px;
+  border: 1px solid #b9b9b9;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.cache-poisoning-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cache-poisoning-actions button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #13315c;
+  color: #fff;
+  cursor: pointer;
+}
+
+.cache-poisoning-actions button:hover {
+  background: #0f2748;
+}
+
+.cache-poisoning-diagnostics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.diagnostic-card {
+  padding: 12px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #e1e1e1;
+}
+
+.diagnostic-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #3d3d3d;
+}
+
+.cache-poisoning-output {
+  min-height: 120px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 6px;
+}
+
+.cache-poisoning-response p {
+  margin: 8px 0;
+}
