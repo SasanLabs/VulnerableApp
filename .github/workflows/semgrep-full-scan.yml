@@ -42,7 +42,7 @@ jobs:
       - name: Print Scan Summary
         run: |
           echo "===== Semgrep Findings Summary ====="
-          jq '.results | length' semgrep-results.json
+          jq -r '.results[] | "\(.extra.severity // .extra.severity // "NA") | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)"' semgrep-results.json
           echo "==================================="
 
       # 6. Upload results as artifact
