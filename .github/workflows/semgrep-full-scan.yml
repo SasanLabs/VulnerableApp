@@ -42,12 +42,13 @@ jobs:
       - name: Print Scan Summary
         run: |
           echo "===== Semgrep Findings Summary ====="
-          jq -r '.results[] | "\(.extra.severity // .extra.severity // "NA") | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)"' semgrep-results.json
+          jq -r '.results[] | "\(.extra.severity) | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)"' semgrep-results.json > semgrep-lines.txt
+          cat semgrep-lines.txt
           echo "==================================="
 
       # 6. Upload results as artifact
-      - name: Upload Semgrep Results
+      - name: Upload One-line Findings
         uses: actions/upload-artifact@v4
         with:
-          name: semgrep-results
-          path: semgrep-results.json
+          name: semgrep-one-line
+          path: semgrep-lines.txt
