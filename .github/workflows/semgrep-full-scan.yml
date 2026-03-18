@@ -42,7 +42,7 @@ jobs:
       - name: Print Scan Summary
         run: |
           echo "===== Semgrep Findings Summary ====="
-          jq -r '.results[] | "\(.extra.severity) | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)"' semgrep-results.json > semgrep-lines.txt
+          jq -r '.results[] | "\(.extra.severity) | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)\n"' semgrep-results.json > semgrep-lines.txt
           cat semgrep-lines.txt
           echo "==================================="
 
