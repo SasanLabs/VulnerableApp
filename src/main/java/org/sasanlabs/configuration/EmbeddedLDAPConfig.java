@@ -2,7 +2,9 @@ package org.sasanlabs.configuration;
 
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
+import org.sasanlabs.internal.utility.PasswordHashingUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +20,7 @@ public class EmbeddedLDAPConfig {
     public void startLDAPServer() throws Exception {
 
         InMemoryDirectoryServerConfig config =
-                new InMemoryDirectoryServerConfig("dc=example,dc=com");
+                new InMemoryDirectoryServerConfig("dc=sasanlabs,dc=org");
 
         directoryServer = new InMemoryDirectoryServer(config);
 
@@ -27,44 +29,44 @@ public class EmbeddedLDAPConfig {
         seedUsers();
     }
 
+    private String createSaltedPassword(String password) {
+
+        String salt = UUID.randomUUID().toString().substring(0, 8);
+
+        String hash = PasswordHashingUtils.sha256Hex(salt, password);
+
+        return salt + ":" + hash;
+    }
+
+    private void addUser(String uid, String name, String password) throws Exception {
+
+        String storedPassword = createSaltedPassword(password);
+
+        directoryServer.add(
+                "dn: uid=" + uid + ",dc=sasanlabs,dc=org",
+                "objectClass: inetOrgPerson",
+                "uid: " + uid,
+                "sn: " + name,
+                "cn: " + name,
+                "userPassword: " + storedPassword);
+    }
+
     private void seedUsers() throws Exception {
 
         directoryServer.add(
-                "dn: dc=example,dc=com", "objectClass: top", "objectClass: domain", "dc: example");
+                "dn: dc=sasanlabs,dc=org",
+                "objectClass: top",
+                "objectClass: domain",
+                "dc: sasanlabs");
 
-        directoryServer.add(
-                "dn: uid=alice,dc=example,dc=com",
-                "objectClass: inetOrgPerson",
-                "uid: alice",
-                "sn: Alice",
-                "cn: Alice",
-                "userPassword: password123");
+        addUser("alice", "Alice", "alicePass123");
+        addUser("bob", "Bob", "bobPass123");
+        addUser("charlie", "Charlie", "charliePass123");
+        addUser("antriksh", "Antriksh", "antrikshPass123");
 
-        directoryServer.add(
-                "dn: uid=bob,dc=example,dc=com",
-                "objectClass: inetOrgPerson",
-                "uid: bob",
-                "sn: Bob",
-                "cn: Bob",
-                "userPassword: password123");
+        for (int i = 5; i <= 10; i++) {
 
-        directoryServer.add(
-                "dn: uid=charlie,dc=example,dc=com",
-                "objectClass: inetOrgPerson",
-                "uid: charlie",
-                "sn: Charlie",
-                "cn: Charlie",
-                "userPassword: password123");
-
-        for (int i = 4; i <= 10; i++) {
-
-            directoryServer.add(
-                    "dn: uid=user" + i + ",dc=example,dc=com",
-                    "objectClass: inetOrgPerson",
-                    "uid: user" + i,
-                    "sn: User" + i,
-                    "cn: User" + i,
-                    "userPassword: password123");
+            addUser("user" + i, "User " + i, "user" + i + "Pass123");
         }
     }
 }
