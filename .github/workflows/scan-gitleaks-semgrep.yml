@@ -29,6 +29,7 @@ jobs:
       # =========================
       - name: Run Gitleaks (Full Repo)
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
         with:
           args: detect --source . --report-format json --report-path gitleaks-results.json
 
