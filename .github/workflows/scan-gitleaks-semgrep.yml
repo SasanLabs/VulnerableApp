@@ -31,23 +31,23 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
         with:
-          args: detect --source . --report-format json --report-path gitleaks-results.json
+          args: detect --source . --report-format sarif --report-path gitleaks-results.sarif
 
-      - name: Print Gitleaks Findings (1 per line)
+      - name: Print Gitleaks Findings (Client Readable)
         run: |
-          echo "===== GITLEAKS FINDINGS ====="
-          if [ -s gitleaks-results.json ]; then
+          echo "===== GITLEAKS (SECRETS) FINDINGS ====="
+          if [ -s gitleaks-results.sarif ]; then
             jq -r '
-                .runs[0].results[] |
-                "[SECRETS] " + (.ruleId | ascii_upcase) + "\n" +
-                "Location: " +
-                .locations[0].physicalLocation.artifactLocation.uri +
-                " (line " +
-                (.locations[0].physicalLocation.region.startLine | tostring) +
-                ")\n" +
-                "Risk: Hardcoded or exposed secrets may allow unauthorized access.\n"
-                  ' gitleaks-results.sarif > gitleaks-client.txt
-            
+              .runs[0].results[] |
+              "[SECRETS] " + (.ruleId | ascii_upcase) + "\n" +
+              "Location: " +
+              .locations[0].physicalLocation.artifactLocation.uri +
+              " (line " +
+              (.locations[0].physicalLocation.region.startLine | tostring) +
+              ")\n" +
+              "Risk: Exposed secrets may allow unauthorized access.\n"
+            ' gitleaks-results.sarif > gitleaks-client.txt
+            cat gitleaks-client.txt
           else
             echo "No secrets found"
           fi
@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-results
-          path: gitleaks-results.json
+          path: gitleaks-results.sarif
 
       # =========================
       # 4. SEMGREP (Code Scan)
@@ -75,11 +75,17 @@ jobs:
             --json \
             --output semgrep-results.json
 
-      - name: Print Semgrep Findings (1 per line)
+      - name: Print Semgrep Findings (Client Readable)
         run: |
-          echo "===== SEMGREP FINDINGS ====="
-          jq -r '.results[] | "\(.extra.severity) | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)\n"' semgrep-results.json > semgrep-lines.txt
-          cat semgrep-lines.txt
+          echo "===== SEMGREP (CODE) FINDINGS ====="
+          jq -r '
+            .results[] |
+            "[CODE] " + (.check_id | split(".")[-1] | ascii_upcase) + "\n" +
+            "Location: " + .path +
+            " (line " + (.start.line | tostring) + ")\n" +
+            "Risk: " + .extra.message + "\n"
+          ' semgrep-results.json > semgrep-client.txt
+          cat semgrep-client.txt
 
       - name: Upload Semgrep Results
         uses: actions/upload-artifact@v4
