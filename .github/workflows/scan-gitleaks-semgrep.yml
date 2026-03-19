@@ -11,11 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Install dependencies
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -25,7 +23,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       # =========================
-      # 3. GITLEAKS (Secrets Scan)
+      # GITLEAKS
       # =========================
       - name: Run Gitleaks (Full Repo)
         uses: gitleaks/gitleaks-action@v2
@@ -59,7 +57,7 @@ jobs:
           path: gitleaks-results.sarif
 
       # =========================
-      # 4. SEMGREP (Code Scan)
+      # SEMGREP
       # =========================
       - name: Install Semgrep
         run: |
