@@ -37,8 +37,17 @@ jobs:
         run: |
           echo "===== GITLEAKS FINDINGS ====="
           if [ -s gitleaks-results.json ]; then
-            jq -r '.[] | "SECRET | \(.RuleID) | \(.File):\(.StartLine) | \(.Description)\n"' gitleaks-results.json > gitleaks-lines.txt
-            cat gitleaks-lines.txt
+            jq -r '
+                .runs[0].results[] |
+                "[SECRETS] " + (.ruleId | ascii_upcase) + "\n" +
+                "Location: " +
+                .locations[0].physicalLocation.artifactLocation.uri +
+                " (line " +
+                (.locations[0].physicalLocation.region.startLine | tostring) +
+                ")\n" +
+                "Risk: Hardcoded or exposed secrets may allow unauthorized access.\n"
+                  ' gitleaks-results.sarif > gitleaks-client.txt
+            
           else
             echo "No secrets found"
           fi
