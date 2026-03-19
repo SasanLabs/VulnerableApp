@@ -1,27 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>NoSQL Injection Level 1</title>
-</head>
-
-<body>
-    <div id="nosql_injection_level_1">
-        <h2>NoSQL Injection Level 1</h2>
-        <div id="description">
-            <p>Enter a username to search. Try to inject NoSQL syntax to dump all users or find the admin password.</p>
-            <p>Known user: <b>guest</b></p>
+<div class="main-nosql-container" style="padding: 20px; font-family: sans-serif;">
+    <div class="card" style="border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div class="card-header" style="background: #f8f9fa; padding: 15px; border-bottom: 1px solid #ddd;">
+            <h3 id="displayLevelTitle" style="margin:0;">NoSQL Injection - Level 1</h3>
         </div>
-        <div id="inputParams">
-            Username: <input type="text" id="username" value="guest" />
-            <button id="searchButton">Search</button>
-        </div>
-        <div id="response">
-            <h3>Result:</h3>
-            <pre id="resultContainer"></pre>
+        <div class="card-body" style="padding: 20px;">
+            <div id="levelInfoBox"
+                style="background: #d1ecf1; color: #0c5460; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <strong>Goal:</strong> <span id="targetGoal">Inject a string query to break authentication logic.</span><br>
+                <strong>Hint:</strong> <span id="targetHint">Try using the <code>"</code> character to break the string.</span>
+            </div>
+
+            <div class="form-group">
+                <label>Username:</label><br>
+                <input type="text" id="nosql_user_input" class="form-control"
+                    style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ced4da; border-radius: 4px;"
+                    placeholder="Enter payload here...">
+                <button onclick="executeNoSQLAttack()" class="btn btn-primary"
+                    style="padding: 10px 25px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Execute
+                    Attack</button>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <h5>Server Response (JSON Response):</h5>
+                <pre id="nosql_response_area"
+                    style="background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; min-height: 100px; overflow: auto; direction: ltr; text-align: left;"></pre>
+            </div>
         </div>
     </div>
-</body>
-
-</html>
+</div>

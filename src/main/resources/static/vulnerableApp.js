@@ -49,6 +49,7 @@ function _callbackForInnerMasterOnClickEvent(
     clearSelectedInnerMaster();
     vulnerabilityLevelSelected =
       vulnerableAppEndPointData[id]["Detailed Information"][key]["Level"];
+      localStorage.setItem("vulnerabilityLevelSelected", vulnerabilityLevelSelected);
     this.classList.add("active-item");
     let htmlTemplate =
       vulnerableAppEndPointData[id]["Detailed Information"][key][
