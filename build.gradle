@@ -152,6 +152,8 @@ dependencies {
     
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+
+    implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
 }
 
 test {
