@@ -340,3 +340,55 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
     }
 
 }
+ .nosql-container {
+     padding: 20px;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ .level-info {
+     background: #eef2f7;
+     padding: 15px;
+     border-radius: 8px;
+     margin-bottom: 20px;
+     border-left: 5px solid #2980b9;
+ }
+
+ .input-group {
+     margin: 20px 0;
+ }
+
+ input[type="text"] {
+     padding: 10px;
+     width: 350px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+ }
+
+ button {
+     padding: 10px 20px;
+     background: #27ae60;
+     color: white;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+ }
+
+ button:hover {
+     background: #219150;
+ }
+
+ #result {
+     margin-top: 20px;
+     background: #2c3e50;
+     color: #ecf0f1;
+     padding: 15px;
+     border-radius: 5px;
+     white-space: pre-wrap;
+     font-family: monospace;
+     overflow-x: auto;
+ }
+
+ .error {
+     color: #e74c3c;
+     font-weight: bold;
+ }
