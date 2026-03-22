@@ -1,34 +1,30 @@
-function getBannerValue() {
-  return document.getElementById("bannerInput").value.trim();
+function getDemoUserValue() {
+  return document.getElementById("demoUserInput").value.trim();
 }
 
-function clearBannerValue() {
-  document.getElementById("bannerInput").value = "";
+function clearDemoUserValue() {
+  document.getElementById("demoUserInput").value = "";
 }
 
-function requireBannerValue() {
-  let banner = getBannerValue();
-  if (banner) {
-    return banner;
+function requireDemoUserValue() {
+  let demoUser = getDemoUserValue();
+  if (demoUser) {
+    return demoUser;
   }
 
-  alert("Banner is required");
-  document.getElementById("bannerInput").focus();
+  alert("Demo user is required");
+  document.getElementById("demoUserInput").focus();
   return null;
 }
 
-function getCachePoisoningUrl(includeBanner) {
-  let url = getUrlForVulnerabilityLevel();
-  if (!includeBanner) {
-    return url;
-  }
+function setDemoUserCookie(demoUser) {
+  document.cookie =
+    "demo_user=" + encodeURIComponent(demoUser) + "; path=/; SameSite=Lax";
+}
 
-  let banner = getBannerValue();
-  if (!banner) {
-    return url;
-  }
-
-  return url + "?banner=" + encodeURIComponent(banner);
+function clearDemoUserCookie() {
+  document.cookie =
+    "demo_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
 }
 
 function updateDiagnostics(xmlHttpRequest) {
@@ -36,6 +32,10 @@ function updateDiagnostics(xmlHttpRequest) {
     xmlHttpRequest.getResponseHeader("X-Cache-Status") || "-";
   document.getElementById("cacheKey").textContent =
     xmlHttpRequest.getResponseHeader("X-Cache-Key") || "-";
+  document.getElementById("cacheControl").textContent =
+    xmlHttpRequest.getResponseHeader("Cache-Control") || "-";
+  document.getElementById("varyHeader").textContent =
+    xmlHttpRequest.getResponseHeader("Vary") || "-";
 }
 
 function updateResponseArea(content) {
@@ -57,13 +57,10 @@ function sendCachePoisoningRequest(method, url) {
     let data = JSON.parse(xmlHttpRequest.responseText);
     updateDiagnostics(xmlHttpRequest);
     updateResponseArea(data.content);
-    clearBannerValue();
+    clearDemoUserValue();
   };
 
   xmlHttpRequest.open(method, url, true);
-  if (method === "GET") {
-    xmlHttpRequest.setRequestHeader("Content-Type", "application/json");
-  }
   xmlHttpRequest.send();
 }
 
@@ -71,18 +68,20 @@ function addEvents() {
   document
     .getElementById("poisonCacheBtn")
     .addEventListener("click", function () {
-      let banner = requireBannerValue();
-      if (!banner) {
+      let demoUser = requireDemoUserValue();
+      if (!demoUser) {
         return;
       }
 
-      sendCachePoisoningRequest("GET", getCachePoisoningUrl(true));
+      setDemoUserCookie(demoUser);
+      sendCachePoisoningRequest("GET", getUrlForVulnerabilityLevel());
     });
 
   document
     .getElementById("victimRequestBtn")
     .addEventListener("click", function () {
-      sendCachePoisoningRequest("GET", getCachePoisoningUrl(false));
+      clearDemoUserCookie();
+      sendCachePoisoningRequest("GET", getUrlForVulnerabilityLevel());
     });
 }
 

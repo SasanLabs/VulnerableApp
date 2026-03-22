@@ -74,6 +74,11 @@
     font-size: 12px;
 }
 
+.cache-poisoning-input::placeholder {
+    color: #6b6b6b;
+    opacity: 1;
+}
+
 .cache-poisoning-actions {
     display: flex;
     flex-wrap: wrap;

@@ -2,6 +2,21 @@ function getBannerValue() {
   return document.getElementById("bannerInput").value.trim();
 }
 
+function clearBannerValue() {
+  document.getElementById("bannerInput").value = "";
+}
+
+function requireBannerValue() {
+  let banner = getBannerValue();
+  if (banner) {
+    return banner;
+  }
+
+  alert("Banner is required");
+  document.getElementById("bannerInput").focus();
+  return null;
+}
+
 function getLevel1Url(includeBanner) {
   let url = getUrlForVulnerabilityLevel();
   if (!includeBanner) {
@@ -42,6 +57,7 @@ function sendCachePoisoningRequest(method, url) {
     let data = JSON.parse(xmlHttpRequest.responseText);
     updateDiagnostics(xmlHttpRequest);
     updateResponseArea(data.content);
+    clearBannerValue();
   };
 
   xmlHttpRequest.open(method, url, true);
@@ -55,6 +71,11 @@ function addEvents() {
   document
     .getElementById("poisonCacheBtn")
     .addEventListener("click", function () {
+      let banner = requireBannerValue();
+      if (!banner) {
+        return;
+      }
+
       sendCachePoisoningRequest("GET", getLevel1Url(true));
     });
 
