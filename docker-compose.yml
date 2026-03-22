@@ -1,19 +1,76 @@
+version: "3.9"
 services:
     VulnerableApp-base:
       image: sasanlabs/owasp-vulnerableapp:latest
+      networks:
+        - app_net
       
     VulnerableApp-jsp:
       image: sasanlabs/owasp-vulnerableapp-jsp:latest
+      networks:
+        - app_net
  
     VulnerableApp-php:
       image: sasanlabs/owasp-vulnerableapp-php:latest
+      networks:
+        - app_net
+
+    ollama:
+      image: ollama/ollama:latest
+      ports:
+       - "11434:11434"
+      volumes:
+       - ollama_data:/root/.ollama
+      healthcheck:
+        test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+        interval: 10s
+        timeout: 5s
+        retries: 12
+        start_period: 20s
+      networks:
+        app_net:
+          aliases:
+            - ollama
+
+    ollama-model-init:
+      image: ollama/ollama:latest
+      depends_on:
+        ollama:
+          condition: service_healthy
+      environment:
+       - OLLAMA_HOST=http://ollama:11434
+      command: ["pull", "${OLLAMA_MODEL:-phi3:mini}"]
+      volumes:
+       - ollama_data:/root/.ollama
+      restart: "no"
+      networks:
+        - app_net
+
+    llmforge:
+      build:
+        context: ../llmforge
+      depends_on:
+        ollama:
+          condition: service_healthy
+        ollama-model-init:
+          condition: service_completed_successfully
+      ports:
+       - "8000:8000"
+      environment:
+       - OLLAMA_URL=http://ollama:11434
+       - OLLAMA_MODEL=${OLLAMA_MODEL:-phi3:mini}
+       - FACADE_ROUTE_PREFIX=/llmforge
+      networks:
+        app_net:
+          aliases:
+            - llmforge
     
     VulnerableApp-facade:
       depends_on:
         - VulnerableApp-base
         - VulnerableApp-jsp
         - VulnerableApp-php
-      # All services use :latest tag for consistency and easier deployment
+        - llmforge
       image: sasanlabs/owasp-vulnerableapp-facade:latest
       volumes:
        - ./templates:/etc/nginx/templates
@@ -22,3 +79,13 @@ services:
       environment:
        - NGINX_HOST=foobar.com
        - NGINX_PORT=80
+      networks:
+        - app_net
+
+networks:
+  app_net:
+    name: vulnerableapp-facade_net
+    driver: bridge
+
+volumes:
+  ollama_data:

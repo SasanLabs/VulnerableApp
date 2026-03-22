@@ -217,6 +217,10 @@ function getUrlForVulnerabilityLevel() {
   );
 }
 
+function getCurrentVulnerabilityLevel() {
+  return vulnerabilityLevelSelected;
+}
+
 function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
   if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {
     // XMLHttpRequest.DONE == 4
