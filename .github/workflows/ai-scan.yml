@@ -46,7 +46,7 @@ jobs:
  
       # GENERATE REPORT
       - name: Generate Report
-        run: python .github/scripts/generate_report.py
+        run: python scripts/generate_report.py
  
       # Upload Report
       - name: Upload Report Artifact
