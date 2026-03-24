@@ -35,12 +35,22 @@ with open("report.md", "w") as report:
     report.write("- Secret detection completed using Gitleaks\n\n")
     report.write("---\n\n")
 
-    report.write("## Semgrep Findings\n")
-    for finding in semgrep_findings[:20]:  # limit for readability
-        rule = finding.get("check_id", "unknown-rule")
-        path = finding["path"]
-        line = finding["start"]["line"]
-        report.write(f"- {rule} in {path}:{line}\n")
+    
+report.write("## Semgrep Findings\n\n")
+
+if semgrep_findings:
+    for finding in semgrep_findings:
+        issue_type = finding.get("check_id", "UNKNOWN").upper()
+        file_path = finding.get("path", "unknown-file")
+        line = finding.get("start", {}).get("line", "N/A")
+        risk = finding.get("extra", {}).get("message", "No description available.")
+
+        report.write(f"Issue Type : {issue_type}\n")
+        report.write(f"Location   : {file_path} (line {line})\n")
+        report.write(f"Risk       : {risk}\n\n")
+else:
+    report.write("No security issues detected by Semgrep.\n\n")
+
 
     report.write("\n---\n\n")
     report.write("## Gitleaks Findings\n")
