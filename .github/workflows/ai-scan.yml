@@ -1,57 +1,48 @@
 name: Full Repo Security Scan
- 
+
 on:
-  workflow_dispatch:   # manual trigger
-  
- 
+  workflow_dispatch:
+
 jobs:
   scan:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout Full Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
- 
+
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
- 
-      - name: Install Dependencies
+
+      - name: Install Semgrep
         run: pip install semgrep
- 
-      # - name: Install Gitleaks
-      #   run: |
-      #     curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
-      #     chmod +x gitleaks
- 
+
       # SEMGREP
       - name: Run Semgrep
+        continue-on-error: true
         run: |
           semgrep --config=auto \
-          --exclude node_modules \
-          --exclude .git \
-          --json > semgrep.json
- 
+            --exclude node_modules \
+            --exclude .git \
+            --json > semgrep.json
+
       # GITLEAKS
-      
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
         with:
-             args: detect --source . --report-format sarif --report-path gitleaks.sarif
+          args: detect --source . --report-format sarif --report-path gitleaks.sarif
 
- 
       # GENERATE REPORT
       - name: Generate Report
         run: python scripts/generate_report.py
- 
-      # Upload Report
+
       - name: Upload Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: security-report
           path: report.md
- 
