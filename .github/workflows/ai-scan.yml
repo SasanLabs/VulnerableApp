@@ -1,0 +1,56 @@
+name: Full Repo Security Scan (Semgrep + Gitleaks)
+ 
+on:
+  workflow_dispatch:   # manual trigger
+  
+ 
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout Full Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+ 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+ 
+      - name: Install Dependencies
+        run: pip install semgrep
+ 
+      - name: Install Gitleaks
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
+          chmod +x gitleaks
+ 
+      # SEMGREP
+      - name: Run Semgrep
+        run: |
+          semgrep --config=auto \
+          --exclude node_modules \
+          --exclude .git \
+          --json > semgrep.json
+ 
+      # GITLEAKS
+      - name: Run Gitleaks
+        run: |
+          ./gitleaks detect \
+          --source . \
+          --report-format json \
+          --report-path gitleaks.json
+ 
+      # GENERATE REPORT
+      - name: Generate Report
+        run: python .github/scripts/generate_report.py
+ 
+      # Upload Report
+      - name: Upload Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: report.md
+ 
