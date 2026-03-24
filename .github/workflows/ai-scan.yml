@@ -1,4 +1,4 @@
-name: Full Repo Security Scan (Semgrep + Gitleaks)
+name: Full Repo Security Scan
  
 on:
   workflow_dispatch:   # manual trigger
