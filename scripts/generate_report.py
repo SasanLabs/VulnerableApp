@@ -9,8 +9,7 @@ def load_file(path, default):
  
  
 semgrep = load_file("semgrep.json", {})
-gitleaks = load_file("gitleaks.json", [])
- 
+gitleaks_results = sarif["runs"][0].get("results", []) 
  
 semgrep_count = len(semgrep.get("results", []))
 gitleaks_count = len(gitleaks)
