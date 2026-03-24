@@ -41,7 +41,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
         with:
-          args: detect --source . --report-format json --report-path gitleaks.json
+             args: detect --source . --report-format sarif --report-path gitleaks.sarif
 
  
       # GENERATE REPORT
