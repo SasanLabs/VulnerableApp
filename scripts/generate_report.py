@@ -15,8 +15,8 @@ if Path("semgrep.json").exists():
 gitleaks_count = 0
 gitleaks_findings = []
 
-if Path("gitleaks.sarif").exists():
-    with open("gitleaks.sarif") as f:
+if Path("gitleaks-results.sarif").exists():
+    with open("gitleaks-results.sarif") as f:
         sarif = json.load(f)  
         runs = sarif.get("runs", [])
         if runs:
