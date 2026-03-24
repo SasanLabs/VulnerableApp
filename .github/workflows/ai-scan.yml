@@ -38,7 +38,7 @@ jobs:
       # GITLEAKS
       - name: Run Gitleaks
         run: |
-          ./gitleaks detect \
+          gitleaks detect \
           --source . \
           --report-format json \
           --report-path gitleaks.json
