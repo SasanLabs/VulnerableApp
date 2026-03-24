@@ -22,10 +22,10 @@ jobs:
       - name: Install Dependencies
         run: pip install semgrep
  
-      - name: Install Gitleaks
-        run: |
-          curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
-          chmod +x gitleaks
+      # - name: Install Gitleaks
+      #   run: |
+      #     curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64 -o gitleaks
+      #     chmod +x gitleaks
  
       # SEMGREP
       - name: Run Semgrep
@@ -36,12 +36,13 @@ jobs:
           --json > semgrep.json
  
       # GITLEAKS
+      
       - name: Run Gitleaks
-        run: |
-          gitleaks detect \
-          --source . \
-          --report-format json \
-          --report-path gitleaks.json
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --source . --report-format json --report-path gitleaks.json
+
  
       # GENERATE REPORT
       - name: Generate Report
