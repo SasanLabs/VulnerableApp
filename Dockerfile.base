@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jre-alpine AS local
+
+RUN apk add --no-cache iputils
+
+FROM eclipse-temurin:17-jre-jammy AS ci
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends iputils-ping \
+    && rm -rf /var/lib/apt/lists/*

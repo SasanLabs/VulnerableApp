@@ -57,25 +57,34 @@ spotless {
   	}
 }
 
+def isLocalJibDockerBuild =
+        project.gradle.startParameter.taskNames.any {
+            it == "jibDockerBuild" || it.endsWith(":jibDockerBuild")
+        }
+def ciBaseImage =
+        project.findProperty("vulnerableapp.base.image")
+                ?: "sasanlabs/owasp-vulnerableapp-base:latest"
+
 jib {
     to {
         image = 'sasanlabs/owasp-vulnerableapp:unreleased'
     }
-    // Default base image for local jibDockerBuild (Alpine + ping).
-    // Build this first with:
-    //   docker build --target local -t vulnerableapp-base-local:latest -f Dockerfile.base .
     from {
-        image = 'docker://vulnerableapp-base-local:latest'
+        // Local builds still use a Docker daemon image so contributors can iterate
+        // without publishing anything first.
+        image = isLocalJibDockerBuild
+                ? 'docker://vulnerableapp-base-local:latest'
+                : ciBaseImage
     }
-    // Set up multi-platform build only if the task is not :jibDockerBuild
-    if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
+    // Build the local base image first with:
+    //   docker build --target local -t vulnerableapp-base-local:latest -f Dockerfile.base .
+    // CI publishes the multi-arch `sasanlabs/owasp-vulnerableapp-base` image from the
+    // `ci` target and Jib uses that image for remote builds.
+    if (!isLocalJibDockerBuild) {
         logger.info("JIB: Enabling Multi-Platform Images")
 
-        // CI base image (Debian + ping).
-        // Build this first with:
-        //   docker build --target ci -t vulnerableapp-base-ci:latest -f Dockerfile.base .
         from {
-            image = 'docker://vulnerableapp-base-ci:latest'
+            image = ciBaseImage
             platforms {
                 platform {
                     architecture = 'amd64'
