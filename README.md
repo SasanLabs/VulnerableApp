@@ -8,7 +8,6 @@ As Web Applications are becoming popular these days, there comes a dire need to 
 As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities.
 
 ### User Interface ###
-
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ## Technologies used
@@ -16,8 +15,9 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 - Spring Boot
 - ReactJS
 - Javascript/TypeScript
-
+    
 ## Currently handled Vulnerability types
+
 1. [JWT Vulnerability](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/)
 2. [Command Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/commandInjection)
 3. [Cryptography Failures](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures)
@@ -36,9 +36,9 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 10. [SSRF](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ssrf)
 11. [IDOR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
 12. [Clickjacking](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/clickjacking)
-13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
-
+13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)    
 ## Contributing to Project
+
 There are multiple ways in which you can contribute to the project:
 1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
@@ -52,7 +52,7 @@ There are 2 ways to run the project:
     3. Open the terminal and Navigate to the Project root directory
     4. Run the command ```docker-compose pull && docker-compose up```
     5. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
-
+    
     **Note**: The above steps will run the latest unreleased VulnerableApp version. If you want to run the latest released version, please use docker **latest** tag.
 2. Another way to run the VulnerableApp is as standalone Vulnerable Application is:
     1. Navigate to [Releases Section](https://github.com/SasanLabs/VulnerableApp/releases) in github and download the Jar for the latest released version
@@ -69,7 +69,8 @@ There are 2 ways in which this project can be built and used:
 2. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
     1. Import the project into your favorite IDE and run it
     2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
-
+    
+### Connecting to embedded H2 database
 For accessing database from browser, visit: `http://localhost:9090/VulnerableApp/h2`
 
 Database Connection properties:
@@ -95,16 +96,17 @@ This script will build your local changes into a Docker image (`sasanlabs/owasp-
 
 VulnerableApp is being used by universities around the world for teaching and research in application security:
 
-- 🇵🇱 AGH University of Kraków (AGH University of Science and Technology) — Poland
-- 🇸🇬 National University of Singapore — Singapore
-- 🇫🇷 University of Rouen Normandy — France
-- 🇺🇸 Case Western Reserve University — United States
-- 🇺🇸 Clemson University — United States
+- AGH University of Krakow (AGH University of Science and Technology) - Poland
+- National University of Singapore - Singapore
+- University of Rouen Normandy - France
+- Case Western Reserve University - United States
+- Clemson University - United States
 
 ## Contact
 In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 
 ## Documentation and References
+
 1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
 2. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
 3. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
@@ -121,6 +123,7 @@ In case you are stuck with any of the steps or understanding anything related to
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
 
 ### Readme in other languages
+
 1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
 2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
 3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
