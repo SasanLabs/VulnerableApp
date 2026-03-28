@@ -1,3 +1,5 @@
 FROM eclipse-temurin:17-jre
 
-RUN apk add --no-cache iputils
+RUN apt-get update && \
+    apt-get install -y iputils-ping && \
+    rm -rf /var/lib/apt/lists/*
