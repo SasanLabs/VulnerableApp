@@ -30,44 +30,25 @@ function buildLevel3Url() {
   );
 }
 
-function updateDiagnostics(xmlHttpRequest) {
+function updateDiagnostics(request) {
   document.getElementById("cacheStatus").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Status") || "-";
+    request.getResponseHeader("X-Cache-Status") || "-";
   document.getElementById("cacheKey").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Key") || "-";
+    request.getResponseHeader("X-Cache-Key") || "-";
   document.getElementById("cacheControl").textContent =
-    xmlHttpRequest.getResponseHeader("Cache-Control") || "-";
+    request.getResponseHeader("Cache-Control") || "-";
   document.getElementById("varyHeader").textContent =
-    xmlHttpRequest.getResponseHeader("Vary") || "-";
+    request.getResponseHeader("Vary") || "-";
 }
 
 function updateResponseArea(content) {
   document.getElementById("cachePoisoningResponse").innerHTML = content;
 }
 
-function sendCachePoisoningRequest(method, url, forwardedHost) {
-  let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function () {
-    if (xmlHttpRequest.readyState !== XMLHttpRequest.DONE) {
-      return;
-    }
-
-    if (xmlHttpRequest.status !== 200) {
-      alert("Request failed");
-      return;
-    }
-
-    let data = JSON.parse(xmlHttpRequest.responseText);
-    updateDiagnostics(xmlHttpRequest);
-    updateResponseArea(data.content);
-    clearInputs();
-  };
-
-  xmlHttpRequest.open(method, url, true);
-  if (forwardedHost) {
-    xmlHttpRequest.setRequestHeader("X-Forwarded-Host", forwardedHost);
-  }
-  xmlHttpRequest.send();
+function fetchDataCallback(data, request) {
+  updateDiagnostics(request);
+  updateResponseArea(data.content);
+  clearInputs();
 }
 
 function addEvents() {
@@ -80,7 +61,7 @@ function addEvents() {
         return;
       }
 
-      sendCachePoisoningRequest("GET", buildLevel3Url(), forwardedHost);
+      doGetAjaxCall(fetchDataCallback, buildLevel3Url(), true, { "X-Forwarded-Host": forwardedHost});
     });
 
   document
@@ -91,7 +72,7 @@ function addEvents() {
         return;
       }
 
-      sendCachePoisoningRequest("GET", buildLevel3Url(), null);
+      doGetAjaxCall(fetchDataCallback, buildLevel3Url(), true);
     });
 }
 

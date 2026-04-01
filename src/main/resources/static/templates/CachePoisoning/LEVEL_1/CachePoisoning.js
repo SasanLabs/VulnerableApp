@@ -31,40 +31,21 @@ function getLevel1Url(includeBanner) {
   return url + "?banner=" + encodeURIComponent(banner);
 }
 
-function updateDiagnostics(xmlHttpRequest) {
+function updateDiagnostics(request) {
   document.getElementById("cacheStatus").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Status") || "-";
+    request.getResponseHeader("X-Cache-Status") || "-";
   document.getElementById("cacheKey").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Key") || "-";
+    request.getResponseHeader("X-Cache-Key") || "-";
 }
 
 function updateResponseArea(content) {
   document.getElementById("cachePoisoningResponse").innerHTML = content;
 }
 
-function sendCachePoisoningRequest(method, url) {
-  let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function () {
-    if (xmlHttpRequest.readyState !== XMLHttpRequest.DONE) {
-      return;
-    }
-
-    if (xmlHttpRequest.status !== 200) {
-      alert("Request failed");
-      return;
-    }
-
-    let data = JSON.parse(xmlHttpRequest.responseText);
-    updateDiagnostics(xmlHttpRequest);
-    updateResponseArea(data.content);
-    clearBannerValue();
-  };
-
-  xmlHttpRequest.open(method, url, true);
-  if (method === "GET") {
-    xmlHttpRequest.setRequestHeader("Content-Type", "application/json");
-  }
-  xmlHttpRequest.send();
+function fetchDataCallback(data, request) {
+  updateDiagnostics(request);
+  updateResponseArea(data.content);
+  clearBannerValue();
 }
 
 function addEvents() {
@@ -76,13 +57,13 @@ function addEvents() {
         return;
       }
 
-      sendCachePoisoningRequest("GET", getLevel1Url(true));
+      doGetAjaxCall(fetchDataCallback, getLevel1Url(true), true);
     });
 
   document
     .getElementById("victimRequestBtn")
     .addEventListener("click", function () {
-      sendCachePoisoningRequest("GET", getLevel1Url(false));
+      doGetAjaxCall(fetchDataCallback, getLevel1Url(false), true);
     });
 }
 

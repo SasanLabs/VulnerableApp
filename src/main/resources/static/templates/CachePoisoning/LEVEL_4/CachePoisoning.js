@@ -27,41 +27,25 @@ function clearDemoUserCookie() {
     "demo_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
 }
 
-function updateDiagnostics(xmlHttpRequest) {
+function updateDiagnostics(request) {
   document.getElementById("cacheStatus").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Status") || "-";
+    request.getResponseHeader("X-Cache-Status") || "-";
   document.getElementById("cacheKey").textContent =
-    xmlHttpRequest.getResponseHeader("X-Cache-Key") || "-";
+    request.getResponseHeader("X-Cache-Key") || "-";
   document.getElementById("cacheControl").textContent =
-    xmlHttpRequest.getResponseHeader("Cache-Control") || "-";
+    request.getResponseHeader("Cache-Control") || "-";
   document.getElementById("varyHeader").textContent =
-    xmlHttpRequest.getResponseHeader("Vary") || "-";
+    request.getResponseHeader("Vary") || "-";
 }
 
 function updateResponseArea(content) {
   document.getElementById("cachePoisoningResponse").innerHTML = content;
 }
 
-function sendCachePoisoningRequest(method, url) {
-  let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function () {
-    if (xmlHttpRequest.readyState !== XMLHttpRequest.DONE) {
-      return;
-    }
-
-    if (xmlHttpRequest.status !== 200) {
-      alert("Request failed");
-      return;
-    }
-
-    let data = JSON.parse(xmlHttpRequest.responseText);
-    updateDiagnostics(xmlHttpRequest);
-    updateResponseArea(data.content);
-    clearDemoUserValue();
-  };
-
-  xmlHttpRequest.open(method, url, true);
-  xmlHttpRequest.send();
+function fetchDataCallback(data, request) {
+  updateDiagnostics(request);
+  updateResponseArea(data.content);
+  clearDemoUserValue();
 }
 
 function addEvents() {
@@ -74,14 +58,14 @@ function addEvents() {
       }
 
       setDemoUserCookie(demoUser);
-      sendCachePoisoningRequest("GET", getUrlForVulnerabilityLevel());
+      doGetAjaxCall(fetchDataCallback, getUrlForVulnerabilityLevel(), true);
     });
 
   document
     .getElementById("victimRequestBtn")
     .addEventListener("click", function () {
       clearDemoUserCookie();
-      sendCachePoisoningRequest("GET", getUrlForVulnerabilityLevel());
+      doGetAjaxCall(fetchDataCallback, getUrlForVulnerabilityLevel(), true);
     });
 }
 
