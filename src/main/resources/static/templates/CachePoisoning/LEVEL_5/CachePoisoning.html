@@ -10,39 +10,52 @@
         <section class="cache-poisoning-block">
             <h5>Controls</h5>
             <div class="cache-poisoning-form">
-                <div class="cache-poisoning-field">
-                    <label class="cache-poisoning-label" for="demoUserInput">
-                        Personalized demo_user
-                    </label>
-                    <input
-                        class="cache-poisoning-input"
-                        type="text"
-                        id="demoUserInput"
-                        placeholder="admin" />
+                <div class="cache-poisoning-entry-row">
+                    <div class="cache-poisoning-field">
+                        <label class="cache-poisoning-label" for="demoUserInput">
+                            Personalized demo_user
+                        </label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="demoUserInput"
+                            placeholder="admin" />
+                    </div>
                 </div>
-                <div class="cache-poisoning-field">
-                    <label class="cache-poisoning-label" for="bannerInput">
-                        Optional banner preview
-                    </label>
-                    <input
-                        class="cache-poisoning-input"
-                        type="text"
-                        id="bannerInput"
-                        placeholder="&lt;b&gt;OWNED&lt;/b&gt;" />
+                <div class="cache-poisoning-entry-row">
+                    <div class="cache-poisoning-field">
+                        <label class="cache-poisoning-label" for="bannerInput">
+                            Optional banner preview
+                        </label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="bannerInput"
+                            placeholder="&lt;b&gt;OWNED&lt;/b&gt;" />
+                    </div>
                 </div>
-                <div class="cache-poisoning-field">
-                    <label class="cache-poisoning-label" for="forwardedHostInput">
-                        Optional forwarded host
-                    </label>
-                    <input
-                        class="cache-poisoning-input"
-                        type="text"
-                        id="forwardedHostInput"
-                        placeholder="attacker.example" />
+                <div class="cache-poisoning-entry-row">
+                    <div class="cache-poisoning-field">
+                        <label class="cache-poisoning-label" for="forwardedHostInput">
+                            Optional forwarded host
+                        </label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="forwardedHostInput"
+                            placeholder="attacker.example" />
+                    </div>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-inline">
+                        <button type="button" id="poisonCacheBtn">Send personalized request</button>
+                    </div>
                 </div>
                 <div class="cache-poisoning-actions">
-                    <button id="poisonCacheBtn">Send personalized request</button>
-                    <button id="victimRequestBtn">Send guest request</button>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
+                        <button type="button" id="resetCacheBtn" disabled>Reset Cache</button>
+                    </div>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-right">
+                        <button type="button" id="victimRequestBtn">Send guest request</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -52,7 +65,7 @@
             <div class="cache-poisoning-diagnostics">
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache status</span>
-                    <code id="cacheStatus">-</code>
+                    <code id="cacheStatus" class="cache-status-indicator cache-status-neutral">-</code>
                 </div>
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache key</span>
