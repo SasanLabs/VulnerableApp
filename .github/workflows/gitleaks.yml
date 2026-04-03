@@ -1,0 +1,65 @@
+name: Secrets Scan (Gitleaks – Client Readable)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  gitleaks-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Install jq (for formatting output)
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # =========================
+      # 3. Run Gitleaks
+      # =========================
+      - name: Run Gitleaks (Full Repository)
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --source . --report-format sarif --report-path gitleaks-results.sarif
+
+      # =========================
+      # 4. Client-readable output
+      # =========================
+      - name: Print Secrets Findings (Client Readable)
+        run: |
+          echo "===================================="
+          echo "🔐 SECURITY SCAN – EXPOSED SECRETS"
+          echo "===================================="
+          echo ""
+
+          if [ -s gitleaks-results.sarif ]; then
+            jq -r '
+              .runs[0].results[] |
+              "Issue Type : Exposed Secret (" + (.ruleId | ascii_upcase) + ")\n" +
+              "Location   : " +
+              .locations[0].physicalLocation.artifactLocation.uri +
+              " (line " +
+              (.locations[0].physicalLocation.region.startLine | tostring) +
+              ")\n" +
+              "Risk       : Hardcoded secrets can allow unauthorized access if leaked.\n"
+            ' gitleaks-results.sarif > gitleaks-client.txt
+
+            cat gitleaks-client.txt
+          else
+            echo "✅ No exposed secrets were detected in this repository."
+          fi
+
+      # =========================
+      # 5. Upload report
+      # =========================
+      - name: Upload Gitleaks Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-client-report
+          path: gitleaks-client.txt
