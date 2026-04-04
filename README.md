@@ -92,6 +92,16 @@ This script will build your local changes into a Docker image (`sasanlabs/owasp-
 
 3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
 
+## Used by Universities
+
+VulnerableApp is being used by universities around the world for teaching and research in application security:
+
+- AGH University of Krakow (AGH University of Science and Technology) - Poland
+- National University of Singapore - Singapore
+- University of Rouen Normandy - France
+- Case Western Reserve University - United States
+- Clemson University - United States
+
 ## Contact
 In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 
