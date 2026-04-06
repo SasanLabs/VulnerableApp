@@ -255,12 +255,17 @@ function doGetAjaxCall(callBack, url, isJson, headers = {}) {
   xmlHttpRequest.send();
 }
 
-function doPostAjaxCall(callBack, url, isJson, data) {
+function doPostAjaxCall(callBack, url, isJson, data, headers = {}) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function () {
     return genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
   xmlHttpRequest.open("POST", url, true);
+
+  for (const header in headers) {
+    xmlHttpRequest.setRequestHeader(header, headers[header]);
+  }
+
   xmlHttpRequest.send(data);
 }
 
