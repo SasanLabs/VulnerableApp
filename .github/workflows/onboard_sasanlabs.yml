@@ -24,7 +24,7 @@ jobs:
             });
 
             const userPRs = pulls.filter(pr => pr.user.login === username);
-            core.setOutput("first_time", userPRs.length === 1);
+            core.setOutput("first_time", userPRs.length === 1 or username === 'preetkaran20');
 
       - name: Comment with form
         if: steps.check.outputs.first_time == 'true'
