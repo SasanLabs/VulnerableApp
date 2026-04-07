@@ -54,6 +54,11 @@
     border-bottom: 1px dotted black;
 }
 
+/* Utilitário para esconder elementos */
+.hidden {
+    display: none !important;
+}
+
 .cache-poisoning-field {
     flex: 1 1 320px;
     min-width: 0;
@@ -185,7 +190,9 @@
 }
 
 #cacheStatus,
-#cacheKey {
+#cacheKey,
+#cacheControl,
+#varyHeader {
     display: block;
     padding: 6px 8px;
     border: 1px solid black;

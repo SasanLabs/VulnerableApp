@@ -1,40 +1,54 @@
-<div id="cachePoisoningLevel3" class="cache-poisoning-shell">
-    <h3 class="cache-poisoning-title">Cache Poisoning</h3>
-    <p class="cache-poisoning-subtitle">
-        This level fixes the banner cache key, but still trusts <code>X-Forwarded-Host</code> when
-        building absolute asset URLs. Use the same banner value for both requests and change only
-        the attacker header.
-    </p>
+<div id="cachePoisoningContainer" class="cache-poisoning-shell">
+    <h3 id="cpTitle" class="cache-poisoning-title">Cache Poisoning</h3>
+    <p id="cpSubtitle" class="cache-poisoning-subtitle"></p>
 
     <div class="cache-poisoning-layout">
         <section class="cache-poisoning-block">
             <h5>Controls</h5>
             <div class="cache-poisoning-form">
-                <div class="cache-poisoning-entry-row">
+                <!-- Banner Input Row -->
+                <div id="bannerInputRow" class="cache-poisoning-entry-row hidden">
                     <div class="cache-poisoning-field">
-                        <label class="cache-poisoning-label" for="bannerInput">Shared banner key</label>
+                        <label id="bannerLabel" class="cache-poisoning-label" for="bannerInput"></label>
                         <input
                             class="cache-poisoning-input"
                             type="text"
                             id="bannerInput"
-                            placeholder="shared-status-page" />
+                            placeholder="" />
+                    </div>
+                    <div id="poisonCacheBtnContainerInline" class="cache-poisoning-action-group cache-poisoning-action-group-inline hidden">
+                        <button type="button" id="poisonCacheBtnInline">Send attacker request</button>
                     </div>
                 </div>
-                <div class="cache-poisoning-entry-row">
+
+                <!-- Forwarded Host Input Row -->
+                <div id="forwardedHostInputRow" class="cache-poisoning-entry-row hidden">
                     <div class="cache-poisoning-field">
-                        <label class="cache-poisoning-label" for="forwardedHostInput">
-                            Attacker forwarded host
-                        </label>
+                        <label id="forwardedHostLabel" class="cache-poisoning-label" for="forwardedHostInput"></label>
                         <input
                             class="cache-poisoning-input"
                             type="text"
                             id="forwardedHostInput"
-                            placeholder="attacker.example" />
-                    </div>
-                    <div class="cache-poisoning-action-group cache-poisoning-action-group-inline">
-                        <button type="button" id="poisonCacheBtn">Send attacker request</button>
+                            placeholder="" />
                     </div>
                 </div>
+
+                <!-- Demo User Input Row -->
+                <div id="demoUserInputRow" class="cache-poisoning-entry-row hidden">
+                    <div class="cache-poisoning-field">
+                        <label id="demoUserLabel" class="cache-poisoning-label" for="demoUserInput"></label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="demoUserInput"
+                            placeholder="" />
+                    </div>
+                    <div id="poisonCacheBtnContainerDemo" class="cache-poisoning-action-group cache-poisoning-action-group-inline hidden">
+                        <button type="button" id="poisonCacheBtnDemo">Send attacker request</button>
+                    </div>
+                </div>
+
+                <!-- Global Actions -->
                 <div class="cache-poisoning-actions">
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
                         <button type="button" id="resetCacheBtn" disabled>Reset Cache</button>
@@ -57,11 +71,11 @@
                     <span class="diagnostic-label">Cache key</span>
                     <code id="cacheKey">-</code>
                 </div>
-                <div class="diagnostic-card">
+                <div id="cacheControlCard" class="diagnostic-card hidden">
                     <span class="diagnostic-label">Cache-Control</span>
                     <code id="cacheControl">-</code>
                 </div>
-                <div class="diagnostic-card">
+                <div id="varyHeaderCard" class="diagnostic-card hidden">
                     <span class="diagnostic-label">Vary</span>
                     <code id="varyHeader">-</code>
                 </div>
@@ -70,10 +84,7 @@
 
         <section class="cache-poisoning-block">
             <h5>Observed Response</h5>
-            <div id="cachePoisoningResponse" class="cache-poisoning-output">
-                Send the attacker request with a forwarded host, then repeat the victim request with
-                the same banner key and no forwarded header.
-            </div>
+            <div id="cachePoisoningResponse" class="cache-poisoning-output"></div>
         </section>
     </div>
 </div>
