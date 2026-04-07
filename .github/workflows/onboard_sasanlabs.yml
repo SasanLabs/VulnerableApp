@@ -1,8 +1,12 @@
 name: First Time Contributor Form
 
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
+
+permissions:
+  issues: write
+  pull-requests: read
 
 jobs:
   comment-form:
