@@ -5,7 +5,7 @@ has_children: false
 parent: Blogs
 ---
 
-## 🚀 Building a Scalable & Maintainable VulnerableApp Architecture — Lessons from OWASP VulnerableApp + VulnerableApp-facade
+## 🚀 Building a Scalable & Maintainable VulnerableApp Architecture
 
 Over the last few years, while building solutions to simulate real security vulnerabilities, one thing became very clear: **traditional vulnerable apps** often become **monolithic**, hard to extend, and tightly coupled to a specific stack, limiting **scalability** and **maintainability**.
 
