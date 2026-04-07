@@ -261,11 +261,9 @@ function doPostAjaxCall(callBack, url, isJson, data, headers = {}) {
     return genericResponseHandler(xmlHttpRequest, callBack, isJson);
   };
   xmlHttpRequest.open("POST", url, true);
-
   for (const header in headers) {
     xmlHttpRequest.setRequestHeader(header, headers[header]);
   }
-
   xmlHttpRequest.send(data);
 }
 
