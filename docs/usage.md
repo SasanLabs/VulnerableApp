@@ -6,6 +6,8 @@
     <sub>This section is designed to scale for companies and other organizations.</sub>
   </p>
 
+  <!-- Organizations -->
+
   <table align="center" style="border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto;">
     <tr style="border-bottom: 2px solid #e1e8ed;">
       <td align="center" width="240" valign="middle" style="padding: 20px 15px; background-color: #f8f9fa;">
