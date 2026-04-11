@@ -15,7 +15,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 - Spring Boot
 - ReactJS
 - Javascript/TypeScript
-    
+
 ## Currently handled Vulnerability types
 
 1. [JWT Vulnerability](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/jwt/)
