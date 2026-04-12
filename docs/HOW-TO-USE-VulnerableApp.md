@@ -1,6 +1,6 @@
 ---
 layout: default
-title: How To Use
+title: How To Use VulnerableApp
 nav_order: 3
 ---
 
