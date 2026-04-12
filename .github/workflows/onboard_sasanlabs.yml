@@ -23,7 +23,7 @@ jobs:
             const username = context.payload.pull_request.user.login;
             const prNumber = context.payload.pull_request.number;
 
-            const { data: labels } = await github.rest.issues.listLabelsIsOnIssue({
+            const { data: labels } = await github.rest.issues.listLabelsOnIssue ({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: prNumber
