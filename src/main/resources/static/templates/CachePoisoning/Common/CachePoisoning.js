@@ -78,9 +78,13 @@ function getRequestUrl(includeInputs, resetCache = false) {
 
   if (resetCache) {
     queryParams.set("resetCache", "true");
-  } else if (includeInputs) {
-    const banner = getInputValue("bannerInput");
-    if (banner) queryParams.set("banner", banner);
+  }
+
+  // Always include banner if it's visible and has a value,
+  // as it's often part of the cache key (Level 3+)
+  const banner = getInputValue("bannerInput");
+  if (banner) {
+    queryParams.set("banner", banner);
   }
 
   let queryString = queryParams.toString();
