@@ -35,7 +35,7 @@ jobs:
             }
 
             const { data: searchResult } = await github.rest.search.issuesAndPullRequests({ q: `repo:${context.repo.owner}/${context.repo.repo} is:pr author:${username} is:merged` });
-            core.setOutput("first_time", searchResult.total_count === 1 || username === 'preetkaran20');
+            core.setOutput("first_time", searchResult.total_count === 1);
 
       - name: Comment with form
         if: steps.check.outputs.first_time == 'true'
@@ -65,6 +65,7 @@ jobs:
               We’d love to stay in touch and grow SasanLabs 🚀
               👉 Please fill this (takes 30 sec):  
                ${formUrl}
+               
                Also consider ⭐ starring the repo if you like it! ${nextIssueBlock}`
             });
 
