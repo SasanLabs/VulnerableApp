@@ -10,19 +10,6 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 ### User Interface ###
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
-## Technologies used
-- Java17
-- Spring Boot
-- ReactJS
-- Javascript/TypeScript
-
-## Contributing to Project
-
-There are multiple ways in which you can contribute to the project:
-1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
-2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
-3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
-
 ## Running the project
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
@@ -48,7 +35,20 @@ There are 2 ways in which this project can be built and used:
 2. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
     1. Import the project into your favorite IDE and run it
     2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
-    
+
+## Contributing to Project
+
+There are multiple ways in which you can contribute to the project:
+1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
+2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
+3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
+
+## Technologies used
+- Java17
+- Spring Boot
+- ReactJS
+- Javascript/TypeScript
+ 
 ### Connecting to embedded H2 database
 For accessing database from browser, visit: `http://localhost:9090/VulnerableApp/h2`
 
