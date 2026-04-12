@@ -49,7 +49,7 @@ jobs:
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: 'good first issue'.
+              labels: 'good first issue',
               state: 'open'
             });
             const available = issues.filter(i => !i.assignee);
