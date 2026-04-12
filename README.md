@@ -113,7 +113,7 @@ In case you are stuck with any of the steps or understanding anything related to
 
 ### Usage of OWASP VulnerableApp
 1. [View Global Academic Interest](../docs/Usage.md)
-2. 
+   
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
 
