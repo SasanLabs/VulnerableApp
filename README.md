@@ -2,13 +2,38 @@
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker Pulls](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
 
-### A deliberately vulnerable platform for security testing, learning, and research. 
-#### Break it. Scan it. Learn from it. Extend it.
+## Break it. Scan it. Reproduce it. Improve it.
 
-As Web Applications are becoming popular these days, there comes a dire need to secure them. Although there are several Vulnerability Scanning Tools, however while developing these tools, developers need to test them. Moreover, they also need to know how well the Vulnerability Scanning tool is performing. As of now, there are little or no such vulnerable applications existing for testing such tools. There are Deliberately Vulnerable Applications existing in the market but they are not written with such an intent and hence lag extensibility, e.g. adding new vulnerabilities is quite difficult. Hence, developers resort to writing their own vulnerable applications, which usually causes productivity loss and the pain of reworking.
+OWASP VulnerableApp is a modular deliberately vulnerable application designed primarily for validating and benchmarking security scanners through reproducible test scenarios, while also supporting learning and experimentation.
 
-**VulnerableApp** is built keeping these factors in mind. This project is scalable, extensible, easier to integrate and easier to learn.
-As solving the above issue requires addition of various vulnerabilities, hence it becomes a very good platform to learn various security vulnerabilities.
+### 🔍 What makes it different
+Unlike traditional vulnerable applications, VulnerableApp is designed as a testable security ecosystem, not a static training app.
+
+### It enables:
+
+- 🔬 Scanner benchmarking for tools like Burp Suite, OWASP ZAP, and custom DAST engines
+- 🧩 Modular vulnerability design that allows new scenarios without modifying core services
+- 📊 Security regression testing across releases and environments
+- 🎯 Realistic attack surface simulation for modern web application patterns
+- 🧪 Deterministic vulnerability behavior for repeatable scanning results
+- 🧠 Built for security engineers, researchers, and educators
+
+### VulnerableApp helps you:
+
+- Validate how security tools behave across known vulnerability patterns
+- Build controlled environments for security experimentation
+- Extend vulnerability coverage as new attack techniques emerge
+- Run consistent, repeatable security testing pipelines
+
+### ⚙️ Why it matters
+
+Most vulnerable apps are:
+- Static
+- Hard to extend
+- Designed only for manual learning
+
+### VulnerableApp is built for:
+automation, reproducibility, and evolution
 
 ### User Interface ###
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
