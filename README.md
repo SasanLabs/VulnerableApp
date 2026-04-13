@@ -71,6 +71,18 @@ There are multiple ways in which you can contribute to the project:
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
 
+## Testing with Modern UI
+VulnerableApp-facade provides a modern UI for VulnerableApp. To test your local changes with the Modern UI:
+
+1. **Prerequisite**: Ensure you have Docker and Docker-Compose installed.
+2. **Run Testing Script**:
+   - On Windows: `.\scripts\testWithModernUI.bat`
+   - On Linux/Mac: `./scripts/testWithModernUI.sh`
+
+This script will build your local changes into a Docker image (`sasanlabs/owasp-vulnerableapp:unreleased`) and start the full stack (including facade, jsp, and php services) using `docker-compose.local.yml`.
+
+3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
+
 ## Technologies used
 - Java17
 - Spring Boot
@@ -86,18 +98,6 @@ JDBC Url: jdbc:h2:mem:testdb
 User Name: admin
 Password: hacker
 ```
-
-## Testing with Modern UI
-VulnerableApp-facade provides a modern UI for VulnerableApp. To test your local changes with the Modern UI:
-
-1. **Prerequisite**: Ensure you have Docker and Docker-Compose installed.
-2. **Run Testing Script**:
-   - On Windows: `.\scripts\testWithModernUI.bat`
-   - On Linux/Mac: `./scripts/testWithModernUI.sh`
-
-This script will build your local changes into a Docker image (`sasanlabs/owasp-vulnerableapp:unreleased`) and start the full stack (including facade, jsp, and php services) using `docker-compose.local.yml`.
-
-3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
 
 ## Currently handled Vulnerability types
 
