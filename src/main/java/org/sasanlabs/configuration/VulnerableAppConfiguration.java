@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +48,15 @@ public class VulnerableAppConfiguration {
     private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
             Arrays.asList(
                     "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
+
+    @Value("${app.mongodb.auth.admin.password}")
+    private String adminPassword;
+
+    @Value("${app.mongodb.auth.user1.password}")
+    private String user1Password;
+
+    @Value("${app.mongodb.auth.guest.password}")
+    private String guestPassword;
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -202,13 +212,15 @@ public class VulnerableAppConfiguration {
             }
             mongoTemplate.save(
                     new org.sasanlabs.service.vulnerability.nosql.User(
-                            "admin", "SecretPassword123", "Admin User"));
+                            "admin", adminPassword, "Admin User"));
+
             mongoTemplate.save(
                     new org.sasanlabs.service.vulnerability.nosql.User(
-                            "user1", "UserPassword456", "Normal User"));
+                            "user1", user1Password, "Normal User"));
+
             mongoTemplate.save(
                     new org.sasanlabs.service.vulnerability.nosql.User(
-                            "guest", "guest", "Guest User"));
+                            "guest", guestPassword, "Guest User"));
         };
     }
 }
