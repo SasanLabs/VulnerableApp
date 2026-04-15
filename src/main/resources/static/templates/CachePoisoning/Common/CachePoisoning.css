@@ -239,6 +239,39 @@
     line-height: 1.5;
 }
 
+.asset-preview-box {
+    margin: 12px 0;
+    padding: 10px;
+    background-color: rgba(231, 76, 60, 0.05);
+    border: 1px dashed #e74c3c;
+    border-radius: 4px;
+}
+
+.asset-preview-title {
+    color: #c0392b;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.asset-preview-iframe {
+    width: 100%;
+    height: 60px;
+    background: white;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+}
+
+.asset-preview-note {
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-top: 6px;
+    font-style: italic;
+}
+
 .cache-poisoning-response h3 {
     margin: 0 0 10px;
     font-size: 16px;
