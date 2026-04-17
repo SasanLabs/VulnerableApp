@@ -15,6 +15,7 @@ const CONFIGS = {
     responseInitial:
       "Use the controls above to poison the cache and verify whether the victim receives the attacker-controlled banner.",
     victimBtnText: "Send victim request",
+    attackerClears: ["bannerInput"],
   },
   LEVEL_2: {
     title: "Cache Poisoning - Level 2",
@@ -32,6 +33,7 @@ const CONFIGS = {
     responseInitial:
       "Poison the cache with a filtered banner, then send the victim request and confirm the same response is replayed from the shared cache.",
     victimBtnText: "Send victim request",
+    attackerClears: ["bannerInput"],
   },
   LEVEL_3: {
     title: "Cache Poisoning - Level 3",
@@ -53,6 +55,7 @@ const CONFIGS = {
     responseInitial:
       "Send the attacker request with a forwarded host, then repeat the victim request with the same banner key and no forwarded header.",
     victimBtnText: "Send victim request",
+    attackerClears: ["forwardedHostInput"],
   },
   LEVEL_4: {
     title: "Cache Poisoning - Level 4",
@@ -70,6 +73,7 @@ const CONFIGS = {
     responseInitial:
       "Personalize the attacker request with <code>demo_user</code>, then clear the cookie with the victim request and observe the reused shared-cache response.",
     victimBtnText: "Send victim request",
+    attackerClears: ["demoUserInput"],
   },
   LEVEL_5: {
     title: "Cache Poisoning - Level 5 (Secure)",
@@ -95,6 +99,7 @@ const CONFIGS = {
     responseInitial:
       "Send a personalized request first, then clear the cookie with a guest request. The response should stay fresh and should not reuse attacker-controlled forwarding data.",
     victimBtnText: "Send guest request",
+    attackerClears: ["demoUserInput"],
   },
 };
 
@@ -103,11 +108,13 @@ function getInputValue(id) {
   return el ? el.value.trim() : "";
 }
 
-function clearInputs() {
-  ["bannerInput", "forwardedHostInput", "demoUserInput"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.value = "";
-  });
+function clearInputs(ids) {
+  (ids || ["bannerInput", "forwardedHostInput", "demoUserInput"]).forEach(
+    (id) => {
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    }
+  );
 }
 
 function getNoBrowserCacheHeaders(headers = {}) {
@@ -195,8 +202,6 @@ function updateResetCacheButton(cacheStatus, cacheKey) {
 function fetchDataCallback(data, request) {
   updateDiagnostics(request);
   document.getElementById("cachePoisoningResponse").innerHTML = data.content;
-  // We don't clear inputs here to allow user to see what they sent,
-  // but some levels might prefer clearing. Let's keep it for now.
 }
 
 function initLevel() {
@@ -262,6 +267,9 @@ function initLevel() {
       true,
       getCustomHeaders()
     );
+    if (config.attackerClears) {
+      clearInputs(config.attackerClears);
+    }
   };
 
   document.getElementById(poisonBtnId).addEventListener("click", poisonHandler);
