@@ -1,11 +1,11 @@
 ---
 layout: default
-title: How To Use
+title: How To Use VulnerableApp
 nav_order: 3
 ---
 
 # How to run the project
- 
+
 ## Running the project
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:

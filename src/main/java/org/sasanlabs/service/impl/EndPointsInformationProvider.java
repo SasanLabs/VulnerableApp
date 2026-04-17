@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
@@ -237,8 +238,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                     .add(
                                             new VulnerabilityLevelHint(
                                                     facadeLevelVulnerabilityTypes,
-                                                    messageBundle.getString(
-                                                            attackVector.description(), null)));
+                                                    buildFacadeHintDescription(attackVector)));
                         }
                         facadeVulnerabilityDefinition
                                 .getLevelDescriptionSet()
@@ -249,5 +249,18 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             }
         }
         return vulnerabilityDefinitions;
+    }
+
+    private String buildFacadeHintDescription(AttackVector attackVector) {
+        String description = messageBundle.getString(attackVector.description(), null);
+        String payload = vulnerableAppProperties.getAttackVectorProperty(attackVector.payload());
+        String payloadText =
+                StringUtils.isBlank(payload)
+                        ? "Payload is not applicable for the attack vector."
+                        : payload;
+        return "<b>Description about the attack:</b> "
+                + description
+                + "<br/><b>Payload:</b> "
+                + payloadText;
     }
 }

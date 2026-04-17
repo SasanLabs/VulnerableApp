@@ -62,14 +62,14 @@ jib {
         image = 'sasanlabs/owasp-vulnerableapp:unreleased'
     }
     from {
-        image = 'eclipse-temurin:17-jre-alpine'
+        image = 'sasanlabs/owasp-vulnerableapp-base:latest'
     }
     // Set up multi-platform build only if the task is not :jibDockerBuild
     if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
         logger.info("JIB: Enabling Multi-Platform Images")
 
         from {
-            image = 'eclipse-temurin:17-jre'
+            image = 'sasanlabs/owasp-vulnerableapp-base:latest'
             platforms {
                 platform {
                     architecture = 'amd64'
@@ -154,6 +154,7 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
+    implementation 'org.springframework.security:spring-security-crypto'
 }
 
 test {
