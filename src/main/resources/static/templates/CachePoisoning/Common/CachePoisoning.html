@@ -1,0 +1,90 @@
+<div id="cachePoisoningContainer" class="cache-poisoning-shell">
+    <h3 id="cpTitle" class="cache-poisoning-title">Cache Poisoning</h3>
+    <p id="cpSubtitle" class="cache-poisoning-subtitle"></p>
+
+    <div class="cache-poisoning-layout">
+        <section class="cache-poisoning-block">
+            <h5>Controls</h5>
+            <div class="cache-poisoning-form">
+                <!-- Banner Input Row -->
+                <div id="bannerInputRow" class="cache-poisoning-entry-row hidden">
+                    <div class="cache-poisoning-field">
+                        <label id="bannerLabel" class="cache-poisoning-label" for="bannerInput"></label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="bannerInput"
+                            placeholder="" />
+                    </div>
+                    <div id="poisonCacheBtnContainerInline" class="cache-poisoning-action-group cache-poisoning-action-group-inline hidden">
+                        <button type="button" id="poisonCacheBtnInline">Send attacker request</button>
+                    </div>
+                </div>
+
+                <!-- Forwarded Host Input Row -->
+                <div id="forwardedHostInputRow" class="cache-poisoning-entry-row hidden">
+                    <div class="cache-poisoning-field">
+                        <label id="forwardedHostLabel" class="cache-poisoning-label" for="forwardedHostInput"></label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="forwardedHostInput"
+                            placeholder="" />
+                    </div>
+                </div>
+
+                <!-- Demo User Input Row -->
+                <div id="demoUserInputRow" class="cache-poisoning-entry-row hidden">
+                    <div class="cache-poisoning-field">
+                        <label id="demoUserLabel" class="cache-poisoning-label" for="demoUserInput"></label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="demoUserInput"
+                            placeholder="" />
+                    </div>
+                    <div id="poisonCacheBtnContainerDemo" class="cache-poisoning-action-group cache-poisoning-action-group-inline hidden">
+                        <button type="button" id="poisonCacheBtnDemo">Send attacker request</button>
+                    </div>
+                </div>
+
+                <!-- Global Actions -->
+                <div class="cache-poisoning-actions">
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
+                        <button type="button" id="resetCacheBtn" disabled>Reset Cache</button>
+                    </div>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-right">
+                        <button type="button" id="victimRequestBtn">Send victim request</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cache-poisoning-block">
+            <h5>Cache Signals</h5>
+            <div class="cache-poisoning-diagnostics">
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache status</span>
+                    <code id="cacheStatus" class="cache-status-indicator cache-status-neutral">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache key</span>
+                    <code id="cacheKey">-</code>
+                </div>
+                <div id="cacheControlCard" class="diagnostic-card hidden">
+                    <span class="diagnostic-label">Cache-Control</span>
+                    <code id="cacheControl">-</code>
+                </div>
+                <div id="varyHeaderCard" class="diagnostic-card hidden">
+                    <span class="diagnostic-label">Vary</span>
+                    <code id="varyHeader">-</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="cache-poisoning-block">
+            <h5>Observed Response</h5>
+            <div id="cachePoisoningResponse" class="cache-poisoning-output"></div>
+        </section>
+    </div>
+</div>
