@@ -28,6 +28,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
@@ -133,6 +134,8 @@ public class VulnerableAppConfiguration {
         populator.addScript(new ClassPathResource("scripts/SQLInjection/db/data.sql"));
         populator.addScript(new ClassPathResource("scripts/IDOR/db/schema.sql"));
         populator.addScript(new ClassPathResource("scripts/IDOR/db/data.sql"));
+        populator.addScript(new ClassPathResource("scripts/Authentication/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/Authentication/db/data.sql"));
         populator.setSeparator(";");
 
         DataSourceInitializer initializer = new DataSourceInitializer();
@@ -166,6 +169,11 @@ public class VulnerableAppConfiguration {
     public JdbcTemplate applicationJdbcTemplate(
             @Qualifier("applicationDataSource") DataSource applicationDataSource) {
         return new JdbcTemplate(applicationDataSource);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     /**

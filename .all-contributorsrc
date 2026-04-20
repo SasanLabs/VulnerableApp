@@ -1,0 +1,34 @@
+{
+  "projectName": "VulnerableApp",
+  "projectOwner": "SasanLabs",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "MixhizoR",
+      "name": "MixhizoR",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39201527?v=4",
+      "profile": "https://github.com/MixhizoR",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "commitType": "docs"
+}
