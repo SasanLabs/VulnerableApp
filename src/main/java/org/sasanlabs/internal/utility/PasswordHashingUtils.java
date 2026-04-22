@@ -1,6 +1,7 @@
 package org.sasanlabs.internal.utility;
 
 import org.springframework.security.crypto.password.Md4PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -59,6 +60,18 @@ public final class PasswordHashingUtils {
         } catch (NoSuchAlgorithmException exception) {
             throw new IllegalStateException("Failed to compute password hash", exception);
         }
+    }
+
+    public static String bCryptHash(int strength, String rawPassword){
+        if (4 > strength || strength > 31) throw new AssertionError("Bcrypt strength must be between 4 and 31");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+        return encoder.encode(rawPassword);
+    }
+
+    public static boolean isValidBcrypt(int strength, String rawPassword, String storedPassword) {
+        if (4 > strength || strength > 31) throw new AssertionError("Bcrypt strength must be between 4 and 31");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+        return encoder.matches(rawPassword, storedPassword);
     }
 
     public static String bytesToHex(byte[] data) {
