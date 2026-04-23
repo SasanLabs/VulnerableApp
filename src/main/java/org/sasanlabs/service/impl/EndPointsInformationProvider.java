@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.AttackVectorResponseBean;
+import org.sasanlabs.beans.ChallengeCardResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
@@ -18,6 +19,7 @@ import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
+import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
@@ -85,6 +87,34 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         levelResponseBean.setVariant(vulnLevel.variant());
                         levelResponseBean.setHtmlTemplate(vulnLevel.htmlTemplate());
                         levelResponseBean.setRequestMethod(vulnLevel.requestMethod());
+                        ChallengeCard[] challengeCards =
+                                method.getAnnotationsByType(ChallengeCard.class);
+                        for (ChallengeCard card : challengeCards) {
+                            List<ChallengeCardResponseBean.HintResponseBean> hintBeans =
+                                    new ArrayList<>();
+                            for (ChallengeCard.Hint hint : card.hints()) {
+                                hintBeans.add(
+                                        new ChallengeCardResponseBean.HintResponseBean(
+                                                hint.order(),
+                                                messageBundle.getString(hint.text(), null)));
+                            }
+
+                            ChallengeCardResponseBean.PayloadResponseBean payloadBean =
+                                    new ChallengeCardResponseBean.PayloadResponseBean(
+                                            messageBundle.getString(
+                                                    card.payload().description(), null),
+                                            vulnerableAppProperties.getAttackVectorProperty(
+                                                    card.payload().value()));
+
+                            levelResponseBean
+                                    .getChallengeCards()
+                                    .add(
+                                            new ChallengeCardResponseBean(
+                                                    messageBundle.getString(
+                                                            card.challengeText(), null),
+                                                    hintBeans,
+                                                    payloadBean));
+                        }
                         for (AttackVector attackVector : attackVectors) {
                             levelResponseBean
                                     .getAttackVectorResponseBeans()
