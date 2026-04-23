@@ -126,7 +126,7 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
         return challengeCards;
     }
 
-    public void setChallengeCards (List<ChallengeCardResponseBean> challengeCards) {
+    public void setChallengeCards(List<ChallengeCardResponseBean> challengeCards) {
         this.challengeCards = challengeCards;
     }
 }

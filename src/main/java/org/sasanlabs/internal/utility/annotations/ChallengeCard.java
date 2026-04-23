@@ -7,42 +7,38 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to define learning challenges for vulnerabilities.
- * * @author Aryan mr.aryankaushal@gmail.com
- * */
+ * Annotation to define learning challenges for vulnerabilities. * @author Aryan
+ * mr.aryankaushal@gmail.com
+ */
 @Repeatable(ChallengeCard.ChallengeCards.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
 public @interface ChallengeCard {
-    
-    String ChallengeText();
+
+    String challengeText();
 
     Hint[] hints() default {};
 
-    Payload[] payload();
+    Payload payload();
 
-    /**
-     * Container annotation for making {@link ChallengeCard} repeatable.
-     */
+    /** Container annotation for making {@link ChallengeCard} repeatable. */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
     public @interface ChallengeCards {
         ChallengeCard[] value();
     }
 
-    /**
-     * Defines a hint for the challenge.
-     */
+    /** Defines a hint for the challenge. */
     public @interface Hint {
         int order();
+
         String text();
     }
 
-    /**
-     * Defines the exploit payload for the challenge.
-     */
+    /** Defines the exploit payload for the challenge. */
     public @interface Payload {
         String description();
+
         String value();
     }
 }

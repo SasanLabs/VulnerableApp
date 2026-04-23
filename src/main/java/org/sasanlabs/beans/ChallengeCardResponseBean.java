@@ -4,18 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * This class is the response bean for the ChallengeCard annotation.
- * It provides the detailed learning challenges, hints, and payloads
- * associated with a specific vulnerability level.
+ * This class is the response bean for the ChallengeCard annotation. It provides the detailed
+ * learning challenges, hints, and payloads associated with a specific vulnerability level.
  *
- * <p>Note: As these beans are returned to the UI, they expect that all 
- * the labels/property keys are resolved to their respective values via 
- * the MessageBundle.
+ * <p>Note: As these beans are returned to the UI, they expect that all the labels/property keys are
+ * resolved to their respective values via the MessageBundle.
  *
  * @author Aryan mr.aryankaushal@gmail.com
  */
 public class ChallengeCardResponseBean {
-    
+
     @JsonProperty("ChallengeText")
     private String challengeText;
 
@@ -25,7 +23,8 @@ public class ChallengeCardResponseBean {
     @JsonProperty("payload")
     private PayloadResponseBean payload;
 
-    public ChallengeCardResponseBean(String challengeText, List<HintResponseBean> hints, PayloadResponseBean payload) {
+    public ChallengeCardResponseBean(
+            String challengeText, List<HintResponseBean> hints, PayloadResponseBean payload) {
         this.challengeText = challengeText;
         this.hints = hints;
         this.payload = payload;
@@ -43,11 +42,9 @@ public class ChallengeCardResponseBean {
         return payload;
     }
 
-    /**
-     * Response bean for the Hint within a ChallengeCard.
-     */
+    /** Response bean for the Hint within a ChallengeCard. */
     public static class HintResponseBean {
-        
+
         @JsonProperty("order")
         private int order;
 
@@ -69,7 +66,7 @@ public class ChallengeCardResponseBean {
     }
 
     public static class PayloadResponseBean {
-        
+
         @JsonProperty("description")
         private String description;
 
