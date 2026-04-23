@@ -22,14 +22,23 @@ jobs:
           script: |
             const username = context.payload.pull_request.user.login;
             const prNumber = context.payload.pull_request.number;
+            console.log(`🔍 Checking contributor: ${username}`);
+            console.log(`📦 PR Number: ${prNumber}`);
 
+            // ⏳ Delay to handle GitHub search indexing lag
+            console.log("⏳ Waiting 20 seconds for GitHub search index to update...");
+            await new Promise(resolve => setTimeout(resolve, 20000));
+            
             const { data: labels } = await github.rest.issues.listLabelsOnIssue ({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: prNumber
             });
+            console.log(`🏷️ Labels on PR: ${labels.map(l => l.name).join(", ") || "None"}`);
             const alreadyTagged = labels.some(label => label.name === 'first-time-contributor');
+            
             if(alreadyTagged) {
+              console.log("⚠️ Already tagged as first-time contributor. Skipping...");
               core.setOutput("first_time", "false");
               return ;
             }
