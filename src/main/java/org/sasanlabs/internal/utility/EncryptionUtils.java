@@ -58,7 +58,8 @@ public class EncryptionUtils {
 
             return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException("Error generating AES key from password: " + e.getMessage(), e);
+            throw new RuntimeException(
+                    "Error generating AES key from password: " + e);
         }
     }
 
@@ -72,11 +73,14 @@ public class EncryptionUtils {
             return java.util.Base64.getEncoder().encodeToString(encrypted);
 
         } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
-            throw new RuntimeException("Critical: Cryptographic configuration error", e);
+            throw new RuntimeException(
+                    "Critical: Cryptographic configuration error", e);
         } catch (InvalidKeyException e) {
-            throw new RuntimeException("The provided key is invalid for AES encryption", e);
+            throw new RuntimeException(
+                    "The provided key is invalid for AES encryption", e);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            throw new RuntimeException("Encryption failed due to block size or padding issues", e);
+            throw new RuntimeException(
+                    "Encryption failed due to block size or padding issues", e);
         }
     }
 }
