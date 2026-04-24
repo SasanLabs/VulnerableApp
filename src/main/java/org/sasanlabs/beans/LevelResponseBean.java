@@ -40,6 +40,9 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     @JsonProperty("AttackVectors")
     private List<AttackVectorResponseBean> attackVectorResponseBeans = new ArrayList<>();
 
+    @JsonProperty("ChallengeCard")
+    private List<ChallengeCardResponseBean> challengeCards = new ArrayList<>();
+
     public String getLevel() {
         return level;
     }
@@ -117,5 +120,13 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
     public int compareTo(LevelResponseBean levelResponseBean) {
         return LevelConstants.getOrdinal(this.level)
                 - LevelConstants.getOrdinal(levelResponseBean.getLevel());
+    }
+
+    public List<ChallengeCardResponseBean> getChallengeCards() {
+        return challengeCards;
+    }
+
+    public void setChallengeCards(List<ChallengeCardResponseBean> challengeCards) {
+        this.challengeCards = challengeCards;
     }
 }

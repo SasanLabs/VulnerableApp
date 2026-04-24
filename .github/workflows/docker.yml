@@ -4,6 +4,10 @@ name: Create Tag and Push Image to DockerHub
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'metrics/**'
+      - '**/*.md'
+      - '*.md'
 
 jobs:
   build-and-push:

@@ -35,3 +35,4 @@ build/
 .classpath
 .settings/
 .vscode/
+.DS_Store
