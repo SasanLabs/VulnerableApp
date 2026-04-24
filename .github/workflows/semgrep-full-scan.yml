@@ -1,0 +1,54 @@
+name: Full Repository Security Scan (Semgrep)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  semgrep-scan:
+    name: Semgrep Full Repo Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout full repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Python (required for Semgrep)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Install Semgrep
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      # 4. Run Semgrep full repository scan (Java focused)
+      - name: Run Semgrep (Full Repo)
+        run: |
+          semgrep scan \
+            --config p/auto \
+            --config p/owasp-top-ten \
+            --config p/security-audit \
+            --json \
+            --output semgrep-results.json
+
+      # 5. Print summary to logs (PoC Only )
+      - name: Print Scan Summary
+        run: |
+          echo "===== Semgrep Findings Summary ====="
+          jq -r '.results[] | "\(.extra.severity) | \(.check_id) | \(.path):\(.start.line) | \(.extra.message)\n"' semgrep-results.json > semgrep-lines.txt
+          cat semgrep-lines.txt
+          echo "==================================="
+
+      # 6. Upload results as artifact
+      - name: Upload One-line Findings
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-one-line
+          path: semgrep-lines.txt
