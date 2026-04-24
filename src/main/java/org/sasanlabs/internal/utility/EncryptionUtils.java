@@ -8,10 +8,22 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Base64;
+
+/**
+ * This class contains methods related to encryption.
+ *
+ */
 
 public class EncryptionUtils {
+
+    private EncryptionUtils() {}
+
     /**
-     * Caesar Cipher shifts alphabetic characters positions to the right overflowing to the beginning of the alphabet.
+     * INSECURE:
+     * Caesar Cipher shifts alphabetic characters positions to the right overflowing to the beginning of the alphabet. 'z' will shift to 'a' and so on.
+     * @param rawPassword plaintext password to encrypt
+     * @param shift number of positions to shift each alphabetic character to the right
      */
     public static String caesarCipher(String rawPassword, int shift){
         StringBuilder builder = new StringBuilder();
@@ -24,6 +36,16 @@ public class EncryptionUtils {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * INSECURE:
+     * Custom cipher that obscures the texts by reversing it then Base64 encodes it.
+     * @param rawPassword password to encrypt
+     */
+    public static String customCipher(String rawPassword){
+        String reversed = new StringBuilder(rawPassword).reverse().toString();
+        return Base64.getEncoder().encodeToString(reversed.getBytes());
     }
 
     public static SecretKey getKeyFromPassword(String password) {
