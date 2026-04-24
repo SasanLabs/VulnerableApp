@@ -1,26 +1,24 @@
 package org.sasanlabs.internal.utility;
 
-import org.springframework.security.crypto.password.Md4PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.Md4PasswordEncoder;
 
+/** Utility class for various password hashing algorithms. */
 public final class PasswordHashingUtils {
 
     private static final String HASH_SEPARATOR = ":";
     private static final String HASH_ALGORITHM = "SHA-256";
-
-    //
     private static final Md4PasswordEncoder MD4_ENCODER = new Md4PasswordEncoder();
 
     private PasswordHashingUtils() {}
 
-    public static String md4Hash(String rawPassword){
-       return MD4_ENCODER.encode(rawPassword);
+    public static String md4Hash(String rawPassword) {
+        return MD4_ENCODER.encode(rawPassword);
     }
 
     public static boolean isValidSaltedSha256(String rawPassword, String storedPassword) {
@@ -41,31 +39,34 @@ public final class PasswordHashingUtils {
     public static String sha256Hex(String salt, String rawPassword) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
-            byte[] digest =
-                    messageDigest.digest((salt + rawPassword).getBytes(StandardCharsets.UTF_8));
+            byte[] digest = messageDigest.digest((salt + rawPassword).getBytes(StandardCharsets.UTF_8));
             return bytesToHex(digest);
         } catch (NoSuchAlgorithmException exception) {
             throw new IllegalStateException("Failed to compute password hash", exception);
         }
     }
 
-    public static String bCryptHash(int strength, String rawPassword){
-        if (4 > strength || strength > 31) throw new AssertionError("Bcrypt strength must be between 4 and 31");
+    public static String bCryptHash(int strength, String rawPassword) {
+        if (4 > strength || strength > 31) {
+            throw new AssertionError("Bcrypt strength must be between 4 and 31");
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
         return encoder.encode(rawPassword);
     }
 
     public static boolean isValidBcrypt(int strength, String rawPassword, String storedPassword) {
-        if (4 > strength || strength > 31) throw new AssertionError("Bcrypt strength must be between 4 and 31");
+        if (4 > strength || strength > 31) {
+            throw new AssertionError("Bcrypt strength must be between 4 and 31");
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
         return encoder.matches(rawPassword, storedPassword);
     }
 
-
     /**
      * Computes an LM hash for the given password.
      *
-     * <p>Algorithm based on the LAN Manager specification:
+     * <p>Algorithm based on the LAN Manager specification.
+     *
      * @see <a href="https://en.wikipedia.org/wiki/LAN_Manager">Wikipedia: LAN Manager</a>
      */
     public static String lmHash(String rawPassword) {
@@ -100,7 +101,10 @@ public final class PasswordHashingUtils {
         key8[5] = (byte) (((key7[4] & 0x1F) << 2) | (key7[5] >> 6));
         key8[6] = (byte) (((key7[5] & 0x3F) << 1) | (key7[6] >> 7));
         key8[7] = (byte) (key7[6] & 0x7F);
-        for (int i = 0; i < 8; i++) key8[i] = (byte) (key8[i] << 1);
+
+        for (int i = 0; i < 8; i++) {
+            key8[i] = (byte) (key8[i] << 1);
+        }
 
         Cipher des = Cipher.getInstance("DES/ECB/NoPadding");
         des.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key8, "DES"));
