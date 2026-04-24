@@ -105,7 +105,6 @@ tasks.register('GenerateSampleVulnerability'){
 	    }
 	    println 'Copy of html/css/js files is completed'
 	    println 'SampleVulnerability is generated !!!'
-	    enabled = false
 	}
 }
 
@@ -154,6 +153,9 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
+
+    // https://mvnrepository.com/artifact/com.graphql-java/graphql-java
+    implementation group: 'com.graphql-java', name: 'graphql-java', version: '21.5'
 }
 
 test {

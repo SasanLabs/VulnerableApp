@@ -1,0 +1,21 @@
+type Query {
+    me: User
+    user(id: Int!): User
+    order(id: Int!): Order
+    myOrders: [Order!]
+}
+
+type User {
+    id: Int!
+    username: String
+    email: String
+    salary: Int
+    role: String
+}
+
+type Order {
+    id: Int!
+    userId: Int!
+    item: String
+    amount: Int
+}

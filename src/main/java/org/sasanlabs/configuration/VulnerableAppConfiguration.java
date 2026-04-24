@@ -133,6 +133,8 @@ public class VulnerableAppConfiguration {
         populator.addScript(new ClassPathResource("scripts/SQLInjection/db/data.sql"));
         populator.addScript(new ClassPathResource("scripts/IDOR/db/schema.sql"));
         populator.addScript(new ClassPathResource("scripts/IDOR/db/data.sql"));
+        populator.addScript(new ClassPathResource("scripts/GraphQL/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/GraphQL/db/data.sql"));
         populator.setSeparator(";");
 
         DataSourceInitializer initializer = new DataSourceInitializer();

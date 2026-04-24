@@ -1,0 +1,18 @@
+type Query {
+    me: User
+    user(id: Int!): User
+    adminReport: [User!]
+}
+
+type Mutation {
+    updateUserRole(id: Int!, role: String!): User
+    deleteUser(id: Int!): Boolean
+}
+
+type User {
+    id: Int!
+    username: String
+    email: String
+    salary: Int
+    role: String
+}
