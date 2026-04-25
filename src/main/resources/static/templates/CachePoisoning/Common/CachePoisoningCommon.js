@@ -19,16 +19,8 @@ export function getNoBrowserCacheHeaders(headers = {}) {
 }
 
 export function getRequestUrl(options = {}) {
-  const {
-    bannerInputId = "bannerInput",
-    resetCache = false,
-    browserCacheBust = true,
-  } = options;
+  const { bannerInputId = "bannerInput", browserCacheBust = true } = options;
   const queryParams = new URLSearchParams();
-
-  if (resetCache) {
-    queryParams.set("resetCache", "true");
-  }
 
   const banner = bannerInputId ? getInputValue(bannerInputId) : "";
   if (banner) {
@@ -45,6 +37,22 @@ export function getRequestUrl(options = {}) {
   const queryString = queryParams.toString();
   const url = getUrlForVulnerabilityLevel();
   return queryString ? url + "?" + queryString : url;
+}
+
+export function clearCacheAndFetchFreshResponse() {
+  const clearCacheUrl =
+    getUrlForVulnerability() +
+    "/clearCache" +
+    "?level=" +
+    encodeURIComponent(getCurrentVulnerabilityLevel());
+
+  doPostAjaxCall(
+    fetchDataCallback,
+    clearCacheUrl,
+    true,
+    null,
+    getNoBrowserCacheHeaders()
+  );
 }
 
 export function getHeadersWithForwardedHost(inputId = "forwardedHostInput") {

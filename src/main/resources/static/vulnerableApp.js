@@ -210,6 +210,10 @@ function back() {
   clearSelected();
 }
 
+function getUrlForVulnerability() {
+  return "/VulnerableApp/" + vulnerabilitySelected;
+}
+
 function getUrlForVulnerabilityLevel() {
   return (
     "/VulnerableApp/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected

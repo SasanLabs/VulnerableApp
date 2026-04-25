@@ -1,4 +1,5 @@
 import {
+  clearCacheAndFetchFreshResponse,
   clearInputs,
   fetchDataCallback,
   getHeadersWithForwardedHost,
@@ -8,28 +9,26 @@ import {
   setDemoUserCookie,
 } from "../Common/CachePoisoningCommon.js";
 
-document.getElementById("poisonCacheBtn").addEventListener("click", function () {
-  const demoUser = getInputValue("demoUserInput");
-  if (demoUser) {
-    setDemoUserCookie(demoUser);
-  }
+document
+  .getElementById("poisonCacheBtn")
+  .addEventListener("click", function () {
+    const demoUser = getInputValue("demoUserInput");
+    if (demoUser) {
+      setDemoUserCookie(demoUser);
+    }
 
-  doGetAjaxCall(
-    fetchDataCallback,
-    getRequestUrl(),
-    true,
-    getHeadersWithForwardedHost()
-  );
-  clearInputs(["demoUserInput"]);
-});
+    doGetAjaxCall(
+      fetchDataCallback,
+      getRequestUrl(),
+      true,
+      getHeadersWithForwardedHost()
+    );
+    clearInputs(["demoUserInput"]);
+  });
 
 document.getElementById("resetCacheBtn").addEventListener("click", function () {
-  doGetAjaxCall(
-    fetchDataCallback,
-    getRequestUrl({ resetCache: true }),
-    true,
-    getNoBrowserCacheHeaders()
-  );
+  setDemoUserCookie(null);
+  clearCacheAndFetchFreshResponse();
 });
 
 document
