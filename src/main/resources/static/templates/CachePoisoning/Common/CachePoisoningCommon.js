@@ -93,7 +93,6 @@ function updateDiagnostics(request) {
   const varyHeaderEl = document.getElementById("varyHeader");
   if (varyHeaderEl) varyHeaderEl.textContent = vary;
 
-  updateResetCacheButton(cacheStatus, cacheKey);
 }
 
 function updateCacheStatusIndicator(cacheStatus) {
@@ -114,9 +113,3 @@ function updateCacheStatusIndicator(cacheStatus) {
   else el.classList.add("cache-status-neutral");
 }
 
-function updateResetCacheButton(cacheStatus, cacheKey) {
-  const btn = document.getElementById("resetCacheBtn");
-  const hasCache =
-    cacheKey !== "-" && cacheStatus !== "-" && cacheStatus !== "";
-  btn.disabled = !hasCache;
-}
