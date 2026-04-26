@@ -210,6 +210,10 @@ function back() {
   clearSelected();
 }
 
+function getUrlForVulnerability() {
+  return "/VulnerableApp/" + vulnerabilitySelected;
+}
+
 function getUrlForVulnerabilityLevel() {
   return (
     "/VulnerableApp/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected
@@ -225,9 +229,9 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
     // XMLHttpRequest.DONE == 4
     if (xmlHttpRequest.status == 200 || xmlHttpRequest.status == 401) {
       if (isJson) {
-        callBack(JSON.parse(xmlHttpRequest.responseText));
+        callBack(JSON.parse(xmlHttpRequest.responseText), xmlHttpRequest);
       } else {
-        callBack(xmlHttpRequest.responseText);
+        callBack(xmlHttpRequest.responseText, xmlHttpRequest);
       }
     } else if (xmlHttpRequest.status == 400) {
       alert("There was an error 400");
