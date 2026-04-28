@@ -30,6 +30,14 @@
                         <button type="button" id="victimRequestBtn">Send victim request</button>
                     </div>
                 </div>
+
+                <div class="cache-poisoning-toggle-row">
+                    <label class="cache-poisoning-toggle-label">
+                        <input type="checkbox" id="browserCacheToggle" checked />
+                        Browser cache
+                    </label>
+                    <span class="cache-poisoning-toggle-hint">Off <code>s-maxage</code> only</span>
+                </div>
             </div>
         </section>
 
@@ -43,6 +51,10 @@
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache key</span>
                     <code id="cacheKey">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache-Control</span>
+                    <code id="cacheControl">-</code>
                 </div>
             </div>
         </section>

@@ -160,6 +160,29 @@
     text-align: center;
 }
 
+.cache-poisoning-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    font-size: 12px;
+    flex-wrap: wrap;
+}
+
+.cache-poisoning-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.cache-poisoning-toggle-hint {
+    color: #555;
+    font-style: italic;
+}
+
 .cache-poisoning-action-group button:disabled {
     background: #c7c7c7;
     color: #555;

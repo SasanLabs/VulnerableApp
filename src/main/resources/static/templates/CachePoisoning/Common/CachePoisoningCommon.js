@@ -10,16 +10,13 @@ export function clearInputs(ids) {
   });
 }
 
-export function getNoBrowserCacheHeaders(headers = {}) {
-  return {
-    ...headers,
-    "Cache-Control": "no-store, no-cache, max-age=0",
-    Pragma: "no-cache",
-  };
+export function getBrowserCacheEnabled() {
+  const el = document.getElementById("browserCacheToggle");
+  return el ? el.checked : true;
 }
 
 export function getRequestUrl(options = {}) {
-  const { bannerInputId = "bannerInput", browserCacheBust = true } = options;
+  const { bannerInputId = "bannerInput" } = options;
   const queryParams = new URLSearchParams();
 
   const banner = bannerInputId ? getInputValue(bannerInputId) : "";
@@ -27,12 +24,7 @@ export function getRequestUrl(options = {}) {
     queryParams.set("banner", banner);
   }
 
-  if (browserCacheBust) {
-    queryParams.set(
-      "_browserCacheBust",
-      `${Date.now()}-${Math.random().toString(16).slice(2)}`
-    );
-  }
+  queryParams.set("browserCache", String(getBrowserCacheEnabled()));
 
   const queryString = queryParams.toString();
   const url = getUrlForVulnerabilityLevel();
@@ -46,22 +38,12 @@ export function clearCacheAndFetchFreshResponse() {
     "?level=" +
     encodeURIComponent(getCurrentVulnerabilityLevel());
 
-  doPostAjaxCall(
-    fetchDataCallback,
-    clearCacheUrl,
-    true,
-    null,
-    getNoBrowserCacheHeaders()
-  );
+  doPostAjaxCall(fetchDataCallback, clearCacheUrl, true, null, {});
 }
 
 export function getHeadersWithForwardedHost(inputId = "forwardedHostInput") {
-  const headers = getNoBrowserCacheHeaders();
   const forwardedHost = getInputValue(inputId);
-  if (forwardedHost) {
-    headers["X-Forwarded-Host"] = forwardedHost;
-  }
-  return headers;
+  return forwardedHost ? { "X-Forwarded-Host": forwardedHost } : {};
 }
 
 export function setDemoUserCookie(value) {
@@ -92,7 +74,6 @@ function updateDiagnostics(request) {
 
   const varyHeaderEl = document.getElementById("varyHeader");
   if (varyHeaderEl) varyHeaderEl.textContent = vary;
-
 }
 
 function updateCacheStatusIndicator(cacheStatus) {
@@ -112,4 +93,3 @@ function updateCacheStatusIndicator(cacheStatus) {
   else if (status === "MISS") el.classList.add("cache-status-miss");
   else el.classList.add("cache-status-neutral");
 }
-

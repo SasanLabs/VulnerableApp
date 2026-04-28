@@ -4,7 +4,6 @@ import {
   fetchDataCallback,
   getHeadersWithForwardedHost,
   getInputValue,
-  getNoBrowserCacheHeaders,
   getRequestUrl,
   setDemoUserCookie,
 } from "../Common/CachePoisoningCommon.js";
@@ -35,10 +34,5 @@ document
   .getElementById("victimRequestBtn")
   .addEventListener("click", function () {
     setDemoUserCookie(null);
-    doGetAjaxCall(
-      fetchDataCallback,
-      getRequestUrl(),
-      true,
-      getNoBrowserCacheHeaders()
-    );
+    doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
   });

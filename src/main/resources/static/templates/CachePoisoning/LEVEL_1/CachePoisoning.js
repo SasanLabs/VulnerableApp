@@ -2,19 +2,13 @@ import {
   clearCacheAndFetchFreshResponse,
   clearInputs,
   fetchDataCallback,
-  getNoBrowserCacheHeaders,
   getRequestUrl,
 } from "../Common/CachePoisoningCommon.js";
 
 document
   .getElementById("poisonCacheBtn")
   .addEventListener("click", function () {
-    doGetAjaxCall(
-      fetchDataCallback,
-      getRequestUrl(),
-      true,
-      getNoBrowserCacheHeaders()
-    );
+    doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
     clearInputs(["bannerInput"]);
   });
 
@@ -29,6 +23,6 @@ document
       fetchDataCallback,
       getRequestUrl({ bannerInputId: null }),
       true,
-      getNoBrowserCacheHeaders()
+      {}
     );
   });

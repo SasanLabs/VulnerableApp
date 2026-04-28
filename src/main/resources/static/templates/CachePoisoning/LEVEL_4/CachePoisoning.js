@@ -3,7 +3,6 @@ import {
   clearInputs,
   fetchDataCallback,
   getInputValue,
-  getNoBrowserCacheHeaders,
   getRequestUrl,
   setDemoUserCookie,
 } from "../Common/CachePoisoningCommon.js";
@@ -15,12 +14,11 @@ document
     if (demoUser) {
       setDemoUserCookie(demoUser);
     }
-
     doGetAjaxCall(
       fetchDataCallback,
       getRequestUrl({ bannerInputId: null }),
       true,
-      getNoBrowserCacheHeaders()
+      {}
     );
     clearInputs(["demoUserInput"]);
   });
@@ -38,6 +36,6 @@ document
       fetchDataCallback,
       getRequestUrl({ bannerInputId: null }),
       true,
-      getNoBrowserCacheHeaders()
+      {}
     );
   });

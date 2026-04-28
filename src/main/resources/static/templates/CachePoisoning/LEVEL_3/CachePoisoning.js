@@ -3,7 +3,6 @@ import {
   clearInputs,
   fetchDataCallback,
   getHeadersWithForwardedHost,
-  getNoBrowserCacheHeaders,
   getRequestUrl,
 } from "../Common/CachePoisoningCommon.js";
 
@@ -26,10 +25,5 @@ document.getElementById("resetCacheBtn").addEventListener("click", function () {
 document
   .getElementById("victimRequestBtn")
   .addEventListener("click", function () {
-    doGetAjaxCall(
-      fetchDataCallback,
-      getRequestUrl(),
-      true,
-      getNoBrowserCacheHeaders()
-    );
+    doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
   });
