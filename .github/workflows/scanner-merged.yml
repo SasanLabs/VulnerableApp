@@ -1,0 +1,108 @@
+name: Security Scan (Gitleaks + Semgrep – Human Readable)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -------------------------
+      # 1. Checkout
+      # -------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # -------------------------
+      # 2. Install tools
+      # -------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # =========================
+      # 3. GITLEAKS (Secrets)
+      # =========================
+      - name: Run Gitleaks (Full Repo)
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --source . --report-format sarif --report-path gitleaks-results.sarif
+
+      - name: Gitleaks – Human Readable Output
+        run: |
+          echo "===================================="
+          echo "🔐 GITLEAKS – EXPOSED SECRETS REPORT"
+          echo "===================================="
+          echo ""
+
+          if [ -s gitleaks-results.sarif ]; then
+            jq -r '
+              .runs[0].results[] |
+              "Issue Type : Exposed Secret (" + (.ruleId | ascii_upcase) + ")\n" +
+              "Location   : " +
+              .locations[0].physicalLocation.artifactLocation.uri +
+              " (line " +
+              (.locations[0].physicalLocation.region.startLine | tostring) +
+              ")\n" +
+              "Risk       : Hardcoded secrets can allow unauthorized access.\n"
+            ' gitleaks-results.sarif > gitleaks-readable.txt
+
+            cat gitleaks-readable.txt
+          else
+            echo "✅ No exposed secrets found."
+          fi
+
+      - name: Upload Gitleaks Human Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-readable-report
+          path: gitleaks-readable.txt
+
+      # =========================
+      # 4. SEMGREP (Code Issues)
+      # =========================
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      - name: Run Semgrep (Full Repo)
+        run: |
+          semgrep scan \
+            --config p/auto \
+            --config p/owasp-top-ten \
+            --config p/security-audit \
+            --json \
+            --output semgrep-results.json
+
+      - name: Semgrep – Human Readable Output
+        run: |
+          echo "===================================="
+          echo "🧠 SEMGREP – CODE SECURITY FINDINGS"
+          echo "===================================="
+          echo ""
+
+          jq -r '
+            .results[] |
+            "Issue Type : " + (.check_id | split(".")[-1] | ascii_upcase) + "\n" +
+            "Location   : " + .path +
+            " (line " + (.start.line | tostring) + ")\n" +
+            "Risk       : " + .extra.message + "\n"
+          ' semgrep-results.json > semgrep-readable.txt
+
+          cat semgrep-readable.txt
+
+      - name: Upload Semgrep Human Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-readable-report
+          path: semgrep-readable.txt
