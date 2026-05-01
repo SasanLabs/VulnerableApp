@@ -54,6 +54,15 @@ method: Type of HTTP method for the endpoint like GET or POST
 vulnerabilityTypes: List of vulnerability types present in the endpoint to validate if scanner is fully finding all the vulnerabilities in an endpoint.
 ```
 Note: [VulnerabilityTypes](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java) are custom values as no single standard represent all the Vulnerabilities. However we are working on creating a mapping between VulnerabilityType and CWE/WASC.
+
+## Benchmarking your scanner
+VulnerableApp ships a comparator that grades a scanner's findings against the `/scanner` ground truth and writes a coverage / missed / false-positive report.
+- Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
+- Request body: tool-agnostic JSON of `{ tool, findings: [ { url, type } ] }`
+- Response body and `benchmarks/<tool>-results.json` on disk: coverage report
+
+Running the scanner itself is out of scope — you supply the JSON. See [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) for the full input/output schema, canonical vulnerability type vocabulary, and a `curl` example.
+
 ## Details about ExpectedIssues.csv
 [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) contains following information which SAST tools can leverage:
 ```

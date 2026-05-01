@@ -36,3 +36,6 @@ build/
 .settings/
 .vscode/
 .DS_Store
+
+# Runtime output of /scanner/benchmark — sample inputs and README are tracked
+/benchmarks/*-results.json
