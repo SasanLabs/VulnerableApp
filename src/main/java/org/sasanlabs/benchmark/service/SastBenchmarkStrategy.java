@@ -67,10 +67,17 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             if (keys.isEmpty()) {
                 continue;
             }
-            String primary = keys.get(0);
-            if (!primaryKeysSeen.add(primary)) {
+            boolean alreadySeen = false;
+            for (String key : keys) {
+                if (primaryKeysSeen.contains(key)) {
+                    alreadySeen = true;
+                    break;
+                }
+            }
+            if (alreadySeen) {
                 continue;
             }
+            primaryKeysSeen.addAll(keys);
             uniqueFindings.add(f);
             for (String key : keys) {
                 foundByKey.putIfAbsent(key, f);

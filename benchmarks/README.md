@@ -59,7 +59,7 @@ The full set lives in
 [`VulnerabilityType.java`](../src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java);
 common values:
 
-```
+```text
 BLIND_SQL_INJECTION, ERROR_BASED_SQL_INJECTION, UNION_BASED_SQL_INJECTION,
 REFLECTED_XSS, PERSISTENT_XSS, DOM_BASED_XSS,
 COMMAND_INJECTION, PATH_TRAVERSAL, HEADER_INJECTION, XXE,

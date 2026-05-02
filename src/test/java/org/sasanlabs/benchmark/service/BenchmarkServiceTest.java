@@ -55,11 +55,14 @@ class BenchmarkServiceTest {
 
     @Test
     void omittedScanType_defaultsToDast() throws Exception {
+        BenchmarkResult dastResult = result("ZAP");
         ScannerFindings input = new ScannerFindings("ZAP", Collections.emptyList());
-        when(dastStrategy.compare(input)).thenReturn(result("ZAP"));
+        when(dastStrategy.compare(input)).thenReturn(dastResult);
 
-        service.compare(input);
+        BenchmarkResult out = service.compare(input);
 
+        assertThat(out).isSameAs(dastResult);
+        verify(dastStrategy).compare(input);
         verify(sastStrategy, never()).compare(input);
     }
 

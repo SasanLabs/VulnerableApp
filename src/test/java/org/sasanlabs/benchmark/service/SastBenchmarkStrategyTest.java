@@ -150,6 +150,21 @@ class SastBenchmarkStrategyTest {
     }
 
     @Test
+    void duplicateFindingsWithDifferingOptionalFields_areCountedOnce() throws Exception {
+        when(provider.getExpectedIssues()).thenReturn(Collections.emptyList());
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep",
+                                sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection"),
+                                sastFinding(SQLI_FILE, 56, null, "SQL Injection")));
+
+        assertThat(result.getFalsePositives()).isEqualTo(1);
+        assertThat(result.getFalsePositiveItems()).hasSize(1);
+    }
+
+    @Test
     void emptyExpected_allFindingsBecomeFalsePositives() throws Exception {
         when(provider.getExpectedIssues()).thenReturn(Collections.emptyList());
 

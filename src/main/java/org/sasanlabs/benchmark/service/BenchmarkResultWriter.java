@@ -3,9 +3,11 @@ package org.sasanlabs.benchmark.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,8 +40,27 @@ public class BenchmarkResultWriter {
         Files.createDirectories(dir);
         String fileName = sanitizeToolName(result.getTool()) + "-results.json";
         Path target = dir.resolve(fileName);
-        OBJECT_MAPPER.writeValue(target.toFile(), result);
+        Path temp = Files.createTempFile(dir, fileName + ".", ".tmp");
+        try {
+            OBJECT_MAPPER.writeValue(temp.toFile(), result);
+            moveAtomicallyOrReplace(temp, target);
+        } catch (IOException ioe) {
+            Files.deleteIfExists(temp);
+            throw ioe;
+        }
         return target;
+    }
+
+    private static void moveAtomicallyOrReplace(Path source, Path target) throws IOException {
+        try {
+            Files.move(
+                    source,
+                    target,
+                    StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException notSupported) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     static String sanitizeToolName(String tool) {
