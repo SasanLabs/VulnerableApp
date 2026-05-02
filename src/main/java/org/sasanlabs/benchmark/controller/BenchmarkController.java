@@ -1,8 +1,6 @@
 package org.sasanlabs.benchmark.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +33,7 @@ public class BenchmarkController {
     }
 
     @PostMapping("/scanner/benchmark")
-    public ResponseEntity<?> benchmark(@RequestBody ScannerFindings input)
-            throws JsonProcessingException, UnknownHostException {
+    public ResponseEntity<?> benchmark(@RequestBody ScannerFindings input) throws IOException {
         if (input == null || input.getTool() == null || input.getTool().trim().isEmpty()) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "Field 'tool' is required and must be non-empty"));

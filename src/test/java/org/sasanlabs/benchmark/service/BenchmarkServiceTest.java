@@ -1,227 +1,70 @@
 package org.sasanlabs.benchmark.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
-import org.sasanlabs.benchmark.model.Finding;
+import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
-import org.sasanlabs.service.IEndPointsInformationProvider;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @ExtendWith(MockitoExtension.class)
 class BenchmarkServiceTest {
 
-    @Mock private IEndPointsInformationProvider provider;
+    @Mock private DastBenchmarkStrategy dastStrategy;
+    @Mock private SastBenchmarkStrategy sastStrategy;
 
     private BenchmarkService service;
 
     @BeforeEach
     void setUp() {
-        service = new BenchmarkService(provider);
+        service = new BenchmarkService(dastStrategy, sastStrategy);
     }
 
     @Test
-    void perfectMatch_yields100Coverage() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Arrays.asList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION),
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
-                                        VulnerabilityType.REFLECTED_XSS)));
+    void dastScanType_routesToDastStrategy() throws Exception {
+        BenchmarkResult dastResult = result("ZAP");
+        ScannerFindings input = new ScannerFindings("ZAP", ScanType.DAST, Collections.emptyList());
+        when(dastStrategy.compare(input)).thenReturn(dastResult);
 
-        BenchmarkResult result =
-                service.compare(
-                        input(
-                                "ZAP",
-                                new Finding("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION"),
-                                new Finding("/XSS/LEVEL_1", "REFLECTED_XSS")));
+        BenchmarkResult out = service.compare(input);
 
-        assertThat(result.getCoverage()).isEqualTo(100.0);
-        assertThat(result.getTotalExpected()).isEqualTo(2);
-        assertThat(result.getDetected()).isEqualTo(2);
-        assertThat(result.getMissed()).isZero();
-        assertThat(result.getFalsePositives()).isZero();
-        assertThat(result.getMissedItems()).isEmpty();
-        assertThat(result.getFalsePositiveItems()).isEmpty();
+        assertThat(out).isSameAs(dastResult);
+        verify(sastStrategy, never()).compare(input);
     }
 
     @Test
-    void allMissed_yieldsZeroCoverageAndNoFalsePositives() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Arrays.asList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION),
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
-                                        VulnerabilityType.REFLECTED_XSS)));
+    void sastScanType_routesToSastStrategy() throws Exception {
+        BenchmarkResult sastResult = result("Semgrep");
+        ScannerFindings input =
+                new ScannerFindings("Semgrep", ScanType.SAST, Collections.emptyList());
+        when(sastStrategy.compare(input)).thenReturn(sastResult);
 
-        BenchmarkResult result = service.compare(input("ZAP"));
+        BenchmarkResult out = service.compare(input);
 
-        assertThat(result.getCoverage()).isEqualTo(0.0);
-        assertThat(result.getTotalExpected()).isEqualTo(2);
-        assertThat(result.getDetected()).isZero();
-        assertThat(result.getMissed()).isEqualTo(2);
-        assertThat(result.getFalsePositives()).isZero();
-        assertThat(result.getMissedItems())
-                .extracting(Finding::getUrl, Finding::getType)
-                .containsExactlyInAnyOrder(
-                        tuple("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION"),
-                        tuple("/XSS/LEVEL_1", "REFLECTED_XSS"));
+        assertThat(out).isSameAs(sastResult);
+        verify(dastStrategy, never()).compare(input);
     }
 
     @Test
-    void mixedDetectedMissedAndFalsePositive() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Arrays.asList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION),
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
-                                        VulnerabilityType.REFLECTED_XSS),
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/CommandInjection/LEVEL_1",
-                                        VulnerabilityType.COMMAND_INJECTION)));
+    void omittedScanType_defaultsToDast() throws Exception {
+        ScannerFindings input = new ScannerFindings("ZAP", Collections.emptyList());
+        when(dastStrategy.compare(input)).thenReturn(result("ZAP"));
 
-        BenchmarkResult result =
-                service.compare(
-                        input(
-                                "ZAP",
-                                new Finding("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION"),
-                                new Finding("/PathTraversal/LEVEL_1", "PATH_TRAVERSAL")));
+        service.compare(input);
 
-        assertThat(result.getTotalExpected()).isEqualTo(3);
-        assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getMissed()).isEqualTo(2);
-        assertThat(result.getFalsePositives()).isEqualTo(1);
-        assertThat(result.getCoverage())
-                .isCloseTo(33.33, org.assertj.core.data.Offset.offset(0.01));
-        assertThat(result.getFalsePositiveItems())
-                .extracting(Finding::getUrl, Finding::getType)
-                .containsExactly(tuple("/PathTraversal/LEVEL_1", "PATH_TRAVERSAL"));
+        verify(sastStrategy, never()).compare(input);
     }
 
-    @Test
-    void findingAgainstSecureUrl_isCountedAsFalsePositive() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Arrays.asList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION),
-                                secure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_2",
-                                        VulnerabilityType.BLIND_SQL_INJECTION)));
-
-        BenchmarkResult result =
-                service.compare(
-                        input("ZAP", new Finding("/SQLInjection/LEVEL_2", "BLIND_SQL_INJECTION")));
-
-        assertThat(result.getTotalExpected()).isEqualTo(1);
-        assertThat(result.getDetected()).isZero();
-        assertThat(result.getMissed()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isEqualTo(1);
-        assertThat(result.getFalsePositiveItems())
-                .extracting(Finding::getUrl)
-                .containsExactly("/SQLInjection/LEVEL_2");
-    }
-
-    @Test
-    void emptyFindingsList_allExpectedAreMissed() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Collections.singletonList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION)));
-
-        BenchmarkResult result =
-                service.compare(new ScannerFindings("ZAP", Collections.emptyList()));
-
-        assertThat(result.getTotalExpected()).isEqualTo(1);
-        assertThat(result.getDetected()).isZero();
-        assertThat(result.getMissed()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
-        assertThat(result.getCoverage()).isEqualTo(0.0);
-    }
-
-    @Test
-    void emptyExpected_yieldsZeroCoverageAndAllFindingsBecomeFalsePositives() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation()).thenReturn(Collections.emptyList());
-
-        BenchmarkResult result =
-                service.compare(
-                        input("ZAP", new Finding("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION")));
-
-        assertThat(result.getTotalExpected()).isZero();
-        assertThat(result.getDetected()).isZero();
-        assertThat(result.getMissed()).isZero();
-        assertThat(result.getFalsePositives()).isEqualTo(1);
-        assertThat(result.getCoverage()).isEqualTo(0.0);
-    }
-
-    @Test
-    void typeMatchIsCaseInsensitive() throws Exception {
-        when(provider.getScannerRelatedEndPointInformation())
-                .thenReturn(
-                        Collections.singletonList(
-                                unsecure(
-                                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                        VulnerabilityType.BLIND_SQL_INJECTION)));
-
-        BenchmarkResult result =
-                service.compare(
-                        input("ZAP", new Finding("/SQLInjection/LEVEL_1", "blind_sql_injection")));
-
-        assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
-    }
-
-    @Test
-    void urlNormalization_acceptsAbsoluteRelativeAndContextStrippedForms() {
-        assertThat(
-                        BenchmarkService.normalizeUrl(
-                                "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1"))
-                .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(BenchmarkService.normalizeUrl("/VulnerableApp/SQLInjection/LEVEL_1"))
-                .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(BenchmarkService.normalizeUrl("/SQLInjection/LEVEL_1"))
-                .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(BenchmarkService.normalizeUrl("/SQLInjection/LEVEL_1/"))
-                .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(BenchmarkService.normalizeUrl("/SQLInjection/LEVEL_1?attack=1' OR 1=1--"))
-                .isEqualTo("/SQLInjection/LEVEL_1");
-    }
-
-    private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "UNSECURE", RequestMethod.GET, Arrays.asList(types));
-    }
-
-    private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "SECURE", RequestMethod.GET, Arrays.asList(types));
-    }
-
-    private static ScannerFindings input(String tool, Finding... findings) {
-        List<Finding> list =
-                findings.length == 0 ? Collections.emptyList() : Arrays.asList(findings);
-        return new ScannerFindings(tool, list);
+    private static BenchmarkResult result(String tool) {
+        return new BenchmarkResult(
+                tool, 0.0, 0, 0, 0, 0, Collections.emptyList(), Collections.emptyList());
     }
 }
