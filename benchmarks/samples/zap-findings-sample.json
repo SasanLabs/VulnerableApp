@@ -1,0 +1,11 @@
+{
+  "tool": "ZAP",
+  "findings": [
+    { "url": "/BlindSQLInjectionVulnerability/LEVEL_1",  "type": "BLIND_SQL_INJECTION" },
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_1", "type": "ERROR_BASED_SQL_INJECTION" },
+    { "url": "/XSSInImgTagAttribute/LEVEL_1",           "type": "REFLECTED_XSS" },
+    { "url": "/CommandInjection/LEVEL_1",               "type": "COMMAND_INJECTION" },
+    { "url": "/PathTraversal/LEVEL_1",                  "type": "PATH_TRAVERSAL" },
+    { "url": "/MadeUpVulnerability/LEVEL_1",            "type": "BLIND_SQL_INJECTION" }
+  ]
+}
