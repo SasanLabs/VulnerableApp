@@ -1,0 +1,25 @@
+#nosql_auth_bypass {
+    color: black;
+    text-align: center;
+}
+
+#loginForm input {
+    margin: 4px;
+    padding: 6px;
+}
+
+#loginButton {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
+
+#loginResult {
+    font-size: 15px;
+}
