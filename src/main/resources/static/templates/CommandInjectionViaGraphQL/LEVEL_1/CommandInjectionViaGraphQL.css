@@ -1,0 +1,30 @@
+#ci_graphql {
+    color: black;
+    text-align: center;
+}
+
+#ci_graphql input[type=text] {
+    margin: 4px;
+    padding: 6px;
+    width: 320px;
+}
+
+#runPingButton {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
+
+#pingResult {
+    text-align: left;
+    background: #f4f4f4;
+    padding: 8px;
+    font-size: 13px;
+    white-space: pre-wrap;
+}
