@@ -1,0 +1,24 @@
+<div id="http3xxStatusCodeBasedInjection">
+	<div>
+		This level demonstrates how Open Redirect can be used to carry out a
+		<strong>phishing attack that harvests login credentials</strong>.
+		<br /> <br />
+		An attacker crafts a trusted-looking URL on this application with a
+		<code>returnTo</code> parameter pointing to a fake login page they control.
+		The server shows a warning before redirecting &mdash; but many users
+		click <strong>Continue</strong> without carefully checking the destination URL.
+		<br /> <br />
+		Please Visit URL: <a id="placeholder" target="_blank"></a>
+		<br /><br />
+		The URL above simulates a post-login redirect link. When you open it, a
+		warning page will appear showing the redirect destination. Click
+		<strong>Continue</strong> to land on a fake login page and see how
+		credentials can be harvested.
+		<br />
+		<div id="mindset">
+		A warning interstitial alone is not sufficient protection. As long as the
+		server redirects to any user-supplied URL, an attacker can craft a
+		convincing phishing page and rely on users trusting the source domain.
+		</div>
+	</div>
+</div>
