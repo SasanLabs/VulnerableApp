@@ -127,6 +127,19 @@ class CsvExpectedIssuesProviderTest {
     }
 
     @Test
+    void csvMissingRequiredHeader_skipsRowsAndReturnsEmpty(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                "CWE,Vulnerability Type,Line,Number of Sources\n" + "CWE-89,SQL Injection,56,1\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues).isEmpty();
+    }
+
+    @Test
     void emptyFileWithOnlyHeader_returnsEmptyList(@TempDir Path tempDir) throws Exception {
         Path csv = tempDir.resolve("expected.csv");
         write(csv, HEADER);

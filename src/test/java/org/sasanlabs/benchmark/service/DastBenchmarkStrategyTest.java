@@ -368,6 +368,9 @@ class DastBenchmarkStrategyTest {
         assertThat(DastBenchmarkStrategy.normalizeNumericId("89")).isEqualTo("89");
         assertThat(DastBenchmarkStrategy.normalizeNumericId(" 89 ")).isEqualTo("89");
         assertThat(DastBenchmarkStrategy.normalizeNumericId("cwe89")).isEqualTo("89");
+        assertThat(DastBenchmarkStrategy.normalizeNumericId("WASC-08")).isEqualTo("8");
+        assertThat(DastBenchmarkStrategy.normalizeNumericId("CWE-089")).isEqualTo("89");
+        assertThat(DastBenchmarkStrategy.normalizeNumericId("00079")).isEqualTo("79");
         assertThat(DastBenchmarkStrategy.normalizeNumericId(null)).isEmpty();
         assertThat(DastBenchmarkStrategy.normalizeNumericId("not-a-number")).isEmpty();
     }

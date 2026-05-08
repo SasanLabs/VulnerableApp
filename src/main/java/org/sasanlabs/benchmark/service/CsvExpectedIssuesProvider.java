@@ -72,7 +72,11 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
     }
 
     private ExpectedIssue parseRow(CSVRecord row) {
-        if (!row.isMapped(COL_CWE) || !row.isSet(COL_LINE) || !row.isSet(COL_SOURCES)) {
+        if (!row.isSet(COL_CWE)
+                || !row.isSet(COL_TYPE)
+                || !row.isSet(COL_FILE)
+                || !row.isSet(COL_LINE)
+                || !row.isSet(COL_SOURCES)) {
             LOGGER.warn(
                     "Skipping malformed SAST CSV row at line {} of {}: missing required columns",
                     row.getRecordNumber(),

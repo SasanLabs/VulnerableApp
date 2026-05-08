@@ -62,12 +62,20 @@ public class BenchmarkResultWriter {
         }
     }
 
+    private static final int MAX_TOOL_LENGTH = 64;
+
     static String sanitizeToolName(String tool) {
         if (tool == null) {
             return "unknown";
         }
         String lowered = tool.trim().toLowerCase(Locale.ROOT);
         String cleaned = lowered.replaceAll("[^a-z0-9_-]", "");
-        return cleaned.isEmpty() ? "unknown" : cleaned;
+        if (cleaned.isEmpty()) {
+            return "unknown";
+        }
+        if (cleaned.length() > MAX_TOOL_LENGTH) {
+            cleaned = cleaned.substring(0, MAX_TOOL_LENGTH);
+        }
+        return cleaned;
     }
 }

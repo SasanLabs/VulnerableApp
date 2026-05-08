@@ -96,6 +96,19 @@ class BenchmarkResultWriterTest {
     }
 
     @Test
+    void sanitizeToolName_truncatesOverlongInput() {
+        StringBuilder veryLong = new StringBuilder();
+        for (int i = 0; i < 500; i++) {
+            veryLong.append('a');
+        }
+
+        String result = BenchmarkResultWriter.sanitizeToolName(veryLong.toString());
+
+        assertThat(result).hasSize(64);
+        assertThat(result).matches("^a+$");
+    }
+
+    @Test
     void sanitizeToolName_lowercasesAndKeepsAlphanumericUnderscoreAndHyphen() {
         assertThat(BenchmarkResultWriter.sanitizeToolName("ZAP")).isEqualTo("zap");
         assertThat(BenchmarkResultWriter.sanitizeToolName("OWASP-ZAP_v2"))

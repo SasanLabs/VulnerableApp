@@ -64,12 +64,15 @@ deliberately invalid entry so a successful run produces a non-empty
 
 ### DAST matching rules
 
-A scanner finding matches a ground-truth row when the URL **and** HTTP method
-agree AND **any one of** these axes agrees:
+A scanner finding matches a ground-truth row when **all three** of these hold:
 
-1. `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
-2. `cwe` matches the type's `cweID`, OR
-3. `wascId` matches the type's `wascID`.
+1. The URL agrees, AND
+2. The HTTP method check passes (opt-in — see below for the omitted-method
+   semantics), AND
+3. **Any one of** these axes agrees:
+   - `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
+   - `cwe` matches the type's `cweID`, OR
+   - `wascId` matches the type's `wascID`.
 
 The method check is opt-in: if your scanner emits a `method` field, it is
 matched strictly (`POST` vs ground-truth `GET` becomes unmatched). If
@@ -209,6 +212,8 @@ For SAST runs, items look like:
 |---|---|---|
 | `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
 | `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
+| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000` | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads. |
+| `benchmark.dast.ground-truth.read-timeout-ms` | `10000` | Read timeout (ms) for the ground-truth fetch. |
 | `benchmark.sast.ground-truth.path` | `scanner/sast/expectedIssues.csv` | CSV file the SAST comparator loads expected issues from. |
 
 The default DAST URL is a self-call against the running app, which means

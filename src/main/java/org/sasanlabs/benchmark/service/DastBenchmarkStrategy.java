@@ -260,14 +260,23 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     }
 
     /**
-     * Reduces a CWE/WASC string to its digit run so {@code "CWE-89"}, {@code "cwe89"}, and {@code
-     * "89"} all hash the same. Returns the empty string for {@code null} or all-non-digit input.
+     * Reduces a CWE/WASC string to its canonical digit form so {@code "CWE-89"}, {@code "cwe89"},
+     * {@code "89"}, and zero-padded variants like {@code "CWE-089"} all hash the same. Returns the
+     * empty string for {@code null} or all-non-digit input.
      */
     static String normalizeNumericId(String raw) {
         if (raw == null) {
             return "";
         }
-        return raw.replaceAll("\\D", "");
+        String digits = raw.replaceAll("\\D", "");
+        if (digits.isEmpty()) {
+            return "";
+        }
+        try {
+            return Long.toString(Long.parseLong(digits));
+        } catch (NumberFormatException nfe) {
+            return digits;
+        }
     }
 
     /**
