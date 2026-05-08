@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VulnerableApp - Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: burlywood;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        nav {
+            background: blanchedalmond;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .page {
+            display: flex;
+            justify-content: center;
+            padding: 40px 16px;
+        }
+
+        .auth-shell {
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+            color: black;
+        }
+
+        .auth-title {
+            margin: 0 0 6px;
+            font-size: 22px;
+        }
+
+        .auth-subtitle {
+            margin: 0 0 12px;
+            font-size: 14px;
+        }
+
+        .auth-card {
+            border: 1px solid black;
+            border-radius: 4px;
+            border-left: 6px solid #e07020;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .auth-card h5 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .auth-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+        }
+
+        .auth-field label {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .auth-shell input {
+            height: 34px;
+            padding: 4px 8px;
+            border: 1px solid black;
+            border-radius: 3px;
+            background: #fff;
+            color: black;
+            font-size: 12px;
+        }
+
+        #loginBtn {
+            background: #e07020;
+            display: inline-block;
+            padding: 8px;
+            border: 2px solid transparent;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s opacity;
+        }
+
+        #loginBtn:hover { opacity: 0.9; }
+
+        #errorMsg {
+            display: none;
+            margin-top: 12px;
+            padding: 6px 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #fff;
+            font-size: 13px;
+            color: #c0392b;
+        }
+
+        @media (max-width: 640px) {
+            .auth-row { flex-direction: column; align-items: center; }
+            .auth-field { align-items: center; }
+            .auth-shell input, #loginBtn { width: 100%; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>OWASP VulnerableApp</nav>
+
+    <div class="page">
+        <div class="auth-shell">
+            <h3 class="auth-title">VulnerableApp</h3>
+            <p class="auth-subtitle">Your session has expired. Please log in again.</p>
+
+            <div class="auth-card">
+                <h5>Login</h5>
+                <div class="auth-row">
+                    <div class="auth-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username" autocomplete="username" />
+                    </div>
+                    <div class="auth-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" autocomplete="current-password" />
+                    </div>
+                    <button id="loginBtn" onclick="harvest()">Login</button>
+                </div>
+                <div id="errorMsg">Invalid username or password. Please try again.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function harvest() {
+            var user = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+            if (!user && !pass) return;
+            // Attacker receives credentials here
+            console.log("[Phishing] Harvested credentials — username: " + user + ", password: " + pass);
+            document.getElementById("password").value = "";
+            document.getElementById("errorMsg").style.display = "block";
+        }
+    </script>
+</body>
+</html>
