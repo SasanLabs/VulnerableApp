@@ -107,6 +107,26 @@ class CsvExpectedIssuesProviderTest {
     }
 
     @Test
+    void quotedFieldWithEmbeddedCommas_isParsedAsSingleColumn(@TempDir Path tempDir)
+            throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER
+                        + "CWE-89,\"Injection, SQL\",src/main/java/Foo.java,56,1\n"
+                        + "CWE-79,\"XSS, Reflected\",src/main/java/Bar.java,42,3\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues)
+                .extracting(ExpectedIssue::getVulnerabilityType, ExpectedIssue::getLine)
+                .containsExactly(
+                        org.assertj.core.groups.Tuple.tuple("Injection, SQL", 56),
+                        org.assertj.core.groups.Tuple.tuple("XSS, Reflected", 42));
+    }
+
+    @Test
     void emptyFileWithOnlyHeader_returnsEmptyList(@TempDir Path tempDir) throws Exception {
         Path csv = tempDir.resolve("expected.csv");
         write(csv, HEADER);

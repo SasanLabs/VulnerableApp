@@ -115,7 +115,7 @@ class BenchmarkControllerTest {
     }
 
     @Test
-    void writerFailure_stillReturns200WithBody() throws Exception {
+    void writerFailure_returns500WithResultAndPersistenceError() throws Exception {
         BenchmarkResult mockResult =
                 new BenchmarkResult(
                         "ZAP", 50.0, 2, 1, 1, 0, Collections.emptyList(), Collections.emptyList());
@@ -129,8 +129,11 @@ class BenchmarkControllerTest {
                         post("/scanner/benchmark")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(body))
-                .andExpect(status().isOk())
+                .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.tool").value("ZAP"))
-                .andExpect(jsonPath("$.coverage").value(50.0));
+                .andExpect(jsonPath("$.coverage").value(50.0))
+                .andExpect(
+                        jsonPath("$.persistenceError")
+                                .value(org.hamcrest.Matchers.containsString("disk full")));
     }
 }

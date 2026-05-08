@@ -8,8 +8,9 @@ VulnerableApp already ships. It supports two scan modes today:
   CWE / vulnerability type).
 
 You POST the scanner's findings as JSON to `/scanner/benchmark`; the framework
-returns coverage, missed issues, and false positives, and writes a JSON report
-to `benchmarks/<tool>-results.json`.
+returns coverage, missed issues, and unmatched items (findings the scanner
+reported that don't line up with any ground-truth row), and writes a JSON report to
+`benchmarks/<tool>-results.json`.
 
 > Running the scanner itself is **out of scope**. You are responsible for
 > running ZAP / Burp / Semgrep / your tool against VulnerableApp (or its source
@@ -33,16 +34,18 @@ omitted, it defaults to `DAST` so existing payloads keep working.
   "scanType": "DAST",
   "findings": [
     { "url": "/BlindSQLInjectionVulnerability/LEVEL_1", "type": "BLIND_SQL_INJECTION" },
-    { "url": "/XSSInImgTagAttribute/LEVEL_1",          "type": "REFLECTED_XSS" }
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_1", "cwe": "CWE-89" },
+    { "url": "/PathTraversal/LEVEL_1", "wascId": "33" }
   ]
 }
 ```
 
-To discover the real (URL, type) pairs to send, hit
-`GET http://<baseurl>/VulnerableApp/scanner` — that's the ground truth you're
-being graded against. The full sample at `benchmarks/samples/zap-findings-sample.json`
-includes one deliberately invalid entry so a successful run produces a non-empty
-`falsePositiveItems` list for demonstration.
+To discover the real ground-truth entries, hit
+`GET http://<baseurl>/VulnerableApp/scanner` — every `UNSECURE` entry there
+contributes one expected finding for each `vulnerabilityType` it carries. The
+full sample at `benchmarks/samples/zap-findings-sample.json` includes one
+deliberately invalid entry so a successful run produces a non-empty
+`unmatchedItems` list for demonstration.
 
 - `findings[].url` — relative path (`/SQLInjection/LEVEL_1`) or absolute URL
   (`http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1`); the comparator
@@ -51,11 +54,37 @@ includes one deliberately invalid entry so a successful run produces a non-empty
 - `findings[].type` — case-insensitive match against
   [`VulnerabilityType`](../src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java)
   enum names. See the canonical values below.
+- `findings[].cwe` — optional. Numeric (`89`) or `CWE-`-prefixed (`CWE-89`);
+  matches against `VulnerabilityType.getCweID()`.
+- `findings[].wascId` — optional. Numeric; matches against
+  `VulnerabilityType.getWascID()`.
+- `findings[].method` — optional. HTTP method (`GET`, `POST`, …); matches
+  against the ground-truth row's request method. See "DAST matching rules"
+  below for the omitted-method semantics.
+
+### DAST matching rules
+
+A scanner finding matches a ground-truth row when the URL **and** HTTP method
+agree AND **any one of** these axes agrees:
+
+1. `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
+2. `cwe` matches the type's `cweID`, OR
+3. `wascId` matches the type's `wascID`.
+
+The method check is opt-in: if your scanner emits a `method` field, it is
+matched strictly (`POST` vs ground-truth `GET` becomes unmatched). If
+the field is omitted, the finding matches the URL's ground-truth row regardless
+of method — leniency for scanners whose output format does not include the
+method. This means existing payloads continue to work; emit `method` to enable
+the stricter check.
+
+A scanner that emits multiple axes (type + cwe, etc.) for the same alert is
+counted once. A finding that matches no axis on any expected URL ends up in
+`unmatchedItems`.
 
 ### Canonical DAST vulnerability type values
 
-A scanner reporting `"SQL_INJECTION"` will not match — use a specific sub-type.
-The full set lives in
+If you choose to match by `type`, the full set lives in
 [`VulnerabilityType.java`](../src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java);
 common values:
 
@@ -91,7 +120,7 @@ WEB_CACHE_POISONING
 
 The full sample at `benchmarks/samples/semgrep-sast-sample.json` includes one
 deliberately invalid entry so a successful run produces a non-empty
-`falsePositiveItems` list.
+`unmatchedItems` list.
 
 Ground truth is loaded from `scanner/sast/expectedIssues.csv`. The path is
 configurable via the `benchmark.sast.ground-truth.path` property (default:
@@ -142,7 +171,7 @@ The HTTP response contains the same JSON that gets persisted to disk.
 ## Output format
 
 The output schema is the same for DAST and SAST. The fields inside each
-`missedItems` / `falsePositiveItems` entry vary by scan type (unused fields are
+`missedItems` / `unmatchedItems` entry vary by scan type (unused fields are
 omitted from the JSON).
 
 ```json
@@ -152,9 +181,9 @@ omitted from the JSON).
   "totalExpected": 50,
   "detected": 39,
   "missed": 11,
-  "falsePositives": 12,
+  "unmatched": 12,
   "missedItems":         [ { "url": "/...", "type": "..." } ],
-  "falsePositiveItems":  [ { "url": "/...", "type": "..." } ]
+  "unmatchedItems":  [ { "url": "/...", "type": "..." } ]
 }
 ```
 
@@ -171,8 +200,22 @@ For SAST runs, items look like:
   (SECURE entries are intentionally clean and don't count). For SAST, count of
   rows in the CSV.
 - `missedItems` — expected items the scanner did not report.
-- `falsePositiveItems` — items the scanner reported that are not in the
-  expected set. For DAST this includes findings against `SECURE` URLs.
+- `unmatchedItems` — items the scanner reported that don't line up with any
+  expected ground-truth row.
+
+## Configuration
+
+| Property | Default | Purpose |
+|---|---|---|
+| `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
+| `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
+| `benchmark.sast.ground-truth.path` | `scanner/sast/expectedIssues.csv` | CSV file the SAST comparator loads expected issues from. |
+
+The default DAST URL is a self-call against the running app, which means
+benchmarking works out of the box in standalone mode. In a facade-composed
+deployment, point this at the facade's aggregated `/scanner/dast` endpoint so
+scanner findings are graded against the union of every backing app's ground
+truth.
 
 ## Where the report is written
 
@@ -182,13 +225,12 @@ via `benchmark.output.dir`. Filenames are lowercased and stripped of anything
 outside `[a-z0-9_-]`. Re-running the endpoint for the same tool (regardless of
 scan type) overwrites the previous report.
 
+If the file write fails (disk full, permissions, etc.), the endpoint returns
+**HTTP 500** with the same response body as a successful run, plus an extra
+`persistenceError` string describing the failure. Callers still get the
+computed metrics; the non-2xx status is the signal that the on-disk artifact
+was *not* created.
+
 ## Limitations (v1)
 
-- **LLM-based scanners are not yet supported.** There is no equivalent
-  ground-truth source for LLM scanners; we'd rather see real LLM scanner output
-  formats before committing to a matcher. Tracked as a follow-up.
-- DAST type matching is by enum name. CWE-based matching for DAST is a likely
-  follow-up.
-- HTTP method (DAST) is shown in the ground truth but is not part of the match
-  key — same URL + type with a different method still counts as detected.
 - SAST `Number of Sources` is not used for scoring; full credit on first match.

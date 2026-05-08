@@ -56,11 +56,11 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getTotalExpected()).isEqualTo(2);
         assertThat(result.getDetected()).isEqualTo(2);
         assertThat(result.getMissed()).isZero();
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
     }
 
     @Test
-    void mixedDetectedMissedAndFalsePositive() throws Exception {
+    void mixedDetectedMissedAndUnmatched() throws Exception {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Arrays.asList(
@@ -77,8 +77,8 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getTotalExpected()).isEqualTo(2);
         assertThat(result.getDetected()).isEqualTo(1);
         assertThat(result.getMissed()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isEqualTo(1);
-        assertThat(result.getFalsePositiveItems())
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems())
                 .extracting(Finding::getFilePath, Finding::getLine)
                 .containsExactly(tuple("src/main/java/Imaginary.java", 1));
     }
@@ -94,7 +94,7 @@ class SastBenchmarkStrategyTest {
                 strategy.compare(sastInput("Semgrep", sastFinding(SQLI_FILE, 56, "CWE-89", null)));
 
         assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
     }
 
     @Test
@@ -109,7 +109,7 @@ class SastBenchmarkStrategyTest {
                         sastInput("Semgrep", sastFinding(SQLI_FILE, 56, null, "sql injection")));
 
         assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
     }
 
     @Test
@@ -128,7 +128,7 @@ class SastBenchmarkStrategyTest {
                                 sastFinding(windowsishPath, 56, "CWE-89", "SQL Injection")));
 
         assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
     }
 
     @Test
@@ -146,7 +146,7 @@ class SastBenchmarkStrategyTest {
                                 sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection")));
 
         assertThat(result.getDetected()).isEqualTo(1);
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
     }
 
     @Test
@@ -160,12 +160,12 @@ class SastBenchmarkStrategyTest {
                                 sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection"),
                                 sastFinding(SQLI_FILE, 56, null, "SQL Injection")));
 
-        assertThat(result.getFalsePositives()).isEqualTo(1);
-        assertThat(result.getFalsePositiveItems()).hasSize(1);
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems()).hasSize(1);
     }
 
     @Test
-    void emptyExpected_allFindingsBecomeFalsePositives() throws Exception {
+    void emptyExpected_allFindingsBecomeUnmatched() throws Exception {
         when(provider.getExpectedIssues()).thenReturn(Collections.emptyList());
 
         BenchmarkResult result =
@@ -176,7 +176,7 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getTotalExpected()).isZero();
         assertThat(result.getDetected()).isZero();
         assertThat(result.getMissed()).isZero();
-        assertThat(result.getFalsePositives()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(1);
         assertThat(result.getCoverage()).isEqualTo(0.0);
     }
 
@@ -195,7 +195,7 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getTotalExpected()).isEqualTo(2);
         assertThat(result.getDetected()).isZero();
         assertThat(result.getMissed()).isEqualTo(2);
-        assertThat(result.getFalsePositives()).isZero();
+        assertThat(result.getUnmatched()).isZero();
         assertThat(result.getMissedItems())
                 .extracting(Finding::getFilePath, Finding::getLine, Finding::getCwe)
                 .containsExactlyInAnyOrder(

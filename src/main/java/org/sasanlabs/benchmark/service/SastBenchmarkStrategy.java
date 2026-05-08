@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 /**
  * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
  * IExpectedIssuesProvider}, backed by {@code scanner/sast/expectedIssues.csv} by default) and
- * produces coverage / missed / false-positive metrics.
+ * produces coverage / missed / unmatched metrics.
  *
  * <p>Each ground-truth row contributes up to two match keys: one keyed on CWE and one keyed on the
  * vulnerability-type label. A scanner finding matches if it shares the {@code (filePath, line)}
@@ -101,7 +101,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
-        List<Finding> falsePositiveItems = new ArrayList<>();
+        List<Finding> unmatchedItems = new ArrayList<>();
         for (Finding f : uniqueFindings) {
             boolean hit = false;
             for (String key : keysFor(f)) {
@@ -111,7 +111,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 }
             }
             if (!hit) {
-                falsePositiveItems.add(f);
+                unmatchedItems.add(f);
             }
         }
 
@@ -133,9 +133,9 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 totalExpected,
                 detected,
                 missedItems.size(),
-                falsePositiveItems.size(),
+                unmatchedItems.size(),
                 missedItems,
-                falsePositiveItems);
+                unmatchedItems);
     }
 
     private static List<String> keysFor(ExpectedIssue ei) {

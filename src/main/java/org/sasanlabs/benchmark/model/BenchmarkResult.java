@@ -1,5 +1,6 @@
 package org.sasanlabs.benchmark.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -26,14 +27,18 @@ public class BenchmarkResult {
     @JsonProperty("missed")
     private int missed;
 
-    @JsonProperty("falsePositives")
-    private int falsePositives;
+    @JsonProperty("unmatched")
+    private int unmatched;
 
     @JsonProperty("missedItems")
     private List<Finding> missedItems;
 
-    @JsonProperty("falsePositiveItems")
-    private List<Finding> falsePositiveItems;
+    @JsonProperty("unmatchedItems")
+    private List<Finding> unmatchedItems;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("persistenceError")
+    private String persistenceError;
 
     public BenchmarkResult(
             @JsonProperty("tool") String tool,
@@ -41,17 +46,17 @@ public class BenchmarkResult {
             @JsonProperty("totalExpected") int totalExpected,
             @JsonProperty("detected") int detected,
             @JsonProperty("missed") int missed,
-            @JsonProperty("falsePositives") int falsePositives,
+            @JsonProperty("unmatched") int unmatched,
             @JsonProperty("missedItems") List<Finding> missedItems,
-            @JsonProperty("falsePositiveItems") List<Finding> falsePositiveItems) {
+            @JsonProperty("unmatchedItems") List<Finding> unmatchedItems) {
         this.tool = tool;
         this.coverage = coverage;
         this.totalExpected = totalExpected;
         this.detected = detected;
         this.missed = missed;
-        this.falsePositives = falsePositives;
+        this.unmatched = unmatched;
         this.missedItems = missedItems;
-        this.falsePositiveItems = falsePositiveItems;
+        this.unmatchedItems = unmatchedItems;
     }
 
     public String getTool() {
@@ -74,15 +79,23 @@ public class BenchmarkResult {
         return missed;
     }
 
-    public int getFalsePositives() {
-        return falsePositives;
+    public int getUnmatched() {
+        return unmatched;
     }
 
     public List<Finding> getMissedItems() {
         return missedItems;
     }
 
-    public List<Finding> getFalsePositiveItems() {
-        return falsePositiveItems;
+    public List<Finding> getUnmatchedItems() {
+        return unmatchedItems;
+    }
+
+    public String getPersistenceError() {
+        return persistenceError;
+    }
+
+    public void setPersistenceError(String persistenceError) {
+        this.persistenceError = persistenceError;
     }
 }

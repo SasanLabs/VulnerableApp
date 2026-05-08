@@ -9,6 +9,7 @@ import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.sasanlabs.benchmark.service.BenchmarkResultWriter;
 import org.sasanlabs.benchmark.service.BenchmarkService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,10 +54,12 @@ public class BenchmarkController {
             LOGGER.info("Wrote benchmark result for tool '{}' to {}", input.getTool(), written);
         } catch (IOException ioe) {
             LOGGER.error(
-                    "Failed to persist benchmark result for tool '{}'; returning result in"
-                            + " response body only",
+                    "Failed to persist benchmark result for tool '{}'; returning 500 with result"
+                            + " in body",
                     input.getTool(),
                     ioe);
+            result.setPersistenceError("Failed to persist benchmark result: " + ioe.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         }
 
         return ResponseEntity.ok(result);

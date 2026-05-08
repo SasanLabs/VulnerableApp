@@ -18,7 +18,7 @@ class BenchmarkResultWriterTest {
 
     @Test
     void write_persistsResultToToolNamedFileInDefaultDir(@TempDir Path tempDir) throws Exception {
-        BenchmarkResultWriter writer = new BenchmarkResultWriter(tempDir.toString());
+        BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, tempDir.toString());
 
         Path target = writer.write(sampleResult("ZAP"));
 
@@ -37,7 +37,7 @@ class BenchmarkResultWriterTest {
 
     @Test
     void write_overwritesExistingFileForSameTool(@TempDir Path tempDir) throws Exception {
-        BenchmarkResultWriter writer = new BenchmarkResultWriter(tempDir.toString());
+        BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, tempDir.toString());
         writer.write(sampleResult("ZAP"));
 
         BenchmarkResult second =
@@ -56,7 +56,7 @@ class BenchmarkResultWriterTest {
     @Test
     void write_createsBenchmarksDirectoryIfMissing(@TempDir Path tempDir) throws Exception {
         Path nested = tempDir.resolve("does/not/exist/yet");
-        BenchmarkResultWriter writer = new BenchmarkResultWriter(nested.toString());
+        BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, nested.toString());
 
         Path target = writer.write(sampleResult("ZAP"));
 
@@ -68,7 +68,7 @@ class BenchmarkResultWriterTest {
     void write_withCustomDir_overridesDefault(@TempDir Path tempDir) throws Exception {
         Path defaultDir = tempDir.resolve("default");
         Path overrideDir = tempDir.resolve("override");
-        BenchmarkResultWriter writer = new BenchmarkResultWriter(defaultDir.toString());
+        BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, defaultDir.toString());
 
         Path target = writer.write(sampleResult("ZAP"), overrideDir.toString());
 
@@ -80,7 +80,7 @@ class BenchmarkResultWriterTest {
     @Test
     void write_withWhitespaceAndUppercaseTool_sanitisesFileName(@TempDir Path tempDir)
             throws Exception {
-        BenchmarkResultWriter writer = new BenchmarkResultWriter(tempDir.toString());
+        BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, tempDir.toString());
 
         Path target = writer.write(sampleResult("  Burp Suite 2.14  "));
 

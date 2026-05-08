@@ -1,7 +1,6 @@
 package org.sasanlabs.benchmark.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -21,13 +20,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class BenchmarkResultWriter {
 
-    private static final ObjectMapper OBJECT_MAPPER =
-            new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
+    private final ObjectMapper objectMapper;
     private final String defaultBenchmarksDir;
 
     public BenchmarkResultWriter(
+            ObjectMapper objectMapper,
             @Value("${benchmark.output.dir:benchmarks}") String defaultBenchmarksDir) {
+        this.objectMapper = objectMapper;
         this.defaultBenchmarksDir = defaultBenchmarksDir;
     }
 
@@ -42,7 +41,7 @@ public class BenchmarkResultWriter {
         Path target = dir.resolve(fileName);
         Path temp = Files.createTempFile(dir, fileName + ".", ".tmp");
         try {
-            OBJECT_MAPPER.writeValue(temp.toFile(), result);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(temp.toFile(), result);
             moveAtomicallyOrReplace(temp, target);
         } catch (IOException ioe) {
             Files.deleteIfExists(temp);
