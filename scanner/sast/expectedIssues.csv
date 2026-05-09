@@ -31,3 +31,10 @@ CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability
 CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,131,1
 CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,169,1
 CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,209,1
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,45,1
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,50,1
+CWE-918,SSRF,src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java,82,1
+CWE-611,XXE,src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java,75,1
+CWE-611,XXE,src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java,108,1
+CWE-90,LDAP Injection,src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java,40,1
+CWE-90,LDAP Injection,src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java,68,1
