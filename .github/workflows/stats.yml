@@ -20,34 +20,6 @@ jobs:
           fetch-depth: 0
           ref: metrics
 
-      - name: Ensure metrics branch exists
-        env:
-          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
-        run: |
-          git fetch origin
-
-          if ! git ls-remote --heads origin metrics | grep metrics; then
-            echo "Metrics branch does not exist. Creating it..."
-
-            git checkout --orphan metrics
-            git rm -rf . || true
-
-            mkdir -p metrics
-
-            echo "Initializing metrics branch" > README.md
-
-            git config user.name "preetkaran20"
-            git config user.email "preetkaran20@gmail.com"
-
-            git add .
-            git commit -m "Initialize metrics branch"
-
-            git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" metrics
-          else
-            echo "Metrics branch already exists"
-            git checkout metrics
-          fi
-
       - name: Fetch & Aggregate GitHub Traffic Metrics
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
