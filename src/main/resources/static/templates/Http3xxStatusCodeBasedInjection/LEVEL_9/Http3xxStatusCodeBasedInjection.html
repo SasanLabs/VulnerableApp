@@ -1,0 +1,27 @@
+<div id="http3xxStatusCodeBasedInjection">
+	<div>
+		Interaction between frontend and backend is done using Ajax calls and
+		this generic structure applies everywhere across Owasp VulnerableApp.
+		Because of that all the http status code or header based redirects
+		doesn't work out of the box and hence we had not implemented it. 
+		<br /> <br />
+		For Vulnerability scanning tools this might not be an issue as
+		scanning tools can work on Api calls but to illustrate this attack to
+		students/security enthusiasts we have provided a way to do the same.
+		Please Visit URL: <a id="placeholder" target="_blank"></a>
+		<br /><br />  To think on why
+		redirection is required or in other words usecase of the redirection functionality,
+		consider a website which is having a login page and say you are logged
+		in into the website but now due to 10 minutes of inactivity, website
+		has forced logout and sent you to login page. Now when you login
+		again, you will notice that the website will open the same page which
+		you were in earlier and one simple way to achieve is using redirection
+		where actual url is passed as a query param to login page and after
+		successful login it redirected you to the value of query param.
+		<br />
+		<div id="mindset">
+		Now the URL given above can be considered as a url on which request is fired when you 
+		click submit after filling username or password and on success it will redirect you to some other page.
+		</div>
+	</div>
+</div>
