@@ -1,0 +1,20 @@
+<div id="http3xxStatusCodeBasedInjection">
+	This level demonstrates a <strong>secure redirect implementation</strong>
+	designed to reduce phishing risk.
+	<br /><br />
+	Unlike the vulnerable levels, this implementation only allows
+	<code>returnTo</code> values that point to approved internal locations.
+	Untrusted external redirect targets are blocked instead of being followed.
+	<br /><br />
+	Try using trusted internal paths such as:
+	<code>/</code> or <code>/VulnerableApp/</code>
+	<br /><br />
+	If you provide an untrusted destination, the application should block the
+	redirect and explain why it was rejected.
+	<br /><br />
+	<div id="mindset">
+		A secure redirect should not rely only on warning pages or user judgment.
+		It should enforce an allowlist so attacker-controlled phishing destinations
+		cannot be used in the first place.
+	</div>
+</div>
