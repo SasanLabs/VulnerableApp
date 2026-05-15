@@ -145,8 +145,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
+    implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
     
-    implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.1'
+    implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.3'
 
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
     
