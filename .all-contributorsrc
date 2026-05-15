@@ -45,6 +45,33 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Etoile-Bleu",
+      "name": "Mathéo Delbarre",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56513031?v=4",
+      "profile": "https://github.com/Etoile-Bleu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "MukulGhare",
+      "name": "Mukul Ghare",
+      "avatar_url": "https://avatars.githubusercontent.com/u/206097825?v=4",
+      "profile": "https://github.com/MukulGhare",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "saurabhkushwaha438",
+      "name": "saurabhkushwaha438",
+      "avatar_url": "https://avatars.githubusercontent.com/u/126544940?v=4",
+      "profile": "https://github.com/saurabhkushwaha438",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

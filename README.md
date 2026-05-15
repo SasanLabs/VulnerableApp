@@ -122,6 +122,23 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)    
 
+## Benchmarking your scanner
+
+VulnerableApp ships a comparator that grades a scanner's findings against the
+project's built-in ground truth and writes a coverage / missed / unmatched
+report. Both DAST and SAST scanners are supported via the same endpoint:
+
+- Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
+- Request body — pick the shape that matches your scanner:
+  - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` is optional and defaults to `DAST`; `type`/`cwe`/`wascId` are individually optional — any one axis matching is enough)
+  - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
+- Response body and `benchmarks/<tool>-results.json` on disk: coverage report
+
+Running the scanner itself is out of scope — you supply the JSON. See
+[`benchmarks/README.md`](benchmarks/README.md) for the full input/output
+schemas, matching rules, canonical vulnerability-type vocabulary, and `curl`
+examples.
+
 ## Contact
 In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
 

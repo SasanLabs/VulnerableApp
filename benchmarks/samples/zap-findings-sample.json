@@ -1,0 +1,11 @@
+{
+  "tool": "ZAP",
+  "findings": [
+    { "url": "/BlindSQLInjectionVulnerability/LEVEL_1",  "type": "BLIND_SQL_INJECTION", "method": "GET" },
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_1", "cwe": "CWE-89" },
+    { "url": "/XSSInImgTagAttribute/LEVEL_1",           "type": "Cross Site Scripting (Reflected)", "cwe": "79" },
+    { "url": "/CommandInjection/LEVEL_1",               "type": "COMMAND_INJECTION" },
+    { "url": "/PathTraversal/LEVEL_1",                  "wascId": "33" },
+    { "url": "/MadeUpVulnerability/LEVEL_1",            "type": "BLIND_SQL_INJECTION" }
+  ]
+}
