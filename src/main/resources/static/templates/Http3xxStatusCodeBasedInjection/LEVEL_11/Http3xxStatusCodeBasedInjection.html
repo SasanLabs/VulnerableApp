@@ -6,12 +6,20 @@
 	<code>returnTo</code> values that point to approved internal locations.
 	Untrusted external redirect targets are blocked instead of being followed.
 	<br /><br />
-	Try using trusted internal paths such as:
-	<code>/</code> or <code>/VulnerableApp/</code>
+
+	<label for="returnToInput"><strong>Test redirect target:</strong></label>
+	<br />
+	<input id="returnToInput" type="text" value="/VulnerableApp/" />
+	<button id="testRedirectBtn">Test Secure Redirect</button>
+
 	<br /><br />
-	If you provide an untrusted destination, the application should block the
-	redirect and explain why it was rejected.
-	<br /><br />
+	<strong>Quick examples:</strong>
+	<ul>
+		<li><a href="#" class="sample-link" data-value="/VulnerableApp/">Allowed: /VulnerableApp/</a></li>
+		<li><a href="#" class="sample-link" data-value="https://google.com">Blocked: https://google.com</a></li>
+		<li><a href="#" class="sample-link" data-value="/VulnerableApp/phishing/fake-login.html">Blocked: fake phishing page</a></li>
+	</ul>
+
 	<div id="mindset">
 		A secure redirect should not rely only on warning pages or user judgment.
 		It should enforce an allowlist so attacker-controlled phishing destinations
