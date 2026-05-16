@@ -6,9 +6,9 @@ function updatePlaceholderDiv() {
       getUrlForVulnerabilityLevel() + "?returnTo=/VulnerableApp/templates/Phishing/fake-login.html";
   } else {
     placeholderAnchorElement.href =
-      getUrlForVulnerabilityLevel() + "?returnTo=/";
+      getUrlForVulnerabilityLevel() + "?returnTo=/templates/Phishing/fake-login.html";
   }
-  placeholderAnchorElement.innerText = "Click here to Log in";
+  placeholderAnchorElement.innerText = "Click here";
 }
 
 updatePlaceholderDiv();
