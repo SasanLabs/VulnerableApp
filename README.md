@@ -155,6 +155,7 @@ In case you are stuck with any of the steps or understanding anything related to
 2. [Overview of Owasp-VulnerableApp - Blogspot post](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
 3. [Introduction to Owasp VulnerableApp by Kenji Nakajima](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [Gen AI based platform Shannon exploiting VulnerableApp](https://qiita.com/fiord/items/9351bcff6d646862f181)
+5. [I Built the OWASP ZAP File Upload Addon. Here’s Why VulnerableApp-Facade Had to Exist First](https://medium.com/p/52c4f2226ed3)
 
 ### Usage of OWASP VulnerableApp
 1. [View Global Academic Interest](../docs/Usage.md)
