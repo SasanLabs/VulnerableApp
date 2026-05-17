@@ -1,7 +1,9 @@
 package org.sasanlabs.configuration;
 
 import java.util.List;
-import org.sasanlabs.internal.utility.ModuleSeeder;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseSeeder {
 
+    private static final transient Logger LOGGER =
+            LogManager.getLogger(DatabaseSeeder.class);
+
     //  Finds every @Component that implements ModuleSeeder
     private final List<ModuleSeeder> seeders;
 
@@ -22,14 +27,15 @@ public class DatabaseSeeder {
 
     @EventListener(ApplicationReadyEvent.class) // Runs when  application is ready
     public void seedAllModules() {
-        System.out.println("Starting Global Database Seeding...");
+        LOGGER.info("Starting Global Database Seeding");
 
         for (ModuleSeeder seeder : seeders) {
             if (!seeder.isSeeded()) {
                 seeder.seed();
+                LOGGER.info("{} has seeded table: {} for module: {}.", seeder.toString(), seeder.getModuleTable(), seeder.getModuleName());
             }
         }
 
-        System.out.println("Seeding complete. Processed " + seeders.size() + " modules.");
+        LOGGER.info("Seeding complete. Processed {} modules", seeders.size());
     }
 }
