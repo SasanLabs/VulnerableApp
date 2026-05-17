@@ -1,0 +1,30 @@
+#http3xxStatusCodeBasedInjection {
+    color: black;
+    text-align: left;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#http3xxStatusCodeBasedInjection input {
+    width: 420px;
+    padding: 8px;
+    margin-top: 8px;
+    margin-right: 10px;
+}
+
+#http3xxStatusCodeBasedInjection button {
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+#http3xxStatusCodeBasedInjection ul {
+    margin-top: 10px;
+}
+
+#mindset {
+    margin-top: 15px;
+    padding: 10px;
+    border-left: 4px solid #2e7d32;
+    background-color: #f4fff4;
+    font-weight: bold;
+}
