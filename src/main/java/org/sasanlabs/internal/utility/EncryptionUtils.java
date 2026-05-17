@@ -25,9 +25,9 @@ public class EncryptionUtils {
      * the beginning of the alphabet. 'z' will shift to 'a' and so on.
      *
      * @param rawPassword plaintext password to encrypt
+     * @param shift how many shifts right
      */
-    public static String caesarCipher(String rawPassword) {
-        int shift = 3; // number of positions to shift each alphabetic character to the right
+    public static String caesarCipher(String rawPassword, int shift) {
         StringBuilder builder = new StringBuilder();
         for (char ch : rawPassword.toCharArray()) {
             if (Character.isLetter(ch)) {

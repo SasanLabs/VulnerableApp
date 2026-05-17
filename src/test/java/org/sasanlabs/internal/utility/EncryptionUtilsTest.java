@@ -13,16 +13,16 @@ class EncryptionUtilsTest {
     @DisplayName("Caesar Cipher: Should shift characters by 3 and wrap around the alphabet")
     void caesarCipher_CorrectShift() {
         // Basic shift
-        assertEquals("def", EncryptionUtils.caesarCipher("abc"));
+        assertEquals("def", EncryptionUtils.caesarCipher("abc", 3));
 
         // Wrapping shift (z -> c)
-        assertEquals("abc", EncryptionUtils.caesarCipher("xyz"));
+        assertEquals("abc", EncryptionUtils.caesarCipher("xyz", 3));
 
         // Case preservation
-        assertEquals("Abc", EncryptionUtils.caesarCipher("Xyz"));
+        assertEquals("Abc", EncryptionUtils.caesarCipher("Xyz", 3));
 
         // Non-alphabetic characters remain unchanged
-        assertEquals("123! @#", EncryptionUtils.caesarCipher("123! @#"));
+        assertEquals("123! @#", EncryptionUtils.caesarCipher("123! @#", 3));
     }
 
     @Test
