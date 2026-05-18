@@ -40,21 +40,21 @@ public final class PasswordHashingUtils {
         }
     }
 
-    public static String md4Hex(String rawPassword) throws HashException {
+    public static String md4Hex(String rawPassword) {
         return getHashAsHex(rawPassword, HashAlgorithm.MD4);
     }
 
-    public static String md5Hex(String rawPassword) throws HashException {
+    public static String md5Hex(String rawPassword) {
         return getHashAsHex(rawPassword, HashAlgorithm.MD5);
     }
 
-    public static String sha1Hex(String rawPassword) throws HashException {
+    public static String sha1Hex(String rawPassword) {
         return getHashAsHex(rawPassword, HashAlgorithm.SHA1);
     }
 
-    public static String getHashAsHex(String rawPassword, String hashAlgorithm) {
+    public static String getHashAsHex(String rawPassword, HashAlgorithm hashAlgorithm) {
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance(hashAlgorithm, "BC");
+            MessageDigest messageDigest = MessageDigest.getInstance(hashAlgorithm.label(), "BC");
             byte[] digest = messageDigest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
             return EncodingUtils.bytesToHex(digest);
         } catch (NoSuchAlgorithmException e) {
@@ -79,11 +79,11 @@ public final class PasswordHashingUtils {
         return saltAndHash[1].equalsIgnoreCase(calculatedHash);
     }
 
-    public static String sha256Hex(String salt, String rawPassword) throws HashException {
+    public static String sha256Hex(String salt, String rawPassword) {
         return getHashAsHex(salt + rawPassword, HashAlgorithm.SHA256);
     }
 
-    public static String unsaltedSha256Hex(String rawPassword) throws HashException {
+    public static String unsaltedSha256Hex(String rawPassword) {
         return getHashAsHex(rawPassword, HashAlgorithm.SHA256);
     }
 
