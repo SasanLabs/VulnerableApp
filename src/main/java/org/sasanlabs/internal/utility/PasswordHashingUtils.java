@@ -16,6 +16,24 @@ public final class PasswordHashingUtils {
 
     private PasswordHashingUtils() {}
 
+    // Available Hashing Algorithms
+    public enum HashAlgorithm {
+        MD4("MD4"),
+        MD5("MD5"),
+        SHA1("SHA-1"),
+        SHA256("SHA-256");
+
+        private final String algorithmName;
+
+        HashAlgorithm(String algorithmName) {
+            this.algorithmName = algorithmName;
+        }
+
+        public String label() {
+            return this.algorithmName;
+        }
+    }
+
     // Registers Bouncy Castle as provider
     static {
         if (Security.getProvider("BC") == null) {
@@ -23,16 +41,16 @@ public final class PasswordHashingUtils {
         }
     }
 
-    public static String md4Hex(String rawPassword) {
-        return getHashAsHex(rawPassword, "MD4");
+    public static String md4Hex(String rawPassword) throws HashException {
+        return getHashAsHex(rawPassword, HashAlgorithm.MD4);
     }
 
-    public static String md5Hex(String rawPassword) {
-        return getHashAsHex(rawPassword, "MD5");
+    public static String md5Hex(String rawPassword) throws HashException {
+        return getHashAsHex(rawPassword, HashAlgorithm.MD5);
     }
 
-    public static String sha1Hex(String rawPassword) {
-        return getHashAsHex(rawPassword, "SHA-1");
+    public static String sha1Hex(String rawPassword) throws HashException {
+        return getHashAsHex(rawPassword, HashAlgorithm.SHA1);
     }
 
     public static String getHashAsHex(String rawPassword, HashAlgorithm hashAlgorithm)
@@ -69,12 +87,12 @@ public final class PasswordHashingUtils {
         return saltAndHash[1].equalsIgnoreCase(calculatedHash);
     }
 
-    public static String sha256Hex(String salt, String rawPassword) {
-        return getHashAsHex(salt + rawPassword, "SHA-256");
+    public static String sha256Hex(String salt, String rawPassword) throws HashException {
+        return getHashAsHex(salt + rawPassword, HashAlgorithm.SHA256);
     }
 
-    public static String unsaltedSha256Hex(String rawPassword) {
-        return getHashAsHex(rawPassword, "SHA-256");
+    public static String unsaltedSha256Hex(String rawPassword) throws HashException {
+        return getHashAsHex(rawPassword, HashAlgorithm.SHA256);
     }
 
     // BC not used for bcrypt due to extra complexity for BC implementation
