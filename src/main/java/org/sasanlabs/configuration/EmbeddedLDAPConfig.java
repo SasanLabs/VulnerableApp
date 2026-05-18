@@ -5,6 +5,7 @@ import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import org.sasanlabs.internal.utility.PasswordHashingUtils;
+import org.sasanlabs.internal.utility.exception.HashException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +30,7 @@ public class EmbeddedLDAPConfig {
         seedUsers();
     }
 
-    private String createSaltedPassword(String password) {
+    private String createSaltedPassword(String password) throws HashException {
 
         String salt = UUID.randomUUID().toString().substring(0, 8);
 

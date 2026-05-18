@@ -6,8 +6,12 @@ package org.sasanlabs.configuration;
  */
 public interface ModuleSeeder {
 
-    // Contains all inserts operations for data
-    void seed();
+    /**
+     * Contains all operations that seed module table with data.
+     *
+     * @throws Exception if there are errors when creating data or seeding
+     */
+    void seed() throws Exception;
 
     // Return true if module has already been seeded
     boolean isSeeded();

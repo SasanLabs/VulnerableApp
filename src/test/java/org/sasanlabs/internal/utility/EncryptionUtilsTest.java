@@ -6,12 +6,13 @@ import java.util.Base64;
 import javax.crypto.SecretKey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.sasanlabs.internal.utility.exception.EncryptionException;
 
 class EncryptionUtilsTest {
 
     @Test
     @DisplayName("Caesar Cipher: Should shift characters by 3 and wrap around the alphabet")
-    void caesarCipher_CorrectShift() {
+    void caesarCipher_CorrectShift() throws EncryptionException {
         // Basic shift
         assertEquals("def", EncryptionUtils.caesarCipher("abc", 3));
 
@@ -28,7 +29,7 @@ class EncryptionUtilsTest {
     @Test
     @DisplayName(
             "Custom Cipher: Should reverse the string and return a valid Base64 encoded string")
-    void customCipher_ReverseAndBase64() {
+    void customCipher_ReverseAndBase64() throws EncryptionException {
         String input = "password";
         String reversed = "drowssap";
         String expectedBase64 = EncodingUtils.encodeBase64(reversed);
@@ -38,7 +39,7 @@ class EncryptionUtilsTest {
 
     @Test
     @DisplayName("Key Generation: Should derive an AES key from a string password")
-    void getKeyFromPassword_ValidKey() {
+    void getKeyFromPassword_ValidKey() throws EncryptionException {
         SecretKey key = EncryptionUtils.getKeyFromPassword("my-secret-password");
 
         assertNotNull(key);
@@ -49,7 +50,7 @@ class EncryptionUtilsTest {
 
     @Test
     @DisplayName("AES Encryption: Should produce consistent ciphertext (ECB Mode Property)")
-    void encrypt_EcbDeterminism() {
+    void encrypt_EcbDeterminism() throws EncryptionException {
         SecretKey key = EncryptionUtils.getKeyFromPassword("fixed-password");
         String plaintext = "This is a secret message that is exactly 32 bytes";
 
@@ -66,7 +67,7 @@ class EncryptionUtilsTest {
     @Test
     @DisplayName(
             "AES Encryption: Identical blocks should produce identical ciphertext blocks (ECB Vulnerability)")
-    void encrypt_EcbPatternLeakage() {
+    void encrypt_EcbPatternLeakage() throws EncryptionException {
         SecretKey key = EncryptionUtils.getKeyFromPassword("vulnerability-test");
 
         // Create two identical 16-byte blocks (AES block size)
