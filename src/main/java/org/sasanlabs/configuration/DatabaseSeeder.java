@@ -1,7 +1,6 @@
 package org.sasanlabs.configuration;
 
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,8 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseSeeder {
 
-    private static final transient Logger LOGGER =
-            LogManager.getLogger(DatabaseSeeder.class);
+    private static final transient Logger LOGGER = LogManager.getLogger(DatabaseSeeder.class);
 
     //  Finds every @Component that implements ModuleSeeder
     private final List<ModuleSeeder> seeders;
@@ -26,13 +24,27 @@ public class DatabaseSeeder {
     }
 
     @EventListener(ApplicationReadyEvent.class) // Runs when  application is ready
-    public void seedAllModules() {
+    public void seedAllModules() throws Exception {
         LOGGER.info("Starting Global Database Seeding");
 
         for (ModuleSeeder seeder : seeders) {
-            if (!seeder.isSeeded()) {
-                seeder.seed();
-                LOGGER.info("{} has seeded table: {} for module: {}.", seeder.toString(), seeder.getModuleTable(), seeder.getModuleName());
+            try {
+                if (!seeder.isSeeded()) {
+                    seeder.seed();
+                    LOGGER.info(
+                            "{} seeded module: {} (Table: {})",
+                            seeder.toString(),
+                            seeder.getModuleName(),
+                            seeder.getModuleTable());
+                }
+            } catch (Exception e) {
+                LOGGER.error(
+                        "{} failed to seed module: {} (Table: {}). Aborting startup.",
+                        seeder.toString(),
+                        seeder.getModuleName(),
+                        seeder.getModuleTable(),
+                        e);
+                throw e;
             }
         }
 
