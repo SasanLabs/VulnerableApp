@@ -5,7 +5,6 @@ import java.security.*;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.sasanlabs.internal.utility.exception.HashException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /** Utility class for various password hashing algorithms. */
@@ -53,26 +52,19 @@ public final class PasswordHashingUtils {
         return getHashAsHex(rawPassword, HashAlgorithm.SHA1);
     }
 
-    public static String getHashAsHex(String rawPassword, HashAlgorithm hashAlgorithm)
-            throws HashException {
-
-        if (rawPassword == null || hashAlgorithm == null) {
-            throw new HashException("Password and Hash Algorithm parameters cannot be null.");
-        }
-
+    public static String getHashAsHex(String rawPassword, String hashAlgorithm) {
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance(hashAlgorithm.label(), "BC");
+            MessageDigest messageDigest = MessageDigest.getInstance(hashAlgorithm, "BC");
             byte[] digest = messageDigest.digest(rawPassword.getBytes(StandardCharsets.UTF_8));
             return EncodingUtils.bytesToHex(digest);
         } catch (NoSuchAlgorithmException e) {
-            throw new HashException(hashAlgorithm + "Hash Algorithm Not Found", e);
+            throw new RuntimeException(hashAlgorithm + "Hash Algorithm Not Found", e);
         } catch (NoSuchProviderException e) {
-            throw new HashException("Security Provider Bouncy Castle not found", e);
+            throw new RuntimeException("Security Provider Bouncy Castle not found", e);
         }
     }
 
-    public static boolean isValidSaltedSha256(String rawPassword, String saltedSha256Hash)
-            throws HashException {
+    public static boolean isValidSaltedSha256(String rawPassword, String saltedSha256Hash) {
         if (saltedSha256Hash == null || rawPassword == null) {
             return false;
         }
@@ -117,7 +109,7 @@ public final class PasswordHashingUtils {
      *
      * @see <a href="https://en.wikipedia.org/wiki/LAN_Manager">Wikipedia: LAN Manager</a>
      */
-    public static String lmHash(String rawPassword) throws HashException {
+    public static String lmHash(String rawPassword) {
         try {
             // Convert to uppercase and pad to 14 bytes
             String pwd = rawPassword.toUpperCase();
@@ -135,7 +127,7 @@ public final class PasswordHashingUtils {
             return EncodingUtils.bytesToHex(lmDesEncrypt(tmpKey1))
                     + EncodingUtils.bytesToHex(lmDesEncrypt(tmpKey2));
         } catch (Exception e) {
-            throw new HashException("LM Hashing failed", e);
+            throw new RuntimeException("LM Hashing failed", e);
         }
     }
 
