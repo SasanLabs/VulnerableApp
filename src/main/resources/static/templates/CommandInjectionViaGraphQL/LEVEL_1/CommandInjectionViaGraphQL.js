@@ -36,6 +36,6 @@ function pingCallBack(response) {
   document.getElementById("pingResult").textContent = JSON.stringify(
     response,
     null,
-    2,
+    2
   );
 }

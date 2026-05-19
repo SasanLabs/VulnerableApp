@@ -3,7 +3,9 @@ function addingEventListenerToGreetButton() {
     let url = getUrlForVulnerabilityLevel();
     doGetAjaxCall(
       greetUtilityCallback,
-      url + "?name=" + encodeURIComponent(document.getElementById("name").value),
+      url +
+        "?name=" +
+        encodeURIComponent(document.getElementById("name").value),
       true
     );
   });

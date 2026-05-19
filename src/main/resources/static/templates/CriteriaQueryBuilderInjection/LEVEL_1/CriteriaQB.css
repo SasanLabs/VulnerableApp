@@ -1,0 +1,46 @@
+#criteria_qb {
+    color: black;
+    text-align: center;
+}
+
+#employeeLookup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#heading {
+    font-size: 20px;
+}
+
+#filterPanel,
+#sortPanel {
+    font-size: 15px;
+    margin: 10px;
+}
+
+#filterPanel input,
+#sortPanel input {
+    margin: 4px;
+    padding: 4px;
+}
+
+#qbFilterBtn,
+#qbSortBtn {
+    background: blueviolet;
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: 0.2s opacity;
+    color: #FFF;
+    font-size: 12px;
+}
+
+#qbResponse {
+    white-space: pre;
+    font-family: monospace;
+    text-align: left;
+    margin-top: 10px;
+}
