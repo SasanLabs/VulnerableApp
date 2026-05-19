@@ -112,6 +112,9 @@ tasks.register('GenerateSampleVulnerability'){
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
+    // Thymeleaf — used by the Server-Side Template Injection vulnerability module
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.5.13'
 
@@ -158,6 +161,12 @@ dependencies {
 
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
     implementation 'org.springframework.security:spring-security-crypto'
+
+    // https://mvnrepository.com/artifact/com.graphql-java/graphql-java
+    implementation group: 'com.graphql-java', name: 'graphql-java', version: '21.5'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+    implementation group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: '3.5.4'
 }
 
 test {
