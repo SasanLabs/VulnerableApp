@@ -112,6 +112,9 @@ tasks.register('GenerateSampleVulnerability'){
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
+    // Thymeleaf — used by the Server-Side Template Injection vulnerability module
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.5.13'
 
