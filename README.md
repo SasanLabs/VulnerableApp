@@ -158,7 +158,7 @@ In case you are stuck with any of the steps or understanding anything related to
 5. [I Built the OWASP ZAP File Upload Addon. Here’s Why VulnerableApp-Facade Had to Exist First](https://medium.com/p/52c4f2226ed3)
 
 ### Usage of OWASP VulnerableApp
-1. [View Global Academic Interest](../docs/Usage.md)
+1. [View Global Academic Interest](./docs/Usage.md)
    
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
