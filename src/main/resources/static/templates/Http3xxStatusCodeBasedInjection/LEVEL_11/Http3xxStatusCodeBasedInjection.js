@@ -13,7 +13,7 @@ function testLevel11Redirect(value) {
 
   fetch(url, {
     method: "GET",
-    redirect: "follow"
+    redirect: "follow",
   })
     .then(function (response) {
       if (response.redirected) {
