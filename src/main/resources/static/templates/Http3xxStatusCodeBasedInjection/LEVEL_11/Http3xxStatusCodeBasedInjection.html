@@ -4,6 +4,7 @@
 	<br /><br />
 	Unlike the vulnerable levels, this implementation only allows
 	<code>returnTo</code> values that point to approved internal locations.
+<<<<<<< HEAD
 	Untrusted external redirect targets are blocked instead of being followed.
 	<br /><br />
 
@@ -19,6 +20,50 @@
 		<li><a href="#" class="sample-link" data-value="https://google.com">Blocked: https://google.com</a></li>
 		<li><a href="#" class="sample-link" data-value="/VulnerableApp/phishing/fake-login.html">Blocked: fake phishing page</a></li>
 	</ul>
+=======
+	All other destinations are blocked.
+	<br /><br />
+
+	<label for="returnToInput"><strong>Test redirect target:</strong></label>
+	<div class="test-row">
+		<input id="returnToInput" type="text" value="/VulnerableApp/" placeholder="Enter a redirect target" />
+		<button id="testRedirectBtn">Test Secure Redirect</button>
+	</div>
+
+	<div id="resultBox" style="display:none;">
+		<div id="resultTitle">
+			<span class="resultIcon">!</span>
+			<span>Redirect Blocked</span>
+		</div>
+		<div id="resultMessage"></div>
+	</div>
+
+	<div class="policyNote">
+		<strong>How this secure level works:</strong>
+		Only approved internal destinations are allowed. All other redirect
+		targets are blocked, including external sites and unapproved internal paths.
+		<br /><br />
+		Try your own values as well, such as:
+		<code>https://www.youtube.com/</code>,
+		<code>https://www.netflix.com/browse</code>, or other paths not shown below.
+		If they are not on the approved allowlist, they should be blocked.
+	</div>
+
+	<div class="examples-section">
+		<strong>Quick examples:</strong>
+		<div class="example-list">
+			<a href="#" class="sample-link allowed-link" data-value="/VulnerableApp/">
+				Allowed: /VulnerableApp/
+			</a>
+			<a href="#" class="sample-link blocked-link" data-value="https://google.com">
+				Blocked: https://google.com
+			</a>
+			<a href="#" class="sample-link blocked-link" data-value="/VulnerableApp/phishing/fake-login.html">
+				Blocked: /VulnerableApp/phishing/fake-login.html
+			</a>
+		</div>
+	</div>
+>>>>>>> develop
 
 	<div id="mindset">
 		A secure redirect should not rely only on warning pages or user judgment.
