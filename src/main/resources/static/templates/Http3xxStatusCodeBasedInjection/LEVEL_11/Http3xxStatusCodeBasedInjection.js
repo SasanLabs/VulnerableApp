@@ -2,6 +2,8 @@ const input = document.getElementById("returnToInput");
 const button = document.getElementById("testRedirectBtn");
 const sampleLinks = document.querySelectorAll(".sample-link");
 const resultBox = document.getElementById("resultBox");
+const resultTitle = document.getElementById("resultTitle");
+const resultMessage = document.getElementById("resultMessage");
 
 function testLevel11Redirect(value) {
   const encoded = encodeURIComponent(value);
@@ -11,25 +13,27 @@ function testLevel11Redirect(value) {
 
   fetch(url, {
     method: "GET",
-    redirect: "manual"
+    redirect: "follow"
   })
     .then(function (response) {
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+
       if (response.status === 403) {
         return response.text().then(function (message) {
-          resultBox.textContent = message + ": " + value;
+          resultTitle.innerHTML =
+            '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
+          resultMessage.textContent = message + ": " + value;
           resultBox.style.display = "block";
         });
       }
-
-      if (response.status >= 300 && response.status < 400) {
-        const location = response.headers.get("Location");
-        if (location) {
-          window.location.href = location;
-        }
-      }
     })
     .catch(function () {
-      resultBox.textContent = "Unable to test redirect right now.";
+      resultTitle.innerHTML =
+        '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
+      resultMessage.textContent = "Unable to test redirect right now.";
       resultBox.style.display = "block";
     });
 }
@@ -45,6 +49,7 @@ sampleLinks.forEach(function (link) {
     event.preventDefault();
     const value = link.getAttribute("data-value");
     input.value = value;
-    testLevel11Redirect(value);
+    resultBox.style.display = "none";
+    resultMessage.textContent = "";
   });
 });
