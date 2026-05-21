@@ -45,6 +45,10 @@ public class ScannerResponseBean {
         return url;
     }
 
+    public String getVariant() {
+        return variant;
+    }
+
     public RequestMethod getRequestMethod() {
         return requestMethod;
     }
