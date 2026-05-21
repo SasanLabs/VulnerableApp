@@ -9,4 +9,4 @@ CREATE TABLE idor_users (
     role VARCHAR(20)
 );
 
-GRANT SELECT ON idor_users TO application;
+GRANT SELECT, UPDATE ON idor_users TO application;
