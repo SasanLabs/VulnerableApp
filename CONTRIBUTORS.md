@@ -16,6 +16,10 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/MukulGhare"><img src="https://avatars.githubusercontent.com/u/206097825?v=4?s=100" width="100px;" alt="Mukul Ghare"/><br /><sub><b>Mukul Ghare</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=MukulGhare" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/saurabhkushwaha438"><img src="https://avatars.githubusercontent.com/u/126544940?v=4?s=100" width="100px;" alt="saurabhkushwaha438"/><br /><sub><b>saurabhkushwaha438</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=saurabhkushwaha438" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/prajp98"><img src="https://avatars.githubusercontent.com/u/38401032?v=4?s=100" width="100px;" alt="Prajwala P"/><br /><sub><b>Prajwala P</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=prajp98" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aashpis"><img src="https://avatars.githubusercontent.com/u/37486859?v=4?s=100" width="100px;" alt="aashpis"/><br /><sub><b>aashpis</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=aashpis" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 

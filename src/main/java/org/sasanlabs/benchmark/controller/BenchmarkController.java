@@ -9,6 +9,7 @@ import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.sasanlabs.benchmark.service.BenchmarkResultWriter;
 import org.sasanlabs.benchmark.service.BenchmarkService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * REST entry point for benchmarking a scanner's findings against VulnerableApp's DAST ground truth.
  * Mounted alongside the existing {@code /scanner} and {@code /scanner/metadata} endpoints.
  */
+@Profile("unsafe")
 @RestController
 public class BenchmarkController {
 

@@ -158,7 +158,12 @@ dependencies {
 
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
     implementation 'org.springframework.security:spring-security-crypto'
+
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.84'
+
 }
+
 
 test {
     useJUnitPlatform()
