@@ -1,0 +1,36 @@
+{
+  "tool": "Semgrep",
+  "scanType": "SAST",
+  "findings": [
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 56,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 68,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 45,
+      "cwe": "CWE-79",
+      "type": "Reflected XSS"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 46,
+      "cwe": "CWE-77",
+      "type": "Command Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/imaginary/Imaginary.java",
+      "line": 100,
+      "cwe": "CWE-9999",
+      "type": "Made Up Vulnerability"
+    }
+  ]
+}

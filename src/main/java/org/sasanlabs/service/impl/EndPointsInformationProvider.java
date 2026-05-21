@@ -23,6 +23,8 @@ import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
+import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardHint;
+import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardPayload;
 import org.sasanlabs.vulnerableapp.facade.schema.ResourceInformation;
 import org.sasanlabs.vulnerableapp.facade.schema.ResourceType;
 import org.sasanlabs.vulnerableapp.facade.schema.ResourceURI;
@@ -243,6 +245,46 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                 facadeVulnerabilityDefinition,
                                 facadeVulnerabilityLevelDefinition,
                                 vulnLevel.htmlTemplate());
+
+                        ChallengeCard[] challengeCardAnnotations =
+                                method.getAnnotationsByType(ChallengeCard.class);
+                        List<org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard>
+                                facadeChallengeCards = new ArrayList<>();
+
+                        for (ChallengeCard card : challengeCardAnnotations) {
+                            org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard
+                                    facadeChallenge =
+                                            new org.sasanlabs.vulnerableapp.facade.schema
+                                                    .ChallengeCard();
+
+                            // Set the Challenge Text
+                            facadeChallenge.setChallengeText(
+                                    messageBundle.getString(card.challengeText(), null));
+
+                            // Map Hints
+                            List<ChallengeCardHint> facadeHints = new ArrayList<>();
+                            for (ChallengeCard.Hint hint : card.hints()) {
+                                ChallengeCardHint hintObj = new ChallengeCardHint();
+                                hintObj.setOrder(hint.order());
+                                hintObj.setText(messageBundle.getString(hint.text(), null));
+                                facadeHints.add(hintObj);
+                            }
+                            facadeChallenge.setHints(facadeHints);
+
+                            // Map Payload
+                            ChallengeCardPayload facadePayload = new ChallengeCardPayload();
+                            facadePayload.setDescription(
+                                    messageBundle.getString(card.payload().description(), null));
+                            facadePayload.setValue(
+                                    vulnerableAppProperties.getAttackVectorProperty(
+                                            card.payload().value()));
+                            facadeChallenge.setPayload(facadePayload);
+
+                            facadeChallengeCards.add(facadeChallenge);
+                        }
+                        // Set the populated list into the facade level definition
+                        facadeVulnerabilityLevelDefinition.setChallengeCards(facadeChallengeCards);
+
                         for (AttackVector attackVector : attackVectors) {
                             List<VulnerabilityType> facadeLevelVulnerabilityTypes =
                                     new ArrayList<VulnerabilityType>();
