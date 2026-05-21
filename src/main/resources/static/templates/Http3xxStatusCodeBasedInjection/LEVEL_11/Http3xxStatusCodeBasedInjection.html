@@ -12,12 +12,14 @@
 	<input id="returnToInput" type="text" value="/VulnerableApp/" />
 	<button id="testRedirectBtn">Test Secure Redirect</button>
 
+	<div id="resultBox" style="display:none; margin-top:12px;"></div>
+
 	<br /><br />
 	<strong>Quick examples:</strong>
 	<ul>
 		<li><a href="#" class="sample-link" data-value="/VulnerableApp/">Allowed: /VulnerableApp/</a></li>
 		<li><a href="#" class="sample-link" data-value="https://google.com">Blocked: https://google.com</a></li>
-		<li><a href="#" class="sample-link" data-value="/VulnerableApp/phishing/fake-login.html">Blocked: fake phishing page</a></li>
+		<li><a href="#" class="sample-link" data-value="/VulnerableApp/phishing/fake-login.html">Blocked: /VulnerableApp/phishing/fake-login.html</a></li>
 	</ul>
 
 	<div id="mindset">

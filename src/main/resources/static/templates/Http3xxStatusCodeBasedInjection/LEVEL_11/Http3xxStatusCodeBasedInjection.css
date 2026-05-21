@@ -1,30 +1,9 @@
-#http3xxStatusCodeBasedInjection {
-    color: black;
-    text-align: left;
-    font-size: 18px;
-    font-weight: normal;
-}
-
-#http3xxStatusCodeBasedInjection input {
-    width: 420px;
-    padding: 8px;
-    margin-top: 8px;
-    margin-right: 10px;
-}
-
-#http3xxStatusCodeBasedInjection button {
-    padding: 8px 14px;
-    cursor: pointer;
-}
-
-#http3xxStatusCodeBasedInjection ul {
-    margin-top: 10px;
-}
-
-#mindset {
-    margin-top: 15px;
+#resultBox {
+    margin-top: 12px;
     padding: 10px;
-    border-left: 4px solid #2e7d32;
-    background-color: #f4fff4;
-    font-weight: bold;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    background: #fff5f5;
+    color: #c0392b;
+    font-size: 14px;
 }
