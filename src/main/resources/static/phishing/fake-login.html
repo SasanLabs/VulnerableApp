@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VulnerableApp - Login</title>
+    <link rel="stylesheet" href="fake-login.css" />
+</head>
+<body>
+    <nav>Fake Social Media</nav>
+
+    <div class="page">
+        <div class="auth-shell">
+            <h3 class="auth-title">Fake Social Media</h3>
+            <p class="auth-subtitle">Your session has expired. Please log in again.</p>
+
+            <div class="auth-card">
+                <h5>Login</h5>
+                <div class="auth-row">
+                    <div class="auth-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username" autocomplete="username" />
+                    </div>
+                    <div class="auth-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" autocomplete="current-password" />
+                    </div>
+                    <button id="loginBtn" onclick="harvest()">Login</button>
+                </div>
+                <div id="errorMsg">Invalid username or password. Please try again.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="fake-login.js"></script>
+</body>
+</html>
