@@ -9,101 +9,105 @@
     font-weight: bold;
 }
 
-#openRedirectBtn {
-    background: #e07020;
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 3px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s opacity;
+/* ── Interstitial popup — decorative styles only.
+   Layout / positioning is set via inline styles in JS so it applies
+   immediately, regardless of when this stylesheet finishes loading. ── */
+
+.redirect-modal-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 40px 32px;
+    max-width: 460px;
+    width: 92%;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.30), 0 4px 16px rgba(0, 0, 0, 0.12);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
-#openRedirectBtn:hover {
-    opacity: 0.9;
-}
-
-/* Modal overlay */
-#redirectModal {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
+/* Circular icon badge */
+.redirect-modal-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fff3e0;
+    display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
+    margin: 0 auto 20px;
 }
 
-#redirectModalCard {
-    background: #fff;
-    border: 1px solid black;
-    border-left: 6px solid #e07020;
-    border-radius: 4px;
-    padding: 24px 28px;
-    max-width: 520px;
-    width: 90%;
-    text-align: center;
+.redirect-modal-icon {
+    font-size: 30px;
+    line-height: 1;
+    color: #e07020;
 }
 
-.modal-icon {
-    font-size: 48px;
-    margin-bottom: 12px;
-}
-
-#redirectModalCard h2 {
+.redirect-modal-title {
     font-size: 20px;
+    font-weight: 700;
+    color: #000000;
     margin-bottom: 8px;
+    letter-spacing: -0.01em;
 }
 
-.modal-subtitle {
-    font-size: 13px;
-    color: #555;
-    margin-bottom: 16px;
-}
-
-#redirectUrlBox {
-    background: #f9f2ec;
-    border: 1px solid #e07020;
-    border-radius: 3px;
-    padding: 8px 12px;
-    font-family: monospace;
-    font-size: 13px;
-    word-break: break-all;
+.redirect-modal-subtitle {
+    font-size: 14px;
+    color: #000000;
     margin-bottom: 20px;
-    text-align: left;
+    line-height: 1.6;
 }
 
-.modal-actions {
+.redirect-url-box {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+    font-size: 13px;
+    color: #000000;
+    word-break: break-all;
+    margin-bottom: 28px;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.redirect-modal-actions {
     display: flex;
     gap: 10px;
     justify-content: center;
 }
 
-#continueBtn {
+.btn-redirect-continue {
     background: #e07020;
-    color: white;
+    color: #ffffff;
     border: none;
-    padding: 9px 20px;
-    border-radius: 3px;
+    padding: 11px 28px;
+    border-radius: 8px;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.2s opacity;
+    letter-spacing: 0.01em;
+    transition: background 0.15s ease;
 }
 
-#continueBtn:hover {
-    opacity: 0.9;
+.btn-redirect-continue:hover {
+    background: #c45000;
 }
 
-#closeBtn {
-    background: white;
-    color: black;
-    border: 1px solid black;
-    padding: 9px 20px;
-    border-radius: 3px;
+.btn-redirect-close {
+    background: #f3f4f6;
+    color: #000000;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 8px;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.15s ease;
 }
 
-#closeBtn:hover {
-    background: #f0f0f0;
+.btn-redirect-close:hover {
+    background: #e5e7eb;
 }
