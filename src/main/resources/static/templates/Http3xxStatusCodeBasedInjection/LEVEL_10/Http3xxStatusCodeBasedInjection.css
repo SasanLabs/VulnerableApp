@@ -4,6 +4,106 @@
     font-size: 18px;
     font-weight: normal;
 }
+
 #mindset {
     font-weight: bold;
+}
+
+#openRedirectBtn {
+    background: #e07020;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s opacity;
+}
+
+#openRedirectBtn:hover {
+    opacity: 0.9;
+}
+
+/* Modal overlay */
+#redirectModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#redirectModalCard {
+    background: #fff;
+    border: 1px solid black;
+    border-left: 6px solid #e07020;
+    border-radius: 4px;
+    padding: 24px 28px;
+    max-width: 520px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+#redirectModalCard h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.modal-subtitle {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+#redirectUrlBox {
+    background: #f9f2ec;
+    border: 1px solid #e07020;
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-family: monospace;
+    font-size: 13px;
+    word-break: break-all;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#continueBtn {
+    background: #e07020;
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s opacity;
+}
+
+#continueBtn:hover {
+    opacity: 0.9;
+}
+
+#closeBtn {
+    background: white;
+    color: black;
+    border: 1px solid black;
+    padding: 9px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#closeBtn:hover {
+    background: #f0f0f0;
 }

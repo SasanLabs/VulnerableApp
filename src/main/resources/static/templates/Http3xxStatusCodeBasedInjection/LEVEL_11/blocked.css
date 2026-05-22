@@ -59,7 +59,7 @@ nav {
     border-radius: 3px;
     background: #fff;
     font-size: 14px;
-    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .info-box {

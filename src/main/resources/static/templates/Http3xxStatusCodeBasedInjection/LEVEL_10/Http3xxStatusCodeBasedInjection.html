@@ -5,20 +5,33 @@
 		<br /> <br />
 		An attacker crafts a trusted-looking URL on this application with a
 		<code>returnTo</code> parameter pointing to a fake login page they control.
-		The server shows a warning before redirecting &mdash; but many users
+		A warning popup is shown before the redirect &mdash; but many users
 		click <strong>Continue</strong> without carefully checking the destination URL.
 		<br /> <br />
-		Please Visit URL: <a id="placeholder" target="_blank"></a>
+		<button id="openRedirectBtn">Click here</button>
 		<br /><br />
-		The URL above simulates a post-login redirect link. When you open it, a
-		warning page will appear showing the redirect destination. Click
-		<strong>Continue</strong> to land on a fake login page and see how
+		Clicking the button simulates opening a post-login redirect link. A warning
+		popup will appear showing the redirect destination. Click
+		<strong>Continue</strong> to land on the fake login page and see how
 		credentials can be harvested.
 		<br />
 		<div id="mindset">
 		A warning interstitial alone is not sufficient protection. As long as the
 		server redirects to any user-supplied URL, an attacker can craft a
 		convincing phishing page and rely on users trusting the source domain.
+		</div>
+	</div>
+</div>
+
+<div id="redirectModal" style="display:none;">
+	<div id="redirectModalCard">
+		<div class="modal-icon">&#9888;</div>
+		<h2>You are leaving VulnerableApp</h2>
+		<p class="modal-subtitle">You are about to be redirected to an external site.</p>
+		<div id="redirectUrlBox"></div>
+		<div class="modal-actions">
+			<button id="continueBtn">Continue</button>
+			<button id="closeBtn">Go Back</button>
 		</div>
 	</div>
 </div>
