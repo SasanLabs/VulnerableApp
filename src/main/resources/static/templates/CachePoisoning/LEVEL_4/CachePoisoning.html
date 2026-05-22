@@ -1,0 +1,73 @@
+<div id="cachePoisoningContainer" class="cache-poisoning-shell">
+    <h3 class="cache-poisoning-title">Cache Poisoning - Level 4</h3>
+    <p class="cache-poisoning-subtitle">
+        This level stops trusting <code>X-Forwarded-Host</code>, but still caches personalized content publicly. The attacker request sets <code>demo_user</code>; the victim request clears that cookie before loading the same route.
+    </p>
+
+    <div class="cache-poisoning-layout">
+        <section class="cache-poisoning-block">
+            <h5>Controls</h5>
+            <div class="cache-poisoning-form">
+                <div class="cache-poisoning-entry-row">
+                    <div class="cache-poisoning-field">
+                        <label class="cache-poisoning-label" for="demoUserInput">Attacker demo_user cookie</label>
+                        <input
+                            class="cache-poisoning-input"
+                            type="text"
+                            id="demoUserInput"
+                            placeholder="admin" />
+                    </div>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-inline">
+                        <button type="button" id="poisonCacheBtn">Send attacker request</button>
+                    </div>
+                </div>
+
+                <div class="cache-poisoning-actions">
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
+                        <button type="button" id="resetCacheBtn">Reset Cache</button>
+                    </div>
+                    <div class="cache-poisoning-action-group cache-poisoning-action-group-right">
+                        <button type="button" id="victimRequestBtn">Send victim request</button>
+                    </div>
+                </div>
+
+                <div class="cache-poisoning-toggle-row">
+                    <label class="cache-poisoning-toggle-label">
+                        <input type="checkbox" id="browserCacheToggle" checked />
+                        Browser cache
+                    </label>
+                    <span class="cache-poisoning-toggle-hint">Off: <code>s-maxage</code> only</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="cache-poisoning-block">
+            <h5>Cache Signals</h5>
+            <div class="cache-poisoning-diagnostics">
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache status</span>
+                    <code id="cacheStatus" class="cache-status-indicator cache-status-neutral">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache key</span>
+                    <code id="cacheKey">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Cache-Control</span>
+                    <code id="cacheControl">-</code>
+                </div>
+                <div class="diagnostic-card">
+                    <span class="diagnostic-label">Vary</span>
+                    <code id="varyHeader">-</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="cache-poisoning-block">
+            <h5>Observed Response</h5>
+            <div id="cachePoisoningResponse" class="cache-poisoning-output">
+                Personalize the attacker request with <code>demo_user</code>, then clear the cookie with the victim request and observe the reused shared-cache response.
+            </div>
+        </section>
+    </div>
+</div>

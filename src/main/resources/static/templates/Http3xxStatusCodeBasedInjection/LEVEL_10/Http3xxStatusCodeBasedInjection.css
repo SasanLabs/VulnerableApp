@@ -1,0 +1,113 @@
+#http3xxStatusCodeBasedInjection {
+    color: black;
+    text-align: left;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#mindset {
+    font-weight: bold;
+}
+
+/* ── Interstitial popup — decorative styles only.
+   Layout / positioning is set via inline styles in JS so it applies
+   immediately, regardless of when this stylesheet finishes loading. ── */
+
+.redirect-modal-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 40px 32px;
+    max-width: 460px;
+    width: 92%;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.30), 0 4px 16px rgba(0, 0, 0, 0.12);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+/* Circular icon badge */
+.redirect-modal-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fff3e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.redirect-modal-icon {
+    font-size: 30px;
+    line-height: 1;
+    color: #e07020;
+}
+
+.redirect-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.redirect-modal-subtitle {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.redirect-url-box {
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+    font-size: 13px;
+    color: #000000;
+    word-break: break-all;
+    margin-bottom: 28px;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.redirect-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-redirect-continue {
+    background: #e07020;
+    color: #ffffff;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.15s ease;
+}
+
+.btn-redirect-continue:hover {
+    background: #c45000;
+}
+
+.btn-redirect-close {
+    background: #f3f4f6;
+    color: #000000;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.15s ease;
+}
+
+.btn-redirect-close:hover {
+    background: #e5e7eb;
+}

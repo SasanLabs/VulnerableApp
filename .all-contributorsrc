@@ -3,10 +3,95 @@
   "projectOwner": "SasanLabs",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": ["CONTRIBUTORS.md"],
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
   "imageSize": 100,
   "commit": true,
   "commitConvention": "none",
-  "contributors": [],
-  "contributorsPerLine": 7
+  "contributors": [
+    {
+      "login": "MixhizoR",
+      "name": "MixhizoR",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39201527?v=4",
+      "profile": "https://github.com/MixhizoR",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "aryankshl",
+      "name": "Aryan Kaushal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98872365?v=4",
+      "profile": "https://github.com/aryankshl",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "luks-santos",
+      "name": "Lucas Batista",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57961643?v=4",
+      "profile": "https://github.com/luks-santos",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Etoile-Bleu",
+      "name": "Mathéo Delbarre",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56513031?v=4",
+      "profile": "https://github.com/Etoile-Bleu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "MukulGhare",
+      "name": "Mukul Ghare",
+      "avatar_url": "https://avatars.githubusercontent.com/u/206097825?v=4",
+      "profile": "https://github.com/MukulGhare",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "saurabhkushwaha438",
+      "name": "saurabhkushwaha438",
+      "avatar_url": "https://avatars.githubusercontent.com/u/126544940?v=4",
+      "profile": "https://github.com/saurabhkushwaha438",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "prajp98",
+      "name": "Prajwala P",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38401032?v=4",
+      "profile": "https://github.com/prajp98",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "aashpis",
+      "name": "aashpis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37486859?v=4",
+      "profile": "https://github.com/aashpis",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "commitType": "docs"
 }

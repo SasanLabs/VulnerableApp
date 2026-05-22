@@ -39,7 +39,15 @@ services:
           condition: service_healthy
       environment:
        - OLLAMA_HOST=http://ollama:11434
-      command: ["pull", "${OLLAMA_MODEL:-phi3:mini}"]
+       - OLLAMA_MODEL=${OLLAMA_MODEL:-phi3:mini}
+       - OLLAMA_EMBED_MODEL=${OLLAMA_EMBED_MODEL:-nomic-embed-text}
+      entrypoint: /bin/sh
+      command:
+       - "-c"
+       - |
+          set -eu
+          ollama pull "${OLLAMA_MODEL:-phi3:mini}"
+          ollama pull "${OLLAMA_EMBED_MODEL:-nomic-embed-text}"
       volumes:
        - ollama_data:/root/.ollama
       restart: "no"
@@ -59,6 +67,7 @@ services:
       environment:
        - OLLAMA_URL=http://ollama:11434
        - OLLAMA_MODEL=${OLLAMA_MODEL:-phi3:mini}
+       - OLLAMA_EMBED_MODEL=${OLLAMA_EMBED_MODEL:-nomic-embed-text}
        - FACADE_ROUTE_PREFIX=/llmforge
       networks:
         app_net:
