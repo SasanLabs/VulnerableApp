@@ -1,0 +1,157 @@
+#phishing {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+nav {
+  width: 320px;
+  max-width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #d9dde6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  padding: 12px;
+}
+
+#mailDetails {
+  flex: 1;
+  min-width: 320px;
+  background-color: #ffffff;
+  border: 1px solid #d9dde6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  padding: 16px;
+}
+
+#mailDetails h2 {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+#mailPreview {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 14px;
+  background-color: #f8fafc;
+}
+
+#mailDetails p {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+#mailPreviewBody {
+  font-size: 20px;
+  text-align: left;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.mailItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid #dce1e8;
+  border-radius: 0;
+  background-color: #fcfdff;
+  color: #111827;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.mailSubject {
+  display: block;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.mailSender {
+  display: block;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.mailItem:hover,
+.mailItem:focus-visible {
+  background-color: #eff5ff;
+  border-color: #a8c5ff;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.mailItem.selected {
+  background-color: #e6f0ff;
+  border-color: #6993ff;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.18);
+  border-radius: 0;
+}
+
+#createMailForm {
+  border-top: 1px solid #dce1e8;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+#createMailForm h3 {
+  margin: 0 0 12px 0;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+#createMailForm input,
+#createMailForm textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d9dde6;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+#createMailForm input:focus,
+#createMailForm textarea:focus {
+  outline: none;
+  border-color: #6993ff;
+  box-shadow: 0 0 0 2px rgba(105, 147, 255, 0.1);
+}
+
+#createMailForm textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+#addMailBtn {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #6993ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#addMailBtn:hover {
+  background-color: #5a7fe3;
+}
+
+#addMailBtn:active {
+  background-color: #4a6fd3;
+}

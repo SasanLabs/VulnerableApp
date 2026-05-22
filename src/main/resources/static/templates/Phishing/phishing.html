@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Phishing</title>
+    <link rel="stylesheet" href="/VulnerableApp/templates/Phishing/phishing.css" />
+  </head>
+  <body>
+    <div id="phishing">
+      <nav>
+        <ul id="mailList"></ul>
+        <div id="createMailForm">
+          <h3>Send New Mail</h3>
+          <input type="text" id="newMailSubject" placeholder="Subject" />
+          <input type="text" id="newMailSender" placeholder="Sender" />
+          <textarea id="newMailBody" placeholder="Body"></textarea>
+          <button id="addMailBtn" type="button">Send!</button>
+        </div>
+      </nav>
+      <div id="mailDetails">
+        <div id="mailPreview">
+          <h4 id="mailPreviewSubject">Select a message</h4>
+          <p id="mailPreviewBody">Select a message from the list to preview it here.</p>
+        </div>
+      </div>
+    </div>
+    <script src="/VulnerableApp/templates/Phishing/phishing.js"></script>
+  </body>
+</html>
