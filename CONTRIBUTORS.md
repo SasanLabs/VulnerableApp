@@ -19,6 +19,7 @@ Thanks to these wonderful people 🎉
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/prajp98"><img src="https://avatars.githubusercontent.com/u/38401032?v=4?s=100" width="100px;" alt="Prajwala P"/><br /><sub><b>Prajwala P</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=prajp98" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/aashpis"><img src="https://avatars.githubusercontent.com/u/37486859?v=4?s=100" width="100px;" alt="aashpis"/><br /><sub><b>aashpis</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=aashpis" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Jhalak19-Sethi"><img src="https://avatars.githubusercontent.com/u/133757296?v=4?s=100" width="100px;" alt="Jhalak19-Sethi"/><br /><sub><b>Jhalak19-Sethi</b></sub></a><br /><a href="#infra-Jhalak19-Sethi" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Jhalak19-Sethi" title="Tests">⚠️</a> <a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Jhalak19-Sethi" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
