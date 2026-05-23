@@ -43,6 +43,14 @@ We regularly receive engagement (contributions, coursework usage, research inter
 
 </a>
 
+</a>
+
+* <a href="https://www.adelaide.edu.au/">
+  <img src="./logos/Coloured/university-of-adelaide-logo.png" height="30" style="vertical-align:middle;"/>
+  <strong>University of Adelaide</strong> — Australia 🇦🇺
+
+</a>
+
 ---
 
 💬 **Students and contributors typically reach out for:**
