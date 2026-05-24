@@ -39,3 +39,7 @@ build/
 
 # Runtime output of /scanner/benchmark — sample inputs and README are tracked
 /benchmarks/*-results.json
+
+# Python cache
+__pycache__/
+*.pyc
