@@ -239,3 +239,14 @@ was *not* created.
 ## Limitations (v1)
 
 - SAST `Number of Sources` is not used for scoring; full credit on first match.
+
+## Tool-specific guides
+
+Each tool guide covers: running the scanner, converting its output, and
+submitting to the benchmark endpoint.
+
+| Tool | Scan type | Guide |
+|---|---|---|
+| OWASP ZAP | DAST | [benchmarks/ZAP.md](./ZAP.md) |
+| Semgrep | SAST | *(sample only — see `benchmarks/samples/semgrep-sast-sample.json`)* |
+
