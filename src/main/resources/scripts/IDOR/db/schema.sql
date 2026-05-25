@@ -6,7 +6,8 @@ CREATE TABLE idor_users (
     username VARCHAR(50),
     password VARCHAR(500),
     salary INT, 
-    role VARCHAR(20)
+    role VARCHAR(20),
+    level INT
 );
 
 GRANT SELECT, UPDATE ON idor_users TO application;
