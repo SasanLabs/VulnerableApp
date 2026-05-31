@@ -56,7 +56,7 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp
-      policy: InsanePolicy
+      policy: defaultPolicy
       maxRuleDurationInMins: 0
       maxScanDurationInMins: 0
       strength: INSANE
