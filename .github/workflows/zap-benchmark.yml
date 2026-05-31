@@ -56,7 +56,7 @@ jobs:
           docker run --rm \
             --network host \
             -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-            ghcr.io/zaproxy/zaproxy:stable \
+            ghcr.io/zaproxy/zaproxy:2.17.0 \
             zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
 
       - name: Verify ZAP report was written
@@ -67,9 +67,12 @@ jobs:
           import json
           with open('benchmarks/ZAP/zap-raw-report.json') as f:
               data = json.load(f)
-          sites = data.get('site', [])
-          if isinstance(sites, dict):
-              sites = [sites]
+          if isinstance(data, list):   
+              sites = data
+          else:
+              sites = data.get('site', [])
+              if isinstance(sites, dict):
+                  sites = [sites]
           total = sum(len(s.get('alerts',[])) for s in sites)
           print(f'  Alerts found: {total}')
           "

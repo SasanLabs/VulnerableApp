@@ -43,7 +43,7 @@ omitted, it defaults to `DAST` so existing payloads keep working.
 To discover the real ground-truth entries, hit
 `GET http://<baseurl>/VulnerableApp/scanner` — every `UNSECURE` entry there
 contributes one expected finding for each `vulnerabilityType` it carries. The
-full sample at `benchmarks/samples/zap-findings-sample.json` includes one
+full sample at `benchmarks/ZAP/samples/zap-findings-sample.json` includes one
 deliberately invalid entry so a successful run produces a non-empty
 `unmatchedItems` list for demonstration.
 

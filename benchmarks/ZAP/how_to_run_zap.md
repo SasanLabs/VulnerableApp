@@ -79,9 +79,13 @@ python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
 ```bash
 curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
-  -d @benchmarks/ZAP/zap-benchmark-input.json | python3 -m json.tool
+  -d @benchmarks/ZAP/zap-benchmark-input.json \ 
+  -o benchmarks/ZAP/zap-results.json
+
+cat benchmarks/ZAP/zap-results.json | python3 -m json.tool
 ```
-Real ZAP scan results are in `benchmarks/ZAP/zap-results.json` and `benchmarks/ZAP/benchmark_results.md`
+The report is saved to `benchmarks/ZAP/zap-results.json`.
+See `benchmarks/ZAP/BENCHMARK_RESULTS.md` for the latest benchmark summary.
 
 ---
 
