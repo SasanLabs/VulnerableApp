@@ -1,7 +1,4 @@
-
----
-
-## 🌍 Global Academic Interest
+# 🌍 Global Academic Interest
 
 VulnerableApp is actively explored by students, educators, and security enthusiasts across the world.
 
