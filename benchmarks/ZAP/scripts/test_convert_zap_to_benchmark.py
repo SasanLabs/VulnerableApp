@@ -4,9 +4,9 @@ test_convert_zap_to_benchmark.py
 Unit tests for the ZAP → benchmark conversion script.
 
 Run:
-    python3 -m pytest benchmarks/scripts/test_convert_zap_to_benchmark.py -v
+    python3 -m pytest benchmarks/ZAP/scripts/test_convert_zap_to_benchmark.py -v
     # or from repo root:
-    python3 -m pytest benchmarks/scripts/ -v
+    python3 -m pytest benchmarks/ZAP/scripts/ -v
 """
 
 import sys
@@ -26,7 +26,7 @@ def _make_report(alerts: list) -> dict:
         "@version": "2.14.0",
         "site": [
             {
-                "@name": "http://localhost:9090",
+                "@name": "http://localhost",
                 "@host": "localhost",
                 "alerts": alerts,
             }
@@ -39,7 +39,7 @@ def _alert(name="SQL Injection", cweid="89", wascid="19",
     if instances is None:
         instances = [
             {
-                "uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+                "uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
                 "method": "GET",
             }
         ]
@@ -113,7 +113,7 @@ def test_convert_single_finding_fields():
     result = convert(_make_report([_alert()]))
     assert len(result["findings"]) == 1
     f = result["findings"][0]
-    assert f["url"] == "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1"
+    assert f["url"] == "http://localhost/VulnerableApp/SQLInjection/LEVEL_1"
     assert f["cwe"] == "CWE-89"
     assert f["wascId"] == "19"
     assert f["method"] == "GET"
@@ -121,8 +121,8 @@ def test_convert_single_finding_fields():
 
 def test_convert_multiple_instances_produce_multiple_findings():
     alert = _alert(instances=[
-        {"uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1", "method": "GET"},
-        {"uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_2", "method": "POST"},
+        {"uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1", "method": "GET"},
+        {"uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_2", "method": "POST"},
     ])
     result = convert(_make_report([alert]))
     assert len(result["findings"]) == 2
@@ -132,7 +132,7 @@ def test_convert_multiple_alerts_produce_multiple_findings():
     alerts = [
         _alert(name="SQL Injection",     cweid="89",  wascid="19"),
         _alert(name="Cross Site Scripting", cweid="79", wascid="8",
-               instances=[{"uri": "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
+               instances=[{"uri": "http://localhost/VulnerableApp/XSS/LEVEL_1",
                             "method": "GET"}]),
     ]
     result = convert(_make_report(alerts))
@@ -144,7 +144,7 @@ def test_convert_multiple_alerts_produce_multiple_findings():
 # ---------------------------------------------------------------------------
 
 def test_convert_deduplicates_identical_findings():
-    instance = {"uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+    instance = {"uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
                 "method": "GET"}
     alert = _alert(instances=[instance, instance])
     result = convert(_make_report([alert]))
@@ -152,7 +152,7 @@ def test_convert_deduplicates_identical_findings():
 
 
 def test_convert_deduplicates_across_alerts():
-    instance = {"uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+    instance = {"uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
                 "method": "GET"}
     alerts = [_alert(instances=[instance]), _alert(instances=[instance])]
     result = convert(_make_report(alerts))
@@ -189,7 +189,7 @@ def test_convert_omits_both_when_zero():
 
 def test_convert_omits_method_when_empty():
     alert = _alert(instances=[{
-        "uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+        "uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
         "method": "",
     }])
     result = convert(_make_report([alert]))
@@ -198,7 +198,7 @@ def test_convert_omits_method_when_empty():
 
 def test_convert_uppercases_method():
     alert = _alert(instances=[{
-        "uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+        "uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
         "method": "post",
     }])
     result = convert(_make_report([alert]))
@@ -233,3 +233,13 @@ def test_convert_empty_report_returns_empty_findings():
 def test_convert_no_site_key_returns_empty_findings():
     result = convert({})
     assert result["findings"] == []
+
+def test_convert_bare_list_input():
+    """ZAP CLI modes can emit a bare site array instead of a wrapped dict."""
+    site = {
+        "@name": "http://localhost",
+        "alerts": [_alert()],
+    }
+    result = convert([site])
+    assert len(result["findings"]) == 1
+    assert result["findings"][0]["cwe"] == "CWE-89"
