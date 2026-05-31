@@ -1,0 +1,184 @@
+name: ZAP Benchmark
+
+on:
+  # Run weekly every Monday at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * 1'
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zap-benchmark:
+    name: Run ZAP DAST Benchmark
+    runs-on: ubuntu-latest
+
+    steps:
+      # ------------------------------------------------------------------
+      # 1. Checkout repo
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------
+      # 2. Set up Java for building VulnerableApp
+      # ------------------------------------------------------------------
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # ------------------------------------------------------------------
+      # 3. Start VulnerableApp modern UI stack
+      # ------------------------------------------------------------------
+      - name: Start VulnerableApp (modern UI)
+        run: |
+          ./gradlew jibDockerBuild
+          docker compose -f docker-compose.local.yml up -d
+          echo "Waiting for stack to be ready..."
+          sleep 60
+
+      - name: Verify VulnerableApp is up
+        run: |
+          curl -f --retry 10 --retry-delay 5 \
+            http://localhost/VulnerableApp/scanner | python3 -m json.tool | head -5
+
+      # ------------------------------------------------------------------
+      # 4. Run ZAP scan
+      # ------------------------------------------------------------------
+      - name: Run ZAP DAST Scan
+        run: |
+          docker run --rm \
+            --network host \
+            --user root \
+            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:2.17.0 \
+            zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
+
+      - name: Verify ZAP report was written
+        run: |
+          ls -lh benchmarks/ZAP/zap-raw-report.json
+          echo "Finding count:"
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-raw-report.json') as f:
+              data = json.load(f)
+          if isinstance(data, list):   
+              sites = data
+          else:
+              sites = data.get('site', [])
+              if isinstance(sites, dict):
+                  sites = [sites]
+          total = sum(len(s.get('alerts',[])) for s in sites)
+          print(f'  Alerts found: {total}')
+          "
+
+      # ------------------------------------------------------------------
+      # 5. Convert ZAP report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert ZAP report
+        run: |
+          python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+            --input  benchmarks/ZAP/zap-raw-report.json \
+            --output benchmarks/ZAP/zap-benchmark-input.json
+
+          echo "Converted findings:"
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-benchmark-input.json') as f:
+              data = json.load(f)
+          print(f'  Total findings: {len(data[\"findings\"])}')
+          print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
+          print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
+          "
+
+      # ------------------------------------------------------------------
+      # 6. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark
+        run: |
+          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/ZAP/zap-benchmark-input.json \
+            -o benchmarks/ZAP/zap-results.json
+
+          echo "=== Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:      {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:      {data[\"detected\"]}')
+          print(f'  Missed:        {data[\"missed\"]}')
+          print(f'  Unmatched:     {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 7. Update benchmark_results.md with real numbers
+      # ------------------------------------------------------------------
+      - name: Update benchmark results doc
+        run: |
+          python3 - << 'PYEOF'
+          import json, re
+          from datetime import date
+ 
+          with open('benchmarks/ZAP/zap-results.json') as f:
+              data = json.load(f)
+ 
+          with open('benchmarks/ZAP/benchmark_results.md') as f:
+              content = f.read()
+ 
+          replacements = {
+              r'\| Total ground-truth vulnerabilities \| .* \|': f'| Total ground-truth vulnerabilities | {data["totalExpected"]} |',
+              r'\| \*\*Detected by ZAP\*\* \| .* \|':           f'| **Detected by ZAP** | **{data["detected"]}** |',
+              r'\| Missed by ZAP \| .* \|':                      f'| Missed by ZAP | {data["missed"]} |',
+              r'\| \*\*Coverage\*\* \| .* \|':                   f'| **Coverage** | **{data["coverage"]:.2f}%** |',
+              r'\| Unmatched \(outside benchmark scope\) \| .* \|': f'| Unmatched (outside benchmark scope) | {data["unmatched"]} |',
+              r'\| Date \| .* \|':                               f'| Date | {date.today().isoformat()} |',
+          }
+ 
+          for pattern, replacement in replacements.items():
+              content = re.sub(pattern, replacement, content)
+ 
+          with open('benchmarks/ZAP/benchmark_results.md', 'w') as f:
+              f.write(content)
+ 
+          print("benchmark_results.md updated with real numbers")
+          PYEOF
+ 
+      # ------------------------------------------------------------------
+      # 8. Commit and push results back to repo
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add \
+            benchmarks/ZAP/zap-results.json \
+            benchmarks/ZAP/benchmark_results.md
+          git diff --staged --quiet || git commit -m \
+            "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
+          git push
+ 
+      # ------------------------------------------------------------------
+      # 9. Upload raw report and input as artifacts (for inspection)
+      # ------------------------------------------------------------------
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-benchmark-artifacts
+          path: |
+            benchmarks/ZAP/zap-raw-report.json
+            benchmarks/ZAP/zap-benchmark-input.json
+            benchmarks/ZAP/zap-results.json
+            benchmarks/ZAP/benchmark_results.md
+          retention-days: 90
