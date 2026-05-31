@@ -5,6 +5,7 @@
 #
 # Usage:
 #   docker run --network host \
+#     --user root \
 #     -v $(pwd)/benchmarks:/zap/wrk/:rw \
 #     ghcr.io/zaproxy/zaproxy:2.17.0 \
 #     zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
@@ -76,4 +77,3 @@ jobs:
       - high
       - medium
       - low
-      - informational
