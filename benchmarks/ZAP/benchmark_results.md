@@ -9,12 +9,12 @@
 | Scan Type | DAST |
 | Mode | Insane (strength: INSANE, threshold: LOW) |
 | UI | Modern UI (VulnerableApp-facade) |
-| Total ground-truth vulnerabilities | TBD |
-| **Detected by ZAP** | **TBD** |
-| Missed by ZAP | TBD |
-| **Coverage** | **TBD** |
-| Unmatched (outside benchmark scope) | TBD |
-| Date | TBD |
+| Total ground-truth vulnerabilities | 140 |
+| **Detected by ZAP** | **0** |
+| Missed by ZAP | 140 |
+| **Coverage** | **0.00%** |
+| Unmatched (outside benchmark scope) | 15 |
+| Date | 2026-05-31 |
 
 ## Why coverage is not 100%
 
