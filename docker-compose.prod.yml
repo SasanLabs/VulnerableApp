@@ -29,6 +29,9 @@ services:
     environment:
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_PORT=80
+      - ENABLE_VULNERABLEAPP_JSP=true
+      - ENABLE_VULNERABLEAPP_PHP=true
+      - ENABLE_LLMFORGE=true
     networks:
       - internal
       - edge
