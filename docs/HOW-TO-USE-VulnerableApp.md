@@ -76,32 +76,3 @@ Line: Line number in the file containing the Vulnerability
 Source: Number of times that line is executed. 
 ```
 
-### Benchmarking OWASP ZAP
-
-To evaluate ZAP's detection coverage against VulnerableApp:
-
-1. Start VulnerableApp (`./gradlew bootRun`).
-2. Run ZAP using the provided automation plan:
-   ```bash
-   docker run --rm --network host \
-     -v "$(pwd)/benchmarks:/zap/wrk/:rw" \
-     ghcr.io/zaproxy/zaproxy:stable \
-     zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
-   ```
-3. Convert ZAP's output to benchmark format:
-   ```bash
-   python3 benchmarks/scripts/convert_zap_to_benchmark.py \
-     --input  benchmarks/zap-raw-report.json \
-     --output benchmarks/zap-benchmark-input.json
-   ```
-4. Submit and view coverage:
-   ```bash
-   curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
-     -H "Content-Type: application/json" \
-     -d @benchmarks/zap-benchmark-input.json | python3 -m json.tool
-   ```
-
-The benchmark report is saved to `benchmarks/zap-results.json`.
-See [benchmarks/ZAP.md](../benchmarks/ZAP.md) for the full guide including
-CI automation, result interpretation, and the CWE/WASC mapping table.
-

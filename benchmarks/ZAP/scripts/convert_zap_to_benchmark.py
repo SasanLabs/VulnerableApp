@@ -12,9 +12,9 @@ Usage
         --output benchmarks/zap-benchmark-input.json
 
     # Then POST to VulnerableApp:
-    curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \\
+    curl -X POST http://localhost/VulnerableApp/scanner/benchmark \\
         -H "Content-Type: application/json" \\
-        -d @benchmarks/zap-benchmark-input.json
+        -d @benchmarks/ZAP/zap-benchmark-input.json
 
 Input format (ZAP traditional-json)
 ------------------------------------
@@ -26,7 +26,7 @@ Each alert looks like:
       "cweid": "89",
       "wascid": "19",
       "instances": [
-        { "uri": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+        { "uri": "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
           "method": "GET", ... }
       ]
     }
@@ -40,7 +40,7 @@ Output format (VulnerableApp benchmark input)
       "scanType": "DAST",
       "findings": [
         {
-          "url":    "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+          "url":    "http://localhost/VulnerableApp/SQLInjection/LEVEL_1",
           "cwe":    "CWE-89",
           "wascId": "19",
           "method": "GET"
@@ -91,8 +91,11 @@ def convert(zap_report: dict) -> dict:
     seen: set[tuple] = set()
     findings: list[dict] = []
 
-    sites = zap_report.get("site", [])
-    # The report may be wrapped: {"@version":…, "site":[…]}  OR the array itself.
+    if isinstance(zap_report, list):
+        sites = zap_report
+    else:
+        sites = zap_report.get("site", [])
+    
     if isinstance(sites, dict):
         sites = [sites]
 
@@ -141,8 +144,8 @@ def main() -> None:
     )
     parser.add_argument(
         "--output", "-o",
-        default="benchmarks/zap-benchmark-input.json",
-        help="Path to write the benchmark input JSON (default: benchmarks/zap-benchmark-input.json).",
+        default="benchmarks/ZAP/zap-benchmark-input.json",
+        help="Path to write the benchmark input JSON (default: benchmarks/ZAP/zap-benchmark-input.json).",
     )
     args = parser.parse_args()
 

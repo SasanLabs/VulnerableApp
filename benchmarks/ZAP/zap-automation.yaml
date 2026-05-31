@@ -1,6 +1,6 @@
 ---
 # ---------------------------------------------------------------------------
-# OWASP ZAP Automation Framework Plan
+# ZAP by Checkmarx Automation Framework Plan
 # Scans VulnerableApp and writes a JSON report consumed by the benchmark.
 #
 # Usage:
@@ -9,7 +9,7 @@
 #     ghcr.io/zaproxy/zaproxy:stable \
 #     zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
 #
-# The JSON report is written to benchmarks/zap-raw-report.json.
+# The JSON report is written to benchmarks/ZAP/zap-raw-report.json.
 # Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
 # ---------------------------------------------------------------------------
 
@@ -17,24 +17,25 @@ env:
   contexts:
     - name: VulnerableApp
       urls:
-        - http://localhost:9090/VulnerableApp
+        - http://localhost
       includePaths:
-        - "http://localhost:9090/VulnerableApp.*"
+        - "http://localhost.*"
       excludePaths:
-        - "http://localhost:9090/VulnerableApp/logout.*"
+        - "http://localhost/logout.*"
   parameters:
     failOnError: true
     failOnWarning: false
     progressToStdout: true
 
-jobs:
+jobs:         
+
   # ------------------------------------------------------------------
   # 1. Spider — crawl VulnerableApp to discover all endpoints
   # ------------------------------------------------------------------
   - type: spider
     parameters:
       context: VulnerableApp
-      url: http://localhost:9090/VulnerableApp
+      url: http://localhost
       maxDuration: 5          # minutes
       maxDepth: 10
       acceptCookies: true
@@ -45,8 +46,8 @@ jobs:
   - type: spiderAjax
     parameters:
       context: VulnerableApp
-      url: http://localhost:9090/VulnerableApp
-      maxDuration: 3          # minutes
+      url: http://localhost
+      maxDuration: 5         # minutes
       browserId: firefox-headless
 
   # ------------------------------------------------------------------
@@ -55,9 +56,11 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp
-      policy: Default Policy
-      maxRuleDurationInMins: 5
-      maxScanDurationInMins: 60
+      policy: InsanePolicy
+      maxRuleDurationInMins: 0
+      maxScanDurationInMins: 0
+      strength: INSANE
+      threshold: LOW
 
   # ------------------------------------------------------------------
   # 4. Report — JSON format, written to benchmarks/zap-raw-report.json
