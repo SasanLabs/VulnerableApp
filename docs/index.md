@@ -23,7 +23,7 @@ As solving the above issue requires addition of various vulnerabilities, hence i
 
 ## How to use this tool
 
-- [See configuration options]({{ site.baseurl }}{% link HOW-TO-USE.md %})
+- [See configuration options]({{ site.baseurl }}{% link HOW-TO-USE-VulnerableApp.md %})
 
 ## Contact
 
