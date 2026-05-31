@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  VulnerableApp-base:
+    image: sasanlabs/owasp-vulnerableapp:unreleased
+    networks:
+      - internal
+    restart: unless-stopped
+    environment:
+      - DB_ADMIN_USERNAME=${DB_ADMIN_USERNAME}
+      - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}
+      - DB_APP_USERNAME=${DB_APP_USERNAME}
+      - DB_APP_PASSWORD=${DB_APP_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=public
+      # - SPRING_H2_CONSOLE_ENABLED=true # set as false or comment it out
+      # - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true # set as false or comment it out
+      # - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=WARN
+      # - LOGGING_LEVEL_ORG_HIBERNATE=WARN
+
+  VulnerableApp-facade:
+    depends_on:
+      - VulnerableApp-base
+    image: sasanlabs/owasp-vulnerableapp-facade:latest
+    restart: unless-stopped
+    volumes:
+      - ./templates:/etc/nginx/templates:ro
+    ports:
+      - "0.0.0.0:80:80"
+    environment:
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_PORT=80
+    networks:
+      - internal
+      - edge
+
+networks:
+  internal:
+    driver: bridge
+    internal: true   # base has no internet access
+  edge:
+    driver: bridge   # facade can reach outside
