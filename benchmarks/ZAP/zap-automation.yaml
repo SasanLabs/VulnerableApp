@@ -56,11 +56,11 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp
-      policy: defaultPolicy
       maxRuleDurationInMins: 0
       maxScanDurationInMins: 0
-      strength: INSANE
-      threshold: LOW
+    policyDefinition:
+      defaultStrength: INSANE
+      defaultThreshold: LOW
 
   # ------------------------------------------------------------------
   # 4. Report — JSON format, written to benchmarks/zap-raw-report.json
