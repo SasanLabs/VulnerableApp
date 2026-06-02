@@ -1,14 +1,14 @@
 ---
 # ---------------------------------------------------------------------------
 # ZAP by Checkmarx Automation Framework Plan
-# Scans VulnerableApp and writes a JSON report consumed by the benchmark.
+# Scans VulnerableApp modern UI and writes a JSON report consumed by the benchmark.
 #
 # Usage:
 #   docker run --network host \
 #     --user root \
 #     -v $(pwd)/benchmarks:/zap/wrk/:rw \
 #     ghcr.io/zaproxy/zaproxy:2.17.0 \
-#     zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
+#     bash -c "zap.sh -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml"
 #
 # The JSON report is written to benchmarks/ZAP/zap-raw-report.json.
 # Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
@@ -37,7 +37,7 @@ jobs:
     parameters:
       context: VulnerableApp
       url: http://localhost
-      maxDuration: 5          # minutes
+      maxDuration: 20         # minutes
       maxDepth: 10
       acceptCookies: true
 
@@ -48,8 +48,8 @@ jobs:
     parameters:
       context: VulnerableApp
       url: http://localhost
-      maxDuration: 5         # minutes
-      browserId: firefox-headless
+      maxDuration: 20         # minutes
+      browserId: chrome-headless
 
   # ------------------------------------------------------------------
   # 3. Active Scan — attack mode against discovered URLs
@@ -71,8 +71,8 @@ jobs:
       template: traditional-json
       reportDir: /zap/wrk
       reportFile: zap-raw-report
-      reportTitle: VulnerableApp ZAP Scan
-      reportDescription: "DAST scan of OWASP VulnerableApp for benchmark evaluation"
+      reportTitle: VulnerableApp ZAP Scan (Modern UI)
+      reportDescription: "DAST scan of OWASP VulnerableApp modern UI for benchmark evaluation"
     risks:
       - high
       - medium

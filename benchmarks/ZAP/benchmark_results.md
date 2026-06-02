@@ -5,7 +5,7 @@
 
 | Metric | Value |
 |---|---|
-| Tool | OWASP ZAP by Checkmarx |
+| Tool | ZAP by Checkmarx |
 | Scan Type | DAST |
 | Mode | Insane (strength: INSANE, threshold: LOW) |
 | UI | Modern UI (VulnerableApp-facade) |
@@ -26,6 +26,14 @@ with standard rules regardless of scan strength:
 | JWT vulnerabilities | Requires semantic token analysis |
 | Cryptographic failures | Server-side logic, not observable via HTTP |
 | Web cache poisoning | No CWE/WASC mapping available |
+
+## Modern UI vs Legacy UI
+ 
+| Aspect | Modern UI | Legacy UI |
+|---|---|---|
+| Entry point | `http://localhost` | `http://localhost/VulnerableApp` |
+| Frontend | React (VulnerableApp-facade) | JSP |
+| Ajax Spider | chrome-headless | chrome-headless |
 
 ## Reproducing these results
 

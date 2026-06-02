@@ -1,0 +1,79 @@
+---
+# ---------------------------------------------------------------------------
+# ZAP by Checkmarx Automation Framework Plan
+# Scans VulnerableApp legacy UI and writes a JSON report consumed by the
+# benchmark.
+#
+# Usage:
+#   docker run --network host \
+#     --user root \
+#     -v $(pwd)/benchmarks/ZAP:/zap/wrk/:rw \
+#     ghcr.io/zaproxy/zaproxy:2.17.0 \
+#     bash -c "zap.sh -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation-legacy.yaml"
+#
+# The JSON report is written to benchmarks/ZAP/zap-raw-report-legacy.json.
+# Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
+# ---------------------------------------------------------------------------
+
+env:
+  contexts:
+    - name: VulnerableApp-legacy
+      urls:
+        - http://localhost/VulnerableApp
+      includePaths:
+        - "http://localhost/VulnerableApp.*"
+      excludePaths:
+        - "http://localhost/VulnerableApp/logout.*"
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+
+jobs:
+  # ------------------------------------------------------------------
+  # 1. Spider — crawl VulnerableApp legacy endpoints
+  # ------------------------------------------------------------------
+  - type: spider
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://localhost/VulnerableApp
+      maxDuration: 20         # minutes
+      maxDepth: 10
+      acceptCookies: true
+
+  # ------------------------------------------------------------------
+  # 2. Ajax Spider — picks up JS-rendered pages the traditional spider misses
+  # ------------------------------------------------------------------
+  - type: spiderAjax
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://localhost/VulnerableApp
+      maxDuration: 20         # minutes
+      browserId: chrome-headless
+
+  # ------------------------------------------------------------------
+  # 3. Active Scan — insane mode for maximum vulnerability coverage
+  # ------------------------------------------------------------------
+  - type: activeScan
+    parameters:
+      context: VulnerableApp-legacy
+      maxRuleDurationInMins: 0
+      maxScanDurationInMins: 0
+    policyDefinition:
+      defaultStrength: INSANE
+      defaultThreshold: LOW
+
+  # ------------------------------------------------------------------
+  # 4. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
+  # ------------------------------------------------------------------
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: /zap/wrk
+      reportFile: zap-raw-report-legacy
+      reportTitle: VulnerableApp ZAP Scan (Legacy UI)
+      reportDescription: "DAST scan of OWASP VulnerableApp legacy UI for benchmark evaluation"
+    risks:
+      - high
+      - medium
+      - low
