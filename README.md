@@ -18,6 +18,9 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧪 Deterministic vulnerability behavior for repeatable scanning results
 - 🧠 Built for security engineers, researchers, and educators
 
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+
+
 ### VulnerableApp helps you:
 
 - Validate how security tools behave across known vulnerability patterns
