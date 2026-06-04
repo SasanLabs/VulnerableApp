@@ -43,8 +43,7 @@ jobs:
       # ------------------------------------------------------------------
       - name: Run ZAP DAST Scan
         run: |
-          docker run --rm \
-            NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+          NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
             --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
           echo "Using network: $NETWORK"
           docker run --rm \
