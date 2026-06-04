@@ -44,7 +44,12 @@ jobs:
       - name: Run ZAP DAST Scan
         run: |
           docker run --rm \
-            --network host \
+            NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+          echo "Using network: $NETWORK"
+          docker run --rm \
+            --network "$NETWORK" \
+            --shm-size=2g \
             --user root \
             -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
             ghcr.io/zaproxy/zaproxy:2.17.0 \
@@ -73,8 +78,12 @@ jobs:
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Legacy UI)
         run: |
+          NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+          echo "Using network: $NETWORK"
           docker run --rm \
-            --network host \
+            --network "$NETWORK" \
+            --shm-size=2g \
             --user root \
             -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
             ghcr.io/zaproxy/zaproxy:2.17.0 \

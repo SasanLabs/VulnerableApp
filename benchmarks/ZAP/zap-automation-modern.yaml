@@ -4,7 +4,10 @@
 # Scans VulnerableApp modern UI and writes a JSON report consumed by the benchmark.
 #
 # Usage:
-#   docker run --network host \
+#     NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+#       --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+#     docker run --network "$NETWORK" \
+#     --user root \
 #     --user root \
 #     -v $(pwd)/benchmarks:/zap/wrk/:rw \
 #     ghcr.io/zaproxy/zaproxy:2.17.0 \
@@ -18,7 +21,7 @@ env:
   contexts:
     - name: VulnerableApp
       urls:
-        - http://localhost
+        - http://VulnerableApp-facade
       includePaths:
         - "http://localhost.*"
       excludePaths:
@@ -36,7 +39,7 @@ jobs:
   - type: spider
     parameters:
       context: VulnerableApp
-      url: http://localhost
+      url: http://VulnerableApp-facade
       maxDuration: 20         # minutes
       maxDepth: 10
       acceptCookies: true
@@ -47,7 +50,7 @@ jobs:
   - type: spiderAjax
     parameters:
       context: VulnerableApp
-      url: http://localhost
+      url: http://VulnerableApp-facade
       maxDuration: 20         # minutes
       browserId: chrome-headless
 

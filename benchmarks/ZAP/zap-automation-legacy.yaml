@@ -5,7 +5,9 @@
 # benchmark.
 #
 # Usage:
-#   docker run --network host \
+#     NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+#       --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+#     docker run --network "$NETWORK" \
 #     --user root \
 #     -v $(pwd)/benchmarks/ZAP:/zap/wrk/:rw \
 #     ghcr.io/zaproxy/zaproxy:2.17.0 \
@@ -19,7 +21,7 @@ env:
   contexts:
     - name: VulnerableApp-legacy
       urls:
-        - http://localhost/VulnerableApp
+        - http://VulnerableApp-facade/VulnerableApp
       includePaths:
         - "http://localhost/VulnerableApp.*"
       excludePaths:
@@ -36,7 +38,7 @@ jobs:
   - type: spider
     parameters:
       context: VulnerableApp-legacy
-      url: http://localhost/VulnerableApp
+      url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 20         # minutes
       maxDepth: 10
       acceptCookies: true
@@ -47,7 +49,7 @@ jobs:
   - type: spiderAjax
     parameters:
       context: VulnerableApp-legacy
-      url: http://localhost/VulnerableApp
+      url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 20         # minutes
       browserId: chrome-headless
 
