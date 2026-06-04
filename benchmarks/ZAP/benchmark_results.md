@@ -14,7 +14,7 @@
 | Missed by ZAP | 140 |
 | **Coverage** | **0.00%** |
 | Unmatched (outside benchmark scope) | 15 |
-| Date | 2026-05-31 |
+| Date | 2026-06-04 |
 
 ## Why coverage is not 100%
 
