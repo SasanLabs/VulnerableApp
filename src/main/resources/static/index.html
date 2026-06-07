@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="vulnerableApp.css" />
 </head>
 
-<body onload="doGetAjaxCall(generateMasterDetail, 'allEndPointJson', true);">
+<body onload="doGetAjaxCall(generateMasterDetail, 'mockAllEndPointJson.json', true);">
 	<!-- Special thanks to Amazing Tutorial on FlexBox: https://www.youtube.com/watch?v=k32voqQhODc-->
 	<div class="navbar" style="background-color: blanchedalmond;">
 		<div class="navbar-item navbar-brand">
@@ -18,6 +18,10 @@
 					clip-rule="evenodd" />
 			</svg>
 			VulnerableApp
+		</div>
+		<div class="mode-toggle" id="modeToggle" role="group" aria-label="Application mode">
+			<button type="button" id="challengeModeBtn" class="mode-toggle-btn" disabled>Challenge</button>
+			<button type="button" id="scannerModeBtn" class="mode-toggle-btn active-mode">Scanner</button>
 		</div>
 		<!-- TODO Add active to mode when clicked-->
 		<div class="navbar navbar-item">
@@ -65,11 +69,12 @@
 							<button id="backBtn" onclick="back()" class="hidden-md">
 								< Back</button>
 									<h1 class="detail-title text-center"></h1>
-									<div>
+									<div id="scannerHelp">
 										<button id="showHelp">Show Help</button>
 										<button id="hideHelp" disabled=true>Hide Help</button>
 										<div id="helpText"></div>
 									</div>
+									<div id="challengeCards" class="hide-component"></div>
 						</div>
 					</div>
 					<button id="vulnLearnBtn" class="mode-item hide-component">Learn Vulnerability</button>

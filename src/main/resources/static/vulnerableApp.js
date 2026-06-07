@@ -11,6 +11,10 @@ const variantTooltip = {
 let vulnerabilitySelected = "";
 let vulnerabilityLevelSelected = "";
 
+const MODE_SCANNER = "SCANNER";
+const MODE_CHALLENGE = "CHALLENGE";
+let appMode = MODE_SCANNER;
+
 let currentId;
 let currentKey;
 
@@ -50,6 +54,13 @@ function _callbackForInnerMasterOnClickEvent(
     vulnerabilityLevelSelected =
       vulnerableAppEndPointData[id]["Detailed Information"][key]["Level"];
     this.classList.add("active-item");
+    let levelChallengeCards = _getChallengeCardsForLevel(
+      vulnerableAppEndPointData,
+      id,
+      key
+    );
+    _updateChallengeToggleAvailability(levelChallengeCards);
+    _renderDetailMode(vulnerableAppEndPointData);
     let htmlTemplate =
       vulnerableAppEndPointData[id]["Detailed Information"][key][
         "HtmlTemplate"
@@ -180,6 +191,7 @@ function update(vulnerableAppEndPointData) {
     });
   });
   _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData);
+  _addingEventListenerToModeToggle(vulnerableAppEndPointData);
 }
 
 function _clearActiveItemClass(items) {
@@ -330,6 +342,197 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
   document.getElementById("hideHelp").addEventListener("click", function () {
     _clearHelp();
   });
+}
+
+function _isChallengeAvailable(challengeCards) {
+  return Array.isArray(challengeCards) && challengeCards.length > 0;
+}
+
+function _buildSingleChallengeCard(card, index) {
+  let cardEl = document.createElement("div");
+  cardEl.classList.add("challenge-card");
+
+  let header = document.createElement("div");
+  header.classList.add("challenge-card-header");
+  let title = document.createElement("span");
+  title.classList.add("challenge-card-title");
+  title.textContent = "Challenge " + (index + 1);
+  header.appendChild(title);
+
+  let body = document.createElement("div");
+  body.classList.add("challenge-card-body");
+
+  let objective = document.createElement("p");
+  objective.classList.add("challenge-card-objective");
+  objective.textContent = card["ChallengeText"] || "";
+  body.appendChild(objective);
+
+  let hints = (card["hints"] || []).slice().sort(function (a, b) {
+    return (a["order"] || 0) - (b["order"] || 0);
+  });
+  let hintList = document.createElement("ol");
+  hintList.classList.add("challenge-card-hints");
+  body.appendChild(hintList);
+
+  let payload = card["payload"];
+
+  let revealHintBtn = document.createElement("button");
+  revealHintBtn.type = "button";
+  revealHintBtn.classList.add("challenge-card-reveal-hint");
+  revealHintBtn.textContent = "Reveal hint";
+
+  // Payload controls only exist when the card has a payload.
+  let showPayloadBtn = null;
+  let payloadEl = null;
+  if (payload) {
+    showPayloadBtn = document.createElement("button");
+    showPayloadBtn.type = "button";
+    showPayloadBtn.classList.add("challenge-card-show-payload");
+    showPayloadBtn.textContent = "Show Payload";
+    showPayloadBtn.disabled = true;
+
+    payloadEl = document.createElement("div");
+    payloadEl.classList.add("challenge-card-payload", "hide-component");
+
+    showPayloadBtn.addEventListener("click", function () {
+      payloadEl.innerHTML = "";
+      let desc = document.createElement("p");
+      desc.classList.add("challenge-card-payload-description");
+      desc.textContent = payload["description"] || "";
+      let value = document.createElement("code");
+      value.classList.add("challenge-card-payload-value");
+      value.textContent = payload["value"] || "";
+      payloadEl.appendChild(desc);
+      payloadEl.appendChild(value);
+      payloadEl.classList.remove("hide-component");
+    });
+  }
+
+  let revealedHints = 0;
+  function _updateControlsAfterHint() {
+    if (revealedHints >= hints.length) {
+      revealHintBtn.classList.add("hide-component");
+      if (payload) {
+        showPayloadBtn.disabled = false;
+      }
+    }
+  }
+
+  revealHintBtn.addEventListener("click", function () {
+    if (revealedHints < hints.length) {
+      let li = document.createElement("li");
+      li.textContent = hints[revealedHints]["text"] || "";
+      hintList.appendChild(li);
+      revealedHints += 1;
+      _updateControlsAfterHint();
+    }
+  });
+
+  if (hints.length === 0) {
+    revealHintBtn.classList.add("hide-component");
+    if (payload) {
+      showPayloadBtn.disabled = false;
+    }
+  }
+
+  body.appendChild(revealHintBtn);
+  if (payload) {
+    body.appendChild(showPayloadBtn);
+    body.appendChild(payloadEl);
+  }
+
+  cardEl.appendChild(header);
+  cardEl.appendChild(body);
+  return cardEl;
+}
+
+function buildChallengeCards(challengeCardArray) {
+  let container = document.createElement("div");
+  container.classList.add("challenge-cards-grid");
+  if (!Array.isArray(challengeCardArray) || challengeCardArray.length === 0) {
+    return container;
+  }
+  challengeCardArray.forEach(function (card, index) {
+    container.appendChild(_buildSingleChallengeCard(card, index));
+  });
+  return container;
+}
+
+function _setAppMode(mode) {
+  appMode = mode;
+  document
+    .getElementById("scannerModeBtn")
+    .classList.toggle("active-mode", mode === MODE_SCANNER);
+  document
+    .getElementById("challengeModeBtn")
+    .classList.toggle("active-mode", mode === MODE_CHALLENGE);
+}
+
+function _updateChallengeToggleAvailability(challengeCards) {
+  let available = _isChallengeAvailable(challengeCards);
+  document.getElementById("challengeModeBtn").disabled = !available;
+  if (!available && appMode === MODE_CHALLENGE) {
+    _setAppMode(MODE_SCANNER);
+  }
+}
+
+function _getChallengeCardsForLevel(vulnerableAppEndPointData, id, key) {
+  let level =
+    vulnerableAppEndPointData[id] &&
+    vulnerableAppEndPointData[id]["Detailed Information"][key];
+  return (level && level["ChallengeCard"]) || [];
+}
+
+function _renderDetailMode(vulnerableAppEndPointData) {
+  let challengeCardsContainer = document.getElementById("challengeCards");
+  let scannerHelp = document.getElementById("scannerHelp");
+  let challengeCards = _getChallengeCardsForLevel(
+    vulnerableAppEndPointData,
+    currentId,
+    currentKey
+  );
+
+  challengeCardsContainer.innerHTML = "";
+  if (appMode === MODE_CHALLENGE) {
+    if (_isChallengeAvailable(challengeCards)) {
+      challengeCardsContainer.appendChild(buildChallengeCards(challengeCards));
+    } else {
+      let placeholder = document.createElement("p");
+      placeholder.classList.add("challenge-cards-empty");
+      placeholder.textContent = "No challenges available for this level yet.";
+      challengeCardsContainer.appendChild(placeholder);
+    }
+    challengeCardsContainer.classList.remove("hide-component");
+    scannerHelp.classList.add("hide-component");
+  } else {
+    challengeCardsContainer.classList.add("hide-component");
+    scannerHelp.classList.remove("hide-component");
+  }
+}
+
+function _addingEventListenerToModeToggle(vulnerableAppEndPointData) {
+  // Each click flips the mode (Scanner, Challenge), regardless of which
+  // segment is clicked or which screen the user is on.
+  function flipAppMode() {
+    let nextMode = appMode === MODE_SCANNER ? MODE_CHALLENGE : MODE_SCANNER;
+    // Challenge can be disabled for the current level (no challenge cards);
+    // never flip into a disabled mode.
+    if (
+      nextMode === MODE_CHALLENGE &&
+      document.getElementById("challengeModeBtn").disabled
+    ) {
+      return;
+    }
+    _setAppMode(nextMode);
+    _renderDetailMode(vulnerableAppEndPointData);
+  }
+
+  document
+    .getElementById("scannerModeBtn")
+    .addEventListener("click", flipAppMode);
+  document
+    .getElementById("challengeModeBtn")
+    .addEventListener("click", flipAppMode);
 }
 
 /**
