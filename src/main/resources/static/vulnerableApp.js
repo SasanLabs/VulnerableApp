@@ -511,28 +511,33 @@ function _renderDetailMode(vulnerableAppEndPointData) {
 }
 
 function _addingEventListenerToModeToggle(vulnerableAppEndPointData) {
-  // Each click flips the mode (Scanner, Challenge), regardless of which
-  // segment is clicked or which screen the user is on.
-  function flipAppMode() {
-    let nextMode = appMode === MODE_SCANNER ? MODE_CHALLENGE : MODE_SCANNER;
-    // Challenge can be disabled for the current level (no challenge cards);
-    // never flip into a disabled mode.
+  // Each segment selects its own mode
+  function _selectMode(targetMode) {
+    if (targetMode === appMode) {
+      return;
+    }
+    // Challenge can be disabled for the current level (no challenge cards)
+    // never switch into a disabled mode.
     if (
-      nextMode === MODE_CHALLENGE &&
+      targetMode === MODE_CHALLENGE &&
       document.getElementById("challengeModeBtn").disabled
     ) {
       return;
     }
-    _setAppMode(nextMode);
+    _setAppMode(targetMode);
     _renderDetailMode(vulnerableAppEndPointData);
   }
 
   document
     .getElementById("scannerModeBtn")
-    .addEventListener("click", flipAppMode);
+    .addEventListener("click", function () {
+      _selectMode(MODE_SCANNER);
+    });
   document
     .getElementById("challengeModeBtn")
-    .addEventListener("click", flipAppMode);
+    .addEventListener("click", function () {
+      _selectMode(MODE_CHALLENGE);
+    });
 }
 
 /**
