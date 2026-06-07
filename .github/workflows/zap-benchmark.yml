@@ -46,7 +46,7 @@ jobs:
           NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
             --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
           echo "Using network: $NETWORK"
-          docker run --rm \
+          docker run \
             --network "$NETWORK" \
             --shm-size=2g \
             --user root \
@@ -80,7 +80,7 @@ jobs:
           NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
             --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
           echo "Using network: $NETWORK"
-          docker run --rm \
+          docker run \
             --network "$NETWORK" \
             --shm-size=2g \
             --user root \
@@ -229,6 +229,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add \
             benchmarks/ZAP/zap-results.json \
+            benchmarks/ZAP/zap-results-legacy.json \
             benchmarks/ZAP/benchmark_results.md
           git diff --staged --quiet || git commit -m \
             "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
