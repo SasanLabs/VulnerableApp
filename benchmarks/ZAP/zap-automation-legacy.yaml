@@ -23,11 +23,10 @@ env:
       urls:
         - http://VulnerableApp-facade/VulnerableApp
       includePaths:
-        - "http://localhost/VulnerableApp.*"
-      excludePaths:
-        - "http://localhost/VulnerableApp/logout.*"
+        - "http://VulnerableApp-facade/VulnerableApp.*"
+        - ".*"
   parameters:
-    failOnError: true
+    failOnError: false
     failOnWarning: false
     progressToStdout: true
 
@@ -40,7 +39,7 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 20         # minutes
-      maxDepth: 10
+      maxDepth: 100
       acceptCookies: true
 
   # ------------------------------------------------------------------
@@ -51,7 +50,11 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 20         # minutes
+      maxCrawlDepth: 20
       browserId: chrome-headless
+      clickDefaultElems: true   
+      clickElemsOnce: true
+      randomInputs: true
 
   # ------------------------------------------------------------------
   # 3. Active Scan — insane mode for maximum vulnerability coverage
@@ -59,8 +62,8 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp-legacy
-      maxRuleDurationInMins: 0
-      maxScanDurationInMins: 0
+      maxRuleDurationInMins: 5
+      maxScanDurationInMins: 200
     policyDefinition:
       defaultStrength: INSANE
       defaultThreshold: LOW

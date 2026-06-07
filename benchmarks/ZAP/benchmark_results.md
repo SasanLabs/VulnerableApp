@@ -8,13 +8,16 @@
 | Tool | ZAP by Checkmarx |
 | Scan Type | DAST |
 | Mode | Insane (strength: INSANE, threshold: LOW) |
-| UI | Modern UI (VulnerableApp-facade) |
-| Total ground-truth vulnerabilities | 140 |
-| **Detected by ZAP** | **0** |
-| Missed by ZAP | 140 |
-| **Coverage** | **0.00%** |
-| Unmatched (outside benchmark scope) | 15 |
-| Date | 2026-06-04 |
+| Total ground-truth vulnerabilities | TBD |
+| **Detected by ZAP (Modern UI)** | **TBD** |
+| **Detected by ZAP (Legacy UI)** | **TBD** |
+| Missed (Modern UI) | TBD |
+| Missed (Legacy UI) | TBD |
+| **Coverage (Modern UI)** | **TBD** |
+| **Coverage (Legacy UI)** | **TBD** |
+| Unmatched (Modern UI) | TBD |
+| Unmatched (Legacy UI) | TBD |
+| Date | TBD |
 
 ## Why coverage is not 100%
 
@@ -31,9 +34,8 @@ with standard rules regardless of scan strength:
  
 | Aspect | Modern UI | Legacy UI |
 |---|---|---|
-| Entry point | `http://localhost` | `http://localhost/VulnerableApp` |
-| Frontend | React (VulnerableApp-facade) | JSP |
-| Ajax Spider | chrome-headless | chrome-headless |
+| Entry point | `http://VulnerableApp-facade` | `http://VulnerableApp-facade/VulnerableApp` |
+| Ajax Spider | firefox-headless | chrome-headless |
 
 ## Reproducing these results
 
