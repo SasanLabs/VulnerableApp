@@ -9,13 +9,13 @@
 | Scan Type | DAST |
 | Mode | Insane (strength: INSANE, threshold: LOW) |
 | Total ground-truth vulnerabilities | 140 |
-| **Detected by ZAP (Modern UI)** | **TBD** |
+| **Detected by ZAP (Modern UI)** | **0** |
 | **Detected by ZAP (Legacy UI)** | **0** |
-| Missed (Modern UI) | TBD |
+| Missed (Modern UI) | 140 |
 | Missed (Legacy UI) | 140 |
-| **Coverage (Modern UI)** | **TBD** |
+| **Coverage (Modern UI)** | **0.00%** |
 | **Coverage (Legacy UI)** | **0.00%** |
-| Unmatched (Modern UI) | TBD |
+| Unmatched (Modern UI) | 19 |
 | Unmatched (Legacy UI) | 5 |
 | Date | 2026-06-09 |
 
