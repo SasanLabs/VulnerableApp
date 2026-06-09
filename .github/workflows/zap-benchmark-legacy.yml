@@ -1,9 +1,9 @@
-name: ZAP Benchmark
+name: ZAP Benchmark Legacy
 
 on:
   # Run weekly every Monday at 00:00 UTC
   schedule:
-    - cron: '0 0 * * 1'  
+    - cron: '0 1 * * 1'  
   # Allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   zap-benchmark:
-    name: Run ZAP DAST Benchmark
+    name: Run ZAP DAST Benchmark Legacy
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +25,9 @@ jobs:
           fetch-depth: 0
 
       # ------------------------------------------------------------------
-      # 2. Start VulnerableApp modern UI stack
+      # 2. Start VulnerableApp
       # ------------------------------------------------------------------
-      - name: Start VulnerableApp (modern UI)
+      - name: Start VulnerableApp
         run: |
           docker compose -f docker-compose.without_llm.yml up -d
           echo "Waiting for stack to be ready..."
@@ -39,41 +39,7 @@ jobs:
             http://localhost/VulnerableApp/scanner | python3 -m json.tool | head -5
 
       # ------------------------------------------------------------------
-      # 3a. Run ZAP scan - Modern UI
-      # ------------------------------------------------------------------
-      - name: Run ZAP DAST Scan
-        run: |
-          NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
-            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
-          echo "Using network: $NETWORK"
-          docker run \
-            --network "$NETWORK" \
-            --shm-size=2g \
-            --user root \
-            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-            ghcr.io/zaproxy/zaproxy:2.17.0 \
-            bash -c "zap.sh -cmd -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation-modern.yaml"
-
-      - name: Verify Modern UI ZAP report
-        run: |
-          ls -lh benchmarks/ZAP/zap-raw-report.json
-          echo "Finding count:"
-          python3 -c "
-          import json
-          with open('benchmarks/ZAP/zap-raw-report.json') as f:
-              data = json.load(f)
-          if isinstance(data, list):   
-              sites = data
-          else:
-              sites = data.get('site', [])
-              if isinstance(sites, dict):
-                  sites = [sites]
-          total = sum(len(s.get('alerts',[])) for s in sites)
-          print(f'  Modern UI Alerts found: {total}')
-          "
-
-      # ------------------------------------------------------------------
-      # 3b. Run ZAP scan - Legacy UI
+      # 3. Run ZAP scan - Legacy UI
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Legacy UI)
         run: |
@@ -106,23 +72,8 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 4. Convert both ZAP reports to benchmark input format
+      # 4. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
-      - name: Convert Modern UI ZAP report
-        run: |
-          python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
-            --input  benchmarks/ZAP/zap-raw-report.json \
-            --output benchmarks/ZAP/zap-benchmark-input.json
-
-          echo "Modern UI findings:"
-          python3 -c "
-          import json
-          with open('benchmarks/ZAP/zap-benchmark-input.json') as f:
-              data = json.load(f)
-          print(f'  Total findings: {len(data[\"findings\"])}')
-          print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
-          print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
-          "
 
       - name: Convert Legacy UI ZAP report
         run: |
@@ -138,27 +89,8 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 5. Submit both to benchmark endpoint and save results
+      # 5. Submit to benchmark endpoint and save results
       # ------------------------------------------------------------------
-      - name: Run benchmark (Modern UI)
-        run: |
-          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
-            -H "Content-Type: application/json" \
-            -d @benchmarks/ZAP/zap-benchmark-input.json \
-            -o benchmarks/ZAP/zap-results.json
-
-          echo "=== Modern UIBenchmark Results ==="
-          python3 -c "
-          import json
-          with open('benchmarks/ZAP/zap-results.json') as f:
-              data = json.load(f)
-          print(f'  Tool:          {data[\"tool\"]}')
-          print(f'  Coverage:      {data[\"coverage\"]:.2f}%')
-          print(f'  Total Expected:{data[\"totalExpected\"]}')
-          print(f'  Detected:      {data[\"detected\"]}')
-          print(f'  Missed:        {data[\"missed\"]}')
-          print(f'  Unmatched:     {data[\"unmatched\"]}')
-          "
 
       - name: Run benchmark (Legacy UI)
         run: |
@@ -199,13 +131,9 @@ jobs:
  
           replacements = {
               r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {modern["totalExpected"]} |',
-              r'\| \*\*Detected by ZAP \(Modern UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Modern UI)** | **{modern["detected"]}** |',
               r'\| \*\*Detected by ZAP \(Legacy UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Legacy UI)** | **{legacy["detected"]}** |',
-              r'\| Missed \(Modern UI\) \| .* \|':                     f'| Missed (Modern UI) | {modern["missed"]} |',
               r'\| Missed \(Legacy UI\) \| .* \|':                     f'| Missed (Legacy UI) | {legacy["missed"]} |',
-              r'\| \*\*Coverage \(Modern UI\)\*\* \| .* \|':           f'| **Coverage (Modern UI)** | **{modern["coverage"]:.2f}%** |',
               r'\| \*\*Coverage \(Legacy UI\)\*\* \| .* \|':           f'| **Coverage (Legacy UI)** | **{legacy["coverage"]:.2f}%** |',
-              r'\| Unmatched \(Modern UI\) \| .* \|':                  f'| Unmatched (Modern UI) | {modern["unmatched"]} |',
               r'\| Unmatched \(Legacy UI\) \| .* \|':                  f'| Unmatched (Legacy UI) | {legacy["unmatched"]} |',
               r'\| Date \| .* \|':                                      f'| Date | {date.today().isoformat()} |',
           }
@@ -228,7 +156,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add \
-            benchmarks/ZAP/zap-results.json \
             benchmarks/ZAP/zap-results-legacy.json \
             benchmarks/ZAP/benchmark_results.md
           git diff --staged --quiet || git commit -m \
@@ -244,11 +171,8 @@ jobs:
         with:
           name: zap-benchmark-artifacts
           path: |
-            benchmarks/ZAP/zap-raw-report.json
             benchmarks/ZAP/zap-raw-report-legacy.json
-            benchmarks/ZAP/zap-benchmark-input.json
             benchmarks/ZAP/zap-benchmark-input-legacy.json
-            benchmarks/ZAP/zap-results.json
             benchmarks/ZAP/zap-results-legacy.json
             benchmarks/ZAP/benchmark_results.md
           retention-days: 90
