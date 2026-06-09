@@ -28,8 +28,7 @@ env:
     failOnError: false
     failOnWarning: false
     progressToStdout: true
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
-
+    
 jobs:
   # ------------------------------------------------------------------
   # 1. Spider — crawl VulnerableApp legacy endpoints
