@@ -24,11 +24,11 @@ env:
         - http://VulnerableApp-facade/VulnerableApp
       includePaths:
         - "http://VulnerableApp-facade/VulnerableApp.*"
-        - ".*"
   parameters:
     failOnError: false
     failOnWarning: false
     progressToStdout: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
 
 jobs:
   # ------------------------------------------------------------------
@@ -63,7 +63,7 @@ jobs:
     parameters:
       context: VulnerableApp-legacy
       maxRuleDurationInMins: 5
-      maxScanDurationInMins: 200
+      maxScanDurationInMins: 120
     policyDefinition:
       defaultStrength: INSANE
       defaultThreshold: LOW
