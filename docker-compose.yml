@@ -73,12 +73,34 @@ services:
           aliases:
             - llmforge
     
+    mailpit:
+      image: axllent/mailpit:latest
+      restart: unless-stopped
+      # SMTP is reachable only inside the compose network on 1025; the web UI is
+      # published on 8025 so captured mail can be inspected from the host.
+      expose:
+       - "1025"
+      ports:
+       - "8025:8025"
+      environment:
+       - MP_MAX_MESSAGES=5000
+       - MP_DATABASE=/data/mailpit.db
+       - MP_SMTP_AUTH_ACCEPT_ANY=1
+       - MP_SMTP_AUTH_ALLOW_INSECURE=1
+      volumes:
+       - mailpit_data:/data
+      networks:
+        app_net:
+          aliases:
+            - mailpit
+
     VulnerableApp-facade:
       depends_on:
         - VulnerableApp-base
         - VulnerableApp-jsp
         - VulnerableApp-php
         - llmforge
+        - mailpit
       image: sasanlabs/owasp-vulnerableapp-facade:latest
       volumes:
        - ./templates:/etc/nginx/templates
@@ -100,3 +122,4 @@ networks:
 
 volumes:
   ollama_data:
+  mailpit_data:
