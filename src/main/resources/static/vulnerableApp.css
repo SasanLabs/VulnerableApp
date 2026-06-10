@@ -134,6 +134,17 @@ hr {
     box-sizing: border-box;
 }
 
+/**
+ * Establishes a block formatting context so the pane is laid out beside the
+ * floated .master column for its full height. Without it, the horizontal
+ * centering of #vulnPracticeBtn / #vulnLearnBtn depends on how tall the master
+ * list is (i.e. how many vulnerabilities the endpoint returns), so a short
+ * list (e.g. the mock) shifts the buttons left.
+ */
+.detail-pane {
+    display: flow-root;
+}
+
 .hidden-md {
     display: inline;
 }
@@ -257,7 +268,6 @@ hr {
     font-size: 18px;
     padding: 15px;
     text-align: left;
-    margin-left: 25%;
 }
 
 #backBtn {
@@ -337,6 +347,19 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
 
     .master {
         border-right: 3px solid burlywood;
+    }
+
+    /**
+     * Inside .detail-pane the percentages resolve against the pane (75% of the
+     * page) instead of the page itself, so rescale the inner columns to keep
+     * the same final widths as before (15% and 60% of the page).
+     */
+    .detail-pane .col-2 {
+        width: 20%;
+    }
+
+    .detail-pane .col-6 {
+        width: 80%;
     }
 
 }
