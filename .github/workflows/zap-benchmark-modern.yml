@@ -42,6 +42,60 @@ jobs:
             http://localhost/VulnerableApp/scanner | python3 -m json.tool | head -5
 
       # ------------------------------------------------------------------
+      # Generate requestor URLs
+      # ------------------------------------------------------------------
+
+      - name: Generate ZAP requestor URLs from ground truth
+        run: |
+          python3 - << 'PYEOF'
+          import json, urllib.request, yaml
+
+          response = urllib.request.urlopen(
+              'http://localhost/VulnerableApp/scanner'
+          )
+          data = json.load(response)
+
+          requests = []
+
+          for entry in data:
+              url = entry['url'].replace(
+                  'http://127.0.0.1:9090',
+                  'http://vulnerableapp-VulnerableApp-base-1:9090'
+              )
+
+              requests.append({
+                  'url': url,
+                  'method': entry.get('method', 'GET')
+              })
+
+          print(f'Generated {len(requests)} URLs')
+
+          with open('benchmarks/ZAP/zap-automation-modern.yaml') as f:
+              plan = yaml.safe_load(f)
+
+          requestor_job = {
+              'type': 'requestor',
+              'parameters': {},
+              'requests': requests
+          }
+
+          jobs = plan['jobs']
+
+          insert_idx = next(
+              (i for i, j in enumerate(jobs)
+              if j['type'] == 'activeScan'),
+              len(jobs)
+          )
+
+          jobs.insert(insert_idx, requestor_job)
+
+          with open('benchmarks/ZAP/zap-automation-modern.yaml', 'w') as f:
+              yaml.dump(plan, f)
+
+          print('Requestor injected')
+          PYEOF
+
+      # ------------------------------------------------------------------
       # 3. Run ZAP scan - Modern UI
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Modern UI)
