@@ -19,6 +19,10 @@
 			</svg>
 			VulnerableApp
 		</div>
+		<div class="mode-toggle" id="modeToggle" role="group" aria-label="Application mode">
+			<button type="button" id="challengeModeBtn" class="mode-toggle-btn" disabled>Challenge</button>
+			<button type="button" id="scannerModeBtn" class="mode-toggle-btn active-mode">Scanner</button>
+		</div>
 		<!-- TODO Add active to mode when clicked-->
 		<div class="navbar navbar-item">
 			<div class="navbar-item-menu active" id="home">
@@ -56,7 +60,7 @@
 					<h2>Please choose the vulnerability which you are looking to learn.</h2>
 				</div>
 				<div class="col-3 master"></div>
-				<div>
+				<div class="detail-pane">
 					<div id="vulnerabilityDescription"></div>
 					<button id="vulnPracticeBtn" class="mode-item">Practice Vulnerability</button>
 					<div id="vulnPractice" class="hide-component">
@@ -65,11 +69,12 @@
 							<button id="backBtn" onclick="back()" class="hidden-md">
 								< Back</button>
 									<h1 class="detail-title text-center"></h1>
-									<div>
+									<div id="scannerHelp">
 										<button id="showHelp">Show Help</button>
 										<button id="hideHelp" disabled=true>Hide Help</button>
 										<div id="helpText"></div>
 									</div>
+									<div id="challengeCards" class="hide-component"></div>
 						</div>
 					</div>
 					<button id="vulnLearnBtn" class="mode-item hide-component">Learn Vulnerability</button>

@@ -134,6 +134,17 @@ hr {
     box-sizing: border-box;
 }
 
+/**
+ * Establishes a block formatting context so the pane is laid out beside the
+ * floated .master column for its full height. Without it, the horizontal
+ * centering of #vulnPracticeBtn / #vulnLearnBtn depends on how tall the master
+ * list is (i.e. how many vulnerabilities the endpoint returns), so a short
+ * list (e.g. the mock) shifts the buttons left.
+ */
+.detail-pane {
+    display: flow-root;
+}
+
 .hidden-md {
     display: inline;
 }
@@ -257,7 +268,6 @@ hr {
     font-size: 18px;
     padding: 15px;
     text-align: left;
-    margin-left: 25%;
 }
 
 #backBtn {
@@ -339,4 +349,136 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
         border-right: 3px solid burlywood;
     }
 
+    /**
+     * Inside .detail-pane the percentages resolve against the pane (75% of the
+     * page) instead of the page itself, so rescale the inner columns to keep
+     * the same final widths as before (15% and 60% of the page).
+     */
+    .detail-pane .col-2 {
+        width: 20%;
+    }
+
+    .detail-pane .col-6 {
+        width: 80%;
+    }
+
+}
+
+/** Mode toggle **/
+.mode-toggle {
+    display: inline-flex;
+    vertical-align: middle;
+    border: 2px solid black;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 1.5rem;
+}
+
+.mode-toggle-btn {
+    background: blanchedalmond;
+    color: black;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.mode-toggle-btn.active-mode {
+    background: black;
+    color: #fff;
+}
+
+.mode-toggle-btn:disabled {
+    background: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/** Challenge cards **/
+.challenge-cards-empty {
+    text-align: left;
+    margin-top: 1rem;
+    font-style: italic;
+    color: #555;
+}
+
+.challenge-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.challenge-card {
+    border: 2px solid burlywood;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.challenge-card-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: burlywood;
+    color: black;
+    border: none;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.challenge-card-body {
+    padding: 0.8rem;
+}
+
+.challenge-card-objective {
+    margin-top: 0;
+}
+
+.challenge-card-hints {
+    margin: 0.5rem 0;
+}
+
+.challenge-card-reveal-hint,
+.challenge-card-show-payload {
+    background: blueviolet;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 0.3rem 0.6rem;
+    margin: 0.2rem 0.2rem 0 0;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.challenge-card-show-payload:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.challenge-card-payload {
+    margin-top: 0.6rem;
+    padding: 0.6rem;
+    background: #f4f4f4;
+    border-radius: 3px;
+}
+
+.challenge-card-payload-value {
+    display: block;
+    margin-top: 0.4rem;
+    padding: 0.4rem;
+    background: #2d2d2d;
+    color: #f8f8f2;
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+}
+
+@media only screen and (min-width: 786px) {
+    .challenge-cards-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
