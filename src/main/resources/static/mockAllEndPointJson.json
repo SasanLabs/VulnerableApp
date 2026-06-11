@@ -1,0 +1,176 @@
+[
+  {
+    "Name": "AuthenticationVulnerability",
+    "Description": "Mock module to exercise the Scanner / Challenge toggle and challenge cards. LEVEL_1 has challenge cards (toggle enabled); LEVEL_8 has none (toggle disabled + auto-fallback to Scanner).",
+    "VulnerabilityTypes": [],
+    "Detailed Information": [
+      {
+        "Level": "LEVEL_1",
+        "Variant": "UNSECURE",
+        "Description": "Mock level with challenge cards.",
+        "HtmlTemplate": "LEVEL_1/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_1?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": [
+          {
+            "ChallengeText": "Bypass the authentication mechanism and gain access to the admin panel.",
+            "hints": [
+              { "order": 1, "text": "Look at how the username is validated on the server side." },
+              { "order": 2, "text": "Check what happens when the authentication check fails." }
+            ],
+            "payload": {
+              "description": "Final exploit payload to bypass the login form.",
+              "value": "' OR 1=1 --"
+            }
+          },
+          {
+            "ChallengeText": "Escalate privileges to the administrator role after logging in.",
+            "hints": [
+              { "order": 1, "text": "Inspect the role field stored in the session or token." },
+              { "order": 2, "text": "Can the role be changed by the client?" }
+            ],
+            "payload": {
+              "description": "Tamper the role attribute to admin.",
+              "value": "role=admin"
+            }
+          }
+        ]
+      },
+      {
+        "Level": "LEVEL_2",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_2/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_3",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_3/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_3?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_4",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_4/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_4?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_5",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_5/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_5?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_6",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_6/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_6?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_7",
+        "Variant": "UNSECURE",
+        "Description": "Mock level without challenge cards.",
+        "HtmlTemplate": "LEVEL_7/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_7?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      },
+      {
+        "Level": "LEVEL_8",
+        "Variant": "SECURE",
+        "Description": "Mock level WITHOUT challenge cards. Toggle should be disabled here, and selecting it while in Challenge mode should auto-fall-back to Scanner.",
+        "HtmlTemplate": "LEVEL_8/Auth",
+        "Location": "QUERY_PARAMETER",
+        "Parameter": "name",
+        "SampleValues": ["admin"],
+        "HttpMethod": "GET",
+        "AttackVectors": [
+          {
+            "VulnerabilityTypes": [],
+            "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_8?name=admin'",
+            "Description": "Mock attack vector for the Show Help (Scanner) view."
+          }
+        ],
+        "ChallengeCard": []
+      }
+    ]
+  }
+]
