@@ -1,9 +1,12 @@
 package org.sasanlabs.service.email;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,13 +51,21 @@ class EmailServiceImplTest {
     }
 
     @Test
-    void shouldSendHtmlEmail() {
+    void shouldSendHtmlEmail() throws Exception {
         MimeMessage mimeMessage = new MimeMessage((Session) null);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
         emailService.sendHtmlEmail("student@example.com", "Subject", "<b>Body</b>");
 
         verify(javaMailSender).send(mimeMessage);
+        assertEquals(FROM, mimeMessage.getFrom()[0].toString());
+        assertEquals(
+                "student@example.com",
+                mimeMessage.getRecipients(Message.RecipientType.TO)[0].toString());
+        assertEquals("Subject", mimeMessage.getSubject());
+        String contentType = mimeMessage.getDataHandler().getContentType();
+        assertTrue(contentType.contains("text/html"));
+        assertTrue(contentType.contains("charset=UTF-8"));
     }
 
     @Test
@@ -87,5 +98,25 @@ class EmailServiceImplTest {
                 "Use the following link to verify your email address:"
                         + " http://localhost/verify-email?token=verify+token",
                 message.getText());
+    }
+
+    @Test
+    void shouldRejectInvalidRecipient() {
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> emailService.sendEmail("invalid-address", "Subject", "Body"));
+
+        assertEquals("Invalid email address: invalid-address", exception.getMessage());
+    }
+
+    @Test
+    void shouldRejectBlankToken() {
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> emailService.sendResetEmail("student@example.com", " "));
+
+        assertEquals("token must not be blank", exception.getMessage());
     }
 }
