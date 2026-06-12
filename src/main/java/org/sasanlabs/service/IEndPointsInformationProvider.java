@@ -41,6 +41,6 @@ public interface IEndPointsInformationProvider {
      * @throws JsonProcessingException
      * @throws UnknownHostException
      */
-    List<ScannerResponseBean> getScannerRelatedEndPointInformation()
+    List<ScannerResponseBean> getScannerRelatedEndPointInformation(String appUrl)
             throws JsonProcessingException, UnknownHostException;
 }
