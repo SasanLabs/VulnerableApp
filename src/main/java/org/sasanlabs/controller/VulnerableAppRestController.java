@@ -89,9 +89,23 @@ public class VulnerableAppRestController {
      */
     @GetMapping
     @RequestMapping("/scanner")
-    public List<ScannerResponseBean> getScannerRelatedInformation()
+    public List<ScannerResponseBean> getScannerRelatedInformation(HttpServletRequest request)
             throws JsonProcessingException, UnknownHostException {
-        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation();
+        String scheme = request.getScheme(); // http or https
+        String serverName = request.getServerName(); // actual hostname/IP
+        int serverPort = request.getServerPort(); // actual port
+        String appUrl =
+                new StringBuilder()
+                        .append(scheme)
+                        .append("://")
+                        .append(serverName)
+                        .append(FrameworkConstants.COLON)
+                        .append(serverPort)
+                        .append(FrameworkConstants.SLASH)
+                        .append(FrameworkConstants.VULNERABLE_APP)
+                        .append(FrameworkConstants.SLASH)
+                        .toString();
+        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl);
     }
 
     /**
