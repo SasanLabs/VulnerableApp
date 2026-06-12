@@ -16,7 +16,6 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
-import org.sasanlabs.internal.utility.GenericUtils;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
@@ -141,7 +140,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
     }
 
     @Override
-    public List<ScannerResponseBean> getScannerRelatedEndPointInformation()
+    public List<ScannerResponseBean> getScannerRelatedEndPointInformation(String appUrl)
             throws JsonProcessingException, UnknownHostException {
         List<AllEndPointsResponseBean> allEndPointsResponseBeans = this.getSupportedEndPoints();
         List<ScannerResponseBean> scannerResponseBeans = new ArrayList<>();
@@ -153,13 +152,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                     scannerResponseBeans.add(
                             new ScannerResponseBean(
                                     new StringBuilder()
-                                            .append(FrameworkConstants.HTTP)
-                                            .append(GenericUtils.LOCALHOST)
-                                            .append(FrameworkConstants.COLON)
-                                            .append(port)
-                                            .append(FrameworkConstants.SLASH)
-                                            .append(FrameworkConstants.VULNERABLE_APP)
-                                            .append(FrameworkConstants.SLASH)
+                                            .append(appUrl)
                                             .append(allEndPointsResponseBean.getName())
                                             .append(FrameworkConstants.SLASH)
                                             .append(levelResponseBean.getLevel())
