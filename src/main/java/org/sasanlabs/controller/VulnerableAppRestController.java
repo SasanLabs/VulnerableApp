@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -32,8 +33,7 @@ public class VulnerableAppRestController {
     private int port;
 
     public VulnerableAppRestController(
-            IEndPointsInformationProvider getAllSupportedEndPoints,
-            @Value("${server.port}") int port) {
+            IEndPointsInformationProvider getAllSupportedEndPoints) {
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
         this.port = port;
     }
@@ -123,8 +123,13 @@ public class VulnerableAppRestController {
      * @throws UnknownHostException
      */
     @RequestMapping("/sitemap.xml")
-    public String sitemapForPassiveScanners() throws JsonProcessingException, UnknownHostException {
+    public String sitemapForPassiveScanners(HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
         List<AllEndPointsResponseBean> allEndPoints = allEndPointsJsonResponse();
+           // Dynamically resolve host from the incoming request
+            String scheme = request.getScheme();             // http or https
+            String serverName = request.getServerName();     // actual hostname/IP
+            int serverPort = request.getServerPort();        // actual port
+    
         StringBuilder xmlBuilder =
                 new StringBuilder(
                         FrameworkConstants.GENERAL_XML_HEADER
@@ -138,10 +143,11 @@ public class VulnerableAppRestController {
                                         .append(FrameworkConstants.NEXT_LINE)
                                         .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
                                         .append(FrameworkConstants.NEXT_LINE)
-                                        .append(FrameworkConstants.HTTP)
-                                        .append(GenericUtils.LOCALHOST)
+                                        .append(scheme)
+                                        .append("://")
+                                        .append(serverName)
                                         .append(FrameworkConstants.COLON)
-                                        .append(port)
+                                        .append(serverPort)
                                         .append(FrameworkConstants.SLASH)
                                         .append(FrameworkConstants.VULNERABLE_APP)
                                         .append(FrameworkConstants.SLASH)
