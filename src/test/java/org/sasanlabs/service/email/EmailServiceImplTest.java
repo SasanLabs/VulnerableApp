@@ -101,6 +101,26 @@ class EmailServiceImplTest {
     }
 
     @Test
+    void shouldTrimTrailingSlashFromBaseUrl() {
+        EmailConfiguration emailConfiguration = new EmailConfiguration();
+        emailConfiguration.setFrom(FROM);
+        emailConfiguration.setBaseUrl("http://localhost/");
+        EmailServiceImpl serviceWithTrailingSlash =
+                new EmailServiceImpl(javaMailSender, emailConfiguration);
+
+        serviceWithTrailingSlash.sendResetEmail("student@example.com", "reset-token");
+
+        ArgumentCaptor<SimpleMailMessage> messageCaptor =
+                ArgumentCaptor.forClass(SimpleMailMessage.class);
+        verify(javaMailSender).send(messageCaptor.capture());
+
+        assertEquals(
+                "Use the following link to reset your password:"
+                        + " http://localhost/reset-password?token=reset-token",
+                messageCaptor.getValue().getText());
+    }
+
+    @Test
     void shouldRejectInvalidRecipient() {
         IllegalArgumentException exception =
                 assertThrows(
@@ -118,5 +138,15 @@ class EmailServiceImplTest {
                         () -> emailService.sendResetEmail("student@example.com", " "));
 
         assertEquals("token must not be blank", exception.getMessage());
+    }
+
+    @Test
+    void shouldRejectNullBody() {
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> emailService.sendEmail("student@example.com", "Subject", null));
+
+        assertEquals("body must not be null", exception.getMessage());
     }
 }
