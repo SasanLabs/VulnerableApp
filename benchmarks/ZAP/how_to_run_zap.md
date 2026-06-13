@@ -1,5 +1,7 @@
 # Benchmarking ZAP by Checkmarx against VulnerableApp
 ---
+This guide covers running ZAP against both the **Modern UI** and **Legacy UI**
+of VulnerableApp and evaluating coverage using the benchmark framework.
 
 ## Prerequisites
 
@@ -11,27 +13,27 @@
 ---
 
 ## Overview
-
+ 
 ```
-┌─────────────┐    zap-automation.yaml    ┌─────────────────────────┐
-│ VulnerableApp   │ ◄────── ZAP scans ──────  │ OWASP ZAP (Docker)        │
-│ :80 (modern UI) │                           │ writes zap-raw-report.json│
-└─────────────┘                           └─────────────────────────┘
-                                                       │
-                              convert_zap_to_benchmark.py
-                                                       │
-                                                       ▼
-                                          zap-benchmark-input.json
-                                                       │
-                              POST /scanner/benchmark
-                                                       │
-                                                       ▼
-                                          benchmarks/ZAP/zap-results.json
+┌──────────────────────┐   zap-automation-modern.yaml / zap-automation-legacy.yaml
+│ VulnerableApp        │ ◄──────────── ZAP scans ────────────────────────────────┐
+│ :80 (facade)         │                                                          │
+│ /VulnerableApp (legacy)│                                               OWASP ZAP (Docker)
+└──────────────────────┘                                                          │
+                                                                                  │
+                                         convert_zap_to_benchmark.py             │
+                                                      ▼                           │
+                                         zap-benchmark-input.json  ◄─────────────┘
+                                                      │
+                                         POST /scanner/benchmark
+                                                      │
+                                                      ▼
+                             zap-results.json / zap-results-legacy.json
 ```
-
+ 
 ---
 
-## Step 1 — Start VulnerableApp (modern UI)
+## Step 1 — Start VulnerableApp 
 
 ```bash
 
@@ -45,31 +47,70 @@ The modern UI will be available at `http://localhost` once the stack is up.
 
 ## Step 2 — Run ZAP 
 
-The `benchmarks/ZAP/zap-automation.yaml` file defines a full ZAP Automation
-Framework plan: traditional spider, Ajax spider, and active scan.
-
+First, detect the Docker network VulnerableApp is running on:
+ 
 ```bash
-docker run --rm \
-  --network host \
+NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+  --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+echo "Network: $NETWORK"
+```
+
+### Modern UI scan
+ 
+```bash
+docker run \
+  --network "$NETWORK" \
+  --shm-size=8g \
+  --user root \
   -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-  ghcr.io/zaproxy/zaproxy:stable \
-  zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml
+  ghcr.io/zaproxy/zaproxy:weekly \
+  bash -c "
+    zap.sh -cmd \
+      -addonupdate \
+      -addoninstallall \
+      -autorun /zap/wrk/zap-automation-modern.yaml
+  "
 ```
 
 After the scan completes, `benchmarks/ZAP/zap-raw-report.json` will be created.
 
+### Legacy UI scan
+ 
+```bash
+docker run \
+  --network "$NETWORK" \
+  --shm-size=8g \
+  --user root \
+  -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+  ghcr.io/zaproxy/zaproxy:weekly \
+  bash -c "
+    zap.sh -cmd \
+      -addonupdate \
+      -addoninstallall \
+      -autorun /zap/wrk/zap-automation-legacy.yaml
+  "
+```
+ 
+After the scan completes, `benchmarks/ZAP/zap-raw-report-legacy.json` will be created.
+ 
 ---
 
-## Step 3 — Convert the ZAP report
+## Step 3 — Convert the ZAP reports
 
 ZAP's raw JSON format is not directly accepted by the benchmark endpoint.
 The conversion script maps each ZAP alert instance to a Finding using its
 CWE and WASC IDs — no manual vulnerability-name mapping is needed.
 
 ```bash
+# Modern UI
 python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
     --input  benchmarks/ZAP/zap-raw-report.json \
     --output benchmarks/ZAP/zap-benchmark-input.json
+ 
+# Legacy UI
+python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+    --input  benchmarks/ZAP/zap-raw-report-legacy.json \
+    --output benchmarks/ZAP/zap-benchmark-input-legacy.json
 ```
 
 ---
@@ -77,16 +118,26 @@ python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
 ## Step 4 — Submit to the benchmark endpoint
 
 ```bash
+# Modern UI
 curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
-  -d @benchmarks/ZAP/zap-benchmark-input.json \ 
+  -d @benchmarks/ZAP/zap-benchmark-input.json \
   -o benchmarks/ZAP/zap-results.json
-
+ 
 cat benchmarks/ZAP/zap-results.json | python3 -m json.tool
+ 
+# Legacy UI
+curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+  -H "Content-Type: application/json" \
+  -d @benchmarks/ZAP/zap-benchmark-input-legacy.json \
+  -o benchmarks/ZAP/zap-results-legacy.json
+ 
+cat benchmarks/ZAP/zap-results-legacy.json | python3 -m json.tool
 ```
-The report is saved to `benchmarks/ZAP/zap-results.json`.
-See `benchmarks/ZAP/BENCHMARK_RESULTS.md` for the latest benchmark summary.
-
+Results are saved to `benchmarks/ZAP/zap-results.json` and
+`benchmarks/ZAP/zap-results-legacy.json`.
+See `benchmarks/ZAP/benchmark_results.md` for the latest benchmark summary.
+ 
 ---
 
 ### Step 5 - Stop Stack 
@@ -109,15 +160,23 @@ A sample benchmark output showing what the response looks like is at
 
 ---
 
-## GitHub Actions 
+## GitHub Actions [recommended]
 
-Instead of running locally, use the provided GitHub Action for a fully
-automated scan on GitHub's infrastructure:
-
-1. Go to **Actions** tab → **ZAP Benchmark** → **Run workflow**
-2. Results are committed automatically to `benchmarks/ZAP/benchmark_results.md`
-
-See [`.github/workflows/zap-benchmark.yml`](../../.github/workflows/zap-benchmark.yml).
+Two separate workflows are provided — run independently:
+ 
+| Workflow | File | Schedule |
+|---|---|---|
+| Modern UI | `.github/workflows/zap-benchmark-modern.yml` | Every Monday 00:00 UTC |
+| Legacy UI | `.github/workflows/zap-benchmark-legacy.yml` | Every Monday 01:00 UTC |
+ 
+To trigger manually:
+ 
+1. Go to **Actions** tab
+2. Click **ZAP Benchmark Modern** or **ZAP Benchmark Legacy**
+3. Click **Run workflow** → **Run workflow**
+Results are committed automatically to `benchmarks/ZAP/benchmark_results.md`
+and uploaded as workflow artifacts for 90 days.
+ 
 
 ---
 
@@ -135,9 +194,10 @@ benchmark or the conversion script.
 ## Troubleshooting
 
 **ZAP cannot reach VulnerableApp**
-Make sure `--network host` is set and the modern UI stack is fully up
-(`./scripts/testWithModernUI.sh`). On Mac/Windows replace `localhost` with
-`host.docker.internal` in `zap-automation.yaml`.
+Make sure ZAP is running on the same Docker network as VulnerableApp.
+Use the network detection command in Step 2 to find the correct network name.
+On Mac/Windows you may need to replace container names with `host.docker.internal`
+in the automation yaml files.
 
 **Coverage is unexpectedly low**
 JWT and cryptographic vulnerability types cannot be detected by standard ZAP

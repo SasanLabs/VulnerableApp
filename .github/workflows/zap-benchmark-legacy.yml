@@ -166,7 +166,7 @@ jobs:
               content = f.read()
  
           replacements = {
-              r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {modern["totalExpected"]} |',
+              r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {legacy["totalExpected"]} |',
               r'\| \*\*Detected by ZAP \(Legacy UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Legacy UI)** | **{legacy["detected"]}** |',
               r'\| Missed \(Legacy UI\) \| .* \|':                     f'| Missed (Legacy UI) | {legacy["missed"]} |',
               r'\| \*\*Coverage \(Legacy UI\)\*\* \| .* \|':           f'| **Coverage (Legacy UI)** | **{legacy["coverage"]:.2f}%** |',

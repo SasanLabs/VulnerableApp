@@ -1,6 +1,7 @@
 # ZAP Benchmark Results — VulnerableApp
 
-> This file is auto-updated by the [ZAP Benchmark GitHub Action](../../.github/workflows/zap-benchmark.yml)
+> This file is auto-updated by the ZAP Benchmark GithHub Actions workflows 
+> [zap-benchmark-modern.yml](../../.github/workflows/zap-benchmark-modern.yml) and [zap-benchmark-legacy.yml](../../.github/workflows/zap-benchmark-legacy.yml)
 > every Monday and on every manual workflow run.
 
 | Metric | Value |
@@ -40,4 +41,4 @@ with standard rules regardless of scan strength:
 ## Reproducing these results
 
 See [how_to_run_zap.md](./how_to_run_zap.md) for the full end-to-end guide, or re-run this
-GitHub Action via the **Actions** tab → **ZAP Benchmark** → **Run workflow**.
+GitHub Action via the **Actions** tab → **ZAP Benchmark Modern** AND **ZAP Benchmark Legacy** → **Run workflow**.
