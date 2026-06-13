@@ -74,7 +74,12 @@ jobs:
       - name: Check ZAP output directory
         run: |
           ls -ld benchmarks/ZAP
-          ls -la benchmarks/ZAP       
+          ls -la benchmarks/ZAP  
+          
+      - name: Fix ZAP workspace ownership
+        run: |
+          sudo chown -R 1000:1000 benchmarks/ZAP
+          ls -ld benchmarks/ZAP
 
       # ------------------------------------------------------------
       # 4. Resolve Docker Network
