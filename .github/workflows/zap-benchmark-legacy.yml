@@ -158,9 +158,6 @@ jobs:
           python3 - << 'PYEOF'
           import json, re
           from datetime import date
- 
-          with open('benchmarks/ZAP/zap-results.json') as f:
-              modern = json.load(f)
 
           with open('benchmarks/ZAP/zap-results-legacy.json') as f:
               legacy = json.load(f)
