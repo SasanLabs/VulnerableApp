@@ -69,7 +69,6 @@ jobs:
 
   - type: passiveScan-wait
     parameters:
-      context: VulnerableApp-legacy
       maxDuration: 20         # minutes
 
   # ------------------------------------------------------------------
@@ -80,9 +79,9 @@ jobs:
       context: VulnerableApp-legacy
       maxRuleDurationInMins: 5
       maxScanDurationInMins: 120
-      policyDefinition:
-        defaultStrength: INSANE
-        defaultThreshold: LOW
+    policyDefinition:
+      defaultStrength: INSANE
+      defaultThreshold: LOW
 
   # ------------------------------------------------------------------
   # 5. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
@@ -98,4 +97,3 @@ jobs:
       - high
       - medium
       - low
-      - informational

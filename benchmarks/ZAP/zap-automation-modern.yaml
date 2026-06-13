@@ -14,7 +14,7 @@
 #         zap.sh -daemon \
 #           -addonupdate \
 #           -addoninstallall \
-#           -autorun /zap/wrk/zap-automation-legacy.yaml
+#           -autorun /zap/wrk/zap-automation-modern.yaml
 #       "
 #
 # The JSON report is written to benchmarks/ZAP/zap-raw-report.json.
@@ -23,7 +23,7 @@
 
 env:
   contexts:
-    - name: VulnerableApp
+    - name: VulnerableApp-modern
       urls:
         - http://VulnerableApp-facade
       includePaths:
@@ -68,7 +68,6 @@ jobs:
 
   - type: passiveScan-wait
     parameters:
-      context: VulnerableApp-modern
       maxDuration: 20         # minutes
 
   # ------------------------------------------------------------------
@@ -76,12 +75,12 @@ jobs:
   # ------------------------------------------------------------------
   - type: activeScan
     parameters:
-      context: VulnerableApp
+      context: VulnerableApp-modern
       maxRuleDurationInMins: 5
       maxScanDurationInMins: 120
-      policyDefinition:
-        defaultStrength: INSANE
-        defaultThreshold: LOW
+    policyDefinition:
+      defaultStrength: INSANE
+      defaultThreshold: LOW
 
   # ------------------------------------------------------------------
   # 5. Report — JSON format, written to benchmarks/zap-raw-report.json
@@ -97,4 +96,3 @@ jobs:
       - high
       - medium
       - low
-      - informational
