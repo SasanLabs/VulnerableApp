@@ -92,6 +92,12 @@ jobs:
                   -addoninstallall \
                   -autorun /zap/wrk/zap-automation-modern.yaml
               "
+
+      - name: Search for zap.log
+        if: always()
+        run: |
+          find / -name zap.log 2>/dev/null || true
+          
       # ------------------------------------------------------------
       # 7. Validate report 
       # ------------------------------------------------------------
