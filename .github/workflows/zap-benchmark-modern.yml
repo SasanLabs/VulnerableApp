@@ -80,7 +80,7 @@ jobs:
               ghcr.io/zaproxy/zaproxy:weekly \
               bash -c "
                 echo 'Running ZAP...'
-                zap.sh -daemon \
+                zap.sh -cmd \
                   -addonupdate \
                   -addoninstallall \
                   -autorun /zap/wrk/zap-automation-modern.yaml
