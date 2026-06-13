@@ -7,11 +7,15 @@
 #     NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
 #       --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
 #     docker run --network "$NETWORK" \
-#     --user root \
-#     --user root \
-#     -v $(pwd)/benchmarks:/zap/wrk/:rw \
-#     ghcr.io/zaproxy/zaproxy:2.17.0 \
-#     bash -c "zap.sh -cmd -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation.yaml"
+#       --shm-size=8g \
+#       -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+#       ghcr.io/zaproxy/zaproxy:weekly \
+#       bash -c "
+#         zap.sh -daemon \
+#           -addonupdate \
+#           -addoninstallall \
+#           -autorun /zap/wrk/zap-automation-legacy.yaml
+#       "
 #
 # The JSON report is written to benchmarks/ZAP/zap-raw-report.json.
 # Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
@@ -22,23 +26,20 @@ env:
     - name: VulnerableApp
       urls:
         - http://VulnerableApp-facade
-        - http://vulnerableapp-VulnerableApp-base-1:9090
       includePaths:
-        - "http://VulnerableApp-facade.*"
-        - http://vulnerableapp-VulnerableApp-base-1:9090.*
+        - "http://.*"
   parameters:
     failOnError: false
     failOnWarning: false
     progressToStdout: true
     
 jobs:         
-
   # ------------------------------------------------------------------
   # 1. Spider — crawl VulnerableApp to discover all endpoints
   # ------------------------------------------------------------------
   - type: spider
     parameters:
-      context: VulnerableApp
+      context: VulnerableApp-modern
       url: http://VulnerableApp-facade
       maxDuration: 20         # minutes
       maxDepth: 100
@@ -49,29 +50,41 @@ jobs:
   # ------------------------------------------------------------------
   - type: spiderAjax
     parameters:
-      context: VulnerableApp
+      context: VulnerableApp-modern
       url: http://VulnerableApp-facade
       maxDuration: 20         # minutes
-      maxCrawlDepth: 20
-      browserId: chrome-headless
+      maxCrawlDepth: 0
+      maxCrawlStates: 0        # unlimited
+      reloadWait: 2000
+      eventWait: 1500
+      browserId: firefox-headless
       clickDefaultElems: true
       clickElemsOnce: true
       randomInputs: true
 
   # ------------------------------------------------------------------
-  # 3. Active Scan — attack mode against discovered URLs
+  # 3. Passive Scan Wait — wait for passive scan to complete before active scan
+  # ------------------------------------------------------------------ 
+
+  - type: passiveScan-wait
+    parameters:
+      context: VulnerableApp-modern
+      maxDuration: 20         # minutes
+
+  # ------------------------------------------------------------------
+  # 4. Active Scan — attack mode against discovered URLs
   # ------------------------------------------------------------------
   - type: activeScan
     parameters:
       context: VulnerableApp
       maxRuleDurationInMins: 5
       maxScanDurationInMins: 120
-    policyDefinition:
-      defaultStrength: INSANE
-      defaultThreshold: LOW
+      policyDefinition:
+        defaultStrength: INSANE
+        defaultThreshold: LOW
 
   # ------------------------------------------------------------------
-  # 4. Report — JSON format, written to benchmarks/zap-raw-report.json
+  # 5. Report — JSON format, written to benchmarks/zap-raw-report.json
   # ------------------------------------------------------------------
   - type: report
     parameters:
@@ -84,3 +97,4 @@ jobs:
       - high
       - medium
       - low
+      - informational

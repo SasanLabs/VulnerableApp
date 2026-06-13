@@ -28,109 +28,88 @@ jobs:
           fetch-depth: 0
 
       # ------------------------------------------------------------------
-      # 2. Start VulnerableApp 
+      # 2. Start Stack 
       # ------------------------------------------------------------------
       - name: Start VulnerableApp (modern UI)
         run: |
           docker compose -f docker-compose.without_llm.yml up -d
-          echo "Waiting for stack to be ready..."
-          sleep 60
 
-      - name: Verify VulnerableApp is up
+      # ------------------------------------------------------------
+      # 3. Wait for app to be ready
+      # ------------------------------------------------------------
+      - name: Wait for VulnerableApp
         run: |
-          curl -f --retry 10 --retry-delay 5 \
-            http://localhost/VulnerableApp/scanner | python3 -m json.tool | head -5
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "App failed to start"
+          ls -la
+          chmod -R 777 ./
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1
 
-      # ------------------------------------------------------------------
-      # Generate requestor URLs
-      # ------------------------------------------------------------------
-
-      - name: Generate ZAP requestor URLs from ground truth
+      # ------------------------------------------------------------
+      # 4. Resolve Docker Network
+      # ------------------------------------------------------------
+      - name: Resolve Docker Network
+        id: net
         run: |
-          python3 - << 'PYEOF'
-          import json, urllib.request, yaml
+          CONTAINER_ID=$(docker compose -f docker-compose.without_llm.yml ps -q | head -1)
 
-          response = urllib.request.urlopen(
-              'http://localhost/VulnerableApp/scanner'
-          )
-          data = json.load(response)
+          NETWORK=$(docker inspect "$CONTAINER_ID" \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
 
-          requests = []
-
-          for entry in data:
-              url = entry['url'].replace(
-                  'http://127.0.0.1:9090',
-                  'http://vulnerableapp-VulnerableApp-base-1:9090'
-              )
-
-              requests.append({
-                  'url': url,
-                  'method': entry.get('method', 'GET')
-              })
-
-          print(f'Generated {len(requests)} URLs')
-
-          with open('benchmarks/ZAP/zap-automation-modern.yaml') as f:
-              plan = yaml.safe_load(f)
-
-          requestor_job = {
-              'type': 'requestor',
-              'parameters': {},
-              'requests': requests
-          }
-
-          jobs = plan['jobs']
-
-          insert_idx = next(
-              (i for i, j in enumerate(jobs)
-              if j['type'] == 'activeScan'),
-              len(jobs)
-          )
-
-          jobs.insert(insert_idx, requestor_job)
-
-          with open('benchmarks/ZAP/zap-automation-modern.yaml', 'w') as f:
-              yaml.dump(plan, f)
-
-          print('Requestor injected')
-          PYEOF
+          echo "NETWORK=$NETWORK" >> $GITHUB_ENV
+          echo "Using network: $NETWORK"
 
       # ------------------------------------------------------------------
-      # 3. Run ZAP scan - Modern UI
+      # 5. Run ZAP scan - Modern UI
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Modern UI)
         run: |
-          NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
-            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
-          echo "Using network: $NETWORK"
-          docker run \
-            --network "$NETWORK" \
-            --shm-size=2g \
-            --user root \
-            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-            ghcr.io/zaproxy/zaproxy:2.17.0 \
-            bash -c "zap.sh -cmd -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation-modern.yaml"
-
+            docker run \
+              --network "$NETWORK" \
+              --shm-size=8g \
+              -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+              ghcr.io/zaproxy/zaproxy:weekly \
+              bash -c "
+                echo 'Running ZAP...'
+                zap.sh -daemon \
+                  -addonupdate \
+                  -addoninstallall \
+                  -autorun /zap/wrk/zap-automation-modern.yaml
+              "
+      # ------------------------------------------------------------
+      # 6. Validate report 
+      # ------------------------------------------------------------
       - name: Verify Modern UI ZAP report
         run: |
           ls -lh benchmarks/ZAP/zap-raw-report.json
           echo "Finding count:"
-          python3 -c "
+
+          python3 - << 'PY'
           import json
           with open('benchmarks/ZAP/zap-raw-report.json') as f:
               data = json.load(f)
-          if isinstance(data, list):   
-              sites = data
-          else:
-              sites = data.get('site', [])
-              if isinstance(sites, dict):
-                  sites = [sites]
+
+          sites = data.get("site") or data.get("sites") or []    
+          if isinstance(sites, dict):
+              sites = [sites]
+
           total = sum(len(s.get('alerts',[])) for s in sites)
           print(f'  Modern UI Alerts found: {total}')
-          "
+          if total == 0:
+              print("WARNING: Zero alerts found. Check spider/network/config.")
+          PY
+          
 
       # ------------------------------------------------------------------
-      # 4. Convert ZAP report to benchmark input format
+      # 7. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
       - name: Convert Modern UI ZAP report
         run: |
@@ -149,7 +128,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 5. Submit to benchmark endpoint and save results
+      # 8. Submit to benchmark endpoint and save results
       # ------------------------------------------------------------------
       - name: Run benchmark (Modern UI)
         run: |
@@ -172,7 +151,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 6. Update benchmark_results.md with real numbers
+      # 9. Update benchmark_results.md with real numbers
       # ------------------------------------------------------------------
       - name: Update benchmark results doc
         run: |
@@ -205,7 +184,7 @@ jobs:
           PYEOF
  
       # ------------------------------------------------------------------
-      # 7. Commit and push results back to repo
+      # 10. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
         run: |
@@ -220,7 +199,7 @@ jobs:
           git push
  
       # ------------------------------------------------------------------
-      # 8. Upload raw report and input as artifacts (for inspection)
+      # 11. Upload raw report and input as artifacts (for inspection)
       # ------------------------------------------------------------------
       - name: Upload scan artifacts
         if: always()
