@@ -75,6 +75,7 @@ jobs:
             docker run \
               --network "$NETWORK" \
               --shm-size=8g \
+              --user root \
               -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
               ghcr.io/zaproxy/zaproxy:weekly \
               bash -c "
