@@ -146,6 +146,10 @@ jobs:
               print("WARNING: Zero alerts found. Check spider/network/config.")
           PY
 
+      - name: Restore ownership
+        run: |
+          sudo chown -R runner:runner benchmarks/ZAP
+
       # ------------------------------------------------------------------
       # 7. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
