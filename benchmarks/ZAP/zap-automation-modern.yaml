@@ -11,7 +11,7 @@
 #       -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
 #       ghcr.io/zaproxy/zaproxy:weekly \
 #       bash -c "
-#         zap.sh -daemon \
+#         zap.sh -cmd \
 #           -addonupdate \
 #           -addoninstallall \
 #           -autorun /zap/wrk/zap-automation-modern.yaml
