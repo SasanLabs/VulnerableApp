@@ -52,37 +52,17 @@ jobs:
           chmod -R 777 ./
           docker compose -f docker-compose.without_llm.yml logs
           exit 1   
-
-      - name: Debug workspace permissions
-        run: |
-          echo "Host user:"
-          id
-
-          echo "Directory permissions:"
-          ls -ld benchmarks/ZAP
-
-          echo "Files:"
-          ls -la benchmarks/ZAP
-
-      - name: Check ZAP container user
-        run: |
-          docker run --rm \
-            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-            ghcr.io/zaproxy/zaproxy:weekly \
-            id
-
-      - name: Check ZAP output directory
-        run: |
-          ls -ld benchmarks/ZAP
-          ls -la benchmarks/ZAP  
-          
-      - name: Fix ZAP workspace ownership
+  
+      # ------------------------------------------------------------
+      # 4. Change ZAP workspace ownership
+      # ------------------------------------------------------------  
+      - name: Change ZAP workspace ownership
         run: |
           sudo chown -R 1000:1000 benchmarks/ZAP
           ls -ld benchmarks/ZAP
 
       # ------------------------------------------------------------
-      # 4. Resolve Docker Network
+      # 5. Resolve Docker Network
       # ------------------------------------------------------------
       - name: Resolve Docker Network
         id: net
@@ -96,7 +76,7 @@ jobs:
           echo "Using network: $NETWORK"
 
       # ------------------------------------------------------------------
-      # 5. Run ZAP scan - Legacy UI
+      # 6. Run ZAP scan - Legacy UI
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Legacy UI)
         run: |
@@ -114,7 +94,7 @@ jobs:
               "
 
       # ------------------------------------------------------------
-      # 6. Validate report 
+      # 7. Validate report 
       # ------------------------------------------------------------
       - name: Verify Legacy UI ZAP report
         run: |
@@ -146,12 +126,15 @@ jobs:
               print("WARNING: Zero alerts found. Check spider/network/config.")
           PY
 
+      # ------------------------------------------------------------------
+      # 8. Restore ownership
+      # ------------------------------------------------------------------
       - name: Restore ownership
         run: |
           sudo chown -R runner:runner benchmarks/ZAP
 
       # ------------------------------------------------------------------
-      # 7. Convert ZAP report to benchmark input format
+      # 9. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
 
       - name: Convert Legacy UI ZAP report
@@ -168,7 +151,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 8. Submit to benchmark endpoint and save results
+      # 10. Submit to benchmark endpoint and save results
       # ------------------------------------------------------------------
 
       - name: Run benchmark (Legacy UI)
@@ -191,7 +174,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 9. Update benchmark_results.md with real numbers
+      # 11. Update benchmark_results.md with real numbers
       # ------------------------------------------------------------------
       - name: Update benchmark results doc
         run: |
@@ -224,7 +207,7 @@ jobs:
           PYEOF
  
       # ------------------------------------------------------------------
-      # 10. Commit and push results back to repo
+      # 12. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
         run: |
@@ -239,13 +222,13 @@ jobs:
           git push
  
       # ------------------------------------------------------------------
-      # 11. Upload raw report and input as artifacts (for inspection)
+      # 13. Upload raw report and input as artifacts (for inspection)
       # ------------------------------------------------------------------
       - name: Upload scan artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zap-benchmark-artifacts
+          name: zap-benchmark-artifacts-legacy
           path: |
             benchmarks/ZAP/zap-raw-report-legacy.json
             benchmarks/ZAP/zap-benchmark-input-legacy.json
