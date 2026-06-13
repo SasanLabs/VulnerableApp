@@ -8,10 +8,15 @@
 #     NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
 #       --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
 #     docker run --network "$NETWORK" \
-#     --user root \
-#     -v $(pwd)/benchmarks/ZAP:/zap/wrk/:rw \
-#     ghcr.io/zaproxy/zaproxy:2.17.0 \
-#     bash -c "zap.sh -cmd -addoninstallall && zap.sh -cmd -autorun /zap/wrk/zap-automation-legacy.yaml"
+#       --shm-size=8g \
+#       -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+#       ghcr.io/zaproxy/zaproxy:weekly \
+#       bash -c "
+#         zap.sh -daemon \
+#           -addonupdate \
+#           -addoninstallall \
+#           -autorun /zap/wrk/zap-automation-legacy.yaml
+#       "
 #
 # The JSON report is written to benchmarks/ZAP/zap-raw-report-legacy.json.
 # Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
@@ -23,7 +28,7 @@ env:
       urls:
         - http://VulnerableApp-facade/VulnerableApp
       includePaths:
-        - "http://VulnerableApp-facade/VulnerableApp.*"
+        - "http://.*"
   parameters:
     failOnError: false
     failOnWarning: false
@@ -49,26 +54,38 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 20         # minutes
-      maxCrawlDepth: 20
-      browserId: chrome-headless
+      maxCrawlDepth: 0
+      maxCrawlStates: 0
+      reloadWait: 2000
+      eventWait: 1500
+      browserId: firefox-headless
       clickDefaultElems: true   
       clickElemsOnce: true
       randomInputs: true
 
   # ------------------------------------------------------------------
-  # 3. Active Scan — insane mode for maximum vulnerability coverage
+  # 3. Passive Scan Wait — wait for passive scan to complete before active scan
+  # ------------------------------------------------------------------ 
+
+  - type: passiveScan-wait
+    parameters:
+      context: VulnerableApp-legacy
+      maxDuration: 20         # minutes
+
+  # ------------------------------------------------------------------
+  # 4. Active Scan — insane mode for maximum vulnerability coverage
   # ------------------------------------------------------------------
   - type: activeScan
     parameters:
       context: VulnerableApp-legacy
       maxRuleDurationInMins: 5
       maxScanDurationInMins: 120
-    policyDefinition:
-      defaultStrength: INSANE
-      defaultThreshold: LOW
+      policyDefinition:
+        defaultStrength: INSANE
+        defaultThreshold: LOW
 
   # ------------------------------------------------------------------
-  # 4. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
+  # 5. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
   # ------------------------------------------------------------------
   - type: report
     parameters:
@@ -81,3 +98,4 @@ jobs:
       - high
       - medium
       - low
+      - informational
