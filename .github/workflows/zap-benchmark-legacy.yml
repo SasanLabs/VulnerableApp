@@ -53,6 +53,29 @@ jobs:
           docker compose -f docker-compose.without_llm.yml logs
           exit 1   
 
+      - name: Debug workspace permissions
+        run: |
+          echo "Host user:"
+          id
+
+          echo "Directory permissions:"
+          ls -ld benchmarks/ZAP
+
+          echo "Files:"
+          ls -la benchmarks/ZAP
+
+      - name: Check ZAP container user
+        run: |
+          docker run --rm \
+            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:weekly \
+            id
+
+      - name: Check ZAP output directory
+        run: |
+          ls -ld benchmarks/ZAP
+          ls -la benchmarks/ZAP       
+
       # ------------------------------------------------------------
       # 4. Resolve Docker Network
       # ------------------------------------------------------------
@@ -75,7 +98,6 @@ jobs:
             docker run \
               --network "$NETWORK" \
               --shm-size=8g \
-              --user root \
               -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
               ghcr.io/zaproxy/zaproxy:weekly \
               bash -c "
@@ -102,6 +124,15 @@ jobs:
           sites = data.get("site") or data.get("sites") or []    
           if isinstance(sites, dict):
               sites = [sites]
+
+          print("\n=== Alert names ===")    
+          for s in sites:
+              for alert in s.get('alerts', []):
+                  print(
+                      alert.get("name"),
+                      "CWE=", alert.get("cweid"),
+                      "WASC=", alert.get("wascid")
+                  )
 
           total = sum(len(s.get('alerts',[])) for s in sites)
           print(f'  Legacy UI alerts found: {total}')
