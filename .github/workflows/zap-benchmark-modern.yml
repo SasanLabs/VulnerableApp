@@ -54,7 +54,15 @@ jobs:
           exit 1
 
       # ------------------------------------------------------------
-      # 4. Resolve Docker Network
+      # 4. Change ZAP workspace ownership
+      # ------------------------------------------------------------  
+      - name: Change ZAP workspace ownership
+        run: |
+          sudo chown -R 1000:1000 benchmarks/ZAP
+          ls -ld benchmarks/ZAP
+
+      # ------------------------------------------------------------
+      # 5. Resolve Docker Network
       # ------------------------------------------------------------
       - name: Resolve Docker Network
         id: net
@@ -68,7 +76,7 @@ jobs:
           echo "Using network: $NETWORK"
 
       # ------------------------------------------------------------------
-      # 5. Run ZAP scan - Modern UI
+      # 6. Run ZAP scan - Modern UI
       # ------------------------------------------------------------------
       - name: Run ZAP Scan (Modern UI)
         run: |
@@ -85,7 +93,7 @@ jobs:
                   -autorun /zap/wrk/zap-automation-modern.yaml
               "
       # ------------------------------------------------------------
-      # 6. Validate report 
+      # 7. Validate report 
       # ------------------------------------------------------------
       - name: Verify Modern UI ZAP report
         run: |
@@ -109,7 +117,14 @@ jobs:
           
 
       # ------------------------------------------------------------------
-      # 7. Convert ZAP report to benchmark input format
+      # 8. Restore ownership
+      # ------------------------------------------------------------------
+      - name: Restore ownership
+        run: |
+          sudo chown -R runner:runner benchmarks/ZAP
+
+      # ------------------------------------------------------------------
+      # 9. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
       - name: Convert Modern UI ZAP report
         run: |
@@ -128,7 +143,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 8. Submit to benchmark endpoint and save results
+      # 10. Submit to benchmark endpoint and save results
       # ------------------------------------------------------------------
       - name: Run benchmark (Modern UI)
         run: |
@@ -151,7 +166,7 @@ jobs:
           "
 
       # ------------------------------------------------------------------
-      # 9. Update benchmark_results.md with real numbers
+      # 11. Update benchmark_results.md with real numbers
       # ------------------------------------------------------------------
       - name: Update benchmark results doc
         run: |
@@ -184,7 +199,7 @@ jobs:
           PYEOF
  
       # ------------------------------------------------------------------
-      # 10. Commit and push results back to repo
+      # 12. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
         run: |
@@ -199,13 +214,13 @@ jobs:
           git push
  
       # ------------------------------------------------------------------
-      # 11. Upload raw report and input as artifacts (for inspection)
+      # 13. Upload raw report and input as artifacts (for inspection)
       # ------------------------------------------------------------------
       - name: Upload scan artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zap-benchmark-modern-artifacts
+          name: zap-benchmark-modern-artifacts-modern
           path: |
             benchmarks/ZAP/zap-raw-report.json
             benchmarks/ZAP/zap-benchmark-input.json
