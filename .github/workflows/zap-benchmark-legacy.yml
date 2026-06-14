@@ -90,9 +90,6 @@ jobs:
                 zap.sh -cmd \
                   -addonupdate \
                   -addoninstallall \
-                  -config log4j.rootLogger=INFO \
-                  -config log4j.logger.org.zaproxy.zap.extension.ascan=DEBUG \
-                  -config log4j.logger.org.parosproxy.paros.core.scanner=DEBUG \
                   -autorun /zap/wrk/zap-automation-legacy.yaml \
                   2>&1 | tee /zap/wrk/zap-scan-legacy.log
               "
