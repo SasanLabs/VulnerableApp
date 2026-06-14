@@ -90,10 +90,7 @@ jobs:
                 zap.sh -cmd \
                   -addonupdate \
                   -addoninstallall \
-                  -config log4j.rootLogger=INFO \
-                  -config log4j.logger.org.zaproxy.zap.extension.ascan=DEBUG \
-                  -config log4j.logger.org.parosproxy.paros.core.scanner=DEBUG \
-                  -autorun /zap/wrk/zap-automation-modern.yaml
+                  -autorun /zap/wrk/zap-automation-modern.yaml \
                   2>&1 | tee /zap/wrk/zap-scan-modern.log
               "
           
@@ -225,7 +222,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zap-benchmark-modern-artifacts-modern
+          name: zap-benchmark-artifacts-modern
           path: |
             benchmarks/ZAP/zap-raw-report.json
             benchmarks/ZAP/zap-benchmark-input.json
