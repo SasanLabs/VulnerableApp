@@ -1,0 +1,74 @@
+{
+  "tool": "ZAP",
+  "scanType": "DAST",
+  "findings": [
+    { "url": "/AuthenticationVulnerability/LEVEL_1", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+
+    { "url": "/CommandInjection/LEVEL_1", "cwe": "CWE-77", "wascId": "31", "method": "GET" },
+    { "url": "/CommandInjection/LEVEL_2", "cwe": "CWE-77", "wascId": "31", "method": "GET" },
+    { "url": "/CommandInjection/LEVEL_3", "cwe": "CWE-77", "wascId": "31", "method": "GET" },
+    { "url": "/CommandInjection/LEVEL_4", "cwe": "CWE-77", "wascId": "31", "method": "GET" },
+    { "url": "/CommandInjection/LEVEL_5", "cwe": "CWE-77", "wascId": "31", "method": "GET" },
+
+    { "url": "/ClickjackingVulnerability/LEVEL_1", "cwe": "CWE-1021", "method": "GET" },
+    { "url": "/ClickjackingVulnerability/LEVEL_2", "cwe": "CWE-1021", "method": "GET" },
+    { "url": "/ClickjackingVulnerability/LEVEL_3", "cwe": "CWE-1021", "method": "GET" },
+    { "url": "/ClickjackingVulnerability/LEVEL_6", "cwe": "CWE-1021", "method": "GET" },
+    { "url": "/ClickjackingVulnerability/LEVEL_7", "cwe": "CWE-1021", "method": "GET" },
+
+    { "url": "/PathTraversal/LEVEL_1", "cwe": "CWE-22", "wascId": "33", "method": "GET" },
+    { "url": "/PathTraversal/LEVEL_2", "cwe": "CWE-22", "wascId": "33", "method": "GET" },
+    { "url": "/PathTraversal/LEVEL_3", "cwe": "CWE-22", "wascId": "33", "method": "GET" },
+
+    { "url": "/BlindSQLInjectionVulnerability/LEVEL_1", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+    { "url": "/BlindSQLInjectionVulnerability/LEVEL_2", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_1", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_2", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_3", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+    { "url": "/ErrorBasedSQLInjectionVulnerability/LEVEL_4", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+
+    { "url": "/UnionBasedSQLInjectionVulnerability/LEVEL_1", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+    { "url": "/UnionBasedSQLInjectionVulnerability/LEVEL_2", "cwe": "CWE-89", "wascId": "19", "method": "GET" },
+
+    { "url": "/SSRFVulnerability/LEVEL_1", "cwe": "CWE-918", "wascId": "15", "method": "GET" },
+    { "url": "/SSRFVulnerability/LEVEL_2", "cwe": "CWE-918", "wascId": "15", "method": "GET" },
+
+    { "url": "/XSSInImgTagAttribute/LEVEL_1", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/XSSInImgTagAttribute/LEVEL_2", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/XSSInImgTagAttribute/LEVEL_3", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+
+    { "url": "/XSSWithHtmlTagInjection/LEVEL_1", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/XSSWithHtmlTagInjection/LEVEL_2", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/XSSWithHtmlTagInjection/LEVEL_3", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_1", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_2", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_3", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_4", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_5", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/PersistentXSSInHTMLTagVulnerability/LEVEL_6", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+
+    { "url": "/XXEVulnerability/LEVEL_1", "cwe": "CWE-611", "wascId": "43", "method": "POST" },
+    { "url": "/XXEVulnerability/LEVEL_2", "cwe": "CWE-611", "wascId": "43", "method": "POST" },
+
+    { "url": "/LDAPInjectionVulnerability/LEVEL_1", "cwe": "CWE-90", "wascId": "29", "method": "GET" },
+    { "url": "/LDAPInjectionVulnerability/LEVEL_2", "cwe": "CWE-90", "wascId": "29", "method": "GET" },
+
+    { "url": "/Http3xxStatusCodeBasedInjection/LEVEL_1", "cwe": "CWE-601", "wascId": "38", "method": "GET" },
+    { "url": "/Http3xxStatusCodeBasedInjection/LEVEL_2", "cwe": "CWE-601", "wascId": "38", "method": "GET" },
+    { "url": "/Http3xxStatusCodeBasedInjection/LEVEL_3", "cwe": "CWE-601", "wascId": "38", "method": "GET" },
+
+    { "url": "/IDORVulnerability/LEVEL_1", "cwe": "CWE-639", "wascId": "13", "method": "GET" },
+    { "url": "/IDORVulnerability/LEVEL_2", "cwe": "CWE-639", "wascId": "13", "method": "GET" },
+
+    { "url": "/UnrestrictedFileUpload/LEVEL_1", "cwe": "CWE-434", "method": "POST" },
+    { "url": "/UnrestrictedFileUpload/LEVEL_2", "cwe": "CWE-434", "method": "POST" },
+
+    { "url": "/CachePoisoning/LEVEL_1", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/CachePoisoning/LEVEL_2", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+    { "url": "/CachePoisoning/LEVEL_3", "cwe": "CWE-79", "wascId": "8", "method": "GET" },
+
+    { "url": "/NonExistentEndpoint/LEVEL_1", "cwe": "CWE-693", "wascId": "15", "method": "GET" }
+  ]
+}

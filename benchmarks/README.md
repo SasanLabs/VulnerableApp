@@ -43,7 +43,7 @@ omitted, it defaults to `DAST` so existing payloads keep working.
 To discover the real ground-truth entries, hit
 `GET http://<baseurl>/VulnerableApp/scanner` — every `UNSECURE` entry there
 contributes one expected finding for each `vulnerabilityType` it carries. The
-full sample at `benchmarks/samples/zap-findings-sample.json` includes one
+full sample at `benchmarks/ZAP/samples/zap-findings-sample.json` includes one
 deliberately invalid entry so a successful run produces a non-empty
 `unmatchedItems` list for demonstration.
 
@@ -121,7 +121,7 @@ WEB_CACHE_POISONING
 }
 ```
 
-The full sample at `benchmarks/samples/semgrep-sast-sample.json` includes one
+The full sample at `benchmarks/semgrep-sast-sample.json` includes one
 deliberately invalid entry so a successful run produces a non-empty
 `unmatchedItems` list.
 
@@ -159,14 +159,14 @@ Start VulnerableApp, then for either mode:
 
 ```bash
 # DAST
-curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
-  -d @benchmarks/samples/zap-findings-sample.json
+  -d @benchmarks/samples/ZAP/zap-findings-sample.json
 
 # SAST
-curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
-  -d @benchmarks/samples/semgrep-sast-sample.json
+  -d @benchmarks/semgrep-sast-sample.json
 ```
 
 The HTTP response contains the same JSON that gets persisted to disk.
@@ -239,3 +239,21 @@ was *not* created.
 ## Limitations (v1)
 
 - SAST `Number of Sources` is not used for scoring; full credit on first match.
+
+### SSL/TLS and header-hardening findings are always unmatched (all DAST scanners)
+DAST scanners commonly report findings such as missing `Strict-Transport-Security`,
+`X-Content-Type-Options`, or insecure cookie flags. These are valid security
+observations but fall outside VulnerableApp's intentional vulnerability set.
+They will always appear in `unmatchedItems` and should not be interpreted as
+false positives. This applies to any DAST scanner benchmarked against VulnerableApp.
+
+## Tool-specific guides
+
+Each tool guide covers: running the scanner, converting its output, and
+submitting to the benchmark endpoint.
+
+| Tool | Scan type | Guide |
+|---|---|---|
+| OWASP ZAP | DAST | [benchmarks/ZAP/how_to_run_zap.md](./ZAP/how_to_run_zap.md) |
+| Semgrep | SAST | *(sample only — see `benchmarks/semgrep-sast-sample.json`)* |
+

@@ -1,0 +1,232 @@
+name: ZAP Benchmark Modern
+
+on:
+  # Run weekly every Monday at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * 1'  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zap-benchmark:
+    name: Run ZAP DAST Benchmark Modern
+    runs-on: ubuntu-latest
+
+    env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+        
+    steps:
+      # ------------------------------------------------------------------
+      # 1. Checkout repo
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------
+      # 2. Start Stack 
+      # ------------------------------------------------------------------
+      - name: Start VulnerableApp (modern UI)
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      # ------------------------------------------------------------
+      # 3. Wait for app to be ready
+      # ------------------------------------------------------------
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "App failed to start"
+          ls -la
+          chmod -R 777 ./
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1
+
+      # ------------------------------------------------------------
+      # 4. Change ZAP workspace ownership
+      # ------------------------------------------------------------  
+      - name: Change ZAP workspace ownership
+        run: |
+          sudo chown -R 1000:1000 benchmarks/ZAP
+          ls -ld benchmarks/ZAP
+
+      # ------------------------------------------------------------
+      # 5. Resolve Docker Network
+      # ------------------------------------------------------------
+      - name: Resolve Docker Network
+        id: net
+        run: |
+          CONTAINER_ID=$(docker compose -f docker-compose.without_llm.yml ps -q | head -1)
+
+          NETWORK=$(docker inspect "$CONTAINER_ID" \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+
+          echo "NETWORK=$NETWORK" >> $GITHUB_ENV
+          echo "Using network: $NETWORK"
+
+      # ------------------------------------------------------------------
+      # 6. Run ZAP scan - Modern UI
+      # ------------------------------------------------------------------
+      - name: Run ZAP Scan (Modern UI)
+        run: |
+            docker run \
+              --network "$NETWORK" \
+              --shm-size=8g \
+              -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+              ghcr.io/zaproxy/zaproxy:weekly \
+              bash -c "
+                echo 'Running ZAP...'
+                zap.sh -cmd \
+                  -addonupdate \
+                  -addoninstallall \
+                  -autorun /zap/wrk/zap-automation-modern.yaml \
+                  2>&1 | tee /zap/wrk/zap-scan-modern.log
+              "
+          
+      # ------------------------------------------------------------
+      # 7. Validate report 
+      # ------------------------------------------------------------
+      - name: Verify Modern UI ZAP report
+        run: |
+          ls -lh benchmarks/ZAP/zap-raw-report.json
+          echo "Finding count:"
+
+          python3 - << 'PY'
+          import json
+          with open('benchmarks/ZAP/zap-raw-report.json') as f:
+              data = json.load(f)
+
+          sites = data.get("site") or data.get("sites") or []    
+          if isinstance(sites, dict):
+              sites = [sites]
+
+          total = sum(len(s.get('alerts',[])) for s in sites)
+          print(f'  Modern UI Alerts found: {total}')
+          if total == 0:
+              print("WARNING: Zero alerts found. Check spider/network/config.")
+          PY
+          
+
+      # ------------------------------------------------------------------
+      # 8. Restore ownership
+      # ------------------------------------------------------------------
+      - name: Restore ownership
+        run: |
+          sudo chown -R runner:runner benchmarks/ZAP
+
+      # ------------------------------------------------------------------
+      # 9. Convert ZAP report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert Modern UI ZAP report
+        run: |
+          python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+            --input  benchmarks/ZAP/zap-raw-report.json \
+            --output benchmarks/ZAP/zap-benchmark-input.json
+
+          echo "Modern UI findings:"
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-benchmark-input.json') as f:
+              data = json.load(f)
+          print(f'  Total findings: {len(data[\"findings\"])}')
+          print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
+          print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
+          "
+
+      # ------------------------------------------------------------------
+      # 10. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark (Modern UI)
+        run: |
+          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/ZAP/zap-benchmark-input.json \
+            -o benchmarks/ZAP/zap-results.json
+
+          echo "=== Modern UIBenchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:      {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:      {data[\"detected\"]}')
+          print(f'  Missed:        {data[\"missed\"]}')
+          print(f'  Unmatched:     {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 11. Update benchmark_results.md with real numbers
+      # ------------------------------------------------------------------
+      - name: Update benchmark results doc
+        run: |
+          python3 - << 'PYEOF'
+          import json, re
+          from datetime import date
+ 
+          with open('benchmarks/ZAP/zap-results.json') as f:
+              modern = json.load(f)
+
+          with open('benchmarks/ZAP/benchmark_results.md') as f:
+              content = f.read()
+ 
+          replacements = {
+              r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {modern["totalExpected"]} |',
+              r'\| \*\*Detected by ZAP \(Modern UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Modern UI)** | **{modern["detected"]}** |',
+              r'\| Missed \(Modern UI\) \| .* \|':                     f'| Missed (Modern UI) | {modern["missed"]} |',
+              r'\| \*\*Coverage \(Modern UI\)\*\* \| .* \|':           f'| **Coverage (Modern UI)** | **{modern["coverage"]:.2f}%** |',
+              r'\| Unmatched \(Modern UI\) \| .* \|':                  f'| Unmatched (Modern UI) | {modern["unmatched"]} |',
+              r'\| Date \| .* \|':                                      f'| Date | {date.today().isoformat()} |',
+          }
+ 
+          for pattern, replacement in replacements.items():
+              content = re.sub(pattern, replacement, content)
+ 
+          with open('benchmarks/ZAP/benchmark_results.md', 'w') as f:
+              f.write(content)
+ 
+          print("benchmark_results.md updated with real numbers")
+          PYEOF
+ 
+      # ------------------------------------------------------------------
+      # 12. Commit and push results back to repo
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add \
+            benchmarks/ZAP/zap-results.json \
+            benchmarks/ZAP/benchmark_results.md
+          git diff --staged --quiet || git commit -m \
+            "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
+          git push
+ 
+      # ------------------------------------------------------------------
+      # 13. Upload raw report and input as artifacts (for inspection)
+      # ------------------------------------------------------------------
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-benchmark-artifacts-modern
+          path: |
+            benchmarks/ZAP/zap-raw-report.json
+            benchmarks/ZAP/zap-benchmark-input.json
+            benchmarks/ZAP/zap-results.json
+            benchmarks/ZAP/benchmark_results.md
+            benchmarks/ZAP/zap-scan-modern.log
+          retention-days: 90

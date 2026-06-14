@@ -1,0 +1,239 @@
+name: ZAP Benchmark Legacy
+
+on:
+  # Run weekly every Monday at 00:00 UTC
+  schedule:
+    - cron: '0 1 * * 1'  
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zap-benchmark:
+    name: Run ZAP DAST Benchmark Legacy
+    runs-on: ubuntu-latest
+
+    env:
+        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
+    steps:
+      # ------------------------------------------------------------------
+      # 1. Checkout repo
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------
+      # 2. Start Stack (VulnerableApp + ZAP)
+      # ------------------------------------------------------------------
+      - name: Start Stack
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      # ------------------------------------------------------------
+      # 3. Wait for App to be ready
+      # ------------------------------------------------------------
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "App failed to start"
+          ls -la
+          chmod -R 777 ./
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1   
+  
+      # ------------------------------------------------------------
+      # 4. Change ZAP workspace ownership
+      # ------------------------------------------------------------  
+      - name: Change ZAP workspace ownership
+        run: |
+          sudo chown -R 1000:1000 benchmarks/ZAP
+          ls -ld benchmarks/ZAP
+
+      # ------------------------------------------------------------
+      # 5. Resolve Docker Network
+      # ------------------------------------------------------------
+      - name: Resolve Docker Network
+        id: net
+        run: |
+          CONTAINER_ID=$(docker compose -f docker-compose.without_llm.yml ps -q | head -1)
+
+          NETWORK=$(docker inspect "$CONTAINER_ID" \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+
+          echo "NETWORK=$NETWORK" >> $GITHUB_ENV
+          echo "Using network: $NETWORK"
+
+      # ------------------------------------------------------------------
+      # 6. Run ZAP scan - Legacy UI
+      # ------------------------------------------------------------------
+      - name: Run ZAP Scan (Legacy UI)
+        run: |
+            docker run \
+              --network "$NETWORK" \
+              --shm-size=8g \
+              -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+              ghcr.io/zaproxy/zaproxy:weekly \
+              bash -c "
+                echo 'Running ZAP...'
+                zap.sh -cmd \
+                  -addonupdate \
+                  -addoninstallall \
+                  -autorun /zap/wrk/zap-automation-legacy.yaml \
+                  2>&1 | tee /zap/wrk/zap-scan-legacy.log
+              "
+
+      # ------------------------------------------------------------
+      # 7. Validate report 
+      # ------------------------------------------------------------
+      - name: Verify Legacy UI ZAP report
+        run: |
+          ls -lh benchmarks/ZAP/zap-raw-report-legacy.json
+          echo "Finding count:"
+          python3 - << 'PY'
+
+          import json
+          with open('benchmarks/ZAP/zap-raw-report-legacy.json') as f:
+              data = json.load(f)
+
+          sites = data.get("site") or data.get("sites") or []    
+          if isinstance(sites, dict):
+              sites = [sites]
+
+          print("\n=== Alert names ===")    
+          for s in sites:
+              for alert in s.get('alerts', []):
+                  print(
+                      alert.get("name"),
+                      "CWE=", alert.get("cweid"),
+                      "WASC=", alert.get("wascid")
+                  )
+
+          total = sum(len(s.get('alerts',[])) for s in sites)
+          print(f'  Legacy UI alerts found: {total}')
+          
+          if total == 0:
+              print("WARNING: Zero alerts found. Check spider/network/config.")
+          PY
+
+      # ------------------------------------------------------------------
+      # 8. Restore ownership
+      # ------------------------------------------------------------------
+      - name: Restore ownership
+        run: |
+          sudo chown -R runner:runner benchmarks/ZAP
+
+      # ------------------------------------------------------------------
+      # 9. Convert ZAP report to benchmark input format
+      # ------------------------------------------------------------------
+
+      - name: Convert Legacy UI ZAP report
+        run: |
+          python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+            --input  benchmarks/ZAP/zap-raw-report-legacy.json \
+            --output benchmarks/ZAP/zap-benchmark-input-legacy.json
+          echo "Legacy UI findings:"
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-benchmark-input-legacy.json') as f:
+              data = json.load(f)
+          print(f'  Total: {len(data[\"findings\"])}')
+          "
+
+      # ------------------------------------------------------------------
+      # 10. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+
+      - name: Run benchmark (Legacy UI)
+        run: |
+          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/ZAP/zap-benchmark-input-legacy.json \
+            -o benchmarks/ZAP/zap-results-legacy.json
+          echo "=== Legacy UI Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/zap-results-legacy.json') as f:
+              data = json.load(f)
+          print(f'  Tool:      {data[\"tool\"]}')
+          print(f'  Coverage:  {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:  {data[\"detected\"]}')
+          print(f'  Missed:    {data[\"missed\"]}')
+          print(f'  Unmatched: {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 11. Update benchmark_results.md with real numbers
+      # ------------------------------------------------------------------
+      - name: Update benchmark results doc
+        run: |
+          python3 - << 'PYEOF'
+          import json, re
+          from datetime import date
+
+          with open('benchmarks/ZAP/zap-results-legacy.json') as f:
+              legacy = json.load(f)
+
+          with open('benchmarks/ZAP/benchmark_results.md') as f:
+              content = f.read()
+ 
+          replacements = {
+              r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {legacy["totalExpected"]} |',
+              r'\| \*\*Detected by ZAP \(Legacy UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Legacy UI)** | **{legacy["detected"]}** |',
+              r'\| Missed \(Legacy UI\) \| .* \|':                     f'| Missed (Legacy UI) | {legacy["missed"]} |',
+              r'\| \*\*Coverage \(Legacy UI\)\*\* \| .* \|':           f'| **Coverage (Legacy UI)** | **{legacy["coverage"]:.2f}%** |',
+              r'\| Unmatched \(Legacy UI\) \| .* \|':                  f'| Unmatched (Legacy UI) | {legacy["unmatched"]} |',
+              r'\| Date \| .* \|':                                      f'| Date | {date.today().isoformat()} |',
+          }
+ 
+          for pattern, replacement in replacements.items():
+              content = re.sub(pattern, replacement, content)
+ 
+          with open('benchmarks/ZAP/benchmark_results.md', 'w') as f:
+              f.write(content)
+ 
+          print("benchmark_results.md updated with real numbers")
+          PYEOF
+ 
+      # ------------------------------------------------------------------
+      # 12. Commit and push results back to repo
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add \
+            benchmarks/ZAP/zap-results-legacy.json \
+            benchmarks/ZAP/benchmark_results.md
+          git diff --staged --quiet || git commit -m \
+            "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
+          git push
+ 
+      # ------------------------------------------------------------------
+      # 13. Upload raw report and input as artifacts (for inspection)
+      # ------------------------------------------------------------------
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-benchmark-artifacts-legacy
+          path: |
+            benchmarks/ZAP/zap-raw-report-legacy.json
+            benchmarks/ZAP/zap-benchmark-input-legacy.json
+            benchmarks/ZAP/zap-results-legacy.json
+            benchmarks/ZAP/benchmark_results.md
+            benchmarks/ZAP/zap-scan-legacy.log
+          retention-days: 90
