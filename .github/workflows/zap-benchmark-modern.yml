@@ -94,7 +94,7 @@ jobs:
                   -config log4j.logger.org.zaproxy.zap.extension.ascan=DEBUG \
                   -config log4j.logger.org.parosproxy.paros.core.scanner=DEBUG \
                   -autorun /zap/wrk/zap-automation-modern.yaml
-                  2>&1 | tee /zap/wrk/zap-scan-legacy.log
+                  2>&1 | tee /zap/wrk/zap-scan-modern.log
               "
           
       # ------------------------------------------------------------
@@ -231,4 +231,5 @@ jobs:
             benchmarks/ZAP/zap-benchmark-input.json
             benchmarks/ZAP/zap-results.json
             benchmarks/ZAP/benchmark_results.md
+            benchmarks/ZAP/zap-scan-modern.log
           retention-days: 90

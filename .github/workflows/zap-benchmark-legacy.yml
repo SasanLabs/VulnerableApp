@@ -90,7 +90,11 @@ jobs:
                 zap.sh -cmd \
                   -addonupdate \
                   -addoninstallall \
-                  -autorun /zap/wrk/zap-automation-legacy.yaml
+                  -config log4j.rootLogger=INFO \
+                  -config log4j.logger.org.zaproxy.zap.extension.ascan=DEBUG \
+                  -config log4j.logger.org.parosproxy.paros.core.scanner=DEBUG \
+                  -autorun /zap/wrk/zap-automation-legacy.yaml \
+                  2>&1 | tee /zap/wrk/zap-scan-legacy.log
               "
 
       # ------------------------------------------------------------
@@ -234,4 +238,5 @@ jobs:
             benchmarks/ZAP/zap-benchmark-input-legacy.json
             benchmarks/ZAP/zap-results-legacy.json
             benchmarks/ZAP/benchmark_results.md
+            benchmarks/ZAP/zap-scan-legacy.log
           retention-days: 90
