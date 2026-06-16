@@ -73,7 +73,30 @@ jobs:
       maxDuration: 20         # minutes
 
   # ------------------------------------------------------------------
-  # 4. Active Scan — insane mode for maximum vulnerability coverage
+  # 4. Active Scan Configuration
+  # ------------------------------------------------------------------ 
+
+  - type: activeScan-config
+    parameters: {}
+    inputVectors:
+      urlQueryStringAndDataDrivenNodes:
+        enabled: true
+        addParam: true
+      postData:
+        enabled: true
+        multiPartFormData: true
+        xml: true
+        json:
+          enabled: true
+      urlPath: true
+      httpHeaders:
+        enabled: true
+        allRequests: true
+      cookieData:
+        enabled: true
+
+  # ------------------------------------------------------------------
+  # 5. Active Scan — insane mode for maximum vulnerability coverage
   # ------------------------------------------------------------------
   - type: activeScan
     parameters:
@@ -85,7 +108,7 @@ jobs:
       defaultThreshold: LOW
 
   # ------------------------------------------------------------------
-  # 5. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
+  # 6. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
   # ------------------------------------------------------------------
   - type: report
     parameters:
