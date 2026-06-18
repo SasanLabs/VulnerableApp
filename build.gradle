@@ -64,6 +64,14 @@ jib {
     from {
         image = 'sasanlabs/owasp-vulnerableapp-base:latest'
     }
+	extraDirectories {
+        paths {
+            path {
+                from = file('scanner')
+                into = '/scanner'
+            }
+        }
+    }
     // Set up multi-platform build only if the task is not :jibDockerBuild
     if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
         logger.info("JIB: Enabling Multi-Platform Images")
