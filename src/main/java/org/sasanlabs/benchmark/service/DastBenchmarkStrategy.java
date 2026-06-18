@@ -300,6 +300,13 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         if (queryIdx >= 0) {
             s = s.substring(0, queryIdx);
         }
+        // for URLs like
+        // /VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_1;(SELECT%20*%20FROM%20(SELECT(SLEEP(5)))PpKC)%23"
+        int zapSQLPayloadIdx = s.indexOf(';');
+        if (zapSQLPayloadIdx >= 0) {
+            s = s.substring(0, zapSQLPayloadIdx);
+        }
+
         if (s.equals(CONTEXT_PATH)) {
             s = "/";
         } else if (s.startsWith(CONTEXT_PATH + "/")) {
