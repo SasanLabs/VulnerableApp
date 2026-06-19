@@ -135,6 +135,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "An16og",
+      "name": "Anuj Jain",
+      "avatar_url": "https://avatars.githubusercontent.com/u/187938895?v=4",
+      "profile": "https://github.com/An16og",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Clark1945",
+      "name": "劉智旻 Clark Liu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69304397?v=4",
+      "profile": "https://clark1945.github.io/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
