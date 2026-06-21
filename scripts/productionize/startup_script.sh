@@ -12,7 +12,6 @@ generate_username() {
 cat > .env <<EOF
 DB_ADMIN_USERNAME=$(generate_username)
 DB_ADMIN_PASSWORD=$(generate_password)
-DB_APP_USERNAME=$(generate_username)
 DB_APP_PASSWORD=$(generate_password)
 NGINX_HOST=${1:-localhost}
 EOF
