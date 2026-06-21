@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -126,8 +127,12 @@ public class VulnerableAppConfiguration {
      */
     @Bean
     public DataSourceInitializer adminDataSourceInitializer(
-            @Qualifier("adminDataSource") DataSource adminDataSource) {
+            @Qualifier("adminDataSource") DataSource adminDataSource,
+            @Value("${spring.datasource.application.password}") String appPassword) {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        JdbcTemplate adminJdbcTemplate = new JdbcTemplate(adminDataSource);
+        adminJdbcTemplate.execute(
+                String.format("CREATE USER application PASSWORD '%s'", appPassword));
         populator.addScript(new ClassPathResource("scripts/SQLInjection/db/schema.sql"));
         populator.addScript(new ClassPathResource("scripts/xss/PersistentXSS/db/schema.sql"));
         populator.addScript(new ClassPathResource("scripts/XXEVulnerability/schema.sql"));
