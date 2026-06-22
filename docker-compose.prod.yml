@@ -9,7 +9,6 @@ services:
     environment:
       - DB_ADMIN_USERNAME=${DB_ADMIN_USERNAME}
       - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}
-      - DB_APP_USERNAME=${DB_APP_USERNAME}
       - DB_APP_PASSWORD=${DB_APP_PASSWORD}
       - SPRING_PROFILES_ACTIVE=public
       # - SPRING_H2_CONSOLE_ENABLED=true # set as false or comment it out
