@@ -72,6 +72,22 @@ services:
         app_net:
           aliases:
             - llmforge
+
+    mailpit:
+      image: axllent/mailpit:latest
+      container_name: mailpit
+      restart: unless-stopped
+      ports:
+       - "8025:8025"
+      expose:
+       - "1025"
+      environment:
+       - MP_MAX_MESSAGES=500
+       - MP_DATA_FILE=/data/mailpit.db
+      volumes:
+       - mailpit_data:/data
+      networks:
+       - app_net
     
     VulnerableApp-facade:
       depends_on:
@@ -79,6 +95,7 @@ services:
         - VulnerableApp-jsp
         - VulnerableApp-php
         - llmforge
+        - mailpit
       image: sasanlabs/owasp-vulnerableapp-facade:latest
       volumes:
        - ./templates:/etc/nginx/templates
@@ -99,4 +116,5 @@ networks:
     driver: bridge
 
 volumes:
+  mailpit_data:
   ollama_data:
