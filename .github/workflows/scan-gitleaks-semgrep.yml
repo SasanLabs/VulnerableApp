@@ -1,0 +1,92 @@
+name: Full Repository Security Scan (Gitleaks + Semgrep)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # =========================
+      # GITLEAKS
+      # =========================
+      - name: Run Gitleaks (Full Repo)
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --source . --report-format sarif --report-path gitleaks-results.sarif
+
+      - name: Print Gitleaks Findings (Client Readable)
+        run: |
+          echo "===== GITLEAKS (SECRETS) FINDINGS ====="
+          if [ -s gitleaks-results.sarif ]; then
+            jq -r '
+              .runs[0].results[] |
+              "[SECRETS] " + (.ruleId | ascii_upcase) + "\n" +
+              "Location: " +
+              .locations[0].physicalLocation.artifactLocation.uri +
+              " (line " +
+              (.locations[0].physicalLocation.region.startLine | tostring) +
+              ")\n" +
+              "Risk: Exposed secrets may allow unauthorized access.\n"
+            ' gitleaks-results.sarif > gitleaks-client.txt
+            cat gitleaks-client.txt
+          else
+            echo "No secrets found"
+          fi
+
+      - name: Upload Gitleaks Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-results
+          path: gitleaks-results.sarif
+
+      # =========================
+      # SEMGREP
+      # =========================
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      - name: Run Semgrep (Full Repo)
+        run: |
+          semgrep scan \
+            --config p/auto \
+            --config p/owasp-top-ten \
+            --config p/security-audit \
+            --json \
+            --output semgrep-results.json
+
+      - name: Print Semgrep Findings (Client Readable)
+        run: |
+          echo "===== SEMGREP (CODE) FINDINGS ====="
+          jq -r '
+            .results[] |
+            "[CODE] " + (.check_id | split(".")[-1] | ascii_upcase) + "\n" +
+            "Location: " + .path +
+            " (line " + (.start.line | tostring) + ")\n" +
+            "Risk: " + .extra.message + "\n"
+          ' semgrep-results.json > semgrep-client.txt
+          cat semgrep-client.txt
+
+      - name: Upload Semgrep Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep-results.json
