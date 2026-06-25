@@ -53,13 +53,13 @@ jobs:
     parameters:
       context: VulnerableApp-modern
       url: http://VulnerableApp-facade
-      maxDuration: 20         # minutes
+      maxDuration: 120         # minutes
       maxCrawlDepth: 0
       maxCrawlStates: 0        # unlimited
       reloadWait: 2000
       eventWait: 1500
       browserId: firefox-headless
-      clickDefaultElems: true
+      clickDefaultElems: false
       clickElemsOnce: true
       randomInputs: true
 
@@ -100,8 +100,8 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp-modern
-      maxRuleDurationInMins: 5
-      maxScanDurationInMins: 120
+      maxRuleDurationInMins: 30
+      maxScanDurationInMins: 180
     policyDefinition:
       defaultStrength: INSANE
       defaultThreshold: LOW
