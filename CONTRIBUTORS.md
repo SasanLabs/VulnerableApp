@@ -23,6 +23,11 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/polcm005"><img src="https://avatars.githubusercontent.com/u/104570510?v=4?s=100" width="100px;" alt="polcm005"/><br /><sub><b>polcm005</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=polcm005" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Jhalak19-Sethi"><img src="https://avatars.githubusercontent.com/u/133757296?v=4?s=100" width="100px;" alt="Jhalak19-Sethi"/><br /><sub><b>Jhalak19-Sethi</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Jhalak19-Sethi" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/codekite01"><img src="https://avatars.githubusercontent.com/u/152026186?v=4?s=100" width="100px;" alt="codekite01"/><br /><sub><b>codekite01</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=codekite01" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nguyenvulong"><img src="https://avatars.githubusercontent.com/u/1311412?v=4?s=100" width="100px;" alt="Long"/><br /><sub><b>Long</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=nguyenvulong" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/An16og"><img src="https://avatars.githubusercontent.com/u/187938895?v=4?s=100" width="100px;" alt="Anuj Jain"/><br /><sub><b>Anuj Jain</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=An16og" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://clark1945.github.io/"><img src="https://avatars.githubusercontent.com/u/69304397?v=4?s=100" width="100px;" alt="劉智旻 Clark Liu"/><br /><sub><b>劉智旻 Clark Liu</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Clark1945" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

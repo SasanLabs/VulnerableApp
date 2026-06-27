@@ -99,13 +99,12 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 hint.order(),
                                                 messageBundle.getString(hint.text(), null)));
                             }
-
+                            String payload = getPayload(card.payload().value());
                             ChallengeCardResponseBean.PayloadResponseBean payloadBean =
                                     new ChallengeCardResponseBean.PayloadResponseBean(
                                             messageBundle.getString(
                                                     card.payload().description(), null),
-                                            vulnerableAppProperties.getAttackVectorProperty(
-                                                    card.payload().value()));
+                                            payload);
 
                             levelResponseBean
                                     .getChallengeCards()
@@ -117,6 +116,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                     payloadBean));
                         }
                         for (AttackVector attackVector : attackVectors) {
+                            String payload = getPayload(attackVector.payload());
                             levelResponseBean
                                     .getAttackVectorResponseBeans()
                                     .add(
@@ -125,8 +125,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                             Arrays.asList(
                                                                     attackVector
                                                                             .vulnerabilityExposed())),
-                                                    vulnerableAppProperties.getAttackVectorProperty(
-                                                            attackVector.payload()),
+                                                    payload,
                                                     messageBundle.getString(
                                                             attackVector.description(), null)));
                         }
@@ -268,9 +267,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                             ChallengeCardPayload facadePayload = new ChallengeCardPayload();
                             facadePayload.setDescription(
                                     messageBundle.getString(card.payload().description(), null));
-                            facadePayload.setValue(
-                                    vulnerableAppProperties.getAttackVectorProperty(
-                                            card.payload().value()));
+                            String payload = getPayload(card.payload().value());
+                            facadePayload.setValue(payload);
                             facadeChallenge.setPayload(facadePayload);
 
                             facadeChallengeCards.add(facadeChallenge);
@@ -316,13 +314,20 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
         return vulnerabilityDefinitions;
     }
 
+    private String getPayload(String payloadKey) {
+        String payload = vulnerableAppProperties.getAttackVectorProperty(payloadKey);
+        if (StringUtils.isBlank(payload)) {
+            payload = messageBundle.getString(payloadKey, null);
+        }
+        if (StringUtils.isBlank(payload)) {
+            payload = "Payload is not applicable.";
+        }
+        return payload;
+    }
+
     private String buildFacadeHintDescription(AttackVector attackVector) {
         String description = messageBundle.getString(attackVector.description(), null);
-        String payload = vulnerableAppProperties.getAttackVectorProperty(attackVector.payload());
-        String payloadText =
-                StringUtils.isBlank(payload)
-                        ? "Payload is not applicable for the attack vector."
-                        : payload;
+        String payloadText = getPayload(attackVector.payload());
         return "<b>Description about the attack:</b> "
                 + description
                 + "<br/><b>Payload:</b> "

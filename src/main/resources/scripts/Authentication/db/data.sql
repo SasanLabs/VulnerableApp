@@ -29,3 +29,7 @@ INSERT INTO auth_users VALUES (8, 'admin_weak', '$2a$10$gV2vZ5fxhZlwOP.GIqOI1.z7
 -- Level 9: Secure (Bcrypt + Generic Error) (9fG#2hJk*LmN!8qR)
 -- Bcrypt hash for '9fG#2hJk*LmN!8qR'
 INSERT INTO auth_users VALUES (9, 'admin_secure', '$2a$10$1WiFUNqUY/vHTzR2QtuMQuzCLK3aZEdjEUpqS4msXOevaCz7Wobe.', NULL, 'BCRYPT', 9, 'admin_secure@example.com', 'ADMIN');
+
+-- Level 10: Low-iteration BCrypt (cost factor 4)
+-- Bcrypt hash (cost 4) for the common password 'sunshine'
+INSERT INTO auth_users VALUES (10, 'admin_lowcost', '$2a$04$rK/CT/Bz7GjjGLnB3WWjTOpMpNcGJzmoh.bdc7gQJ4DBQnKj9xnHC', NULL, 'BCRYPT_LOW_ITERATION', 10, 'admin_lowcost@example.com', 'ADMIN');
