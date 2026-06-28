@@ -10,14 +10,35 @@ services:
   VulnerableApp-php:
     image: sasanlabs/owasp-vulnerableapp-php:latest
   
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    # SMTP is reachable only inside the compose network on 1025; the web UI is
+    # published on 8025 so captured mail can be inspected from the host.
+    expose:
+      - "1025"
+    ports:
+      - "8025:8025"
+    environment:
+      - MP_MAX_MESSAGES=5000
+      - MP_DATABASE=/data/mailpit.db
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
+    volumes:
+      - mailpit_data:/data
+
   VulnerableApp-facade:
     depends_on:
       - VulnerableApp-base
       - VulnerableApp-jsp
       - VulnerableApp-php
+      - mailpit
     image: sasanlabs/owasp-vulnerableapp-facade:latest
     ports:
       - "80:80"
     environment:
       - NGINX_HOST=localhost
       - NGINX_PORT=80
+
+volumes:
+  mailpit_data:
