@@ -44,9 +44,5 @@ __pycache__/
 # Benchmarks results
 
 /benchmarks/**/*-results.json
-<<<<<<< HEAD
 !/benchmarks/ZAP/zap-results.json
 !/benchmarks/ZAP/zap-results-legacy.json
-=======
-!/benchmarks/ZAP/zap-results.json
->>>>>>> 8f3e671 (zap-fixes)

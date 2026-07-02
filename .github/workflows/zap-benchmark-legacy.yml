@@ -1,9 +1,9 @@
 name: ZAP Benchmark Legacy
 
 on:
-  # Run weekly every Monday at 00:00 UTC
+  # Every day at 01:00 UTC
   schedule:
-    - cron: '0 1 * * 1'  
+    - cron: '0 1 * * *'  
   # Allow manual trigger from GitHub UI
   workflow_dispatch:
 
@@ -45,11 +45,9 @@ jobs:
               echo "App is ready"
               exit 0
             fi
-            sleep 5
+            sleep 10
           done
           echo "App failed to start"
-          ls -la
-          chmod -R 777 ./
           docker compose -f docker-compose.without_llm.yml logs
           exit 1   
   
@@ -173,42 +171,9 @@ jobs:
           print(f'  Missed:    {data[\"missed\"]}')
           print(f'  Unmatched: {data[\"unmatched\"]}')
           "
-
-      # ------------------------------------------------------------------
-      # 11. Update benchmark_results.md with real numbers
-      # ------------------------------------------------------------------
-      - name: Update benchmark results doc
-        run: |
-          python3 - << 'PYEOF'
-          import json, re
-          from datetime import date
-
-          with open('benchmarks/ZAP/zap-results-legacy.json') as f:
-              legacy = json.load(f)
-
-          with open('benchmarks/ZAP/benchmark_results.md') as f:
-              content = f.read()
- 
-          replacements = {
-              r'\| Total ground-truth vulnerabilities \| .* \|':      f'| Total ground-truth vulnerabilities | {legacy["totalExpected"]} |',
-              r'\| \*\*Detected by ZAP \(Legacy UI\)\*\* \| .* \|':   f'| **Detected by ZAP (Legacy UI)** | **{legacy["detected"]}** |',
-              r'\| Missed \(Legacy UI\) \| .* \|':                     f'| Missed (Legacy UI) | {legacy["missed"]} |',
-              r'\| \*\*Coverage \(Legacy UI\)\*\* \| .* \|':           f'| **Coverage (Legacy UI)** | **{legacy["coverage"]:.2f}%** |',
-              r'\| Unmatched \(Legacy UI\) \| .* \|':                  f'| Unmatched (Legacy UI) | {legacy["unmatched"]} |',
-              r'\| Date \| .* \|':                                      f'| Date | {date.today().isoformat()} |',
-          }
- 
-          for pattern, replacement in replacements.items():
-              content = re.sub(pattern, replacement, content)
- 
-          with open('benchmarks/ZAP/benchmark_results.md', 'w') as f:
-              f.write(content)
- 
-          print("benchmark_results.md updated with real numbers")
-          PYEOF
  
       # ------------------------------------------------------------------
-      # 12. Commit and push results back to repo
+      # 11. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
         run: |
@@ -217,13 +182,15 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add \
             benchmarks/ZAP/zap-results-legacy.json \
-            benchmarks/ZAP/benchmark_results.md
-          git diff --staged --quiet || git commit -m \
-            "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
+          git diff --staged --quiet && {
+            echo "No changes to commit."
+            exit 0
+          }
+          git commit -m "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
           git push
  
       # ------------------------------------------------------------------
-      # 13. Upload raw report and input as artifacts (for inspection)
+      # 12. Upload raw report and input as artifacts (for inspection)
       # ------------------------------------------------------------------
       - name: Upload scan artifacts
         if: always()
@@ -234,6 +201,5 @@ jobs:
             benchmarks/ZAP/zap-raw-report-legacy.json
             benchmarks/ZAP/zap-benchmark-input-legacy.json
             benchmarks/ZAP/zap-results-legacy.json
-            benchmarks/ZAP/benchmark_results.md
             benchmarks/ZAP/zap-scan-legacy.log
           retention-days: 90

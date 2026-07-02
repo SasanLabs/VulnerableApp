@@ -87,12 +87,17 @@ jobs:
         xml: true
         json:
           enabled: true
-      urlPath: false
+          scanNullValues: true
+        googleWebToolkit: true
+        directWebRemoting: true  
+      urlPath: true
       httpHeaders:
         enabled: true
         allRequests: true
       cookieData:
         enabled: true
+        encodeCookieValues: true
+      scripts: true  
 
   # ------------------------------------------------------------------
   # 5. Active Scan — attack mode against discovered URLs
@@ -100,8 +105,11 @@ jobs:
   - type: activeScan
     parameters:
       context: VulnerableApp-modern
-      maxRuleDurationInMins: 30
-      maxScanDurationInMins: 180
+      maxRuleDurationInMins: 60
+      maxScanDurationInMins: 340
+      addQueryParam: true
+      injectPluginIdInHeader: true
+      scanHeadersAllRequests: true
     policyDefinition:
       defaultStrength: INSANE
       defaultThreshold: LOW
