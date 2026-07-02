@@ -66,6 +66,7 @@ import json
 import sys
 from pathlib import Path
 from typing import Optional
+import re
 
 
 def _normalise_id(raw: Optional[str]) -> Optional[str]:
@@ -82,6 +83,13 @@ def _cwe_tag(raw: Optional[str]) -> Optional[str]:
     if val is None:
         return None
     return val if val.upper().startswith("CWE-") else f"CWE-{val}"
+
+def _clean_url(uri: str) -> str:
+    """Strip ZAP-injected payloads from URL path segments."""
+    
+    cleaned = re.sub(r';[^/]*', '', uri)
+    cleaned = cleaned.split('#')[0]
+    return cleaned 
 
 
 def convert(zap_report: dict) -> dict:
@@ -105,7 +113,7 @@ def convert(zap_report: dict) -> dict:
             wasc   = _normalise_id(alert.get("wascid"))
 
             for instance in alert.get("instances", []):
-                url    = instance.get("uri", "").strip()
+                url    = _clean_url(instance.get("uri", "").strip())
                 method = instance.get("method", "").strip().upper() or None
 
                 if not url:

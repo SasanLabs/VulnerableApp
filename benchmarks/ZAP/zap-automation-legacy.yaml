@@ -88,7 +88,7 @@ jobs:
         xml: true
         json:
           enabled: true
-      urlPath: true
+      urlPath: false
       httpHeaders:
         enabled: true
         allRequests: true
