@@ -28,6 +28,7 @@ Thanks to these wonderful people 🎉
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/An16og"><img src="https://avatars.githubusercontent.com/u/187938895?v=4?s=100" width="100px;" alt="Anuj Jain"/><br /><sub><b>Anuj Jain</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=An16og" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://clark1945.github.io/"><img src="https://avatars.githubusercontent.com/u/69304397?v=4?s=100" width="100px;" alt="劉智旻 Clark Liu"/><br /><sub><b>劉智旻 Clark Liu</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Clark1945" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/muhammadrehanazam"><img src="https://avatars.githubusercontent.com/u/156588658?v=4?s=100" width="100px;" alt="MUHAMMAD REHAN"/><br /><sub><b>MUHAMMAD REHAN</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=muhammadrehanazam" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
