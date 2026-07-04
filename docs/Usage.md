@@ -1,6 +1,6 @@
 # 🌍 Global Academic Interest
 
-VulnerableApp is actively explored by students, educators, and security enthusiasts across the world.
+VulnerableApp is actively explored by students, educators and security enthusiasts across the world.
 
 We regularly receive engagement (contributions, coursework usage, research interest) from universities such as:
 
