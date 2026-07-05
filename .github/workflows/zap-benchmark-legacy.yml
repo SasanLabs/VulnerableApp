@@ -176,17 +176,15 @@ jobs:
       # 11. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
           git add benchmarks/ZAP/zap-results-legacy.json
-          
-          git diff --staged --quiet && {
-            echo "No changes to commit."
-            exit 0
-          }
-          git commit -m "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]"
+          git commit -m "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]" \
+            || echo "No changes to commit"
           git push
  
       # ------------------------------------------------------------------
