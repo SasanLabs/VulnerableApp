@@ -74,6 +74,9 @@ DB_ADMIN_USERNAME=$(generate_username)
 DB_ADMIN_PASSWORD=$(generate_password)
 DB_APP_PASSWORD=$(generate_password)
 NGINX_HOST=${1:-localhost}
+SMTP_USERNAME=${SMTP_USERNAME:-}
+SMTP_PASSWORD=${SMTP_PASSWORD:-}
+APP_BASE_URL=${APP_BASE_URL:-http://localhost}
 EOF
 
 echo ".env generated with random credentials"
