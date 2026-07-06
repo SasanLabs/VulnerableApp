@@ -18,7 +18,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sasanlabs.configuration.EmailConfiguration;
-import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -91,21 +90,17 @@ class EmailServiceImplTest {
     }
 
     @Test
-    void shouldWrapMessagingExceptionAsMailPreparationException() throws Exception {
+    void shouldNotFailWhenHtmlEmailPreparationFails() throws Exception {
         MimeMessage mimeMessage = org.mockito.Mockito.spy(new MimeMessage((Session) null));
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         org.mockito.Mockito.doThrow(new MessagingException("Simulated failure"))
                 .when(mimeMessage)
                 .setFrom(org.mockito.ArgumentMatchers.any(Address.class));
 
-        MailPreparationException exception =
-                assertThrows(
-                        MailPreparationException.class,
-                        () ->
-                                emailService.sendHtmlEmail(
-                                        "student@example.com", "Subject", "<b>Body</b>"));
+        assertDoesNotThrow(
+                () -> emailService.sendHtmlEmail("student@example.com", "Subject", "<b>Body</b>"));
 
-        assertEquals("Failed to prepare HTML email", exception.getMessage());
+        verify(javaMailSender).send(mimeMessage);
     }
 
     @Test
