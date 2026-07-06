@@ -11,6 +11,9 @@ services:
       - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD}
       - DB_APP_PASSWORD=${DB_APP_PASSWORD}
       - SPRING_PROFILES_ACTIVE=public
+      - SMTP_USERNAME=${SMTP_USERNAME:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost}
       # - SPRING_H2_CONSOLE_ENABLED=true # set as false or comment it out
       # - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true # set as false or comment it out
       # - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=WARN
