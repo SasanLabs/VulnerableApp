@@ -58,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(subject);
             helper.setText(htmlBody, true);
         } catch (MessagingException ex) {
-            throw new MailPreparationException("Failed to prepare HTML email", ex);
+            LOGGER.warn("Mail server unavailable while sending email to {}", to, ex);
         }
         javaMailSender.send(message);
     }
