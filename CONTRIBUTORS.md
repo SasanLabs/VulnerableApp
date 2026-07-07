@@ -31,6 +31,7 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/muhammadrehanazam"><img src="https://avatars.githubusercontent.com/u/156588658?v=4?s=100" width="100px;" alt="MUHAMMAD REHAN"/><br /><sub><b>MUHAMMAD REHAN</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=muhammadrehanazam" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/apps/coderabbitai"><img src="https://avatars.githubusercontent.com/in/347564?v=4?s=100" width="100px;" alt="coderabbitai[bot]"/><br /><sub><b>coderabbitai[bot]</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=coderabbitai[bot]" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/wipheg"><img src="https://avatars.githubusercontent.com/u/63744049?v=4?s=100" width="100px;" alt="wipheg"/><br /><sub><b>wipheg</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=wipheg" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ArjavTripathi"><img src="https://avatars.githubusercontent.com/u/143846355?v=4?s=100" width="100px;" alt="ArjavTripathi"/><br /><sub><b>ArjavTripathi</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=ArjavTripathi" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
