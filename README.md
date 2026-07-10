@@ -50,6 +50,7 @@ There are 2 ways to run the project:
     4. Run the command ```docker-compose pull && docker-compose up```
     5. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
     6. Mailpit is also available at `http://localhost:8025` for viewing emails captured by the local SMTP server.
+    7. For email endpoint examples, see [docs/EmailFlowTesting.md](docs/EmailFlowTesting.md).
     
     **Note**: The above steps will run the latest unreleased VulnerableApp version. If you want to run the latest released version, please use docker **latest** tag.
 2. Another way to run the VulnerableApp is as standalone Vulnerable Application is:
@@ -88,6 +89,8 @@ This script will build your local changes into a Docker image (`sasanlabs/owasp-
 3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
 
 4. **Access Mailpit**: Navigate to `http://localhost:8025` to view emails captured by the local SMTP server.
+
+5. For email endpoint examples, see [docs/EmailFlowTesting.md](docs/EmailFlowTesting.md).
 
 ## Technologies used
 - Java17

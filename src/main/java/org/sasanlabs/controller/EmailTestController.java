@@ -46,4 +46,34 @@ public class EmailTestController {
         }
         return ResponseEntity.ok(Map.of("status", "sent", "to", to));
     }
+
+    @PostMapping("/reset")
+    public ResponseEntity<Map<String, String>> sendResetEmail(
+            @RequestParam String to, @RequestParam String token) {
+        try {
+            emailService.sendResetEmail(to, token);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("status", "failed", "error", ex.getMessage()));
+        } catch (MailException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("status", "failed", "error", "Unable to send test email"));
+        }
+        return ResponseEntity.ok(Map.of("status", "sent", "to", to));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<Map<String, String>> sendVerificationEmail(
+            @RequestParam String to, @RequestParam String token) {
+        try {
+            emailService.sendVerificationEmail(to, token);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("status", "failed", "error", ex.getMessage()));
+        } catch (MailException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("status", "failed", "error", "Unable to send test email"));
+        }
+        return ResponseEntity.ok(Map.of("status", "sent", "to", to));
+    }
 }
