@@ -77,46 +77,46 @@ class EmailTestControllerTest {
         assertEquals("Unable to send test email", response.getBody().get("error"));
     }
 
-        @Test
-        void shouldSendResetEmail() {
-                EmailTestController controller = new EmailTestController(emailService);
+    @Test
+    void shouldSendResetEmail() {
+        EmailTestController controller = new EmailTestController(emailService);
 
-                ResponseEntity<Map<String, String>> response =
-                                controller.sendResetEmail("student@example.com", "reset token");
+        ResponseEntity<Map<String, String>> response =
+                controller.sendResetEmail("student@example.com", "reset token");
 
-                assertEquals(HttpStatus.OK, response.getStatusCode());
-                assertEquals("sent", response.getBody().get("status"));
-                assertEquals("student@example.com", response.getBody().get("to"));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("sent", response.getBody().get("status"));
+        assertEquals("student@example.com", response.getBody().get("to"));
 
-                verify(emailService).sendResetEmail("student@example.com", "reset token");
-        }
+        verify(emailService).sendResetEmail("student@example.com", "reset token");
+    }
 
-        @Test
-        void shouldSendVerificationEmail() {
-                EmailTestController controller = new EmailTestController(emailService);
+    @Test
+    void shouldSendVerificationEmail() {
+        EmailTestController controller = new EmailTestController(emailService);
 
-                ResponseEntity<Map<String, String>> response =
-                                controller.sendVerificationEmail("student@example.com", "verify token");
+        ResponseEntity<Map<String, String>> response =
+                controller.sendVerificationEmail("student@example.com", "verify token");
 
-                assertEquals(HttpStatus.OK, response.getStatusCode());
-                assertEquals("sent", response.getBody().get("status"));
-                assertEquals("student@example.com", response.getBody().get("to"));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("sent", response.getBody().get("status"));
+        assertEquals("student@example.com", response.getBody().get("to"));
 
-                verify(emailService).sendVerificationEmail("student@example.com", "verify token");
-        }
+        verify(emailService).sendVerificationEmail("student@example.com", "verify token");
+    }
 
-        @Test
-        void shouldReturnBadRequestWhenResetEmailInputIsRejected() {
-                doThrow(new IllegalArgumentException("token must not be blank"))
-                                .when(emailService)
-                                .sendResetEmail("student@example.com", " ");
+    @Test
+    void shouldReturnBadRequestWhenResetEmailInputIsRejected() {
+        doThrow(new IllegalArgumentException("token must not be blank"))
+                .when(emailService)
+                .sendResetEmail("student@example.com", " ");
 
-                EmailTestController controller = new EmailTestController(emailService);
-                ResponseEntity<Map<String, String>> response =
-                                controller.sendResetEmail("student@example.com", " ");
+        EmailTestController controller = new EmailTestController(emailService);
+        ResponseEntity<Map<String, String>> response =
+                controller.sendResetEmail("student@example.com", " ");
 
-                assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-                assertEquals("failed", response.getBody().get("status"));
-                assertEquals("token must not be blank", response.getBody().get("error"));
-        }
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("failed", response.getBody().get("status"));
+        assertEquals("token must not be blank", response.getBody().get("error"));
+    }
 }
