@@ -4,7 +4,7 @@ CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInject
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,68,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,115,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,165,1
-CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,218,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,211,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,50,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,77,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,102,1
