@@ -158,28 +158,28 @@ jobs:
           ls -lh benchmarks/ZAP/${{ matrix.scan.report_file }}
           echo "Finding count:"
 
-          python3 - <<'PY'
+          python3 -c "
           import json
           with open('benchmarks/ZAP/${{ matrix.scan.report_file }}') as f:
               data = json.load(f)
 
-          sites = data.get("site") or data.get("sites") or []    
+          sites = data.get('site') or data.get('sites') or []    
           if isinstance(sites, dict):
               sites = [sites]
 
-          print("\n=== Alert names ===")    
+          print('=== Alert names ===')    
           for s in sites:
               for alert in s.get('alerts', []):
                   print(
-                      alert.get("name"),
-                      "CWE=", alert.get("cweid"),
-                      "WASC=", alert.get("wascid")
+                      alert.get('name'),
+                      'CWE=', alert.get('cweid'),
+                      'WASC=', alert.get('wascid')
                   )
           total = sum(len(s.get('alerts',[])) for s in sites)
-          print(f' ${{ matrix.scan.name }} UI Alerts found: {total}')
+          print('${{ matrix.scan.name }} UI Alerts found: ' + str(total))
           if total == 0:
-              print("WARNING: Zero alerts found. Check spider/network/config.")
-          PY
+              print('WARNING: Zero alerts found. Check spider/network/config.')
+          "
 
       # ------------------------------------------------------------------
       # 8. Restore ownership
@@ -198,14 +198,14 @@ jobs:
             --output benchmarks/ZAP/${{ matrix.scan.input_file }}
 
           echo "${{ matrix.scan.name }} UI findings:"
-          python3 - <<'PY'
+          python3 -c "
           import json
           with open('benchmarks/ZAP/${{ matrix.scan.input_file }}') as f:
               data = json.load(f)
           print(f'  Total findings: {len(data[\"findings\"])}')
           print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
           print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
-          PY
+          "
 
       # ------------------------------------------------------------------
       # 10. Submit to benchmark endpoint and save results
@@ -218,7 +218,8 @@ jobs:
             -o benchmarks/ZAP/${{ matrix.scan.results_file }}
 
           echo "=== ${{ matrix.scan.name }} UI Benchmark Results ==="
-          python3 - <<'PY'
+          python3 -c "
+          import json
           with open('benchmarks/ZAP/${{ matrix.scan.results_file }}') as f:
               data = json.load(f)
           print(f'  Tool:          {data[\"tool\"]}')
@@ -227,7 +228,7 @@ jobs:
           print(f'  Detected:  {data[\"detected\"]}')
           print(f'  Missed:    {data[\"missed\"]}')
           print(f'  Unmatched: {data[\"unmatched\"]}')
-          PY
+          "
 
       # ------------------------------------------------------------------
       # 11. Commit and push results back to repo
