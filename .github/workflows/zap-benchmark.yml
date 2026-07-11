@@ -158,7 +158,7 @@ jobs:
           ls -lh benchmarks/ZAP/${{ matrix.scan.report_file }}
           echo "Finding count:"
 
-          python3 -c "
+          python3 - <<'PY'
           import json
           with open('benchmarks/ZAP/${{ matrix.scan.report_file }}') as f:
               data = json.load(f)
@@ -179,7 +179,7 @@ jobs:
           print(f' ${{ matrix.scan.name }} UI Alerts found: {total}')
           if total == 0:
               print("WARNING: Zero alerts found. Check spider/network/config.")
-          "
+          PY
 
       # ------------------------------------------------------------------
       # 8. Restore ownership
@@ -198,14 +198,14 @@ jobs:
             --output benchmarks/ZAP/${{ matrix.scan.input_file }}
 
           echo "${{ matrix.scan.name }} UI findings:"
-          python3 -c "
+          python3 - <<'PY'
           import json
           with open('benchmarks/ZAP/${{ matrix.scan.input_file }}') as f:
               data = json.load(f)
           print(f'  Total findings: {len(data[\"findings\"])}')
           print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
           print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
-          "
+          PY
 
       # ------------------------------------------------------------------
       # 10. Submit to benchmark endpoint and save results
@@ -218,8 +218,7 @@ jobs:
             -o benchmarks/ZAP/${{ matrix.scan.results_file }}
 
           echo "=== ${{ matrix.scan.name }} UI Benchmark Results ==="
-          python3 -c "
-          import json
+          python3 - <<'PY'
           with open('benchmarks/ZAP/${{ matrix.scan.results_file }}') as f:
               data = json.load(f)
           print(f'  Tool:          {data[\"tool\"]}')
@@ -228,7 +227,7 @@ jobs:
           print(f'  Detected:  {data[\"detected\"]}')
           print(f'  Missed:    {data[\"missed\"]}')
           print(f'  Unmatched: {data[\"unmatched\"]}')
-          "
+          PY
 
       # ------------------------------------------------------------------
       # 11. Commit and push results back to repo
