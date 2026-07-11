@@ -16,6 +16,53 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 > running ZAP / Burp / Semgrep / your tool against VulnerableApp (or its source
 > tree) and converting its output into the input format below.
 
+---
+ 
+## OWASP ZAP
+ 
+ZAP is benchmarked against VulnerableApp in two modes — **Modern UI** (React
+frontend via VulnerableApp-facade) and **Legacy UI** (JSP backend directly).
+ 
+### Latest results
+ 
+| UI | Results file |
+|---|---|
+| Modern | [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json) |
+| Legacy | [`benchmarks/ZAP/zap-results-legacy.json`](ZAP/zap-results-legacy.json) |
+ 
+Results are auto-updated everyday and on every manual workflow run.
+ 
+### Running the benchmark
+ 
+The full pipeline (start VulnerableApp → run ZAP → convert → benchmark → commit
+results) is automated via GitHub Actions:
+ 
+1. Go to **Actions** tab → **ZAP Benchmark**
+2. Click **Run workflow**
+3. Select `legacy`, `modern`, or `both`
+4. Results are committed automatically to the files above
+See [`.github/workflows/zap-benchmark.yml`](../.github/workflows/zap-benchmark.yml)
+for the full workflow definition.
+ 
+### Conversion script
+ 
+ZAP's raw JSON report must be converted to the benchmark input format before
+posting to the endpoint:
+ 
+```bash
+python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+    --input  benchmarks/ZAP/zap-raw-report.json \
+    --output benchmarks/ZAP/zap-benchmark-input.json
+```
+ 
+The script maps each ZAP alert instance to a `Finding` using CWE and WASC IDs
+natively — no manual alert-name mapping needed.
+ 
+A sample benchmark output is at
+[`benchmarks/ZAP/findings/zap-benchmark-output-example.json`](ZAP/findings/zap-benchmark-output-example.json).
+ 
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
@@ -39,13 +86,6 @@ omitted, it defaults to `DAST` so existing payloads keep working.
   ]
 }
 ```
-
-To discover the real ground-truth entries, hit
-`GET http://<baseurl>/VulnerableApp/scanner` — every `UNSECURE` entry there
-contributes one expected finding for each `vulnerabilityType` it carries. The
-full sample at `benchmarks/ZAP/samples/zap-findings-sample.json` includes one
-deliberately invalid entry so a successful run produces a non-empty
-`unmatchedItems` list for demonstration.
 
 - `findings[].url` — relative path (`/SQLInjection/LEVEL_1`) or absolute URL
   (`http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1`); the comparator
@@ -155,13 +195,11 @@ A scanner can emit either CWE, type, or both — whichever pair
 
 ## Calling the endpoint
 
-Start VulnerableApp, then for either mode:
-
 ```bash
 # DAST
 curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
-  -d @benchmarks/samples/ZAP/zap-findings-sample.json
+  -d @benchmarks/ZAP/findings/zap-findings.json
 
 # SAST
 curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
@@ -180,13 +218,13 @@ omitted from the JSON).
 ```json
 {
   "tool": "ZAP",
-  "coverage": 78.0,
-  "totalExpected": 50,
-  "detected": 39,
-  "missed": 11,
-  "unmatched": 12,
-  "missedItems":         [ { "url": "/...", "type": "..." } ],
-  "unmatchedItems":  [ { "url": "/...", "type": "..." } ]
+  "coverage": 4.29,
+  "totalExpected": 140,
+  "detected": 6,
+  "missed": 134,
+  "unmatched": 147,
+  "missedItems":     [ { "url": "/...", "type": "..." } ],
+  "unmatchedItems":  [ { "url": "/...", "cwe": "..." } ]
 }
 ```
 
@@ -236,24 +274,14 @@ If the file write fails (disk full, permissions, etc.), the endpoint returns
 computed metrics; the non-2xx status is the signal that the on-disk artifact
 was *not* created.
 
-## Limitations (v1)
-
-- SAST `Number of Sources` is not used for scoring; full credit on first match.
+## Known Limitations
 
 ### SSL/TLS and header-hardening findings are always unmatched (all DAST scanners)
+
 DAST scanners commonly report findings such as missing `Strict-Transport-Security`,
 `X-Content-Type-Options`, or insecure cookie flags. These are valid security
 observations but fall outside VulnerableApp's intentional vulnerability set.
 They will always appear in `unmatchedItems` and should not be interpreted as
 false positives. This applies to any DAST scanner benchmarked against VulnerableApp.
 
-## Tool-specific guides
-
-Each tool guide covers: running the scanner, converting its output, and
-submitting to the benchmark endpoint.
-
-| Tool | Scan type | Guide |
-|---|---|---|
-| OWASP ZAP | DAST | [benchmarks/ZAP/how_to_run_zap.md](./ZAP/how_to_run_zap.md) |
-| Semgrep | SAST | *(sample only — see `benchmarks/semgrep-sast-sample.json`)* |
 

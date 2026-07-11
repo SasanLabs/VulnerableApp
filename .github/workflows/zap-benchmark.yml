@@ -1,24 +1,85 @@
-name: ZAP Benchmark Modern
+name: ZAP Benchmark
 
 on:
-  # Every day at 00:00 UTC
   schedule:
-    - cron: '0 0 * * *'  
-  # Allow manual trigger from GitHub UI
+    - cron: '0 0 * * *'
   workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Which scan to run'
+        required: false
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - legacy
+          - modern
 
 permissions:
   contents: write
 
 jobs:
-  zap-benchmark:
-    name: Run ZAP DAST Benchmark Modern
+  # Determine which scans to run
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+
+          if "${{ github.event_name }}" == "schedule":
+              scan_type = "both"
+          else:
+              scan_type = "${{ github.event.inputs.scan_type || 'both' }}"
+
+          legacy = {
+              "name": "legacy",
+              "automation_file": "zap-automation-legacy.yaml",
+              "report_file": "zap-raw-report-legacy.json",
+              "input_file": "zap-benchmark-input-legacy.json",
+              "results_file": "zap-results-legacy.json",
+              "log_file": "zap-scan-legacy.log"
+          }
+          modern = {
+              "name": "modern",
+              "automation_file": "zap-automation-modern.yaml",
+              "report_file": "zap-raw-report.json",
+              "input_file": "zap-benchmark-input.json",
+              "results_file": "zap-results.json",
+              "log_file": "zap-scan-modern.log"
+          }
+
+          if scan_type == "legacy":
+              scans = [legacy]
+          elif scan_type == "modern":
+              scans = [modern]
+          else:
+              scans = [legacy, modern]
+
+          matrix = json.dumps({"scan": scans})
+          print(f"Matrix: {matrix}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"matrix={matrix}\n")
+          PYEOF
+
+  zap-benchmark:
+    needs: setup
+    name: ZAP Benchmark (${{ matrix.scan.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false 
 
     env:
-        FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
-        
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  
+
     steps:
+
       # ------------------------------------------------------------------
       # 1. Checkout repo
       # ------------------------------------------------------------------
@@ -30,7 +91,7 @@ jobs:
       # ------------------------------------------------------------------
       # 2. Start Stack 
       # ------------------------------------------------------------------
-      - name: Start VulnerableApp (modern UI)
+      - name: Start VulnerableApp (${{ matrix.scan.name }} UI)
         run: |
           docker compose -f docker-compose.without_llm.yml up -d
 
@@ -63,46 +124,43 @@ jobs:
       # 5. Resolve Docker Network
       # ------------------------------------------------------------
       - name: Resolve Docker Network
-        id: net
         run: |
           CONTAINER_ID=$(docker compose -f docker-compose.without_llm.yml ps -q | head -1)
-
           NETWORK=$(docker inspect "$CONTAINER_ID" \
             --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
-
           echo "NETWORK=$NETWORK" >> $GITHUB_ENV
           echo "Using network: $NETWORK"
 
       # ------------------------------------------------------------------
-      # 6. Run ZAP scan - Modern UI
+      # 6. Run ZAP scan
       # ------------------------------------------------------------------
-      - name: Run ZAP Scan (Modern UI)
+      - name: Run ZAP Scan (${{ matrix.scan.name }} UI)
         run: |
-            docker run \
-              --network "$NETWORK" \
-              --shm-size=8g \
-              -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
-              ghcr.io/zaproxy/zaproxy:weekly \
-              bash -c "
-                echo 'Running ZAP...'
-                zap.sh -cmd \
-                  -addonupdate \
-                  -addoninstallall \
-                  -autorun /zap/wrk/zap-automation-modern.yaml \
-                  2>&1 | tee /zap/wrk/zap-scan-modern.log
-              "
-          
+          docker run \
+            --network "$NETWORK" \
+            --shm-size=8g \
+            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:weekly \
+            bash -c "
+              echo 'Running ZAP (${{ matrix.scan.name }})...'
+              zap.sh -cmd \
+                -addonupdate \
+                -addoninstallall \
+                -autorun /zap/wrk/${{ matrix.scan.automation_file }} \
+                2>&1 | tee /zap/wrk/${{ matrix.scan.log_file }}
+            "
+
       # ------------------------------------------------------------
       # 7. Validate report 
       # ------------------------------------------------------------
-      - name: Verify Modern UI ZAP report
+      - name: Verify ${{ matrix.scan.name }} UI ZAP report
         run: |
-          ls -lh benchmarks/ZAP/zap-raw-report.json
+          ls -lh benchmarks/ZAP/${{ matrix.scan.report_file }}
           echo "Finding count:"
 
-          python3 - << 'PY'
+          python3 -c "
           import json
-          with open('benchmarks/ZAP/zap-raw-report.json') as f:
+          with open('benchmarks/ZAP/${{ matrix.scan.report_file }}') as f:
               data = json.load(f)
 
           sites = data.get("site") or data.get("sites") or []    
@@ -117,13 +175,11 @@ jobs:
                       "CWE=", alert.get("cweid"),
                       "WASC=", alert.get("wascid")
                   )
-
           total = sum(len(s.get('alerts',[])) for s in sites)
-          print(f'  Modern UI Alerts found: {total}')
+          print(f' ${{ matrix.scan.name }} UI Alerts found: {total}')
           if total == 0:
               print("WARNING: Zero alerts found. Check spider/network/config.")
-          PY
-          
+          "
 
       # ------------------------------------------------------------------
       # 8. Restore ownership
@@ -135,16 +191,16 @@ jobs:
       # ------------------------------------------------------------------
       # 9. Convert ZAP report to benchmark input format
       # ------------------------------------------------------------------
-      - name: Convert Modern UI ZAP report
+      - name: Convert ${{ matrix.scan.name }} UI ZAP report
         run: |
           python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
-            --input  benchmarks/ZAP/zap-raw-report.json \
-            --output benchmarks/ZAP/zap-benchmark-input.json
+            --input  benchmarks/ZAP/${{ matrix.scan.report_file }} \
+            --output benchmarks/ZAP/${{ matrix.scan.input_file }}
 
-          echo "Modern UI findings:"
+          echo "${{ matrix.scan.name }} UI findings:"
           python3 -c "
           import json
-          with open('benchmarks/ZAP/zap-benchmark-input.json') as f:
+          with open('benchmarks/ZAP/${{ matrix.scan.input_file }}') as f:
               data = json.load(f)
           print(f'  Total findings: {len(data[\"findings\"])}')
           print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
@@ -154,26 +210,26 @@ jobs:
       # ------------------------------------------------------------------
       # 10. Submit to benchmark endpoint and save results
       # ------------------------------------------------------------------
-      - name: Run benchmark (Modern UI)
+      - name: Run benchmark (${{ matrix.scan.name }} UI)
         run: |
           curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
             -H "Content-Type: application/json" \
-            -d @benchmarks/ZAP/zap-benchmark-input.json \
-            -o benchmarks/ZAP/zap-results.json
+            -d @benchmarks/ZAP/${{ matrix.scan.input_file }} \
+            -o benchmarks/ZAP/${{ matrix.scan.results_file }}
 
-          echo "=== Modern UIBenchmark Results ==="
+          echo "=== ${{ matrix.scan.name }} UI Benchmark Results ==="
           python3 -c "
           import json
-          with open('benchmarks/ZAP/zap-results.json') as f:
+          with open('benchmarks/ZAP/${{ matrix.scan.results_file }}') as f:
               data = json.load(f)
           print(f'  Tool:          {data[\"tool\"]}')
-          print(f'  Coverage:      {data[\"coverage\"]:.2f}%')
+          print(f'  Coverage:  {data[\"coverage\"]:.2f}%')
           print(f'  Total Expected:{data[\"totalExpected\"]}')
-          print(f'  Detected:      {data[\"detected\"]}')
-          print(f'  Missed:        {data[\"missed\"]}')
-          print(f'  Unmatched:     {data[\"unmatched\"]}')
+          print(f'  Detected:  {data[\"detected\"]}')
+          print(f'  Missed:    {data[\"missed\"]}')
+          print(f'  Unmatched: {data[\"unmatched\"]}')
           "
- 
+
       # ------------------------------------------------------------------
       # 11. Commit and push results back to repo
       # ------------------------------------------------------------------
@@ -184,22 +240,23 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-          git add benchmarks/ZAP/zap-results.json 
-          git commit -m "chore: update ZAP benchmark results [$(date -u '+%Y-%m-%d')]" \
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git add benchmarks/ZAP/${{ matrix.scan.results_file }}
+          git commit -m "chore: update ZAP ${{ matrix.scan.name }} benchmark results [$(date -u '+%Y-%m-%d')]" \
             || echo "No changes to commit"
           git push
- 
+
       # ------------------------------------------------------------------
-      # 12. Upload raw report and input as artifacts (for inspection)
+      # 12. Upload raw report and input as artifacts
       # ------------------------------------------------------------------
       - name: Upload scan artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zap-benchmark-artifacts-modern
+          name: zap-benchmark-${{ matrix.scan.name }}-artifacts
           path: |
-            benchmarks/ZAP/zap-raw-report.json
-            benchmarks/ZAP/zap-benchmark-input.json
-            benchmarks/ZAP/zap-results.json
-            benchmarks/ZAP/zap-scan-modern.log
+            benchmarks/ZAP/${{ matrix.scan.report_file }}
+            benchmarks/ZAP/${{ matrix.scan.input_file }}
+            benchmarks/ZAP/${{ matrix.scan.results_file }}
+            benchmarks/ZAP/${{ matrix.scan.log_file }}
           retention-days: 90

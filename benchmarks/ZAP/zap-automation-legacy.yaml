@@ -47,6 +47,21 @@ jobs:
       maxDepth: 100
       acceptCookies: true
 
+  - type: spiderClient
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://VulnerableApp-facade/VulnerableApp
+      maxDuration: 0
+      maxCrawlDepth: 10
+      maxChildren: 0
+      numberOfBrowsers: 2
+      browserId: firefox-headless
+      initialLoadTime: 10
+      pageLoadTime: 5
+      actionWaitTime: 3
+      shutdownTime: 15
+      scopeCheck: Flexible
+
   # ------------------------------------------------------------------
   # 2. Ajax Spider — picks up JS-rendered pages the traditional spider misses
   # ------------------------------------------------------------------
@@ -55,14 +70,26 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 120         # minutes
-      maxCrawlDepth: 0
+      maxCrawlDepth: 500
       maxCrawlStates: 0
-      reloadWait: 2000
-      eventWait: 1500
+      numberOfBrowsers: 2
+      reloadWait: 5000
+      eventWait: 2000
       browserId: firefox-headless
       clickDefaultElems: true   
       clickElemsOnce: false
       randomInputs: true
+      enableExtensions: true
+      elements:
+      - "a"
+      - "button"
+      - "input"
+      - "select"
+      - "form"
+      - "li"
+      - "div"
+      - "span"
+      - "textarea"
 
   # ------------------------------------------------------------------
   # 3. Passive Scan Wait — wait for passive scan to complete before active scan
