@@ -1,0 +1,9 @@
+INSERT INTO password_reset_users VALUES (1, 'pr_level1@example.com', 'pr_level1_user', 'old-password-1', 1);
+INSERT INTO password_reset_users VALUES (2, 'pr_level2@example.com', 'pr_level2_user', 'old-password-2', 2);
+INSERT INTO password_reset_users VALUES (3, 'pr_level3@example.com', 'pr_level3_user', 'old-password-3', 3);
+INSERT INTO password_reset_users VALUES (4, 'pr_level4@example.com', 'pr_level4_user', 'old-password-4', 4);
+INSERT INTO password_reset_users VALUES (5, 'pr_level5@example.com', 'pr_level5_user', 'old-password-5', 5);
+INSERT INTO password_reset_users VALUES (6, 'pr_level6@example.com', 'pr_level6_user', 'old-password-6', 6);
+INSERT INTO password_reset_users VALUES (7, 'pr_level7@example.com', 'pr_level7_user', 'old-password-7', 7);
+INSERT INTO password_reset_users VALUES (8, 'pr_level8@example.com', 'pr_level8_user', 'old-password-8', 8);
+INSERT INTO password_reset_users VALUES (9, 'pr_secure@example.com', 'pr_secure_user', 'old-password-9', 9);
