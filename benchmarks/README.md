@@ -18,7 +18,7 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 
 ---
  
-## OWASP ZAP
+## ZAP By Checkmarx
  
 ZAP is benchmarked against VulnerableApp in two modes — **Modern UI** (React
 frontend via VulnerableApp-facade) and **Legacy UI** (JSP backend directly).
