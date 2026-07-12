@@ -237,14 +237,39 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
+
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-          git pull --rebase origin ${{ github.ref_name }} || true
+
           git add benchmarks/ZAP/${{ matrix.scan.results_file }}
-          git commit -m "chore: update ZAP ${{ matrix.scan.name }} benchmark results [$(date -u '+%Y-%m-%d')]" \
-            || echo "No changes to commit"
-          git push
+
+          if git diff --cached --quite; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update ZAP ${{ matrix.scan.name }} benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+
+            if git pull --rebase origin "${{ github.ref_name }}" && git push; then
+              success=true
+              break
+            fi
+            
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
 
       # ------------------------------------------------------------------
       # 12. Upload raw report and input as artifacts
