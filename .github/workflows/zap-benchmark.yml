@@ -245,7 +245,7 @@ jobs:
 
           git add benchmarks/ZAP/${{ matrix.scan.results_file }}
 
-          if git diff --cached --quite; then
+          if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
