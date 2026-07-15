@@ -36,6 +36,7 @@ Thanks to these wonderful people 🎉
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/InCaelus"><img src="https://avatars.githubusercontent.com/u/201954556?v=4?s=100" width="100px;" alt="LEE IN"/><br /><sub><b>LEE IN</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=InCaelus" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/logeshkumar11-dev"><img src="https://avatars.githubusercontent.com/u/238127014?v=4?s=100" width="100px;" alt="Logesh Kumar"/><br /><sub><b>Logesh Kumar</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=logeshkumar11-dev" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
