@@ -235,7 +235,7 @@ jobs:
       # ------------------------------------------------------------------
       - name: Commit benchmark results
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
         run: |
           set -e
 
