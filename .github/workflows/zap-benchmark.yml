@@ -87,6 +87,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+
 
       # ------------------------------------------------------------------
       # 2. Start Stack 
