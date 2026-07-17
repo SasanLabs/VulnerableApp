@@ -239,9 +239,8 @@ jobs:
         run: |
           set -e
 
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
           git add benchmarks/ZAP/${{ matrix.scan.results_file }}
 
           if git diff --cached --quiet; then
@@ -254,8 +253,7 @@ jobs:
 
           for i in {1..5}; do
             echo "Push attempt $i..."
-
-            if git pull --rebase origin "${{ github.ref_name }}" && git push "https://preetkaran20:${TOKEN}@github.com/${{ github.repository }}.git" HEAD:master; then
+            if git pull --rebase origin "${{ github.ref_name }}" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
               success=true
               break
             fi
