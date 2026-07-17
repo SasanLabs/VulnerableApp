@@ -1,0 +1,287 @@
+name: ZAP Benchmark
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Which scan to run'
+        required: false
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - legacy
+          - modern
+
+permissions:
+  contents: write
+
+jobs:
+  # Determine which scans to run
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+
+          if "${{ github.event_name }}" == "schedule":
+              scan_type = "both"
+          else:
+              scan_type = "${{ github.event.inputs.scan_type || 'both' }}"
+
+          legacy = {
+              "name": "legacy",
+              "automation_file": "zap-automation-legacy.yaml",
+              "report_file": "zap-raw-report-legacy.json",
+              "input_file": "zap-benchmark-input-legacy.json",
+              "results_file": "zap-results-legacy.json",
+              "log_file": "zap-scan-legacy.log"
+          }
+          modern = {
+              "name": "modern",
+              "automation_file": "zap-automation-modern.yaml",
+              "report_file": "zap-raw-report.json",
+              "input_file": "zap-benchmark-input.json",
+              "results_file": "zap-results.json",
+              "log_file": "zap-scan-modern.log"
+          }
+
+          if scan_type == "legacy":
+              scans = [legacy]
+          elif scan_type == "modern":
+              scans = [modern]
+          else:
+              scans = [legacy, modern]
+
+          matrix = json.dumps({"scan": scans})
+          print(f"Matrix: {matrix}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"matrix={matrix}\n")
+          PYEOF
+
+  zap-benchmark:
+    needs: setup
+    name: ZAP Benchmark (${{ matrix.scan.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      fail-fast: false 
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  
+
+    steps:
+
+      # ------------------------------------------------------------------
+      # 1. Checkout repo
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------
+      # 2. Start Stack 
+      # ------------------------------------------------------------------
+      - name: Start VulnerableApp (${{ matrix.scan.name }} UI)
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      # ------------------------------------------------------------
+      # 3. Wait for app to be ready
+      # ------------------------------------------------------------
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "App failed to start"
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1
+
+      # ------------------------------------------------------------
+      # 4. Change ZAP workspace ownership
+      # ------------------------------------------------------------  
+      - name: Change ZAP workspace ownership
+        run: |
+          sudo chown -R 1000:1000 benchmarks/ZAP
+          ls -ld benchmarks/ZAP
+
+      # ------------------------------------------------------------
+      # 5. Resolve Docker Network
+      # ------------------------------------------------------------
+      - name: Resolve Docker Network
+        run: |
+          CONTAINER_ID=$(docker compose -f docker-compose.without_llm.yml ps -q | head -1)
+          NETWORK=$(docker inspect "$CONTAINER_ID" \
+            --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+          echo "NETWORK=$NETWORK" >> $GITHUB_ENV
+          echo "Using network: $NETWORK"
+
+      # ------------------------------------------------------------------
+      # 6. Run ZAP scan
+      # ------------------------------------------------------------------
+      - name: Run ZAP Scan (${{ matrix.scan.name }} UI)
+        run: |
+          docker run \
+            --network "$NETWORK" \
+            --shm-size=8g \
+            -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:weekly \
+            bash -c "
+              echo 'Running ZAP (${{ matrix.scan.name }})...'
+              zap.sh -cmd \
+                -addonupdate \
+                -addoninstallall \
+                -autorun /zap/wrk/${{ matrix.scan.automation_file }} \
+                2>&1 | tee /zap/wrk/${{ matrix.scan.log_file }}
+            "
+
+      # ------------------------------------------------------------
+      # 7. Validate report 
+      # ------------------------------------------------------------
+      - name: Verify ${{ matrix.scan.name }} UI ZAP report
+        run: |
+          ls -lh benchmarks/ZAP/${{ matrix.scan.report_file }}
+          echo "Finding count:"
+
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/${{ matrix.scan.report_file }}') as f:
+              data = json.load(f)
+
+          sites = data.get('site') or data.get('sites') or []    
+          if isinstance(sites, dict):
+              sites = [sites]
+
+          print('=== Alert names ===')    
+          for s in sites:
+              for alert in s.get('alerts', []):
+                  print(
+                      alert.get('name'),
+                      'CWE=', alert.get('cweid'),
+                      'WASC=', alert.get('wascid')
+                  )
+          total = sum(len(s.get('alerts',[])) for s in sites)
+          print('${{ matrix.scan.name }} UI Alerts found: ' + str(total))
+          if total == 0:
+              print('WARNING: Zero alerts found. Check spider/network/config.')
+          "
+
+      # ------------------------------------------------------------------
+      # 8. Restore ownership
+      # ------------------------------------------------------------------
+      - name: Restore ownership
+        run: |
+          sudo chown -R runner:runner benchmarks/ZAP
+
+      # ------------------------------------------------------------------
+      # 9. Convert ZAP report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert ${{ matrix.scan.name }} UI ZAP report
+        run: |
+          python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
+            --input  benchmarks/ZAP/${{ matrix.scan.report_file }} \
+            --output benchmarks/ZAP/${{ matrix.scan.input_file }}
+
+          echo "${{ matrix.scan.name }} UI findings:"
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/${{ matrix.scan.input_file }}') as f:
+              data = json.load(f)
+          print(f'  Total findings: {len(data[\"findings\"])}')
+          print(f'  With CWE:    {sum(1 for f in data[\"findings\"] if \"cwe\" in f)}')
+          print(f'  With wascId: {sum(1 for f in data[\"findings\"] if \"wascId\" in f)}')
+          "
+
+      # ------------------------------------------------------------------
+      # 10. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark (${{ matrix.scan.name }} UI)
+        run: |
+          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/ZAP/${{ matrix.scan.input_file }} \
+            -o benchmarks/ZAP/${{ matrix.scan.results_file }}
+
+          echo "=== ${{ matrix.scan.name }} UI Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/ZAP/${{ matrix.scan.results_file }}') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:  {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:  {data[\"detected\"]}')
+          print(f'  Missed:    {data[\"missed\"]}')
+          print(f'  Unmatched: {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 11. Commit and push results back to repo
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+        run: |
+          set -e
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
+
+          git add benchmarks/ZAP/${{ matrix.scan.results_file }}
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update ZAP ${{ matrix.scan.name }} benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+
+            if git pull --rebase origin "${{ github.ref_name }}" && git push; then
+              success=true
+              break
+            fi
+            
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
+
+      # ------------------------------------------------------------------
+      # 12. Upload raw report and input as artifacts
+      # ------------------------------------------------------------------
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-benchmark-${{ matrix.scan.name }}-artifacts
+          path: |
+            benchmarks/ZAP/${{ matrix.scan.report_file }}
+            benchmarks/ZAP/${{ matrix.scan.input_file }}
+            benchmarks/ZAP/${{ matrix.scan.results_file }}
+            benchmarks/ZAP/${{ matrix.scan.log_file }}
+          retention-days: 90

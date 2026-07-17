@@ -1,0 +1,158 @@
+---
+# ---------------------------------------------------------------------------
+# ZAP by Checkmarx Automation Framework Plan
+# Scans VulnerableApp legacy UI and writes a JSON report consumed by the
+# benchmark.
+#
+# Usage:
+#     NETWORK=$(docker inspect $(docker compose -f docker-compose.without_llm.yml ps -q | head -1) \
+#       --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+#     docker run --network "$NETWORK" \
+#       --shm-size=8g \
+#       -v "$(pwd)/benchmarks/ZAP:/zap/wrk/:rw" \
+#       ghcr.io/zaproxy/zaproxy:weekly \
+#       bash -c "
+#         zap.sh -cmd \
+#           -addonupdate \
+#           -addoninstallall \
+#           -autorun /zap/wrk/zap-automation-legacy.yaml
+#       "
+#
+# The JSON report is written to benchmarks/ZAP/zap-raw-report-legacy.json.
+# Run convert_zap_to_benchmark.py afterwards to produce the benchmark input.
+# ---------------------------------------------------------------------------
+
+env:
+  contexts:
+    - name: VulnerableApp-legacy
+      urls:
+        - http://VulnerableApp-facade/VulnerableApp
+      includePaths:
+        - "http://VulnerableApp-facade/VulnerableApp.*"
+        - "http://VulnerableApp-base:9090/VulnerableApp.*"
+  parameters:
+    failOnError: false
+    failOnWarning: false
+    progressToStdout: true
+    
+jobs:
+  # ------------------------------------------------------------------
+  # 1. Spider — crawl VulnerableApp legacy endpoints
+  # ------------------------------------------------------------------
+  - type: spider
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://VulnerableApp-facade/VulnerableApp
+      maxDuration: 20         # minutes
+      maxDepth: 100
+      acceptCookies: true
+
+  - type: spiderClient
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://VulnerableApp-facade/VulnerableApp
+      maxDuration: 0
+      maxCrawlDepth: 10
+      maxChildren: 0
+      numberOfBrowsers: 2
+      browserId: firefox-headless
+      initialLoadTime: 10
+      pageLoadTime: 5
+      actionWaitTime: 3
+      shutdownTime: 15
+      scopeCheck: Flexible
+
+  # ------------------------------------------------------------------
+  # 2. Ajax Spider — picks up JS-rendered pages the traditional spider misses
+  # ------------------------------------------------------------------
+  - type: spiderAjax
+    parameters:
+      context: VulnerableApp-legacy
+      url: http://VulnerableApp-facade/VulnerableApp
+      maxDuration: 120         # minutes
+      maxCrawlDepth: 500
+      maxCrawlStates: 0
+      numberOfBrowsers: 2
+      reloadWait: 5000
+      eventWait: 2000
+      browserId: firefox-headless
+      clickDefaultElems: true   
+      clickElemsOnce: false
+      randomInputs: true
+      enableExtensions: true
+      elements:
+      - "a"
+      - "button"
+      - "input"
+      - "select"
+      - "form"
+      - "li"
+      - "div"
+      - "span"
+      - "textarea"
+
+  # ------------------------------------------------------------------
+  # 3. Passive Scan Wait — wait for passive scan to complete before active scan
+  # ------------------------------------------------------------------ 
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 20         # minutes
+
+  # ------------------------------------------------------------------
+  # 4. Active Scan Configuration
+  # ------------------------------------------------------------------ 
+
+  - type: activeScan-config
+    parameters: {}
+    inputVectors:
+      urlQueryStringAndDataDrivenNodes:
+        enabled: true
+        addParam: true
+      postData:
+        enabled: true
+        multiPartFormData: true
+        xml: true
+        json:
+          enabled: true
+          scanNullValues: true
+        googleWebToolkit: true
+        directWebRemoting: true
+      urlPath: true
+      httpHeaders:
+        enabled: true
+        allRequests: true
+      cookieData:
+        enabled: true
+        encodeCookieValues: true
+      scripts: true
+
+  # ------------------------------------------------------------------
+  # 5. Active Scan — insane mode for maximum vulnerability coverage
+  # ------------------------------------------------------------------
+  - type: activeScan
+    parameters:
+      context: VulnerableApp-legacy
+      maxRuleDurationInMins: 60
+      maxScanDurationInMins: 340
+      addQueryParam: true
+      injectPluginIdInHeader: true
+      scanHeadersAllRequests: true
+    policyDefinition:
+      defaultStrength: INSANE
+      defaultThreshold: LOW
+
+  # ------------------------------------------------------------------
+  # 6. Report — JSON format, written to benchmarks/ZAP/zap-raw-report-legacy.json
+  # ------------------------------------------------------------------
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: /zap/wrk
+      reportFile: zap-raw-report-legacy
+      reportTitle: VulnerableApp ZAP Scan (Legacy UI)
+      reportDescription: "DAST scan of OWASP VulnerableApp legacy UI for benchmark evaluation"
+    risks:
+      - high
+      - medium
+      - low

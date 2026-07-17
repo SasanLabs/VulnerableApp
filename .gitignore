@@ -37,5 +37,12 @@ build/
 .vscode/
 .DS_Store
 
-# Runtime output of /scanner/benchmark — sample inputs and README are tracked
-/benchmarks/*-results.json
+# Python cache
+__pycache__/
+*.pyc
+
+# Benchmarks results
+
+/benchmarks/**/*-results.json
+!/benchmarks/ZAP/zap-results.json
+!/benchmarks/ZAP/zap-results-legacy.json

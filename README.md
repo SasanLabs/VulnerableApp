@@ -175,3 +175,4 @@ In case you are stuck with any of the steps or understanding anything related to
 2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
 3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
 4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
+5. [Korean](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ko/README.md)
