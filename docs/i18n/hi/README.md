@@ -7,6 +7,16 @@ parent: Locale
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker Pulls](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
 
+## इसे तोड़ें। स्कैन करें। पुनः बनाएँ। बेंचमार्क करें। सुधारें।
+
+OWASP VulnerableApp एक मॉड्यूलर, जानबूझकर कमज़ोर बनाया गया एप्लिकेशन है, जो पुनरुत्पादन योग्य टेस्ट परिदृश्यों के माध्यम से सुरक्षा स्कैनर को मान्य और बेंचमार्क करता है।
+
+### 🔍 इसे क्या अलग बनाता है
+
+VulnerableApp एक टेस्ट योग्य सुरक्षा इकोसिस्टम है, स्थिर ट्रेनिंग एप नहीं। यह स्कैनर बेंचमार्किंग, मॉड्यूलर वल्नरेबिलिटी परिदृश्य, रिग्रेशन टेस्टिंग और दोहराए जा सकने वाले परिणामों का समर्थन करता है।
+
+![पूरा आर्किटेक्चर स्टैक](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+
 आज के दौर में वेब एप्लिकेशन तेज़ी से लोकप्रिय हो रहे हैं, जिसके साथ-साथ उन्हें सुरक्षित करने की आवश्यकता भी उतनी ही बढ़ रही है। हालाँकि कई वल्नरेबिलिटी स्कैनिंग टूल उपलब्ध हैं, लेकिन इन्हें विकसित करते समय डेवलपर्स को इनका परीक्षण करना पड़ता है और यह भी जानना पड़ता है कि ये टूल कितने प्रभावी हैं। इस समय ऐसे बहुत कम जानबूझकर कमज़ोर एप्लिकेशन उपलब्ध हैं जिन पर इन टूल का परीक्षण किया जा सके। बाज़ार में कुछ ऐसे एप्लिकेशन ज़रूर हैं, लेकिन वे इस उद्देश्य को ध्यान में रखकर नहीं बनाए गए थे और इसलिए उनमें विस्तारित करने की सुविधा का अभाव है।
 
 **VulnerableApp** इन सभी समस्याओं को ध्यान में रखकर बनाया गया है। यह प्रोजेक्ट स्केलेबल, एक्स्टेंसिबल, इंटीग्रेट करने में आसान और सीखने में सरल है।
@@ -14,6 +24,10 @@ parent: Locale
 ### यूज़र इंटरफ़ेस
 
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+
+## मॉडर्न UI के साथ टेस्टिंग
+
+VulnerableApp-facade मॉडर्न UI प्रदान करता है। Docker और Docker Compose इंस्टॉल करके Windows पर `.\scripts\testWithModernUI.bat` या Linux/Mac पर `./scripts/testWithModernUI.sh` चलाएँ। UI `http://localhost` पर और Mailpit `http://localhost:8025` पर उपलब्ध होगा।
 
 ## उपयोग की गई प्रौद्योगिकियाँ
 
@@ -41,6 +55,9 @@ parent: Locale
     1. [HTTP 3xx स्टेटस कोड आधारित](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/urlRedirection/Http3xxStatusCodeBasedInjection.java)
 10. [SSRF](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ssrf)
 11. [IDOR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
+12. [क्लिकजैकिंग](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/clickjacking)
+13. [LDAP इंजेक्शन](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
+14. [ऑथेंटिकेशन वल्नरेबिलिटी](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 
 ## प्रोजेक्ट में योगदान
 
@@ -86,6 +103,10 @@ User Name: admin
 Password: hacker
 ```
 
+## अपने स्कैनर की बेंचमार्किंग
+
+VulnerableApp स्कैनर के परिणामों को प्रोजेक्ट के बिल्ट-इन ग्राउंड ट्रुथ से मिलाकर कवरेज, छूटे हुए और बेमेल परिणामों की रिपोर्ट बनाता है। DAST और SAST दोनों `POST http://<baseurl>/VulnerableApp/scanner/benchmark` का उपयोग करते हैं। पूरी स्कीमा और `curl` उदाहरणों के लिए [`benchmarks/README.md`](../../../benchmarks/README.md) देखें।
+
 ## संपर्क करें
 
 किसी भी समस्या के लिए karan.sasan@owasp.org पर ईमेल करें या एक [इश्यू](https://github.com/SasanLabs/VulnerableApp/issues) उठाएँ।
@@ -104,6 +125,11 @@ Password: hacker
 2. [OWASP-VulnerableApp का अवलोकन — Blogspot पोस्ट](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
 3. [Kenji Nakajima द्वारा OWASP VulnerableApp का परिचय](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [जेनरेटिव AI आधारित प्लेटफ़ॉर्म Shannon](https://qiita.com/fiord/items/9351bcff6d646862f181)
+5. [मैंने OWASP ZAP फ़ाइल अपलोड ऐडऑन बनाया: VulnerableApp-Facade पहले क्यों ज़रूरी था](https://medium.com/p/52c4f2226ed3)
+
+### OWASP VulnerableApp का उपयोग
+
+1. [वैश्विक शैक्षिक रुचि देखें](../../Usage.md)
 
 ### समस्या निवारण संदर्भ
 
