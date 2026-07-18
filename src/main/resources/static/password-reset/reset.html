@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VulnerableApp - Reset Password</title>
+    <link rel="stylesheet" href="reset.css" />
+</head>
+<body>
+    <div class="reset-shell">
+        <div class="reset-card">
+            <span id="resetLevelBadge" class="reset-badge">Password Reset</span>
+            <h1 id="resetTitle" class="reset-title">Choose a new password</h1>
+            <p id="resetSubtitle" class="reset-subtitle">This page was opened from an emailed reset link. Enter a new password and submit it for backend validation.</p>
+
+            <div class="reset-field">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter a new password" autocomplete="new-password" />
+            </div>
+
+            <button id="applyResetBtn" class="reset-button">Reset Password</button>
+
+            <div id="level7ExternalCard" class="external-card hidden">
+                <h5>External Resource</h5>
+                <p class="external-copy">Level 7 intentionally loads a third-party image so the browser may send the full reset-link URL as the HTTP referrer.</p>
+                <img
+                    id="level7ExternalImage"
+                    class="external-image"
+                    src=""
+                    referrerpolicy="unsafe-url"
+                    alt="Third-party image used to demonstrate referrer leakage"
+                />
+            </div>
+
+            <div id="resultCard" class="result-card hidden">
+                <div class="result-head">
+                    <h5>Result</h5>
+                    <span id="resultStatus" class="result-badge">Unknown</span>
+                </div>
+                <p id="resultMessage" class="result-message"></p>
+                <div id="resultDetails" class="result-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="reset.js"></script>
+</body>
+</html>

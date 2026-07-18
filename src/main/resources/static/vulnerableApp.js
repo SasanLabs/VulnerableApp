@@ -190,8 +190,61 @@ function update(vulnerableAppEndPointData) {
       handleElementAutoSelection(vulnerableAppEndPointData, this.id);
     });
   });
+  _applyDeepLinkSelection(vulnerableAppEndPointData);
   _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData);
   _addingEventListenerToModeToggle(vulnerableAppEndPointData);
+}
+
+function _applyDeepLinkSelection(vulnerableAppEndPointData) {
+  let params = new URLSearchParams(window.location.search);
+  let vulnerability = params.get("v");
+  let level = params.get("level");
+
+  if (!vulnerability || !level) {
+    let hash = window.location.hash || "";
+    let match = hash.match(/#\/PasswordResetVulnerability\/Level(\d+)/i);
+    if (match) {
+      vulnerability = "PasswordResetVulnerability";
+      level = "LEVEL_" + match[1];
+    }
+  }
+
+  if (!vulnerability || !level) {
+    return;
+  }
+
+  let vulnIndex = vulnerableAppEndPointData.findIndex(function (v) {
+    return v["Name"] === vulnerability;
+  });
+
+  if (vulnIndex < 0) {
+    return;
+  }
+
+  let masterEl = document.getElementById(String(vulnIndex));
+  if (!masterEl) {
+    return;
+  }
+
+  masterEl.click();
+
+  let details = vulnerableAppEndPointData[vulnIndex]["Detailed Information"];
+  let levelKey = null;
+  for (let key in details) {
+    if (details[key] && details[key]["Level"] === level) {
+      levelKey = key;
+      break;
+    }
+  }
+
+  if (levelKey === null) {
+    return;
+  }
+
+  let levelEl = document.getElementById("0." + levelKey);
+  if (levelEl) {
+    levelEl.click();
+  }
 }
 
 function _clearActiveItemClass(items) {
