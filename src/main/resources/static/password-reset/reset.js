@@ -53,7 +53,8 @@ function appendDetailRow(container, key, value) {
 
   var text = document.createElement("span");
   text.className = "detail-value";
-  text.textContent = value === null || value === undefined ? "-" : String(value);
+  text.textContent =
+    value === null || value === undefined ? "-" : String(value);
 
   row.appendChild(label);
   row.appendChild(text);
@@ -80,9 +81,10 @@ function applySuccessState(content) {
   badge.style.background = "#dcfce7";
   badge.style.color = "#166534";
   title.textContent = "Password reset successful";
-  subtitle.textContent = content && content.username
-    ? "The password for " + content.username + " was updated successfully."
-    : "The password was updated successfully.";
+  subtitle.textContent =
+    content && content.username
+      ? "The password for " + content.username + " was updated successfully."
+      : "The password was updated successfully.";
 
   button.textContent = "Password Reset Complete";
   button.disabled = true;
@@ -99,7 +101,9 @@ function setResult(data) {
 
   var isValid = !!(data && data.isValid);
   resultStatus.textContent = isValid ? "Success" : "Failed";
-  resultStatus.className = isValid ? "result-badge success" : "result-badge failure";
+  resultStatus.className = isValid
+    ? "result-badge success"
+    : "result-badge failure";
 
   var content = data ? data.content : null;
   if (typeof content === "string") {
@@ -107,11 +111,12 @@ function setResult(data) {
     return;
   }
 
-  resultMessage.textContent = content && content.message ? content.message : "Request completed.";
+  resultMessage.textContent =
+    content && content.message ? content.message : "Request completed.";
   if (content && typeof content === "object") {
     getVisibleDetailKeys(content).forEach(function (key) {
-        appendDetailRow(resultDetails, key, content[key]);
-      });
+      appendDetailRow(resultDetails, key, content[key]);
+    });
   }
 
   if (isValid) {
@@ -127,7 +132,8 @@ function setPageChrome(level) {
   if (!level) {
     badge.textContent = "Invalid Link";
     title.textContent = "Reset link is incomplete";
-    subtitle.textContent = "This URL is missing the required level information. Request a fresh reset email from the lab.";
+    subtitle.textContent =
+      "This URL is missing the required level information. Request a fresh reset email from the lab.";
     return;
   }
 
@@ -137,7 +143,8 @@ function setPageChrome(level) {
     badge.style.background = "#dcfce7";
     badge.style.color = "#166534";
     title.textContent = "Choose a new secure password";
-    subtitle.textContent = "This reset link relies on backend checks for expiry and one-time use. Submit a new password to complete the secure flow.";
+    subtitle.textContent =
+      "This reset link relies on backend checks for expiry and one-time use. Submit a new password to complete the secure flow.";
   }
 }
 
@@ -154,7 +161,8 @@ function maybeLoadReferrerLeakDemo(level) {
 
   externalCard.classList.remove("hidden");
   externalImage.referrerPolicy = "unsafe-url";
-  externalImage.src = "https://dummyimage.com/320x120/e5e7eb/374151.png&text=Third-party+image";
+  externalImage.src =
+    "https://dummyimage.com/320x120/e5e7eb/374151.png&text=Third-party+image";
 }
 
 function submitReset() {
@@ -165,7 +173,8 @@ function submitReset() {
   if (!level || !token) {
     setResult({
       isValid: false,
-      content: "Reset link is missing required parameters. Request a fresh email and open the new link.",
+      content:
+        "Reset link is missing required parameters. Request a fresh email and open the new link.",
     });
     return;
   }

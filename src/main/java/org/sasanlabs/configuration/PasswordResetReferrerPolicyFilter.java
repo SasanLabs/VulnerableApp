@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * Overrides referrer policy on the reset page so level 7 can demonstrate full-URL referrer
- * leakage to third-party resources.
+ * Overrides referrer policy on the reset page so level 7 can demonstrate full-URL referrer leakage
+ * to third-party resources.
  */
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE - 100)
