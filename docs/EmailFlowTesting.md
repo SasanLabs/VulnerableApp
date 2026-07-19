@@ -40,7 +40,7 @@ The shared application properties define the default SMTP host and credentials b
 
 If Mailpit is running locally, emails will be captured there and available at:
 
-- `http://localhost:8025`
+- `http://localhost/mailpit/`
 
 ## Notes
 

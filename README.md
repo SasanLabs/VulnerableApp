@@ -49,7 +49,7 @@ There are 2 ways to run the project:
     3. Open the terminal and Navigate to the Project root directory
     4. Run the command ```docker-compose pull && docker-compose up```
     5. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
-    6. Mailpit is also available at `http://localhost:8025` for viewing emails captured by the local SMTP server.
+    6. Mailpit is also available at `http://localhost/mailpit/` for viewing emails captured by the local SMTP server.
     
     **Note**: The above steps will run the latest unreleased VulnerableApp version. If you want to run the latest released version, please use docker **latest** tag.
 2. Another way to run the VulnerableApp is as standalone Vulnerable Application is:
@@ -87,7 +87,7 @@ This script will build your local changes into a Docker image (`sasanlabs/owasp-
 
 3. **Access the UI**: Navigate to `http://localhost` to see the modern UI with your changes.
 
-4. **Access Mailpit**: Navigate to `http://localhost:8025` to view emails captured by the local SMTP server.
+4. **Access Mailpit**: Navigate to `http://localhost/mailpit/` to view emails captured by the local SMTP server.
 
 ## Technologies used
 - Java17
@@ -126,7 +126,8 @@ Password: hacker
 11. [IDOR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
 12. [Clickjacking](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/clickjacking)
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
-14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)    
+14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
+15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
 
 ## Benchmarking your scanner
 

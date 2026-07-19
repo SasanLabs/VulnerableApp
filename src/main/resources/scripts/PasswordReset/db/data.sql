@@ -1,0 +1,1 @@
+-- Password reset users are seeded at startup by PasswordResetSeeder.
