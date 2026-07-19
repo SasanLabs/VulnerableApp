@@ -22,5 +22,3 @@ CREATE TABLE password_reset_tokens (
 GRANT ALL ON password_reset_users TO application;
 GRANT ALL ON password_reset_tokens TO application;
 
-GRANT SELECT ON password_reset_users TO readonly_user;
-GRANT SELECT ON password_reset_tokens TO readonly_user;
