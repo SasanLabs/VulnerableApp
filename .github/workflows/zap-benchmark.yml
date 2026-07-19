@@ -87,6 +87,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+
 
       # ------------------------------------------------------------------
       # 2. Start Stack 
@@ -239,10 +241,8 @@ jobs:
         run: |
           set -e
 
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
           git add benchmarks/ZAP/${{ matrix.scan.results_file }}
 
           if git diff --cached --quiet; then
@@ -255,8 +255,7 @@ jobs:
 
           for i in {1..5}; do
             echo "Push attempt $i..."
-
-            if git pull --rebase origin "${{ github.ref_name }}" && git push; then
+            if git pull --rebase origin "${{ github.ref_name }}" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
               success=true
               break
             fi
