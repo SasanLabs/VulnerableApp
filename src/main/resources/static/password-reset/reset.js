@@ -6,7 +6,7 @@ function getQueryParam(name) {
 function getLevel() {
   var rawLevel = getQueryParam("level");
   var parsedLevel = parseInt(rawLevel, 10);
-  if (Number.isNaN(parsedLevel) || parsedLevel < 1 || parsedLevel > 9) {
+  if (Number.isNaN(parsedLevel) || parsedLevel < 1 || parsedLevel > 10) {
     return null;
   }
   return parsedLevel;
@@ -139,7 +139,7 @@ function setPageChrome(level) {
 
   badge.textContent = "Level " + level + " Reset";
 
-  if (level === 9) {
+  if (level === 10) {
     badge.style.background = "#dcfce7";
     badge.style.color = "#166534";
     title.textContent = "Choose a new secure password";
