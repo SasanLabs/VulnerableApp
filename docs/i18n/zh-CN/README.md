@@ -7,16 +7,60 @@ parent: Locale
 
 ![OWASP孵化器](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![执照](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI与Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![公关欢迎](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker拉取次数](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
 
-随着近些年来 Web 应用程序变得越来越流行，保障其安全性的需求也日益迫切。尽管已有多种漏洞扫描工具，但在开发这些工具时，开发人员需要对其进行测试，同时还需要了解漏洞扫描工具的实际表现如何。然而，目前几乎没有合适的易受攻击应用程序可用于此类测试。市面上虽然存在一些刻意设置的易受攻击应用程序，但它们并非以这一目的为初衷编写的，因此在可扩展性方面存在明显不足——例如，添加新漏洞相当困难。
+## 破解它。扫描它。复现它。用它进行基准测试。改进它。
 
-因此，开发人员往往不得不自行编写易受攻击的应用程序，这不仅造成生产力损耗，还带来大量重复工作。
+OWASP VulnerableApp 是一个模块化的、刻意包含漏洞的应用，主要用于通过可复现的测试场景验证安全扫描器并对其进行基准测试，同时也支持学习和实验。
 
-**VulnerableApp** 正是在充分考虑上述因素的基础上构建的。本项目具有可伸缩性、可扩展性，易于集成，也易于学习。
-由于解决上述问题需要涵盖各种类型的漏洞，该项目同时也成为了学习各类安全漏洞的优质平台。
+### 🔍 它有什么不同
+
+与传统的易受攻击应用不同，VulnerableApp 被设计为一个可测试的安全生态系统，而不是静态的训练应用。
+
+### 它支持：
+
+- 🔧 对 Burp Suite、OWASP ZAP 和自定义 DAST 引擎等工具进行扫描器基准测试
+- 🧩 模块化漏洞设计，无需修改核心服务即可添加新场景
+- 📊 跨版本和环境的安全回归测试
+- 🎯 针对现代 Web 应用模式的真实攻击面模拟
+- 🔁 确定性的漏洞行为，以获得可重复的扫描结果
+- 🧑‍💻 面向安全工程师、研究人员和教育工作者构建
+
+![完整架构栈](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+
+### VulnerableApp 可以帮助您：
+
+- 验证安全工具面对已知漏洞模式时的行为
+- 为安全实验构建受控环境
+- 随新攻击技术的出现扩展漏洞覆盖范围
+- 运行一致、可重复的安全测试流水线
+
+### ⚙️ 为什么它很重要
+
+大多数易受攻击应用都是：
+- 静态的
+- 难以扩展的
+- 仅为手动学习而设计的
+
+### VulnerableApp 的设计目标：
+
+自动化、可复现性与持续演进
 
 ### 用户界面
 
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+
+## 使用现代 UI 进行测试
+
+VulnerableApp-facade 为 VulnerableApp 提供现代 UI。要使用现代 UI 测试本地更改：
+
+1. **先决条件**：确保已安装 Docker 和 Docker Compose。
+2. **运行测试脚本**：
+   - Windows：`.\scripts\testWithModernUI.bat`
+   - Linux/Mac：`./scripts/testWithModernUI.sh`
+
+该脚本会将本地更改构建为 Docker 镜像 (`sasanlabs/owasp-vulnerableapp:unreleased`)，并使用 `docker-compose.local.yml` 启动完整技术栈（包括 facade、jsp 和 php 服务）。
+
+3. **访问 UI**：打开 `http://localhost`。
+4. **访问 Mailpit**：打开 `http://localhost:8025` 查看本地 SMTP 服务器捕获的邮件。
 
 ## 使用的技术
 
@@ -44,6 +88,9 @@ parent: Locale
     1. [基于 HTTP 3xx 状态码](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/urlRedirection/Http3xxStatusCodeBasedInjection.java)
 10. [SSRF](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ssrf)
 11. [IDOR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
+12. [点击劫持](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/clickjacking)
+13. [LDAP 注入](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
+14. [身份验证漏洞](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 
 ## 为项目做贡献
 
@@ -92,6 +139,16 @@ User Name: admin
 Password: hacker
 ```
 
+## 对扫描器进行基准测试
+
+VulnerableApp 包含一个比较器，可将扫描器的发现与项目内置的标准答案进行比较，并生成覆盖、遗漏和未匹配项报告。DAST 和 SAST 扫描器使用同一端点：
+
+- 端点：`POST http://<baseurl>/VulnerableApp/scanner/benchmark`
+- 请求体：DAST 使用 `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }`；SAST 使用 `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
+- 响应体及磁盘上的 `benchmarks/<tool>-results.json`：覆盖率报告
+
+扫描器本身的运行不在范围内，您需要提供 JSON。完整架构、匹配规则和 `curl` 示例请参阅 [`benchmarks/README.md`](../../../benchmarks/README.md)。
+
 ## 联系方式
 
 如果您在任何步骤中遇到困难，或对项目及其目标有任何疑问，欢迎发送邮件至 karan.sasan@owasp.org，或创建一个 [Issue](https://github.com/SasanLabs/VulnerableApp/issues)，我们将尽力为您提供帮助。
@@ -110,6 +167,11 @@ Password: hacker
 2. [OWASP-VulnerableApp 概述 — Blogspot 文章](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
 3. [Kenji Nakajima 对 OWASP VulnerableApp 的介绍](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [基于生成式 AI 的平台 Shannon 利用 VulnerableApp](https://qiita.com/fiord/items/9351bcff6d646862f181)
+5. [我构建了 OWASP ZAP 文件上传插件：为什么首先需要 VulnerableApp-Facade](https://medium.com/p/52c4f2226ed3)
+
+### OWASP VulnerableApp 的使用情况
+
+1. [查看全球学术兴趣](../../Usage.md)
 
 ### 故障排除参考
 

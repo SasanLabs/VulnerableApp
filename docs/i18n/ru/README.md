@@ -7,9 +7,15 @@ parent: Locale
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker Pulls](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
 
-Поскольку в наши дни веб-приложения становятся всё более популярными, возникает острая необходимость в обеспечении их безопасности. Существует множество инструментов сканирования уязвимостей, однако при их разработке программисты вынуждены тестировать эти инструменты. Кроме того, им необходимо оценивать качество работы инструмента сканирования. На сегодняшний день существует крайне мало уязвимых приложений, пригодных для тестирования таких инструментов. На рынке присутствуют намеренно уязвимые приложения, но они создавались без подобного умысла и потому страдают отсутствием расширяемости — добавление новых уязвимостей в них весьма затруднено.
+## Взломайте. Просканируйте. Воспроизведите. Сравните. Улучшите.
 
-Как следствие, разработчики вынуждены писать собственные уязвимые приложения, что приводит к потере производительности и многократному выполнению одной и той же работы.
+OWASP VulnerableApp — модульное намеренно уязвимое приложение для проверки и сравнения сканеров безопасности в воспроизводимых сценариях, а также для обучения и экспериментов.
+
+### 🔍 Чем оно отличается
+
+VulnerableApp — это тестируемая экосистема безопасности, а не статическое учебное приложение. Оно поддерживает бенчмаркинг сканеров, модульные сценарии, регрессионное тестирование и воспроизводимые результаты.
+
+![Полный стек архитектуры](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
 
 **VulnerableApp** создан с учётом всех этих факторов. Проект является масштабируемым, расширяемым, простым в интеграции и освоении.
 Поскольку решение вышеуказанной проблемы требует добавления различных типов уязвимостей, этот проект становится отличной платформой для изучения уязвимостей безопасности.
@@ -17,6 +23,10 @@ parent: Locale
 ### Пользовательский интерфейс
 
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+
+## Тестирование с современным UI
+
+VulnerableApp-facade предоставляет современный UI. Установите Docker и Docker Compose, затем запустите `.\scripts\testWithModernUI.bat` в Windows или `./scripts/testWithModernUI.sh` в Linux/Mac. Скрипт соберёт образ `sasanlabs/owasp-vulnerableapp:unreleased` и запустит весь стек. UI доступен по адресу `http://localhost`, Mailpit — `http://localhost:8025`.
 
 ## Используемые технологии
 
@@ -44,6 +54,9 @@ parent: Locale
     1. [На основе HTTP-кода состояния 3xx](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/urlRedirection/Http3xxStatusCodeBasedInjection.java)
 10. [SSRF](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ssrf)
 11. [IDOR](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/idor)
+12. [Кликджекинг](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/clickjacking)
+13. [LDAP-инъекция](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
+14. [Уязвимость аутентификации](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 
 ## Участие в проекте
 
@@ -92,6 +105,10 @@ User Name: admin
 Password: hacker
 ```
 
+## Бенчмаркинг сканера
+
+VulnerableApp сравнивает находки сканера со встроенным эталоном и создаёт отчёт о покрытии, пропусках и несопоставленных результатах. DAST и SAST используют `POST http://<baseurl>/VulnerableApp/scanner/benchmark`. Полные схемы, правила сопоставления и примеры `curl` см. в [`benchmarks/README.md`](../../../benchmarks/README.md).
+
 ## Контакты
 
 Если у вас возникли затруднения с какими-либо шагами или с пониманием целей и устройства проекта, напишите на karan.sasan@owasp.org или создайте [задачу](https://github.com/SasanLabs/VulnerableApp/issues) — мы постараемся помочь.
@@ -110,6 +127,11 @@ Password: hacker
 2. [Обзор OWASP-VulnerableApp — пост в Blogspot](https://hussaina-begum.blogspot.com/2020/10/an-extensible-vulnerable-application.html)
 3. [Введение в OWASP VulnerableApp от Кэндзи Накадзимы](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [Платформа Shannon на базе генеративного ИИ, использующая VulnerableApp](https://qiita.com/fiord/items/9351bcff6d646862f181)
+5. [Я создал модуль OWASP ZAP File Upload: почему сначала понадобился VulnerableApp-Facade](https://medium.com/p/52c4f2226ed3)
+
+### Использование OWASP VulnerableApp
+
+1. [Мировой академический интерес](../../Usage.md)
 
 ### Ссылки для устранения неполадок
 
