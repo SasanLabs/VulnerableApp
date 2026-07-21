@@ -18,22 +18,60 @@ let appMode = MODE_SCANNER;
 let currentId;
 let currentKey;
 
-function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
+function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, onReady) {
   let dynamicScriptsElement = document.getElementById("dynamicScripts");
   let cssElement = document.createElement("link");
   cssElement.href = urlToFetchHtmlTemplate + ".css";
   cssElement.type = "text/css";
   cssElement.rel = "stylesheet";
-  dynamicScriptsElement.appendChild(cssElement);
+
+  let reveal = function () {
+    if (typeof onReady === "function") {
+      onReady();
+    }
+  };
+
   if (urlToFetchHtmlTemplate === "error") {
     document.getElementById("hideHelp").style.display = "none";
     document.getElementById("showHelp").style.display = "none";
+    // Only one asset (CSS) to wait for in the error case.
+    cssElement.addEventListener("load", reveal);
+    cssElement.addEventListener("error", reveal);
+    dynamicScriptsElement.appendChild(cssElement);
   } else {
     document.getElementById("hideHelp").style.display = "inline-block";
     document.getElementById("showHelp").style.display = "inline-block";
     let jsElement = document.createElement("script");
     jsElement.type = "module";
     jsElement.src = urlToFetchHtmlTemplate + ".js?p=" + new Date().getTime();
+
+    let cssLoaded = false;
+    let jsLoaded = false;
+    let maybeReveal = function () {
+      if (cssLoaded && jsLoaded) {
+        reveal();
+      }
+    };
+    // Fall back to revealing even if an asset 404s/errors, so navigation
+    // never gets stuck hidden.
+    cssElement.addEventListener("load", function () {
+      cssLoaded = true;
+      maybeReveal();
+    });
+    cssElement.addEventListener("error", function () {
+      cssLoaded = true;
+      maybeReveal();
+    });
+    jsElement.addEventListener("load", function () {
+      jsLoaded = true;
+      maybeReveal();
+    });
+    jsElement.addEventListener("error", function () {
+      jsLoaded = true;
+      maybeReveal();
+    });
+
+    dynamicScriptsElement.appendChild(cssElement);
     dynamicScriptsElement.appendChild(jsElement);
   }
 }
@@ -78,9 +116,14 @@ function _callbackForInnerMasterOnClickEvent(
       dynamicScriptNode.remove();
       dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
     }
+    // Hide the detail title area until the new template's CSS/JS have
+    // actually loaded, so the browser never paints unstyled content.
+    detailTitle.classList.add("content-loading");
     doGetAjaxCall((responseText) => {
       detailTitle.innerHTML = responseText;
-      _loadDynamicJSAndCSS(urlToFetchHtmlTemplate);
+      _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, () => {
+        detailTitle.classList.remove("content-loading");
+      });
     }, urlToFetchHtmlTemplate + ".html");
   };
 }

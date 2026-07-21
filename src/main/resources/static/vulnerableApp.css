@@ -47,7 +47,12 @@ div.navbar-item-menu a {
 .hide-component {
     display: none !important;
 }
-
+/* Used while a template's CSS/JS are still loading, so the unstyled
+ * content is never painted. visibility (not display) is used so layout
+ * space is reserved and there's no additional reflow when it's revealed. */
+.content-loading {
+    visibility: hidden;
+}
 .homeContainer {
     background: burlywood;
     flex: 1;
