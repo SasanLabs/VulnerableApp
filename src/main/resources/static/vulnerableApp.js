@@ -17,6 +17,11 @@ let appMode = MODE_SCANNER;
 
 let currentId;
 let currentKey;
+// Incrementing token identifying the most recent navigation/request.
+// currentId/currentKey alone can't distinguish A -> B -> A (same id/key
+// selected twice), so every async callback validates against this token
+// instead, and only acts if it's still the most recent request.
+let requestToken = 0;
 
 function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, onReady) {
   let dynamicScriptsElement = document.getElementById("dynamicScripts");
@@ -84,6 +89,12 @@ function _callbackForInnerMasterOnClickEvent(
     }
     currentId = id;
     currentKey = key;
+    // Mint a token for this navigation. Every async callback below
+    // captures it and re-checks it before touching shared state, so a
+    // stale in-flight request (even a repeat of the same id/key from an
+    // A -> B -> A sequence) can never win against a newer one.
+    requestToken += 1;
+    const thisRequestToken = requestToken;
     clearSelectedInnerMaster();
     vulnerabilityLevelSelected =
       vulnerableAppEndPointData[id]["Detailed Information"][key]["Level"];
@@ -117,15 +128,18 @@ function _callbackForInnerMasterOnClickEvent(
     detailTitle.classList.add("content-loading");
     doGetAjaxCall(
       (responseText) => {
-        // Discard stale responses: if the user has clicked a different
-        // level while this request was in flight, currentId/currentKey
-        // will have moved on and applying this response would corrupt
-        // detailTitle or duplicate assets.
-        if (currentId !== id || currentKey !== key) {
+        // Discard stale responses: if the user has navigated again while
+        // this request was in flight, requestToken will have moved on.
+        if (requestToken !== thisRequestToken) {
           return;
         }
         detailTitle.innerHTML = responseText;
         _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, () => {
+          // Re-check: the asset load itself is async, so navigation could
+          // have moved on again between the AJAX response and now.
+          if (requestToken !== thisRequestToken) {
+            return;
+          }
           detailTitle.classList.remove("content-loading");
         });
       },
@@ -133,8 +147,9 @@ function _callbackForInnerMasterOnClickEvent(
       false,
       {},
       () => {
-        // Network failure — don't leave the pane hidden forever.
-        if (currentId === id && currentKey === key) {
+        // Covers both network-level failures and terminal HTTP errors
+        // (4xx/5xx) — don't leave the pane hidden forever.
+        if (requestToken === thisRequestToken) {
           detailTitle.classList.remove("content-loading");
         }
       }
@@ -293,7 +308,7 @@ function getCurrentVulnerabilityLevel() {
   return vulnerabilityLevelSelected;
 }
 
-function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
+function genericResponseHandler(xmlHttpRequest, callBack, isJson, onError) {
   if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {
     // XMLHttpRequest.DONE == 4
     if (
@@ -308,8 +323,14 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
       }
     } else if (xmlHttpRequest.status == 400) {
       alert("There was an error 400");
+      if (typeof onError === "function") {
+        onError(xmlHttpRequest);
+      }
     } else {
       alert("something else other than 200/401/403/404 was returned");
+      if (typeof onError === "function") {
+        onError(xmlHttpRequest);
+      }
     }
   }
 }
@@ -317,9 +338,11 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
 function doGetAjaxCall(callBack, url, isJson, headers = {}, onError) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function () {
-    genericResponseHandler(xmlHttpRequest, callBack, isJson);
+    genericResponseHandler(xmlHttpRequest, callBack, isJson, onError);
   };
   xmlHttpRequest.onerror = function () {
+    // Network-level failure (e.g. offline, DNS, CORS) — readystatechange
+    // never reaches DONE in this case, so this is the only path to onError.
     if (typeof onError === "function") {
       onError(xmlHttpRequest);
     }
