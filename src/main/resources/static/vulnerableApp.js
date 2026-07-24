@@ -54,22 +54,18 @@ function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, onReady) {
     };
     // Fall back to revealing even if an asset 404s/errors, so navigation
     // never gets stuck hidden.
-    cssElement.addEventListener("load", function () {
+    let onCssSettled = function () {
       cssLoaded = true;
       maybeReveal();
-    });
-    cssElement.addEventListener("error", function () {
-      cssLoaded = true;
-      maybeReveal();
-    });
-    jsElement.addEventListener("load", function () {
+    };
+    let onJsSettled = function () {
       jsLoaded = true;
       maybeReveal();
-    });
-    jsElement.addEventListener("error", function () {
-      jsLoaded = true;
-      maybeReveal();
-    });
+    };
+    cssElement.addEventListener("load", onCssSettled);
+    cssElement.addEventListener("error", onCssSettled);
+    jsElement.addEventListener("load", onJsSettled);
+    jsElement.addEventListener("error", onJsSettled);
 
     dynamicScriptsElement.appendChild(cssElement);
     dynamicScriptsElement.appendChild(jsElement);
@@ -119,12 +115,30 @@ function _callbackForInnerMasterOnClickEvent(
     // Hide the detail title area until the new template's CSS/JS have
     // actually loaded, so the browser never paints unstyled content.
     detailTitle.classList.add("content-loading");
-    doGetAjaxCall((responseText) => {
-      detailTitle.innerHTML = responseText;
-      _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, () => {
-        detailTitle.classList.remove("content-loading");
-      });
-    }, urlToFetchHtmlTemplate + ".html");
+    doGetAjaxCall(
+      (responseText) => {
+        // Discard stale responses: if the user has clicked a different
+        // level while this request was in flight, currentId/currentKey
+        // will have moved on and applying this response would corrupt
+        // detailTitle or duplicate assets.
+        if (currentId !== id || currentKey !== key) {
+          return;
+        }
+        detailTitle.innerHTML = responseText;
+        _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, () => {
+          detailTitle.classList.remove("content-loading");
+        });
+      },
+      urlToFetchHtmlTemplate + ".html",
+      false,
+      {},
+      () => {
+        // Network failure — don't leave the pane hidden forever.
+        if (currentId === id && currentKey === key) {
+          detailTitle.classList.remove("content-loading");
+        }
+      }
+    );
   };
 }
 
@@ -300,10 +314,15 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
   }
 }
 
-function doGetAjaxCall(callBack, url, isJson, headers = {}) {
+function doGetAjaxCall(callBack, url, isJson, headers = {}, onError) {
   let xmlHttpRequest = new XMLHttpRequest();
   xmlHttpRequest.onreadystatechange = function () {
     genericResponseHandler(xmlHttpRequest, callBack, isJson);
+  };
+  xmlHttpRequest.onerror = function () {
+    if (typeof onError === "function") {
+      onError(xmlHttpRequest);
+    }
   };
   xmlHttpRequest.open("GET", url, true);
   xmlHttpRequest.setRequestHeader(
