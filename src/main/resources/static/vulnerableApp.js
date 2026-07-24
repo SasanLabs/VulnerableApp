@@ -337,15 +337,27 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson, onError) {
 
 function doGetAjaxCall(callBack, url, isJson, headers = {}, onError) {
   let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.onreadystatechange = function () {
-    genericResponseHandler(xmlHttpRequest, callBack, isJson, onError);
-  };
-  xmlHttpRequest.onerror = function () {
-    // Network-level failure (e.g. offline, DNS, CORS) — readystatechange
-    // never reaches DONE in this case, so this is the only path to onError.
+  // Guard against onError firing twice: a network failure can cause
+  // readystatechange to reach DONE with status 0 (routed through
+  // genericResponseHandler's error branch) *and* trigger onerror below.
+  let errorReported = false;
+  let reportError = function () {
+    if (errorReported) {
+      return;
+    }
+    errorReported = true;
     if (typeof onError === "function") {
       onError(xmlHttpRequest);
     }
+  };
+  xmlHttpRequest.onreadystatechange = function () {
+    genericResponseHandler(xmlHttpRequest, callBack, isJson, reportError);
+  };
+  xmlHttpRequest.onerror = function () {
+    // Network-level failure (e.g. offline, DNS, CORS) — readystatechange
+    // may or may not reach DONE in this case, so reportError() is the
+    // single-shot funnel for both paths.
+    reportError();
   };
   xmlHttpRequest.open("GET", url, true);
   xmlHttpRequest.setRequestHeader(
