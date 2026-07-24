@@ -17,23 +17,62 @@ let appMode = MODE_SCANNER;
 
 let currentId;
 let currentKey;
+// Incrementing token identifying the most recent navigation/request.
+// currentId/currentKey alone can't distinguish A -> B -> A (same id/key
+// selected twice), so every async callback validates against this token
+// instead, and only acts if it's still the most recent request.
+let requestToken = 0;
 
-function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate) {
+function _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, onReady) {
   let dynamicScriptsElement = document.getElementById("dynamicScripts");
   let cssElement = document.createElement("link");
   cssElement.href = urlToFetchHtmlTemplate + ".css";
   cssElement.type = "text/css";
   cssElement.rel = "stylesheet";
-  dynamicScriptsElement.appendChild(cssElement);
+
+  let reveal = function () {
+    if (typeof onReady === "function") {
+      onReady();
+    }
+  };
+
   if (urlToFetchHtmlTemplate === "error") {
     document.getElementById("hideHelp").style.display = "none";
     document.getElementById("showHelp").style.display = "none";
+    // Only one asset (CSS) to wait for in the error case.
+    cssElement.addEventListener("load", reveal);
+    cssElement.addEventListener("error", reveal);
+    dynamicScriptsElement.appendChild(cssElement);
   } else {
     document.getElementById("hideHelp").style.display = "inline-block";
     document.getElementById("showHelp").style.display = "inline-block";
     let jsElement = document.createElement("script");
     jsElement.type = "module";
     jsElement.src = urlToFetchHtmlTemplate + ".js?p=" + new Date().getTime();
+
+    let cssLoaded = false;
+    let jsLoaded = false;
+    let maybeReveal = function () {
+      if (cssLoaded && jsLoaded) {
+        reveal();
+      }
+    };
+    // Fall back to revealing even if an asset 404s/errors, so navigation
+    // never gets stuck hidden.
+    let onCssSettled = function () {
+      cssLoaded = true;
+      maybeReveal();
+    };
+    let onJsSettled = function () {
+      jsLoaded = true;
+      maybeReveal();
+    };
+    cssElement.addEventListener("load", onCssSettled);
+    cssElement.addEventListener("error", onCssSettled);
+    jsElement.addEventListener("load", onJsSettled);
+    jsElement.addEventListener("error", onJsSettled);
+
+    dynamicScriptsElement.appendChild(cssElement);
     dynamicScriptsElement.appendChild(jsElement);
   }
 }
@@ -50,6 +89,12 @@ function _callbackForInnerMasterOnClickEvent(
     }
     currentId = id;
     currentKey = key;
+    // Mint a token for this navigation. Every async callback below
+    // captures it and re-checks it before touching shared state, so a
+    // stale in-flight request (even a repeat of the same id/key from an
+    // A -> B -> A sequence) can never win against a newer one.
+    requestToken += 1;
+    const thisRequestToken = requestToken;
     clearSelectedInnerMaster();
     vulnerabilityLevelSelected =
       vulnerableAppEndPointData[id]["Detailed Information"][key]["Level"];
@@ -78,10 +123,37 @@ function _callbackForInnerMasterOnClickEvent(
       dynamicScriptNode.remove();
       dynamicScriptNode = parentNodeWithAllDynamicScripts.lastElementChild;
     }
-    doGetAjaxCall((responseText) => {
-      detailTitle.innerHTML = responseText;
-      _loadDynamicJSAndCSS(urlToFetchHtmlTemplate);
-    }, urlToFetchHtmlTemplate + ".html");
+    // Hide the detail title area until the new template's CSS/JS have
+    // actually loaded, so the browser never paints unstyled content.
+    detailTitle.classList.add("content-loading");
+    doGetAjaxCall(
+      (responseText) => {
+        // Discard stale responses: if the user has navigated again while
+        // this request was in flight, requestToken will have moved on.
+        if (requestToken !== thisRequestToken) {
+          return;
+        }
+        detailTitle.innerHTML = responseText;
+        _loadDynamicJSAndCSS(urlToFetchHtmlTemplate, () => {
+          // Re-check: the asset load itself is async, so navigation could
+          // have moved on again between the AJAX response and now.
+          if (requestToken !== thisRequestToken) {
+            return;
+          }
+          detailTitle.classList.remove("content-loading");
+        });
+      },
+      urlToFetchHtmlTemplate + ".html",
+      false,
+      {},
+      () => {
+        // Covers both network-level failures and terminal HTTP errors
+        // (4xx/5xx) — don't leave the pane hidden forever.
+        if (requestToken === thisRequestToken) {
+          detailTitle.classList.remove("content-loading");
+        }
+      }
+    );
   };
 }
 
@@ -236,7 +308,7 @@ function getCurrentVulnerabilityLevel() {
   return vulnerabilityLevelSelected;
 }
 
-function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
+function genericResponseHandler(xmlHttpRequest, callBack, isJson, onError) {
   if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {
     // XMLHttpRequest.DONE == 4
     if (
@@ -251,16 +323,41 @@ function genericResponseHandler(xmlHttpRequest, callBack, isJson) {
       }
     } else if (xmlHttpRequest.status == 400) {
       alert("There was an error 400");
+      if (typeof onError === "function") {
+        onError(xmlHttpRequest);
+      }
     } else {
       alert("something else other than 200/401/403/404 was returned");
+      if (typeof onError === "function") {
+        onError(xmlHttpRequest);
+      }
     }
   }
 }
 
-function doGetAjaxCall(callBack, url, isJson, headers = {}) {
+function doGetAjaxCall(callBack, url, isJson, headers = {}, onError) {
   let xmlHttpRequest = new XMLHttpRequest();
+  // Guard against onError firing twice: a network failure can cause
+  // readystatechange to reach DONE with status 0 (routed through
+  // genericResponseHandler's error branch) *and* trigger onerror below.
+  let errorReported = false;
+  let reportError = function () {
+    if (errorReported) {
+      return;
+    }
+    errorReported = true;
+    if (typeof onError === "function") {
+      onError(xmlHttpRequest);
+    }
+  };
   xmlHttpRequest.onreadystatechange = function () {
-    genericResponseHandler(xmlHttpRequest, callBack, isJson);
+    genericResponseHandler(xmlHttpRequest, callBack, isJson, reportError);
+  };
+  xmlHttpRequest.onerror = function () {
+    // Network-level failure (e.g. offline, DNS, CORS) — readystatechange
+    // may or may not reach DONE in this case, so reportError() is the
+    // single-shot funnel for both paths.
+    reportError();
   };
   xmlHttpRequest.open("GET", url, true);
   xmlHttpRequest.setRequestHeader(
