@@ -487,3 +487,21 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+.gh-star {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    text-decoration: none;
+    font-weight: 600;
+    color: inherit;
+}
+
+.gh-star img {
+    width: 20px;
+    height: 20px;
+}
+
+.gh-star:hover span {
+    text-decoration: underline;
+}
