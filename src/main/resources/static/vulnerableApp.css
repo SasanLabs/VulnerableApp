@@ -3,43 +3,73 @@ body, html {
     flex-flow: column;
     height: 100%;
     overflow-y: auto;
+    margin: 0;
 }
 
 /** Navigation bar properties **/
 .navbar {
     display: flex;
-    min-height: 15%;
-    height: 15%;
     align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    min-height: 84px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .navbar-item {
-    flex: 1;
+    flex: 0 1 auto;
 }
 
 .navbar-brand {
-    flex: 3;
-    align-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     font-size: 30px;
     color: black;
-    margin-left: 20px;
+    margin-left: 0;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .navbar-item-menu {
-    flex: 1;
-    font-size: 20px;
+    display: flex;
     align-items: center;
-    color: burlywood;
-    align-content: center;
+    font-size: 20px;
+    color: #6c5336;
+    white-space: nowrap;
 }
 
 div.navbar-item-menu a {
     text-decoration: none;
+    color: inherit;
 }
 
 .active {
     color: black;
+    font-weight: 600;
+}
+
+.navbar-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.navbar-item-menu-star {
+    margin-left: 0.25rem;
 }
 
 /** Navigation bar properties ended here. **/
@@ -376,7 +406,8 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
     border: 2px solid black;
     border-radius: 4px;
     overflow: hidden;
-    margin-right: 1.5rem;
+    margin-right: 0;
+    flex-shrink: 0;
 }
 
 .mode-toggle-btn {
@@ -485,5 +516,51 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
 @media only screen and (min-width: 786px) {
     .challenge-cards-grid {
         grid-template-columns: 1fr 1fr;
+    }
+}
+
+.gh-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: black;
+    white-space: nowrap;
+    padding: 0.3rem 0.75rem;
+    border: 2px solid black;
+    border-radius: 6px;
+    background: transparent;
+    transition: background 0.15s, color 0.15s;
+}
+
+.gh-star:hover {
+    background: black;
+    color: #fff;
+}
+
+.gh-star:hover img {
+    filter: invert(1);
+}
+
+.gh-star img {
+    width: 18px;
+    height: 18px;
+}
+
+@media only screen and (max-width: 960px) {
+    .navbar-brand {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar-menu {
+        justify-content: center;
     }
 }
