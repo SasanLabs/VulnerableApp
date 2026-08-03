@@ -22,6 +22,12 @@ We regularly receive engagement (contributions, coursework usage, research inter
 
 </a>
 
+* <a href="https://tecnico.ulisboa.pt/en/">
+  <img src="./logos/Coloured/tecnico-ulisboa-logo.svg" height="30" style="vertical-align:middle;"/>
+  <strong>Instituto Superior Técnico, University of Lisbon</strong> — Portugal 🇵🇹
+
+</a>
+
 * <a href="https://case.edu/">
   <img src="./logos/Coloured/CASEEdu_Acronym-Logo-on-Blue.avif" height="30" style="vertical-align:middle;"/>
   <strong>Case Western Reserve University</strong> — United States 🇺🇸
