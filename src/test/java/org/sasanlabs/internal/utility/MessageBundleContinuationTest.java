@@ -204,11 +204,7 @@ class MessageBundleContinuationTest {
     }
 
     private static String stripLeading(String line) {
-        int i = 0;
-        while (i < line.length() && Character.isWhitespace(line.charAt(i))) {
-            i++;
-        }
-        return line.substring(i);
+        return line.stripLeading();
     }
 
     private static String lastWord(String text) {
