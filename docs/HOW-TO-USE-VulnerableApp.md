@@ -43,7 +43,7 @@ As VulnerableApp is built for scanning tools hence there are multiple ways in wh
 1. Developer of these scanning tools can add new vulnerabilities for testing there scan rules, payload testing etc. They can even go with TDD approach where they first write the Vulnerable code and then they can write the Scan Rules.
 2. For Evaluation of scanning tools
    1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/dast` which provides information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate themselves. The bare `http://<baseurl>/VulnerableApp/scanner` endpoint serves the same response and stays available, but it is deprecated: it returns a `Deprecation: true` header and a `Link` header pointing at `/scanner/dast`. New integrations should use `/scanner/dast`.
-   2. For SAST, we have added a [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) file which has vulnerabilities and their line numbers which SAST tools can use to evaluate themselves.
+   2. For SAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/sast` which returns the expected issues as JSON — the vulnerabilities and their line numbers which SAST tools can use to evaluate themselves. The same data is the checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv) file.
 
 ## Details about scanner endpoint
 scanner endpoint exposes following information which DAST tools can leverage:
@@ -66,13 +66,12 @@ VulnerableApp ships a comparator that grades a scanner's findings against either
 Running the scanner itself is out of scope — you supply the JSON. See [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) for the full input/output schemas, matching rules, canonical vulnerability type vocabulary, and `curl` examples.
 
 ## Details about ExpectedIssues.csv
-[ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) contains following information which SAST tools can leverage:
+`GET /VulnerableApp/scanner/sast` returns the expected issues as JSON, one object per row of the checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv). Each object carries the following fields:
 ```
-Vulnerability Type: type of vulnerability present
-CWE: CWE id for the Vulnerability
-WASC: WASC id for the Vulnerability
-File: Full path of the file containing the Vulnerability
-Line: Line number in the file containing the Vulnerability
-Source: Number of times that line is executed. 
+type: type of vulnerability present
+cwe: CWE id for the Vulnerability
+filePath: Full path of the file containing the Vulnerability
+line: Line number in the file containing the Vulnerability
+numberOfSources: Number of times that line is executed.
 ```
 

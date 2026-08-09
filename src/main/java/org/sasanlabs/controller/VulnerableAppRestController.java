@@ -1,6 +1,7 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
+import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
@@ -39,10 +42,15 @@ public class VulnerableAppRestController {
 
     private IEndPointsInformationProvider getAllSupportedEndPoints;
 
+    private IExpectedIssuesProvider expectedIssuesProvider;
+
     private int port;
 
-    public VulnerableAppRestController(IEndPointsInformationProvider getAllSupportedEndPoints) {
+    public VulnerableAppRestController(
+            IEndPointsInformationProvider getAllSupportedEndPoints,
+            IExpectedIssuesProvider expectedIssuesProvider) {
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
+        this.expectedIssuesProvider = expectedIssuesProvider;
         this.port = port;
     }
 
@@ -124,6 +132,20 @@ public class VulnerableAppRestController {
             throws JsonProcessingException, UnknownHostException {
         return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(
                 applicationUrl(request));
+    }
+
+    /**
+     * Serves the SAST ground truth that {@code /scanner/benchmark} grades against, as JSON, so the
+     * comparator and the facade's cross-app aggregation can consume it the same way they consume
+     * the DAST ground truth from {@code /scanner/dast}.
+     *
+     * @return the parsed expected issues; cached after the first read
+     * @throws IOException if the ground truth cannot be read
+     */
+    @GetMapping
+    @RequestMapping("/scanner/sast")
+    public List<ExpectedIssue> getSastScannerRelatedInformation() throws IOException {
+        return expectedIssuesProvider.getExpectedIssues();
     }
 
     /**

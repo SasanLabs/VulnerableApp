@@ -17,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ class VulnerableAppRestControllerTest {
 
     @Mock private IEndPointsInformationProvider endPointsInformationProvider;
 
+    @Mock private IExpectedIssuesProvider expectedIssuesProvider;
+
     @Mock private HttpServletRequest request;
 
     private VulnerableAppRestController controller;
@@ -38,7 +41,9 @@ class VulnerableAppRestControllerTest {
 
     @BeforeEach
     void setUp() {
-        controller = new VulnerableAppRestController(endPointsInformationProvider);
+        controller =
+                new VulnerableAppRestController(
+                        endPointsInformationProvider, expectedIssuesProvider);
         // A fresh instance rather than Collections.emptyList(), which is a shared singleton and
         // would make the identity assertions below pass even if the wrong list were returned.
         groundTruth = new ArrayList<>();
