@@ -2,6 +2,7 @@ package org.sasanlabs.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -17,14 +18,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 /**
- * Covers the bare {@code /scanner} endpoint and its {@code /scanner/dast} replacement. The two must
- * return the same body; only the deprecation headers differ.
+ * Covers the bare {@code /scanner} endpoint, its {@code /scanner/dast} replacement (same body, only
+ * the deprecation headers differ) and the {@code /scanner/sast} ground-truth endpoint.
  */
 @ExtendWith(MockitoExtension.class)
 class VulnerableAppRestControllerTest {
@@ -127,5 +129,24 @@ class VulnerableAppRestControllerTest {
         for (String url : appUrl.getAllValues()) {
             assertEquals("https://10.0.0.5:443/VulnerableApp/", url);
         }
+    }
+
+    @Test
+    void sastEndpointReturnsTheGroundTruthFromTheProvider() throws Exception {
+        List<ExpectedIssue> groundTruth = new ArrayList<>();
+        groundTruth.add(
+                new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1));
+        when(expectedIssuesProvider.getExpectedIssues()).thenReturn(groundTruth);
+
+        List<ExpectedIssue> sast = controller.getSastScannerRelatedInformation();
+
+        assertSame(groundTruth, sast);
+    }
+
+    @Test
+    void sastEndpointRequiresNoRequestBecauseItReadsNoHostSpecificData() throws Exception {
+        when(expectedIssuesProvider.getExpectedIssues()).thenThrow(new java.io.IOException("boom"));
+
+        assertThrows(java.io.IOException.class, controller::getSastScannerRelatedInformation);
     }
 }
