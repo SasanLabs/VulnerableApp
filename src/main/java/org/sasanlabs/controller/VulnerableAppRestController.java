@@ -15,6 +15,7 @@ import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("public")
 @RestController
 public class VulnerableAppRestController {
+
+    /**
+     * Marks the bare {@code /scanner} endpoint as deprecated without changing its response body. It
+     * stays live because existing ZAP addons and external scanners call it directly.
+     */
+    private static final String DEPRECATION_HEADER = "Deprecation";
+
+    private static final String LINK_HEADER = "Link";
+
+    private static final String DAST_PATH = "scanner/dast";
 
     private IEndPointsInformationProvider getAllSupportedEndPoints;
 
@@ -89,23 +100,49 @@ public class VulnerableAppRestController {
      */
     @GetMapping
     @RequestMapping("/scanner")
-    public List<ScannerResponseBean> getScannerRelatedInformation(HttpServletRequest request)
+    public ResponseEntity<List<ScannerResponseBean>> getScannerRelatedInformation(
+            HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
+        String appUrl = applicationUrl(request);
+        return ResponseEntity.ok()
+                .header(DEPRECATION_HEADER, "true")
+                .header(LINK_HEADER, "<" + appUrl + DAST_PATH + ">; rel=\"successor-version\"")
+                .body(getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl));
+    }
+
+    /**
+     * Serves the same response as the deprecated bare {@code /scanner} endpoint, under the {@code
+     * /scanner/dast} name used across the applications so that a scanner can ask every application
+     * for its DAST ground truth the same way.
+     *
+     * @return {@link ScannerResponseBean}s
+     * @throws JsonProcessingException
+     * @throws UnknownHostException
+     */
+    @GetMapping
+    @RequestMapping("/scanner/dast")
+    public List<ScannerResponseBean> getDastScannerRelatedInformation(HttpServletRequest request)
             throws JsonProcessingException, UnknownHostException {
-        String scheme = request.getScheme(); // http or https
-        String serverName = request.getServerName(); // actual hostname/IP
-        int serverPort = request.getServerPort(); // actual port
-        String appUrl =
-                new StringBuilder()
-                        .append(scheme)
-                        .append("://")
-                        .append(serverName)
-                        .append(FrameworkConstants.COLON)
-                        .append(serverPort)
-                        .append(FrameworkConstants.SLASH)
-                        .append(FrameworkConstants.VULNERABLE_APP)
-                        .append(FrameworkConstants.SLASH)
-                        .toString();
-        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl);
+        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(
+                applicationUrl(request));
+    }
+
+    /**
+     * Builds the externally reachable base URL of the application from the incoming request, so
+     * that the URLs handed to a scanner point back at the host it actually called.
+     *
+     * @return base URL ending in a slash, e.g. {@code http://localhost:9090/VulnerableApp/}
+     */
+    private String applicationUrl(HttpServletRequest request) {
+        return new StringBuilder()
+                .append(request.getScheme()) // http or https
+                .append("://")
+                .append(request.getServerName()) // actual hostname/IP
+                .append(FrameworkConstants.COLON)
+                .append(request.getServerPort()) // actual port
+                .append(FrameworkConstants.SLASH)
+                .append(FrameworkConstants.VULNERABLE_APP)
+                .append(FrameworkConstants.SLASH)
+                .toString();
     }
 
     /**

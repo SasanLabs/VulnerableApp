@@ -42,7 +42,7 @@ There are 2 ways in which this project can be built and used:
 As VulnerableApp is built for scanning tools hence there are multiple ways in which they can leverage the VulnerableApp.
 1. Developer of these scanning tools can add new vulnerabilities for testing there scan rules, payload testing etc. They can even go with TDD approach where they first write the Vulnerable code and then they can write the Scan Rules.
 2. For Evaluation of scanning tools
-   1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner` which provides information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate themselves.
+   1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/dast` which provides information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate themselves. The bare `http://<baseurl>/VulnerableApp/scanner` endpoint serves the same response and stays available, but it is deprecated: it returns a `Deprecation: true` header and a `Link` header pointing at `/scanner/dast`. New integrations should use `/scanner/dast`.
    2. For SAST, we have added a [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/scanner/sast/expectedIssues.csv) file which has vulnerabilities and their line numbers which SAST tools can use to evaluate themselves.
 
 ## Details about scanner endpoint
