@@ -34,7 +34,8 @@ import org.springframework.stereotype.Component;
  *
  * <p>The CSV is parsed once and cached, so repeated reads (the benchmark flow, and the {@code
  * /scanner/sast} endpoint) do not hit disk or re-parse on every call. The cache is warmed at
- * startup so a missing or malformed file fails fast instead of on first use.
+ * startup, so a file that cannot be read aborts the context rather than failing the first request,
+ * the same way {@code EmbeddedLDAPConfig} treats its own startup work.
  */
 @Component
 public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
@@ -69,8 +70,18 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
     }
 
     @PostConstruct
-    void cacheAtStartup() throws IOException {
-        getExpectedIssues();
+    void cacheAtStartup() {
+        try {
+            getExpectedIssues();
+        } catch (IOException ioe) {
+            throw new IllegalStateException(
+                    "Could not read the SAST ground truth from '"
+                            + csvPath
+                            + "'. Point benchmark.sast.ground-truth.path at a readable"
+                            + " CSV, or prefix it with 'classpath:' to read one bundled"
+                            + " in the jar.",
+                    ioe);
+        }
     }
 
     @Override

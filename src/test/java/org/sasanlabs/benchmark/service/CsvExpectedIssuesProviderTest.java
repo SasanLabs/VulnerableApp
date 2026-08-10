@@ -192,6 +192,35 @@ class CsvExpectedIssuesProviderTest {
         assertThat(second).isSameAs(first);
     }
 
+    @Test
+    void cacheAtStartup_warmsTheCacheSoNoRequestEverParses(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(csv, HEADER + "CWE-89,SQL Injection,src/main/java/Foo.java,56,1\n");
+        CsvExpectedIssuesProvider provider = new CsvExpectedIssuesProvider(csv.toString());
+
+        provider.cacheAtStartup();
+        Files.delete(csv);
+
+        assertThat(provider.getExpectedIssues()).hasSize(1);
+    }
+
+    /**
+     * A misconfigured path aborts the context, matching how {@code EmbeddedLDAPConfig} treats its
+     * own startup work. The message has to name the property, because the raw {@code
+     * FileNotFoundException} underneath does not say which setting to fix.
+     */
+    @Test
+    void cacheAtStartup_failsWithAMessageNamingTheProperty() {
+        CsvExpectedIssuesProvider provider =
+                new CsvExpectedIssuesProvider("classpath:does/not/exist.csv");
+
+        assertThatThrownBy(provider::cacheAtStartup)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("benchmark.sast.ground-truth.path")
+                .hasMessageContaining("classpath:does/not/exist.csv")
+                .hasCauseInstanceOf(IOException.class);
+    }
+
     private static void write(Path path, String content) throws IOException {
         Files.write(path, content.getBytes(StandardCharsets.UTF_8));
     }
