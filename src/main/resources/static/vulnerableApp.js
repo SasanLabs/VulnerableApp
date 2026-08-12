@@ -446,9 +446,9 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
         curlPayload +
         (solution ? "<br/><b>Solution:</b> " + escapeHtml(solution) : "") +
         (reference
-          ? "<br/><b>Reference:</b> <a href=\"" +
+          ? '<br/><b>Reference:</b> <a href="' +
             escapeHtml(reference) +
-            "\" target=\"_blank\" rel=\"noopener noreferrer\">Link</a>"
+            '" target="_blank" rel="noopener noreferrer">Link</a>'
           : "") +
         "</li>";
     }
