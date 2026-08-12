@@ -433,7 +433,7 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
           currentKey
         ]["AttackVectors"][index];
       let curlPayload = escapeHtml(attackVector["CurlPayload"]);
-      let description = escapeHtml(attackVector["Description"]);
+      let description = attackVector["Description"]; // Trusted HTML, no escape
       let source = attackVector["Source"];
       let solution = attackVector["Solution"];
       let reference = attackVector["Reference"];
@@ -445,7 +445,11 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
         "<br/><b>Payload:</b> " +
         curlPayload +
         (solution ? "<br/><b>Solution:</b> " + escapeHtml(solution) : "") +
-        (reference ? "<br/><b>Reference:</b> " + escapeHtml(reference) : "") +
+        (reference
+          ? "<br/><b>Reference:</b> <a href=\"" +
+            escapeHtml(reference) +
+            "\" target=\"_blank\" rel=\"noopener noreferrer\">Link</a>"
+          : "") +
         "</li>";
     }
     helpText = helpText + "</ol>";
