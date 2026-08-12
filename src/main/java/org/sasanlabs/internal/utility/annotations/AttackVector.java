@@ -40,6 +40,31 @@ public @interface AttackVector {
      */
     String description();
 
+    /**
+     * Where the untrusted value that triggers the vulnerability is found, e.g. COOKIE, URL,
+     * QUERY_PARAMETER or HEADER. Should be a Label Key. Use "NOT_APPLICABLE" when it does not
+     * apply.
+     *
+     * @return source/location of the vulnerable value.
+     */
+    String source() default "NOT_APPLICABLE";
+
+    /**
+     * Should be a Label Key providing the remediation/fix for the vulnerability. Use
+     * "NOT_APPLICABLE" when it does not apply.
+     *
+     * @return solution/remediation of the AttackVector.
+     */
+    String solution() default "NOT_APPLICABLE";
+
+    /**
+     * Should be a Label Key providing references/links to learn more about the vulnerability. Use
+     * "NOT_APPLICABLE" when it does not apply.
+     *
+     * @return references of the AttackVector.
+     */
+    String reference() default "NOT_APPLICABLE";
+
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
     public @interface AttackVectors {
