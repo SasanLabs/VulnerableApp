@@ -28,14 +28,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  *
  * <p>{@code server.servlet.context-path} is configurable, and nothing in the repository overrides
  * the default, so this shows up only where that setting is overridden. These tests serve the
- * controller under {@code /customCtx} and assert that neither the scanner URL nor the sitemap
- * {@code <loc>} entries point outside the deployment.
+ * controller under three context paths, a custom one, the shipped default and none at all, and
+ * assert that neither the scanner URL nor the sitemap {@code <loc>} entries point outside the
+ * deployment.
  */
 @ExtendWith(MockitoExtension.class)
 class VulnerableAppRestControllerContextPathTest {
 
-    private static final String CONTEXT_PATH = "/customCtx";
-    private static final String HARDCODED_CONTEXT_PATH = "/VulnerableApp";
+    /** A deployment served somewhere other than the shipped default. */
+    private static final String CUSTOM_CONTEXT_PATH = "/customCtx";
+
+    /**
+     * The context path {@code application.properties} ships, and the value both endpoints used to
+     * hardcode. A deployment served elsewhere must not fall back to it, and a deployment served
+     * under it must still produce it.
+     */
+    private static final String DEFAULT_CONTEXT_PATH = "/VulnerableApp";
 
     @Mock private IEndPointsInformationProvider endPointsInformationProvider;
 
@@ -55,15 +63,17 @@ class VulnerableAppRestControllerContextPathTest {
                 .thenReturn(Collections.emptyList());
 
         mockMvc.perform(
-                get(CONTEXT_PATH + "/scanner").contextPath(CONTEXT_PATH).with(servedOverHttps()));
+                get(CUSTOM_CONTEXT_PATH + "/scanner")
+                        .contextPath(CUSTOM_CONTEXT_PATH)
+                        .with(servedOverHttps()));
 
         ArgumentCaptor<String> appUrl = ArgumentCaptor.forClass(String.class);
         verify(endPointsInformationProvider).getScannerRelatedEndPointInformation(appUrl.capture());
 
         assertThat(appUrl.getValue())
                 .as("the scanner base URL must sit under the served context path")
-                .isEqualTo("https://10.0.0.5:443" + CONTEXT_PATH + "/")
-                .doesNotContain(HARDCODED_CONTEXT_PATH);
+                .isEqualTo("https://10.0.0.5:443" + CUSTOM_CONTEXT_PATH + "/")
+                .doesNotContain(DEFAULT_CONTEXT_PATH);
     }
 
     @Test
@@ -73,8 +83,8 @@ class VulnerableAppRestControllerContextPathTest {
 
         String sitemap =
                 mockMvc.perform(
-                                get(CONTEXT_PATH + "/sitemap.xml")
-                                        .contextPath(CONTEXT_PATH)
+                                get(CUSTOM_CONTEXT_PATH + "/sitemap.xml")
+                                        .contextPath(CUSTOM_CONTEXT_PATH)
                                         .with(servedOverHttps()))
                         .andReturn()
                         .getResponse()
@@ -82,8 +92,42 @@ class VulnerableAppRestControllerContextPathTest {
 
         assertThat(sitemap)
                 .as("every <loc> must sit under the served context path")
-                .contains("https://10.0.0.5:443" + CONTEXT_PATH + "/SQLInjection/LEVEL_1")
-                .doesNotContain(HARDCODED_CONTEXT_PATH);
+                .contains("https://10.0.0.5:443" + CUSTOM_CONTEXT_PATH + "/SQLInjection/LEVEL_1")
+                .doesNotContain(DEFAULT_CONTEXT_PATH);
+    }
+
+    /**
+     * The shipped configuration serves the application under {@code /VulnerableApp}, so that
+     * deployment's URLs have to come out exactly as they did before. This case passes on unmodified
+     * master too; it is here to pin behaviour that must not change, not to demonstrate the defect.
+     */
+    @Test
+    void defaultContextPathStillProducesTheVulnerableAppSegment() throws Exception {
+        when(endPointsInformationProvider.getScannerRelatedEndPointInformation(anyString()))
+                .thenReturn(Collections.emptyList());
+        when(endPointsInformationProvider.getSupportedEndPoints())
+                .thenReturn(Collections.singletonList(sqlInjectionEndPoint()));
+
+        mockMvc.perform(
+                get(DEFAULT_CONTEXT_PATH + "/scanner")
+                        .contextPath(DEFAULT_CONTEXT_PATH)
+                        .with(servedOverHttps()));
+
+        ArgumentCaptor<String> appUrl = ArgumentCaptor.forClass(String.class);
+        verify(endPointsInformationProvider).getScannerRelatedEndPointInformation(appUrl.capture());
+        assertThat(appUrl.getValue())
+                .isEqualTo("https://10.0.0.5:443" + DEFAULT_CONTEXT_PATH + "/");
+
+        String sitemap =
+                mockMvc.perform(
+                                get(DEFAULT_CONTEXT_PATH + "/sitemap.xml")
+                                        .contextPath(DEFAULT_CONTEXT_PATH)
+                                        .with(servedOverHttps()))
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        assertThat(sitemap)
+                .contains("https://10.0.0.5:443" + DEFAULT_CONTEXT_PATH + "/SQLInjection/LEVEL_1");
     }
 
     /**
@@ -110,7 +154,7 @@ class VulnerableAppRestControllerContextPathTest {
                         .getContentAsString();
         assertThat(sitemap)
                 .contains("https://10.0.0.5:443/SQLInjection/LEVEL_1")
-                .doesNotContain(HARDCODED_CONTEXT_PATH);
+                .doesNotContain(DEFAULT_CONTEXT_PATH);
     }
 
     /**
