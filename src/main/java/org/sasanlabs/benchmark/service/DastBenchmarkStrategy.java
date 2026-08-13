@@ -46,7 +46,6 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
 
     private static final Logger LOGGER = LogManager.getLogger(DastBenchmarkStrategy.class);
 
-    private static final String CONTEXT_PATH = "/VulnerableApp";
     private static final String UNSECURE_VARIANT = "UNSECURE";
     private static final String KEY_SEPARATOR = "::";
     private static final String AXIS_TYPE = "TYPE";
@@ -57,11 +56,22 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     private final RestTemplate restTemplate;
     private final String groundTruthUrl;
 
+    /**
+     * The context path this instance is served under, used to reduce scanner findings and
+     * ground-truth entries to a common key. Read from configuration rather than hardcoded: {@code
+     * benchmark.dast.ground-truth.url} already follows {@code server.servlet.context-path}, so a
+     * fixed value here would disagree with the very URLs it is comparing. Empty for a root
+     * deployment, which strips nothing.
+     */
+    private final String contextPath;
+
     public DastBenchmarkStrategy(
             RestTemplate restTemplate,
-            @Value("${benchmark.dast.ground-truth.url}") String groundTruthUrl) {
+            @Value("${benchmark.dast.ground-truth.url}") String groundTruthUrl,
+            @Value("${server.servlet.context-path:}") String contextPath) {
         this.restTemplate = restTemplate;
         this.groundTruthUrl = groundTruthUrl;
+        this.contextPath = contextPath;
     }
 
     @Override
@@ -81,7 +91,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             if (finding == null || finding.getUrl() == null) {
                 continue;
             }
-            String url = normalizeUrl(finding.getUrl());
+            String url = normalizeUrl(finding.getUrl(), contextPath);
             List<String> keys = keysForFinding(url, finding);
             if (keys.isEmpty()) {
                 continue;
@@ -161,7 +171,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
                 continue;
             }
-            String url = normalizeUrl(entry.getUrl());
+            String url = normalizeUrl(entry.getUrl(), contextPath);
             String method =
                     (entry.getRequestMethod() != null)
                             ? entry.getRequestMethod().name()
@@ -283,10 +293,11 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
      * Normalises a URL to a context-path-stripped path so absolute ground-truth URLs and relative
      * scanner-finding URLs compare equal.
      *
-     * <p>Strips scheme + host + port, the {@code /VulnerableApp} context path, the query string,
-     * and a trailing slash. Leaves the path case unchanged.
+     * <p>Strips scheme + host + port, the context path the application is served under, the query
+     * string, and a trailing slash. Leaves the path case unchanged. An empty or {@code null} {@code
+     * contextPath} strips no prefix, leaving a root deployment's paths unchanged.
      */
-    static String normalizeUrl(String url) {
+    static String normalizeUrl(String url, String contextPath) {
         if (url == null) {
             return "";
         }
@@ -307,10 +318,12 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             s = s.substring(0, zapSQLPayloadIdx);
         }
 
-        if (s.equals(CONTEXT_PATH)) {
-            s = "/";
-        } else if (s.startsWith(CONTEXT_PATH + "/")) {
-            s = s.substring(CONTEXT_PATH.length());
+        if (contextPath != null && !contextPath.isEmpty()) {
+            if (s.equals(contextPath)) {
+                s = "/";
+            } else if (s.startsWith(contextPath + "/")) {
+                s = s.substring(contextPath.length());
+            }
         }
         if (s.length() > 1 && s.endsWith("/")) {
             s = s.substring(0, s.length() - 1);
