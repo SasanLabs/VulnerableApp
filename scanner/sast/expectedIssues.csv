@@ -153,3 +153,7 @@ CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/refle
 CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java,73,1
 CWE-611,Xxe,src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java,64,1
 CWE-611,Xxe,src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java,137,1
+CWE-352,Cross-Site Request Forgery,src/main/java/org/sasanlabs/service/vulnerability/csrf/CSRFVulnerability.java,85,1
+CWE-352,Cross-Site Request Forgery,src/main/java/org/sasanlabs/service/vulnerability/csrf/CSRFVulnerability.java,137,1
+CWE-352,Cross-Site Request Forgery,src/main/java/org/sasanlabs/service/vulnerability/csrf/CSRFVulnerability.java,194,1
+CWE-352,Cross-Site Request Forgery,src/main/java/org/sasanlabs/service/vulnerability/csrf/CSRFVulnerability.java,266,1
