@@ -76,7 +76,9 @@ class VulnerableAppRestControllerTest {
     void bareScanner_returnsGroundTruth_andIsMarkedDeprecated() throws Exception {
         givenDastGroundTruth();
 
-        mockMvc.perform(get(URI.create("http://localhost:9090/scanner")))
+        mockMvc.perform(
+                        get(URI.create("http://localhost:9090/VulnerableApp/scanner"))
+                                .contextPath("/VulnerableApp"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Deprecation", "true"))
                 .andExpect(
@@ -91,7 +93,9 @@ class VulnerableAppRestControllerTest {
     void deprecationLink_pointsAtTheHostThatWasActuallyCalled() throws Exception {
         givenDastGroundTruth();
 
-        mockMvc.perform(get(URI.create("https://vulnerableapp.example:8443/scanner")))
+        mockMvc.perform(
+                        get(URI.create("https://vulnerableapp.example:8443/VulnerableApp/scanner"))
+                                .contextPath("/VulnerableApp"))
                 .andExpect(
                         header().string(
                                         "Link",
@@ -132,8 +136,12 @@ class VulnerableAppRestControllerTest {
     void bothEndpoints_buildTheApplicationUrlFromTheIncomingRequest() throws Exception {
         givenDastGroundTruth();
 
-        mockMvc.perform(get(URI.create("https://10.0.0.5:443/scanner")));
-        mockMvc.perform(get(URI.create("https://10.0.0.5:443/scanner/dast")));
+        mockMvc.perform(
+                get(URI.create("https://10.0.0.5:443/VulnerableApp/scanner"))
+                        .contextPath("/VulnerableApp"));
+        mockMvc.perform(
+                get(URI.create("https://10.0.0.5:443/VulnerableApp/scanner/dast"))
+                        .contextPath("/VulnerableApp"));
 
         ArgumentCaptor<String> appUrl = ArgumentCaptor.forClass(String.class);
         verify(endPointsInformationProvider, times(2))
