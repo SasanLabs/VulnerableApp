@@ -1,8 +1,11 @@
 package org.sasanlabs.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,10 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -101,6 +106,31 @@ class VulnerableAppRestControllerTest {
                                         "Link",
                                         "<https://vulnerableapp.example:8443/VulnerableApp/scanner"
                                                 + "/dast>; rel=\"successor-version\""));
+    }
+
+    /**
+     * The {@code Deprecation} and {@code Link} headers are the signal a scanner sees; this is the
+     * one a caller in Java sees, so that an IDE or a compiler flags the old method too. Nothing
+     * about a request can observe it, which is why it is asserted by reflection: without this test,
+     * dropping the annotation leaves every other test green.
+     */
+    @Test
+    void bareScannerMethod_isMarkedDeprecatedForRemoval() throws Exception {
+        Method bareScanner =
+                VulnerableAppRestController.class.getMethod(
+                        "getScannerRelatedInformation", HttpServletRequest.class);
+        Deprecated deprecated = bareScanner.getAnnotation(Deprecated.class);
+
+        assertNotNull(deprecated, "the bare /scanner method must carry @Deprecated");
+        assertTrue(
+                deprecated.forRemoval(), "the deprecation must announce that the path goes away");
+
+        Method dast =
+                VulnerableAppRestController.class.getMethod(
+                        "getDastScannerRelatedInformation", HttpServletRequest.class);
+        assertNull(
+                dast.getAnnotation(Deprecated.class),
+                "the replacement endpoint must not be deprecated");
     }
 
     @Test

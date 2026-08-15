@@ -30,10 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VulnerableAppRestController {
 
-    /**
-     * Marks the bare {@code /scanner} endpoint as deprecated without changing its response body. It
-     * stays live because existing ZAP addons and external scanners call it directly.
-     */
     private static final String DEPRECATION_HEADER = "Deprecation";
 
     private static final String LINK_HEADER = "Link";
@@ -105,7 +101,12 @@ public class VulnerableAppRestController {
      * @return {@link ScannerResponseBean}s
      * @throws JsonProcessingException
      * @throws UnknownHostException
+     * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
+     *     application uses. This path stays until September 2027 so existing scanners keep working;
+     *     its responses carry a {@code Deprecation} header and a {@code Link} header naming the
+     *     successor.
      */
+    @Deprecated(forRemoval = true)
     @GetMapping
     @RequestMapping("/scanner")
     public ResponseEntity<List<ScannerResponseBean>> getScannerRelatedInformation(
