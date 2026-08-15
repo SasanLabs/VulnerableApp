@@ -41,6 +41,7 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/nirupam-06"><img src="https://avatars.githubusercontent.com/u/153449247?v=4?s=100" width="100px;" alt="nirupam"/><br /><sub><b>nirupam</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=nirupam-06" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mubashir78"><img src="https://avatars.githubusercontent.com/u/85053722?v=4?s=100" width="100px;" alt="Spacey"/><br /><sub><b>Spacey</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Mubashir78" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/vianbas"><img src="https://avatars.githubusercontent.com/u/11003051?v=4?s=100" width="100px;" alt="vikoabastian"/><br /><sub><b>vikoabastian</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=vianbas" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/goncalosimoespereira/"><img src="https://avatars.githubusercontent.com/u/184448158?v=4?s=100" width="100px;" alt="Gonçalo Simões Pereira"/><br /><sub><b>Gonçalo Simões Pereira</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=pereiravp" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

@@ -155,14 +155,17 @@ public class VulnerableAppRestController {
      * @return base URL ending in a slash, e.g. {@code http://localhost:9090/VulnerableApp/}
      */
     private String applicationUrl(HttpServletRequest request) {
+        // The deployment's own context path, not a hardcoded one:
+        // `server.servlet.context-path` is configurable, so a fixed `/VulnerableApp`
+        // describes this deployment only while that default is in force. Empty for a
+        // root deployment.
         return new StringBuilder()
                 .append(request.getScheme()) // http or https
                 .append("://")
                 .append(request.getServerName()) // actual hostname/IP
                 .append(FrameworkConstants.COLON)
                 .append(request.getServerPort()) // actual port
-                .append(FrameworkConstants.SLASH)
-                .append(FrameworkConstants.VULNERABLE_APP)
+                .append(request.getContextPath())
                 .append(FrameworkConstants.SLASH)
                 .toString();
     }
@@ -200,6 +203,9 @@ public class VulnerableAppRestController {
         String scheme = request.getScheme(); // http or https
         String serverName = request.getServerName(); // actual hostname/IP
         int serverPort = request.getServerPort(); // actual port
+        // Same reasoning as the scanner endpoint: the sitemap must advertise URLs inside the
+        // context path this instance is actually served under.
+        String contextPath = request.getContextPath();
 
         StringBuilder xmlBuilder =
                 new StringBuilder(
@@ -219,8 +225,7 @@ public class VulnerableAppRestController {
                                         .append(serverName)
                                         .append(FrameworkConstants.COLON)
                                         .append(serverPort)
-                                        .append(FrameworkConstants.SLASH)
-                                        .append(FrameworkConstants.VULNERABLE_APP)
+                                        .append(contextPath)
                                         .append(FrameworkConstants.SLASH)
                                         .append(endPoint.getName())
                                         .append(FrameworkConstants.SLASH)
