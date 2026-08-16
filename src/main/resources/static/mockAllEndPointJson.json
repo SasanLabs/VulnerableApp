@@ -17,7 +17,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_1?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": [
@@ -58,7 +61,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -76,7 +82,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_3?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -94,7 +103,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_4?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -112,7 +124,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_5?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -130,7 +145,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_6?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -148,7 +166,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_7?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []
@@ -166,7 +187,10 @@
           {
             "VulnerabilityTypes": [],
             "CurlPayload": "curl 'http://localhost:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_8?name=admin'",
-            "Description": "Mock attack vector for the Show Help (Scanner) view."
+            "Description": "Mock attack vector for the Show Help (Scanner) view.",
+            "Source": "URL (query parameter)",
+            "Solution": "Validate the username server side before authenticating the session.",
+            "Reference": "OWASP A01 Broken Access Control - https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
           }
         ],
         "ChallengeCard": []

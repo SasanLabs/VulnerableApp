@@ -41,6 +41,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EndPointsInformationProvider implements IEndPointsInformationProvider {
 
+    private static final String NOT_APPLICABLE = "NOT_APPLICABLE";
+
     private EnvUtils envUtils;
 
     private MessageBundle messageBundle;
@@ -127,7 +129,10 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                                             .vulnerabilityExposed())),
                                                     payload,
                                                     messageBundle.getString(
-                                                            attackVector.description(), null)));
+                                                            attackVector.description(), null),
+                                                    getMetaInformation(attackVector.source()),
+                                                    getMetaInformation(attackVector.solution()),
+                                                    getMetaInformation(attackVector.reference())));
                         }
                         allEndPointsResponseBean.getLevelDescriptionSet().add(levelResponseBean);
                     }
@@ -325,12 +330,37 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
         return payload;
     }
 
+    /**
+     * Resolves an optional metadata label (source/solution/reference) to its localized value.
+     * Returns {@code null} when the key is absent, blank or {@link #NOT_APPLICABLE} so that
+     * consumers which do not yet know about these fields are not shown meaningless text.
+     */
+    private String getMetaInformation(String key) {
+        if (StringUtils.isBlank(key) || NOT_APPLICABLE.equals(key)) {
+            return null;
+        }
+        String value = messageBundle.getString(key, null);
+        return (StringUtils.isBlank(value) || NOT_APPLICABLE.equals(value)) ? null : value;
+    }
+
     private String buildFacadeHintDescription(AttackVector attackVector) {
         String description = messageBundle.getString(attackVector.description(), null);
         String payloadText = getPayload(attackVector.payload());
-        return "<b>Description about the attack:</b> "
-                + description
-                + "<br/><b>Payload:</b> "
-                + payloadText;
+        StringBuilder hint = new StringBuilder();
+        hint.append("<b>Description about the attack:</b> ").append(description);
+        String source = getMetaInformation(attackVector.source());
+        if (StringUtils.isNotBlank(source)) {
+            hint.append("<br/><b>Source:</b> ").append(source);
+        }
+        hint.append("<br/><b>Payload:</b> ").append(payloadText);
+        String solution = getMetaInformation(attackVector.solution());
+        if (StringUtils.isNotBlank(solution)) {
+            hint.append("<br/><b>Solution:</b> ").append(solution);
+        }
+        String reference = getMetaInformation(attackVector.reference());
+        if (StringUtils.isNotBlank(reference)) {
+            hint.append("<br/><b>Reference:</b> ").append(reference);
+        }
+        return hint.toString();
     }
 }

@@ -15,6 +15,17 @@ const MODE_SCANNER = "SCANNER";
 const MODE_CHALLENGE = "CHALLENGE";
 let appMode = MODE_SCANNER;
 
+// Escapes a string for safe insertion into innerHTML. Returns "" for null/undefined.
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 let currentId;
 let currentKey;
 // Incrementing token identifying the most recent navigation/request.
@@ -421,14 +432,24 @@ function _addingEventListenerToShowHideHelpButton(vulnerableAppEndPointData) {
         vulnerableAppEndPointData[currentId]["Detailed Information"][
           currentKey
         ]["AttackVectors"][index];
-      let curlPayload = attackVector["CurlPayload"];
-      let description = attackVector["Description"];
+      let curlPayload = escapeHtml(attackVector["CurlPayload"]);
+      let description = attackVector["Description"]; // Trusted HTML, no escape
+      let source = attackVector["Source"];
+      let solution = attackVector["Solution"];
+      let reference = attackVector["Reference"];
       helpText =
         helpText +
         "<li><b>Description about the attack:</b> " +
         description +
+        (source ? "<br/><b>Source:</b> " + escapeHtml(source) : "") +
         "<br/><b>Payload:</b> " +
         curlPayload +
+        (solution ? "<br/><b>Solution:</b> " + escapeHtml(solution) : "") +
+        (reference
+          ? '<br/><b>Reference:</b> <a href="' +
+            escapeHtml(reference) +
+            '" target="_blank" rel="noopener noreferrer">Link</a>'
+          : "") +
         "</li>";
     }
     helpText = helpText + "</ol>";
