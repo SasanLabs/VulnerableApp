@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
+import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -47,13 +48,16 @@ class VulnerableAppRestControllerContextPathTest {
 
     @Mock private IEndPointsInformationProvider endPointsInformationProvider;
 
+    @Mock private IExpectedIssuesProvider expectedIssuesProvider;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
         mockMvc =
                 MockMvcBuilders.standaloneSetup(
-                                new VulnerableAppRestController(endPointsInformationProvider))
+                                new VulnerableAppRestController(
+                                        endPointsInformationProvider, expectedIssuesProvider))
                         .build();
     }
 

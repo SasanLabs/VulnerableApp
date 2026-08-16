@@ -1,9 +1,11 @@
 package org.sasanlabs.benchmark.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * One row of SAST ground truth — a known vulnerability site in VulnerableApp's source tree, as
  * declared by {@code scanner/sast/expectedIssues.csv}. Used by the SAST benchmark strategy to
- * compare scanner findings against expected issues.
+ * compare scanner findings against expected issues, and served as-is by {@code /scanner/sast}.
  */
 public class ExpectedIssue {
 
@@ -26,6 +28,10 @@ public class ExpectedIssue {
         return cwe;
     }
 
+    /**
+     * Serialised as {@code type}, matching the scanner-facing contract shared with {@code Finding}.
+     */
+    @JsonProperty("type")
     public String getVulnerabilityType() {
         return vulnerabilityType;
     }
