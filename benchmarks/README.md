@@ -3,9 +3,9 @@
 This framework grades a security scanner against the ground truth that
 VulnerableApp already ships. It supports two scan modes today:
 
-- **DAST** — graded against the live `/scanner` endpoint (URL + vulnerability type).
-- **SAST** — graded against `scanner/sast/expectedIssues.csv` (file path + line +
-  CWE / vulnerability type).
+- **DAST** — graded against the live `/scanner/dast` endpoint (URL + vulnerability type).
+- **SAST** — graded against the expected-issues ground truth served by `/scanner/sast`
+  (file path + line + CWE / vulnerability type).
 
 You POST the scanner's findings as JSON to `/scanner/benchmark`; the framework
 returns coverage, missed issues, and unmatched items (findings the scanner
@@ -70,8 +70,8 @@ omitted, it defaults to `DAST` so existing payloads keep working.
 
 | `scanType`        | Ground truth                                | Per-finding fields                        |
 |-------------------|---------------------------------------------|-------------------------------------------|
-| `DAST` (default)  | live `/scanner` endpoint                    | `url`, `type`                             |
-| `SAST`            | `scanner/sast/expectedIssues.csv`           | `filePath`, `line`, plus `cwe` and/or `type` |
+| `DAST` (default)  | live `/scanner/dast` endpoint               | `url`, `type`                             |
+| `SAST`            | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
 
 ## DAST input format
 
@@ -165,9 +165,12 @@ The full sample at `benchmarks/semgrep-sast-sample.json` includes one
 deliberately invalid entry so a successful run produces a non-empty
 `unmatchedItems` list.
 
-Ground truth is loaded from `scanner/sast/expectedIssues.csv`. The path is
-configurable via the `benchmark.sast.ground-truth.path` property (default:
-`scanner/sast/expectedIssues.csv` relative to the working directory).
+Ground truth is loaded from `src/main/resources/scanner/sast/expectedIssues.csv`,
+which ships inside the jar, so it resolves regardless of the working directory the
+app was started from. The same rows are served as JSON by `GET /scanner/sast`. The
+source is configurable via the `benchmark.sast.ground-truth.path` property (default:
+`classpath:scanner/sast/expectedIssues.csv`); a value without the `classpath:` prefix
+is read from the filesystem, relative to the working directory or absolute.
 
 ### SAST matching rules
 
@@ -249,10 +252,10 @@ For SAST runs, items look like:
 | Property | Default | Purpose |
 |---|---|---|
 | `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
-| `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
+| `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
 | `benchmark.dast.ground-truth.connect-timeout-ms` | `5000` | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads. |
 | `benchmark.dast.ground-truth.read-timeout-ms` | `10000` | Read timeout (ms) for the ground-truth fetch. |
-| `benchmark.sast.ground-truth.path` | `scanner/sast/expectedIssues.csv` | CSV file the SAST comparator loads expected issues from. |
+| `benchmark.sast.ground-truth.path` | `classpath:scanner/sast/expectedIssues.csv` | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
 
 The default DAST URL is a self-call against the running app, which means
 benchmarking works out of the box in standalone mode. In a facade-composed

@@ -1,0 +1,3 @@
+CWE,Vulnerability Type,File,Line,Number of Sources
+CWE-89,SQL Injection,src/main/java/Foo.java,56,1
+CWE-79,Reflected XSS,src/main/java/Bar.java,42,3
