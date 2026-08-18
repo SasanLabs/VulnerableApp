@@ -1,6 +1,7 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
+import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
@@ -15,6 +18,7 @@ import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +30,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VulnerableAppRestController {
 
+    private static final String DEPRECATION_HEADER = "Deprecation";
+
+    private static final String LINK_HEADER = "Link";
+
+    private static final String DAST_PATH = "scanner/dast";
+
     private IEndPointsInformationProvider getAllSupportedEndPoints;
+
+    private IExpectedIssuesProvider expectedIssuesProvider;
 
     private int port;
 
-    public VulnerableAppRestController(IEndPointsInformationProvider getAllSupportedEndPoints) {
+    public VulnerableAppRestController(
+            IEndPointsInformationProvider getAllSupportedEndPoints,
+            IExpectedIssuesProvider expectedIssuesProvider) {
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
+        this.expectedIssuesProvider = expectedIssuesProvider;
         this.port = port;
     }
 
@@ -86,30 +101,74 @@ public class VulnerableAppRestController {
      * @return {@link ScannerResponseBean}s
      * @throws JsonProcessingException
      * @throws UnknownHostException
+     * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
+     *     application uses. This path stays until September 2027 so existing scanners keep working;
+     *     its responses carry a {@code Deprecation} header and a {@code Link} header naming the
+     *     successor.
      */
+    @Deprecated(forRemoval = true)
     @GetMapping
     @RequestMapping("/scanner")
-    public List<ScannerResponseBean> getScannerRelatedInformation(HttpServletRequest request)
+    public ResponseEntity<List<ScannerResponseBean>> getScannerRelatedInformation(
+            HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
+        String appUrl = applicationUrl(request);
+        return ResponseEntity.ok()
+                .header(DEPRECATION_HEADER, "true")
+                .header(LINK_HEADER, "<" + appUrl + DAST_PATH + ">; rel=\"successor-version\"")
+                .body(getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl));
+    }
+
+    /**
+     * Serves the same response as the deprecated bare {@code /scanner} endpoint, under the {@code
+     * /scanner/dast} name used across the applications so that a scanner can ask every application
+     * for its DAST ground truth the same way.
+     *
+     * @return {@link ScannerResponseBean}s
+     * @throws JsonProcessingException
+     * @throws UnknownHostException
+     */
+    @GetMapping
+    @RequestMapping("/scanner/dast")
+    public List<ScannerResponseBean> getDastScannerRelatedInformation(HttpServletRequest request)
             throws JsonProcessingException, UnknownHostException {
-        String scheme = request.getScheme(); // http or https
-        String serverName = request.getServerName(); // actual hostname/IP
-        int serverPort = request.getServerPort(); // actual port
+        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(
+                applicationUrl(request));
+    }
+
+    /**
+     * Serves the SAST ground truth that {@code /scanner/benchmark} grades against, as JSON, so the
+     * comparator and the facade's cross-app aggregation can consume it the same way they consume
+     * the DAST ground truth from {@code /scanner/dast}.
+     *
+     * @return the parsed expected issues; cached after the first read
+     * @throws IOException if the ground truth cannot be read
+     */
+    @GetMapping
+    @RequestMapping("/scanner/sast")
+    public List<ExpectedIssue> getSastScannerRelatedInformation() throws IOException {
+        return expectedIssuesProvider.getExpectedIssues();
+    }
+
+    /**
+     * Builds the externally reachable base URL of the application from the incoming request, so
+     * that the URLs handed to a scanner point back at the host it actually called.
+     *
+     * @return base URL ending in a slash, e.g. {@code http://localhost:9090/VulnerableApp/}
+     */
+    private String applicationUrl(HttpServletRequest request) {
         // The deployment's own context path, not a hardcoded one:
         // `server.servlet.context-path` is configurable, so a fixed `/VulnerableApp`
         // describes this deployment only while that default is in force. Empty for a
         // root deployment.
-        String contextPath = request.getContextPath();
-        String appUrl =
-                new StringBuilder()
-                        .append(scheme)
-                        .append("://")
-                        .append(serverName)
-                        .append(FrameworkConstants.COLON)
-                        .append(serverPort)
-                        .append(contextPath)
-                        .append(FrameworkConstants.SLASH)
-                        .toString();
-        return getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl);
+        return new StringBuilder()
+                .append(request.getScheme()) // http or https
+                .append("://")
+                .append(request.getServerName()) // actual hostname/IP
+                .append(FrameworkConstants.COLON)
+                .append(request.getServerPort()) // actual port
+                .append(request.getContextPath())
+                .append(FrameworkConstants.SLASH)
+                .toString();
     }
 
     /**
