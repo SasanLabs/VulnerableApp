@@ -19,6 +19,13 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧠 Built for security engineers, researchers, and educators
 
 ![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+### Quick Start Guide
+
+#### Local Setup (Gradle)
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/SasanLabs/VulnerableApp.git](https://github.com/SasanLabs/VulnerableApp.git)
+   cd VulnerableApp
 
 
 ### VulnerableApp helps you:
