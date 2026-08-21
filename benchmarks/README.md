@@ -59,7 +59,7 @@ The script maps each ZAP alert instance to a `Finding` using CWE and WASC IDs
 natively — no manual alert-name mapping needed.
  
 A sample benchmark output is at
-[`benchmarks/ZAP/findings/zap-benchmark-output-example.json`](ZAP/findings/zap-benchmark-output-example.json).
+[`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json).
  
 ---
 

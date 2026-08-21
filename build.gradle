@@ -16,7 +16,6 @@ tasks.named("bootJar") {
     archiveVersion.set("1.0.0")
 }
 
-
 configurations {
     all {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
@@ -29,13 +28,13 @@ repositories {
 }
 
 sonarqube {
-  properties {
-    property "sonar.projectKey", "SasanLabs_VulnerableApp"
-    property "sonar.organization", "sasanlabs"
-    property "sonar.host.url", "https://sonarcloud.io"
-    property 'sonar.java.source', '17'
-    property 'sonar.java.target', '17'
-  }
+    properties {
+        property "sonar.projectKey", "SasanLabs_VulnerableApp"
+        property "sonar.organization", "sasanlabs"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.java.source', '17'
+        property 'sonar.java.target', '17'
+    }
 }
 
 java {
@@ -44,37 +43,41 @@ java {
     }
 }
 
-
 spotless {
     java {
         // Don't enforce the license, just the format.
         clearSteps()
         googleJavaFormat('1.17.0').aosp()
     }
+
     format 'javascript', {
-    	target 'src/main/resources/**/*.js'
-    	prettier().config(['filepath': 'file.js'])
-  	}
+        target 'src/main/resources/**/*.js'
+        prettier().config(['filepath': 'file.js'])
+    }
 }
 
 jib {
     to {
         image = 'sasanlabs/owasp-vulnerableapp:unreleased'
     }
+
     from {
         image = 'sasanlabs/owasp-vulnerableapp-base:latest'
     }
+
     // Set up multi-platform build only if the task is not :jibDockerBuild
     if (!project.gradle.startParameter.taskNames.contains("jibDockerBuild")) {
         logger.info("JIB: Enabling Multi-Platform Images")
 
         from {
             image = 'sasanlabs/owasp-vulnerableapp-base:latest'
+
             platforms {
                 platform {
                     architecture = 'amd64'
                     os = 'linux'
                 }
+
                 platform {
                     architecture = 'arm64'
                     os = 'linux'
@@ -88,25 +91,30 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
-tasks.register('GenerateSampleVulnerability'){
-	group = 'SasanLabs'
-	description = 'Generates Sample Vulnerability template'
-	doLast {
-		println 'Copying SampleVulnerability java file to org.sasanlabs.service.vulnerability.sampleVulnerability package'
-		copy {
-	    	from(file('src/main/resources/sampleVulnerability/sampleVulnerability'))
-	    	into(file('src/main/java/org/sasanlabs/service/vulnerability/sampleVulnerability'))
-	    }
-	    println 'Copy of java file is completed'
-	    println 'Copying SampleVulnerability html/css/js files to static/templates/SampleVulnerability/LEVEL_1'
-	    copy {
-	    	from(file('src/main/resources/sampleVulnerability/staticResources/LEVEL_1'))
-	    	into(file('src/main/resources/static/templates/SampleVulnerability/LEVEL_1'))
-	    }
-	    println 'Copy of html/css/js files is completed'
-	    println 'SampleVulnerability is generated !!!'
-	    enabled = false
-	}
+tasks.register('GenerateSampleVulnerability') {
+    group = 'SasanLabs'
+    description = 'Generates Sample Vulnerability template'
+
+    doLast {
+        println 'Copying SampleVulnerability java file to org.sasanlabs.service.vulnerability.sampleVulnerability package'
+
+        copy {
+            from(file('src/main/resources/sampleVulnerability/sampleVulnerability'))
+            into(file('src/main/java/org/sasanlabs/service/vulnerability/sampleVulnerability'))
+        }
+
+        println 'Copy of java file is completed'
+
+        println 'Copying SampleVulnerability html/css/js files to static/templates/SampleVulnerability/LEVEL_1'
+
+        copy {
+            from(file('src/main/resources/sampleVulnerability/staticResources/LEVEL_1'))
+            into(file('src/main/resources/static/templates/SampleVulnerability/LEVEL_1'))
+        }
+
+        println 'Copy of html/css/js files is completed'
+        println 'SampleVulnerability is generated !!!'
+    }
 }
 
 dependencies {
@@ -132,17 +140,18 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 
-    runtimeOnly group:'com.h2database', name:'h2'
-    
+    runtimeOnly group: 'com.h2database', name: 'h2'
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
-	//Log4j Dependencies
+
+    // Log4j Dependencies
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
 
     // https://mvnrepository.com/artifact/org.json/json
     implementation group: 'org.json', name: 'json', version: '20190722'
 
-	//https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
     implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.31'
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
@@ -150,11 +159,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
-    
+
     implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.3'
 
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
-    
+
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
@@ -163,9 +172,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.84'
-
 }
-
 
 test {
     useJUnitPlatform()
