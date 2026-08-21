@@ -34,6 +34,8 @@ public class VulnerableAppRestController {
 
     private static final String LINK_HEADER = "Link";
 
+    private static final String SUNSET_HEADER = "Sunset";
+
     private static final String DAST_PATH = "scanner/dast";
 
     private IEndPointsInformationProvider getAllSupportedEndPoints;
@@ -113,7 +115,8 @@ public class VulnerableAppRestController {
             HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
         String appUrl = applicationUrl(request);
         return ResponseEntity.ok()
-                .header(DEPRECATION_HEADER, "true")
+                .header(DEPRECATION_HEADER, "@1786896221")
+                .header(SUNSET_HEADER, "Thu, 30 Sep 2027 23:59:59 GMT")
                 .header(LINK_HEADER, "<" + appUrl + DAST_PATH + ">; rel=\"successor-version\"")
                 .body(getAllSupportedEndPoints.getScannerRelatedEndPointInformation(appUrl));
     }
