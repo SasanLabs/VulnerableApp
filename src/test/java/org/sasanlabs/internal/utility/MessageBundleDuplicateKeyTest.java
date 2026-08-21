@@ -33,9 +33,7 @@ class MessageBundleDuplicateKeyTest {
         }
 
         if (!duplicates.isEmpty()) {
-            fail(
-                    "Duplicate keys found in i18n bundles:\n  "
-                            + String.join("\n  ", duplicates));
+            fail("Duplicate keys found in i18n bundles:\n  " + String.join("\n  ", duplicates));
         }
     }
 
