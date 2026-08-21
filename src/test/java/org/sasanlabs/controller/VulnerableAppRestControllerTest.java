@@ -141,6 +141,7 @@ class VulnerableAppRestControllerTest {
         mockMvc.perform(get(URI.create("http://localhost:9090/scanner/dast")))
                 .andExpect(status().isOk())
                 .andExpect(header().doesNotExist("Deprecation"))
+                .andExpect(header().doesNotExist("Sunset"))
                 .andExpect(header().doesNotExist("Link"))
                 .andExpect(jsonPath("$[0].variant").value("LEVEL_1"));
     }

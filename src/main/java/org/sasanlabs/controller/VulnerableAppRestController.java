@@ -105,7 +105,7 @@ public class VulnerableAppRestController {
      * @throws UnknownHostException
      * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
      *     application uses. This path stays until September 2027 so existing scanners keep working;
-     *     its responses carry a {@code Deprecation} header and a {@code Link} header naming the
+     *     its responses carry {@code Deprecation}, {@code Sunset}, and {@code Link} headers naming the
      *     successor.
      */
     @Deprecated(forRemoval = true)
