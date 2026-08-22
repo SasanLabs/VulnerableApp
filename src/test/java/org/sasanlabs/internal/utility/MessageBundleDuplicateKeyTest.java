@@ -1,5 +1,6 @@
 package org.sasanlabs.internal.utility;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ class MessageBundleDuplicateKeyTest {
     @DisplayName("i18n: no duplicate keys in message bundles")
     void noDuplicateKeys() throws Exception {
         List<Path> bundles = messageBundles();
+        assertFalse(bundles.isEmpty(), "No i18n message bundles found");
         List<String> duplicates = new ArrayList<>();
 
         for (Path bundle : bundles) {
@@ -76,3 +78,5 @@ class MessageBundleDuplicateKeyTest {
         }
     }
 }
+
+
