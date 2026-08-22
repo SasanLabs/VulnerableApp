@@ -85,7 +85,8 @@ class VulnerableAppRestControllerTest {
                         get(URI.create("http://localhost:9090/VulnerableApp/scanner"))
                                 .contextPath("/VulnerableApp"))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Deprecation", "true"))
+                .andExpect(header().string("Deprecation", "@1786896221"))
+                .andExpect(header().string("Sunset", "Thu, 30 Sep 2027 23:59:59 GMT"))
                 .andExpect(
                         header().string(
                                         "Link",
@@ -140,6 +141,7 @@ class VulnerableAppRestControllerTest {
         mockMvc.perform(get(URI.create("http://localhost:9090/scanner/dast")))
                 .andExpect(status().isOk())
                 .andExpect(header().doesNotExist("Deprecation"))
+                .andExpect(header().doesNotExist("Sunset"))
                 .andExpect(header().doesNotExist("Link"))
                 .andExpect(jsonPath("$[0].variant").value("LEVEL_1"));
     }
