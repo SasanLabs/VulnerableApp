@@ -211,6 +211,8 @@ class VulnerableAppRestControllerTest {
 
         mockMvc.perform(get("/scanner/sast"))
                 .andExpect(status().isOk())
+                .andExpect(header().doesNotExist("Deprecation"))
+                .andExpect(header().doesNotExist("Sunset"))
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
                 .andExpect(jsonPath("$.length()").value(2));
     }
