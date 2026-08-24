@@ -104,6 +104,7 @@ class VulnerableAppRestControllerTest {
         String sunset = result.getResponse().getHeader("Sunset");
 
         assertNotNull(deprecation);
+        assertTrue(deprecation.startsWith("@"));
         assertNotNull(sunset);
 
         long deprecationTimestamp = Long.parseLong(deprecation.substring(1));
