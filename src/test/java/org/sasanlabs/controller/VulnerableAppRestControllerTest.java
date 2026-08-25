@@ -19,6 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +38,7 @@ import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -81,17 +85,37 @@ class VulnerableAppRestControllerTest {
     void bareScanner_returnsGroundTruth_andIsMarkedDeprecated() throws Exception {
         givenDastGroundTruth();
 
-        mockMvc.perform(
-                        get(URI.create("http://localhost:9090/VulnerableApp/scanner"))
-                                .contextPath("/VulnerableApp"))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Deprecation", "true"))
-                .andExpect(
-                        header().string(
-                                        "Link",
-                                        "<http://localhost:9090/VulnerableApp/scanner/dast>;"
-                                                + " rel=\"successor-version\""))
-                .andExpect(jsonPath("$[0].variant").value("LEVEL_1"));
+        MvcResult result =
+                mockMvc.perform(
+                                get(URI.create("http://localhost:9090/VulnerableApp/scanner"))
+                                        .contextPath("/VulnerableApp"))
+                        .andExpect(status().isOk())
+                        .andExpect(header().string("Deprecation", "@1786896221"))
+                        .andExpect(header().string("Sunset", "Thu, 30 Sep 2027 23:59:59 GMT"))
+                        .andExpect(
+                                header().string(
+                                                "Link",
+                                                "<http://localhost:9090/VulnerableApp/scanner/dast>;"
+                                                        + " rel=\"successor-version\""))
+                        .andExpect(jsonPath("$[0].variant").value("LEVEL_1"))
+                        .andReturn();
+
+        String deprecation = result.getResponse().getHeader("Deprecation");
+        String sunset = result.getResponse().getHeader("Sunset");
+
+        assertNotNull(deprecation);
+        assertTrue(deprecation.startsWith("@"));
+        assertNotNull(sunset);
+
+        long deprecationTimestamp = Long.parseLong(deprecation.substring(1));
+        Instant deprecationDate = Instant.ofEpochSecond(deprecationTimestamp);
+
+        Instant sunsetDate =
+                ZonedDateTime.parse(sunset, DateTimeFormatter.RFC_1123_DATE_TIME).toInstant();
+
+        assertTrue(
+                !sunsetDate.isBefore(deprecationDate),
+                "Sunset must not be earlier than Deprecation");
     }
 
     @Test
@@ -140,6 +164,7 @@ class VulnerableAppRestControllerTest {
         mockMvc.perform(get(URI.create("http://localhost:9090/scanner/dast")))
                 .andExpect(status().isOk())
                 .andExpect(header().doesNotExist("Deprecation"))
+                .andExpect(header().doesNotExist("Sunset"))
                 .andExpect(header().doesNotExist("Link"))
                 .andExpect(jsonPath("$[0].variant").value("LEVEL_1"));
     }
@@ -187,6 +212,8 @@ class VulnerableAppRestControllerTest {
 
         mockMvc.perform(get("/scanner/sast"))
                 .andExpect(status().isOk())
+                .andExpect(header().doesNotExist("Deprecation"))
+                .andExpect(header().doesNotExist("Sunset"))
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
                 .andExpect(jsonPath("$.length()").value(2));
     }
