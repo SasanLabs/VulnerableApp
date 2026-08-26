@@ -7,6 +7,8 @@ log() {
 
 # --- 1. Install Docker and Git if missing --------------------------------
 if ! command -v docker &>/dev/null; then
+log "error"
+errasads
     log "Docker not found. Installing..."
     sudo dnf update -y
     sudo dnf install -y docker
