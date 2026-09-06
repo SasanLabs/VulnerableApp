@@ -595,3 +595,6 @@ llmforge,2026-09-04T05:11:53Z,sasanlabs/llmforge,3916,2026-08-03T20:40:43.406407
 owasp-vulnerableapp,2026-09-05T05:01:22Z,sasanlabs/owasp-vulnerableapp,91173,2026-09-04T07:07:37.737488Z,2,0,false,false
 owasp-vulnerableapp-facade,2026-09-05T05:01:22Z,sasanlabs/owasp-vulnerableapp-facade,41540,2026-07-16T01:56:43.234046Z,1,0,false,false
 llmforge,2026-09-05T05:01:22Z,sasanlabs/llmforge,4026,2026-08-03T20:40:43.406407Z,1,0,false,false
+owasp-vulnerableapp,2026-09-06T05:15:49Z,sasanlabs/owasp-vulnerableapp,91311,2026-09-05T06:57:24.852537Z,2,0,false,false
+owasp-vulnerableapp-facade,2026-09-06T05:15:49Z,sasanlabs/owasp-vulnerableapp-facade,41605,2026-07-16T01:56:43.234046Z,1,0,false,false
+llmforge,2026-09-06T05:15:49Z,sasanlabs/llmforge,4157,2026-08-03T20:40:43.406407Z,1,0,false,false
