@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Compares scanner findings against VulnerableApp's DAST ground truth (fetched from the {@code
- * /scanner} HTTP endpoint) and produces coverage / missed / unmatched metrics.
+ * /scanner/dast} HTTP endpoint) and produces coverage / missed / unmatched metrics.
  *
  * <p>The ground-truth source is an HTTP URL rather than an in-process bean so the comparator works
  * unchanged when VulnerableApp is composed behind VulnerableApp-facade with other backing apps —

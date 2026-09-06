@@ -142,7 +142,7 @@ VulnerableApp एक comparator के साथ आता है जो स्�
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - प्रतिक्रिया बॉडी और डिस्क पर `benchmarks/<tool>-results.json`: कवरेज रिपोर्ट
 
-स्कैनर को स्वयं चलाना इस दायरे से बाहर है — आपको JSON प्रदान करना होगा। पूर्ण इनपुट/आउटपुट स्कीमा, मिलान नियम, मानक भेद्यता-प्रकार शब्दावली और `curl` उदाहरणों के लिए [`benchmarks/README.md`](benchmarks/README.md) देखें।
+स्कैनर को स्वयं चलाना इस दायरे से बाहर है — आपको JSON प्रदान करना होगा। पूर्ण इनपुट/आउटपुट स्कीमा, मिलान नियम, मानक भेद्यता-प्रकार शब्दावली और `curl` उदाहरणों के लिए [`benchmarks/README.md`](../../../benchmarks/README.md) देखें।
 
 ## संपर्क
 यदि आप किसी चरण में अटक जाते हैं या प्रोजेक्ट तथा उसके उद्देश्यों से संबंधित कुछ समझना चाहते हैं, तो karan.sasan@owasp.org पर ईमेल भेजें या [issue](https://github.com/SasanLabs/VulnerableApp/issues) दर्ज करें। हम आपकी सहायता करने का पूरा प्रयास करेंगे।
@@ -165,7 +165,7 @@ VulnerableApp एक comparator के साथ आता है जो स्�
 
 ### OWASP VulnerableApp का उपयोग
 
-1. [वैश्विक शैक्षणिक रुचि देखें](./docs/Usage.md)
+1. [वैश्विक शैक्षणिक रुचि देखें](../../Usage.md)
 
 ### समस्या निवारण संदर्भ
 

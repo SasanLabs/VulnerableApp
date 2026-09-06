@@ -42,7 +42,7 @@ let's talk about some of them:
 1. variant: Each level in VulnerableApp is either Secure or Unsecure, this is specifically done in order to completely test Scanners for false positives or false negatives. This parameter is also used in User Interface to indicate to the user if the specific level is exploitable or not.
 2. htmlTemplate: As UserInterface is driven from annotations so other things in UI like Name of Vulnerabilities, Levels etc are generically populated in the User Interface and the template name mentioned here is used to generate that specific portion of the UI. Template name is appended with *.js*, *.css* and *.html* to find the respective javascript/styling and html for the level.
 
-All the other parameters in the annotations are used for generating information for scanners, specifically */scanner* endpoint. 
+All the other parameters in the annotations are used for generating information for scanners, specifically the */scanner/dast* endpoint. 
 1. [Java Documentation](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/internal/utility/annotations/VulnerableAppRequestMapping.java)
 2. [Example usage](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java)
 3. [Example Templates](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/resources/static/templates)

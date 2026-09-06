@@ -43,6 +43,10 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/vianbas"><img src="https://avatars.githubusercontent.com/u/11003051?v=4?s=100" width="100px;" alt="vikoabastian"/><br /><sub><b>vikoabastian</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=vianbas" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/goncalosimoespereira/"><img src="https://avatars.githubusercontent.com/u/184448158?v=4?s=100" width="100px;" alt="Gonçalo Simões Pereira"/><br /><sub><b>Gonçalo Simões Pereira</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=pereiravp" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://rusetiq.github.io/"><img src="https://avatars.githubusercontent.com/u/234747645?v=4?s=100" width="100px;" alt="aarush"/><br /><sub><b>aarush</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=rusetiq" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sharankumar-k"><img src="https://avatars.githubusercontent.com/u/295021077?v=4?s=100" width="100px;" alt="Sharan Kumar.K"/><br /><sub><b>Sharan Kumar.K</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=sharankumar-k" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
