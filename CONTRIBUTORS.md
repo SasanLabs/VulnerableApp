@@ -46,6 +46,7 @@ Thanks to these wonderful people 🎉
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://rusetiq.github.io/"><img src="https://avatars.githubusercontent.com/u/234747645?v=4?s=100" width="100px;" alt="aarush"/><br /><sub><b>aarush</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=rusetiq" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/sharankumar-k"><img src="https://avatars.githubusercontent.com/u/295021077?v=4?s=100" width="100px;" alt="Sharan Kumar.K"/><br /><sub><b>Sharan Kumar.K</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=sharankumar-k" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://vishwas-portfolio-1.netlify.app/"><img src="https://avatars.githubusercontent.com/u/68644487?v=4?s=100" width="100px;" alt="Spyder"/><br /><sub><b>Spyder</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=VKspyder2003" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
