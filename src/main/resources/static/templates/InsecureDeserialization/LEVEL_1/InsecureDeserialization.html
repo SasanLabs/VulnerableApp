@@ -2,6 +2,18 @@
 	<div>
 		<div>
 			<div id="challenge"></div>
+			<div id="preferencesOptions">
+				<label for="theme">Theme:</label>
+				<select id="theme" name="theme">
+					<option value="light">light</option>
+					<option value="dark">dark</option>
+				</select>
+				<label for="notificationsEnabled">
+					<input type="checkbox" id="notificationsEnabled" name="notificationsEnabled"/>
+					Enable notifications
+				</label>
+				<button id="getTokenButton">Save preferences</button>
+			</div>
 			<label for="payload">Base64 serialized payload:</label>
 			<br/>
 			<textarea id="payload" name="payload" rows="4" placeholder="Paste your Base64-encoded, Java-serialized payload here..."></textarea>

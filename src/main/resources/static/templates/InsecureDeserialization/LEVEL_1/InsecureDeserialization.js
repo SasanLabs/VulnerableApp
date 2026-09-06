@@ -13,6 +13,32 @@ function displayChallenge(data) {
   }
 }
 
+function addingEventListenerToGetTokenButton() {
+  let optionsDiv = document.getElementById("preferencesOptions");
+  let getTokenButton = document.getElementById("getTokenButton");
+  if (!optionsDiv || !getTokenButton) {
+    return;
+  }
+  if (getCurrentVulnerabilityLevel() !== "LEVEL_1") {
+    optionsDiv.style.display = "none";
+    return;
+  }
+
+  getTokenButton.addEventListener("click", function () {
+    let url = getUrlForVulnerabilityLevel();
+    let theme = document.getElementById("theme").value;
+    let notificationsEnabled = document.getElementById(
+      "notificationsEnabled"
+    ).checked;
+
+    let params = new URLSearchParams();
+    params.append("theme", theme);
+    params.append("notificationsEnabled", notificationsEnabled);
+
+    doGetAjaxCall(displayChallenge, url + "?" + params.toString(), true);
+  });
+}
+
 function addingEventListenerToSubmitButton() {
   document
     .getElementById("submitButton")
@@ -50,4 +76,5 @@ function appendResponseCallback(data) {
 }
 
 addingEventListenerToSubmitButton();
+addingEventListenerToGetTokenButton();
 loadChallenge();
