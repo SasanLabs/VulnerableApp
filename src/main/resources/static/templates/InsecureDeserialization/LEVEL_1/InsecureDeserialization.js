@@ -3,9 +3,16 @@ function loadChallenge() {
   doGetAjaxCall(displayChallenge, url, true);
 }
 
+function renderStrongText(container, text) {
+  container.innerHTML = "";
+  let strong = document.createElement("strong");
+  strong.textContent = text;
+  container.appendChild(strong);
+}
+
 function displayChallenge(data) {
   let challengeDiv = document.getElementById("challenge");
-  challengeDiv.innerHTML = "<strong>" + data.content + "</strong>";
+  renderStrongText(challengeDiv, data.content);
   if (data.isValid) {
     challengeDiv.className = "challenge-secure";
   } else {
@@ -48,7 +55,7 @@ function addingEventListenerToSubmitButton() {
 
       if (!payload) {
         let resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = "<strong>Please paste a Base64 payload.</strong>";
+        renderStrongText(resultDiv, "Please paste a Base64 payload.");
         resultDiv.style.color = "red";
         return;
       }
@@ -66,13 +73,12 @@ function addingEventListenerToSubmitButton() {
 
 function appendResponseCallback(data) {
   let resultDiv = document.getElementById("result");
-  if (data.isValid) {
-    resultDiv.innerHTML = "<strong>Result:</strong> " + data.content;
-    resultDiv.className = "result-success";
-  } else {
-    resultDiv.innerHTML = "<strong>Result:</strong> " + data.content;
-    resultDiv.className = "result-failure";
-  }
+  resultDiv.innerHTML = "";
+  let label = document.createElement("strong");
+  label.textContent = "Result:";
+  resultDiv.appendChild(label);
+  resultDiv.appendChild(document.createTextNode(" " + data.content));
+  resultDiv.className = data.isValid ? "result-success" : "result-failure";
 }
 
 addingEventListenerToSubmitButton();
