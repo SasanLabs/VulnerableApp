@@ -23,7 +23,10 @@
     border-color: #00aa00 !important;
 }
 
-#submitButton {
+#level1Controls button,
+#level2Controls button,
+#level34Controls button,
+#checkButton {
     background: blueviolet;
     display: inline-block;
     padding: 8px 16px;
@@ -36,18 +39,24 @@
     cursor: pointer;
 }
 
-#submitButton:hover {
+#level1Controls button:hover,
+#level2Controls button:hover,
+#level34Controls button:hover,
+#checkButton:hover {
     opacity: 0.85;
 }
 
-#payload {
+#level1Controls,
+#level2Controls,
+#level34Controls {
     margin: 10px;
-    padding: 8px;
-    width: 500px;
-    max-width: 90%;
-    font-family: monospace;
-    font-size: 13px;
-    word-break: break-all;
+    padding: 10px;
+}
+
+#level1Controls label,
+#level2Controls label,
+#level34Controls label {
+    margin-right: 8px;
 }
 
 #result {
