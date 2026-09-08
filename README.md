@@ -38,6 +38,7 @@ Most vulnerable apps are:
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
 
+## User Interface
 #### Challenge Mode
 ![Challenge Mode](docs/gifs/challenge-mode.gif)
 
