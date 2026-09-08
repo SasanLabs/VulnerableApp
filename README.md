@@ -45,12 +45,15 @@ automation, reproducibility, and evolution
 ![Challenge Mode](docs/gifs/challenge-mode.gif)
 
 #### Switching Modes (Challenge & Scanner)
-![Switching Modes](docs/gifs/scanner-mode1.gif)
+![Switching Modes](docs/gifs/scanner-mode.gif)
 
 #### Scanner Mode Endpoints (DAST & SAST)
-![Scanner Mode](docs/gifs/scanner-mode.gif)
+![Scanner Mode](docs/gifs/scanner-mode1.gif)
 
-## Running the project
+#### Scanner Mode Benchmark Comparator
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
+### Running the project
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
     1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
