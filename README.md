@@ -38,10 +38,20 @@ Most vulnerable apps are:
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
 
-### User Interface ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+## User Interface
+#### Challenge Mode
+![Challenge Mode](docs/gifs/challenge-mode.gif)
 
-## Running the project
+#### Switching Modes (Challenge & Scanner)
+![Switching Modes](docs/gifs/scanner-mode.gif)
+
+#### Scanner Mode Endpoints (DAST & SAST)
+![Scanner Mode](docs/gifs/scanner-mode1.gif)
+
+#### Scanner Mode Benchmark Comparator
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
+### Running the project
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
     1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
@@ -134,6 +144,8 @@ Password: hacker
 VulnerableApp ships a comparator that grades a scanner's findings against the
 project's built-in ground truth and writes a coverage / missed / unmatched
 report. Both DAST and SAST scanners are supported via the same endpoint:
+
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
 
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — pick the shape that matches your scanner:
