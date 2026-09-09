@@ -5,10 +5,17 @@ const resultBox = document.getElementById("resultBox");
 const resultTitle = document.getElementById("resultTitle");
 const resultMessage = document.getElementById("resultMessage");
 
-function testLevel11Redirect(value) {
+function showBlocked(message, value) {
+  resultTitle.innerHTML =
+    '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
+  resultMessage.textContent = value ? message + ": " + value : message;
+  resultBox.style.display = "block";
+}
+
+function testLevel12Redirect(value) {
   const encoded = encodeURIComponent(value);
   const url =
-    "/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_11?returnTo=" +
+    "/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_12?returnTo=" +
     encoded;
 
   fetch(url, {
@@ -21,26 +28,18 @@ function testLevel11Redirect(value) {
         return;
       }
 
-      if (response.status === 403) {
-        return response.text().then(function (message) {
-          resultTitle.innerHTML =
-            '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
-          resultMessage.textContent = message + ": " + value;
-          resultBox.style.display = "block";
-        });
-      }
+      return response.text().then(function (message) {
+        showBlocked(message || "Redirect blocked", value);
+      });
     })
     .catch(function () {
-      resultTitle.innerHTML =
-        '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
-      resultMessage.textContent = "Unable to test redirect right now.";
-      resultBox.style.display = "block";
+      showBlocked("Unable to test redirect right now.", "");
     });
 }
 
 if (button && input) {
   button.addEventListener("click", function () {
-    testLevel11Redirect(input.value);
+    testLevel12Redirect(input.value);
   });
 }
 
