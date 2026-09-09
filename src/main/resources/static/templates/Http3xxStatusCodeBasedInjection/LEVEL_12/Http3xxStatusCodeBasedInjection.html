@@ -1,0 +1,51 @@
+<div id="http3xxStatusCodeBasedInjection">
+	This level demonstrates a <strong>secure redirect implementation</strong>
+	that never accepts a URL from the caller at all.
+	<br /><br />
+	The <code>returnTo</code> parameter carries a short destination name, and the
+	application looks that name up in a table it already holds. Whatever the
+	caller sends is only ever used as a lookup key, so no caller supplied value
+	can reach the <code>Location</code> header.
+	<br /><br />
+
+	<label for="returnToInput"><strong>Destination name:</strong></label>
+	<div class="test-row">
+		<input id="returnToInput" type="text" value="home" placeholder="Enter a destination name" />
+		<button id="testRedirectBtn">Test Secure Redirect</button>
+	</div>
+
+	<div id="resultBox" style="display:none;">
+		<div id="resultTitle">
+			<span class="resultIcon">!</span>
+			<span>Redirect Blocked</span>
+		</div>
+		<div id="resultMessage"></div>
+	</div>
+
+	<div class="policyNote">
+		<strong>How this secure level works:</strong>
+		Only the destination names below are known. Anything else is rejected,
+		including a perfectly ordinary URL, because a URL is not a name in the
+		table. The usual redirect payloads have nothing to act on here: there is
+		no value for them to smuggle through, only a key that is either known or
+		not.
+	</div>
+
+	<div class="examples-section">
+		<strong>Quick examples:</strong>
+		<div class="example-list">
+			<a href="#" class="sample-link allowed-link" data-value="home">
+				Allowed: home
+			</a>
+			<a href="#" class="sample-link allowed-link" data-value="root">
+				Allowed: root
+			</a>
+			<a href="#" class="sample-link blocked-link" data-value="https://www.google.com/">
+				Blocked: https://www.google.com/
+			</a>
+			<a href="#" class="sample-link blocked-link" data-value="//www.google.com/">
+				Blocked: //www.google.com/
+			</a>
+		</div>
+	</div>
+</div>
