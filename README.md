@@ -152,6 +152,7 @@ report. Both DAST and SAST scanners are supported via the same endpoint:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` is optional and defaults to `DAST`; `type`/`cwe`/`wascId` are individually optional — any one axis matching is enough)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - Response body and `benchmarks/<tool>-results.json` on disk: coverage report
+- Ground truth: `GET http://<baseurl>/VulnerableApp/scanner/dast` for DAST and `GET http://<baseurl>/VulnerableApp/scanner/sast` for SAST. The bare `/scanner` path is deprecated and stays until 30 Sep 2027.
 
 Running the scanner itself is out of scope — you supply the JSON. See
 [`benchmarks/README.md`](benchmarks/README.md) for the full input/output

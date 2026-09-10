@@ -43,7 +43,13 @@ OWASP VulnerableApp एक मॉड्यूलर, जानबूझकर �
 स्वचालन, पुनरुत्पादन क्षमता और विकास के लिए
 
 ### उपयोगकर्ता इंटरफ़ेस ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## प्रोजेक्ट चलाना
 प्रोजेक्ट चलाने के 2 तरीके हैं:
@@ -136,13 +142,15 @@ Password: hacker
 
 VulnerableApp एक comparator के साथ आता है जो स्कैनर के निष्कर्षों का प्रोजेक्ट के अंतर्निहित ग्राउंड ट्रुथ के विरुद्ध मूल्यांकन करता है और coverage / missed / unmatched रिपोर्ट तैयार करता है। DAST और SAST दोनों स्कैनर एक ही एंडपॉइंट के माध्यम से समर्थित हैं:
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - एंडपॉइंट: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - अनुरोध बॉडी — अपने स्कैनर के अनुसार उपयुक्त संरचना चुनें:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` वैकल्पिक है और डिफ़ॉल्ट रूप से `DAST` होता है; `type`/`cwe`/`wascId` अलग-अलग वैकल्पिक हैं — किसी एक अक्ष पर मेल पर्याप्त है)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - प्रतिक्रिया बॉडी और डिस्क पर `benchmarks/<tool>-results.json`: कवरेज रिपोर्ट
 
-स्कैनर को स्वयं चलाना इस दायरे से बाहर है — आपको JSON प्रदान करना होगा। पूर्ण इनपुट/आउटपुट स्कीमा, मिलान नियम, मानक भेद्यता-प्रकार शब्दावली और `curl` उदाहरणों के लिए [`benchmarks/README.md`](../../../benchmarks/README.md) देखें।
+स्कैनर को स्वयं चलाना इस दायरे से बाहर है — आपको JSON प्रदान करना होगा। पूर्ण इनपुट/आउटपुट स्कीमा, मिलान नियम, मानक भेद्यता-प्रकार शब्दावली और `curl` उदाहरणों के लिए [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) देखें।
 
 ## संपर्क
 यदि आप किसी चरण में अटक जाते हैं या प्रोजेक्ट तथा उसके उद्देश्यों से संबंधित कुछ समझना चाहते हैं, तो karan.sasan@owasp.org पर ईमेल भेजें या [issue](https://github.com/SasanLabs/VulnerableApp/issues) दर्ज करें। हम आपकी सहायता करने का पूरा प्रयास करेंगे।
