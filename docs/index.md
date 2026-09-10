@@ -47,16 +47,16 @@ automation, reproducibility, and evolution
 
 ## User Interface
 #### Challenge Mode
-![Challenge Mode](../docs/gifs/challenge-mode.gif)
+![Challenge Mode](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/challenge-mode.gif)
 
 #### Switching Modes (Challenge & Scanner)
-![Switching Modes](../docs/gifs/scanner-mode.gif)
+![Switching Modes](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-mode.gif)
 
 #### Scanner Mode Endpoints (DAST & SAST)
-![Scanner Mode](../docs/gifs/scanner-mode1.gif)
+![Scanner Mode](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-mode1.gif)
 
 #### Scanner Mode Benchmark Comparator
-![Scanner Benchmark](../docs/gifs/scanner-benchmark.gif)
+![Scanner Benchmark](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-benchmark.gif)
 
 ### Running the project
 There are 2 ways to run the project:
