@@ -25,7 +25,7 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧪 Deterministic vulnerability behavior for repeatable scanning results
 - 🧠 Built for security engineers, researchers, and educators
 
-![Entire architecture stack](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/logos/sasanlabs.png)
 
 
 ### VulnerableApp helps you:
@@ -47,16 +47,16 @@ automation, reproducibility, and evolution
 
 ## User Interface
 #### Challenge Mode
-![Challenge Mode](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/challenge-mode.gif)
+![Challenge Mode](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/challenge-mode.gif)
 
 #### Switching Modes (Challenge & Scanner)
-![Switching Modes](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-mode.gif)
+![Switching Modes](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/scanner-mode.gif)
 
 #### Scanner Mode Endpoints (DAST & SAST)
-![Scanner Mode](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-mode1.gif)
+![Scanner Mode](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/scanner-mode1.gif)
 
 #### Scanner Mode Benchmark Comparator
-![Scanner Benchmark](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/blob/master/docs/gifs/scanner-benchmark.gif)
+![Scanner Benchmark](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/scanner-benchmark.gif)
 
 ### Running the project
 There are 2 ways to run the project:
