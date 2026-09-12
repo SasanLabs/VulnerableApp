@@ -44,7 +44,13 @@ A maioria das aplicações vulneráveis é:
 automação, reprodutibilidade e evolução
 
 ### Interface do usuário ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## Executando o projeto
 Há 2 formas de executar o projeto:
@@ -140,6 +146,8 @@ O VulnerableApp inclui um comparador que nota os achados de um scanner contra a
 verdade de referência do projeto e grava um relatório de cobertura / missed / unmatched.
 Scanners DAST e SAST usam o mesmo endpoint:
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Corpo da requisição — use o formato do seu scanner:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` é opcional e o padrão é `DAST`; `type`/`cwe`/`wascId` são opcionais individualmente — basta um eixo bater)
@@ -147,7 +155,7 @@ Scanners DAST e SAST usam o mesmo endpoint:
 - Corpo da resposta e `benchmarks/<tool>-results.json` em disco: relatório de cobertura
 
 Rodar o scanner em si fica fora do escopo — você envia o JSON. Veja
-[`benchmarks/README.md`](../../../benchmarks/README.md) para os schemas de
+[`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) para os schemas de
 entrada/saída, regras de matching, vocabulário canônico de tipos de
 vulnerabilidade e exemplos de `curl`.
 

@@ -44,7 +44,13 @@ OWASP VulnerableApp은 재현 가능한 테스트 시나리오를 통해 보안 
 자동화, 재현성, 그리고 진화
 
 ### 사용자 인터페이스 ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## 프로젝트 실행하기
 
@@ -142,13 +148,15 @@ Password: hacker
 
 VulnerableApp은 스캐너가 찾아낸 결과를 프로젝트에 내장된 정답(ground truth)과 비교해서 채점하고, 커버리지/누락/불일치 리포트를 만들어주는 비교기(comparator)를 제공합니다. DAST와 SAST 스캐너 모두 동일한 엔드포인트로 지원됩니다:
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - 엔드포인트: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - 요청 본문 — 사용하는 스캐너에 맞는 형태를 선택하세요:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType`은 선택 항목이며 기본값은 `DAST`입니다. `type`/`cwe`/`wascId`도 각각 선택 항목이며, 이 중 하나만 일치해도 충분합니다)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - 응답 본문과 디스크에 저장되는 `benchmarks/<tool>-results.json`: 커버리지 리포트
 
-스캐너 자체를 실행하는 것은 이 기능의 범위 밖이며, 사용자가 JSON을 직접 제공해야 합니다. 전체 입출력 스키마, 매칭 규칙, 표준 취약점 유형 용어집, `curl` 예제는 [`benchmarks/README.md`](../../../benchmarks/README.md)를 참고하세요.
+스캐너 자체를 실행하는 것은 이 기능의 범위 밖이며, 사용자가 JSON을 직접 제공해야 합니다. 전체 입출력 스키마, 매칭 규칙, 표준 취약점 유형 용어집, `curl` 예제는 [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md)를 참고하세요.
 
 ## 문의
 
