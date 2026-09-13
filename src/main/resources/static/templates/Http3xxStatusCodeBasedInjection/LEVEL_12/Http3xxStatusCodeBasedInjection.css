@@ -33,6 +33,8 @@
 }
 
 #testRedirectBtn {
+    display: inline-block;
+    text-decoration: none;
     background: #2e7d32;
     color: white !important;
     border: none;
@@ -46,50 +48,6 @@
 
 #testRedirectBtn:hover {
     opacity: 0.9;
-}
-
-#resultBox {
-    display: none;
-    margin-top: 14px;
-    margin-bottom: 18px;
-    padding: 14px 16px;
-    border: 2px solid #c0392b;
-    border-left: 8px solid #c0392b;
-    border-radius: 4px;
-    background: #fff5f5;
-    max-width: 900px;
-}
-
-#resultTitle {
-    color: #a93226 !important;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-}
-
-.resultIcon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background: #c0392b;
-    color: white !important;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-#resultMessage {
-    color: #c0392b !important;
-    font-size: 15px;
-    font-weight: bold;
-    word-break: break-word;
 }
 
 .policyNote {

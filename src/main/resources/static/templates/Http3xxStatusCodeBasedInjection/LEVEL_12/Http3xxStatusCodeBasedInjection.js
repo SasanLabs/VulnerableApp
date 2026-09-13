@@ -1,54 +1,24 @@
-const input = document.getElementById("returnToInput");
-const button = document.getElementById("testRedirectBtn");
-const sampleLinks = document.querySelectorAll(".sample-link");
-const resultBox = document.getElementById("resultBox");
-const resultTitle = document.getElementById("resultTitle");
-const resultMessage = document.getElementById("resultMessage");
-
-function showBlocked(message, value) {
-  resultTitle.innerHTML =
-    '<span class="resultIcon">!</span><span>Redirect Blocked</span>';
-  resultMessage.textContent = value ? message + ": " + value : message;
-  resultBox.style.display = "block";
+function redirectUrlFor(destinationName) {
+  return (
+    getUrlForVulnerabilityLevel() +
+    "?returnTo=" +
+    encodeURIComponent(destinationName)
+  );
 }
 
-function testLevel12Redirect(value) {
-  const encoded = encodeURIComponent(value);
-  const url =
-    "/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_12?returnTo=" +
-    encoded;
+function updatePlaceholderDiv() {
+  let input = document.getElementById("returnToInput");
+  let testLink = document.getElementById("testRedirectBtn");
 
-  fetch(url, {
-    method: "GET",
-    redirect: "follow",
-  })
-    .then(function (response) {
-      if (response.redirected) {
-        window.location.href = response.url;
-        return;
-      }
+  let updateTestLink = function () {
+    testLink.href = redirectUrlFor(input.value);
+  };
+  input.addEventListener("input", updateTestLink);
+  updateTestLink();
 
-      return response.text().then(function (message) {
-        showBlocked(message || "Redirect blocked", value);
-      });
-    })
-    .catch(function () {
-      showBlocked("Unable to test redirect right now.", "");
-    });
-}
-
-if (button && input) {
-  button.addEventListener("click", function () {
-    testLevel12Redirect(input.value);
+  document.querySelectorAll(".sample-link").forEach(function (link) {
+    link.href = redirectUrlFor(link.getAttribute("data-value"));
   });
 }
 
-sampleLinks.forEach(function (link) {
-  link.addEventListener("click", function (event) {
-    event.preventDefault();
-    const value = link.getAttribute("data-value");
-    input.value = value;
-    resultBox.style.display = "none";
-    resultMessage.textContent = "";
-  });
-});
+updatePlaceholderDiv();

@@ -11,15 +11,7 @@
 	<label for="returnToInput"><strong>Destination name:</strong></label>
 	<div class="test-row">
 		<input id="returnToInput" type="text" value="home" placeholder="Enter a destination name" />
-		<button id="testRedirectBtn">Test Secure Redirect</button>
-	</div>
-
-	<div id="resultBox" style="display:none;">
-		<div id="resultTitle">
-			<span class="resultIcon">!</span>
-			<span>Redirect Blocked</span>
-		</div>
-		<div id="resultMessage"></div>
+		<a id="testRedirectBtn" target="_blank">Test Secure Redirect</a>
 	</div>
 
 	<div class="policyNote">
@@ -29,21 +21,25 @@
 		table. The usual redirect payloads have nothing to act on here: there is
 		no value for them to smuggle through, only a key that is either known or
 		not.
+		<br /><br />
+		Each link opens in a new tab, so the browser follows the server&rsquo;s
+		302 itself. A known name lands on its destination, and an unknown one
+		shows the server&rsquo;s refusal.
 	</div>
 
 	<div class="examples-section">
 		<strong>Quick examples:</strong>
 		<div class="example-list">
-			<a href="#" class="sample-link allowed-link" data-value="home">
+			<a target="_blank" class="sample-link allowed-link" data-value="home">
 				Allowed: home
 			</a>
-			<a href="#" class="sample-link allowed-link" data-value="root">
+			<a target="_blank" class="sample-link allowed-link" data-value="root">
 				Allowed: root
 			</a>
-			<a href="#" class="sample-link blocked-link" data-value="https://www.google.com/">
+			<a target="_blank" class="sample-link blocked-link" data-value="https://www.google.com/">
 				Blocked: https://www.google.com/
 			</a>
-			<a href="#" class="sample-link blocked-link" data-value="//www.google.com/">
+			<a target="_blank" class="sample-link blocked-link" data-value="//www.google.com/">
 				Blocked: //www.google.com/
 			</a>
 		</div>
