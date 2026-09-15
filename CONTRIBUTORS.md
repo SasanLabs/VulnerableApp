@@ -50,6 +50,7 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/AzazelSensei"><img src="https://avatars.githubusercontent.com/u/89297042?v=4?s=100" width="100px;" alt="Abdullah"/><br /><sub><b>Abdullah</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=AzazelSensei" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/krev-jinn"><img src="https://avatars.githubusercontent.com/u/269319680?v=4?s=100" width="100px;" alt="Pranayaa C"/><br /><sub><b>Pranayaa C</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=krev-jinn" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/TianHengZhuang"><img src="https://avatars.githubusercontent.com/u/39034691?v=4?s=100" width="100px;" alt="TianHengZhuang"/><br /><sub><b>TianHengZhuang</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=TianHengZhuang" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/sara-zou"><img src="https://avatars.githubusercontent.com/u/184903638?v=4?s=100" width="100px;" alt="Sara Zou"/><br /><sub><b>Sara Zou</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=sara-zou" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
