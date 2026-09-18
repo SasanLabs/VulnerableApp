@@ -71,7 +71,7 @@ jobs:
       maxDuration: 120         # minutes
       maxCrawlDepth: 400
       maxCrawlStates: 0        # unlimited
-      numberOfBrowsers: 30
+      numberOfBrowsers: 2
       reloadWait: 8000
       eventWait: 2500
       browserId: firefox-headless
