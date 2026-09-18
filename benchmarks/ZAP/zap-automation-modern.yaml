@@ -56,9 +56,9 @@ jobs:
       numberOfBrowsers: 2
       browserId: firefox-headless
       initialLoadTime: 10
-      pageLoadTime: 4
-      actionWaitTime: 2
-      shutdownTime: 60
+      pageLoadTime: 5
+      actionWaitTime: 3
+      shutdownTime: 15
       scopeCheck: Flexible
 
   # ------------------------------------------------------------------
