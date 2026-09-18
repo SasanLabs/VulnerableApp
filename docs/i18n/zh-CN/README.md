@@ -43,7 +43,13 @@ OWASP VulnerableApp 是一个模块化的、刻意包含漏洞的应用程序，
 自动化、可复现性和持续演进
 
 ### 用户界面 ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## 运行项目
 有两种方式可以运行该项目：
@@ -141,6 +147,8 @@ Password: hacker
 
 VulnerableApp 内置了一个比较器，可将扫描器发现的问题与项目内置的真实漏洞基准进行对比，并生成覆盖率 / 漏检 / 未匹配报告。DAST 和 SAST 扫描器均支持通过同一个接口进行测试：
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - 接口：`POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - 请求体 —— 根据你的扫描器选择相应格式：
   - DAST：`{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }`（`scanType` 可选，默认值为 `DAST`；`type`、`cwe`、`wascId` 均为可选字段——任意一个维度匹配即可）
@@ -148,7 +156,7 @@ VulnerableApp 内置了一个比较器，可将扫描器发现的问题与项目
 - 响应体以及磁盘上的 `benchmarks/<tool>-results.json`：覆盖率报告
 
 扫描器本身的运行不在本项目范围内——你只需提供 JSON。完整的输入/输出 Schema、匹配规则、规范化漏洞类型词汇表以及 `curl` 示例，请参阅：
-[`benchmarks/README.md`](../../../benchmarks/README.md)
+[`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md)
 
 ## 联系方式
 如果你在任何步骤中遇到困难，或者对项目及其目标有任何疑问，欢迎发送邮件至 karan.sasan@owasp.org，或者提交一个 [issue](https://github.com/SasanLabs/VulnerableApp/issues)，我们将尽力提供帮助。

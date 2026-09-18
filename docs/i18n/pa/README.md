@@ -43,7 +43,13 @@ OWASP VulnerableApp ਇੱਕ ਮੋਡੀਊਲਰ, ਜਾਣ-ਬੁੱਝ ਕ�
 ਆਟੋਮੇਸ਼ਨ, ਦੁਹਰਾਏ ਜਾ ਸਕਣ ਦੀ ਸਮਰੱਥਾ ਅਤੇ ਵਿਕਾਸ
 
 ### ਯੂਜ਼ਰ ਇੰਟਰਫੇਸ ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## ਪ੍ਰੋਜੈਕਟ ਚਲਾਉਣਾ
 ਪ੍ਰੋਜੈਕਟ ਚਲਾਉਣ ਦੇ 2 ਤਰੀਕੇ ਹਨ:
@@ -137,13 +143,15 @@ Password: hacker
 
 VulnerableApp ਵਿੱਚ ਇੱਕ comparator ਸ਼ਾਮਲ ਹੈ ਜੋ ਸਕੈਨਰ ਦੇ ਨਤੀਜਿਆਂ ਨੂੰ ਪ੍ਰੋਜੈਕਟ ਦੀ ਅੰਦਰੂਨੀ ground truth ਨਾਲ ਤੁਲਨਾ ਕਰਦਾ ਹੈ ਅਤੇ coverage / missed / unmatched ਰਿਪੋਰਟ ਤਿਆਰ ਕਰਦਾ ਹੈ। DAST ਅਤੇ SAST ਦੋਵੇਂ ਸਕੈਨਰ ਇੱਕੋ endpoint ਰਾਹੀਂ ਸਮਰਥਿਤ ਹਨ:
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — ਆਪਣੇ ਸਕੈਨਰ ਦੇ ਅਨੁਸਾਰ ਫਾਰਮੈਟ ਚੁਣੋ:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` ਵਿਕਲਪਿਕ ਹੈ ਅਤੇ ਡਿਫਾਲਟ `DAST` ਹੈ; `type`/`cwe`/`wascId` ਵੱਖ-ਵੱਖ ਵਿਕਲਪਿਕ ਹਨ — ਕਿਸੇ ਇੱਕ ਧੁਰੇ 'ਤੇ ਮੇਲ ਕਾਫ਼ੀ ਹੈ)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - Response body ਅਤੇ ਡਿਸਕ 'ਤੇ `benchmarks/<tool>-results.json`: coverage ਰਿਪੋਰਟ
 
-ਸਕੈਨਰ ਖੁਦ ਚਲਾਉਣਾ ਇਸਦੀ ਸੀਮਾ ਤੋਂ ਬਾਹਰ ਹੈ — ਤੁਸੀਂ JSON ਪ੍ਰਦਾਨ ਕਰਦੇ ਹੋ। ਪੂਰੀ input/output ਸਕੀਮਾ, matching rules, canonical vulnerability-type vocabulary ਅਤੇ `curl` ਉਦਾਹਰਣਾਂ ਲਈ [`benchmarks/README.md`](../../../benchmarks/README.md) ਵੇਖੋ।
+ਸਕੈਨਰ ਖੁਦ ਚਲਾਉਣਾ ਇਸਦੀ ਸੀਮਾ ਤੋਂ ਬਾਹਰ ਹੈ — ਤੁਸੀਂ JSON ਪ੍ਰਦਾਨ ਕਰਦੇ ਹੋ। ਪੂਰੀ input/output ਸਕੀਮਾ, matching rules, canonical vulnerability-type vocabulary ਅਤੇ `curl` ਉਦਾਹਰਣਾਂ ਲਈ [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) ਵੇਖੋ।
 
 ## ਸੰਪਰਕ
 ਜੇ ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਕਦਮ ਵਿੱਚ ਫਸ ਜਾਓ ਜਾਂ ਪ੍ਰੋਜੈਕਟ ਅਤੇ ਇਸਦੇ ਉਦੇਸ਼ਾਂ ਨਾਲ ਸੰਬੰਧਿਤ ਕੁਝ ਸਮਝਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ karan.sasan@owasp.org 'ਤੇ ਈਮੇਲ ਭੇਜੋ ਜਾਂ ਇੱਕ [issue](https://github.com/SasanLabs/VulnerableApp/issues) ਬਣਾਓ ਅਤੇ ਅਸੀਂ ਤੁਹਾਡੀ ਮਦਦ ਕਰਨ ਦੀ ਪੂਰੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ।

@@ -44,7 +44,13 @@ OWASP VulnerableApp — это модульное намеренно уязви�
 автоматизации, воспроизводимости и развития
 
 ### Пользовательский интерфейс ###
-![Интерфейс VulnerableApp-facade](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+![Challenge Mode](../../gifs/challenge-mode.gif)
+
+![Switching Modes](../../gifs/scanner-mode.gif)
+
+![Scanner Mode](../../gifs/scanner-mode1.gif)
+
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
 
 ## Запуск проекта
 Существует 2 способа запуска проекта:
@@ -137,6 +143,8 @@ Password: hacker
 
 VulnerableApp включает компаратор, который оценивает результаты работы сканера относительно встроенной «эталонной» базы проекта и создаёт отчёт о покрытии, пропущенных и лишних находках. Один и тот же конечный пункт поддерживает как DAST-, так и SAST-сканеры:
 
+![Scanner Benchmark](../../gifs/scanner-benchmark.gif)
+
 - Конечная точка: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Тело запроса — выберите формат, соответствующий вашему сканеру:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` необязателен и по умолчанию равен `DAST`; поля `type`/`cwe`/`wascId` по отдельности необязательны — достаточно совпадения по любому одному критерию)
@@ -144,7 +152,7 @@ VulnerableApp включает компаратор, который оценив
 - Тело ответа и файл `benchmarks/<tool>-results.json` на диске: отчёт о покрытии
 
 Запуск самого сканера не входит в область ответственности проекта — вы самостоятельно предоставляете JSON. См.
-[`benchmarks/README.md`](../../../benchmarks/README.md) для получения полной информации о схемах входных и выходных данных, правилах сопоставления, каноническом словаре типов уязвимостей и примерах `curl`.
+[`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) для получения полной информации о схемах входных и выходных данных, правилах сопоставления, каноническом словаре типов уязвимостей и примерах `curl`.
 
 ## Контакты
 Если вы столкнулись с трудностями при выполнении какого-либо из шагов или хотите лучше понять проект и его цели, напишите на адрес karan.sasan@owasp.org или создайте [issue](https://github.com/SasanLabs/VulnerableApp/issues), и мы постараемся помочь.
