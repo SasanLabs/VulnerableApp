@@ -10,17 +10,17 @@ INSERT INTO auth_users VALUES (2, 'admin_logs', 'v9K#2mLp!8zQ', NULL, 'PLAIN', 2
 -- Real password: 'b7X$4nRj-6mW'
 INSERT INTO auth_users VALUES (3, 'admin_plain', 'b7X$4nRj-6mW', NULL, 'PLAIN', 3, 'admin_plain@example.com', 'ADMIN');
 
--- Level 4: MD5 Hashing (admin123)
-INSERT INTO auth_users VALUES (4, 'admin_md5', '0192023a7bbd73250516f069df18b500', NULL, 'MD5', 4, 'admin_md5@example.com', 'ADMIN');
+-- Level 4: MD5 Hashing (passw0rd)
+INSERT INTO auth_users VALUES (4, 'admin_md5', 'bed128365216c019988915ed3add75fb', NULL, 'MD5', 4, 'admin_md5@example.com', 'ADMIN');
 
--- Level 5: SHA1 Hashing (password1)
-INSERT INTO auth_users VALUES (5, 'admin_sha1', 'e38ad214943daad1d64c102faec29de4afe9da3d', NULL, 'SHA1', 5, 'admin_sha1@example.com', 'ADMIN');
+-- Level 5: SHA1 Hashing (trustno1)
+INSERT INTO auth_users VALUES (5, 'admin_sha1', 'e68e11be8b70e435c65aef8ba9798ff7775c361e', NULL, 'SHA1', 5, 'admin_sha1@example.com', 'ADMIN');
 
--- Level 6: SHA-256 (No Salt) (letmein)
-INSERT INTO auth_users VALUES (6, 'admin_sha256', '1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032', NULL, 'SHA256', 6, 'admin_sha256@example.com', 'ADMIN');
+-- Level 6: SHA-256 (No Salt) (1qaz2wsx)
+INSERT INTO auth_users VALUES (6, 'admin_sha256', '059a00192592d5444bc0caad7203f98b506332e2cf7abb35d684ea9bf7c18f08', NULL, 'SHA256', 6, 'admin_sha256@example.com', 'ADMIN');
 
--- Level 7: Salted SHA-256 (qwerty with Salt s9A#2zLk)
-INSERT INTO auth_users VALUES (7, 'admin_enum', '926cfb173848067370549130e2b7bf8ee2eec28f9d6c8a2d759d49707a56e8b8', 's9A#2zLk', 'SHA256', 7, 'admin_enum@example.com', 'ADMIN');
+-- Level 7: Salted SHA-256 (qwer1234 with Salt s9A#2zLk)
+INSERT INTO auth_users VALUES (7, 'admin_enum', '9c6df61edd43f8ea3f7866fd30c8cea5d6d838d48b5ac728f40490e7d23c8f73', 's9A#2zLk', 'SHA256', 7, 'admin_enum@example.com', 'ADMIN');
 
 -- Level 8: Weak Password + Bcrypt (password123)
 -- Bcrypt hash for 'password123'
