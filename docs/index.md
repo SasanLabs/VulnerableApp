@@ -152,7 +152,7 @@ VulnerableApp ships a comparator that grades a scanner's findings against the
 project's built-in ground truth and writes a coverage / missed / unmatched
 report. Both DAST and SAST scanners are supported via the same endpoint:
 
-![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+![Scanner Benchmark](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/scanner-benchmark.gif)
 
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — pick the shape that matches your scanner:
