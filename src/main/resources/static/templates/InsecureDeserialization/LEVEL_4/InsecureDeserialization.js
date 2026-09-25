@@ -35,11 +35,11 @@ function afterSave(data) {
 
 function addingEventListenerToSaveButton() {
   document
-    .getElementById("saveButtonLevel3")
+    .getElementById("saveButtonLevel4")
     .addEventListener("click", function () {
       let url = getUrlForVulnerabilityLevel();
       let payload = new FormData();
-      payload.append("username", document.getElementById("username").value);
+      payload.append("section", document.getElementById("section").value);
 
       doPostAjaxCall(afterSave, url, true, payload);
     });

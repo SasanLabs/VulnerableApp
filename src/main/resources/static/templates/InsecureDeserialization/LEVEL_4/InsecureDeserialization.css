@@ -23,16 +23,16 @@
     border-color: #00aa00 !important;
 }
 
-#level3Controls {
+#level4Controls {
     margin: 10px;
     padding: 10px;
 }
 
-#level3Controls label {
+#level4Controls label {
     margin-right: 8px;
 }
 
-#level3Controls button,
+#level4Controls button,
 #checkButton {
     background: blueviolet;
     display: inline-block;
@@ -46,7 +46,7 @@
     cursor: pointer;
 }
 
-#level3Controls button:hover,
+#level4Controls button:hover,
 #checkButton:hover {
     opacity: 0.85;
 }

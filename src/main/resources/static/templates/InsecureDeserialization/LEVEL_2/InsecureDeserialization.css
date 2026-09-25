@@ -23,16 +23,6 @@
     border-color: #00aa00 !important;
 }
 
-#level2Controls {
-    margin: 10px;
-    padding: 10px;
-}
-
-#level2Controls label {
-    margin-right: 8px;
-}
-
-#level2Controls button,
 #checkButton {
     background: blueviolet;
     display: inline-block;
@@ -46,27 +36,6 @@
     cursor: pointer;
 }
 
-#level2Controls button:hover,
 #checkButton:hover {
     opacity: 0.85;
-}
-
-#result {
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    border-radius: 3px;
-}
-
-.result-success {
-    color: green;
-    border-color: #00aa00 !important;
-    background-color: #f0fff0 !important;
-}
-
-.result-failure {
-    color: red;
-    border-color: #cc0000 !important;
-    background-color: #fff0f0 !important;
 }

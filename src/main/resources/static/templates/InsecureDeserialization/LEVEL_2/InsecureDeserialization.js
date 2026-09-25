@@ -18,31 +18,8 @@ function displayChallenge(data) {
     : "challenge-vulnerable";
 }
 
-function displayResult(data) {
-  let resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = "";
-  let label = document.createElement("strong");
-  label.textContent = "Result:";
-  resultDiv.appendChild(label);
-  resultDiv.appendChild(document.createTextNode(" " + data.content));
-  resultDiv.className = data.isValid ? "result-success" : "result-failure";
-}
-
-function afterSave(data) {
-  displayResult(data);
-  loadChallenge();
-}
-
-function addingEventListenerToSaveButton() {
-  document
-    .getElementById("saveButtonLevel2")
-    .addEventListener("click", function () {
-      let url = getUrlForVulnerabilityLevel();
-      let payload = new FormData();
-      payload.append("section", document.getElementById("section").value);
-
-      doPostAjaxCall(afterSave, url, true, payload);
-    });
+function startSession() {
+  doPostAjaxCall(loadChallenge, getUrlForVulnerabilityLevel(), true);
 }
 
 function addingEventListenerToCheckButton() {
@@ -51,6 +28,5 @@ function addingEventListenerToCheckButton() {
   });
 }
 
-addingEventListenerToSaveButton();
 addingEventListenerToCheckButton();
-loadChallenge();
+startSession();
