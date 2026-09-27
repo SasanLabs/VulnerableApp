@@ -1,0 +1,1 @@
+-- OTP users are seeded at startup by OTPUserSeeder.

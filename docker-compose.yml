@@ -12,8 +12,21 @@ services:
  
     VulnerableApp-php:
       image: sasanlabs/owasp-vulnerableapp-php:latest
+      depends_on:
+        - mongodb
       networks:
         - app_net
+
+    mongodb:
+      image: mongo:8.0.12
+      ports:
+       - "27017:27017"
+      volumes:
+       - mongodb_data:/data/db
+      networks:
+        app_net:
+          aliases:
+            - mongodb
 
     ollama:
       image: ollama/ollama:latest
@@ -122,3 +135,4 @@ networks:
 volumes:
   ollama_data:
   mailpit_data:
+  mongodb_data:

@@ -1,0 +1,9 @@
+┌──────────────────────────────────────────────────────────┐
+│  Thank you for using OWASP SasanLabs VulnerableApp!      │
+│  This project is 100% free, open-source, and community-  │
+│  driven. If it helps your testing or CI/CD pipelines,    │
+│  please support our work by leaving a star:              │
+│  https://github.com/SasanLabs/VulnerableApp              │
+│  and follow SasanLabs on GitHub:                         │
+│  https://github.com/SasanLabs                            │
+└──────────────────────────────────────────────────────────┘

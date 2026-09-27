@@ -38,10 +38,20 @@ Most vulnerable apps are:
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
 
-### User Interface ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+## User Interface
+#### Challenge Mode
+![Challenge Mode](docs/gifs/challenge-mode.gif)
 
-## Running the project
+#### Switching Modes (Challenge & Scanner)
+![Switching Modes](docs/gifs/scanner-mode.gif)
+
+#### Scanner Mode Endpoints (DAST & SAST)
+![Scanner Mode](docs/gifs/scanner-mode1.gif)
+
+#### Scanner Mode Benchmark Comparator
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
+### Running the project
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
     1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
@@ -135,11 +145,14 @@ VulnerableApp ships a comparator that grades a scanner's findings against the
 project's built-in ground truth and writes a coverage / missed / unmatched
 report. Both DAST and SAST scanners are supported via the same endpoint:
 
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — pick the shape that matches your scanner:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` is optional and defaults to `DAST`; `type`/`cwe`/`wascId` are individually optional — any one axis matching is enough)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - Response body and `benchmarks/<tool>-results.json` on disk: coverage report
+- Ground truth: `GET http://<baseurl>/VulnerableApp/scanner/dast` for DAST and `GET http://<baseurl>/VulnerableApp/scanner/sast` for SAST. The bare `/scanner` path is deprecated and stays until 30 Sep 2027.
 
 Running the scanner itself is out of scope — you supply the JSON. See
 [`benchmarks/README.md`](benchmarks/README.md) for the full input/output
@@ -151,11 +164,12 @@ In case you are stuck with any of the steps or understanding anything related to
 
 ## Documentation and References
 
-1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
-2. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
-3. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
-4. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
-5. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+1. [OWASP Spotlight series overview of project](https://m.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T&pp=iAQB)
+2. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
+3. [Documentation](https://sasanlabs.github.io/VulnerableApp)
+4. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
+5. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
+6. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
 
 ### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
@@ -177,3 +191,4 @@ In case you are stuck with any of the steps or understanding anything related to
 3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
 4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
 5. [Korean](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ko/README.md)
+6. [Portuguese (Brasil)](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pt-BR/README.md)
