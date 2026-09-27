@@ -28,6 +28,41 @@ class VulnerableAppWebSocketConfigurationTest {
         public void wrongSignature(WebSocketSession session) {}
     }
 
+    public static class WrongParameterCountController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(WebSocketSession session) {
+            return null;
+        }
+    }
+
+    public static class NotPublicController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        String wrongSignature(WebSocketSession session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongReturnTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public Object wrongSignature(WebSocketSession session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongSessionTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(Object session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongMessageTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(WebSocketSession session, Object message) {
+            return null;
+        }
+    }
+
     private final EnvUtils envUtils = mock(EnvUtils.class);
     private final WebSocketHandlerRegistry registry = mock(WebSocketHandlerRegistry.class);
     private final WebSocketHandlerRegistration registration =
@@ -84,5 +119,26 @@ class VulnerableAppWebSocketConfigurationTest {
                                         .registerWebSocketHandlers(registry))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("wrongSignature");
+    }
+
+    @Test
+    void registerWebSocketHandlers_rejectsEveryKindOfWrongSignature() {
+        for (Object controller :
+                new Object[] {
+                    new NotPublicController(),
+                    new WrongParameterCountController(),
+                    new WrongReturnTypeController(),
+                    new WrongSessionTypeController(),
+                    new WrongMessageTypeController()
+                }) {
+            controllers(controller);
+
+            assertThatThrownBy(
+                            () ->
+                                    new VulnerableAppWebSocketConfiguration(envUtils)
+                                            .registerWebSocketHandlers(registry))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("wrongSignature");
+        }
     }
 }

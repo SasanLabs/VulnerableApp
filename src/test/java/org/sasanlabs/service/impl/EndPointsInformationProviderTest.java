@@ -171,4 +171,49 @@ class EndPointsInformationProviderTest {
                                         .isEqualTo(
                                                 "http://localhost:9090/WebSocketVulnerability/LEVEL_1"));
     }
+
+    private EndPointsInformationProvider providerWith(
+            Map<String, Object> restBeans, Map<String, Object> webSocketBeans, MessageBundle bundle)
+            throws IOException {
+        EnvUtils envUtils = mock(EnvUtils.class);
+        when(envUtils.getAllClassesAnnotatedWithVulnerableAppRestController())
+                .thenReturn(restBeans);
+        when(envUtils.getAllClassesAnnotatedWithVulnerableAppWebSocketController())
+                .thenReturn(webSocketBeans);
+        return new EndPointsInformationProvider(
+                envUtils, bundle, new VulnerableAppProperties(new Properties()), 9090);
+    }
+
+    @Test
+    void getSupportedEndPoints_ignoresBeansThatAreNotAnnotated() throws Exception {
+        MessageBundle bundle = mock(MessageBundle.class);
+        when(bundle.getString(
+                        org.mockito.ArgumentMatchers.anyString(),
+                        org.mockito.ArgumentMatchers.any()))
+                .thenReturn("text");
+        EndPointsInformationProvider plain =
+                providerWith(Map.of("Plain", new Object()), Map.of("Plain", new Object()), bundle);
+
+        assertThat(plain.getSupportedEndPoints()).isEmpty();
+        assertThat(plain.getVulnerabilityDefinitions()).isEmpty();
+    }
+
+    @Test
+    void getSupportedEndPoints_fallsBackWhenAPayloadHasNoText() throws Exception {
+        MessageBundle bundle = mock(MessageBundle.class);
+        when(bundle.getString(
+                        org.mockito.ArgumentMatchers.anyString(),
+                        org.mockito.ArgumentMatchers.any()))
+                .thenReturn("");
+        EndPointsInformationProvider withoutTexts =
+                providerWith(
+                        Map.of(),
+                        Map.of("WebSocketVulnerability", new WebSocketVulnerability()),
+                        bundle);
+
+        LevelResponseBean level1 = level(withoutTexts.getSupportedEndPoints().get(0), "LEVEL_1");
+
+        assertThat(level1.getChallengeCards().get(0).getPayload().getValue())
+                .isEqualTo("Payload is not applicable.");
+    }
 }
