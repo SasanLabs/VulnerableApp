@@ -7,6 +7,7 @@ import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandler;
+import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandshakeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -49,6 +50,7 @@ public class VulnerableAppWebSocketConfiguration implements WebSocketConfigurer 
                                         + entry.getKey()
                                         + FrameworkConstants.SLASH
                                         + mapping.value())
+                        .addInterceptors(new VulnerableAppWebSocketHandshakeInterceptor())
                         .setAllowedOrigins(mapping.allowedOrigins());
             }
         }

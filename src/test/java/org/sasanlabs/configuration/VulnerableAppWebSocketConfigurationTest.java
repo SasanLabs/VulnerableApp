@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.RETURNS_SELF;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandler;
+import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandshakeInterceptor;
 import org.sasanlabs.service.vulnerability.websocket.WebSocketVulnerability;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
@@ -66,7 +68,7 @@ class VulnerableAppWebSocketConfigurationTest {
     private final EnvUtils envUtils = mock(EnvUtils.class);
     private final WebSocketHandlerRegistry registry = mock(WebSocketHandlerRegistry.class);
     private final WebSocketHandlerRegistration registration =
-            mock(WebSocketHandlerRegistration.class);
+            mock(WebSocketHandlerRegistration.class, RETURNS_SELF);
 
     private void controllers(Object controller) {
         when(envUtils.getAllClassesAnnotatedWithVulnerableAppWebSocketController())
@@ -140,5 +142,16 @@ class VulnerableAppWebSocketConfigurationTest {
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("wrongSignature");
         }
+    }
+
+    @Test
+    void registerWebSocketHandlers_addsTheHandshakeInterceptorToEveryLevel() {
+        controllers(new WebSocketVulnerability());
+        when(registry.addHandler(any(), anyString())).thenReturn(registration);
+
+        new VulnerableAppWebSocketConfiguration(envUtils).registerWebSocketHandlers(registry);
+
+        verify(registration, times(3))
+                .addInterceptors(any(VulnerableAppWebSocketHandshakeInterceptor.class));
     }
 }
