@@ -119,6 +119,7 @@ tasks.register('GenerateSampleVulnerability') {
 
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
 
