@@ -15,6 +15,10 @@ import org.sasanlabs.internal.utility.Variant;
  * org.springframework.web.socket.WebSocketSession} and the received text message as {@link String},
  * and return the text to send back to the client or {@code null} to send nothing.
  *
+ * <p>A REST mapping on the exact same path answers the handshake of the WebSocket with a 405, so
+ * any REST endpoint a level needs has to use a sub path such as {@code /{controller
+ * name}/{level}/session}.
+ *
  * @author KSASAN preetkaran20@gmail.com
  */
 @Retention(RetentionPolicy.RUNTIME)

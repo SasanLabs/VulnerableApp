@@ -119,20 +119,47 @@ class EndPointsInformationProviderTest {
     }
 
     @Test
-    void getVulnerabilityDefinitions_pointsAWebSocketLevelToItsTemplates() throws Exception {
+    void getSupportedEndPoints_listsEveryWebSocketLevelWithItsOwnAttackVector() throws Exception {
+        AllEndPointsResponseBean webSocket = endPoint("WebSocketVulnerability");
+
+        assertThat(webSocket.getLevelDescriptionSet())
+                .extracting(LevelResponseBean::getLevel)
+                .containsExactlyInAnyOrder("LEVEL_1", "LEVEL_2", "LEVEL_3");
+        assertThat(
+                        level(webSocket, "LEVEL_2")
+                                .getAttackVectorResponseBeans()
+                                .get(0)
+                                .getVulnerabilityTypes())
+                .containsExactly(VulnerabilityType.PERSISTENT_XSS);
+        assertThat(
+                        level(webSocket, "LEVEL_3")
+                                .getAttackVectorResponseBeans()
+                                .get(0)
+                                .getVulnerabilityTypes())
+                .containsExactly(VulnerabilityType.CROSS_SITE_WEBSOCKET_HIJACKING);
+        for (LevelResponseBean level : webSocket.getLevelDescriptionSet()) {
+            assertThat(level.getChallengeCards()).hasSize(1);
+        }
+    }
+
+    @Test
+    void getVulnerabilityDefinitions_pointsWebSocketLevelsToTheirTemplates() throws Exception {
         VulnerabilityDefinition definition =
                 provider.getVulnerabilityDefinitions().stream()
                         .filter(d -> "WebSocketVulnerability".equals(d.getName()))
                         .findFirst()
                         .orElseThrow(() -> new AssertionError("WebSocketVulnerability missing"));
-        VulnerabilityLevelDefinition level1 = definition.getLevelDescriptionSet().iterator().next();
 
-        assertThat(level1.getLevel()).isEqualTo("LEVEL_1");
-        assertThat(level1.getResourceInformation().getHtmlResource().getUri())
-                .isEqualTo(
-                        "/VulnerableApp/templates/WebSocketVulnerability/LEVEL_1/WebSocket.html");
-        assertThat(level1.getHints()).hasSize(1);
-        assertThat(level1.getChallengeCards()).hasSize(1);
+        assertThat(definition.getLevelDescriptionSet()).hasSize(3);
+        for (VulnerabilityLevelDefinition level : definition.getLevelDescriptionSet()) {
+            assertThat(level.getResourceInformation().getHtmlResource().getUri())
+                    .isEqualTo(
+                            "/VulnerableApp/templates/WebSocketVulnerability/"
+                                    + level.getLevel()
+                                    + "/WebSocket.html");
+            assertThat(level.getHints()).hasSize(1);
+            assertThat(level.getChallengeCards()).hasSize(1);
+        }
     }
 
     @Test

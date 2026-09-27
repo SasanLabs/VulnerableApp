@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,26 +39,29 @@ class VulnerableAppWebSocketConfigurationTest {
     }
 
     @Test
-    void registerWebSocketHandlers_derivesThePathFromTheAnnotations() {
+    void registerWebSocketHandlers_derivesThePathOfEveryLevelFromTheAnnotations() {
         controllers(new WebSocketVulnerability());
         when(registry.addHandler(any(), anyString())).thenReturn(registration);
 
         new VulnerableAppWebSocketConfiguration(envUtils).registerWebSocketHandlers(registry);
 
-        verify(registry)
-                .addHandler(
-                        any(VulnerableAppWebSocketHandler.class),
-                        eq("/WebSocketVulnerability/LEVEL_1"));
+        for (String level : new String[] {"LEVEL_1", "LEVEL_2", "LEVEL_3"}) {
+            verify(registry)
+                    .addHandler(
+                            any(VulnerableAppWebSocketHandler.class),
+                            eq("/WebSocketVulnerability/" + level));
+        }
     }
 
     @Test
-    void registerWebSocketHandlers_appliesTheAllowedOriginsOfTheLevel() {
+    void registerWebSocketHandlers_appliesTheAllowedOriginsOfEachLevel() {
         controllers(new WebSocketVulnerability());
         when(registry.addHandler(any(), anyString())).thenReturn(registration);
 
         new VulnerableAppWebSocketConfiguration(envUtils).registerWebSocketHandlers(registry);
 
-        verify(registration).setAllowedOrigins(new String[] {});
+        verify(registration, times(2)).setAllowedOrigins(new String[] {});
+        verify(registration).setAllowedOrigins("*");
     }
 
     @Test
