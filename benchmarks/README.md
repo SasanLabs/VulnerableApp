@@ -63,6 +63,58 @@ A sample benchmark output is at
  
 ---
 
+## Semgrep
+
+Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
+
+### Latest results
+
+| Ruleset | Semgrep version | Results file |
+|---|---|---|
+| `p/default` | 1.178.0 | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
+
+Results are updated by hand. Rerun the steps below after the ground truth or a
+vulnerable class changes.
+
+### Running the benchmark
+
+1. Run the scan from the repository root, so that Semgrep reports
+   project-relative paths. That is what the SAST matcher compares.
+
+   ```bash
+   semgrep scan --config p/default --metrics=off --timeout 30 --json \
+       --output benchmarks/Semgrep/semgrep-raw-report.json src/main/java
+   ```
+
+2. Convert the report with the script described below.
+3. Start VulnerableApp from the same checkout (`./gradlew bootRun`, port 9090),
+   so that the ground truth it serves matches the sources that were scanned.
+4. Post the findings and save the response:
+
+   ```bash
+   curl -s -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+       -H "Content-Type: application/json" \
+       -d @benchmarks/Semgrep/findings/semgrep-findings.json \
+       -o benchmarks/Semgrep/semgrep-results.json
+   ```
+
+### Conversion script
+
+Semgrep's JSON report must be converted to the benchmark input format before
+posting to the endpoint:
+
+```bash
+python3 benchmarks/Semgrep/scripts/convert_semgrep_to_benchmark.py \
+    --input  benchmarks/Semgrep/semgrep-raw-report.json \
+    --output benchmarks/Semgrep/findings/semgrep-findings.json
+```
+
+The script emits one finding per Semgrep result: the path, the start line, the
+first CWE ID of the rule, and the rule's `vulnerability_class` as the type. No
+manual rule mapping is needed.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
@@ -311,5 +363,19 @@ DAST scanners commonly report findings such as missing `Strict-Transport-Securit
 observations but fall outside VulnerableApp's intentional vulnerability set.
 They will always appear in `unmatchedItems` and should not be interpreted as
 false positives. This applies to any DAST scanner benchmarked against VulnerableApp.
+
+### A finding on another line of the same flow is unmatched (all SAST scanners)
+
+The SAST matcher compares exact line numbers. A scanner that reports a real
+issue on a different line of the same data flow gets no credit for it: the
+expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
+example, Semgrep reports SSRF where the `URL` object is built
+(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
+call at line 85.
+
+`unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings
+outside the intended vulnerability set (CSRF on request mappings, cookie flags),
+and findings in classes that have no ground-truth rows yet, so it should not be
+read as a list of false positives.
 
 
