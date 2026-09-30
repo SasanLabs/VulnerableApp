@@ -153,7 +153,7 @@ WEB_CACHE_POISONING
   "findings": [
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 56,
+      "line": 93,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     }
@@ -171,6 +171,29 @@ app was started from. The same rows are served as JSON by `GET /scanner/sast`. T
 source is configurable via the `benchmark.sast.ground-truth.path` property (default:
 `classpath:scanner/sast/expectedIssues.csv`); a value without the `classpath:` prefix
 is read from the filesystem, relative to the working directory or absolute.
+
+### What a ground-truth row points at
+
+Each row of `expectedIssues.csv` gives the line of the vulnerable statement,
+which is the line a SAST tool is expected to report:
+
+- Where user input reaches a dangerous call (a query, a process, a file or
+  network access, a response), it is the line on which the input reaches that
+  call. When the call is split over several lines, that is the line of the
+  argument that carries the input, not the line where the call starts.
+- Where there is no such call (a weak hash, a missing check, a token accepted
+  without verification), it is the line of the weak call or the faulty check.
+  That line can be in a service class such as `AuthLoginService` or
+  `JWTValidator` when the flawed code lives there.
+
+When several vulnerable levels go through the same line, for example a helper
+shared by all levels of a class, there is one row for that line and
+`Number of Sources` holds the number of levels that expose the issue through
+it. Levels marked `Variant.SECURE` have no rows.
+
+A row never points at an annotation, a comment, a blank line or a brace.
+`ExpectedIssuesAlignmentTest` fails the build when one does, which is what
+happens when a vulnerable class is edited and its rows are not moved with it.
 
 ### SAST matching rules
 
@@ -193,8 +216,10 @@ A scanner can emit either CWE, type, or both — whichever pair
   `"sql injection"` both match).
 - **Duplicates:** a scanner that emits the same `(filePath, line, CWE)` twice
   gets credit once.
-- **`Number of Sources` column:** present in the CSV for human reference; **not
-  used for scoring** — full credit on first match.
+- **`Number of Sources` column:** the number of vulnerable levels that expose
+  the issue through that line (`1` unless several levels share it). It is there
+  for human reference and is **not used for scoring**: the first match gets
+  full credit.
 
 ## Calling the endpoint
 
