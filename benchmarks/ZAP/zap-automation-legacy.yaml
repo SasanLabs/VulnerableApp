@@ -52,9 +52,9 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 0
-      maxCrawlDepth: 10
+      maxCrawlDepth: 100
       maxChildren: 0
-      numberOfBrowsers: 2
+      numberOfBrowsers: 5
       browserId: firefox-headless
       initialLoadTime: 10
       pageLoadTime: 5
@@ -70,9 +70,9 @@ jobs:
       context: VulnerableApp-legacy
       url: http://VulnerableApp-facade/VulnerableApp
       maxDuration: 120         # minutes
-      maxCrawlDepth: 500
+      maxCrawlDepth: 1000
       maxCrawlStates: 0
-      numberOfBrowsers: 2
+      numberOfBrowsers: 5
       reloadWait: 5000
       eventWait: 2000
       browserId: firefox-headless
@@ -90,6 +90,11 @@ jobs:
       - "div"
       - "span"
       - "textarea"
+      - "img"
+      - "tr"
+      - "ol"
+      - "ul"
+      - "p"
 
   # ------------------------------------------------------------------
   # 3. Passive Scan Wait — wait for passive scan to complete before active scan
