@@ -46,3 +46,5 @@ __pycache__/
 /benchmarks/**/*-results.json
 !/benchmarks/ZAP/zap-results.json
 !/benchmarks/ZAP/zap-results-legacy.json
+!/benchmarks/Wapiti/wapiti-results.json
+

@@ -1,0 +1,10 @@
+{
+  "tool": "Wapiti",
+  "coverage": 0.0,
+  "totalExpected": 168,
+  "detected": 0,
+  "missed": 168,
+  "unmatched": 0,
+  "missedItems": [],
+  "unmatchedItems": []
+}
