@@ -69,14 +69,27 @@ Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
 
 ### Latest results
 
-| Ruleset | Semgrep version | Results file |
-|---|---|---|
-| `p/default` | 1.178.0 | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
+| Ruleset | Results file |
+|---|---|
+| `p/default` | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
 
-Results are updated by hand. Rerun the steps below after the ground truth or a
-vulnerable class changes.
+Results are auto-updated every day and on every manual workflow run. Each run
+installs the latest Semgrep release and prints its version in the run log.
 
 ### Running the benchmark
+
+The full pipeline (start VulnerableApp, run Semgrep, convert, benchmark, commit
+results) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **Semgrep Benchmark**
+2. Click **Run workflow**
+3. Results are committed automatically to the file above, along with the
+   converted findings in `benchmarks/Semgrep/findings/semgrep-findings.json`
+
+See [`.github/workflows/semgrep-benchmark.yml`](../.github/workflows/semgrep-benchmark.yml)
+for the full workflow definition.
+
+To run it locally:
 
 1. Run the scan from the repository root, so that Semgrep reports
    project-relative paths. That is what the SAST matcher compares.
