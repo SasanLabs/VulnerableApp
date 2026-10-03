@@ -12,6 +12,7 @@ jobs:
   wapiti-benchmark:
     name: Wapiti Benchmark
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
@@ -28,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install wapiti3 pytest
+          pip install wapiti3 pytest pyyaml
 
       - name: Run Converter Unit Tests
         run: |
-          pytest benchmarks/Wapiti/scripts/test_convert_wapiti_to_benchmark.py -v
+          pytest benchmarks/Wapiti/scripts/ -v
 
       - name: Start VulnerableApp Stack
         run: |
@@ -52,18 +53,30 @@ jobs:
           docker compose -f docker-compose.without_llm.yml logs
           exit 1
 
+      - name: Prepare Wapiti Start URLs
+        run: |
+          curl --fail --silent --show-error http://localhost/VulnerableApp/sitemap.xml \
+            -o "$RUNNER_TEMP/wapiti-sitemap.xml"
+          python3 benchmarks/Wapiti/scripts/prepare_wapiti_seeds.py \
+            --sitemap "$RUNNER_TEMP/wapiti-sitemap.xml" \
+            --base-url http://localhost/VulnerableApp/ \
+            --output "$RUNNER_TEMP/wapiti-seeds.txt"
+
       - name: Run Wapiti Scan
         run: |
           mkdir -p benchmarks/Wapiti
+          seed_args=()
+          while IFS= read -r url; do
+            seed_args+=(-s "$url")
+          done < "$RUNNER_TEMP/wapiti-seeds.txt"
           wapiti \
             -u http://localhost/VulnerableApp/ \
             --scope folder \
+            "${seed_args[@]}" \
             -f json \
             -o benchmarks/Wapiti/wapiti-raw-report.json \
             --flush-session \
-            --max-scan-time 30 \
-            --tasks 4 \
-            || true
+            --tasks 4
 
           if [ ! -s benchmarks/Wapiti/wapiti-raw-report.json ]; then
             echo "Error: Wapiti failed to produce a valid report file."
@@ -113,7 +126,7 @@ jobs:
 
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add benchmarks/Wapiti/wapiti-results.json
+          git add benchmarks/Wapiti/wapiti-results.json benchmarks/Wapiti/findings/wapiti-findings.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
@@ -144,6 +157,8 @@ jobs:
         with:
           name: wapiti-benchmark-artifacts
           path: |
+            ${{ runner.temp }}/wapiti-sitemap.xml
+            ${{ runner.temp }}/wapiti-seeds.txt
             benchmarks/Wapiti/wapiti-raw-report.json
             benchmarks/Wapiti/findings/wapiti-findings.json
             benchmarks/Wapiti/wapiti-results.json
