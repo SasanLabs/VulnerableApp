@@ -2,8 +2,10 @@
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
+import pytest
 import yaml
 
 WORKFLOW = Path(__file__).resolve().parents[3] / ".github/workflows/wapiti-benchmark.yml"
@@ -11,6 +13,10 @@ FINDINGS = "benchmarks/Wapiti/findings/wapiti-findings.json"
 RESULTS = "benchmarks/Wapiti/wapiti-results.json"
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32",
+    reason="Publication test requires a POSIX environment for shell shims",
+)
 def test_publication_pushes_matching_findings_and_results_with_a_clean_worktree(tmp_path):
     git = shutil.which("git")
     remote = tmp_path / "remote.git"
