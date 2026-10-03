@@ -1,0 +1,32 @@
+{
+  "tool": "Wapiti",
+  "scanType": "DAST",
+  "findings": [
+    {
+      "url": "/VulnerableApp/SQLInjection/LEVEL_1",
+      "method": "GET",
+      "cwe": "CWE-89"
+    },
+    {
+      "url": "/VulnerableApp/XSS/LEVEL_1",
+      "method": "GET",
+      "cwe": "CWE-79"
+    },
+    {
+      "url": "/VulnerableApp/PathTraversal/LEVEL_1",
+      "method": "GET",
+      "cwe": "CWE-22"
+    },
+    {
+      "url": "/VulnerableApp/CommandInjection/LEVEL_1",
+      "method": "POST",
+      "cwe": "CWE-78",
+      "type": "COMMAND_INJECTION"
+    },
+    {
+      "url": "/VulnerableApp/SSRF/LEVEL_1",
+      "method": "GET",
+      "cwe": "CWE-918"
+    }
+  ]
+}

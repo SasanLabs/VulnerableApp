@@ -1,0 +1,150 @@
+name: Wapiti Benchmark
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  wapiti-benchmark:
+    name: Wapiti Benchmark
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install wapiti3 pytest
+
+      - name: Run Converter Unit Tests
+        run: |
+          pytest benchmarks/Wapiti/scripts/test_convert_wapiti_to_benchmark.py -v
+
+      - name: Start VulnerableApp Stack
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "VulnerableApp is ready"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "App failed to start"
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1
+
+      - name: Run Wapiti Scan
+        run: |
+          mkdir -p benchmarks/Wapiti
+          wapiti \
+            -u http://localhost/VulnerableApp/ \
+            --scope folder \
+            -f json \
+            -o benchmarks/Wapiti/wapiti-raw-report.json \
+            --flush-session \
+            --max-scan-time 30 \
+            --tasks 4 \
+            || true
+
+          if [ ! -s benchmarks/Wapiti/wapiti-raw-report.json ]; then
+            echo "Error: Wapiti failed to produce a valid report file."
+            exit 1
+          fi
+
+      - name: Convert Wapiti Report
+        run: |
+          python3 benchmarks/Wapiti/scripts/convert_wapiti_to_benchmark.py \
+            --input  benchmarks/Wapiti/wapiti-raw-report.json \
+            --output benchmarks/Wapiti/findings/wapiti-findings.json
+
+      - name: Submit to Benchmark Endpoint
+        run: |
+          curl -s --fail-with-body --show-error -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/Wapiti/findings/wapiti-findings.json \
+            -o benchmarks/Wapiti/wapiti-results.json
+
+          echo "=== Wapiti Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/Wapiti/wapiti-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:           {data.get(\"tool\")}')
+          print(f'  Coverage:       {data.get(\"coverage\", 0):.2f}%')
+          print(f'  Total Expected: {data.get(\"totalExpected\")}')
+          print(f'  Detected:       {data.get(\"detected\")}')
+          print(f'  Missed:         {data.get(\"missed\")}')
+          print(f'  Unmatched:      {data.get(\"unmatched\")}')
+          "
+
+      - name: Commit Benchmark Results
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "GH_TRAFFIC_TOKEN not configured; skipping remote git push."
+            exit 0
+          fi
+
+          if [ "$REF_NAME" != "master" ]; then
+            echo "Running on non-master branch '$REF_NAME'; skipping automatic push to master."
+            exit 0
+          fi
+
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
+          git add benchmarks/Wapiti/wapiti-results.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update Wapiti benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            if git pull --rebase origin "$REF_NAME" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+              success=true
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push results"
+            exit 1
+          fi
+
+      - name: Upload Scan Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wapiti-benchmark-artifacts
+          path: |
+            benchmarks/Wapiti/wapiti-raw-report.json
+            benchmarks/Wapiti/findings/wapiti-findings.json
+            benchmarks/Wapiti/wapiti-results.json
+          retention-days: 90
