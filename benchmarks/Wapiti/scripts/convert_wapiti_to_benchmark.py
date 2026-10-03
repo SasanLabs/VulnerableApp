@@ -100,6 +100,8 @@ def convert(wapiti_report: dict) -> dict:
 
             cwe = _extract_cwe_from_classifications(category, classifications)
             type_name = CATEGORY_TO_TYPE_NAME.get(category.strip().lower())
+            if not cwe and not type_name:
+                type_name = category.strip()
 
             for inst in instances:
                 if not isinstance(inst, dict):

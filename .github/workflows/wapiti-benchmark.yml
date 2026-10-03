@@ -65,6 +65,11 @@ jobs:
             --tasks 4 \
             || true
 
+          if [ ! -s benchmarks/Wapiti/wapiti-raw-report.json ]; then
+            echo "Error: Wapiti failed to produce a valid report file."
+            exit 1
+          fi
+
       - name: Convert Wapiti Report
         run: |
           python3 benchmarks/Wapiti/scripts/convert_wapiti_to_benchmark.py \
@@ -73,7 +78,7 @@ jobs:
 
       - name: Submit to Benchmark Endpoint
         run: |
-          curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
+          curl -s --fail-with-body --show-error -X POST http://localhost/VulnerableApp/scanner/benchmark \
             -H "Content-Type: application/json" \
             -d @benchmarks/Wapiti/findings/wapiti-findings.json \
             -o benchmarks/Wapiti/wapiti-results.json
@@ -94,9 +99,15 @@ jobs:
       - name: Commit Benchmark Results
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
           if [ -z "$TOKEN" ]; then
             echo "GH_TRAFFIC_TOKEN not configured; skipping remote git push."
+            exit 0
+          fi
+
+          if [ "$REF_NAME" != "master" ]; then
+            echo "Running on non-master branch '$REF_NAME'; skipping automatic push to master."
             exit 0
           fi
 
@@ -114,7 +125,7 @@ jobs:
 
           for i in {1..5}; do
             echo "Push attempt $i..."
-            if git pull --rebase origin "${{ github.ref_name }}" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+            if git pull --rebase origin "$REF_NAME" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
               success=true
               break
             fi

@@ -186,3 +186,18 @@ def test_convert_deduplicates_trailing_slash_variants():
     }
     res = convert(report)
     assert len(res["findings"]) == 1
+
+
+def test_convert_retains_category_as_type_when_no_cwe():
+    report = {
+        "classifications": {},
+        "vulnerabilities": {
+            "Unknown Custom Vulnerability": [
+                {"method": "GET", "path": "/VulnerableApp/Custom/LEVEL_1"}
+            ]
+        }
+    }
+    res = convert(report)
+    assert len(res["findings"]) == 1
+    assert res["findings"][0]["type"] == "Unknown Custom Vulnerability"
+    assert "cwe" not in res["findings"][0]
