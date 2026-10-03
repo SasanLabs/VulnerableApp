@@ -95,6 +95,11 @@ jobs:
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
         run: |
+          if [ -z "$TOKEN" ]; then
+            echo "GH_TRAFFIC_TOKEN not configured; skipping remote git push."
+            exit 0
+          fi
+
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
           git add benchmarks/Wapiti/wapiti-results.json

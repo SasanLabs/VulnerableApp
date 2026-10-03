@@ -44,23 +44,30 @@ CATEGORY_TO_TYPE_NAME = {
 
 
 def _extract_cwe_from_classifications(category: str, classifications: dict) -> Optional[str]:
-    """Extract CWE-XXX from classifications ref block or fallback table."""
+    """Extract CWE-XXX from classifications ref block (keys or URLs) or fallback table."""
     cat_info = classifications.get(category, {}) if isinstance(classifications, dict) else {}
     refs = cat_info.get("ref", {}) if isinstance(cat_info, dict) else {}
     if isinstance(refs, dict):
-        for ref_name in refs.keys():
-            match = re.search(r"CWE-(\d+)", ref_name, re.I)
+        for ref_name, ref_url in refs.items():
+            match = re.search(r"CWE-(\d+)", ref_name, re.I) or re.search(r"CWE-(\d+)", str(ref_url), re.I)
             if match:
                 return f"CWE-{match.group(1)}"
+            url_match = re.search(r"definitions/(\d+)\.html", str(ref_url), re.I)
+            if url_match:
+                return f"CWE-{url_match.group(1)}"
     return CATEGORY_FALLBACK_CWE.get(category.strip().lower())
 
 
 def _clean_url(url: str) -> str:
-    """Normalize path by stripping query strings, fragments, and matrix params."""
+    """Normalize path by stripping query strings, fragments, matrix params, and trailing slashes."""
     if not url:
         return ""
     cleaned = re.sub(r";[^/]*", "", url)
     cleaned = cleaned.split("?")[0].split("#")[0].strip()
+    if len(cleaned) > 1 and cleaned.endswith("/"):
+        cleaned = cleaned.rstrip("/")
+    elif cleaned == "/":
+        return ""
     return cleaned
 
 

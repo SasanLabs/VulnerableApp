@@ -156,3 +156,33 @@ def test_cli_execution(tmp_path):
     assert data["tool"] == "Wapiti"
     assert len(data["findings"]) == 1
     assert data["findings"][0]["cwe"] == "CWE-22"
+
+
+def test_clean_url_strips_trailing_slash():
+    assert _clean_url("/VulnerableApp/SQLInjection/LEVEL_1/") == "/VulnerableApp/SQLInjection/LEVEL_1"
+    assert _clean_url("/") == ""
+
+
+def test_extract_cwe_from_reference_url():
+    classifications = {
+        "Custom Vuln": {
+            "ref": {
+                "Generic Title": "https://cwe.mitre.org/data/definitions/89.html"
+            }
+        }
+    }
+    assert _extract_cwe_from_classifications("Custom Vuln", classifications) == "CWE-89"
+
+
+def test_convert_deduplicates_trailing_slash_variants():
+    report = {
+        "classifications": {"SQL Injection": {}},
+        "vulnerabilities": {
+            "SQL Injection": [
+                {"method": "GET", "path": "/VulnerableApp/SQLInjection/LEVEL_1"},
+                {"method": "GET", "path": "/VulnerableApp/SQLInjection/LEVEL_1/"}
+            ]
+        }
+    }
+    res = convert(report)
+    assert len(res["findings"]) == 1
