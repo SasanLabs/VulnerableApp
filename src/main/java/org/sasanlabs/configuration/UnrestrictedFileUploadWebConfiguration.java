@@ -3,6 +3,7 @@ package org.sasanlabs.configuration;
 import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.PathResource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,10 +23,12 @@ public class UnrestrictedFileUploadWebConfiguration implements WebMvcConfigurer 
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // A Resource built from the Path directly, rather than a "file:" string concatenation,
+        // so a character that is special in a URL (e.g. "#") in the OS temp directory's path
+        // can't be misread as part of the URL instead of the path.
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations(
-                        "file:"
-                                + UnrestrictedFileUpload.rootUploadDirectory().toAbsolutePath()
-                                + "/");
+                        new PathResource(
+                                UnrestrictedFileUpload.rootUploadDirectory().toAbsolutePath()));
     }
 }

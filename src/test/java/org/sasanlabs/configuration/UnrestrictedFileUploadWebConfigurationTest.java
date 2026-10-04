@@ -1,12 +1,15 @@
 package org.sasanlabs.configuration;
 
-import static org.mockito.ArgumentMatchers.eq;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
+import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
@@ -22,8 +25,9 @@ class UnrestrictedFileUploadWebConfigurationTest {
 
         new UnrestrictedFileUploadWebConfiguration().addResourceHandlers(registry);
 
-        String expectedLocation =
-                "file:" + UnrestrictedFileUpload.rootUploadDirectory().toAbsolutePath() + "/";
-        org.mockito.Mockito.verify(registration).addResourceLocations(eq(expectedLocation));
+        ArgumentCaptor<Resource> location = ArgumentCaptor.forClass(Resource.class);
+        verify(registration).addResourceLocations(location.capture());
+        assertThat(location.getValue().getFile().toPath())
+                .isEqualTo(UnrestrictedFileUpload.rootUploadDirectory().toAbsolutePath());
     }
 }
