@@ -40,7 +40,7 @@ jobs:
               "name": "legacy",
               "automation_file": "zap-automation-legacy.yaml",
               "report_file": "zap-raw-report-legacy.json",
-              "input_file": "zap-benchmark-input-legacy.json",
+              "input_file": "findings/zap-benchmark-findings-legacy.json",
               "results_file": "zap-results-legacy.json",
               "log_file": "zap-scan-legacy.log"
           }
@@ -48,7 +48,7 @@ jobs:
               "name": "modern",
               "automation_file": "zap-automation-modern.yaml",
               "report_file": "zap-raw-report.json",
-              "input_file": "zap-benchmark-input.json",
+              "input_file": "findings/zap-benchmark-findings.json",
               "results_file": "zap-results.json",
               "log_file": "zap-scan-modern.log"
           }
@@ -216,7 +216,7 @@ jobs:
         run: |
           curl -s -X POST http://localhost/VulnerableApp/scanner/benchmark \
             -H "Content-Type: application/json" \
-            -d @benchmarks/ZAP/${{ matrix.scan.input_file }} \
+            -d @benchmarks/ZAP/findings/${{ matrix.scan.input_file }} \
             -o benchmarks/ZAP/${{ matrix.scan.results_file }}
 
           echo "=== ${{ matrix.scan.name }} UI Benchmark Results ==="
