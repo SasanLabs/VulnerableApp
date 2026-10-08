@@ -63,6 +63,78 @@ A sample benchmark output is at
  
 ---
 
+## Semgrep
+
+Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
+
+### Latest results
+
+| Ruleset | Results file |
+|---|---|
+| `p/default` | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
+
+Results are auto-updated on `master` every day and on every manual workflow
+run. Each run installs the latest Semgrep release and prints its version in the
+run log.
+
+### Running the benchmark
+
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack like the ZAP benchmark, run Semgrep, convert, benchmark, commit
+results) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **Semgrep Benchmark**
+2. Click **Run workflow**
+3. On `master`, results are committed automatically to the file above, along
+   with the converted findings in `benchmarks/Semgrep/findings/semgrep-findings.json`.
+   On other branches, nothing is committed; download the
+   `semgrep-benchmark-artifacts` artifact of the run instead.
+
+See [`.github/workflows/semgrep-benchmark.yml`](../.github/workflows/semgrep-benchmark.yml)
+for the full workflow definition.
+
+To run it locally:
+
+1. Run the scan from the repository root, so that Semgrep reports
+   project-relative paths. That is what the SAST matcher compares.
+
+   ```bash
+   semgrep scan --config p/default --metrics=off --timeout 30 --json \
+       --output benchmarks/Semgrep/semgrep-raw-report.json src/main/java
+   ```
+
+2. Convert the report with the script described below.
+3. Start VulnerableApp from the same checkout (`./gradlew bootRun`, port 9090),
+   so that the ground truth it serves matches the sources that were scanned.
+4. Post the findings and save the response:
+
+   ```bash
+   curl -s -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+       -H "Content-Type: application/json" \
+       -d @benchmarks/Semgrep/findings/semgrep-findings.json \
+       -o benchmarks/Semgrep/semgrep-results.json
+   ```
+
+### Conversion script
+
+Semgrep's JSON report must be converted to the benchmark input format before
+posting to the endpoint:
+
+```bash
+python3 benchmarks/Semgrep/scripts/convert_semgrep_to_benchmark.py \
+    --input  benchmarks/Semgrep/semgrep-raw-report.json \
+    --output benchmarks/Semgrep/findings/semgrep-findings.json
+```
+
+The script emits one finding per CWE of each Semgrep result: the path, the
+start line, the CWE ID, and the rule's `vulnerability_class` as the type. When a
+rule lists several CWEs, only the first finding carries the type, because the
+SAST matcher skips a finding that repeats the file, line and type of an earlier
+one. A result with neither a CWE nor a `vulnerability_class` is skipped with a
+warning, because the matcher cannot score it. No manual rule mapping is needed.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
@@ -153,7 +225,7 @@ WEB_CACHE_POISONING
   "findings": [
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 56,
+      "line": 93,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     }
@@ -171,6 +243,29 @@ app was started from. The same rows are served as JSON by `GET /scanner/sast`. T
 source is configurable via the `benchmark.sast.ground-truth.path` property (default:
 `classpath:scanner/sast/expectedIssues.csv`); a value without the `classpath:` prefix
 is read from the filesystem, relative to the working directory or absolute.
+
+### What a ground-truth row points at
+
+Each row of `expectedIssues.csv` gives the line of the vulnerable statement,
+which is the line a SAST tool is expected to report:
+
+- Where user input reaches a dangerous call (a query, a process, a file or
+  network access, a response), it is the line on which the input reaches that
+  call. When the call is split over several lines, that is the line of the
+  argument that carries the input, not the line where the call starts.
+- Where there is no such call (a weak hash, a missing check, a token accepted
+  without verification), it is the line of the weak call or the faulty check.
+  That line can be in a service class such as `AuthLoginService` or
+  `JWTValidator` when the flawed code lives there.
+
+When several vulnerable levels go through the same line, for example a helper
+shared by all levels of a class, there is one row for that line and
+`Number of Sources` holds the number of levels that expose the issue through
+it. Levels marked `Variant.SECURE` have no rows.
+
+A row never points at an annotation, a comment, a blank line or a brace.
+`ExpectedIssuesAlignmentTest` fails the build when one does, which is what
+happens when a vulnerable class is edited and its rows are not moved with it.
 
 ### SAST matching rules
 
@@ -193,8 +288,10 @@ A scanner can emit either CWE, type, or both — whichever pair
   `"sql injection"` both match).
 - **Duplicates:** a scanner that emits the same `(filePath, line, CWE)` twice
   gets credit once.
-- **`Number of Sources` column:** present in the CSV for human reference; **not
-  used for scoring** — full credit on first match.
+- **`Number of Sources` column:** the number of vulnerable levels that expose
+  the issue through that line (`1` unless several levels share it). It is there
+  for human reference and is **not used for scoring**: the first match gets
+  full credit.
 
 ## Calling the endpoint
 
@@ -286,5 +383,19 @@ DAST scanners commonly report findings such as missing `Strict-Transport-Securit
 observations but fall outside VulnerableApp's intentional vulnerability set.
 They will always appear in `unmatchedItems` and should not be interpreted as
 false positives. This applies to any DAST scanner benchmarked against VulnerableApp.
+
+### A finding on another line of the same flow is unmatched (all SAST scanners)
+
+The SAST matcher compares exact line numbers. A scanner that reports a real
+issue on a different line of the same data flow gets no credit for it: the
+expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
+example, Semgrep reports SSRF where the `URL` object is built
+(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
+call at line 85.
+
+`unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings
+outside the intended vulnerability set (CSRF on request mappings, cookie flags),
+and findings in classes that have no ground-truth rows yet, so it should not be
+read as a list of false positives.
 
 
