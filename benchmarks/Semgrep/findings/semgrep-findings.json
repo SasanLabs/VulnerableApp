@@ -82,13 +82,13 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
-      "line": 37,
+      "line": 43,
       "cwe": "CWE-352",
       "type": "Cross-Site Request Forgery (CSRF)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
-      "line": 46,
+      "line": 58,
       "cwe": "CWE-23",
       "type": "Path Traversal"
     },
