@@ -243,8 +243,8 @@ jobs:
 
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add benchmarks/ZAP/${{ matrix.scan.results_file }}
-
+          git add benchmarks/ZAP/${{ matrix.scan.results_file }} benchmarks/ZAP/${{ matrix.scan.input_file }}
+          
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
