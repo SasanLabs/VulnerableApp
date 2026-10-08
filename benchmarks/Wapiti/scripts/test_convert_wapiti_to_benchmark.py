@@ -43,10 +43,9 @@ def test_extract_cwe_from_reference():
     assert _extract_cwe_from_classifications("SQL Injection", classifications) == "CWE-89"
 
 
-def test_extract_cwe_fallback_lookup():
-    # Category not in classifications, but in fallback table
-    assert _extract_cwe_from_classifications("Command execution", {}) == "CWE-78"
-    assert _extract_cwe_from_classifications("Path Traversal", {}) == "CWE-22"
+def test_extract_cwe_missing_from_classifications_returns_none():
+    assert _extract_cwe_from_classifications("Command execution", {}) is None
+    assert _extract_cwe_from_classifications("Path Traversal", {}) is None
     assert _extract_cwe_from_classifications("NonExistentCategory", {}) is None
 
 
@@ -78,7 +77,11 @@ def test_convert_minimal_report():
 
 def test_convert_deduplicates_identical_endpoints():
     report = {
-        "classifications": {"SQL Injection": {}},
+        "classifications": {
+            "SQL Injection": {
+                "ref": {"CWE-89: SQL Injection": "https://cwe.mitre.org/data/definitions/89.html"}
+            }
+        },
         "vulnerabilities": {
             "SQL Injection": [
                 {"method": "GET", "path": "/VulnerableApp/SQLInjection/LEVEL_1?id=1"},
@@ -109,7 +112,11 @@ def test_convert_distinguishes_different_http_methods():
 
 def test_convert_parses_anomalies_section():
     report = {
-        "classifications": {},
+        "classifications": {
+            "Command execution": {
+                "ref": {"CWE-78: OS Command Injection": "https://cwe.mitre.org/data/definitions/78.html"}
+            }
+        },
         "vulnerabilities": {},
         "anomalies": {
             "Command execution": [
@@ -137,7 +144,11 @@ def test_cli_execution(tmp_path):
     output_file = tmp_path / "benchmark-input.json"
 
     input_file.write_text(json.dumps({
-        "classifications": {},
+        "classifications": {
+            "Path Traversal": {
+                "ref": {"CWE-22: Path Traversal": "https://cwe.mitre.org/data/definitions/22.html"}
+            }
+        },
         "vulnerabilities": {
             "Path Traversal": [{"method": "GET", "path": "/VulnerableApp/PathTraversal/LEVEL_1"}]
         }

@@ -5,10 +5,73 @@ convert_wapiti_to_benchmark.py
 Converts a Wapiti JSON report (-f json) into the JSON input format expected
 by VulnerableApp's POST /VulnerableApp/scanner/benchmark endpoint.
 
-Usage:
-    python3 convert_wapiti_to_benchmark.py \\
-        --input  benchmarks/Wapiti/wapiti-raw-report.json \\
+Usage
+-----
+    python3 convert_wapiti_to_benchmark.py \
+        --input  benchmarks/Wapiti/wapiti-raw-report.json \
         --output benchmarks/Wapiti/findings/wapiti-findings.json
+
+    # Then POST to VulnerableApp:
+    curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
+        -H "Content-Type: application/json" \
+        -d @benchmarks/Wapiti/findings/wapiti-findings.json
+
+Input format (Wapiti JSON)
+--------------------------
+Wapiti writes a root JSON dictionary containing 'classifications',
+'vulnerabilities', 'anomalies', and scan metadata.
+- 'classifications' contains vulnerability definitions and external references,
+  including CWE mappings:
+    {
+      "classifications": {
+        "SQL Injection": {
+          "desc": "...",
+          "sol": "...",
+          "ref": {
+            "CWE-89: SQL Injection": "https://cwe.mitre.org/data/definitions/89.html"
+          }
+        }
+      }
+    }
+- 'vulnerabilities' (and 'anomalies') maps each vulnerability category name to
+  a list of detected occurrences:
+    {
+      "vulnerabilities": {
+        "SQL Injection": [
+          {
+            "method": "GET",
+            "path": "/VulnerableApp/SQLInjection/LEVEL_1?id=1",
+            "info": "...",
+            "parameter": "id",
+            "http_request": "..."
+          }
+        ]
+      }
+    }
+
+Output format (VulnerableApp benchmark input)
+----------------------------------------------
+    {
+      "tool": "Wapiti",
+      "scanType": "DAST",
+      "findings": [
+        {
+          "url": "/VulnerableApp/SQLInjection/LEVEL_1",
+          "method": "GET",
+          "cwe": "CWE-89"
+        }
+      ]
+    }
+
+Notes
+-----
+- CWE identifiers are extracted dynamically from the category's 'ref' mapping
+  under 'classifications'.
+- If a vulnerability category lacks a CWE reference, 'cwe' is omitted and the
+  raw category name is emitted as 'type' for unmatched benchmark reporting.
+- URLs are cleaned to remove query parameters, fragments, matrix parameters,
+  and trailing slashes.
+- Findings are de-duplicated on (url, method, cwe, type).
 """
 
 import argparse
@@ -19,24 +82,6 @@ from pathlib import Path
 from typing import Optional
 
 
-CATEGORY_FALLBACK_CWE = {
-    "sql injection": "CWE-89",
-    "blind sql injection": "CWE-89",
-    "reflected cross site scripting": "CWE-79",
-    "stored cross site scripting": "CWE-79",
-    "command execution": "CWE-78",
-    "path traversal": "CWE-22",
-    "server side request forgery": "CWE-918",
-    "ldap injection": "CWE-90",
-    "open redirect": "CWE-601",
-    "unrestricted file upload": "CWE-434",
-    "crlf injection": "CWE-93",
-    "cross site request forgery": "CWE-352",
-    "cleartext submission of password": "CWE-319",
-    "weak credentials": "CWE-798",
-    "resource consumption": "CWE-400",
-}
-
 CATEGORY_TO_TYPE_NAME = {
     "command execution": "COMMAND_INJECTION",
     "clickjacking protection": "CLICKJACKING",
@@ -44,7 +89,7 @@ CATEGORY_TO_TYPE_NAME = {
 
 
 def _extract_cwe_from_classifications(category: str, classifications: dict) -> Optional[str]:
-    """Extract CWE-XXX from classifications ref block (keys or URLs) or fallback table."""
+    """Extract CWE-XXX from classifications ref block (keys or URLs)."""
     cat_info = classifications.get(category, {}) if isinstance(classifications, dict) else {}
     refs = cat_info.get("ref", {}) if isinstance(cat_info, dict) else {}
     if isinstance(refs, dict):
@@ -55,7 +100,7 @@ def _extract_cwe_from_classifications(category: str, classifications: dict) -> O
             url_match = re.search(r"definitions/(\d+)\.html", str(ref_url), re.I)
             if url_match:
                 return f"CWE-{url_match.group(1)}"
-    return CATEGORY_FALLBACK_CWE.get(category.strip().lower())
+    return None
 
 
 def _clean_url(url: str) -> str:
