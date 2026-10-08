@@ -73,18 +73,22 @@ Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
 |---|---|
 | `p/default` | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
 
-Results are auto-updated every day and on every manual workflow run. Each run
-installs the latest Semgrep release and prints its version in the run log.
+Results are auto-updated on `master` every day and on every manual workflow
+run. Each run installs the latest Semgrep release and prints its version in the
+run log.
 
 ### Running the benchmark
 
-The full pipeline (start VulnerableApp, run Semgrep, convert, benchmark, commit
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack like the ZAP benchmark, run Semgrep, convert, benchmark, commit
 results) is automated via GitHub Actions:
 
 1. Open the **Actions** tab and pick **Semgrep Benchmark**
 2. Click **Run workflow**
-3. Results are committed automatically to the file above, along with the
-   converted findings in `benchmarks/Semgrep/findings/semgrep-findings.json`
+3. On `master`, results are committed automatically to the file above, along
+   with the converted findings in `benchmarks/Semgrep/findings/semgrep-findings.json`.
+   On other branches, nothing is committed; download the
+   `semgrep-benchmark-artifacts` artifact of the run instead.
 
 See [`.github/workflows/semgrep-benchmark.yml`](../.github/workflows/semgrep-benchmark.yml)
 for the full workflow definition.
@@ -122,9 +126,12 @@ python3 benchmarks/Semgrep/scripts/convert_semgrep_to_benchmark.py \
     --output benchmarks/Semgrep/findings/semgrep-findings.json
 ```
 
-The script emits one finding per Semgrep result: the path, the start line, the
-first CWE ID of the rule, and the rule's `vulnerability_class` as the type. No
-manual rule mapping is needed.
+The script emits one finding per CWE of each Semgrep result: the path, the
+start line, the CWE ID, and the rule's `vulnerability_class` as the type. When a
+rule lists several CWEs, only the first finding carries the type, because the
+SAST matcher skips a finding that repeats the file, line and type of an earlier
+one. A result with neither a CWE nor a `vulnerability_class` is skipped with a
+warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 

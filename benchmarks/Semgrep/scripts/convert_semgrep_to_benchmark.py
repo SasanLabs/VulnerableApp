@@ -36,7 +36,7 @@ Semgrep writes a top-level "results" array. Each result looks like:
       }
     }
 
-One finding is emitted per result.
+One finding is emitted per CWE of each result (see Notes).
 
 Output format (VulnerableApp benchmark input)
 ---------------------------------------------
@@ -57,10 +57,15 @@ Output format (VulnerableApp benchmark input)
 Notes
 -----
 - line is the start line of the result.
-- cwe is the first CWE ID in the rule metadata, without its description.
+- cwe is a CWE ID from the rule metadata, without its description. A rule
+  that lists several CWEs gives one finding per CWE. Only the first of them
+  carries the type, because the SAST matcher skips a finding that repeats the
+  (filePath, line, type) of an earlier one, which would drop the other CWEs.
 - type is the first vulnerability_class of the rule, passed through as-is.
   Like the ZAP converter, the script does not hard-code a mapping to
   VulnerableApp's type names; CWE matching is the main axis.
+- A result with neither a CWE nor a vulnerability_class is skipped with a
+  warning, because the SAST matcher cannot score it.
 - Duplicate (filePath, line, cwe, type) tuples are de-duplicated.
 """
 
@@ -83,10 +88,18 @@ def _first(value) -> Optional[str]:
     return None
 
 
-def _cwe_tag(raw) -> Optional[str]:
-    """Extract the ID from a Semgrep CWE label (e.g. 'CWE-89: ...' -> 'CWE-89')."""
-    match = _CWE_ID.search(_first(raw) or "")
-    return match.group(0).upper() if match else None
+def _cwe_tags(raw) -> list[str]:
+    """
+    Extract the IDs from a Semgrep CWE field, one per label, in order and without
+    repeats (e.g. ['CWE-611: ...', 'CWE-776: ...'] -> ['CWE-611', 'CWE-776']).
+    The field can be a single label or a list of labels.
+    """
+    tags: list[str] = []
+    for label in raw if isinstance(raw, list) else [raw]:
+        match = _CWE_ID.search(label) if isinstance(label, str) else None
+        if match and match.group(0).upper() not in tags:
+            tags.append(match.group(0).upper())
+    return tags
 
 
 def convert(semgrep_report: dict) -> dict:
@@ -103,21 +116,29 @@ def convert(semgrep_report: dict) -> dict:
             continue
 
         metadata = result.get("extra", {}).get("metadata", {})
-        cwe = _cwe_tag(metadata.get("cwe"))
+        cwes = _cwe_tags(metadata.get("cwe"))
         vuln_type = _first(metadata.get("vulnerability_class"))
-
-        key = (path, line, cwe, vuln_type)
-        if key in seen:
+        if not cwes and not vuln_type:
+            rule = result.get("check_id") or "unknown rule"
+            print(f"WARNING: skipped {rule} at {path}:{line}: no CWE or "
+                  "vulnerability_class, so the SAST matcher cannot score it",
+                  file=sys.stderr)
             continue
-        seen.add(key)
 
-        finding: dict = {"filePath": path, "line": line}
-        if cwe:
-            finding["cwe"] = cwe
-        if vuln_type:
-            finding["type"] = vuln_type
+        for i, cwe in enumerate(cwes or [None]):
+            finding_type = vuln_type if i == 0 else None
+            key = (path, line, cwe, finding_type)
+            if key in seen:
+                continue
+            seen.add(key)
 
-        findings.append(finding)
+            finding: dict = {"filePath": path, "line": line}
+            if cwe:
+                finding["cwe"] = cwe
+            if finding_type:
+                finding["type"] = finding_type
+
+            findings.append(finding)
 
     return {
         "tool": "Semgrep",
