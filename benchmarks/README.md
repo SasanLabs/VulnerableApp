@@ -13,7 +13,7 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 `benchmarks/<tool>-results.json`.
 
 > Running the scanner itself is **out of scope**. You are responsible for
-> running ZAP / Burp / Semgrep / your tool against VulnerableApp (or its source
+> running ZAP / Burp / Semgrep / PMD / your tool against VulnerableApp (or its source
 > tree) and converting its output into the input format below.
 
 ---
@@ -61,6 +61,56 @@ natively — no manual alert-name mapping needed.
 A sample benchmark output is at
 [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json).
  
+---
+
+## PMD (SAST)
+
+[PMD](https://pmd.github.io/) is benchmarked in `SAST` mode against the
+ground truth in `expectedIssues.csv`. PMD's Java security rule set is small, so
+a low (even zero) coverage figure is an expected result, not a bug in the
+integration.
+
+### 1. Run PMD
+
+Download PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases)
+and run it from the repository root. The rules are PMD's Java `security`
+category plus a few security-adjacent rules:
+
+```bash
+pmd check -d src/main/java \
+    -R category/java/security.xml,category/java/bestpractices.xml/AvoidUsingHardCodedIP,category/java/bestpractices.xml/AvoidPrintStackTrace,category/java/errorprone.xml/CloseResource,category/java/errorprone.xml/AvoidLosingExceptionInformation \
+    -f json -r benchmarks/PMD/pmd-raw-report.json
+```
+
+Run it from the repo root with a relative `-d` so reported paths are
+project-relative (`src/main/java/...`).
+
+### 2. Convert the output
+
+```bash
+python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
+    --input  benchmarks/PMD/pmd-raw-report.json \
+    --output benchmarks/PMD/pmd-benchmark-input.json
+```
+
+PMD reports contain no CWE IDs, so the script maps each PMD rule name to a CWE
+and a type label (`RULE_MAP` in the script). Rules not in the map are still
+emitted, with the rule name as `type` and no `cwe`. Absolute paths are made
+project-relative (override the root with `--root`). Self-test:
+`python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test`.
+
+### 3. Submit to the benchmark
+
+```bash
+curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+    -H "Content-Type: application/json" \
+    -d @benchmarks/PMD/pmd-benchmark-input.json
+```
+
+The response (also written to `benchmarks/pmd-results.json`) lists detected,
+missed and unmatched findings. In a run with PMD 7.9.0 against
+`src/main/java`, PMD reported 5 findings, none of which matched the ground truth.
+
 ---
 
 ## Choosing a scan type
@@ -286,5 +336,3 @@ DAST scanners commonly report findings such as missing `Strict-Transport-Securit
 observations but fall outside VulnerableApp's intentional vulnerability set.
 They will always appear in `unmatchedItems` and should not be interpreted as
 false positives. This applies to any DAST scanner benchmarked against VulnerableApp.
-
-
