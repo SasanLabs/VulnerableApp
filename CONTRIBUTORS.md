@@ -54,6 +54,7 @@ Thanks to these wonderful people 🎉
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Eyablg-ops"><img src="https://avatars.githubusercontent.com/u/247856798?v=4?s=100" width="100px;" alt="Eyaaa.blg"/><br /><sub><b>Eyaaa.blg</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Eyablg-ops" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Akhil-1527"><img src="https://avatars.githubusercontent.com/u/200716675?v=4?s=100" width="100px;" alt="Akhil-1527"/><br /><sub><b>Akhil-1527</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=Akhil-1527" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
