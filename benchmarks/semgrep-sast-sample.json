@@ -4,25 +4,25 @@
   "findings": [
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 56,
+      "line": 93,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 68,
+      "line": 83,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 45,
+      "line": 54,
       "cwe": "CWE-79",
       "type": "Reflected XSS"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 46,
+      "line": 48,
       "cwe": "CWE-77",
       "type": "Command Injection"
     },

@@ -40,7 +40,7 @@ jobs:
               "name": "legacy",
               "automation_file": "zap-automation-legacy.yaml",
               "report_file": "zap-raw-report-legacy.json",
-              "input_file": "zap-benchmark-input-legacy.json",
+              "input_file": "findings/zap-benchmark-findings-legacy.json",
               "results_file": "zap-results-legacy.json",
               "log_file": "zap-scan-legacy.log"
           }
@@ -48,7 +48,7 @@ jobs:
               "name": "modern",
               "automation_file": "zap-automation-modern.yaml",
               "report_file": "zap-raw-report.json",
-              "input_file": "zap-benchmark-input.json",
+              "input_file": "findings/zap-benchmark-findings.json",
               "results_file": "zap-results.json",
               "log_file": "zap-scan-modern.log"
           }
@@ -243,8 +243,8 @@ jobs:
 
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add benchmarks/ZAP/${{ matrix.scan.results_file }}
-
+          git add benchmarks/ZAP/${{ matrix.scan.results_file }} benchmarks/ZAP/${{ matrix.scan.input_file }}
+          
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0

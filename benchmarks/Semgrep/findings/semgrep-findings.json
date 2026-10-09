@@ -1,0 +1,288 @@
+{
+  "tool": "Semgrep",
+  "scanType": "SAST",
+  "findings": [
+    {
+      "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
+      "line": 134,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
+      "line": 135,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 60,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 75,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 93,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 113,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 134,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 150,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 186,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 202,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
+      "line": 88,
+      "cwe": "CWE-327",
+      "type": "Cryptographic Issues"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
+      "line": 51,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 53,
+      "cwe": "CWE-78",
+      "type": "Command Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
+      "line": 43,
+      "cwe": "CWE-352",
+      "type": "Cross-Site Request Forgery (CSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
+      "line": 58,
+      "cwe": "CWE-23",
+      "type": "Path Traversal"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 136,
+      "cwe": "CWE-1004",
+      "type": "Cookie Security"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 145,
+      "cwe": "CWE-1004",
+      "type": "Cookie Security"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
+      "line": 161,
+      "cwe": "CWE-1004",
+      "type": "Cookie Security"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+      "line": 547,
+      "cwe": "CWE-23",
+      "type": "Path Traversal"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+      "line": 43,
+      "cwe": "CWE-918",
+      "type": "Server-Side Request Forgery (SSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+      "line": 63,
+      "cwe": "CWE-918",
+      "type": "Server-Side Request Forgery (SSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 93,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 135,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 185,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 83,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 206,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 272,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 85,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 115,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 130,
+      "cwe": "CWE-89",
+      "type": "SQL Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+      "line": 67,
+      "cwe": "CWE-918",
+      "type": "Server-Side Request Forgery (SSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+      "line": 161,
+      "cwe": "CWE-918",
+      "type": "Server-Side Request Forgery (SSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+      "line": 189,
+      "cwe": "CWE-918",
+      "type": "Server-Side Request Forgery (SSRF)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 68,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 94,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 123,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 157,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 199,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 232,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 258,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 54,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 86,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 120,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 150,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 180,
+      "cwe": "CWE-79",
+      "type": "Cross-Site-Scripting (XSS)"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 364,
+      "cwe": "CWE-611",
+      "type": "XML Injection"
+    }
+  ]
+}

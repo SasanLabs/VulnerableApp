@@ -46,5 +46,8 @@ __pycache__/
 /benchmarks/**/*-results.json
 !/benchmarks/ZAP/zap-results.json
 !/benchmarks/ZAP/zap-results-legacy.json
+!/benchmarks/Semgrep/semgrep-results.json
+/benchmarks/Semgrep/semgrep-raw-report.json
 !/benchmarks/Wapiti/wapiti-results.json
+/benchmarks/Wapiti/wapiti-raw-report.json
 
