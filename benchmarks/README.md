@@ -135,6 +135,32 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## Wapiti
+
+Wapiti is benchmarked against VulnerableApp using its DAST scanner.
+
+### Latest results
+
+| Scanner | Results file |
+|---|---|
+| Wapiti | [`benchmarks/Wapiti/wapiti-results.json`](Wapiti/wapiti-results.json) |
+
+Results are auto-updated daily via [`.github/workflows/wapiti-benchmark.yml`](../.github/workflows/wapiti-benchmark.yml).
+
+### Conversion script
+
+Convert Wapiti's JSON report (`-f json`) into the benchmark input format:
+
+```bash
+python3 benchmarks/Wapiti/scripts/convert_wapiti_to_benchmark.py \
+    --input  benchmarks/Wapiti/wapiti-raw-report.json \
+    --output benchmarks/Wapiti/findings/wapiti-findings.json
+```
+
+See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reproduction instructions.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
