@@ -1,0 +1,34 @@
+{
+  "tool": "Nuclei",
+  "scanType": "DAST",
+  "findings": [
+    {
+      "url": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+      "cwe": "CWE-89",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:9090/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:9090/VulnerableApp/CommandInjection/LEVEL_1",
+      "cwe": "CWE-77",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:9090/VulnerableApp/PathTraversal/LEVEL_1",
+      "cwe": "CWE-22",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1",
+      "cwe": "CWE-79",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:9090/VulnerableApp/"
+    }
+  ]
+}
