@@ -38,6 +38,12 @@ Most vulnerable apps are:
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
 
+## 🎥 Video Overview
+
+New to the project? Watch this OWASP Spotlight session for a high-level overview of VulnerableApp:
+
+[OWASP Spotlight series: VulnerableApp overview](https://www.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T)
+
 ## User Interface
 #### Challenge Mode
 ![Challenge Mode](docs/gifs/challenge-mode.gif)
