@@ -1,0 +1,100 @@
+name: PR Startup Gate
+
+on:
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  startup-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build local Docker image for PR changes
+        run: ./gradlew jibDockerBuild --no-daemon
+
+      - name: Verify server starts in Docker mode
+        run: |
+          set -euo pipefail
+
+          cleanup() {
+            docker compose -f docker-compose.local.yml down -v --remove-orphans
+          }
+          trap cleanup EXIT
+
+          if ! docker compose -f docker-compose.local.yml up -d; then
+            echo "docker compose up failed"
+            docker compose -f docker-compose.local.yml logs --no-color || true
+            exit 1
+          fi
+
+          for attempt in {1..60}; do
+            if curl -fsS http://localhost/VulnerableApp/ >/dev/null; then
+              echo "Docker mode is up"
+              exit 0
+            fi
+            echo "Waiting for Docker mode to be ready... ($attempt/60)"
+            sleep 5
+          done
+
+          echo "Docker mode failed to start in time"
+          docker compose -f docker-compose.local.yml logs --no-color
+          exit 1
+
+      - name: Build executable JAR
+        run: ./gradlew bootJar --no-daemon
+
+      - name: Verify server starts in JAR mode
+        run: |
+          set -euo pipefail
+
+          JAR_FILE=$(find build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-plain.jar' | head -n 1)
+          if [ -z "$JAR_FILE" ]; then
+            echo "No executable jar found in build/libs"
+            ls -la build/libs || true
+            exit 1
+          fi
+
+          java -jar "$JAR_FILE" > jar.log 2>&1 &
+          JAR_PID=$!
+
+          cleanup() {
+            if kill -0 "$JAR_PID" 2>/dev/null; then
+              kill "$JAR_PID"
+              wait "$JAR_PID" || true
+            fi
+          }
+          trap cleanup EXIT
+
+          for attempt in {1..60}; do
+            if curl -fsS http://localhost:9090/VulnerableApp/ >/dev/null; then
+              echo "JAR mode is up"
+              exit 0
+            fi
+
+            if ! kill -0 "$JAR_PID" 2>/dev/null; then
+              echo "JAR process exited before server became ready"
+              cat jar.log
+              exit 1
+            fi
+
+            echo "Waiting for JAR mode to be ready... ($attempt/60)"
+            sleep 5
+          done
+
+          echo "JAR mode failed to start in time"
+          cat jar.log
+          exit 1

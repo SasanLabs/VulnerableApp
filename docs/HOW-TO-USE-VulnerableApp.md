@@ -71,7 +71,8 @@ Running the scanner itself is out of scope — you supply the JSON. See [`benchm
 type: type of vulnerability present
 cwe: CWE id for the Vulnerability
 filePath: Full path of the file containing the Vulnerability
-line: Line number in the file containing the Vulnerability
-numberOfSources: Number of times that line is executed.
+line: Line number of the vulnerable statement, the line a SAST tool is expected to report
+numberOfSources: Number of vulnerable levels that expose the issue through that line (1 unless several levels share it)
 ```
+The rule for choosing the line is described in [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md#what-a-ground-truth-row-points-at).
 
