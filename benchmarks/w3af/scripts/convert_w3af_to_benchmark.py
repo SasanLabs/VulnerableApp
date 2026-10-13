@@ -74,6 +74,10 @@ Notes
   payload on, so the injection parameters are in the query; VulnerableApp's
   ground truth is keyed on the path (``/XSS/LEVEL_1``), so keeping the query
   would guarantee a miss. The path is what both tools agree on.
+- Every non-zero CWE and WASC id w3af reports for an issue is kept, as one
+  finding per (url, id, method) tuple. w3af can list several (``[74, 79]``) and
+  the benchmark matches on the id, so keeping only the first would report a miss
+  for a ground truth row keyed on a later one.
 - Duplicate (url, cwe, wascId, method) tuples are de-duplicated, because w3af
   can report the same finding from more than one plugin.
 - The script intentionally does NOT map w3af plugin names to
@@ -90,29 +94,32 @@ from typing import Optional
 from urllib.parse import urlsplit
 
 
-def _first_id(raw: object) -> Optional[str]:
-    """w3af emits CWE/WASC ids as a list; take the first non-zero entry.
+def _all_ids(raw: object) -> list[str]:
+    """w3af emits CWE/WASC ids as a list; keep every non-zero entry.
 
-    Returns None for a missing, empty or zero id, so a finding with no id keeps
+    All of them travel with the finding rather than just the first. w3af can
+    assert more than one id for the same issue (``"CWE IDs": [74, 79]``), and the
+    benchmark matches on the id, so reporting only the first would count a ground
+    truth row keyed on a later one as a miss even though w3af did report it.
+
+    Zero and blank entries are dropped, so a finding with no usable id keeps
     matching on whatever else it carries rather than on a literal "0".
     """
     if raw is None:
-        return None
+        return []
     values = raw if isinstance(raw, (list, tuple)) else [raw]
+    ids: list[str] = []
     for value in values:
         if value is None:
             continue
         text = str(value).strip()
         if text not in ("", "0"):
-            return text
-    return None
+            ids.append(text)
+    return ids
 
 
-def _cwe_tag(raw: object) -> Optional[str]:
+def _cwe_tag(value: str) -> str:
     """Prefix a bare id with 'CWE-' (79 -> 'CWE-79')."""
-    value = _first_id(raw)
-    if value is None:
-        return None
     return value if value.upper().startswith("CWE-") else f"CWE-{value}"
 
 
@@ -155,24 +162,26 @@ def convert(w3af_report: dict) -> dict:
         if not url:
             continue
 
-        cwe = _cwe_tag(item.get("CWE IDs"))
-        wasc = _first_id(item.get("WASC IDs"))
+        cwes = [_cwe_tag(value) for value in _all_ids(item.get("CWE IDs"))] or [None]
+        wascs = _all_ids(item.get("WASC IDs")) or [None]
         method = _method(item.get("HTTP method"))
 
-        key = (url, cwe, wasc, method)
-        if key in seen:
-            continue
-        seen.add(key)
+        for cwe in cwes:
+            for wasc in wascs:
+                key = (url, cwe, wasc, method)
+                if key in seen:
+                    continue
+                seen.add(key)
 
-        finding: dict = {"url": url}
-        if cwe:
-            finding["cwe"] = cwe
-        if wasc:
-            finding["wascId"] = wasc
-        if method:
-            finding["method"] = method
+                finding: dict = {"url": url}
+                if cwe:
+                    finding["cwe"] = cwe
+                if wasc:
+                    finding["wascId"] = wasc
+                if method:
+                    finding["method"] = method
 
-        findings.append(finding)
+                findings.append(finding)
 
     return {
         "tool": "w3af",

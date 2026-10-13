@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(__file__))
 
-from convert_w3af_to_benchmark import convert, _cwe_tag, _first_id, _path_only
+from convert_w3af_to_benchmark import convert, _all_ids, _cwe_tag, _path_only
 
 
 # ---------------------------------------------------------------------------
@@ -57,35 +57,43 @@ def _item(name="Cross Site Scripting", method="GET",
 
 
 # ---------------------------------------------------------------------------
-# _first_id
+# _all_ids
 # ---------------------------------------------------------------------------
 
-def test_first_id_returns_none_for_missing():
-    assert _first_id(None) is None
+def test_all_ids_returns_empty_for_missing():
+    assert _all_ids(None) == []
 
 
-def test_first_id_returns_none_for_empty_list():
-    assert _first_id([]) is None
+def test_all_ids_returns_empty_for_empty_list():
+    assert _all_ids([]) == []
 
 
-def test_first_id_returns_none_for_zero():
-    assert _first_id([0]) is None
+def test_all_ids_returns_empty_for_zero():
+    assert _all_ids([0]) == []
 
 
-def test_first_id_skips_leading_zero():
-    assert _first_id([0, 89]) == "89"
+def test_all_ids_skips_leading_zero():
+    assert _all_ids([0, 89]) == ["89"]
 
 
-def test_first_id_accepts_scalar():
-    assert _first_id(89) == "89"
+def test_all_ids_accepts_scalar():
+    assert _all_ids(89) == ["89"]
 
 
-def test_first_id_accepts_string():
-    assert _first_id(["79"]) == "79"
+def test_all_ids_accepts_string():
+    assert _all_ids(["79"]) == ["79"]
 
 
-def test_first_id_strips_whitespace():
-    assert _first_id(["  79  "]) == "79"
+def test_all_ids_strips_whitespace():
+    assert _all_ids(["  79  "]) == ["79"]
+
+
+def test_all_ids_keeps_every_entry():
+    assert _all_ids([74, 79]) == ["74", "79"]
+
+
+def test_all_ids_keeps_later_entries_around_a_zero():
+    assert _all_ids([0, 74, 79]) == ["74", "79"]
 
 
 # ---------------------------------------------------------------------------
@@ -93,23 +101,15 @@ def test_first_id_strips_whitespace():
 # ---------------------------------------------------------------------------
 
 def test_cwe_tag_prefixes_bare_digits():
-    assert _cwe_tag([79]) == "CWE-79"
+    assert _cwe_tag("79") == "CWE-79"
 
 
 def test_cwe_tag_leaves_existing_prefix():
-    assert _cwe_tag(["CWE-79"]) == "CWE-79"
+    assert _cwe_tag("CWE-79") == "CWE-79"
 
 
 def test_cwe_tag_is_case_insensitive_on_the_prefix():
-    assert _cwe_tag(["cwe-79"]) == "cwe-79"
-
-
-def test_cwe_tag_returns_none_for_zero():
-    assert _cwe_tag([0]) is None
-
-
-def test_cwe_tag_returns_none_for_missing():
-    assert _cwe_tag(None) is None
+    assert _cwe_tag("cwe-79") == "cwe-79"
 
 
 # ---------------------------------------------------------------------------
@@ -155,6 +155,40 @@ def test_convert_maps_cwe_and_wasc():
     result = convert(_make_report([_item(cwe=[79], wasc=[8])]))
     assert result["findings"][0]["cwe"] == "CWE-79"
     assert result["findings"][0]["wascId"] == "8"
+
+
+def test_convert_keeps_every_cwe_id():
+    result = convert(_make_report([_item(cwe=[74, 79], wasc=[8])]))
+    assert [f["cwe"] for f in result["findings"]] == ["CWE-74", "CWE-79"]
+
+
+def test_convert_can_match_on_a_later_cwe_id():
+    # A ground truth row keyed on CWE-79 must not read as a miss just because
+    # w3af happened to list CWE-74 first.
+    result = convert(_make_report([_item(cwe=[74, 79], wasc=[8])]))
+    assert "CWE-79" in [f["cwe"] for f in result["findings"]]
+
+
+def test_convert_keeps_every_wasc_id():
+    result = convert(_make_report([_item(cwe=[79], wasc=[8, 40])]))
+    assert [f["wascId"] for f in result["findings"]] == ["8", "40"]
+
+
+def test_convert_pairs_each_cwe_with_each_wasc():
+    result = convert(_make_report([_item(cwe=[74, 79], wasc=[8, 40])]))
+    assert {(f["cwe"], f["wascId"]) for f in result["findings"]} == {
+        ("CWE-74", "8"),
+        ("CWE-74", "40"),
+        ("CWE-79", "8"),
+        ("CWE-79", "40"),
+    }
+
+
+def test_convert_deduplicates_the_same_alternatives_from_two_plugins():
+    a = _item(cwe=[74, 79], wasc=[8])
+    b = _item(cwe=[79, 74], wasc=[8])
+    result = convert(_make_report([a, b]))
+    assert len(result["findings"]) == 2
 
 
 def test_convert_maps_method_uppercase():
