@@ -153,7 +153,7 @@
             labelOf[b.id] = b.label;
         });
         var values = runs.map(function (r) {
-            return { run_date: r.run_date, benchmark: r.benchmark, label: labelOf[r.benchmark], coverage: r.coverage };
+            return { run_date: localDay(r.run_date), benchmark: r.benchmark, label: labelOf[r.benchmark], coverage: r.coverage };
         });
         var tooltip = [{ field: "run_date", type: "temporal", title: "Date", format: "%b %d, %Y" }];
         var tooltipText = [];
@@ -419,6 +419,15 @@
 
     function caseInsensitive(a, b) {
         return a.localeCompare(b, undefined, { sensitivity: "base" });
+    }
+
+    /**
+     * Midnight of a YYYY-MM-DD day in the viewer's timezone. Vega reads a bare ISO date as UTC
+     * midnight but formats it in local time, which shows the previous day west of UTC.
+     */
+    function localDay(isoDate) {
+        var parts = isoDate.split("-");
+        return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])).getTime();
     }
 
     function levelNumber(level) {

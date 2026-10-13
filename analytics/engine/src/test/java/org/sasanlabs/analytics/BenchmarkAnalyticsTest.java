@@ -136,6 +136,32 @@ class BenchmarkAnalyticsTest {
                         tuple("2026-10-13", "zap-modern", 13));
     }
 
+    @Test
+    void previousFindings_keepsOnlyThatBenchmarksRows_andSurvivesACsvRoundTrip() throws Exception {
+        List<FindingRow> written =
+                BenchmarkAnalytics.toFindings(
+                        ZAP, BenchmarkAnalytics.parseResult(DAST_RESULT), "2026-10-13", Map.of());
+        List<FindingRow> existing =
+                new java.util.ArrayList<>(
+                        written.stream().map(r -> FindingRow.fromCells(r.toCells())).toList());
+        existing.add(
+                new FindingRow(
+                        "2026-10-13",
+                        "semgrep",
+                        "Semgrep",
+                        "p/default",
+                        "SAST",
+                        Status.MISSED,
+                        "Sqli",
+                        "",
+                        "SQL Injection",
+                        "CWE-89",
+                        "src/Sqli.java:1"));
+
+        assertThat(BenchmarkAnalytics.previousFindings(existing, "zap-modern")).isEqualTo(written);
+        assertThat(BenchmarkAnalytics.previousFindings(existing, "nuclei")).isEmpty();
+    }
+
     private static RunRow run(String date, String benchmark, int detected) {
         return new RunRow(
                 date, benchmark, "S", "v", "DAST", "", 100, detected, 100 - detected, 0, "", "");

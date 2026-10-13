@@ -26,7 +26,8 @@ import org.sasanlabs.analytics.model.RunRow;
  * <ul>
  *   <li>{@code runs.csv} gains (or updates) one row per benchmark for the day its results file was
  *       last committed, so it accumulates history across runs.
- *   <li>{@code findings.csv} is rewritten with every item of each benchmark's latest result.
+ *   <li>{@code findings.csv} is rewritten with every item of each benchmark's latest result. A
+ *       benchmark whose results file is missing keeps its previous rows.
  * </ul>
  *
  * <p>With {@code --backfill}, {@code runs.csv} is also filled from every past revision of each
@@ -70,6 +71,13 @@ public final class AnalyticsCli {
         List<BenchmarkSource> sources = readSources(sourcesFile);
         Map<String, String> sastClassToChallenge = readSastClassToChallenge(mappingFile);
 
+        Path runsFile = outDir.resolve("runs.csv");
+        Path findingsFile = outDir.resolve("findings.csv");
+        List<FindingRow> existingFindings = new ArrayList<>();
+        for (List<String> cells : Csv.readRows(findingsFile)) {
+            existingFindings.add(FindingRow.fromCells(cells));
+        }
+
         List<RunRow> runUpdates = new ArrayList<>();
         List<FindingRow> findings = new ArrayList<>();
         for (BenchmarkSource source : sources) {
@@ -78,7 +86,12 @@ public final class AnalyticsCli {
             }
             Path resultsFile = repoRoot.resolve(source.results());
             if (!Files.exists(resultsFile)) {
-                System.err.println("WARN: skipping " + source.id() + ", missing " + resultsFile);
+                System.err.println(
+                        "WARN: missing "
+                                + resultsFile
+                                + ", keeping the last findings of "
+                                + source.id());
+                findings.addAll(BenchmarkAnalytics.previousFindings(existingFindings, source.id()));
                 continue;
             }
             BenchmarkResult result =
@@ -93,7 +106,6 @@ public final class AnalyticsCli {
                     BenchmarkAnalytics.toFindings(source, result, runDate, sastClassToChallenge));
         }
 
-        Path runsFile = outDir.resolve("runs.csv");
         List<RunRow> existing = new ArrayList<>();
         for (List<String> cells : Csv.readRows(runsFile)) {
             existing.add(RunRow.fromCells(cells));
@@ -101,7 +113,6 @@ public final class AnalyticsCli {
         List<RunRow> runs = BenchmarkAnalytics.mergeRuns(existing, runUpdates);
         Csv.write(runsFile, RunRow.HEADER, runs.stream().map(RunRow::toCells).toList());
 
-        Path findingsFile = outDir.resolve("findings.csv");
         Csv.write(
                 findingsFile,
                 FindingRow.HEADER,

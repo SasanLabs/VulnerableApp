@@ -84,6 +84,14 @@ public final class BenchmarkAnalytics {
         return merged;
     }
 
+    /**
+     * The rows of {@code benchmark} in a previously written findings file, so a benchmark whose
+     * results file is missing keeps its last published findings instead of disappearing.
+     */
+    public static List<FindingRow> previousFindings(List<FindingRow> existing, String benchmark) {
+        return existing.stream().filter(row -> row.benchmark().equals(benchmark)).toList();
+    }
+
     /** Detection coverage as a percentage with two decimals; {@code 0.00} without ground truth. */
     static String coverage(int detected, int totalExpected) {
         double value = totalExpected == 0 ? 0.0 : detected * 100.0 / totalExpected;

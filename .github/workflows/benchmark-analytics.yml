@@ -73,11 +73,12 @@ jobs:
 
       - name: Build dataset
         run: |
-          ARGS=""
+          # Gradle rejects an empty --args, so only pass it when there is one
           if [ "${{ inputs.backfill }}" = "true" ]; then
-            ARGS="--backfill"
+            ./gradlew -p analytics/engine run --args="--backfill"
+          else
+            ./gradlew -p analytics/engine run
           fi
-          ./gradlew -p analytics/engine run --args="$ARGS"
 
           echo "=== Latest runs ==="
           tail -n 5 analytics/data/benchmark/runs.csv
