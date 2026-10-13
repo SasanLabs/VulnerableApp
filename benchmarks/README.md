@@ -171,7 +171,7 @@ the template recorded one. Template names are deliberately **not** mapped to
 Then submit it like any other DAST payload:
 
 ```bash
-curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
+curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
   -H "Content-Type: application/json" \
   -d @benchmarks/Nuclei/nuclei-benchmark-input.json
 ```
@@ -181,6 +181,7 @@ A converted sample is at
 produced by that script from
 [`benchmarks/Nuclei/nuclei-raw.jsonl`](Nuclei/nuclei-raw.jsonl), which is a
 trimmed run rather than a full report.
+
 ---
 
 ## Choosing a scan type
