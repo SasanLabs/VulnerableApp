@@ -9,6 +9,10 @@ import java.util.List;
  *
  * <p>{@code coverage} is detected / totalExpected as a percentage, or 0.0 when the ground truth is
  * empty.
+ *
+ * <p>{@code detectedItems} lists the expected items the scanner found, so consumers can tell which
+ * vulnerabilities were detected without fetching the ground truth themselves. It is omitted from
+ * the JSON when a caller does not supply it.
  */
 public class BenchmarkResult {
 
@@ -30,6 +34,10 @@ public class BenchmarkResult {
     @JsonProperty("unmatched")
     private int unmatched;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("detectedItems")
+    private List<Finding> detectedItems;
+
     @JsonProperty("missedItems")
     private List<Finding> missedItems;
 
@@ -47,6 +55,7 @@ public class BenchmarkResult {
             @JsonProperty("detected") int detected,
             @JsonProperty("missed") int missed,
             @JsonProperty("unmatched") int unmatched,
+            @JsonProperty("detectedItems") List<Finding> detectedItems,
             @JsonProperty("missedItems") List<Finding> missedItems,
             @JsonProperty("unmatchedItems") List<Finding> unmatchedItems) {
         this.tool = tool;
@@ -55,8 +64,30 @@ public class BenchmarkResult {
         this.detected = detected;
         this.missed = missed;
         this.unmatched = unmatched;
+        this.detectedItems = detectedItems;
         this.missedItems = missedItems;
         this.unmatchedItems = unmatchedItems;
+    }
+
+    public BenchmarkResult(
+            String tool,
+            double coverage,
+            int totalExpected,
+            int detected,
+            int missed,
+            int unmatched,
+            List<Finding> missedItems,
+            List<Finding> unmatchedItems) {
+        this(
+                tool,
+                coverage,
+                totalExpected,
+                detected,
+                missed,
+                unmatched,
+                null,
+                missedItems,
+                unmatchedItems);
     }
 
     public String getTool() {
@@ -81,6 +112,10 @@ public class BenchmarkResult {
 
     public int getUnmatched() {
         return unmatched;
+    }
+
+    public List<Finding> getDetectedItems() {
+        return detectedItems;
     }
 
     public List<Finding> getMissedItems() {

@@ -123,9 +123,12 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
+        List<Finding> detectedItems = new ArrayList<>();
         List<Finding> missedItems = new ArrayList<>();
         for (int i = 0; i < expectedRows.size(); i++) {
-            if (!detectedIndices.contains(i)) {
+            if (detectedIndices.contains(i)) {
+                detectedItems.add(expectedRows.get(i));
+            } else {
                 missedItems.add(expectedRows.get(i));
             }
         }
@@ -149,6 +152,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 detected,
                 missedItems.size(),
                 unmatchedItems.size(),
+                detectedItems,
                 missedItems,
                 unmatchedItems);
     }
