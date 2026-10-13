@@ -312,8 +312,8 @@ The HTTP response contains the same JSON that gets persisted to disk.
 ## Output format
 
 The output schema is the same for DAST and SAST. The fields inside each
-`missedItems` / `unmatchedItems` entry vary by scan type (unused fields are
-omitted from the JSON).
+`detectedItems` / `missedItems` / `unmatchedItems` entry vary by scan type
+(unused fields are omitted from the JSON).
 
 ```json
 {
@@ -323,6 +323,7 @@ omitted from the JSON).
   "detected": 6,
   "missed": 134,
   "unmatched": 147,
+  "detectedItems":   [ { "url": "/...", "type": "..." } ],
   "missedItems":     [ { "url": "/...", "type": "..." } ],
   "unmatchedItems":  [ { "url": "/...", "cwe": "..." } ]
 }
@@ -340,6 +341,8 @@ For SAST runs, items look like:
   `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
   (SECURE entries are intentionally clean and don't count). For SAST, count of
   rows in the CSV.
+- `detectedItems` — expected items the scanner reported. Results written before
+  this field existed omit it.
 - `missedItems` — expected items the scanner did not report.
 - `unmatchedItems` — items the scanner reported that don't line up with any
   expected ground-truth row.
@@ -398,4 +401,11 @@ outside the intended vulnerability set (CSRF on request mappings, cookie flags),
 and findings in classes that have no ground-truth rows yet, so it should not be
 read as a list of false positives.
 
+## Analytics
 
+Every results file listed in
+[`analytics/benchmark-sources.json`](../analytics/benchmark-sources.json) is
+turned into a standardized dataset and drawn on the
+[Scanner Benchmark page](https://sasanlabs.github.io/VulnerableApp/benchmark/).
+After adding a scanner here, add its results file there. See
+[`analytics/README.md`](../analytics/README.md).

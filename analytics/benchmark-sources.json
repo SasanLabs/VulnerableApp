@@ -1,0 +1,25 @@
+{
+  "benchmarks": [
+    {
+      "id": "zap-modern",
+      "scanner": "ZAP",
+      "variant": "Modern UI",
+      "scanType": "DAST",
+      "results": "benchmarks/ZAP/zap-results.json"
+    },
+    {
+      "id": "zap-legacy",
+      "scanner": "ZAP",
+      "variant": "Legacy UI",
+      "scanType": "DAST",
+      "results": "benchmarks/ZAP/zap-results-legacy.json"
+    },
+    {
+      "id": "semgrep",
+      "scanner": "Semgrep",
+      "variant": "p/default",
+      "scanType": "SAST",
+      "results": "benchmarks/Semgrep/semgrep-results.json"
+    }
+  ]
+}

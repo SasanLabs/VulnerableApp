@@ -1,0 +1,130 @@
+name: Benchmark Analytics
+
+# Rebuilds the standardized benchmark dataset (analytics/data/benchmark) whenever
+# a scanner benchmark commits new results. The dataset feeds the Scanner
+# Benchmark page of the documentation site.
+
+on:
+  push:
+    branches: [master]
+    # The dataset commit itself only touches analytics/data, so it does not
+    # trigger this workflow again
+    paths:
+      - 'benchmarks/**/*results*.json'
+      - 'analytics/benchmark-sources.json'
+      - 'analytics/challenge-mapping.json'
+      - 'analytics/engine/**'
+      - '.github/workflows/benchmark-analytics.yml'
+  pull_request:
+    paths:
+      - 'analytics/**'
+      - '.github/workflows/benchmark-analytics.yml'
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: 'Rebuild the run history from the git history of the results files'
+        required: false
+        default: false
+        type: boolean
+
+# The dataset commit pushes with GH_TRAFFIC_TOKEN, so the job token only needs to read
+permissions:
+  contents: read
+
+# Benchmarks can finish close together; build one dataset at a time
+concurrency:
+  group: benchmark-analytics-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-dataset:
+    name: Build benchmark dataset
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+
+      # ------------------------------------------------------------------
+      # 1. Checkout with full history: run dates come from the commits of
+      #    the results files
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      # ------------------------------------------------------------------
+      # 2. Test the engine, then build the dataset
+      # ------------------------------------------------------------------
+      - name: Test analytics engine
+        run: |
+          chmod +x gradlew
+          ./gradlew -p analytics/engine spotlessCheck test
+
+      - name: Build dataset
+        run: |
+          ARGS=""
+          if [ "${{ inputs.backfill }}" = "true" ]; then
+            ARGS="--backfill"
+          fi
+          ./gradlew -p analytics/engine run --args="$ARGS"
+
+          echo "=== Latest runs ==="
+          tail -n 5 analytics/data/benchmark/runs.csv
+
+      # ------------------------------------------------------------------
+      # 3. Commit the dataset back to master. Pull requests only upload it
+      # ------------------------------------------------------------------
+      - name: Commit dataset
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+        run: |
+          set -e
+
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
+          git add analytics/data/benchmark
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update benchmark analytics dataset [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            if git pull --rebase origin master && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+              success=true
+              break
+            fi
+
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
+
+      - name: Upload dataset
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-analytics-dataset
+          path: analytics/data/benchmark
+          retention-days: 30

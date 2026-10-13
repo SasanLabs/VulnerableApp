@@ -1,0 +1,14 @@
+{
+  "description": "SAST findings map to a challenge by the class name of their file. List the classes whose name differs from the challenge name used in VulnerableApp URLs (the value of @VulnerableAppRestController), so SAST and DAST results line up per challenge.",
+  "sastClassToChallenge": {
+    "AuthLoginService": "AuthenticationVulnerability",
+    "CachePoisoningVulnerability": "CachePoisoning",
+    "CryptographicFailuresVulnerability": "CryptographicFailures",
+    "IDORLoginController": "IDORVulnerability",
+    "JWTValidator": "JWTVulnerability",
+    "PasswordResetService": "PasswordResetVulnerability",
+    "PathTraversalVulnerability": "PathTraversal",
+    "SessionManagementService": "SessionManagementVulnerability",
+    "UrlParamBasedRFI": "RemoteFileInclusion"
+  }
+}
