@@ -1,0 +1,134 @@
+/* Scanner benchmark page. Sits inside the just-the-docs theme, so it only styles its own parts. */
+#benchmark-app {
+    --bm-ink: #52514e;
+    --bm-rule: #e6e5e1;
+    --bm-good: #0ca30c;
+    --bm-good-text: #006300;
+    --bm-critical: #d03b3b;
+    --bm-muted: #8a8984;
+    --bm-bar: #2a78d6;
+}
+
+#benchmark-app .bm-section {
+    margin: 2.5rem 0;
+}
+
+#benchmark-app .bm-help,
+#benchmark-app .bm-status {
+    color: var(--bm-ink);
+}
+
+#benchmark-app .bm-note {
+    border-left: 3px solid var(--bm-muted);
+    padding: 0.25rem 0.75rem;
+    color: var(--bm-ink);
+}
+
+#benchmark-app .bm-chart {
+    width: 100%;
+}
+
+#benchmark-app .bm-chart--scroll,
+#benchmark-app .bm-table-wrap {
+    overflow-x: auto;
+}
+
+#benchmark-app .bm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    display: table;
+}
+
+#benchmark-app .bm-table th,
+#benchmark-app .bm-table td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--bm-rule);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#benchmark-app .bm-table .bm-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+#benchmark-app .bm-location {
+    white-space: normal;
+    word-break: break-all;
+    font-family: SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+}
+
+#benchmark-app .bm-swatch {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-right: 0.45rem;
+    border-radius: 2px;
+    vertical-align: -0.05rem;
+}
+
+#benchmark-app .bm-coverage {
+    min-width: 9rem;
+}
+
+#benchmark-app .bm-bar {
+    display: inline-block;
+    width: 4.5rem;
+    height: 0.5rem;
+    margin-right: 0.5rem;
+    background: var(--bm-rule);
+    border-radius: 4px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+#benchmark-app .bm-bar > span {
+    display: block;
+    height: 100%;
+    background: var(--bm-bar);
+    border-radius: 0 4px 4px 0;
+}
+
+#benchmark-app .bm-pill {
+    display: inline-block;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: 0.8rem;
+}
+
+#benchmark-app .bm-pill--detected {
+    color: var(--bm-good-text);
+}
+
+#benchmark-app .bm-pill--missed {
+    color: var(--bm-critical);
+}
+
+#benchmark-app .bm-pill--unmatched {
+    color: var(--bm-muted);
+}
+
+#benchmark-app .bm-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#benchmark-app .bm-filters label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--bm-ink);
+}
+
+#benchmark-app .bm-filters select {
+    min-width: 14rem;
+    max-width: 100%;
+    padding: 0.3rem;
+}
