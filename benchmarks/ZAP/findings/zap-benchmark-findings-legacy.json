@@ -411,7 +411,13 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/templates",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PasswordResetVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PathTraversal",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -423,7 +429,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_2",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/vectors?query=query+ASC++--+",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -771,7 +777,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1791866603161",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1791946309635",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"
