@@ -137,9 +137,10 @@ def convert(xml_source: Union[str, bytes, Path, ET.Element]) -> dict:
     elif isinstance(xml_source, Path):
         tree = ET.parse(xml_source)
         root = tree.getroot()
-    elif isinstance(xml_source, (str, bytes)):
-        # Could be file path or raw XML content
-        if isinstance(xml_source, str) and (xml_source.strip().startswith("<") or "\n" in xml_source):
+    elif isinstance(xml_source, bytes):
+        root = ET.fromstring(xml_source)
+    elif isinstance(xml_source, str):
+        if xml_source.strip().startswith("<") or "\n" in xml_source:
             root = ET.fromstring(xml_source)
         else:
             p = Path(xml_source)

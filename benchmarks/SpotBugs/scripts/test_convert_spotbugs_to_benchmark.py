@@ -251,3 +251,14 @@ def test_convert_handles_empty_xml():
         "scanType": "SAST",
         "findings": [],
     }
+
+
+def test_convert_handles_raw_bytes():
+    xml_bytes = _make_xml("").encode("utf-8")
+    result = convert(xml_bytes)
+    assert result == {
+        "tool": "SpotBugs-FindSecBugs",
+        "scanType": "SAST",
+        "findings": [],
+    }
+
