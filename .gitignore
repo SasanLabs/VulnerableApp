@@ -47,4 +47,7 @@ __pycache__/
 !/benchmarks/ZAP/zap-results.json
 !/benchmarks/ZAP/zap-results-legacy.json
 !/benchmarks/Semgrep/semgrep-results.json
+!/benchmarks/SpotBugs/spotbugs-results.json
 /benchmarks/Semgrep/semgrep-raw-report.json
+/benchmarks/SpotBugs/spotbugs-raw-report.xml
+

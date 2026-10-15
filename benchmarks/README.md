@@ -135,6 +135,81 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## SpotBugs with FindSecBugs
+
+SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
+SAST mode against the VulnerableApp compiled bytecode.
+
+### Latest results
+
+| Tool | Results file |
+|---|---|
+| SpotBugs + FindSecBugs | [`benchmarks/SpotBugs/spotbugs-results.json`](SpotBugs/spotbugs-results.json) |
+
+Results are auto-updated on `master` every day and on every manual workflow run.
+
+### Running the benchmark
+
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack, run SpotBugs with FindSecBugs via Gradle, convert, benchmark, commit
+results) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **SpotBugs Benchmark**
+2. Click **Run workflow**
+3. On `master`, results are committed automatically to the file above, along
+   with the converted findings in `benchmarks/SpotBugs/findings/spotbugs-findings.json`.
+   On other branches, nothing is committed; download the
+   `spotbugs-benchmark-artifacts` artifact of the run instead.
+
+See [`.github/workflows/spotbugs-benchmark.yml`](../.github/workflows/spotbugs-benchmark.yml)
+for the full workflow definition.
+
+To run it locally:
+
+1. Run the SpotBugs scan with the FindSecBugs plugin configured in Gradle:
+
+   ```bash
+   ./gradlew spotbugsMain
+   ```
+
+   This produces an XML report at `build/reports/spotbugs/spotbugs.xml`.
+
+2. Convert the XML report to benchmark input format using the script described below:
+
+   ```bash
+   python3 benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py \
+       --input  build/reports/spotbugs/spotbugs.xml \
+       --output benchmarks/SpotBugs/findings/spotbugs-findings.json
+   ```
+
+3. Start VulnerableApp from the same checkout (`./gradlew bootRun`, port 9090).
+4. Post the findings and save the response:
+
+   ```bash
+   curl -s -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+       -H "Content-Type: application/json" \
+       -d @benchmarks/SpotBugs/findings/spotbugs-findings.json \
+       -o benchmarks/SpotBugs/spotbugs-results.json
+   ```
+
+### Conversion script
+
+SpotBugs' XML report must be converted to the benchmark input format before
+posting to the endpoint:
+
+```bash
+python3 benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py \
+    --input  build/reports/spotbugs/spotbugs.xml \
+    --output benchmarks/SpotBugs/findings/spotbugs-findings.json
+```
+
+The script parses each `<BugInstance>` from the XML report, resolves the CWE ID
+and vulnerability description (from the instance or the corresponding `<BugPattern>`),
+identifies the primary source line, normalises the file path to project-relative format,
+and emits findings adhering to the standard SAST benchmark schema.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
