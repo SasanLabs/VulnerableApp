@@ -21,8 +21,10 @@ import pytest
 from convert_wapiti_to_benchmark import (
     convert,
     _extract_cwe_from_classifications,
+    _extract_cwes_from_classifications,
     _clean_url
 )
+
 
 
 def test_clean_url_strips_query_and_fragments():
@@ -212,3 +214,45 @@ def test_convert_retains_category_as_type_when_no_cwe():
     assert len(res["findings"]) == 1
     assert res["findings"][0]["type"] == "Unknown Custom Vulnerability"
     assert "cwe" not in res["findings"][0]
+
+
+def test_extract_cwes_multiple_references():
+    classifications = {
+        "Resource consumption": {
+            "ref": {
+                "CWE-405: Asymmetric Resource Consumption (Amplification)": "https://cwe.mitre.org/data/definitions/405.html",
+                "CWE-400: Uncontrolled Resource Consumption": "https://cwe.mitre.org/data/definitions/400.html"
+            }
+        }
+    }
+    cwes = _extract_cwes_from_classifications("Resource consumption", classifications)
+    assert cwes == ["CWE-405", "CWE-400"]
+
+
+def test_convert_emits_one_finding_per_cwe_reference():
+    report = {
+        "classifications": {
+            "Resource consumption": {
+                "ref": {
+                    "CWE-405: Asymmetric Resource Consumption (Amplification)": "https://cwe.mitre.org/data/definitions/405.html",
+                    "CWE-400: Uncontrolled Resource Consumption": "https://cwe.mitre.org/data/definitions/400.html"
+                }
+            }
+        },
+        "vulnerabilities": {
+            "Resource consumption": [
+                {
+                    "method": "POST",
+                    "path": "/VulnerableApp/UnrestrictedFileUpload/LEVEL_9"
+                }
+            ]
+        }
+    }
+    res = convert(report)
+    assert len(res["findings"]) == 2
+    assert res["findings"][0]["cwe"] == "CWE-405"
+    assert res["findings"][0]["url"] == "/VulnerableApp/UnrestrictedFileUpload/LEVEL_9"
+    assert res["findings"][0]["method"] == "POST"
+    assert res["findings"][1]["cwe"] == "CWE-400"
+    assert res["findings"][1]["url"] == "/VulnerableApp/UnrestrictedFileUpload/LEVEL_9"
+    assert res["findings"][1]["method"] == "POST"

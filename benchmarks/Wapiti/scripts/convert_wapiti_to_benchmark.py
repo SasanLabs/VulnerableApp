@@ -66,7 +66,8 @@ Output format (VulnerableApp benchmark input)
 Notes
 -----
 - CWE identifiers are extracted dynamically from the category's 'ref' mapping
-  under 'classifications'.
+  under 'classifications'. When multiple CWE references are listed, one finding
+  per CWE reference is emitted (with 'type' on the first finding if applicable).
 - If a vulnerability category lacks a CWE reference, 'cwe' is omitted and the
   raw category name is emitted as 'type' for unmatched benchmark reporting.
 - URLs are cleaned to remove query parameters, fragments, matrix parameters,
@@ -88,19 +89,27 @@ CATEGORY_TO_TYPE_NAME = {
 }
 
 
-def _extract_cwe_from_classifications(category: str, classifications: dict) -> Optional[str]:
-    """Extract CWE-XXX from classifications ref block (keys or URLs)."""
+def _extract_cwes_from_classifications(category: str, classifications: dict) -> list[str]:
+    """Extract all unique CWE-XXX identifiers from classifications ref block, preserving order."""
     cat_info = classifications.get(category, {}) if isinstance(classifications, dict) else {}
     refs = cat_info.get("ref", {}) if isinstance(cat_info, dict) else {}
+    cwes: list[str] = []
     if isinstance(refs, dict):
         for ref_name, ref_url in refs.items():
-            match = re.search(r"CWE-(\d+)", ref_name, re.I) or re.search(r"CWE-(\d+)", str(ref_url), re.I)
+            match = re.search(r"CWE-(\d+)", ref_name, re.I)
+            if not match:
+                match = re.search(r"CWE-(\d+)", str(ref_url), re.I) or re.search(r"definitions/(\d+)\.html", str(ref_url), re.I)
             if match:
-                return f"CWE-{match.group(1)}"
-            url_match = re.search(r"definitions/(\d+)\.html", str(ref_url), re.I)
-            if url_match:
-                return f"CWE-{url_match.group(1)}"
-    return None
+                cwe_tag = f"CWE-{match.group(1)}"
+                if cwe_tag not in cwes:
+                    cwes.append(cwe_tag)
+    return cwes
+
+
+def _extract_cwe_from_classifications(category: str, classifications: dict) -> Optional[str]:
+    """Extract first CWE-XXX from classifications ref block (backward compatibility helper)."""
+    cwes = _extract_cwes_from_classifications(category, classifications)
+    return cwes[0] if cwes else None
 
 
 def _clean_url(url: str) -> str:
@@ -143,9 +152,9 @@ def convert(wapiti_report: dict) -> dict:
             if not isinstance(instances, list):
                 continue
 
-            cwe = _extract_cwe_from_classifications(category, classifications)
+            cwes = _extract_cwes_from_classifications(category, classifications)
             type_name = CATEGORY_TO_TYPE_NAME.get(category.strip().lower())
-            if not cwe and not type_name:
+            if not cwes and not type_name:
                 type_name = category.strip()
 
             for inst in instances:
@@ -158,20 +167,23 @@ def convert(wapiti_report: dict) -> dict:
                     continue
 
                 method = (inst.get("method") or "GET").strip().upper() or None
-                key = (url, method, cwe, type_name)
-                if key in seen:
-                    continue
-                seen.add(key)
 
-                finding: dict = {"url": url}
-                if cwe:
-                    finding["cwe"] = cwe
-                if type_name:
-                    finding["type"] = type_name
-                if method:
-                    finding["method"] = method
+                for i, cwe in enumerate(cwes or [None]):
+                    finding_type = type_name if i == 0 else None
+                    key = (url, method, cwe, finding_type)
+                    if key in seen:
+                        continue
+                    seen.add(key)
 
-                findings.append(finding)
+                    finding: dict = {"url": url}
+                    if cwe:
+                        finding["cwe"] = cwe
+                    if finding_type:
+                        finding["type"] = finding_type
+                    if method:
+                        finding["method"] = method
+
+                    findings.append(finding)
 
     return {
         "tool": "Wapiti",
