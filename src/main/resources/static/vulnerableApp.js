@@ -284,6 +284,7 @@ function clearSelectedMaster() {
 
 function clearSelectedInnerMaster() {
   //console.log('Clicked item');
+  closeActiveWebSocket();
   const innerMasterItems = document.querySelectorAll(".inner-master-item");
   _clearActiveItemClass(innerMasterItems);
   _clearHelp();
@@ -302,6 +303,32 @@ function getUrlForVulnerabilityLevel() {
   return (
     "/VulnerableApp/" + vulnerabilitySelected + "/" + vulnerabilityLevelSelected
   );
+}
+
+function getWebSocketUrlForVulnerabilityLevel() {
+  const scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
+  return scheme + window.location.host + getUrlForVulnerabilityLevel();
+}
+
+// Only the WebSocket of the level being shown stays open, so it is closed when
+// the user moves to another level or vulnerability. The handlers are removed
+// first so the template that is being replaced never gets a late callback.
+let activeWebSocket = null;
+
+function closeActiveWebSocket() {
+  if (activeWebSocket) {
+    activeWebSocket.onopen = null;
+    activeWebSocket.onmessage = null;
+    activeWebSocket.onclose = null;
+    activeWebSocket.close();
+    activeWebSocket = null;
+  }
+}
+
+function openWebSocketForVulnerabilityLevel() {
+  closeActiveWebSocket();
+  activeWebSocket = new WebSocket(getWebSocketUrlForVulnerabilityLevel());
+  return activeWebSocket;
 }
 
 function getCurrentVulnerabilityLevel() {
