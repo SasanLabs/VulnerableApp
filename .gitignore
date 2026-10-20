@@ -49,5 +49,6 @@ __pycache__/
 !/benchmarks/Semgrep/semgrep-results.json
 !/benchmarks/SpotBugs/spotbugs-results.json
 /benchmarks/Semgrep/semgrep-raw-report.json
-/benchmarks/SpotBugs/spotbugs-raw-report.xml
 
+# Local SpotBugs distribution
+.spotbugs/

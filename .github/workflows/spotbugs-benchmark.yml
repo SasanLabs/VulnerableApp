@@ -59,12 +59,18 @@ jobs:
           docker compose -f docker-compose.without_llm.yml up -d
 
       # ------------------------------------------------------------------
-      # 4. Run SpotBugs with FindSecBugs while the stack starts
+      # 4. Run standalone SpotBugs with FindSecBugs while stack starts
       # ------------------------------------------------------------------
+      - name: Cache SpotBugs distribution
+        uses: actions/cache@v4
+        with:
+          path: .spotbugs
+          key: spotbugs-4.8.6-findsecbugs-1.13.0
+
       - name: Run SpotBugs scan
         run: |
           chmod +x gradlew
-          ./gradlew compileJava spotbugsMain
+          python benchmarks/SpotBugs/scripts/run_spotbugs.py
 
       # ------------------------------------------------------------------
       # 5. Convert SpotBugs report to benchmark input format
@@ -72,7 +78,7 @@ jobs:
       - name: Convert SpotBugs report
         run: |
           python benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py \
-            --input  build/reports/spotbugs/spotbugs.xml \
+            --input  benchmarks/SpotBugs/spotbugs-raw-report.xml \
             --output benchmarks/SpotBugs/findings/spotbugs-findings.json
 
       # ------------------------------------------------------------------
@@ -127,7 +133,7 @@ jobs:
 
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add benchmarks/SpotBugs/spotbugs-results.json benchmarks/SpotBugs/findings/spotbugs-findings.json
+          git add benchmarks/SpotBugs/spotbugs-results.json benchmarks/SpotBugs/findings/spotbugs-findings.json benchmarks/SpotBugs/spotbugs-raw-report.xml
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
@@ -169,7 +175,7 @@ jobs:
         with:
           name: spotbugs-benchmark-artifacts
           path: |
-            build/reports/spotbugs/spotbugs.xml
+            benchmarks/SpotBugs/spotbugs-raw-report.xml
             benchmarks/SpotBugs/findings/spotbugs-findings.json
             benchmarks/SpotBugs/spotbugs-results.json
             vulnerableapp.log

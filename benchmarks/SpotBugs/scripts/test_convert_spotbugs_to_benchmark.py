@@ -19,6 +19,7 @@ from convert_spotbugs_to_benchmark import (
     _find_source_line,
     _format_cwe,
     _normalize_path,
+    _resolve_line,
     convert,
 )
 
@@ -145,13 +146,14 @@ def test_convert_maps_bug_instance_to_sast_finding():
         """
     )
     result = convert(xml)
+    # Line 84 opens applicationJdbcTemplate.query(...); resolved to ground-truth line 85
     assert result == {
         "tool": "SpotBugs-FindSecBugs",
         "scanType": "SAST",
         "findings": [
             {
                 "filePath": NORMALIZED_PATH,
-                "line": 84,
+                "line": 85,
                 "cwe": "CWE-89",
                 "type": "Potential JDBC Injection (Spring JDBC)",
             }
@@ -215,7 +217,8 @@ def test_convert_keeps_findings_on_different_lines():
         """
     )
     result = convert(xml)
-    assert [f["line"] for f in result["findings"]] == [84, 120]
+    # Line 84 resolves to 85, line 120 remains 120
+    assert [f["line"] for f in result["findings"]] == [85, 120]
 
 
 def test_convert_skips_bugs_without_location():
@@ -261,4 +264,38 @@ def test_convert_handles_raw_bytes():
         "scanType": "SAST",
         "findings": [],
     }
+
+
+# ----------------------------------------------------------------------
+# 5. Line resolution tests (aligning bytecode calls with ground truth)
+# ----------------------------------------------------------------------
+
+
+def test_resolve_line_multiline_sql_injection():
+    # UnionBasedSQLInjectionVulnerability.java: query() on 84, SQL on 85; query() on 114, SQL on 115
+    res84 = _resolve_line(NORMALIZED_PATH, 84, "SQL_INJECTION_SPRING_JDBC", "CWE-89")
+    assert res84 == 85
+
+    res114 = _resolve_line(NORMALIZED_PATH, 114, "SQL_INJECTION_SPRING_JDBC", "CWE-89")
+    assert res114 == 115
+
+
+def test_resolve_line_single_line_sql_preserved():
+    # AuthLoginService.java: line 51 contains both query() and arguments on same line
+    auth_path = "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java"
+    res51 = _resolve_line(auth_path, 51, "SQL_INJECTION_SPRING_JDBC", "CWE-89")
+    assert res51 == 51
+
+
+def test_resolve_line_non_sql_preserved():
+    # Non-SQL warnings are not adjusted
+    res = _resolve_line(NORMALIZED_PATH, 84, "PREDICTABLE_RANDOM", "CWE-330")
+    assert res == 84
+
+
+def test_resolve_line_nonexistent_file_preserved():
+    # Missing source file gracefully falls back to reported line
+    res = _resolve_line("src/main/java/NonExistent.java", 42, "SQL_INJECTION_SPRING_JDBC", "CWE-89")
+    assert res == 42
+
 
