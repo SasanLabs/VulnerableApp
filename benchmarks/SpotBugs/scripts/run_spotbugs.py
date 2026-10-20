@@ -53,7 +53,10 @@ def ensure_spotbugs(tools_dir: Path) -> tuple[Path, Path]:
         urllib.request.urlretrieve(SPOTBUGS_URL, tgz_path)
         print("Extracting SpotBugs...")
         with tarfile.open(tgz_path, "r:gz") as tar:
-            tar.extractall(path=tools_dir)
+            if hasattr(tarfile, "data_filter"):
+                tar.extractall(path=tools_dir, filter="data")
+            else:
+                tar.extractall(path=tools_dir)
         if tgz_path.exists():
             tgz_path.unlink()
         if not os.name == "nt":
@@ -77,27 +80,19 @@ def compile_classes(repo_root: Path) -> None:
 
 def extract_classpath(repo_root: Path, tools_dir: Path) -> Path:
     gradle_cmd = str(repo_root / ("gradlew.bat" if os.name == "nt" else "gradlew"))
-    init_script = tools_dir / "print_classpath_init.gradle"
-    init_script.write_text(
-        'allprojects { tasks.register("printClasspath") { doLast { println sourceSets.main.compileClasspath.asPath } } }\n',
-        encoding="utf-8",
-    )
+    init_script = repo_root / "benchmarks" / "SpotBugs" / "scripts" / "print_classpath_init.gradle"
 
-    try:
-        res = subprocess.run(
-            [gradle_cmd, "-q", "-I", str(init_script), "printClasspath"],
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        raw_cp = res.stdout.strip()
-    finally:
-        if init_script.exists():
-            init_script.unlink()
+    res = subprocess.run(
+        [gradle_cmd, "-q", "-I", str(init_script), "printClasspath"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    raw_cp = res.stdout.strip()
 
     cp_file = tools_dir / "auxcp.txt"
-    entries = [entry.strip() for entry in raw_cp.split(os.pathsep) if entry.strip()]
+    entries = [entry.strip() for entry in raw_cp.splitlines() if entry.strip()]
     cp_file.write_text("\n".join(entries), encoding="utf-8")
     return cp_file
 
@@ -111,6 +106,9 @@ def run_scan(
     repo_root: Path,
 ) -> None:
     output_xml.parent.mkdir(parents=True, exist_ok=True)
+    if output_xml.exists():
+        output_xml.unlink()
+
     cmd = [
         str(spotbugs_bin),
         "-textui",
@@ -127,8 +125,10 @@ def run_scan(
     ]
 
     print("Executing standalone SpotBugs scan...")
-    # FindBugs / SpotBugs returns non-zero when warnings are found; do not raise on exit code
     res = subprocess.run(cmd, cwd=repo_root)
+    if res.returncode != 0:
+        print(f"ERROR: SpotBugs scan failed with exit code {res.returncode}", file=sys.stderr)
+        sys.exit(res.returncode)
 
     if not output_xml.is_file() or output_xml.stat().st_size == 0:
         print("ERROR: SpotBugs failed to produce an XML report", file=sys.stderr)

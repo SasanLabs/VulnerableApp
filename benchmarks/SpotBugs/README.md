@@ -63,7 +63,7 @@ spotbugs -textui -xml:withMessages \
     -output benchmarks/SpotBugs/spotbugs-raw-report.xml \
     -pluginList /path/to/findsecbugs-plugin-1.13.0.jar \
     -effort:max -low \
-    -auxclasspathFromFile <(./gradlew -q printClasspath) \
+    -auxclasspathFromFile <(./gradlew -q -I benchmarks/SpotBugs/scripts/print_classpath_init.gradle printClasspath) \
     build/classes/java/main
 ```
 
