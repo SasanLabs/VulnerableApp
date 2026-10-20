@@ -85,6 +85,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         }
 
         Set<ExpectedIssue> detectedSet = new LinkedHashSet<>();
+        List<Finding> detectedItems = new ArrayList<>();
         List<Finding> missedItems = new ArrayList<>();
         for (ExpectedIssue ei : expected) {
             boolean hit = false;
@@ -95,7 +96,9 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 }
             }
             if (hit) {
-                detectedSet.add(ei);
+                if (detectedSet.add(ei)) {
+                    detectedItems.add(toFinding(ei));
+                }
             } else {
                 missedItems.add(toFinding(ei));
             }
@@ -134,6 +137,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 detected,
                 missedItems.size(),
                 unmatchedItems.size(),
+                detectedItems,
                 missedItems,
                 unmatchedItems);
     }
