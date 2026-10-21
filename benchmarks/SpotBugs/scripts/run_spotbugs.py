@@ -72,24 +72,36 @@ def ensure_spotbugs(tools_dir: Path) -> tuple[Path, Path]:
 def compile_classes(repo_root: Path) -> None:
     gradle_cmd = str(repo_root / ("gradlew.bat" if os.name == "nt" else "gradlew"))
     print("Compiling VulnerableApp Java classes (./gradlew compileJava)...")
-    res = subprocess.run([gradle_cmd, "compileJava"], cwd=repo_root)
-    if res.returncode != 0:
-        print("ERROR: ./gradlew compileJava failed", file=sys.stderr)
-        sys.exit(res.returncode)
+    try:
+        res = subprocess.run([gradle_cmd, "compileJava"], cwd=repo_root, timeout=600)
+        if res.returncode != 0:
+            print("ERROR: ./gradlew compileJava failed", file=sys.stderr)
+            sys.exit(res.returncode)
+    except subprocess.TimeoutExpired:
+        print("ERROR: Timed out compiling Java classes via Gradle", file=sys.stderr)
+        sys.exit(1)
 
 
 def extract_classpath(repo_root: Path, tools_dir: Path) -> Path:
     gradle_cmd = str(repo_root / ("gradlew.bat" if os.name == "nt" else "gradlew"))
     init_script = repo_root / "benchmarks" / "SpotBugs" / "scripts" / "print_classpath_init.gradle"
 
-    res = subprocess.run(
-        [gradle_cmd, "-q", "-I", str(init_script), "printClasspath"],
-        cwd=repo_root,
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    raw_cp = res.stdout.strip()
+    try:
+        res = subprocess.run(
+            [gradle_cmd, "-q", "-I", str(init_script), "printClasspath"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=300,
+        )
+        raw_cp = res.stdout.strip()
+    except subprocess.TimeoutExpired:
+        print("ERROR: Timed out extracting classpath via Gradle", file=sys.stderr)
+        sys.exit(1)
+    except subprocess.CalledProcessError as e:
+        print(f"ERROR: Gradle printClasspath failed: {e}", file=sys.stderr)
+        sys.exit(e.returncode)
 
     cp_file = tools_dir / "auxcp.txt"
     entries = [entry.strip() for entry in raw_cp.splitlines() if entry.strip()]
