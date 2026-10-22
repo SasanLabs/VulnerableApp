@@ -10,7 +10,7 @@ that matched plus the CWE id the template declares.
 |---|
 | [`benchmarks/Nuclei/nuclei-results.json`](nuclei-results.json) |
 
-The workflow commits results only on `master`. The results link becomes available after the first successful run on that branch.
+Results are auto-updated every day and on every manual workflow run.
 
 ## Running the benchmark
 
@@ -19,7 +19,7 @@ commit results) is automated via GitHub Actions:
 
 1. Go to the **Actions** tab → **Nuclei Benchmark**
 2. Click **Run workflow**
-3. Run the workflow on `master` to commit results to the file above
+3. Run the workflow to commit results to the file above
 
 See
 [`.github/workflows/nuclei-benchmark.yml`](../../.github/workflows/nuclei-benchmark.yml)
