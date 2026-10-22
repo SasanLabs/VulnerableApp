@@ -39,26 +39,26 @@ CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerab
 CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,120,1
 CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,158,1
 CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,207,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,119,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,192,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,253,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,328,1
-CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,296,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,403,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,76,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,479,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,104,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,538,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,611,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,151,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,682,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,181,1
-CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,757,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,212,1
-CWE-113,Header Injection,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,181,1
-CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,926,1
-CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,1005,1
-CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,1087,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,137,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,210,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,271,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,346,1
+CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,314,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,421,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,78,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,497,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,106,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,556,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,629,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,153,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,700,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,183,1
+CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,775,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,214,1
+CWE-113,Header Injection,src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java,183,1
+CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,944,1
+CWE-347,Server Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,1023,1
+CWE-1188,Insecure Configuration Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,1105,1
 CWE-90,Ldap Injection,src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java,43,2
 CWE-90,Ldap Injection,src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java,71,2
 CWE-601,Open Redirect,src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java,84,7
