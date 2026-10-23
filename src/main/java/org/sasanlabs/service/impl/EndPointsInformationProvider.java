@@ -21,6 +21,8 @@ import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketController;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardHint;
 import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardPayload;
@@ -34,6 +36,7 @@ import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelHint;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -63,79 +66,117 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
     @Override
     public List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException {
         List<AllEndPointsResponseBean> allEndpoints = new ArrayList<>();
-        Map<String, Object> nameVsCustomVulnerableEndPoint =
-                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController();
-        for (Map.Entry<String, Object> entry : nameVsCustomVulnerableEndPoint.entrySet()) {
-            String name = entry.getKey();
+        for (Map.Entry<String, Object> entry :
+                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController().entrySet()) {
             Class<?> clazz = entry.getValue().getClass();
-            if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
-                VulnerableAppRestController vulnerableServiceRestEndPoint =
-                        clazz.getAnnotation(VulnerableAppRestController.class);
-                String description = vulnerableServiceRestEndPoint.descriptionLabel();
-                AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
-                allEndPointsResponseBean.setName(name);
-                allEndPointsResponseBean.setDescription(messageBundle.getString(description, null));
-
-                Method[] methods = clazz.getDeclaredMethods();
-                for (Method method : methods) {
+            VulnerableAppRestController restController =
+                    clazz.getAnnotation(VulnerableAppRestController.class);
+            if (restController != null) {
+                AllEndPointsResponseBean allEndPointsResponseBean =
+                        newAllEndPointsResponseBean(
+                                entry.getKey(), restController.descriptionLabel());
+                for (Method method : clazz.getDeclaredMethods()) {
                     VulnerableAppRequestMapping vulnLevel =
                             method.getAnnotation(VulnerableAppRequestMapping.class);
                     if (vulnLevel != null) {
-                        AttackVector[] attackVectors =
-                                method.getAnnotationsByType(AttackVector.class);
-                        LevelResponseBean levelResponseBean = new LevelResponseBean();
-                        levelResponseBean.setLevel(vulnLevel.value());
-                        levelResponseBean.setVariant(vulnLevel.variant());
-                        levelResponseBean.setHtmlTemplate(vulnLevel.htmlTemplate());
-                        levelResponseBean.setRequestMethod(vulnLevel.requestMethod());
-                        ChallengeCard[] challengeCards =
-                                method.getAnnotationsByType(ChallengeCard.class);
-                        for (ChallengeCard card : challengeCards) {
-                            List<ChallengeCardResponseBean.HintResponseBean> hintBeans =
-                                    new ArrayList<>();
-                            for (ChallengeCard.Hint hint : card.hints()) {
-                                hintBeans.add(
-                                        new ChallengeCardResponseBean.HintResponseBean(
-                                                hint.order(),
-                                                messageBundle.getString(hint.text(), null)));
-                            }
-                            String payload = getPayload(card.payload().value());
-                            ChallengeCardResponseBean.PayloadResponseBean payloadBean =
-                                    new ChallengeCardResponseBean.PayloadResponseBean(
-                                            messageBundle.getString(
-                                                    card.payload().description(), null),
-                                            payload);
-
-                            levelResponseBean
-                                    .getChallengeCards()
-                                    .add(
-                                            new ChallengeCardResponseBean(
-                                                    messageBundle.getString(
-                                                            card.challengeText(), null),
-                                                    hintBeans,
-                                                    payloadBean));
-                        }
-                        for (AttackVector attackVector : attackVectors) {
-                            String payload = getPayload(attackVector.payload());
-                            levelResponseBean
-                                    .getAttackVectorResponseBeans()
-                                    .add(
-                                            new AttackVectorResponseBean(
-                                                    new ArrayList<>(
-                                                            Arrays.asList(
-                                                                    attackVector
-                                                                            .vulnerabilityExposed())),
-                                                    payload,
-                                                    messageBundle.getString(
-                                                            attackVector.description(), null)));
-                        }
-                        allEndPointsResponseBean.getLevelDescriptionSet().add(levelResponseBean);
+                        allEndPointsResponseBean
+                                .getLevelDescriptionSet()
+                                .add(
+                                        buildLevelResponseBean(
+                                                method,
+                                                vulnLevel.value(),
+                                                vulnLevel.variant(),
+                                                vulnLevel.htmlTemplate(),
+                                                vulnLevel.requestMethod()));
+                    }
+                }
+                allEndpoints.add(allEndPointsResponseBean);
+            }
+        }
+        for (Map.Entry<String, Object> entry :
+                envUtils.getAllClassesAnnotatedWithVulnerableAppWebSocketController().entrySet()) {
+            Class<?> clazz = entry.getValue().getClass();
+            VulnerableAppWebSocketController webSocketController =
+                    clazz.getAnnotation(VulnerableAppWebSocketController.class);
+            if (webSocketController != null) {
+                AllEndPointsResponseBean allEndPointsResponseBean =
+                        newAllEndPointsResponseBean(
+                                entry.getKey(), webSocketController.descriptionLabel());
+                for (Method method : clazz.getDeclaredMethods()) {
+                    VulnerableAppWebSocketMapping vulnLevel =
+                            method.getAnnotation(VulnerableAppWebSocketMapping.class);
+                    if (vulnLevel != null) {
+                        // A WebSocket is opened with a GET handshake request.
+                        allEndPointsResponseBean
+                                .getLevelDescriptionSet()
+                                .add(
+                                        buildLevelResponseBean(
+                                                method,
+                                                vulnLevel.value(),
+                                                vulnLevel.variant(),
+                                                vulnLevel.htmlTemplate(),
+                                                RequestMethod.GET));
                     }
                 }
                 allEndpoints.add(allEndPointsResponseBean);
             }
         }
         return allEndpoints;
+    }
+
+    private AllEndPointsResponseBean newAllEndPointsResponseBean(
+            String name, String descriptionLabel) {
+        AllEndPointsResponseBean allEndPointsResponseBean = new AllEndPointsResponseBean();
+        allEndPointsResponseBean.setName(name);
+        allEndPointsResponseBean.setDescription(messageBundle.getString(descriptionLabel, null));
+        return allEndPointsResponseBean;
+    }
+
+    private LevelResponseBean buildLevelResponseBean(
+            Method method,
+            String level,
+            org.sasanlabs.internal.utility.Variant variant,
+            String htmlTemplate,
+            RequestMethod requestMethod) {
+        AttackVector[] attackVectors = method.getAnnotationsByType(AttackVector.class);
+        LevelResponseBean levelResponseBean = new LevelResponseBean();
+        levelResponseBean.setLevel(level);
+        levelResponseBean.setVariant(variant);
+        levelResponseBean.setHtmlTemplate(htmlTemplate);
+        levelResponseBean.setRequestMethod(requestMethod);
+        ChallengeCard[] challengeCards = method.getAnnotationsByType(ChallengeCard.class);
+        for (ChallengeCard card : challengeCards) {
+            List<ChallengeCardResponseBean.HintResponseBean> hintBeans = new ArrayList<>();
+            for (ChallengeCard.Hint hint : card.hints()) {
+                hintBeans.add(
+                        new ChallengeCardResponseBean.HintResponseBean(
+                                hint.order(), messageBundle.getString(hint.text(), null)));
+            }
+            String payload = getPayload(card.payload().value());
+            ChallengeCardResponseBean.PayloadResponseBean payloadBean =
+                    new ChallengeCardResponseBean.PayloadResponseBean(
+                            messageBundle.getString(card.payload().description(), null), payload);
+
+            levelResponseBean
+                    .getChallengeCards()
+                    .add(
+                            new ChallengeCardResponseBean(
+                                    messageBundle.getString(card.challengeText(), null),
+                                    hintBeans,
+                                    payloadBean));
+        }
+        for (AttackVector attackVector : attackVectors) {
+            String payload = getPayload(attackVector.payload());
+            levelResponseBean
+                    .getAttackVectorResponseBeans()
+                    .add(
+                            new AttackVectorResponseBean(
+                                    new ArrayList<>(
+                                            Arrays.asList(attackVector.vulnerabilityExposed())),
+                                    payload,
+                                    messageBundle.getString(attackVector.description(), null)));
+        }
+        return levelResponseBean;
     }
 
     @Override
@@ -203,115 +244,148 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
     public List<VulnerabilityDefinition> getVulnerabilityDefinitions()
             throws JsonProcessingException {
         List<VulnerabilityDefinition> vulnerabilityDefinitions = new ArrayList<>();
-        Map<String, Object> nameVsCustomVulnerableEndPoint =
-                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController();
-        for (Map.Entry<String, Object> entry : nameVsCustomVulnerableEndPoint.entrySet()) {
-            String name = entry.getKey();
+        for (Map.Entry<String, Object> entry :
+                envUtils.getAllClassesAnnotatedWithVulnerableAppRestController().entrySet()) {
             Class<?> clazz = entry.getValue().getClass();
-            if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
-                VulnerableAppRestController vulnerableServiceRestEndPoint =
-                        clazz.getAnnotation(VulnerableAppRestController.class);
-                String description = vulnerableServiceRestEndPoint.descriptionLabel();
+            VulnerableAppRestController restController =
+                    clazz.getAnnotation(VulnerableAppRestController.class);
+            if (restController != null) {
                 VulnerabilityDefinition facadeVulnerabilityDefinition =
-                        new VulnerabilityDefinition();
-                facadeVulnerabilityDefinition.setName(name);
-                facadeVulnerabilityDefinition.setId(name);
-                facadeVulnerabilityDefinition.setDescription(
-                        messageBundle.getString(description, null));
-                List<VulnerabilityType> facadeVulnerabilityTypes =
-                        new ArrayList<VulnerabilityType>();
-                facadeVulnerabilityDefinition.setVulnerabilityTypes(facadeVulnerabilityTypes);
-                Method[] methods = clazz.getDeclaredMethods();
-                for (Method method : methods) {
+                        newVulnerabilityDefinition(
+                                entry.getKey(), restController.descriptionLabel());
+                for (Method method : clazz.getDeclaredMethods()) {
                     VulnerableAppRequestMapping vulnLevel =
                             method.getAnnotation(VulnerableAppRequestMapping.class);
                     if (vulnLevel != null) {
-                        AttackVector[] attackVectors =
-                                method.getAnnotationsByType(AttackVector.class);
-                        VulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition =
-                                new VulnerabilityLevelDefinition();
-                        facadeVulnerabilityLevelDefinition.setLevel(vulnLevel.value());
-                        facadeVulnerabilityLevelDefinition.setVariant(
-                                Variant.valueOf(vulnLevel.variant().name()));
-                        addFacadeResourceInformation(
-                                facadeVulnerabilityDefinition,
-                                facadeVulnerabilityLevelDefinition,
-                                vulnLevel.htmlTemplate());
-
-                        ChallengeCard[] challengeCardAnnotations =
-                                method.getAnnotationsByType(ChallengeCard.class);
-                        List<org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard>
-                                facadeChallengeCards = new ArrayList<>();
-
-                        for (ChallengeCard card : challengeCardAnnotations) {
-                            org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard
-                                    facadeChallenge =
-                                            new org.sasanlabs.vulnerableapp.facade.schema
-                                                    .ChallengeCard();
-
-                            // Set the Challenge Text
-                            facadeChallenge.setChallengeText(
-                                    messageBundle.getString(card.challengeText(), null));
-
-                            // Map Hints
-                            List<ChallengeCardHint> facadeHints = new ArrayList<>();
-                            for (ChallengeCard.Hint hint : card.hints()) {
-                                ChallengeCardHint hintObj = new ChallengeCardHint();
-                                hintObj.setOrder(hint.order());
-                                hintObj.setText(messageBundle.getString(hint.text(), null));
-                                facadeHints.add(hintObj);
-                            }
-                            facadeChallenge.setHints(facadeHints);
-
-                            // Map Payload
-                            ChallengeCardPayload facadePayload = new ChallengeCardPayload();
-                            facadePayload.setDescription(
-                                    messageBundle.getString(card.payload().description(), null));
-                            String payload = getPayload(card.payload().value());
-                            facadePayload.setValue(payload);
-                            facadeChallenge.setPayload(facadePayload);
-
-                            facadeChallengeCards.add(facadeChallenge);
-                        }
-                        // Set the populated list into the facade level definition
-                        facadeVulnerabilityLevelDefinition.setChallengeCards(facadeChallengeCards);
-
-                        for (AttackVector attackVector : attackVectors) {
-                            List<VulnerabilityType> facadeLevelVulnerabilityTypes =
-                                    new ArrayList<VulnerabilityType>();
-                            org.sasanlabs.vulnerability.types.VulnerabilityType[]
-                                    vulnerabilityTypes = attackVector.vulnerabilityExposed();
-                            for (org.sasanlabs.vulnerability.types.VulnerabilityType
-                                    vulnerabilityType : vulnerabilityTypes) {
-                                facadeLevelVulnerabilityTypes.add(
-                                        new VulnerabilityType("Custom", vulnerabilityType.name()));
-                                if (null != vulnerabilityType.getCweID())
-                                    facadeLevelVulnerabilityTypes.add(
-                                            new VulnerabilityType(
-                                                    "CWE",
-                                                    String.valueOf(vulnerabilityType.getCweID())));
-                                if (null != vulnerabilityType.getWascID())
-                                    facadeLevelVulnerabilityTypes.add(
-                                            new VulnerabilityType(
-                                                    "WASC",
-                                                    String.valueOf(vulnerabilityType.getWascID())));
-                            }
-                            facadeVulnerabilityLevelDefinition
-                                    .getHints()
-                                    .add(
-                                            new VulnerabilityLevelHint(
-                                                    facadeLevelVulnerabilityTypes,
-                                                    buildFacadeHintDescription(attackVector)));
-                        }
                         facadeVulnerabilityDefinition
                                 .getLevelDescriptionSet()
-                                .add(facadeVulnerabilityLevelDefinition);
+                                .add(
+                                        buildFacadeLevelDefinition(
+                                                facadeVulnerabilityDefinition,
+                                                method,
+                                                vulnLevel.value(),
+                                                vulnLevel.variant(),
+                                                vulnLevel.htmlTemplate()));
+                    }
+                }
+                vulnerabilityDefinitions.add(facadeVulnerabilityDefinition);
+            }
+        }
+        for (Map.Entry<String, Object> entry :
+                envUtils.getAllClassesAnnotatedWithVulnerableAppWebSocketController().entrySet()) {
+            Class<?> clazz = entry.getValue().getClass();
+            VulnerableAppWebSocketController webSocketController =
+                    clazz.getAnnotation(VulnerableAppWebSocketController.class);
+            if (webSocketController != null) {
+                VulnerabilityDefinition facadeVulnerabilityDefinition =
+                        newVulnerabilityDefinition(
+                                entry.getKey(), webSocketController.descriptionLabel());
+                for (Method method : clazz.getDeclaredMethods()) {
+                    VulnerableAppWebSocketMapping vulnLevel =
+                            method.getAnnotation(VulnerableAppWebSocketMapping.class);
+                    if (vulnLevel != null) {
+                        facadeVulnerabilityDefinition
+                                .getLevelDescriptionSet()
+                                .add(
+                                        buildFacadeLevelDefinition(
+                                                facadeVulnerabilityDefinition,
+                                                method,
+                                                vulnLevel.value(),
+                                                vulnLevel.variant(),
+                                                vulnLevel.htmlTemplate()));
                     }
                 }
                 vulnerabilityDefinitions.add(facadeVulnerabilityDefinition);
             }
         }
         return vulnerabilityDefinitions;
+    }
+
+    private VulnerabilityDefinition newVulnerabilityDefinition(
+            String name, String descriptionLabel) {
+        VulnerabilityDefinition facadeVulnerabilityDefinition = new VulnerabilityDefinition();
+        facadeVulnerabilityDefinition.setName(name);
+        facadeVulnerabilityDefinition.setId(name);
+        facadeVulnerabilityDefinition.setDescription(
+                messageBundle.getString(descriptionLabel, null));
+        facadeVulnerabilityDefinition.setVulnerabilityTypes(new ArrayList<VulnerabilityType>());
+        return facadeVulnerabilityDefinition;
+    }
+
+    private VulnerabilityLevelDefinition buildFacadeLevelDefinition(
+            VulnerabilityDefinition facadeVulnerabilityDefinition,
+            Method method,
+            String level,
+            org.sasanlabs.internal.utility.Variant variant,
+            String htmlTemplate) {
+        AttackVector[] attackVectors = method.getAnnotationsByType(AttackVector.class);
+        VulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition =
+                new VulnerabilityLevelDefinition();
+        facadeVulnerabilityLevelDefinition.setLevel(level);
+        facadeVulnerabilityLevelDefinition.setVariant(Variant.valueOf(variant.name()));
+        addFacadeResourceInformation(
+                facadeVulnerabilityDefinition, facadeVulnerabilityLevelDefinition, htmlTemplate);
+
+        ChallengeCard[] challengeCardAnnotations = method.getAnnotationsByType(ChallengeCard.class);
+        List<org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard> facadeChallengeCards =
+                new ArrayList<>();
+
+        for (ChallengeCard card : challengeCardAnnotations) {
+            org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard facadeChallenge =
+                    new org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard();
+
+            // Set the Challenge Text
+            facadeChallenge.setChallengeText(messageBundle.getString(card.challengeText(), null));
+
+            // Map Hints
+            List<ChallengeCardHint> facadeHints = new ArrayList<>();
+            for (ChallengeCard.Hint hint : card.hints()) {
+                ChallengeCardHint hintObj = new ChallengeCardHint();
+                hintObj.setOrder(hint.order());
+                hintObj.setText(messageBundle.getString(hint.text(), null));
+                facadeHints.add(hintObj);
+            }
+            facadeChallenge.setHints(facadeHints);
+
+            // Map Payload
+            ChallengeCardPayload facadePayload = new ChallengeCardPayload();
+            facadePayload.setDescription(
+                    messageBundle.getString(card.payload().description(), null));
+            String payload = getPayload(card.payload().value());
+            facadePayload.setValue(payload);
+            facadeChallenge.setPayload(facadePayload);
+
+            facadeChallengeCards.add(facadeChallenge);
+        }
+        // Set the populated list into the facade level definition
+        facadeVulnerabilityLevelDefinition.setChallengeCards(facadeChallengeCards);
+
+        for (AttackVector attackVector : attackVectors) {
+            List<VulnerabilityType> facadeLevelVulnerabilityTypes =
+                    new ArrayList<VulnerabilityType>();
+            org.sasanlabs.vulnerability.types.VulnerabilityType[] vulnerabilityTypes =
+                    attackVector.vulnerabilityExposed();
+            for (org.sasanlabs.vulnerability.types.VulnerabilityType vulnerabilityType :
+                    vulnerabilityTypes) {
+                facadeLevelVulnerabilityTypes.add(
+                        new VulnerabilityType("Custom", vulnerabilityType.name()));
+                if (null != vulnerabilityType.getCweID())
+                    facadeLevelVulnerabilityTypes.add(
+                            new VulnerabilityType(
+                                    "CWE", String.valueOf(vulnerabilityType.getCweID())));
+                if (null != vulnerabilityType.getWascID())
+                    facadeLevelVulnerabilityTypes.add(
+                            new VulnerabilityType(
+                                    "WASC", String.valueOf(vulnerabilityType.getWascID())));
+            }
+            facadeVulnerabilityLevelDefinition
+                    .getHints()
+                    .add(
+                            new VulnerabilityLevelHint(
+                                    facadeLevelVulnerabilityTypes,
+                                    buildFacadeHintDescription(attackVector)));
+        }
+        return facadeVulnerabilityLevelDefinition;
     }
 
     private String getPayload(String payloadKey) {
