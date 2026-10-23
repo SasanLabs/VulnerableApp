@@ -53,26 +53,11 @@ jobs:
           docker compose -f docker-compose.without_llm.yml logs
           exit 1
 
-      - name: Prepare Wapiti Start URLs
-        run: |
-          curl --fail --silent --show-error http://localhost/VulnerableApp/sitemap.xml \
-            -o "$RUNNER_TEMP/wapiti-sitemap.xml"
-          python3 benchmarks/Wapiti/scripts/prepare_wapiti_seeds.py \
-            --sitemap "$RUNNER_TEMP/wapiti-sitemap.xml" \
-            --base-url http://localhost/VulnerableApp/ \
-            --output "$RUNNER_TEMP/wapiti-seeds.txt"
-
       - name: Run Wapiti Scan
         run: |
           mkdir -p benchmarks/Wapiti
-          seed_args=()
-          while IFS= read -r url; do
-            seed_args+=(-s "$url")
-          done < "$RUNNER_TEMP/wapiti-seeds.txt"
           wapiti \
-            -u http://localhost/VulnerableApp/ \
-            --scope folder \
-            "${seed_args[@]}" \
+            -u http://localhost/ \
             -f json \
             -o benchmarks/Wapiti/wapiti-raw-report.json \
             --flush-session \
@@ -157,8 +142,6 @@ jobs:
         with:
           name: wapiti-benchmark-artifacts
           path: |
-            ${{ runner.temp }}/wapiti-sitemap.xml
-            ${{ runner.temp }}/wapiti-seeds.txt
             benchmarks/Wapiti/wapiti-raw-report.json
             benchmarks/Wapiti/findings/wapiti-findings.json
             benchmarks/Wapiti/wapiti-results.json

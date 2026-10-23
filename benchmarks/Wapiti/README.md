@@ -20,7 +20,7 @@ Results are updated daily via GitHub Actions.
 docker compose -f docker-compose.without_llm.yml up -d
 ```
 
-Verify that VulnerableApp is reachable at `http://localhost/VulnerableApp/`.
+Verify that VulnerableApp is reachable at `http://localhost/`.
 
 ### 2. Install Wapiti
 
@@ -28,48 +28,25 @@ Verify that VulnerableApp is reachable at `http://localhost/VulnerableApp/`.
 pip install wapiti3 pytest pyyaml
 ```
 
-### 3. Prepare Start URLs and Run Wapiti
+### 3. Run Wapiti Scan
 
-The default crawler does not execute the UI JavaScript or expand the linked
-sitemap into lab requests. Download the live sitemap and prepare start URLs
-with benign input parameters before scanning. Run these commands in Bash:
+Run Wapiti directly against the application root `http://localhost/`:
 
 ```bash
-curl --fail --silent --show-error http://localhost/VulnerableApp/sitemap.xml \
-    -o /tmp/wapiti-sitemap.xml
-python3 benchmarks/Wapiti/scripts/prepare_wapiti_seeds.py \
-    --sitemap /tmp/wapiti-sitemap.xml \
-    --base-url http://localhost/VulnerableApp/ \
-    --output /tmp/wapiti-seeds.txt
-
-seed_args=()
-while IFS= read -r url; do
-    seed_args+=(-s "$url")
-done < /tmp/wapiti-seeds.txt
-
-wapiti -u http://localhost/VulnerableApp/ \
-    --scope folder \
-    "${seed_args[@]}" \
+wapiti -u http://localhost/ \
     -f json \
     -o benchmarks/Wapiti/wapiti-raw-report.json \
     --flush-session \
     --tasks 4
 ```
 
-The seed generator supplies parameters for eight GET lab families: HTML-tag
-and image-attribute XSS, error/union/blind SQL injection, path traversal,
-command injection, and SSRF. It includes every sitemap level for these
-families, including secure variants, and rebases container-host URLs to the
-reachable application root. SSRF uses the application's metadata mock as its
-initial input. POST/upload requests, authentication/stateful flows, and other
-families need additional discovery support; these seeds do not claim full lab
-coverage. When adding GET support, extend `GET_INPUTS` with the controller's
-real parameter names and benign inputs.
+The scan targets `http://localhost/`, allowing Wapiti's built-in crawler and
+fuzzing capabilities to discover and analyze application endpoints directly.
 
 The daily job uses a 45-minute job timeout rather than Wapiti's 30-second scan
 limit. A scanner error or job timeout stops submission/publication. Successful
 publication commits the converted findings and result together so rebasing
-starts with a clean worktree. The sitemap, seeds, and scan reports are uploaded
+starts with a clean worktree. The raw scan report and converted findings are uploaded
 as artifacts.
 
 ### 4. Convert the Report
@@ -91,7 +68,7 @@ curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
     -o benchmarks/Wapiti/wapiti-results.json
 ```
 
-### 6. Run Converter, Seed, and Publication Tests
+### 6. Run Converter Tests
 
 ```bash
 pytest benchmarks/Wapiti/scripts/ -v
