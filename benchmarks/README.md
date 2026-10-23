@@ -135,6 +135,14 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## Nuclei
+
+Nuclei is benchmarked in **DAST** mode. See
+[`benchmarks/Nuclei/README.md`](Nuclei/README.md) for the scan setup, the
+conversion script, and the latest results.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
