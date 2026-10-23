@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from convert_nuclei_to_benchmark import (
     _cwe_tag,
+    _cwe_tags,
     _load_results,
     _method_from_request,
     convert,
@@ -66,6 +67,34 @@ def test_cwe_tag_prefix_is_case_insensitive():
 
 def test_cwe_tag_takes_first_entry_of_list():
     assert _cwe_tag(["CWE-89", "CWE-564"]) == "CWE-89"
+
+
+# ---------------------------------------------------------------------------
+# _cwe_tags
+# ---------------------------------------------------------------------------
+
+def test_cwe_tags_returns_every_entry():
+    assert _cwe_tags(["CWE-89", "CWE-564"]) == ["CWE-89", "CWE-564"]
+
+
+def test_cwe_tags_accepts_bare_string():
+    assert _cwe_tags("89") == ["CWE-89"]
+
+
+def test_cwe_tags_normalises_and_deduplicates():
+    assert _cwe_tags(["89", "CWE-89", "cwe-564"]) == ["CWE-89", "cwe-564"]
+
+
+def test_cwe_tags_drops_placeholder_entries():
+    assert _cwe_tags(["0", "", "CWE-79"]) == ["CWE-79"]
+
+
+def test_cwe_tags_returns_empty_list_for_none():
+    assert _cwe_tags(None) == []
+
+
+def test_cwe_tags_returns_empty_list_for_empty_list():
+    assert _cwe_tags([]) == []
 
 
 def test_cwe_tag_returns_none_for_empty_list():
@@ -165,6 +194,34 @@ def test_convert_keeps_same_url_with_different_cwe():
         _result(cwe=("CWE-79",)),
     ])
     assert len(out["findings"]) == 2
+
+
+def test_convert_emits_one_finding_per_cwe():
+    out = convert([_result(cwe=("CWE-89", "CWE-564"))])
+    assert out["findings"] == [
+        {
+            "url": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+            "cwe": "CWE-89",
+        },
+        {
+            "url": "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+            "cwe": "CWE-564",
+        },
+    ]
+
+
+def test_convert_keeps_method_on_every_cwe_finding():
+    raw = "GET /VulnerableApp/SQLInjection/LEVEL_1 HTTP/1.1\r\nHost: localhost\r\n"
+    out = convert([_result(cwe=("CWE-89", "CWE-564"), request=raw)])
+    assert [f["method"] for f in out["findings"]] == ["GET", "GET"]
+
+
+def test_convert_deduplicates_repeated_cwe_across_results():
+    out = convert([
+        _result(cwe=("CWE-89", "CWE-564")),
+        _result(cwe=("CWE-564",)),
+    ])
+    assert [f["cwe"] for f in out["findings"]] == ["CWE-89", "CWE-564"]
 
 
 def test_convert_omits_cwe_when_classification_missing():

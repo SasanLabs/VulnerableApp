@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   nuclei-benchmark:
@@ -25,6 +25,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          persist-credentials: false
 
       # ------------------------------------------------------------------
       # 2. Start VulnerableApp
@@ -66,20 +67,36 @@ jobs:
       # ------------------------------------------------------------------
       - name: Run Nuclei scan
         run: |
+          # Scan output lives under .scan/ so a fresh run never touches a
+          # tracked file: regenerating it on master used to collide with
+          # every rebase of this branch.
+          mkdir -p benchmarks/Nuclei/.scan
+          rm -f benchmarks/Nuclei/.scan/nuclei-raw.jsonl
+
           docker run --rm \
             --network "$NETWORK" \
             -v "$(pwd)/benchmarks/Nuclei:/nuclei-out:rw" \
             projectdiscovery/nuclei:latest \
-            -u http://VulnerableApp-facade/ -jsonl -o /nuclei-out/nuclei-raw.jsonl
+            -u http://VulnerableApp-facade/ -jsonl -o /nuclei-out/.scan/nuclei-raw.jsonl
 
       # ------------------------------------------------------------------
       # 6. Verify report
       # ------------------------------------------------------------------
       - name: Verify Nuclei report
         run: |
-          ls -lh benchmarks/Nuclei/nuclei-raw.jsonl
-          echo "Finding count:"
-          wc -l < benchmarks/Nuclei/nuclei-raw.jsonl
+          REPORT=benchmarks/Nuclei/.scan/nuclei-raw.jsonl
+          if [ ! -s "$REPORT" ]; then
+            echo "ERROR: this run produced no Nuclei report." >&2
+            exit 1
+          fi
+
+          ls -lh "$REPORT"
+          COUNT=$(wc -l < "$REPORT")
+          echo "Finding count: $COUNT"
+          if [ "$COUNT" -eq 0 ]; then
+            echo "ERROR: zero findings. Refusing to submit an empty scan; check templates, target and network." >&2
+            exit 1
+          fi
 
       # ------------------------------------------------------------------
       # 7. Convert Nuclei report to benchmark input format
@@ -87,7 +104,7 @@ jobs:
       - name: Convert Nuclei report
         run: |
           python3 benchmarks/Nuclei/scripts/convert_nuclei_to_benchmark.py \
-            --input  benchmarks/Nuclei/nuclei-raw.jsonl \
+            --input  benchmarks/Nuclei/.scan/nuclei-raw.jsonl \
             --output benchmarks/Nuclei/nuclei-benchmark-input.json
 
       # ------------------------------------------------------------------
@@ -161,7 +178,7 @@ jobs:
         with:
           name: nuclei-benchmark-artifacts
           path: |
-            benchmarks/Nuclei/nuclei-raw.jsonl
+            benchmarks/Nuclei/.scan/nuclei-raw.jsonl
             benchmarks/Nuclei/nuclei-benchmark-input.json
             benchmarks/Nuclei/nuclei-results.json
           retention-days: 90

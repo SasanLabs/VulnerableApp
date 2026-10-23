@@ -38,9 +38,12 @@ Output format (VulnerableApp benchmark input)
 
 Notes
 -----
-- Nuclei reports CWE ids under ``info.classification.cwe-id``, usually as a
-  one-element list. The first entry is forwarded as ``cwe``; the benchmark
-  accepts both bare digits (``89``) and the ``CWE-`` prefix and normalises them.
+- Nuclei reports CWE ids under ``info.classification.cwe-id``, often as a
+  list when one template maps to several weaknesses (``["CWE-89", "CWE-564"]``).
+  Every entry is forwarded, each as its own finding, so a template that reports
+  both a SQL injection and its blind variant still scores both CWEs instead of
+  silently keeping the first. The benchmark accepts both bare digits (``89``)
+  and the ``CWE-`` prefix and normalises them.
 - ``method`` comes from the request line when ``request`` starts with an HTTP
   method, and is omitted otherwise. Omitting it keeps the benchmark's lenient
   URL-only matching, which is what a template that only records ``host`` needs.
@@ -96,16 +99,39 @@ def _load_results(path: Path) -> list:
     return results
 
 
-def _cwe_tag(raw) -> Optional[str]:
-    """Return the first CWE id, prefixed with 'CWE-' when it is bare digits."""
-    if isinstance(raw, (list, tuple)):
-        raw = raw[0] if raw else None
+def _normalise_cwe(value) -> Optional[str]:
+    """Normalise a single CWE id, prefixed with 'CWE-' when it is bare digits."""
+    if value is None:
+        return None
+    text = str(value).strip()
+    if text in ("", "0"):
+        return None
+    return text if text.upper().startswith("CWE-") else f"CWE-{text}"
+
+
+def _cwe_tags(raw) -> list:
+    """
+    Normalise ``info.classification.cwe-id`` into a de-duplicated list of tags.
+
+    Nuclei emits a bare string for single-CWE templates and a list when a
+    template maps to several weaknesses, so both shapes are accepted.
+    """
     if raw is None:
-        return None
-    value = str(raw).strip()
-    if value in ("", "0"):
-        return None
-    return value if value.upper().startswith("CWE-") else f"CWE-{value}"
+        return []
+    values = raw if isinstance(raw, (list, tuple)) else [raw]
+
+    tags = []
+    for value in values:
+        tag = _normalise_cwe(value)
+        if tag and tag not in tags:
+            tags.append(tag)
+    return tags
+
+
+def _cwe_tag(raw) -> Optional[str]:
+    """Return the first CWE id of ``raw``, prefixed with 'CWE-' when bare digits."""
+    tags = _cwe_tags(raw)
+    return tags[0] if tags else None
 
 
 def _method_from_request(request) -> Optional[str]:
@@ -135,21 +161,24 @@ def convert(results: list) -> dict:
 
         info = result.get("info") or {}
         classification = info.get("classification") or {}
-        cwe = _cwe_tag(classification.get("cwe-id"))
+        # One finding per CWE: a template can flag several weaknesses on the
+        # same URL, and keeping only the first silently dropped detections.
+        cwes = _cwe_tags(classification.get("cwe-id")) or [None]
         method = _method_from_request(result.get("request"))
 
-        key = (url, cwe, method)
-        if key in seen:
-            continue
-        seen.add(key)
+        for cwe in cwes:
+            key = (url, cwe, method)
+            if key in seen:
+                continue
+            seen.add(key)
 
-        finding: dict = {"url": url}
-        if cwe:
-            finding["cwe"] = cwe
-        if method:
-            finding["method"] = method
+            finding: dict = {"url": url}
+            if cwe:
+                finding["cwe"] = cwe
+            if method:
+                finding["method"] = method
 
-        findings.append(finding)
+            findings.append(finding)
 
     return {
         "tool": "Nuclei",
