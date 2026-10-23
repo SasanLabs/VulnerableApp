@@ -1,0 +1,7 @@
+allprojects {
+    tasks.register("printClasspath") {
+        doLast {
+            sourceSets.main.compileClasspath.files.each { println it }
+        }
+    }
+}

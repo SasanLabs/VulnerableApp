@@ -135,6 +135,39 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## SpotBugs with FindSecBugs
+
+SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
+SAST mode against VulnerableApp's compiled bytecode. SpotBugs runs as a standalone
+CLI tool without requiring scanner plugins in `build.gradle`.
+
+### Latest results
+
+| Tool | Results file | Raw XML Report |
+|---|---|---|
+| SpotBugs + FindSecBugs | [`benchmarks/SpotBugs/spotbugs-results.json`](SpotBugs/spotbugs-results.json) | [`benchmarks/SpotBugs/spotbugs-raw-report.xml`](SpotBugs/spotbugs-raw-report.xml) |
+
+Results are auto-updated on `master` every day and on every manual workflow run.
+
+### Running the benchmark
+
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack, run standalone SpotBugs with FindSecBugs, convert, benchmark, commit
+results and raw XML) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **SpotBugs Benchmark**
+2. Click **Run workflow**
+3. On `master`, results and raw reports are committed automatically to the files above,
+   along with converted findings in `benchmarks/SpotBugs/findings/spotbugs-findings.json`.
+
+See [`.github/workflows/spotbugs-benchmark.yml`](../.github/workflows/spotbugs-benchmark.yml)
+for the full workflow definition.
+
+For local execution instructions, CLI options, and conversion script details, see
+[`benchmarks/SpotBugs/README.md`](SpotBugs/README.md).
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
