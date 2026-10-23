@@ -135,6 +135,14 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## w3af
+
+w3af is benchmarked in **DAST** mode. See
+[`benchmarks/w3af/README.md`](w3af/README.md) for the scan setup, the
+conversion script, and the latest results.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
