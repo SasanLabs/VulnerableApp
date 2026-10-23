@@ -25,25 +25,12 @@ See
 [`.github/workflows/w3af-benchmark.yml`](../../.github/workflows/w3af-benchmark.yml)
 for the full workflow definition.
 
-## Running the scan
+## Scan configuration
 
-To run w3af yourself, walk the console steps below and keep the JSON report:
-
-```bash
-./w3af_console
-w3af>>> plugins
-w3af/plugins>>> discovery web_spider
-w3af/plugins>>> audit xss,sqli,lfi,os_commanding,ssrf
-w3af/plugins>>> output json_file
-w3af/plugins>>> output config json_file
-w3af/plugins/output/config:json_file>>> set output_file benchmarks/w3af/w3af-raw.json
-w3af/plugins/output/config:json_file>>> back
-w3af/plugins>>> back
-w3af>>> target
-w3af/config:target>>> set target http://localhost/VulnerableApp/
-w3af/config:target>>> back
-w3af>>> start
-```
+The workflow runs the scan itself, so there are no manual console steps to
+follow. It brings VulnerableApp up with
+`docker compose -f docker-compose.without_llm.yml up -d` and scans the facade
+container on port 80 -- the standalone (9090) deployment is not used.
 
 `json_file` is the output plugin this converter reads; the older `console` and
 `text_file` plugins do not carry the CWE and WASC ids. Pick the audit plugins
@@ -51,11 +38,14 @@ that cover the classes you want graded -- the benchmark grades what the scan
 reports and counts the rest of the ground truth as missed, so a narrow plugin
 set produces a low coverage number rather than an error.
 
+The live report is written to `benchmarks/w3af/.scan/w3af-raw.json`, which is
+git-ignored so a fresh run can never be confused with the checked-in sample.
+
 ## Conversion script
 
 ```bash
 python3 benchmarks/w3af/scripts/convert_w3af_to_benchmark.py \
-    --input  benchmarks/w3af/w3af-raw.json \
+    --input  benchmarks/w3af/.scan/w3af-raw.json \
     --output benchmarks/w3af/w3af-benchmark-input.json
 ```
 
@@ -75,6 +65,5 @@ curl -X POST http://localhost/VulnerableApp/scanner/benchmark \
 
 A converted sample is at
 [`benchmarks/w3af/findings/w3af-findings.json`](findings/w3af-findings.json),
-produced by that script from
-[`benchmarks/w3af/w3af-raw.json`](w3af-raw.json), which is a trimmed run rather
-than a full report.
+produced by that script from the trimmed sample
+[`benchmarks/w3af/w3af-raw.json`](w3af-raw.json), which is not a full report.

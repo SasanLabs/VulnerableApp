@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   w3af-benchmark:
@@ -25,6 +25,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+          persist-credentials: false
 
       # ------------------------------------------------------------------
       # 2. Start VulnerableApp
@@ -66,7 +67,10 @@ jobs:
       # ------------------------------------------------------------------
       - name: Run w3af scan
         run: |
-          cat > benchmarks/w3af/w3af-script.w3af << 'EOF'
+          # Fail loudly instead of silently reusing the checked-in sample.
+          mkdir -p benchmarks/w3af/.scan
+          rm -f benchmarks/w3af/.scan/w3af-raw.json
+          cat > benchmarks/w3af/.scan/w3af-script.w3af << 'EOF'
           plugins
           discovery web_spider
           audit xss,sqli,lfi,os_commanding,ssrf
@@ -83,25 +87,32 @@ jobs:
 
           docker run --rm \
             --network "$NETWORK" \
-            -v "$(pwd)/benchmarks/w3af:/w3af-out:rw" \
+            -v "$(pwd)/benchmarks/w3af/.scan:/w3af-out:rw" \
             andresriancho/w3af \
-            -s /w3af-out/w3af-script.w3af
+            ./w3af_console --no-update -s /w3af-out/w3af-script.w3af
 
       # ------------------------------------------------------------------
       # 6. Verify report
       # ------------------------------------------------------------------
       - name: Verify w3af report
         run: |
-          ls -lh benchmarks/w3af/w3af-raw.json
-          python3 -c "
+          REPORT=benchmarks/w3af/.scan/w3af-raw.json
+          if [ ! -s "$REPORT" ]; then
+            echo "ERROR: this run produced no w3af report." >&2
+            exit 1
+          fi
+          ls -lh "$REPORT"
+          python3 - "$REPORT" << 'PY'
           import json
-          with open('benchmarks/w3af/w3af-raw.json') as f:
-              data = json.load(f)
-          items = data.get('items', [])
+          import sys
+
+          with open(sys.argv[1], encoding='utf-8') as fh:
+              data = json.load(fh)
+          items = data.get('items') or []
           print(f'w3af findings: {len(items)}')
           if not items:
-              print('WARNING: zero findings. Check plugin/network/config.')
-          "
+              sys.exit('ERROR: zero findings. Refusing to publish an empty scan; check plugins, target and network.')
+          PY
 
       # ------------------------------------------------------------------
       # 7. Convert w3af report to benchmark input format
@@ -109,7 +120,7 @@ jobs:
       - name: Convert w3af report
         run: |
           python3 benchmarks/w3af/scripts/convert_w3af_to_benchmark.py \
-            --input  benchmarks/w3af/w3af-raw.json \
+            --input  benchmarks/w3af/.scan/w3af-raw.json \
             --output benchmarks/w3af/w3af-benchmark-input.json
 
       # ------------------------------------------------------------------
@@ -183,7 +194,7 @@ jobs:
         with:
           name: w3af-benchmark-artifacts
           path: |
-            benchmarks/w3af/w3af-raw.json
+            benchmarks/w3af/.scan/w3af-raw.json
             benchmarks/w3af/w3af-benchmark-input.json
             benchmarks/w3af/w3af-results.json
           retention-days: 90
