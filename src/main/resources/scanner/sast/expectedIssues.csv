@@ -19,16 +19,16 @@ CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjac
 CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java,212,1
 CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,48,5
 CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,53,5
-CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,82,1
-CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,135,1
-CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,191,1
-CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,247,1
-CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,303,1
-CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,359,1
-CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,415,1
-CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,470,1
-CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,527,1
-CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,590,1
+CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,84,1
+CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,139,1
+CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,195,1
+CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,251,1
+CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,307,1
+CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,363,1
+CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,419,1
+CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,474,1
+CWE-327,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,531,1
+CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,594,1
 CWE-22,Path Traversal,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,130,3
 CWE-79,Persistent XSS,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,129,7
 CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,147,7
