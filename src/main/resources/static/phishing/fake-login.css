@@ -1,4 +1,8 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     background: burlywood;
@@ -94,7 +98,9 @@ nav {
     transition: 0.2s opacity;
 }
 
-#loginBtn:hover { opacity: 0.9; }
+#loginBtn:hover {
+    opacity: 0.9;
+}
 
 #errorMsg {
     display: none;
@@ -108,7 +114,17 @@ nav {
 }
 
 @media (max-width: 640px) {
-    .auth-row { flex-direction: column; align-items: center; }
-    .auth-field { align-items: center; }
-    .auth-shell input, #loginBtn { width: 100%; max-width: 280px; }
+    .auth-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auth-field {
+        align-items: center;
+    }
+
+    .auth-shell input, #loginBtn {
+        width: 100%;
+        max-width: 280px;
+    }
 }

@@ -3,6 +3,7 @@ layout: default
 title: VulnerableApp — Production Deployment Guide
 nav_order: 5
 ---
+
 # VulnerableApp — Production Deployment Guide
 
 ## Overview
@@ -103,9 +104,9 @@ echo ".env" >> .gitignore
 
 ## What Runs in Production
 
-| Container | Purpose |
-|---|---|
-| `VulnerableApp-base` | Spring Boot application (internal only, not exposed) |
+| Container              | Purpose                                                   |
+|------------------------|-----------------------------------------------------------|
+| `VulnerableApp-base`   | Spring Boot application (internal only, not exposed)      |
 | `VulnerableApp-facade` | Nginx reverse proxy (the only publicly exposed container) |
 
 The JSP and PHP containers are excluded from production. All backend traffic stays on an
@@ -133,13 +134,13 @@ from outside.
 
 ## Security Controls
 
-| Control | Detail |
-|---|---|
-| Random credentials | New username and password generated on every start |
-| Internal network | Base container has no internet access |
-| Read-only volume | Nginx templates mounted as read-only |
-| H2 console disabled | `public` profile disables the H2 web console |
-| Active profile | Runs `public` only — `unsafe` profile is excluded |
+| Control             | Detail                                             |
+|---------------------|----------------------------------------------------|
+| Random credentials  | New username and password generated on every start |
+| Internal network    | Base container has no internet access              |
+| Read-only volume    | Nginx templates mounted as read-only               |
+| H2 console disabled | `public` profile disables the H2 web console       |
+| Active profile      | Runs `public` only — `unsafe` profile is excluded  |
 
 ---
 
@@ -147,10 +148,10 @@ from outside.
 
 Lock down inbound access as tightly as possible:
 
-| Port | Source | Purpose |
-|---|---|---|
-| 80 | Your IP only (e.g. `1.2.3.4/32`) | App access |
-| 22 | Your IP only | SSH |
+| Port | Source                           | Purpose    |
+|------|----------------------------------|------------|
+| 80   | Your IP only (e.g. `1.2.3.4/32`) | App access |
+| 22   | Your IP only                     | SSH        |
 
 Avoid opening port 80 to `0.0.0.0/0` unless absolutely necessary.
 

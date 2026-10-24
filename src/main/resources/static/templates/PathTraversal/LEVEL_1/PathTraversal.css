@@ -14,11 +14,13 @@
     color: #FFF;
     font-size: 12px;
 }
+
 #InfoColumn {
     border: 1px solid black;
     text-align: left;
     padding: 8px;
 }
+
 #InfoTable {
     font-family: arial, sans-serif;
     border-collapse: collapse;

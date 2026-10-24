@@ -1,22 +1,19 @@
 package org.sasanlabs.benchmark.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.sasanlabs.benchmark.model.BenchmarkResult;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
-import org.sasanlabs.benchmark.model.Finding;
-import org.sasanlabs.benchmark.model.ScanType;
-import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.benchmark.model.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SastBenchmarkStrategyTest {
@@ -28,9 +25,23 @@ class SastBenchmarkStrategyTest {
             "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/"
                     + "XSSWithHtmlTagInjection.java";
 
-    @Mock private IExpectedIssuesProvider provider;
+    @Mock
+    private IExpectedIssuesProvider provider;
 
     private SastBenchmarkStrategy strategy;
+
+    private static ExpectedIssue expected(String cwe, String type, String file, int line) {
+        return new ExpectedIssue(cwe, type, file, line, 1);
+    }
+
+    private static Finding sastFinding(String file, int line, String cwe, String type) {
+        return new Finding(null, type, file, line, cwe);
+    }
+
+    private static ScannerFindings sastInput(String tool, Finding... findings) {
+        List<Finding> list = Arrays.asList(findings);
+        return new ScannerFindings(tool, ScanType.SAST, list);
+    }
 
     @BeforeEach
     void setUp() {
@@ -227,18 +238,5 @@ class SastBenchmarkStrategyTest {
         assertThat(SastBenchmarkStrategy.normalizeFilePath("  ./src/main/Foo.java  "))
                 .isEqualTo("src/main/Foo.java");
         assertThat(SastBenchmarkStrategy.normalizeFilePath(null)).isEqualTo("");
-    }
-
-    private static ExpectedIssue expected(String cwe, String type, String file, int line) {
-        return new ExpectedIssue(cwe, type, file, line, 1);
-    }
-
-    private static Finding sastFinding(String file, int line, String cwe, String type) {
-        return new Finding(null, type, file, line, cwe);
-    }
-
-    private static ScannerFindings sastInput(String tool, Finding... findings) {
-        List<Finding> list = Arrays.asList(findings);
-        return new ScannerFindings(tool, ScanType.SAST, list);
     }
 }

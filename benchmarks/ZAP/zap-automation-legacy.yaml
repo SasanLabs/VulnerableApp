@@ -34,7 +34,7 @@ env:
     failOnError: false
     failOnWarning: false
     progressToStdout: true
-    
+
 jobs:
   # ------------------------------------------------------------------
   # 1. Spider — crawl VulnerableApp legacy endpoints
@@ -76,25 +76,25 @@ jobs:
       reloadWait: 5000
       eventWait: 2000
       browserId: firefox-headless
-      clickDefaultElems: true   
+      clickDefaultElems: true
       clickElemsOnce: false
       randomInputs: true
       enableExtensions: true
       elements:
-      - "a"
-      - "button"
-      - "input"
-      - "select"
-      - "form"
-      - "li"
-      - "div"
-      - "span"
-      - "textarea"
-      - "img"
-      - "tr"
-      - "ol"
-      - "ul"
-      - "p"
+        - "a"
+        - "button"
+        - "input"
+        - "select"
+        - "form"
+        - "li"
+        - "div"
+        - "span"
+        - "textarea"
+        - "img"
+        - "tr"
+        - "ol"
+        - "ul"
+        - "p"
 
   # ------------------------------------------------------------------
   # 3. Passive Scan Wait — wait for passive scan to complete before active scan
@@ -109,7 +109,7 @@ jobs:
   # ------------------------------------------------------------------ 
 
   - type: activeScan-config
-    parameters: {}
+    parameters: { }
     inputVectors:
       urlQueryStringAndDataDrivenNodes:
         enabled: true

@@ -62,6 +62,6 @@ We regularly receive engagement (contributions, coursework usage, research inter
 * Using it in coursework and research
 * Learning practical application security
 
-
-> ⚠️ Note: Mentions and logos are based on community interactions (e.g., student outreach,  contributions) and do not imply official institutional endorsement.
+> ⚠️ Note: Mentions and logos are based on community interactions (e.g., student outreach, contributions) and do not
+> imply official institutional endorsement.
 

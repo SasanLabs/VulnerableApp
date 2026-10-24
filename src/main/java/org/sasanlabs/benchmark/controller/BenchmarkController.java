@@ -1,8 +1,5 @@
 package org.sasanlabs.benchmark.controller;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
@@ -15,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Map;
 
 /**
  * REST entry point for benchmarking a scanner's findings against VulnerableApp's DAST ground truth.

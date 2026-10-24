@@ -1,9 +1,10 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sasanlabs.vulnerability.types.VulnerabilityType;
+
 import java.util.Set;
 import java.util.TreeSet;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
 /**
  * This is the Response Bean which contains information about all the present endpoints. This bean

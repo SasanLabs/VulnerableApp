@@ -2,10 +2,11 @@ package org.sasanlabs.configuration;
 
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
-import java.util.UUID;
-import javax.annotation.PostConstruct;
 import org.sasanlabs.internal.utility.PasswordHashingUtils;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.UUID;
 
 @Component
 public class EmbeddedLDAPConfig {

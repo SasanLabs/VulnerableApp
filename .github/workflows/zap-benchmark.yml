@@ -73,10 +73,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
-      fail-fast: false 
+      fail-fast: false
 
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
 
@@ -259,7 +259,7 @@ jobs:
               success=true
               break
             fi
-            
+          
             git rebase --abort 2>/dev/null || true
             echo "Push failed. Retrying in 10 seconds..."
             sleep 10

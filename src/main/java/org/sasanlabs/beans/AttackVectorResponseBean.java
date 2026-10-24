@@ -1,8 +1,9 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
+
+import java.util.List;
 
 /**
  * This class is the response bean for the attack vector annotation. Provides the hint for the

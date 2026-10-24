@@ -1,14 +1,5 @@
 package org.sasanlabs.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +14,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 /**
  * The URLs handed to scanners must stay inside the context path the application is actually served
  * under, rather than a hardcoded {@code /VulnerableApp}.
@@ -36,7 +37,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(MockitoExtension.class)
 class VulnerableAppRestControllerContextPathTest {
 
-    /** A deployment served somewhere other than the shipped default. */
+    /**
+     * A deployment served somewhere other than the shipped default.
+     */
     private static final String CUSTOM_CONTEXT_PATH = "/customCtx";
 
     /**
@@ -46,11 +49,44 @@ class VulnerableAppRestControllerContextPathTest {
      */
     private static final String DEFAULT_CONTEXT_PATH = "/VulnerableApp";
 
-    @Mock private IEndPointsInformationProvider endPointsInformationProvider;
+    @Mock
+    private IEndPointsInformationProvider endPointsInformationProvider;
 
-    @Mock private IExpectedIssuesProvider expectedIssuesProvider;
+    @Mock
+    private IExpectedIssuesProvider expectedIssuesProvider;
 
     private MockMvc mockMvc;
+
+    /**
+     * Spring 5's request builder has no {@code scheme()}/{@code serverName()} setters, so the host
+     * half of the URL is pinned on the underlying {@link
+     * org.springframework.mock.web.MockHttpServletRequest} instead. Fixed values keep the
+     * assertions exact.
+     */
+    private static RequestPostProcessor servedOverHttps() {
+        return request -> {
+            request.setScheme("https");
+            request.setServerName("10.0.0.5");
+            request.setServerPort(443);
+            return request;
+        };
+    }
+
+    /**
+     * The controller emits one {@code <loc>} per level, so a single endpoint carrying a single
+     * level is enough to pin the URL shape.
+     */
+    private static AllEndPointsResponseBean sqlInjectionEndPoint() {
+        LevelResponseBean level = new LevelResponseBean();
+        level.setLevel("LEVEL_1");
+        Set<LevelResponseBean> levels = new LinkedHashSet<>();
+        levels.add(level);
+
+        AllEndPointsResponseBean endPoint = new AllEndPointsResponseBean();
+        endPoint.setName("SQLInjection");
+        endPoint.setLevelDescriptionSet(levels);
+        return endPoint;
+    }
 
     @BeforeEach
     void setUp() {
@@ -159,36 +195,5 @@ class VulnerableAppRestControllerContextPathTest {
         assertThat(sitemap)
                 .contains("https://10.0.0.5:443/SQLInjection/LEVEL_1")
                 .doesNotContain(DEFAULT_CONTEXT_PATH);
-    }
-
-    /**
-     * Spring 5's request builder has no {@code scheme()}/{@code serverName()} setters, so the host
-     * half of the URL is pinned on the underlying {@link
-     * org.springframework.mock.web.MockHttpServletRequest} instead. Fixed values keep the
-     * assertions exact.
-     */
-    private static RequestPostProcessor servedOverHttps() {
-        return request -> {
-            request.setScheme("https");
-            request.setServerName("10.0.0.5");
-            request.setServerPort(443);
-            return request;
-        };
-    }
-
-    /**
-     * The controller emits one {@code <loc>} per level, so a single endpoint carrying a single
-     * level is enough to pin the URL shape.
-     */
-    private static AllEndPointsResponseBean sqlInjectionEndPoint() {
-        LevelResponseBean level = new LevelResponseBean();
-        level.setLevel("LEVEL_1");
-        Set<LevelResponseBean> levels = new LinkedHashSet<>();
-        levels.add(level);
-
-        AllEndPointsResponseBean endPoint = new AllEndPointsResponseBean();
-        endPoint.setName("SQLInjection");
-        endPoint.setLevelDescriptionSet(levels);
-        return endPoint;
     }
 }

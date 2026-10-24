@@ -1,11 +1,12 @@
 package org.sasanlabs.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.net.UnknownHostException;
-import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
+
+import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * This is used for providing the entire information about the vulnerableApp like

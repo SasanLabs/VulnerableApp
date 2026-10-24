@@ -1,12 +1,13 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author KSASAN preetkaran20@gmail.com

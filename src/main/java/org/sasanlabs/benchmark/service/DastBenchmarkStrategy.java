@@ -1,16 +1,5 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -22,6 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Compares scanner findings against VulnerableApp's DAST ground truth (fetched from the {@code
@@ -72,126 +64,6 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         this.restTemplate = restTemplate;
         this.groundTruthUrl = groundTruthUrl;
         this.contextPath = contextPath;
-    }
-
-    @Override
-    public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ScannerResponseBean> groundTruth = fetchGroundTruth();
-
-        List<Finding> expectedRows = new ArrayList<>();
-        Map<String, Set<Integer>> keyToExpected = buildExpectedIndex(groundTruth, expectedRows);
-
-        Set<Integer> detectedIndices = new LinkedHashSet<>();
-        List<Finding> unmatchedItems = new ArrayList<>();
-        Set<String> seenFindingSignatures = new HashSet<>();
-
-        List<Finding> rawFindings =
-                (input.getFindings() != null) ? input.getFindings() : new ArrayList<>();
-        for (Finding finding : rawFindings) {
-            if (finding == null || finding.getUrl() == null) {
-                continue;
-            }
-            String url = normalizeUrl(finding.getUrl(), contextPath);
-            List<String> keys = keysForFinding(url, finding);
-            if (keys.isEmpty()) {
-                continue;
-            }
-            String signature = String.join("|", keys);
-            if (!seenFindingSignatures.add(signature)) {
-                continue;
-            }
-
-            Set<Integer> hits = new LinkedHashSet<>();
-            for (String key : keys) {
-                Set<Integer> rows = keyToExpected.get(key);
-                if (rows != null) {
-                    hits.addAll(rows);
-                }
-            }
-            if (hits.isEmpty()) {
-                unmatchedItems.add(
-                        new Finding(
-                                url,
-                                finding.getType(),
-                                null,
-                                null,
-                                finding.getCwe(),
-                                finding.getWascId(),
-                                finding.getMethod()));
-            } else {
-                detectedIndices.addAll(hits);
-            }
-        }
-
-        List<Finding> missedItems = new ArrayList<>();
-        for (int i = 0; i < expectedRows.size(); i++) {
-            if (!detectedIndices.contains(i)) {
-                missedItems.add(expectedRows.get(i));
-            }
-        }
-
-        int totalExpected = expectedRows.size();
-        int detected = detectedIndices.size();
-        double coverage;
-        if (totalExpected == 0) {
-            LOGGER.warn(
-                    "Ground truth is empty; coverage cannot be computed and will be reported as"
-                            + " 0.0");
-            coverage = 0.0;
-        } else {
-            coverage = detected * 100.0 / totalExpected;
-        }
-
-        return new BenchmarkResult(
-                input.getTool(),
-                coverage,
-                totalExpected,
-                detected,
-                missedItems.size(),
-                unmatchedItems.size(),
-                missedItems,
-                unmatchedItems);
-    }
-
-    private List<ScannerResponseBean> fetchGroundTruth() throws IOException {
-        try {
-            ScannerResponseBean[] response =
-                    restTemplate.getForObject(groundTruthUrl, ScannerResponseBean[].class);
-            return (response == null) ? Collections.emptyList() : Arrays.asList(response);
-        } catch (RestClientException rce) {
-            throw new IOException("Failed to fetch DAST ground truth from " + groundTruthUrl, rce);
-        }
-    }
-
-    private Map<String, Set<Integer>> buildExpectedIndex(
-            List<ScannerResponseBean> groundTruth, List<Finding> rowsOut) {
-        Map<String, Set<Integer>> keyToRows = new LinkedHashMap<>();
-        Set<String> seenRowSignatures = new HashSet<>();
-        for (ScannerResponseBean entry : groundTruth) {
-            if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
-                continue;
-            }
-            String url = normalizeUrl(entry.getUrl(), contextPath);
-            String method =
-                    (entry.getRequestMethod() != null)
-                            ? entry.getRequestMethod().name()
-                            : METHOD_ANY;
-            List<VulnerabilityType> types = entry.getVulnerabilityTypes();
-            if (types == null) {
-                continue;
-            }
-            for (VulnerabilityType type : types) {
-                String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type.name();
-                if (!seenRowSignatures.add(rowSignature)) {
-                    continue;
-                }
-                int rowIndex = rowsOut.size();
-                rowsOut.add(buildExpectedFinding(url, type, method));
-                addAxisKeys(keyToRows, rowIndex, url, method, type);
-                addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
-            }
-        }
-        return keyToRows;
     }
 
     private static void addAxisKeys(
@@ -335,5 +207,125 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             s = "/" + s;
         }
         return s;
+    }
+
+    @Override
+    public BenchmarkResult compare(ScannerFindings input) throws IOException {
+        List<ScannerResponseBean> groundTruth = fetchGroundTruth();
+
+        List<Finding> expectedRows = new ArrayList<>();
+        Map<String, Set<Integer>> keyToExpected = buildExpectedIndex(groundTruth, expectedRows);
+
+        Set<Integer> detectedIndices = new LinkedHashSet<>();
+        List<Finding> unmatchedItems = new ArrayList<>();
+        Set<String> seenFindingSignatures = new HashSet<>();
+
+        List<Finding> rawFindings =
+                (input.getFindings() != null) ? input.getFindings() : new ArrayList<>();
+        for (Finding finding : rawFindings) {
+            if (finding == null || finding.getUrl() == null) {
+                continue;
+            }
+            String url = normalizeUrl(finding.getUrl(), contextPath);
+            List<String> keys = keysForFinding(url, finding);
+            if (keys.isEmpty()) {
+                continue;
+            }
+            String signature = String.join("|", keys);
+            if (!seenFindingSignatures.add(signature)) {
+                continue;
+            }
+
+            Set<Integer> hits = new LinkedHashSet<>();
+            for (String key : keys) {
+                Set<Integer> rows = keyToExpected.get(key);
+                if (rows != null) {
+                    hits.addAll(rows);
+                }
+            }
+            if (hits.isEmpty()) {
+                unmatchedItems.add(
+                        new Finding(
+                                url,
+                                finding.getType(),
+                                null,
+                                null,
+                                finding.getCwe(),
+                                finding.getWascId(),
+                                finding.getMethod()));
+            } else {
+                detectedIndices.addAll(hits);
+            }
+        }
+
+        List<Finding> missedItems = new ArrayList<>();
+        for (int i = 0; i < expectedRows.size(); i++) {
+            if (!detectedIndices.contains(i)) {
+                missedItems.add(expectedRows.get(i));
+            }
+        }
+
+        int totalExpected = expectedRows.size();
+        int detected = detectedIndices.size();
+        double coverage;
+        if (totalExpected == 0) {
+            LOGGER.warn(
+                    "Ground truth is empty; coverage cannot be computed and will be reported as"
+                            + " 0.0");
+            coverage = 0.0;
+        } else {
+            coverage = detected * 100.0 / totalExpected;
+        }
+
+        return new BenchmarkResult(
+                input.getTool(),
+                coverage,
+                totalExpected,
+                detected,
+                missedItems.size(),
+                unmatchedItems.size(),
+                missedItems,
+                unmatchedItems);
+    }
+
+    private List<ScannerResponseBean> fetchGroundTruth() throws IOException {
+        try {
+            ScannerResponseBean[] response =
+                    restTemplate.getForObject(groundTruthUrl, ScannerResponseBean[].class);
+            return (response == null) ? Collections.emptyList() : Arrays.asList(response);
+        } catch (RestClientException rce) {
+            throw new IOException("Failed to fetch DAST ground truth from " + groundTruthUrl, rce);
+        }
+    }
+
+    private Map<String, Set<Integer>> buildExpectedIndex(
+            List<ScannerResponseBean> groundTruth, List<Finding> rowsOut) {
+        Map<String, Set<Integer>> keyToRows = new LinkedHashMap<>();
+        Set<String> seenRowSignatures = new HashSet<>();
+        for (ScannerResponseBean entry : groundTruth) {
+            if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
+                continue;
+            }
+            String url = normalizeUrl(entry.getUrl(), contextPath);
+            String method =
+                    (entry.getRequestMethod() != null)
+                            ? entry.getRequestMethod().name()
+                            : METHOD_ANY;
+            List<VulnerabilityType> types = entry.getVulnerabilityTypes();
+            if (types == null) {
+                continue;
+            }
+            for (VulnerabilityType type : types) {
+                String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type.name();
+                if (!seenRowSignatures.add(rowSignature)) {
+                    continue;
+                }
+                int rowIndex = rowsOut.size();
+                rowsOut.add(buildExpectedFinding(url, type, method));
+                addAxisKeys(keyToRows, rowIndex, url, method, type);
+                addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
+            }
+        }
+        return keyToRows;
     }
 }

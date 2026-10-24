@@ -1,28 +1,28 @@
 import {
-  clearCacheAndFetchFreshResponse,
-  clearInputs,
-  fetchDataCallback,
-  getRequestUrl,
+    clearCacheAndFetchFreshResponse,
+    clearInputs,
+    fetchDataCallback,
+    getRequestUrl,
 } from "../Common/CachePoisoningCommon.js";
 
 document
-  .getElementById("poisonCacheBtn")
-  .addEventListener("click", function () {
-    doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
-    clearInputs(["bannerInput"]);
-  });
+    .getElementById("poisonCacheBtn")
+    .addEventListener("click", function () {
+        doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
+        clearInputs(["bannerInput"]);
+    });
 
 document.getElementById("resetCacheBtn").addEventListener("click", function () {
-  clearCacheAndFetchFreshResponse();
+    clearCacheAndFetchFreshResponse();
 });
 
 document
-  .getElementById("victimRequestBtn")
-  .addEventListener("click", function () {
-    doGetAjaxCall(
-      fetchDataCallback,
-      getRequestUrl({ bannerInputId: null }),
-      true,
-      {}
-    );
-  });
+    .getElementById("victimRequestBtn")
+    .addEventListener("click", function () {
+        doGetAjaxCall(
+            fetchDataCallback,
+            getRequestUrl({bannerInputId: null}),
+            true,
+            {}
+        );
+    });

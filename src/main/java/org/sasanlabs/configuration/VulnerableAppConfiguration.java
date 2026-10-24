@@ -1,24 +1,13 @@
 package org.sasanlabs.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
@@ -34,6 +23,14 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 /**
  * This is the Configuration Class for Injecting Configurations into the Context.
@@ -113,7 +110,7 @@ public class VulnerableAppConfiguration {
     @ConfigurationProperties("spring.datasource.admin.configuration")
     public DataSource adminDataSource(
             @Qualifier("adminDataSourceProperties")
-                    DataSourceProperties adminDataSourceProperties) {
+            DataSourceProperties adminDataSourceProperties) {
         return adminDataSourceProperties
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
@@ -167,7 +164,7 @@ public class VulnerableAppConfiguration {
     @ConfigurationProperties("spring.datasource.application.configuration")
     public DataSource applicationDataSource(
             @Qualifier("applicationDataSourceProperties")
-                    DataSourceProperties applicationDataSourceProperties) {
+            DataSourceProperties applicationDataSourceProperties) {
         return applicationDataSourceProperties
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)

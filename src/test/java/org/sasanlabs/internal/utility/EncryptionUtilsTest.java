@@ -1,12 +1,13 @@
 package org.sasanlabs.internal.utility;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Base64;
-import javax.crypto.SecretKey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.sasanlabs.internal.utility.exception.EncryptionException;
+
+import javax.crypto.SecretKey;
+import java.util.Base64;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class EncryptionUtilsTest {
 

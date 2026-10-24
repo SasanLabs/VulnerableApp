@@ -1,37 +1,37 @@
 [
-   {
-      "Name":"NirraIshq",
-      "Branch":"Jigri Yaar",
-      "From":"Punjab"
-   },
-   {
-      "Name":"Jayant Mittal",
-      "Branch":"Mechanical",
-      "From":"Matili"
-   },
-   {
-      "Name":"Amit Kumar",
-      "Branch":"Civil",
-      "From":"Suratgarh"
-   },
-   {
-      "Name":"Karn Singh",
-      "Branch":"Computer Science",
-      "From":"Chandigarh"
-   },
-   {
-      "Name":"Onkar Singh",
-      "Branch":"Computer Science",
-      "From":"Raisinghnagar"
-   },
-   {
-      "Name":"Subharthi Kundu",
-      "Branch":"Computer Science",
-      "From":"Delhi"
-   },
-   {
-      "Name":"Canada Paajis",
-      "Branch":"Computer Science",
-      "From":"Surrey"
-   }
+  {
+    "Name": "NirraIshq",
+    "Branch": "Jigri Yaar",
+    "From": "Punjab"
+  },
+  {
+    "Name": "Jayant Mittal",
+    "Branch": "Mechanical",
+    "From": "Matili"
+  },
+  {
+    "Name": "Amit Kumar",
+    "Branch": "Civil",
+    "From": "Suratgarh"
+  },
+  {
+    "Name": "Karn Singh",
+    "Branch": "Computer Science",
+    "From": "Chandigarh"
+  },
+  {
+    "Name": "Onkar Singh",
+    "Branch": "Computer Science",
+    "From": "Raisinghnagar"
+  },
+  {
+    "Name": "Subharthi Kundu",
+    "Branch": "Computer Science",
+    "From": "Delhi"
+  },
+  {
+    "Name": "Canada Paajis",
+    "Branch": "Computer Science",
+    "From": "Surrey"
+  }
 ]

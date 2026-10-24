@@ -7,66 +7,107 @@ nav_order: 3
 # How to run the project
 
 ## Running the project
+
 There are 2 ways to run the project:
-1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
-    1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
+
+1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication
+   with all the components. For running as Docker application, follow following steps:
+    1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/)
     2. Clone this Github repository
     3. Open the terminal and Navigate to the Project root directory
     4. Run the command ```docker-compose pull && docker-compose up```
     5. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
-    
-    **Note**: The above steps will run the latest unreleased VulnerableApp version. If you want to run the latest released version, please use docker **latest** tag.
+
+   **Note**: The above steps will run the latest unreleased VulnerableApp version. If you want to run the latest
+   released version, please use docker **latest** tag.
 2. Another way to run the VulnerableApp is as standalone Vulnerable Application is:
-    1. Navigate to [Releases Section](https://github.com/SasanLabs/VulnerableApp/releases) in github and download the Jar for the latest released version
+    1. Navigate to [Releases Section](https://github.com/SasanLabs/VulnerableApp/releases) in github and download the
+       Jar for the latest released version
     2. Open the terminal and navigate to the project root directory
     3. Run the command ```java -jar VulnerableApp-*```
-    4. Navigate to browser and visit `http://localhost:9090/VulnerableApp`. This will give the Legacy User Interface for the VulnerableApp.
+    4. Navigate to browser and visit `http://localhost:9090/VulnerableApp`. This will give the Legacy User Interface for
+       the VulnerableApp.
 
 ## Building the project
+
 There are 2 ways in which this project can be built and used:
-1. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker application, follow following steps:
+
+1. As a Docker application which will help in running the full-fledged VulnerableApplication. For running as Docker
+   application, follow following steps:
     1. Build the docker image by running `./gradlew jibDockerBuild`
-    2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run in the same directory `docker-compose up`
+    2. Download [Docker-Compose](https://github.com/SasanLabs/VulnerableApp-facade/blob/main/docker-compose.yml) and run
+       in the same directory `docker-compose up`
     3. Navigate to browser and visit `http://localhost` and this will give the User Interface for VulnerableApp.
-2. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and solving issues. This is the simple way, 
+2. As a SpringBoot application which will run with the Legacy UI or Rest API but gives the benefit of debugging and
+   solving issues. This is the simple way,
     1. Import the project into your favorite IDE and run it
-    2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface for VulnerableApp which you can use to debug and test.
-    
+    2. Navigate to browser and visit: `http://localhost:9090/VulnerableApp` and this will give the Legacy User Interface
+       for VulnerableApp which you can use to debug and test.
+
 ## Glimpse of ReactJS based User Interface ##
+
 ![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
 
 ## Glimpse of the Legacy User Interface ##
+
 ![VulnerableApp-Legacy UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/gifs/VulnerableApp.gif)
 
 # How SAST or DAST can use the project
+
 As VulnerableApp is built for scanning tools hence there are multiple ways in which they can leverage the VulnerableApp.
-1. Developer of these scanning tools can add new vulnerabilities for testing there scan rules, payload testing etc. They can even go with TDD approach where they first write the Vulnerable code and then they can write the Scan Rules.
+
+1. Developer of these scanning tools can add new vulnerabilities for testing there scan rules, payload testing etc. They
+   can even go with TDD approach where they first write the Vulnerable code and then they can write the Scan Rules.
 2. For Evaluation of scanning tools
-   1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/dast` which provides information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate themselves. The bare `http://<baseurl>/VulnerableApp/scanner` endpoint serves the same response and stays available until September 2027, but it is deprecated: it returns a timestamped `Deprecation` header, a `Sunset` header indicating its removal date, and a `Link` header pointing at `/scanner/dast`. New integrations should use `/scanner/dast`.
-   2. For SAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/sast` which returns the expected issues as JSON — the vulnerabilities and their line numbers which SAST tools can use to evaluate themselves. The same data is the checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv) file.
+    1. For DAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/dast` which provides
+       information about all the Vulnerabilities present in the VulnerableApp which DAST tools can leverage to evaluate
+       themselves. The bare `http://<baseurl>/VulnerableApp/scanner` endpoint serves the same response and stays
+       available until September 2027, but it is deprecated: it returns a timestamped `Deprecation` header, a `Sunset`
+       header indicating its removal date, and a `Link` header pointing at `/scanner/dast`. New integrations should use
+       `/scanner/dast`.
+    2. For SAST, VulnerableApp exposes an endpoint `http://<baseurl>/VulnerableApp/scanner/sast` which returns the
+       expected issues as JSON — the vulnerabilities and their line numbers which SAST tools can use to evaluate
+       themselves. The same data is the
+       checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv)
+       file.
 
 ## Details about scanner endpoint
+
 scanner endpoint exposes following information which DAST tools can leverage:
+
 ```
 url: The URL of the endpoint in VulnerableApp. 
 variant: Whether the endpoint is SECURE or UNSECURE. SECURE is helpful in figuring out the false positives.
 method: Type of HTTP method for the endpoint like GET or POST
 vulnerabilityTypes: List of vulnerability types present in the endpoint to validate if scanner is fully finding all the vulnerabilities in an endpoint.
 ```
-Note: [VulnerabilityTypes](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java) are custom values as no single standard represent all the Vulnerabilities. However we are working on creating a mapping between VulnerabilityType and CWE/WASC.
+
+Note: [VulnerabilityTypes](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/java/org/sasanlabs/vulnerability/types/VulnerabilityType.java)
+are custom values as no single standard represent all the Vulnerabilities. However we are working on creating a mapping
+between VulnerabilityType and CWE/WASC.
 
 ## Benchmarking your scanner
-VulnerableApp ships a comparator that grades a scanner's findings against either ground-truth source above and writes a coverage / missed / unmatched report. Both DAST and SAST scanners are supported via the same endpoint:
+
+VulnerableApp ships a comparator that grades a scanner's findings against either ground-truth source above and writes a
+coverage / missed / unmatched report. Both DAST and SAST scanners are supported via the same endpoint:
+
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — pick the shape that matches your scanner:
-   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (the `scanType` field is optional and defaults to `DAST`; `type` / `cwe` / `wascId` are individually optional — any one axis matching is enough)
-   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
+    - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (the `scanType` field is optional and
+      defaults to `DAST`; `type` / `cwe` / `wascId` are individually optional — any one axis matching is enough)
+    - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - Response body and `benchmarks/<tool>-results.json` on disk: coverage report
 
-Running the scanner itself is out of scope — you supply the JSON. See [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) for the full input/output schemas, matching rules, canonical vulnerability type vocabulary, and `curl` examples.
+Running the scanner itself is out of scope — you supply the JSON. See [
+`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md) for the full
+input/output schemas, matching rules, canonical vulnerability type vocabulary, and `curl` examples.
 
 ## Details about ExpectedIssues.csv
-`GET /VulnerableApp/scanner/sast` returns the expected issues as JSON, one object per row of the checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv). Each object carries the following fields:
+
+`GET /VulnerableApp/scanner/sast` returns the expected issues as JSON, one object per row of the
+checked-in [ExpectedIssues.csv](https://github.com/SasanLabs/VulnerableApp/blob/master/src/main/resources/scanner/sast/expectedIssues.csv).
+Each object carries the following fields:
+
 ```
 type: type of vulnerability present
 cwe: CWE id for the Vulnerability
@@ -74,5 +115,7 @@ filePath: Full path of the file containing the Vulnerability
 line: Line number of the vulnerable statement, the line a SAST tool is expected to report
 numberOfSources: Number of vulnerable levels that expose the issue through that line (1 unless several levels share it)
 ```
-The rule for choosing the line is described in [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md#what-a-ground-truth-row-points-at).
+
+The rule for choosing the line is described in [
+`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md#what-a-ground-truth-row-points-at).
 

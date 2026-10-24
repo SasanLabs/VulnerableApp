@@ -11,7 +11,9 @@
         "HtmlTemplate": "LEVEL_1/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -24,8 +26,14 @@
           {
             "ChallengeText": "Bypass the authentication mechanism and gain access to the admin panel.",
             "hints": [
-              { "order": 1, "text": "Look at how the username is validated on the server side." },
-              { "order": 2, "text": "Check what happens when the authentication check fails." }
+              {
+                "order": 1,
+                "text": "Look at how the username is validated on the server side."
+              },
+              {
+                "order": 2,
+                "text": "Check what happens when the authentication check fails."
+              }
             ],
             "payload": {
               "description": "Final exploit payload to bypass the login form.",
@@ -35,8 +43,14 @@
           {
             "ChallengeText": "Escalate privileges to the administrator role after logging in.",
             "hints": [
-              { "order": 1, "text": "Inspect the role field stored in the session or token." },
-              { "order": 2, "text": "Can the role be changed by the client?" }
+              {
+                "order": 1,
+                "text": "Inspect the role field stored in the session or token."
+              },
+              {
+                "order": 2,
+                "text": "Can the role be changed by the client?"
+              }
             ],
             "payload": {
               "description": "Tamper the role attribute to admin.",
@@ -52,7 +66,9 @@
         "HtmlTemplate": "LEVEL_2/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -70,7 +86,9 @@
         "HtmlTemplate": "LEVEL_3/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -88,7 +106,9 @@
         "HtmlTemplate": "LEVEL_4/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -106,7 +126,9 @@
         "HtmlTemplate": "LEVEL_5/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -124,7 +146,9 @@
         "HtmlTemplate": "LEVEL_6/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -142,7 +166,9 @@
         "HtmlTemplate": "LEVEL_7/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {
@@ -160,7 +186,9 @@
         "HtmlTemplate": "LEVEL_8/Auth",
         "Location": "QUERY_PARAMETER",
         "Parameter": "name",
-        "SampleValues": ["admin"],
+        "SampleValues": [
+          "admin"
+        ],
         "HttpMethod": "GET",
         "AttackVectors": [
           {

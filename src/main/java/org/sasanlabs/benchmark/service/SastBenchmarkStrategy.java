@@ -1,14 +1,5 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
@@ -16,6 +7,9 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
@@ -40,6 +34,55 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
 
     public SastBenchmarkStrategy(IExpectedIssuesProvider expectedIssuesProvider) {
         this.expectedIssuesProvider = expectedIssuesProvider;
+    }
+
+    private static List<String> keysFor(ExpectedIssue ei) {
+        return buildKeys(ei.getFilePath(), ei.getLine(), ei.getCwe(), ei.getVulnerabilityType());
+    }
+
+    private static List<String> keysFor(Finding f) {
+        return buildKeys(f.getFilePath(), f.getLine(), f.getCwe(), f.getType());
+    }
+
+    private static List<String> buildKeys(String filePath, Integer line, String cwe, String type) {
+        if (filePath == null || line == null) {
+            return new ArrayList<>();
+        }
+        String path = normalizeFilePath(filePath);
+        String prefix = path + KEY_SEPARATOR + line + KEY_SEPARATOR;
+        List<String> keys = new ArrayList<>(2);
+        if (cwe != null && !cwe.trim().isEmpty()) {
+            keys.add(prefix + CWE_TAG + KEY_SEPARATOR + cwe.trim().toUpperCase(Locale.ROOT));
+        }
+        if (type != null && !type.trim().isEmpty()) {
+            keys.add(prefix + TYPE_TAG + KEY_SEPARATOR + type.trim().toLowerCase(Locale.ROOT));
+        }
+        return keys;
+    }
+
+    /**
+     * Normalises a SAST file path to a project-relative form: backslashes → forward slashes,
+     * leading {@code ./} stripped, surrounding whitespace trimmed. Scanner authors are expected to
+     * emit project-root-relative paths; absolute paths or unexpected prefixes will not match.
+     */
+    static String normalizeFilePath(String path) {
+        if (path == null) {
+            return "";
+        }
+        String s = path.trim().replace('\\', '/');
+        while (s.startsWith("./")) {
+            s = s.substring(2);
+        }
+        return s;
+    }
+
+    private static Finding toFinding(ExpectedIssue ei) {
+        return new Finding(
+                null,
+                ei.getVulnerabilityType(),
+                normalizeFilePath(ei.getFilePath()),
+                ei.getLine(),
+                ei.getCwe());
     }
 
     @Override
@@ -136,54 +179,5 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems.size(),
                 missedItems,
                 unmatchedItems);
-    }
-
-    private static List<String> keysFor(ExpectedIssue ei) {
-        return buildKeys(ei.getFilePath(), ei.getLine(), ei.getCwe(), ei.getVulnerabilityType());
-    }
-
-    private static List<String> keysFor(Finding f) {
-        return buildKeys(f.getFilePath(), f.getLine(), f.getCwe(), f.getType());
-    }
-
-    private static List<String> buildKeys(String filePath, Integer line, String cwe, String type) {
-        if (filePath == null || line == null) {
-            return new ArrayList<>();
-        }
-        String path = normalizeFilePath(filePath);
-        String prefix = path + KEY_SEPARATOR + line + KEY_SEPARATOR;
-        List<String> keys = new ArrayList<>(2);
-        if (cwe != null && !cwe.trim().isEmpty()) {
-            keys.add(prefix + CWE_TAG + KEY_SEPARATOR + cwe.trim().toUpperCase(Locale.ROOT));
-        }
-        if (type != null && !type.trim().isEmpty()) {
-            keys.add(prefix + TYPE_TAG + KEY_SEPARATOR + type.trim().toLowerCase(Locale.ROOT));
-        }
-        return keys;
-    }
-
-    /**
-     * Normalises a SAST file path to a project-relative form: backslashes → forward slashes,
-     * leading {@code ./} stripped, surrounding whitespace trimmed. Scanner authors are expected to
-     * emit project-root-relative paths; absolute paths or unexpected prefixes will not match.
-     */
-    static String normalizeFilePath(String path) {
-        if (path == null) {
-            return "";
-        }
-        String s = path.trim().replace('\\', '/');
-        while (s.startsWith("./")) {
-            s = s.substring(2);
-        }
-        return s;
-    }
-
-    private static Finding toFinding(ExpectedIssue ei) {
-        return new Finding(
-                null,
-                ei.getVulnerabilityType(),
-                normalizeFilePath(ei.getFilePath()),
-                ei.getLine(),
-                ei.getCwe());
     }
 }

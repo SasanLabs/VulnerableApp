@@ -1,11 +1,12 @@
 # Wapiti Benchmark Integration
 
-This directory contains the integration scripts, sample findings, and benchmark results for benchmarking the **Wapiti** DAST scanner against VulnerableApp.
+This directory contains the integration scripts, sample findings, and benchmark results for benchmarking the **Wapiti**
+DAST scanner against VulnerableApp.
 
 ## Latest Results
 
-| Results File | Daily Workflow |
-|---|---|
+| Results File                                                   | Daily Workflow                                                                           |
+|----------------------------------------------------------------|------------------------------------------------------------------------------------------|
 | [`benchmarks/Wapiti/wapiti-results.json`](wapiti-results.json) | [`.github/workflows/wapiti-benchmark.yml`](../../.github/workflows/wapiti-benchmark.yml) |
 
 Results are updated daily via GitHub Actions.

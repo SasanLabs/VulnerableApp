@@ -1,14 +1,5 @@
 package org.sasanlabs.benchmark.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +13,16 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class DastBenchmarkStrategyTest {
 
@@ -29,9 +30,29 @@ class DastBenchmarkStrategyTest {
 
     private static final String GROUND_TRUTH_URL = "http://localhost:9090/VulnerableApp/scanner";
 
-    @Mock private RestTemplate restTemplate;
+    @Mock
+    private RestTemplate restTemplate;
 
     private DastBenchmarkStrategy strategy;
+
+    private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {
+        return unsecure(url, RequestMethod.GET, types);
+    }
+
+    private static ScannerResponseBean unsecure(
+            String url, RequestMethod method, VulnerabilityType... types) {
+        return new ScannerResponseBean(url, "UNSECURE", method, Arrays.asList(types));
+    }
+
+    private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
+        return new ScannerResponseBean(url, "SECURE", RequestMethod.GET, Arrays.asList(types));
+    }
+
+    private static ScannerFindings input(String tool, Finding... findings) {
+        List<Finding> list =
+                findings.length == 0 ? Collections.emptyList() : Arrays.asList(findings);
+        return new ScannerFindings(tool, list);
+    }
 
     @BeforeEach
     void setUp() {
@@ -380,21 +401,21 @@ class DastBenchmarkStrategyTest {
     @Test
     void urlNormalization_acceptsAbsoluteRelativeAndContextStrippedForms() {
         assertThat(
-                        DastBenchmarkStrategy.normalizeUrl(
-                                "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
-                                CONTEXT_PATH))
+                DastBenchmarkStrategy.normalizeUrl(
+                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+                        CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(
-                        DastBenchmarkStrategy.normalizeUrl(
-                                "/VulnerableApp/SQLInjection/LEVEL_1", CONTEXT_PATH))
+                DastBenchmarkStrategy.normalizeUrl(
+                        "/VulnerableApp/SQLInjection/LEVEL_1", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1/", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(
-                        DastBenchmarkStrategy.normalizeUrl(
-                                "/SQLInjection/LEVEL_1?attack=1' OR 1=1--", CONTEXT_PATH))
+                DastBenchmarkStrategy.normalizeUrl(
+                        "/SQLInjection/LEVEL_1?attack=1' OR 1=1--", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
     }
 
@@ -406,13 +427,13 @@ class DastBenchmarkStrategyTest {
     @Test
     void urlNormalization_stripsWhicheverContextPathTheAppIsServedUnder() {
         assertThat(
-                        DastBenchmarkStrategy.normalizeUrl(
-                                "https://10.0.0.5:443/customCtx/SQLInjection/LEVEL_1",
-                                "/customCtx"))
+                DastBenchmarkStrategy.normalizeUrl(
+                        "https://10.0.0.5:443/customCtx/SQLInjection/LEVEL_1",
+                        "/customCtx"))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(
-                        DastBenchmarkStrategy.normalizeUrl(
-                                "/customCtx/SQLInjection/LEVEL_1", "/customCtx"))
+                DastBenchmarkStrategy.normalizeUrl(
+                        "/customCtx/SQLInjection/LEVEL_1", "/customCtx"))
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/customCtx", "/customCtx")).isEqualTo("/");
 
@@ -421,24 +442,5 @@ class DastBenchmarkStrategyTest {
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", null))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-    }
-
-    private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {
-        return unsecure(url, RequestMethod.GET, types);
-    }
-
-    private static ScannerResponseBean unsecure(
-            String url, RequestMethod method, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "UNSECURE", method, Arrays.asList(types));
-    }
-
-    private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "SECURE", RequestMethod.GET, Arrays.asList(types));
-    }
-
-    private static ScannerFindings input(String tool, Finding... findings) {
-        List<Finding> list =
-                findings.length == 0 ? Collections.emptyList() : Arrays.asList(findings);
-        return new ScannerFindings(tool, list);
     }
 }

@@ -9,12 +9,13 @@ public final class GenericUtils {
 
     public static final String LOCALHOST = "127.0.0.1";
 
-    private GenericUtils() {}
+    private GenericUtils() {
+    }
 
     /**
-     * @deprecated
      * @param payload
      * @return
+     * @deprecated
      */
     @Deprecated
     public static String wrapPayloadInGenericVulnerableAppTemplate(String payload) {

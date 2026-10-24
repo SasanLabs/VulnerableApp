@@ -1,18 +1,8 @@
 package org.sasanlabs.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.lang.reflect.Method;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.sasanlabs.beans.AllEndPointsResponseBean;
-import org.sasanlabs.beans.AttackVectorResponseBean;
-import org.sasanlabs.beans.ChallengeCardResponseBean;
-import org.sasanlabs.beans.LevelResponseBean;
-import org.sasanlabs.beans.ScannerResponseBean;
+import org.sasanlabs.beans.*;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
@@ -22,18 +12,16 @@ import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.service.IEndPointsInformationProvider;
-import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardHint;
-import org.sasanlabs.vulnerableapp.facade.schema.ChallengeCardPayload;
-import org.sasanlabs.vulnerableapp.facade.schema.ResourceInformation;
-import org.sasanlabs.vulnerableapp.facade.schema.ResourceType;
-import org.sasanlabs.vulnerableapp.facade.schema.ResourceURI;
-import org.sasanlabs.vulnerableapp.facade.schema.Variant;
-import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
-import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelDefinition;
-import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityLevelHint;
-import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityType;
+import org.sasanlabs.vulnerableapp.facade.schema.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Method;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -41,13 +29,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EndPointsInformationProvider implements IEndPointsInformationProvider {
 
-    private EnvUtils envUtils;
-
-    private MessageBundle messageBundle;
-
-    private VulnerableAppProperties vulnerableAppProperties;
-
     int port;
+    private EnvUtils envUtils;
+    private MessageBundle messageBundle;
+    private VulnerableAppProperties vulnerableAppProperties;
 
     public EndPointsInformationProvider(
             EnvUtils envUtils,
@@ -246,8 +231,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                         for (ChallengeCard card : challengeCardAnnotations) {
                             org.sasanlabs.vulnerableapp.facade.schema.ChallengeCard
                                     facadeChallenge =
-                                            new org.sasanlabs.vulnerableapp.facade.schema
-                                                    .ChallengeCard();
+                                    new org.sasanlabs.vulnerableapp.facade.schema
+                                            .ChallengeCard();
 
                             // Set the Challenge Text
                             facadeChallenge.setChallengeText(

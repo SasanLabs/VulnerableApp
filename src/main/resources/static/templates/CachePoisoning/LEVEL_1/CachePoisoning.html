@@ -1,7 +1,8 @@
-<div id="cachePoisoningContainer" class="cache-poisoning-shell">
+<div class="cache-poisoning-shell" id="cachePoisoningContainer">
     <h3 class="cache-poisoning-title">Cache Poisoning - Level 1</h3>
     <p class="cache-poisoning-subtitle">
-        A shared cache stores responses by route only. Use the controls below and rely on the app help panel for exploitation guidance.
+        A shared cache stores responses by route only. Use the controls below and rely on the app help panel for
+        exploitation guidance.
     </p>
 
     <div class="cache-poisoning-layout">
@@ -12,28 +13,28 @@
                     <div class="cache-poisoning-field">
                         <label class="cache-poisoning-label" for="bannerInput">Attacker banner</label>
                         <input
-                            class="cache-poisoning-input"
-                            type="text"
-                            id="bannerInput"
-                            placeholder="FAKE URGENT UPDATE" />
+                                class="cache-poisoning-input"
+                                id="bannerInput"
+                                placeholder="FAKE URGENT UPDATE"
+                                type="text"/>
                     </div>
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-inline">
-                        <button type="button" id="poisonCacheBtn">Send attacker request</button>
+                        <button id="poisonCacheBtn" type="button">Send attacker request</button>
                     </div>
                 </div>
 
                 <div class="cache-poisoning-actions">
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
-                        <button type="button" id="resetCacheBtn">Reset Cache</button>
+                        <button id="resetCacheBtn" type="button">Reset Cache</button>
                     </div>
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-right">
-                        <button type="button" id="victimRequestBtn">Send victim request</button>
+                        <button id="victimRequestBtn" type="button">Send victim request</button>
                     </div>
                 </div>
 
                 <div class="cache-poisoning-toggle-row">
                     <label class="cache-poisoning-toggle-label">
-                        <input type="checkbox" id="browserCacheToggle" checked />
+                        <input checked id="browserCacheToggle" type="checkbox"/>
                         Browser cache
                     </label>
                     <span class="cache-poisoning-toggle-hint">Off: <code>s-maxage</code> only</span>
@@ -46,7 +47,7 @@
             <div class="cache-poisoning-diagnostics">
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache status</span>
-                    <code id="cacheStatus" class="cache-status-indicator cache-status-neutral">-</code>
+                    <code class="cache-status-indicator cache-status-neutral" id="cacheStatus">-</code>
                 </div>
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache key</span>
@@ -61,8 +62,9 @@
 
         <section class="cache-poisoning-block">
             <h5>Observed Response</h5>
-            <div id="cachePoisoningResponse" class="cache-poisoning-output">
-                Use the controls above to poison the cache and verify whether the victim receives the attacker-controlled banner.
+            <div class="cache-poisoning-output" id="cachePoisoningResponse">
+                Use the controls above to poison the cache and verify whether the victim receives the
+                attacker-controlled banner.
             </div>
         </section>
     </div>

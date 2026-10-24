@@ -1,16 +1,13 @@
 package org.sasanlabs.benchmark.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Locale;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Locale;
 
 /**
  * Persists a {@link BenchmarkResult} to a JSON file under the configured benchmarks directory.
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BenchmarkResultWriter {
 
+    private static final int MAX_TOOL_LENGTH = 64;
     private final ObjectMapper objectMapper;
     private final String defaultBenchmarksDir;
 
@@ -28,6 +26,33 @@ public class BenchmarkResultWriter {
             @Value("${benchmark.output.dir:benchmarks}") String defaultBenchmarksDir) {
         this.objectMapper = objectMapper;
         this.defaultBenchmarksDir = defaultBenchmarksDir;
+    }
+
+    private static void moveAtomicallyOrReplace(Path source, Path target) throws IOException {
+        try {
+            Files.move(
+                    source,
+                    target,
+                    StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException notSupported) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    static String sanitizeToolName(String tool) {
+        if (tool == null) {
+            return "unknown";
+        }
+        String lowered = tool.trim().toLowerCase(Locale.ROOT);
+        String cleaned = lowered.replaceAll("[^a-z0-9_-]", "");
+        if (cleaned.isEmpty()) {
+            return "unknown";
+        }
+        if (cleaned.length() > MAX_TOOL_LENGTH) {
+            cleaned = cleaned.substring(0, MAX_TOOL_LENGTH);
+        }
+        return cleaned;
     }
 
     public Path write(BenchmarkResult result) throws IOException {
@@ -48,34 +73,5 @@ public class BenchmarkResultWriter {
             throw ioe;
         }
         return target;
-    }
-
-    private static void moveAtomicallyOrReplace(Path source, Path target) throws IOException {
-        try {
-            Files.move(
-                    source,
-                    target,
-                    StandardCopyOption.ATOMIC_MOVE,
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (AtomicMoveNotSupportedException notSupported) {
-            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
-        }
-    }
-
-    private static final int MAX_TOOL_LENGTH = 64;
-
-    static String sanitizeToolName(String tool) {
-        if (tool == null) {
-            return "unknown";
-        }
-        String lowered = tool.trim().toLowerCase(Locale.ROOT);
-        String cleaned = lowered.replaceAll("[^a-z0-9_-]", "");
-        if (cleaned.isEmpty()) {
-            return "unknown";
-        }
-        if (cleaned.length() > MAX_TOOL_LENGTH) {
-            cleaned = cleaned.substring(0, MAX_TOOL_LENGTH);
-        }
-        return cleaned;
     }
 }

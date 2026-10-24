@@ -1,6 +1,7 @@
 package org.sasanlabs.benchmark.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,8 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Guards the checked-in SAST ground truth against line drift. Every row of {@code
@@ -18,6 +19,16 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
  * annotation or a closing brace can never be matched by a scanner.
  */
 class ExpectedIssuesAlignmentTest {
+
+    private static boolean isCode(String line) {
+        if (line.startsWith("//")
+                || line.startsWith("/*")
+                || line.startsWith("*")
+                || line.startsWith("@")) {
+            return false;
+        }
+        return line.chars().anyMatch(Character::isLetterOrDigit);
+    }
 
     @Test
     void everyRowPointsAtALineOfCode() throws IOException {
@@ -48,15 +59,5 @@ class ExpectedIssuesAlignmentTest {
         assertThat(misaligned)
                 .as("expectedIssues.csv rows that do not point at a line of code")
                 .isEmpty();
-    }
-
-    private static boolean isCode(String line) {
-        if (line.startsWith("//")
-                || line.startsWith("/*")
-                || line.startsWith("*")
-                || line.startsWith("@")) {
-            return false;
-        }
-        return line.chars().anyMatch(Character::isLetterOrDigit);
     }
 }

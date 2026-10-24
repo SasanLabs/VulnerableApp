@@ -1,43 +1,32 @@
 package org.sasanlabs.internal.utility;
 
-import java.nio.charset.StandardCharsets;
-import java.security.*;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-/** Utility class for various password hashing algorithms. */
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
+
+/**
+ * Utility class for various password hashing algorithms.
+ */
 public final class PasswordHashingUtils {
 
     private static final String HASH_SEPARATOR = ":";
     private static final int bcryptWorkFactor = 12;
-
-    private PasswordHashingUtils() {}
-
-    // Available Hashing Algorithms
-    public enum HashAlgorithm {
-        MD4("MD4"),
-        MD5("MD5"),
-        SHA1("SHA-1"),
-        SHA256("SHA-256");
-
-        private final String algorithmName;
-
-        HashAlgorithm(String algorithmName) {
-            this.algorithmName = algorithmName;
-        }
-
-        public String label() {
-            return this.algorithmName;
-        }
-    }
 
     // Registers Bouncy Castle as provider
     static {
         if (Security.getProvider("BC") == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
+    }
+
+    private PasswordHashingUtils() {
     }
 
     public static String md4Hex(String rawPassword) {
@@ -150,5 +139,23 @@ public final class PasswordHashingUtils {
         Cipher des = Cipher.getInstance("DES/ECB/NoPadding", "BC");
         des.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key8, "DES"));
         return des.doFinal("KGS!@#$%".getBytes(StandardCharsets.US_ASCII));
+    }
+
+    // Available Hashing Algorithms
+    public enum HashAlgorithm {
+        MD4("MD4"),
+        MD5("MD5"),
+        SHA1("SHA-1"),
+        SHA256("SHA-256");
+
+        private final String algorithmName;
+
+        HashAlgorithm(String algorithmName) {
+            this.algorithmName = algorithmName;
+        }
+
+        public String label() {
+            return this.algorithmName;
+        }
     }
 }

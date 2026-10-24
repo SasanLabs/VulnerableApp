@@ -1,6 +1,7 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -42,7 +43,9 @@ public class ChallengeCardResponseBean {
         return payload;
     }
 
-    /** Response bean for the Hint within a ChallengeCard. */
+    /**
+     * Response bean for the Hint within a ChallengeCard.
+     */
     public static class HintResponseBean {
 
         @JsonProperty("order")

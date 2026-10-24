@@ -1,6 +1,7 @@
 package org.sasanlabs.benchmark.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Locale;
 
 /**

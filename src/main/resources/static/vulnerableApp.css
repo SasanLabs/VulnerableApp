@@ -1,4 +1,4 @@
-body, html { 
+body, html {
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -77,12 +77,14 @@ div.navbar-item-menu a {
 .hide-component {
     display: none !important;
 }
+
 /* Used while a template's CSS/JS are still loading, so the unstyled
  * content is never painted. visibility (not display) is used so layout
  * space is reserved and there's no additional reflow when it's revealed. */
 .content-loading {
     visibility: hidden;
 }
+
 .homeContainer {
     background: burlywood;
     flex: 1;
@@ -109,7 +111,7 @@ div.navbar-item-menu a {
     padding-bottom: 5%;
 }
 
-.chooseMode{
+.chooseMode {
     flex: 1;
     align-items: center;
     display: flex;
@@ -138,7 +140,7 @@ hr {
     padding: 0;
 }
 
-#learnAndPracticeBtn , #testScannerBtn, #vulnInformationBtn{
+#learnAndPracticeBtn, #testScannerBtn, #vulnInformationBtn {
     display: inline-block;
     padding: 10px 35px;
     margin: 3px;
@@ -352,11 +354,11 @@ hr {
 /**
  * Basic Animation for all the buttons in the VulnerableApp Application.
  */
-button:active, input[type="button"]:active, input[type="submit"]:active { 
-    transform: scale(0.98); 
-    /* Scaling button to 0.98 to its original size */ 
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-    /* Lowering the shadow */ 
+button:active, input[type="button"]:active, input[type="submit"]:active {
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
 }
 
 @media only screen and (min-width: 786px) {
@@ -367,7 +369,7 @@ button:active, input[type="button"]:active, input[type="submit"]:active {
     .col-3 {
         width: 25%;
     }
-    
+
     .col-6 {
         width: 60%;
     }

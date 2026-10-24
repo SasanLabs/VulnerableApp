@@ -1,8 +1,7 @@
 package org.sasanlabs.internal.utility;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -18,8 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Guards the i18n bundles against the defect fixed in #326 and again in #729.
@@ -37,7 +36,9 @@ import org.junit.jupiter.api.Test;
  */
 class MessageBundleContinuationTest {
 
-    /** Scripts that do not separate words with spaces, where a joined pair is not a defect. */
+    /**
+     * Scripts that do not separate words with spaces, where a joined pair is not a defect.
+     */
     private static final Set<Character.UnicodeScript> SCRIPTS_WITHOUT_WORD_SPACES =
             EnumSet.of(
                     Character.UnicodeScript.HAN,
@@ -45,27 +46,10 @@ class MessageBundleContinuationTest {
                     Character.UnicodeScript.KATAKANA,
                     Character.UnicodeScript.THAI);
 
-    /** Longest HTML entity the bundles use, {@code &quot;}, plus room to spare. */
+    /**
+     * Longest HTML entity the bundles use, {@code &quot;}, plus room to spare.
+     */
     private static final int LONGEST_ENTITY = 12;
-
-    @Test
-    @DisplayName("i18n: no entry joins two words together across a line continuation")
-    void noContinuationGluesTwoWords() throws Exception {
-        List<Path> bundles = messageBundles();
-        assertTrue(bundles.size() > 1, "expected to find the i18n bundles, found " + bundles);
-
-        List<String> failures = new ArrayList<>();
-        for (Path bundle : bundles) {
-            failures.addAll(gluedContinuations(bundle));
-        }
-
-        if (!failures.isEmpty()) {
-            fail(
-                    "A continuation line joins two words together. Move the space to the end of the"
-                            + " previous line, before the backslash:\n  "
-                            + String.join("\n  ", failures));
-        }
-    }
 
     private static List<Path> messageBundles() throws URISyntaxException, IOException {
         URL i18n = MessageBundleContinuationTest.class.getResource("/i18n");
@@ -150,7 +134,9 @@ class MessageBundleContinuationTest {
                 && !writtenWithoutWordSpaces(right);
     }
 
-    /** True for a tag such as {@code <br/>} and for an entity such as {@code &lt;/ol&gt;}. */
+    /**
+     * True for a tag such as {@code <br/>} and for an entity such as {@code &lt;/ol&gt;}.
+     */
     private static boolean endsWithMarkup(CharSequence value) {
         int end = value.length() - 1;
         if (value.charAt(end) == '>') {
@@ -171,7 +157,9 @@ class MessageBundleContinuationTest {
         return false;
     }
 
-    /** A blank line and a comment do not start an entry, and a comment is never continued. */
+    /**
+     * A blank line and a comment do not start an entry, and a comment is never continued.
+     */
     private static boolean startsEntry(String line) {
         String trimmed = stripLeading(line);
         return !trimmed.isEmpty() && !trimmed.startsWith("#") && !trimmed.startsWith("!");
@@ -214,5 +202,24 @@ class MessageBundleContinuationTest {
 
     private static String firstWord(String text) {
         return text.split("\\s")[0];
+    }
+
+    @Test
+    @DisplayName("i18n: no entry joins two words together across a line continuation")
+    void noContinuationGluesTwoWords() throws Exception {
+        List<Path> bundles = messageBundles();
+        assertTrue(bundles.size() > 1, "expected to find the i18n bundles, found " + bundles);
+
+        List<String> failures = new ArrayList<>();
+        for (Path bundle : bundles) {
+            failures.addAll(gluedContinuations(bundle));
+        }
+
+        if (!failures.isEmpty()) {
+            fail(
+                    "A continuation line joins two words together. Move the space to the end of the"
+                            + " previous line, before the backslash:\n  "
+                            + String.join("\n  ", failures));
+        }
     }
 }

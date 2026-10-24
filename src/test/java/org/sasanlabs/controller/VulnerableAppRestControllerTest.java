@@ -1,31 +1,5 @@
 package org.sasanlabs.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URI;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +16,23 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 /**
  * Covers the bare {@code /scanner} endpoint, its {@code /scanner/dast} replacement (same body, only
  * the deprecation headers differ) and the {@code /scanner/sast} ground-truth endpoint.
@@ -53,13 +44,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @ExtendWith(MockitoExtension.class)
 class VulnerableAppRestControllerTest {
 
-    @Mock private IEndPointsInformationProvider endPointsInformationProvider;
+    @Mock
+    private IEndPointsInformationProvider endPointsInformationProvider;
 
-    @Mock private IExpectedIssuesProvider expectedIssuesProvider;
+    @Mock
+    private IExpectedIssuesProvider expectedIssuesProvider;
 
     private VulnerableAppRestController controller;
 
     private MockMvc mockMvc;
+
+    private static List<ExpectedIssue> twoExpectedIssues() {
+        return Arrays.asList(
+                new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1),
+                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3));
+    }
 
     @BeforeEach
     void setUp() {
@@ -94,9 +93,9 @@ class VulnerableAppRestControllerTest {
                         .andExpect(header().string("Sunset", "Thu, 30 Sep 2027 23:59:59 GMT"))
                         .andExpect(
                                 header().string(
-                                                "Link",
-                                                "<http://localhost:9090/VulnerableApp/scanner/dast>;"
-                                                        + " rel=\"successor-version\""))
+                                        "Link",
+                                        "<http://localhost:9090/VulnerableApp/scanner/dast>;"
+                                                + " rel=\"successor-version\""))
                         .andExpect(jsonPath("$[0].variant").value("LEVEL_1"))
                         .andReturn();
 
@@ -127,9 +126,9 @@ class VulnerableAppRestControllerTest {
                                 .contextPath("/VulnerableApp"))
                 .andExpect(
                         header().string(
-                                        "Link",
-                                        "<https://vulnerableapp.example:8443/VulnerableApp/scanner"
-                                                + "/dast>; rel=\"successor-version\""));
+                                "Link",
+                                "<https://vulnerableapp.example:8443/VulnerableApp/scanner"
+                                        + "/dast>; rel=\"successor-version\""));
     }
 
     /**
@@ -255,11 +254,5 @@ class VulnerableAppRestControllerTest {
         when(expectedIssuesProvider.getExpectedIssues()).thenThrow(new IOException("boom"));
 
         assertThrows(IOException.class, () -> controller.getSastScannerRelatedInformation());
-    }
-
-    private static List<ExpectedIssue> twoExpectedIssues() {
-        return Arrays.asList(
-                new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1),
-                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3));
     }
 }

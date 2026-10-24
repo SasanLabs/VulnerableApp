@@ -1,5 +1,16 @@
 package org.sasanlabs.benchmark.service;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,16 +22,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 
 /**
  * Loads SAST ground truth from a CSV file with header columns {@code CWE}, {@code Vulnerability
@@ -65,7 +66,7 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
 
     public CsvExpectedIssuesProvider(
             @Value("${benchmark.sast.ground-truth.path:classpath:scanner/sast/expectedIssues.csv}")
-                    String csvPath) {
+            String csvPath) {
         this.csvPath = csvPath;
     }
 
@@ -108,15 +109,15 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
 
     private List<ExpectedIssue> parseFromResource(String location) throws IOException {
         try (InputStream in = new ClassPathResource(location).getInputStream();
-                Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
-                CSVParser parser = FORMAT.parse(reader)) {
+             Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+             CSVParser parser = FORMAT.parse(reader)) {
             return parseAll(parser);
         }
     }
 
     private List<ExpectedIssue> parseFromPath(Path path) throws IOException {
         try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-                CSVParser parser = FORMAT.parse(reader)) {
+             CSVParser parser = FORMAT.parse(reader)) {
             return parseAll(parser);
         }
     }

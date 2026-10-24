@@ -1,10 +1,11 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 /**
  * Entry point for the scanner-benchmark API. Dispatches to a {@link BenchmarkStrategy}

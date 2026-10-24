@@ -2,7 +2,8 @@
 
 ## Overview
 
-VulnerableApp includes a simple email testing endpoint for validating the mail integration flow. The endpoint is available under the unsafe profile and sends a test message through the configured mail service.
+VulnerableApp includes a simple email testing endpoint for validating the mail integration flow. The endpoint is
+available under the unsafe profile and sends a test message through the configured mail service.
 
 ## Endpoint
 
@@ -44,5 +45,6 @@ If Mailpit is running locally, emails will be captured there and available at:
 
 ## Notes
 
-- If the mail server is unavailable, the application logs a warning and continues running instead of failing the request.
+- If the mail server is unavailable, the application logs a warning and continues running instead of failing the
+  request.
 - The email testing endpoint is intended for local validation and debugging.

@@ -33,8 +33,8 @@ env:
     failOnError: false
     failOnWarning: false
     progressToStdout: true
-    
-jobs:         
+
+jobs:
   # ------------------------------------------------------------------
   # 1. Spider — crawl VulnerableApp to discover all endpoints
   # ------------------------------------------------------------------
@@ -75,25 +75,25 @@ jobs:
       reloadWait: 5000
       eventWait: 2000
       browserId: firefox-headless
-      clickDefaultElems: true   
+      clickDefaultElems: true
       clickElemsOnce: false
       randomInputs: true
       enableExtensions: true
       elements:
-      - "a"
-      - "button"
-      - "input"
-      - "select"
-      - "form"
-      - "li"
-      - "div"
-      - "span"
-      - "textarea"
-      - "img"
-      - "tr"
-      - "ol"
-      - "ul"
-      - "p"
+        - "a"
+        - "button"
+        - "input"
+        - "select"
+        - "form"
+        - "li"
+        - "div"
+        - "span"
+        - "textarea"
+        - "img"
+        - "tr"
+        - "ol"
+        - "ul"
+        - "p"
   # ------------------------------------------------------------------
   # 3. Passive Scan Wait — wait for passive scan to complete before active scan
   # ------------------------------------------------------------------ 
@@ -107,7 +107,7 @@ jobs:
   # ------------------------------------------------------------------ 
 
   - type: activeScan-config
-    parameters: {}
+    parameters: { }
     inputVectors:
       urlQueryStringAndDataDrivenNodes:
         enabled: true
@@ -120,7 +120,7 @@ jobs:
           enabled: true
           scanNullValues: true
         googleWebToolkit: true
-        directWebRemoting: true  
+        directWebRemoting: true
       urlPath: true
       httpHeaders:
         enabled: true
@@ -128,7 +128,7 @@ jobs:
       cookieData:
         enabled: true
         encodeCookieValues: true
-      scripts: true  
+      scripts: true
 
   # ------------------------------------------------------------------
   # 5. Active Scan — attack mode against discovered URLs

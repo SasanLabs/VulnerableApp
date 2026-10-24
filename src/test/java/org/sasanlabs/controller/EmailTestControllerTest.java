@@ -1,10 +1,5 @@
 package org.sasanlabs.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -14,10 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
 
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 class EmailTestControllerTest {
 
-    @Mock private EmailService emailService;
+    @Mock
+    private EmailService emailService;
 
     @Test
     void shouldSendPlainTextTestEmail() {

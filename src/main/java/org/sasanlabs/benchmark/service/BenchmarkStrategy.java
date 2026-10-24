@@ -1,8 +1,9 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+
+import java.io.IOException;
 
 /**
  * Compares a scanner's findings against a specific kind of ground truth (e.g. DAST endpoints, SAST

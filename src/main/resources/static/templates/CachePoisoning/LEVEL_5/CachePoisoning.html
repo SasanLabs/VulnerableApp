@@ -1,7 +1,8 @@
-<div id="cachePoisoningContainer" class="cache-poisoning-shell">
+<div class="cache-poisoning-shell" id="cachePoisoningContainer">
     <h3 class="cache-poisoning-title">Cache Poisoning - Level 5 (Secure)</h3>
     <p class="cache-poisoning-subtitle">
-        This secure level ignores untrusted forwarding headers and uses a private, non-stored response for personalized content. Try sending the same malicious inputs and compare the diagnostics with the previous levels.
+        This secure level ignores untrusted forwarding headers and uses a private, non-stored response for personalized
+        content. Try sending the same malicious inputs and compare the diagnostics with the previous levels.
     </p>
 
     <div class="cache-poisoning-layout">
@@ -12,10 +13,10 @@
                     <div class="cache-poisoning-field">
                         <label class="cache-poisoning-label" for="bannerInput">Optional banner preview</label>
                         <input
-                            class="cache-poisoning-input"
-                            type="text"
-                            id="bannerInput"
-                            placeholder="&lt;b&gt;OWNED&lt;/b&gt;" />
+                                class="cache-poisoning-input"
+                                id="bannerInput"
+                                placeholder="&lt;b&gt;OWNED&lt;/b&gt;"
+                                type="text"/>
                     </div>
                 </div>
 
@@ -23,10 +24,10 @@
                     <div class="cache-poisoning-field">
                         <label class="cache-poisoning-label" for="forwardedHostInput">Optional forwarded host</label>
                         <input
-                            class="cache-poisoning-input"
-                            type="text"
-                            id="forwardedHostInput"
-                            placeholder="attacker.example" />
+                                class="cache-poisoning-input"
+                                id="forwardedHostInput"
+                                placeholder="attacker.example"
+                                type="text"/>
                     </div>
                 </div>
 
@@ -34,22 +35,22 @@
                     <div class="cache-poisoning-field">
                         <label class="cache-poisoning-label" for="demoUserInput">Personalized demo_user</label>
                         <input
-                            class="cache-poisoning-input"
-                            type="text"
-                            id="demoUserInput"
-                            placeholder="admin" />
+                                class="cache-poisoning-input"
+                                id="demoUserInput"
+                                placeholder="admin"
+                                type="text"/>
                     </div>
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-inline">
-                        <button type="button" id="poisonCacheBtn">Send attacker request</button>
+                        <button id="poisonCacheBtn" type="button">Send attacker request</button>
                     </div>
                 </div>
 
                 <div class="cache-poisoning-actions">
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-left">
-                        <button type="button" id="resetCacheBtn">Reset Cache</button>
+                        <button id="resetCacheBtn" type="button">Reset Cache</button>
                     </div>
                     <div class="cache-poisoning-action-group cache-poisoning-action-group-right">
-                        <button type="button" id="victimRequestBtn">Send guest request</button>
+                        <button id="victimRequestBtn" type="button">Send guest request</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +61,7 @@
             <div class="cache-poisoning-diagnostics">
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache status</span>
-                    <code id="cacheStatus" class="cache-status-indicator cache-status-neutral">-</code>
+                    <code class="cache-status-indicator cache-status-neutral" id="cacheStatus">-</code>
                 </div>
                 <div class="diagnostic-card">
                     <span class="diagnostic-label">Cache key</span>
@@ -79,8 +80,9 @@
 
         <section class="cache-poisoning-block">
             <h5>Observed Response</h5>
-            <div id="cachePoisoningResponse" class="cache-poisoning-output">
-                Send a personalized request first, then clear the cookie with a guest request. The response should stay fresh and should not reuse attacker-controlled forwarding data.
+            <div class="cache-poisoning-output" id="cachePoisoningResponse">
+                Send a personalized request first, then clear the cookie with a guest request. The response should stay
+                fresh and should not reuse attacker-controlled forwarding data.
             </div>
         </section>
     </div>

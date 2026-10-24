@@ -1,11 +1,6 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -22,6 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -61,7 +62,7 @@ public class VulnerableAppRestController {
     public String allEndPoints() throws JsonProcessingException {
         return "<pre>"
                 + JSONSerializationUtils.serializeWithPrettyPrintJSON(
-                        getAllSupportedEndPoints.getSupportedEndPoints())
+                getAllSupportedEndPoints.getSupportedEndPoints())
                 + "</pre>";
     }
 
@@ -104,9 +105,9 @@ public class VulnerableAppRestController {
      * @throws JsonProcessingException
      * @throws UnknownHostException
      * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
-     *     application uses. This path stays until September 2027 so existing scanners keep working;
-     *     its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
-     *     header identifying the successor.
+     * application uses. This path stays until September 2027 so existing scanners keep working;
+     * its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
+     * header identifying the successor.
      */
     @Deprecated(forRemoval = true)
     @GetMapping

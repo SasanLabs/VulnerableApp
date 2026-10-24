@@ -17,47 +17,47 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 > tree) and converting its output into the input format below.
 
 ---
- 
+
 ## ZAP By Checkmarx
- 
+
 ZAP is benchmarked against VulnerableApp in two modes — **Modern UI** (React
 frontend via VulnerableApp-facade) and **Legacy UI** (JSP backend directly).
- 
+
 ### Latest results
- 
-| UI | Results file |
-|---|---|
-| Modern | [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json) |
+
+| UI     | Results file                                                            |
+|--------|-------------------------------------------------------------------------|
+| Modern | [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json)               |
 | Legacy | [`benchmarks/ZAP/zap-results-legacy.json`](ZAP/zap-results-legacy.json) |
- 
+
 Results are auto-updated everyday and on every manual workflow run.
- 
+
 ### Running the benchmark
- 
+
 The full pipeline (start VulnerableApp → run ZAP → convert → benchmark → commit
 results) is automated via GitHub Actions:
- 
+
 1. Go to **Actions** tab → **ZAP Benchmark**
 2. Click **Run workflow**
 3. Select `legacy`, `modern`, or `both`
 4. Results are committed automatically to the files above
-See [`.github/workflows/zap-benchmark.yml`](../.github/workflows/zap-benchmark.yml)
-for the full workflow definition.
- 
+   See [`.github/workflows/zap-benchmark.yml`](../.github/workflows/zap-benchmark.yml)
+   for the full workflow definition.
+
 ### Conversion script
- 
+
 ZAP's raw JSON report must be converted to the benchmark input format before
 posting to the endpoint:
- 
+
 ```bash
 python3 benchmarks/ZAP/scripts/convert_zap_to_benchmark.py \
     --input  benchmarks/ZAP/zap-raw-report.json \
     --output benchmarks/ZAP/zap-benchmark-input.json
 ```
- 
+
 The script maps each ZAP alert instance to a `Finding` using CWE and WASC IDs
 natively — no manual alert-name mapping needed.
- 
+
 A sample benchmark output is at
 [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json).
  
@@ -69,8 +69,8 @@ Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
 
 ### Latest results
 
-| Ruleset | Results file |
-|---|---|
+| Ruleset     | Results file                                                              |
+|-------------|---------------------------------------------------------------------------|
 | `p/default` | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
 
 Results are auto-updated on `master` every day and on every manual workflow
@@ -141,11 +141,12 @@ Wapiti is benchmarked against VulnerableApp using its DAST scanner.
 
 ### Latest results
 
-| Scanner | Results file |
-|---|---|
-| Wapiti | [`benchmarks/Wapiti/wapiti-results.json`](Wapiti/wapiti-results.json) |
+| Scanner | Results file                                                          |
+|---------|-----------------------------------------------------------------------|
+| Wapiti  | [`benchmarks/Wapiti/wapiti-results.json`](Wapiti/wapiti-results.json) |
 
-Results are auto-updated daily via [`.github/workflows/wapiti-benchmark.yml`](../.github/workflows/wapiti-benchmark.yml).
+Results are auto-updated daily via [
+`.github/workflows/wapiti-benchmark.yml`](../.github/workflows/wapiti-benchmark.yml).
 
 ### Conversion script
 
@@ -172,10 +173,10 @@ See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reprodu
 The optional `scanType` field on the request body selects the strategy. When
 omitted, it defaults to `DAST` so existing payloads keep working.
 
-| `scanType`        | Ground truth                                | Per-finding fields                        |
-|-------------------|---------------------------------------------|-------------------------------------------|
-| `DAST` (default)  | live `/scanner/dast` endpoint               | `url`, `type`                             |
-| `SAST`            | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
+| `scanType`       | Ground truth                                | Per-finding fields                           |
+|------------------|---------------------------------------------|----------------------------------------------|
+| `DAST` (default) | live `/scanner/dast` endpoint               | `url`, `type`                                |
+| `SAST`           | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
 
 ## DAST input format
 
@@ -214,9 +215,9 @@ A scanner finding matches a ground-truth row when **all three** of these hold:
 2. The HTTP method check passes (opt-in — see below for the omitted-method
    semantics), AND
 3. **Any one of** these axes agrees:
-   - `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
-   - `cwe` matches the type's `cweID`, OR
-   - `wascId` matches the type's `wascID`.
+    - `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
+    - `cwe` matches the type's `cweID`, OR
+    - `wascId` matches the type's `wascID`.
 
 The method check is opt-in: if your scanner emits a `method` field, it is
 matched strictly (`POST` vs ground-truth `GET` becomes unmatched). If
@@ -308,8 +309,8 @@ A finding matches an expected issue when:
 3. Either **`cwe`** matches the CSV's `CWE` column **or** **`type`** matches
    the `Vulnerability Type` column (case-insensitively).
 
-A scanner can emit either CWE, type, or both — whichever pair
-(`file + line + CWE` *or* `file + line + type`) hits the ground truth wins.
+A scanner can emit either CWE, type, or both — whichever pair (`file + line + CWE` *or* `file + line + type`) hits the
+ground truth wins.
 
 - **Path normalisation:** backslashes → forward slashes; leading `./` stripped;
   whitespace trimmed. Scanner authors should emit project-relative paths;
@@ -369,8 +370,8 @@ For SAST runs, items look like:
 - `coverage` — `detected / totalExpected * 100`. Reported as `0.0` when ground
   truth is empty.
 - `totalExpected` — number of unique ground-truth items. For DAST, count of
-  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
-  (SECURE entries are intentionally clean and don't count). For SAST, count of
+  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries (SECURE entries are intentionally clean
+  and don't count). For SAST, count of
   rows in the CSV.
 - `missedItems` — expected items the scanner did not report.
 - `unmatchedItems` — items the scanner reported that don't line up with any
@@ -378,13 +379,13 @@ For SAST runs, items look like:
 
 ## Configuration
 
-| Property | Default | Purpose |
-|---|---|---|
-| `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
-| `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
-| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000` | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads. |
-| `benchmark.dast.ground-truth.read-timeout-ms` | `10000` | Read timeout (ms) for the ground-truth fetch. |
-| `benchmark.sast.ground-truth.path` | `classpath:scanner/sast/expectedIssues.csv` | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
+| Property                                         | Default                                                                                          | Purpose                                                                                                                                        |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `benchmark.output.dir`                           | `benchmarks`                                                                                     | Directory the JSON report is written to.                                                                                                       |
+| `benchmark.dast.ground-truth.url`                | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app.      |
+| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000`                                                                                           | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads.                    |
+| `benchmark.dast.ground-truth.read-timeout-ms`    | `10000`                                                                                          | Read timeout (ms) for the ground-truth fetch.                                                                                                  |
+| `benchmark.sast.ground-truth.path`               | `classpath:scanner/sast/expectedIssues.csv`                                                      | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
 
 The default DAST URL is a self-call against the running app, which means
 benchmarking works out of the box in standalone mode. In a facade-composed
@@ -400,8 +401,8 @@ via `benchmark.output.dir`. Filenames are lowercased and stripped of anything
 outside `[a-z0-9_-]`. Re-running the endpoint for the same tool (regardless of
 scan type) overwrites the previous report.
 
-If the file write fails (disk full, permissions, etc.), the endpoint returns
-**HTTP 500** with the same response body as a successful run, plus an extra
+If the file write fails (disk full, permissions, etc.), the endpoint returns **HTTP 500** with the same response body as
+a successful run, plus an extra
 `persistenceError` string describing the failure. Callers still get the
 computed metrics; the non-2xx status is the signal that the on-disk artifact
 was *not* created.
@@ -421,8 +422,8 @@ false positives. This applies to any DAST scanner benchmarked against Vulnerable
 The SAST matcher compares exact line numbers. A scanner that reports a real
 issue on a different line of the same data flow gets no credit for it: the
 expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
-example, Semgrep reports SSRF where the `URL` object is built
-(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
+example, Semgrep reports SSRF where the `URL` object is built (`SSRFVulnerability.java:67`), while the expected row is
+the `openConnection()`
 call at line 85.
 
 `unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings

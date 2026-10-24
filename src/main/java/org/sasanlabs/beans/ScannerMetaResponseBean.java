@@ -1,9 +1,10 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
+
+import java.util.List;
 
 /**
  * This class represents the meta data about the data provided by scanner endpoint. This is useful

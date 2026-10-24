@@ -1,7 +1,7 @@
 package org.sasanlabs.internal.utility;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -11,33 +11,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class MessageBundleDuplicateKeyTest {
-
-    @Test
-    @DisplayName("i18n: no duplicate keys in message bundles")
-    void noDuplicateKeys() throws Exception {
-        List<Path> bundles = messageBundles();
-        assertFalse(bundles.isEmpty(), "No i18n message bundles found");
-        List<String> duplicates = new ArrayList<>();
-
-        for (Path bundle : bundles) {
-            duplicates.addAll(findDuplicates(bundle));
-        }
-
-        if (!duplicates.isEmpty()) {
-            fail("Duplicate keys found in i18n bundles:\n  " + String.join("\n  ", duplicates));
-        }
-    }
 
     private static List<Path> messageBundles() throws URISyntaxException, IOException {
         URL i18n = MessageBundleDuplicateKeyTest.class.getResource("/i18n");
@@ -62,6 +43,22 @@ class MessageBundleDuplicateKeyTest {
         return properties.duplicates.stream()
                 .map(key -> bundle.getFileName() + " duplicate key: " + key)
                 .collect(Collectors.toList());
+    }
+
+    @Test
+    @DisplayName("i18n: no duplicate keys in message bundles")
+    void noDuplicateKeys() throws Exception {
+        List<Path> bundles = messageBundles();
+        assertFalse(bundles.isEmpty(), "No i18n message bundles found");
+        List<String> duplicates = new ArrayList<>();
+
+        for (Path bundle : bundles) {
+            duplicates.addAll(findDuplicates(bundle));
+        }
+
+        if (!duplicates.isEmpty()) {
+            fail("Duplicate keys found in i18n bundles:\n  " + String.join("\n  ", duplicates));
+        }
     }
 
     private static class DuplicateTrackingProperties extends Properties {

@@ -1,38 +1,38 @@
 import {
-  clearCacheAndFetchFreshResponse,
-  clearInputs,
-  fetchDataCallback,
-  getHeadersWithForwardedHost,
-  getInputValue,
-  getRequestUrl,
-  setDemoUserCookie,
+    clearCacheAndFetchFreshResponse,
+    clearInputs,
+    fetchDataCallback,
+    getHeadersWithForwardedHost,
+    getInputValue,
+    getRequestUrl,
+    setDemoUserCookie,
 } from "../Common/CachePoisoningCommon.js";
 
 document
-  .getElementById("poisonCacheBtn")
-  .addEventListener("click", function () {
-    const demoUser = getInputValue("demoUserInput");
-    if (demoUser) {
-      setDemoUserCookie(demoUser);
-    }
+    .getElementById("poisonCacheBtn")
+    .addEventListener("click", function () {
+        const demoUser = getInputValue("demoUserInput");
+        if (demoUser) {
+            setDemoUserCookie(demoUser);
+        }
 
-    doGetAjaxCall(
-      fetchDataCallback,
-      getRequestUrl(),
-      true,
-      getHeadersWithForwardedHost()
-    );
-    clearInputs(["demoUserInput"]);
-  });
+        doGetAjaxCall(
+            fetchDataCallback,
+            getRequestUrl(),
+            true,
+            getHeadersWithForwardedHost()
+        );
+        clearInputs(["demoUserInput"]);
+    });
 
 document.getElementById("resetCacheBtn").addEventListener("click", function () {
-  setDemoUserCookie(null);
-  clearCacheAndFetchFreshResponse();
+    setDemoUserCookie(null);
+    clearCacheAndFetchFreshResponse();
 });
 
 document
-  .getElementById("victimRequestBtn")
-  .addEventListener("click", function () {
-    setDemoUserCookie(null);
-    doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
-  });
+    .getElementById("victimRequestBtn")
+    .addEventListener("click", function () {
+        setDemoUserCookie(null);
+        doGetAjaxCall(fetchDataCallback, getRequestUrl(), true, {});
+    });

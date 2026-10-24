@@ -1,20 +1,25 @@
 package org.sasanlabs.benchmark.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.sasanlabs.benchmark.model.ExpectedIssue;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CsvExpectedIssuesProviderTest {
 
     private static final String HEADER = "CWE,Vulnerability Type,File,Line,Number of Sources\n";
+
+    private static void write(Path path, String content) throws IOException {
+        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
+    }
 
     @Test
     void parsesHeaderAndAllValidRows(@TempDir Path tempDir) throws Exception {
@@ -174,9 +179,9 @@ class CsvExpectedIssuesProviderTest {
     @Test
     void missingClasspathResource_throwsIOException() {
         assertThatThrownBy(
-                        () ->
-                                new CsvExpectedIssuesProvider("classpath:does/not/exist.csv")
-                                        .getExpectedIssues())
+                () ->
+                        new CsvExpectedIssuesProvider("classpath:does/not/exist.csv")
+                                .getExpectedIssues())
                 .isInstanceOf(IOException.class);
     }
 
@@ -219,9 +224,5 @@ class CsvExpectedIssuesProviderTest {
                 .hasMessageContaining("benchmark.sast.ground-truth.path")
                 .hasMessageContaining("classpath:does/not/exist.csv")
                 .hasCauseInstanceOf(IOException.class);
-    }
-
-    private static void write(Path path, String content) throws IOException {
-        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
     }
 }
