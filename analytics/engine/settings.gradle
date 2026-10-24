@@ -1,0 +1,4 @@
+// Standalone build, kept apart from the VulnerableApp build so the analytics
+// engine can evolve (and be run in CI) without touching the application.
+// Run it with the repository's wrapper: ./gradlew -p analytics/engine <task>
+rootProject.name = 'benchmark-analytics-engine'

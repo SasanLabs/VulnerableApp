@@ -81,6 +81,12 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getUnmatchedItems())
                 .extracting(Finding::getFilePath, Finding::getLine)
                 .containsExactly(tuple("src/main/java/Imaginary.java", 1));
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getFilePath, Finding::getLine, Finding::getCwe)
+                .containsExactly(tuple(SQLI_FILE, 56, "CWE-89"));
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getFilePath, Finding::getLine)
+                .containsExactly(tuple(XSS_FILE, 45));
     }
 
     @Test
