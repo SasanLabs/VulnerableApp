@@ -1,11 +1,6 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -23,6 +18,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author KSASAN preetkaran20@gmail.com
  */
@@ -38,38 +39,35 @@ public class VulnerableAppRestController {
 
     private static final String DAST_PATH = "scanner/dast";
 
-    private IEndPointsInformationProvider getAllSupportedEndPoints;
+    private final IEndPointsInformationProvider getAllSupportedEndPoints;
 
-    private IExpectedIssuesProvider expectedIssuesProvider;
-
-    private int port;
+    private final IExpectedIssuesProvider expectedIssuesProvider;
 
     public VulnerableAppRestController(
             IEndPointsInformationProvider getAllSupportedEndPoints,
             IExpectedIssuesProvider expectedIssuesProvider) {
         this.getAllSupportedEndPoints = getAllSupportedEndPoints;
         this.expectedIssuesProvider = expectedIssuesProvider;
-        this.port = port;
     }
 
     /**
      * @return Entire information for the application.
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException if the information cannot be serialized to JSON
      */
     @GetMapping
     @RequestMapping("/allEndPoint")
     public String allEndPoints() throws JsonProcessingException {
         return "<pre>"
                 + JSONSerializationUtils.serializeWithPrettyPrintJSON(
-                        getAllSupportedEndPoints.getSupportedEndPoints())
+                getAllSupportedEndPoints.getSupportedEndPoints())
                 + "</pre>";
     }
 
     /**
      * Endpoint used by VulnerableApp-nginx for making a distributed vulnerable application.
      *
-     * @return
-     * @throws JsonProcessingException
+     * @return List of {@link VulnerabilityDefinition}s.
+     * @throws JsonProcessingException if the definitions cannot be processed
      */
     @GetMapping
     @RequestMapping("/VulnerabilityDefinitions")
@@ -80,14 +78,14 @@ public class VulnerableAppRestController {
 
     /**
      * This Endpoint is used to provide the entire information about the application like Supported
-     * Vulnerabilities, Levels etc. Currently our thought process is that UI can be built entirely
-     * using this information alone and we have build the UI by only using information provided by
+     * Vulnerabilities, Levels etc. Currently, our thought process is that UI can be built entirely
+     * using this information alone, and we have built the UI by only using information provided by
      * this Rest Endpoint.
      *
      * <p>This is the backbone behind the entire UI of VulnerableApp.
      *
      * @return Entire information for the application.
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException if the information cannot be processed
      */
     @GetMapping
     @RequestMapping("/allEndPointJson")
@@ -100,13 +98,14 @@ public class VulnerableAppRestController {
      * This Endpoint is used to provide the vulnerability information which is useful for testing
      * scanners like ZAP/Burp
      *
-     * @return {@link ScannerResponseBean}s
-     * @throws JsonProcessingException
-     * @throws UnknownHostException
+     * @param request the incoming request, used to build the application base URL
+     * @return {@link ScannerResponseBean}s wrapped in a response carrying the deprecation headers
+     * @throws JsonProcessingException if the scanner information cannot be processed
+     * @throws UnknownHostException    if the host of the application cannot be resolved
      * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
-     *     application uses. This path stays until September 2027 so existing scanners keep working;
-     *     its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
-     *     header identifying the successor.
+     * application uses. This path stays until September 2027 so existing scanners keep working;
+     * its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
+     * header identifying the successor.
      */
     @Deprecated(forRemoval = true)
     @GetMapping
@@ -126,9 +125,10 @@ public class VulnerableAppRestController {
      * /scanner/dast} name used across the applications so that a scanner can ask every application
      * for its DAST ground truth the same way.
      *
+     * @param request the incoming request, used to build the application base URL
      * @return {@link ScannerResponseBean}s
-     * @throws JsonProcessingException
-     * @throws UnknownHostException
+     * @throws JsonProcessingException if the scanner information cannot be processed
+     * @throws UnknownHostException    if the host of the application cannot be resolved
      */
     @GetMapping
     @RequestMapping("/scanner/dast")
@@ -156,6 +156,7 @@ public class VulnerableAppRestController {
      * Builds the externally reachable base URL of the application from the incoming request, so
      * that the URLs handed to a scanner point back at the host it actually called.
      *
+     * @param request the incoming request whose scheme, host, port and context path are used
      * @return base URL ending in a slash, e.g. {@code http://localhost:9090/VulnerableApp/}
      */
     private String applicationUrl(HttpServletRequest request) {
@@ -163,15 +164,13 @@ public class VulnerableAppRestController {
         // `server.servlet.context-path` is configurable, so a fixed `/VulnerableApp`
         // describes this deployment only while that default is in force. Empty for a
         // root deployment.
-        return new StringBuilder()
-                .append(request.getScheme()) // http or https
-                .append("://")
-                .append(request.getServerName()) // actual hostname/IP
-                .append(FrameworkConstants.COLON)
-                .append(request.getServerPort()) // actual port
-                .append(request.getContextPath())
-                .append(FrameworkConstants.SLASH)
-                .toString();
+        return request.getScheme()  // http or https
+                + "://"
+                + request.getServerName() // actual hostname/IP
+                + FrameworkConstants.COLON
+                + request.getServerPort() // actual port
+                + request.getContextPath()
+                + FrameworkConstants.SLASH;
     }
 
     /**
@@ -179,8 +178,6 @@ public class VulnerableAppRestController {
      * for mapping naming conventions across applications.
      *
      * @return {@link ScannerMetaResponseBean}
-     * @throws JsonProcessingException
-     * @throws UnknownHostException
      */
     @GetMapping
     @RequestMapping("/scanner/metadata")
@@ -195,9 +192,10 @@ public class VulnerableAppRestController {
      * are not using any library as we need a very basic sitemap and we don't want to make
      * VulnerableApp heavy.
      *
+     * @param request the incoming request, used to resolve scheme, host, port and context path
      * @return XML String which is representing the sitemap format.
-     * @throws JsonProcessingException
-     * @throws UnknownHostException
+     * @throws JsonProcessingException if the endpoint information cannot be processed
+     * @throws UnknownHostException    declared for API compatibility; the host is read from the request
      */
     @RequestMapping("/sitemap.xml")
     public String sitemapForPassiveScanners(HttpServletRequest request)
