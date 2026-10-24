@@ -351,6 +351,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "souravC01",
+      "name": "Sourav Chandhok",
+      "avatar_url": "https://avatars.githubusercontent.com/u/114119117?v=4",
+      "profile": "https://souravchandhok.dev",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
