@@ -1,12 +1,11 @@
 package org.sasanlabs.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.net.UnknownHostException;
+import java.util.List;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
-
-import java.net.UnknownHostException;
-import java.util.List;
 
 /**
  * This is used for providing the entire information about the vulnerableApp like
@@ -28,8 +27,8 @@ public interface IEndPointsInformationProvider {
 
     /**
      * This Api provides information required by VulnerableApp-Facade for building a facade User
-     * Interface. For more information visit: {@link
-     * <a href="https://github.com/SasanLabs/VulnerableApp-facade">...</a>}
+     * Interface. For more information visit: {@link <a
+     * href="https://github.com/SasanLabs/VulnerableApp-facade">...</a>}
      */
     List<VulnerabilityDefinition> getVulnerabilityDefinitions() throws JsonProcessingException;
 

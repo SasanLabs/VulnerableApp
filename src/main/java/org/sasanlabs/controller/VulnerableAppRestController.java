@@ -1,6 +1,11 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -17,12 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -59,7 +58,7 @@ public class VulnerableAppRestController {
     public String allEndPoints() throws JsonProcessingException {
         return "<pre>"
                 + JSONSerializationUtils.serializeWithPrettyPrintJSON(
-                getAllSupportedEndPoints.getSupportedEndPoints())
+                        getAllSupportedEndPoints.getSupportedEndPoints())
                 + "</pre>";
     }
 
@@ -101,11 +100,11 @@ public class VulnerableAppRestController {
      * @param request the incoming request, used to build the application base URL
      * @return {@link ScannerResponseBean}s wrapped in a response carrying the deprecation headers
      * @throws JsonProcessingException if the scanner information cannot be processed
-     * @throws UnknownHostException    if the host of the application cannot be resolved
+     * @throws UnknownHostException if the host of the application cannot be resolved
      * @deprecated use {@code /scanner/dast}, which serves the same body under the name every
-     * application uses. This path stays until September 2027 so existing scanners keep working;
-     * its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
-     * header identifying the successor.
+     *     application uses. This path stays until September 2027 so existing scanners keep working;
+     *     its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
+     *     header identifying the successor.
      */
     @Deprecated(forRemoval = true)
     @GetMapping
@@ -128,7 +127,7 @@ public class VulnerableAppRestController {
      * @param request the incoming request, used to build the application base URL
      * @return {@link ScannerResponseBean}s
      * @throws JsonProcessingException if the scanner information cannot be processed
-     * @throws UnknownHostException    if the host of the application cannot be resolved
+     * @throws UnknownHostException if the host of the application cannot be resolved
      */
     @GetMapping
     @RequestMapping("/scanner/dast")
@@ -164,7 +163,7 @@ public class VulnerableAppRestController {
         // `server.servlet.context-path` is configurable, so a fixed `/VulnerableApp`
         // describes this deployment only while that default is in force. Empty for a
         // root deployment.
-        return request.getScheme()  // http or https
+        return request.getScheme() // http or https
                 + "://"
                 + request.getServerName() // actual hostname/IP
                 + FrameworkConstants.COLON
@@ -195,7 +194,8 @@ public class VulnerableAppRestController {
      * @param request the incoming request, used to resolve scheme, host, port and context path
      * @return XML String which is representing the sitemap format.
      * @throws JsonProcessingException if the endpoint information cannot be processed
-     * @throws UnknownHostException    declared for API compatibility; the host is read from the request
+     * @throws UnknownHostException declared for API compatibility; the host is read from the
+     *     request
      */
     @RequestMapping("/sitemap.xml")
     public String sitemapForPassiveScanners(HttpServletRequest request)
