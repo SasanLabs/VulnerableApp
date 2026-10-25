@@ -47,12 +47,15 @@ class EndPointsInformationProviderTest {
         @ChallengeCard(
                 challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
                 hints = {
-                    @ChallengeCard.Hint(order = 1, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1"),
+                    @ChallengeCard.Hint(
+                            order = 1,
+                            text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1"),
                     @ChallengeCard.Hint(order = 2, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_2")
                 },
                 payload =
                         @ChallengeCard.Payload(
-                                description = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
                                 value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
         @VulnerableAppWebSocketMapping(
                 value = LevelConstants.LEVEL_1,
@@ -71,7 +74,8 @@ class EndPointsInformationProviderTest {
                 },
                 payload =
                         @ChallengeCard.Payload(
-                                description = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
                                 value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
         @VulnerableAppWebSocketMapping(
                 value = LevelConstants.LEVEL_2,
@@ -90,7 +94,8 @@ class EndPointsInformationProviderTest {
                 },
                 payload =
                         @ChallengeCard.Payload(
-                                description = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
                                 value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
         @VulnerableAppWebSocketMapping(
                 value = LevelConstants.LEVEL_3,
