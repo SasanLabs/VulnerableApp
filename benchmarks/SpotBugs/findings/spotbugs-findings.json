@@ -5,1286 +5,1503 @@
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AllEndPointsResponseBean.java",
       "line": 53,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AllEndPointsResponseBean.java",
       "line": 45,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AllEndPointsResponseBean.java",
       "line": 57,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AllEndPointsResponseBean.java",
       "line": 49,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AttackVectorResponseBean.java",
       "line": 38,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/AttackVectorResponseBean.java",
       "line": 32,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ChallengeCardResponseBean.java",
       "line": 38,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ChallengeCardResponseBean.java",
       "line": 29,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 111,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 126,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 95,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 116,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 130,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 99,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/LevelResponseBean.java",
       "line": 121,
-      "type": "EQ_COMPARETO_USE_OBJECT_EQUALS"
+      "type": "Class defines compareTo(...) and uses Object.equals()"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerMetaResponseBean.java",
       "line": 37,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerMetaResponseBean.java",
       "line": 33,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerMetaResponseBean.java",
       "line": 29,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerMetaResponseBean.java",
       "line": 28,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
       "line": 57,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
       "line": 41,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/controller/BenchmarkController.java",
       "line": 35,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/controller/BenchmarkController.java",
       "line": 40,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/BenchmarkResult.java",
       "line": 87,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/BenchmarkResult.java",
       "line": 91,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/BenchmarkResult.java",
       "line": 58,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/BenchmarkResult.java",
       "line": 59,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/ScannerFindings.java",
       "line": 46,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/model/ScannerFindings.java",
       "line": 30,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
       "line": 29,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
       "line": 38,
       "cwe": "CWE-22",
-      "type": "PATH_TRAVERSAL_IN"
+      "type": "Potential Path Traversal (file read)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
       "line": 42,
       "cwe": "CWE-22",
-      "type": "PATH_TRAVERSAL_IN"
+      "type": "Potential Path Traversal (file read)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/CsvExpectedIssuesProvider.java",
       "line": 106,
       "cwe": "CWE-22",
-      "type": "PATH_TRAVERSAL_IN"
+      "type": "Potential Path Traversal (file read)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java",
       "line": 72,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java",
       "line": 171,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/DatabaseSeeder.java",
       "line": 23,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/EmbeddedLDAPConfig.java",
       "line": 16,
-      "type": "MS_EXPOSE_REP"
+      "cwe": "CWE-493",
+      "type": "Public static method may expose internal representation by returning a mutable object or array"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/EmbeddedLDAPConfig.java",
       "line": 25,
-      "type": "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"
+      "type": "Write to static field from instance method"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/configuration/EmbeddedLDAPConfig.java",
+      "line": 43,
+      "cwe": "CWE-397",
+      "type": "Method lists Exception in its throws clause, but it could be more specific."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/PasswordResetReferrerPolicyFilter.java",
       "line": 40,
-      "type": "SERVLET_PARAMETER"
+      "cwe": "CWE-20",
+      "type": "Untrusted servlet parameter"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
       "line": 135,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
       "line": 197,
-      "type": "SIC_INNER_SHOULD_BE_STATIC_ANON"
+      "type": "Could be refactored into a named static inner class"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppProperties.java",
       "line": 19,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/EmailTestController.java",
       "line": 35,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 227,
-      "type": "POTENTIAL_XML_INJECTION"
+      "type": "An unsafe string is potentially injected into an XML string"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 52,
-      "type": "SA_FIELD_SELF_ASSIGNMENT"
+      "type": "Self assignment of field"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 169,
-      "type": "SERVLET_SERVER_NAME"
+      "cwe": "CWE-807",
+      "type": "Untrusted Hostname header"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 208,
-      "type": "SERVLET_SERVER_NAME"
+      "cwe": "CWE-807",
+      "type": "Untrusted Hostname header"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 62,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 96,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 137,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 152,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 116,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 188,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 78,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 205,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 62,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 96,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 137,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 152,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 116,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 188,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 78,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 205,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 52,
-      "type": "UR_UNINIT_READ"
+      "cwe": "CWE-457",
+      "type": "Uninitialized read of field in constructor"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
       "line": 49,
-      "type": "UUF_UNUSED_FIELD"
+      "cwe": "CWE-563",
+      "type": "Unused field"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/exception/ControllerException.java",
       "line": 40,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/exception/ControllerException.java",
       "line": 22,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/exception/ControllerException.java",
       "line": 44,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/EncodingUtils.java",
       "line": 15,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
       "line": 88,
       "cwe": "CWE-353",
-      "type": "CIPHER_INTEGRITY"
+      "type": "Cipher with no integrity"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
       "line": 71,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
       "line": 88,
       "cwe": "CWE-327",
-      "type": "ECB_MODE"
+      "type": "ECB mode is insecure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/LevelConstants.java",
       "line": 27,
-      "type": "RV_CHECK_FOR_POSITIVE_INDEXOF"
+      "cwe": "CWE-440",
+      "type": "Method checks to see if result of String.indexOf is positive"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 150,
       "cwe": "CWE-353",
-      "type": "CIPHER_INTEGRITY"
+      "type": "Cipher with no integrity"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 150,
       "cwe": "CWE-327",
-      "type": "DES_USAGE"
+      "type": "DES is insecure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 115,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 150,
       "cwe": "CWE-327",
-      "type": "ECB_MODE"
+      "type": "ECB mode is insecure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 79,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 136,
+      "cwe": "CWE-397",
+      "type": "Method lists Exception in its throws clause, but it could be more specific."
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 61,
+      "cwe": "CWE-397",
+      "type": "Method intentionally throws RuntimeException."
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 63,
+      "cwe": "CWE-397",
+      "type": "Method intentionally throws RuntimeException."
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 130,
+      "cwe": "CWE-397",
+      "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
       "line": 75,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/email/EmailServiceImpl.java",
       "line": 45,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/email/EmailServiceImpl.java",
       "line": 60,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/email/EmailServiceImpl.java",
       "line": 31,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/exception/ServiceApplicationException.java",
       "line": 44,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/exception/ServiceApplicationException.java",
       "line": 48,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/exception/ServiceApplicationException.java",
+      "line": 32,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/exception/ServiceApplicationException.java",
+      "line": 22,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/exception/ServiceApplicationException.java",
+      "line": 15,
+      "type": "An overridable method is called from a constructor"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/impl/EndPointsInformationProvider.java",
       "line": 60,
-      "type": "URF_UNREAD_FIELD"
+      "cwe": "CWE-563",
+      "type": "Unread field"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
       "line": 34,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
       "line": 151,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
       "line": 51,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.java",
       "line": 186,
-      "type": "EI_EXPOSE_REP"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/authentication/AuthUserAlgorithm.java",
       "line": 25,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 462,
-      "type": "COOKIE_USAGE"
+      "cwe": "CWE-315",
+      "type": "Potentially sensitive data in a cookie"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 463,
-      "type": "COOKIE_USAGE"
+      "cwe": "CWE-315",
+      "type": "Potentially sensitive data in a cookie"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 451,
-      "type": "SERVLET_HEADER"
+      "cwe": "CWE-807",
+      "type": "HTTP headers untrusted"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 480,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 47,
       "cwe": "CWE-78",
-      "type": "COMMAND_INJECTION"
+      "type": "Potential Command Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 52,
       "cwe": "CWE-78",
-      "type": "COMMAND_INJECTION"
+      "type": "Potential Command Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 42,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 187,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 222,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 58,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
       "line": 471,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
       "line": 528,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
       "line": 304,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
       "line": 360,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java",
       "line": 416,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java",
+      "line": 21,
+      "type": "Be wary of letting constructors throw exceptions."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java",
       "line": 16,
-      "type": "SS_SHOULD_BE_STATIC"
+      "type": "Unread field: should this field be static?"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.java",
       "line": 36,
-      "type": "JLM_JSR166_UTILCONCURRENT_MONITORENTER"
+      "type": "Synchronization performed on util.concurrent instance"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.java",
       "line": 45,
-      "type": "MS_EXPOSE_REP"
+      "cwe": "CWE-493",
+      "type": "Public static method may expose internal representation by returning a mutable object or array"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.java",
+      "line": 35,
+      "cwe": "CWE-412",
+      "type": "Use private final lock objects in synchronization blocks when the lock is accessible"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/DeserializationUtils.java",
       "line": 46,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 132,
       "cwe": "CWE-113",
-      "type": "HTTP_RESPONSE_SPLITTING"
+      "type": "Potential HTTP Response Splitting"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 38,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 39,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 132,
       "cwe": "CWE-614",
-      "type": "INSECURE_COOKIE"
+      "type": "Cookie without the secure flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 38,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 118,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 66,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.java",
       "line": 93,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
       "line": 87,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.java",
       "line": 88,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
       "line": 48,
       "cwe": "CWE-352",
-      "type": "SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING"
+      "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/PreflightController.java",
       "line": 48,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 87,
-      "type": "CT_CONSTRUCTOR_THROW"
+      "type": "Be wary of letting constructors throw exceptions."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 95,
-      "type": "DMI_HARDCODED_ABSOLUTE_FILENAME"
+      "cwe": "CWE-440",
+      "type": "Code contains a hard coded reference to an absolute pathname"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 416,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 57,
       "cwe": "CWE-321",
-      "type": "HARD_CODE_KEY"
+      "type": "Hard coded key"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 519,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 522,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 525,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 416,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 90,
       "cwe": "CWE-22",
-      "type": "PATH_TRAVERSAL_IN"
+      "type": "Potential Path Traversal (file read)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
       "line": 57,
       "cwe": "CWE-330",
-      "type": "PREDICTABLE_RANDOM"
+      "type": "Predictable pseudorandom number generator"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 157,
       "cwe": "CWE-1004",
-      "type": "HTTPONLY_COOKIE"
+      "type": "Cookie without the HttpOnly flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 141,
       "cwe": "CWE-1004",
-      "type": "HTTPONLY_COOKIE"
+      "type": "Cookie without the HttpOnly flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 132,
       "cwe": "CWE-1004",
-      "type": "HTTPONLY_COOKIE"
+      "type": "Cookie without the HttpOnly flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 157,
       "cwe": "CWE-113",
-      "type": "HTTP_RESPONSE_SPLITTING"
+      "type": "Potential HTTP Response Splitting"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 141,
       "cwe": "CWE-113",
-      "type": "HTTP_RESPONSE_SPLITTING"
+      "type": "Potential HTTP Response Splitting"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 122,
       "cwe": "CWE-113",
-      "type": "HTTP_RESPONSE_SPLITTING"
+      "type": "Potential HTTP Response Splitting"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 157,
       "cwe": "CWE-614",
-      "type": "INSECURE_COOKIE"
+      "type": "Cookie without the secure flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 141,
       "cwe": "CWE-614",
-      "type": "INSECURE_COOKIE"
+      "type": "Cookie without the secure flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 122,
       "cwe": "CWE-614",
-      "type": "INSECURE_COOKIE"
+      "type": "Cookie without the secure flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 132,
       "cwe": "CWE-614",
-      "type": "INSECURE_COOKIE"
+      "type": "Cookie without the secure flag"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 45,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 60,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 76,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 92,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginController.java",
       "line": 108,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginService.java",
       "line": 32,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginService.java",
       "line": 31,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORLoginService.java",
+      "line": 58,
+      "cwe": "CWE-397",
+      "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 309,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 54,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 164,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 213,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 260,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 92,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 128,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 177,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 226,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 273,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java",
       "line": 297,
-      "type": "UPM_UNCALLED_PRIVATE_METHOD"
+      "cwe": "CWE-561",
+      "type": "Private method is never called"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java",
       "line": 125,
-      "type": "BC_UNCONFIRMED_CAST"
+      "type": "Unchecked/unconfirmed cast"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java",
       "line": 104,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 107,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 57,
-      "type": "CT_CONSTRUCTOR_THROW"
+      "type": "Be wary of letting constructors throw exceptions."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 90,
       "cwe": "CWE-259",
-      "type": "HARD_CODE_PASSWORD"
+      "type": "Hard coded password"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 35,
-      "type": "PA_PUBLIC_MUTABLE_OBJECT_ATTRIBUTE"
+      "cwe": "CWE-766",
+      "type": "Mutable object-type field is public"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 50,
-      "type": "SIC_INNER_SHOULD_BE_STATIC_ANON"
+      "type": "Could be refactored into a named static inner class"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java",
       "line": 49,
-      "type": "UI_INHERITANCE_UNSAFE_GETRESOURCE"
+      "type": "Usage of GetResource may be unsafe if class is extended"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 71,
       "cwe": "CWE-90",
-      "type": "LDAP_INJECTION"
+      "type": "Potential LDAP Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 43,
       "cwe": "CWE-90",
-      "type": "LDAP_INJECTION"
+      "type": "Potential LDAP Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 331,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 371,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+      "line": 69,
+      "cwe": "CWE-397",
+      "type": "Method lists Exception in its throws clause, but it could be more specific."
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
+      "line": 40,
+      "cwe": "CWE-397",
+      "type": "Method lists Exception in its throws clause, but it could be more specific."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 99,
       "cwe": "CWE-203",
-      "type": "UNSAFE_HASH_EQUALS"
+      "type": "Unsafe hash equals"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 83,
-      "type": "BC_IMPOSSIBLE_CAST"
+      "cwe": "CWE-704",
+      "type": "Impossible cast"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 280,
-      "type": "BC_IMPOSSIBLE_CAST"
+      "cwe": "CWE-704",
+      "type": "Impossible cast"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 313,
-      "type": "BC_IMPOSSIBLE_CAST"
+      "cwe": "CWE-704",
+      "type": "Impossible cast"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 83,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 281,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
       "line": 314,
-      "type": "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"
+      "cwe": "CWE-476",
+      "type": "Possible null pointer dereference due to return value of called method"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.java",
+      "line": 73,
+      "type": "An overridable method is called from a constructor"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 43,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 119,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 150,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 180,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 212,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 274,
-      "type": "DMI_RANDOM_USED_ONLY_ONCE"
+      "cwe": "CWE-440",
+      "type": "Random object created and used only once"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 72,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 118,
       "cwe": "CWE-330",
-      "type": "PREDICTABLE_RANDOM"
+      "type": "Predictable pseudorandom number generator"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 149,
       "cwe": "CWE-330",
-      "type": "PREDICTABLE_RANDOM"
+      "type": "Predictable pseudorandom number generator"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
       "line": 74,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPService.java",
+      "line": 75,
+      "cwe": "CWE-397",
+      "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
       "line": 62,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
       "line": 99,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
       "line": 135,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
       "line": 168,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.java",
       "line": 188,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService.java",
       "line": 67,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService.java",
       "line": 56,
       "cwe": "CWE-330",
-      "type": "PREDICTABLE_RANDOM"
+      "type": "Predictable pseudorandom number generator"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
       "line": 352,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
       "line": 356,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
       "line": 311,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.java",
       "line": 321,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 545,
-      "type": "DMI_HARDCODED_ABSOLUTE_FILENAME"
+      "cwe": "CWE-440",
+      "type": "Code contains a hard coded reference to an absolute pathname"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 447,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 219,
-      "type": "DM_CONVERT_CASE"
+      "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 68,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 547,
       "cwe": "CWE-22",
-      "type": "PATH_TRAVERSAL_IN"
+      "type": "Potential Path Traversal (file read)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
       "line": 66,
-      "type": "UI_INHERITANCE_UNSAFE_GETRESOURCE"
+      "type": "Usage of GetResource may be unsafe if class is extended"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService.java",
       "line": 131,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
       "line": 80,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
       "line": 128,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
       "line": 177,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
       "line": 225,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.java",
       "line": 273,
-      "type": "SPRING_ENDPOINT"
+      "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 44,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 93,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 135,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 185,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 51,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 272,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_JDBC"
+      "type": "Potential JDBC Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 83,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 143,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 206,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 272,
       "cwe": "CWE-89",
-      "type": "SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING"
+      "type": "A prepared statement is generated from a nonconstant String"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 53,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 56,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 54,
-      "type": "EI_EXPOSE_REP2"
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 85,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 115,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 130,
       "cwe": "CWE-89",
-      "type": "SQL_INJECTION_SPRING_JDBC"
+      "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
       "line": 87,
-      "type": "DM_DEFAULT_ENCODING"
+      "cwe": "CWE-173",
+      "type": "Reliance on default encoding"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
       "line": 207,
       "cwe": "CWE-176",
-      "type": "IMPROPER_UNICODE"
+      "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
       "line": 85,
       "cwe": "CWE-918",
-      "type": "URLCONNECTION_SSRF_FD"
+      "type": "URLConnection Server-Side Request Forgery (SSRF) and File Disclosure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 121,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 218,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 255,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 294,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 334,
       "cwe": "CWE-117",
-      "type": "CRLF_INJECTION_LOGS"
+      "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 254,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 293,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 333,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 369,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
       "line": 400,
-      "type": "REC_CATCH_EXCEPTION"
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 38,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 39,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 43,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 41,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 42,
+      "type": "An overridable method is called from a constructor"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java",
+      "line": 40,
+      "type": "An overridable method is called from a constructor"
     }
   ]
 }

@@ -3,8 +3,9 @@
 SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
 SAST mode against VulnerableApp's compiled bytecode.
 
-SpotBugs runs as a standalone CLI tool without requiring any scanner plugins or
-dependencies inside VulnerableApp's core `build.gradle`.
+SpotBugs runs via a temporary Gradle initialization script (`spotbugs.init.gradle`),
+applying the official SpotBugs Gradle plugin and FindSecBugs security rules dynamically
+during the scan without modifying VulnerableApp's core `build.gradle`.
 
 ---
 
@@ -42,30 +43,23 @@ for the full workflow definition.
 
 To run the benchmark locally:
 
-### 1. Run the standalone SpotBugs scan
+### 1. Run the SpotBugs scan
 
-You can use the helper script which compiles Java classes, prepares standalone SpotBugs CLI and the FindSecBugs plugin, and generates the raw XML report:
+Run the scan directly using the Gradle wrapper and the initialization script:
+
+```bash
+./gradlew --refresh-dependencies \
+    --init-script benchmarks/SpotBugs/scripts/spotbugs.init.gradle \
+    spotbugsMain
+```
+
+Alternatively, you can run the Python helper:
 
 ```bash
 python3 benchmarks/SpotBugs/scripts/run_spotbugs.py
 ```
 
 This outputs the raw XML report to `benchmarks/SpotBugs/spotbugs-raw-report.xml`.
-
-Alternatively, if you already have the SpotBugs CLI installed:
-
-```bash
-# Compile classes
-./gradlew compileJava
-
-# Run SpotBugs CLI with FindSecBugs plugin
-spotbugs -textui -xml:withMessages \
-    -output benchmarks/SpotBugs/spotbugs-raw-report.xml \
-    -pluginList /path/to/findsecbugs-plugin-1.13.0.jar \
-    -effort:max -low \
-    -auxclasspathFromFile <(./gradlew -q -I benchmarks/SpotBugs/scripts/print_classpath_init.gradle printClasspath) \
-    build/classes/java/main
-```
 
 ### 2. Convert the report to benchmark input format
 

@@ -7,7 +7,7 @@ expected by VulnerableApp's POST /scanner/benchmark endpoint (SAST mode).
 
 Usage
 -----
-    # Run SpotBugs with FindSecBugs standalone:
+    # Run SpotBugs with FindSecBugs via Gradle init script:
     python benchmarks/SpotBugs/scripts/run_spotbugs.py
 
     # Or convert an existing SpotBugs XML report:
