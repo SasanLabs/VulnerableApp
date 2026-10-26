@@ -1,4 +1,4 @@
-[English](README.md) | [Русский](docs/i18n/ru/README.md) | [中文](docs/i18n/zh-CN/README.md) | [हिन्दी](docs/i18n/hi/README.md) | [ਪੰਜਾਬੀ](docs/i18n/pa/README.md) | [한국어](docs/i18n/ko/README.md) | [Português (Brasil)](docs/i18n/pt-BR/README.md)
+[English](README.md) | [Русский](docs/i18n/ru/README.md) | [中文](docs/i18n/zh-CN/README.md) | [हिन्दी](docs/i18n/hi/README.md) | [ਪੰਜਾਬੀ](docs/i18n/pu/README.md) | [한국어](docs/i18n/ko/README.md) | [Português (Brasil)](docs/i18n/pt-BR/README.md)
 
 # ![OWASP VulnerableApp](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/logos/Coloured/iconColoured.png) OWASP VulnerableApp
 
@@ -20,7 +20,7 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧪 Deterministic vulnerability behavior for repeatable scanning results
 - 🧠 Built for security engineers, researchers, and educators
 
-![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/english.png)
 
 
 ### VulnerableApp helps you:

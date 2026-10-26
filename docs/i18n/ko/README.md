@@ -23,7 +23,7 @@ OWASP VulnerableApp은 재현 가능한 테스트 시나리오를 통해 보안 
 - 🧪 반복 가능한 스캐닝 결과를 위한 결정론적(deterministic) 취약점 동작
 - 🧠 보안 엔지니어, 연구자, 교육자를 위해 만들어짐
 
-![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/korean.png)
 
 
 ### VulnerableApp이 도와줄 수 있는 것:
