@@ -45,6 +45,20 @@ class H2ConsoleJdbcUrlFilterTest {
     }
 
     @Test
+    void allowsApplicationDatabaseWithoutDriver() throws Exception {
+        assertNotNull(run(filter, consoleLogin(ALLOWED_URL, "")).getRequest());
+    }
+
+    @Test
+    void allowsConsolePagesWithoutConnectionParameters() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/VulnerableApp/h2");
+        request.setContextPath("/VulnerableApp");
+        request.setServletPath("/h2");
+
+        assertNotNull(run(filter, request).getRequest());
+    }
+
+    @Test
     void blocksRemoteTcpUrl() throws Exception {
         MockHttpServletRequest request =
                 consoleLogin("jdbc:h2:tcp://internal-host:9092/x", "org.h2.Driver");
