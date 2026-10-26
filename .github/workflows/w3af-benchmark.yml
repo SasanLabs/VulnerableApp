@@ -85,11 +85,14 @@ jobs:
           start
           EOF
 
+
           docker run --rm \
             --network "$NETWORK" \
+            --tmpfs /tmp:rw,exec,nosuid,nodev,mode=1777 \
             -v "$(pwd)/benchmarks/w3af/.scan:/w3af-out:rw" \
-            bannsec/w3af \
+            bannsec/w3af:latest \
             ./w3af_console --no-update -s /w3af-out/w3af-script.w3af
+
 
       # ------------------------------------------------------------------
       # 6. Verify report
