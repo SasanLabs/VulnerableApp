@@ -23,7 +23,7 @@ Ao contrário das aplicações vulneráveis tradicionais, o VulnerableApp foi de
 - 🧪 Comportamento determinístico das vulnerabilidades, para resultados de scan repetíveis
 - 🧠 Feito para engenheiros de segurança, pesquisadores e educadores
 
-![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/portuguese.png)
 
 
 ### O VulnerableApp ajuda você a:

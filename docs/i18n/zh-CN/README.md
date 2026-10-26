@@ -23,7 +23,7 @@ OWASP VulnerableApp 是一个模块化的、刻意包含漏洞的应用程序，
 - 🧪 确定性的漏洞行为，确保扫描结果可重复
 - 🧠 专为安全工程师、研究人员和教育工作者打造
 
-![完整架构栈](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![完整架构栈](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/chinese.png)
 
 ### VulnerableApp 可以帮助你：
 

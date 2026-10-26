@@ -23,7 +23,7 @@ OWASP VulnerableApp एक मॉड्यूलर, जानबूझकर �
 - 🧪 दोहराए जा सकने वाले स्कैनिंग परिणामों के लिए निर्धारक भेद्यता व्यवहार
 - 🧠 सुरक्षा इंजीनियरों, शोधकर्ताओं और शिक्षकों के लिए निर्मित
 
-![पूरा आर्किटेक्चर स्टैक](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![पूरा आर्किटेक्चर स्टैक](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/hindi.png)
 
 ### VulnerableApp आपकी सहायता करता है:
 
