@@ -32,7 +32,7 @@ Closes #
 
 
 ## Checklist
-- [ ] I have read and followed [CONTRIBUTING.md](../CONTRIBUTING.md)
+- [ ] I have read and followed [CONTRIBUTING.md](CONTRIBUTING.md)
 - [ ] My code builds locally and in docker without errors
 - [ ] I have tested my changes locally as well as in docker with modern ui
 - [ ] I have updated the documentation where needed
