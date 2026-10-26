@@ -88,7 +88,7 @@ jobs:
           docker run --rm \
             --network "$NETWORK" \
             -v "$(pwd)/benchmarks/w3af/.scan:/w3af-out:rw" \
-            andresriancho/w3af \
+            bannsec/w3af \
             ./w3af_console --no-update -s /w3af-out/w3af-script.w3af
 
       # ------------------------------------------------------------------
