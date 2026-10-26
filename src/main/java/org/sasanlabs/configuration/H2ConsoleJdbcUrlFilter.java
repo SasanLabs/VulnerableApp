@@ -37,7 +37,13 @@ public class H2ConsoleJdbcUrlFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI().substring(request.getContextPath().length());
+        // Use the path Tomcat mapped the request with, not the raw URI: path parameters (/h2;x=1),
+        // percent-encoding (/%68%32) and non-normalized segments (//h2, /./h2) still reach the
+        // console servlet but would not match a raw URI comparison.
+        String path = request.getServletPath();
+        if (request.getPathInfo() != null) {
+            path += request.getPathInfo();
+        }
         return !path.equals(consolePath) && !path.startsWith(consolePath + "/");
     }
 

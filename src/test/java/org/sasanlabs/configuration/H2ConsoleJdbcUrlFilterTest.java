@@ -16,9 +16,17 @@ class H2ConsoleJdbcUrlFilterTest {
     private final H2ConsoleJdbcUrlFilter filter = new H2ConsoleJdbcUrlFilter("/h2", ALLOWED_URL);
 
     private static MockHttpServletRequest consoleLogin(String url, String driver) {
-        MockHttpServletRequest request =
-                new MockHttpServletRequest("POST", "/VulnerableApp/h2/login.do");
+        return consoleLogin("/VulnerableApp/h2/login.do", url, driver);
+    }
+
+    // The servlet path and path info are what Tomcat derives when it maps the request to the H2
+    // console servlet, regardless of how the raw request URI was written.
+    private static MockHttpServletRequest consoleLogin(
+            String requestUri, String url, String driver) {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", requestUri);
         request.setContextPath("/VulnerableApp");
+        request.setServletPath("/h2");
+        request.setPathInfo("/login.do");
         request.setParameter("url", url);
         request.setParameter("driver", driver);
         return request;
@@ -50,6 +58,27 @@ class H2ConsoleJdbcUrlFilterTest {
     }
 
     @Test
+    void blocksRemoteTcpUrlWhenRawUriDiffersFromMappedPath() throws Exception {
+        for (String rawUri :
+                new String[] {
+                    "/VulnerableApp/h2;probe=1/login.do",
+                    "/VulnerableApp/%68%32/login.do",
+                    "/VulnerableApp//h2/login.do",
+                    "/VulnerableApp/./h2/login.do"
+                }) {
+            assertNull(
+                    run(
+                                    filter,
+                                    consoleLogin(
+                                            rawUri,
+                                            "jdbc:h2:tcp://internal-host:9092/x",
+                                            "org.h2.Driver"))
+                            .getRequest(),
+                    rawUri);
+        }
+    }
+
+    @Test
     void blocksUrlWithExtraSettings() throws Exception {
         assertNull(
                 run(filter, consoleLogin(ALLOWED_URL + ";INIT=RUNSCRIPT FROM 'x'", "org.h2.Driver"))
@@ -66,6 +95,7 @@ class H2ConsoleJdbcUrlFilterTest {
         MockHttpServletRequest request =
                 new MockHttpServletRequest("GET", "/VulnerableApp/CryptographicFailures/LEVEL_1");
         request.setContextPath("/VulnerableApp");
+        request.setServletPath("/CryptographicFailures/LEVEL_1");
         request.setParameter("url", "jdbc:h2:tcp://internal-host:9092/x");
 
         assertNotNull(run(filter, request).getRequest());
