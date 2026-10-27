@@ -85,13 +85,16 @@ jobs:
           start
           EOF
 
-
+          W3AF_IMAGE="jones2748/docker-w3af:latest"
+          docker pull "$W3AF_IMAGE"
+          
           docker run --rm \
             --network "$NETWORK" \
-            --tmpfs /tmp:rw,exec,nosuid,nodev,mode=1777 \
             -v "$(pwd)/benchmarks/w3af/.scan:/w3af-out:rw" \
-            bannsec/w3af:latest \
-            ./w3af_console --no-update -s /w3af-out/w3af-script.w3af
+            "$W3AF_IMAGE" \
+            /opt/w3af/w3af_console -y -n \
+            -s /w3af-out/w3af-script.w3af
+
 
 
       # ------------------------------------------------------------------
