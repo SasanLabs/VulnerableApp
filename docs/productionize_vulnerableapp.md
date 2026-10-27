@@ -138,7 +138,7 @@ from outside.
 | Random credentials | New username and password generated on every start |
 | Internal network | Base container has no internet access |
 | Read-only volume | Nginx templates mounted as read-only |
-| H2 console disabled | `public` profile disables the H2 web console |
+| Scoped H2 console | `public` profile exposes the H2 web console for database-inspection challenges; only read-only users scoped to a single challenge table are published, admin and application credentials are random |
 | Active profile | Runs `public` only — `unsafe` profile is excluded |
 
 ---

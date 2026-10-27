@@ -1,3 +1,5 @@
+[English](README.md) | [Русский](docs/i18n/ru/README.md) | [中文](docs/i18n/zh-CN/README.md) | [हिन्दी](docs/i18n/hi/README.md) | [ਪੰਜਾਬੀ](docs/i18n/pu/README.md) | [한국어](docs/i18n/ko/README.md) | [Português (Brasil)](docs/i18n/pt-BR/README.md)
+
 # ![OWASP VulnerableApp](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/logos/Coloured/iconColoured.png) OWASP VulnerableApp
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker Pulls](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
@@ -18,7 +20,7 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧪 Deterministic vulnerability behavior for repeatable scanning results
 - 🧠 Built for security engineers, researchers, and educators
 
-![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/english.png)
 
 
 ### VulnerableApp helps you:
@@ -37,6 +39,12 @@ Most vulnerable apps are:
 
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
+
+## 🎥 Video Overview
+
+New to the project? Watch this OWASP Spotlight session for a high-level overview of VulnerableApp:
+
+[OWASP Spotlight series: VulnerableApp overview](https://www.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T)
 
 ## User Interface
 #### Challenge Mode
@@ -183,12 +191,3 @@ In case you are stuck with any of the steps or understanding anything related to
    
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
-
-### Readme in other languages
-
-1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
-2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
-3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
-4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
-5. [Korean](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ko/README.md)
-6. [Portuguese (Brasil)](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pt-BR/README.md)
