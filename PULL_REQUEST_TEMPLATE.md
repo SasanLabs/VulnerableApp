@@ -11,7 +11,7 @@ Closes #
 
 
 ## Type of Change
-<!-- Put an "x" in the box that applies. And keep [] (without space which does not apply-->
+<!-- Put an "x" in the box that applies. And keep [ ] that doesn't-->
 - [ ] Bug fix
 - [ ] New vulnerability level
 - [ ] Documentation
