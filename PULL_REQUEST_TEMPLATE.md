@@ -11,7 +11,7 @@ Closes #
 
 
 ## Type of Change
-<!-- Put an "x" in the box that applies. -->
+<!-- Put an "x" in the box that applies. And keep [] (without space which does not apply-->
 - [ ] Bug fix
 - [ ] New vulnerability level
 - [ ] Documentation
@@ -38,3 +38,6 @@ Closes #
 - [ ] I have updated the documentation where needed
 - [ ] My PR title and description clearly explain the change
 - [ ] This PR is focused on one change (no unrelated edits)
+- [ ] If this PR updates a GitHub Action/workflow, I have shared the link to the GitHub Actions run below
+
+**GitHub Action run link (only if a workflow was updated):**
