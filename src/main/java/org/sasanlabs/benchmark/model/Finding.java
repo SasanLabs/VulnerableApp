@@ -34,6 +34,9 @@ public class Finding {
     @JsonProperty("method")
     private String method;
 
+    @JsonProperty("application")
+    private String application;
+
     @JsonCreator
     public Finding(
             @JsonProperty("url") String url,
@@ -42,7 +45,8 @@ public class Finding {
             @JsonProperty("line") Integer line,
             @JsonProperty("cwe") String cwe,
             @JsonProperty("wascId") String wascId,
-            @JsonProperty("method") String method) {
+            @JsonProperty("method") String method,
+            @JsonProperty("application") String application) {
         this.url = url;
         this.type = type;
         this.filePath = filePath;
@@ -50,6 +54,26 @@ public class Finding {
         this.cwe = cwe;
         this.wascId = wascId;
         this.method = method;
+        this.application = application;
+    }
+
+    public Finding(
+            String url,
+            String type,
+            String filePath,
+            Integer line,
+            String cwe,
+            String wascId,
+            String method) {
+        this(url, type, filePath, line, cwe, wascId, method, null);
+    }
+
+    public String getApplication() {
+        return application;
+    }
+
+    public Finding withApplication(String application) {
+        return new Finding(url, type, filePath, line, cwe, wascId, method, application);
     }
 
     public Finding(

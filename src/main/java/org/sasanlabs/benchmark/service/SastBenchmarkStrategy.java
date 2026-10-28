@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
+import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
 
@@ -40,15 +41,25 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
     private static final String CWE_TAG = "CWE";
     private static final String TYPE_TAG = "TYPE";
 
-    private final IExpectedIssuesProvider expectedIssuesProvider;
+    private final BenchmarkGroundTruthProvider groundTruthProvider;
 
-    public SastBenchmarkStrategy(IExpectedIssuesProvider expectedIssuesProvider) {
-        this.expectedIssuesProvider = expectedIssuesProvider;
+    public SastBenchmarkStrategy(BenchmarkGroundTruthProvider groundTruthProvider) {
+        this.groundTruthProvider = groundTruthProvider;
     }
 
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ExpectedIssue> expected = expectedIssuesProvider.getExpectedIssues();
+        return ApplicationBenchmark.compare(
+                input, groundTruthProvider.load(ScanType.SAST), "", this::score);
+    }
+
+    private BenchmarkResult score(ScannerFindings input, List<Finding> rows) {
+        List<ExpectedIssue> expected = new ArrayList<>();
+        for (Finding row : rows) {
+            expected.add(
+                    new ExpectedIssue(
+                            row.getCwe(), row.getType(), row.getFilePath(), row.getLine(), 0));
+        }
 
         Map<String, List<ExpectedIssue>> expectedByKey = new HashMap<>();
         for (ExpectedIssue ei : expected) {
