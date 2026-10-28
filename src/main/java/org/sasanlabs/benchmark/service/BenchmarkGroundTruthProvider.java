@@ -58,7 +58,10 @@ public class BenchmarkGroundTruthProvider {
             return fetch(url, type, false);
         } catch (IOException failure) {
             LOGGER.warn(
-                    "Unable to load {} ground truth from {}; using local ground truth", type, url);
+                    "Unable to load {} ground truth from {}; using local ground truth",
+                    type,
+                    url,
+                    failure);
             if (type == ScanType.SAST) {
                 return localSast(true);
             }
