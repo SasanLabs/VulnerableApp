@@ -1,0 +1,26 @@
+{
+  "tool": "CodeQL",
+  "scanType": "SAST",
+  "findings": [
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
+      "line": 93,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
+      "line": 85,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/NotARealFile.java",
+      "line": 1,
+      "cwe": "CWE-89"
+    }
+  ]
+}
