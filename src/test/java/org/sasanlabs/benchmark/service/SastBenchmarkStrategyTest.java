@@ -17,6 +17,7 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
 class SastBenchmarkStrategyTest {
@@ -34,7 +35,15 @@ class SastBenchmarkStrategyTest {
 
     @BeforeEach
     void setUp() {
-        strategy = new SastBenchmarkStrategy(provider);
+        strategy =
+                new SastBenchmarkStrategy(
+                        new BenchmarkGroundTruthProvider(
+                                new RestTemplate(),
+                                provider,
+                                "http://local/scanner/dast",
+                                "http://local/scanner/dast",
+                                "",
+                                "VulnerableApp"));
     }
 
     @Test

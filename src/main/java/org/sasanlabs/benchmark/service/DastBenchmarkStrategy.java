@@ -2,8 +2,6 @@ package org.sasanlabs.benchmark.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -13,70 +11,42 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
+import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
-/**
- * Compares scanner findings against VulnerableApp's DAST ground truth (fetched from the {@code
- * /scanner/dast} HTTP endpoint) and produces coverage / missed / unmatched metrics.
- *
- * <p>The ground-truth source is an HTTP URL rather than an in-process bean so the comparator works
- * unchanged when VulnerableApp is composed behind VulnerableApp-facade with other backing apps —
- * point the property at the facade's aggregated endpoint and coverage reflects the full attack
- * surface.
- *
- * <p>Matching is set-based and tolerant to scanner-specific vocabularies: a scanner finding matches
- * a ground-truth row when the URL agrees AND <em>any one of</em> the type-name, CWE, or WASC axes
- * agrees. Scanners that don't speak {@link VulnerabilityType} names (most of them) can therefore
- * still be graded by emitting a CWE or WASC ID alongside their finding.
- *
- * <p>Only {@code UNSECURE} ground-truth entries count toward expected — a scanner finding against a
- * {@code SECURE} URL is treated as unmatched (out of scope rather than a true false positive, since
- * hardening / SSL-style alerts on a SECURE URL aren't modelled here as vulnerabilities).
- */
+/** Scores DAST findings by URL, method, and any matching type, CWE, or WASC axis. */
 @Service
 public class DastBenchmarkStrategy implements BenchmarkStrategy {
 
     private static final Logger LOGGER = LogManager.getLogger(DastBenchmarkStrategy.class);
 
-    private static final String UNSECURE_VARIANT = "UNSECURE";
     private static final String KEY_SEPARATOR = "::";
     private static final String AXIS_TYPE = "TYPE";
     private static final String AXIS_CWE = "CWE";
     private static final String AXIS_WASC = "WASC";
     private static final String METHOD_ANY = "ANY";
 
-    private final RestTemplate restTemplate;
-    private final String groundTruthUrl;
-
-    /**
-     * The context path this instance is served under, used to reduce scanner findings and
-     * ground-truth entries to a common key. Read from configuration rather than hardcoded: {@code
-     * benchmark.dast.ground-truth.url} already follows {@code server.servlet.context-path}, so a
-     * fixed value here would disagree with the very URLs it is comparing. Empty for a root
-     * deployment, which strips nothing.
-     */
+    private final BenchmarkGroundTruthProvider groundTruthProvider;
     private final String contextPath;
 
     public DastBenchmarkStrategy(
-            RestTemplate restTemplate,
-            @Value("${benchmark.dast.ground-truth.url}") String groundTruthUrl,
+            BenchmarkGroundTruthProvider groundTruthProvider,
             @Value("${server.servlet.context-path:}") String contextPath) {
-        this.restTemplate = restTemplate;
-        this.groundTruthUrl = groundTruthUrl;
+        this.groundTruthProvider = groundTruthProvider;
         this.contextPath = contextPath;
     }
 
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ScannerResponseBean> groundTruth = fetchGroundTruth();
+        return ApplicationBenchmark.compare(
+                input, groundTruthProvider.load(ScanType.DAST), contextPath, this::score);
+    }
+
+    private BenchmarkResult score(ScannerFindings input, List<Finding> groundTruth) {
 
         List<Finding> expectedRows = new ArrayList<>();
         Map<String, Set<Integer>> keyToExpected = buildExpectedIndex(groundTruth, expectedRows);
@@ -153,72 +123,48 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems);
     }
 
-    private List<ScannerResponseBean> fetchGroundTruth() throws IOException {
-        try {
-            ScannerResponseBean[] response =
-                    restTemplate.getForObject(groundTruthUrl, ScannerResponseBean[].class);
-            return (response == null) ? Collections.emptyList() : Arrays.asList(response);
-        } catch (RestClientException rce) {
-            throw new IOException("Failed to fetch DAST ground truth from " + groundTruthUrl, rce);
-        }
-    }
-
     private Map<String, Set<Integer>> buildExpectedIndex(
-            List<ScannerResponseBean> groundTruth, List<Finding> rowsOut) {
+            List<Finding> groundTruth, List<Finding> rowsOut) {
         Map<String, Set<Integer>> keyToRows = new LinkedHashMap<>();
         Set<String> seenRowSignatures = new HashSet<>();
-        for (ScannerResponseBean entry : groundTruth) {
-            if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
-                continue;
-            }
+        for (Finding entry : groundTruth) {
             String url = normalizeUrl(entry.getUrl(), contextPath);
             String method =
-                    (entry.getRequestMethod() != null)
-                            ? entry.getRequestMethod().name()
-                            : METHOD_ANY;
-            List<VulnerabilityType> types = entry.getVulnerabilityTypes();
-            if (types == null) {
+                    entry.getMethod() == null
+                            ? METHOD_ANY
+                            : entry.getMethod().trim().toUpperCase(Locale.ROOT);
+            String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + entry.getType();
+            if (!seenRowSignatures.add(rowSignature)) {
                 continue;
             }
-            for (VulnerabilityType type : types) {
-                String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type.name();
-                if (!seenRowSignatures.add(rowSignature)) {
-                    continue;
-                }
-                int rowIndex = rowsOut.size();
-                rowsOut.add(buildExpectedFinding(url, type, method));
-                addAxisKeys(keyToRows, rowIndex, url, method, type);
-                addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
+            int rowIndex = rowsOut.size();
+            Finding row =
+                    new Finding(
+                            url,
+                            entry.getType(),
+                            null,
+                            null,
+                            entry.getCwe(),
+                            entry.getWascId(),
+                            method);
+            rowsOut.add(row);
+            for (String key : keysForFinding(url, row)) {
+                addKey(keyToRows, key, rowIndex);
+            }
+            Finding anyMethod =
+                    new Finding(
+                            url,
+                            entry.getType(),
+                            null,
+                            null,
+                            entry.getCwe(),
+                            entry.getWascId(),
+                            METHOD_ANY);
+            for (String key : keysForFinding(url, anyMethod)) {
+                addKey(keyToRows, key, rowIndex);
             }
         }
         return keyToRows;
-    }
-
-    private static void addAxisKeys(
-            Map<String, Set<Integer>> keyToRows,
-            int rowIndex,
-            String url,
-            String method,
-            VulnerabilityType type) {
-        addKey(keyToRows, typeKey(url, method, type.name()), rowIndex);
-        if (type.getCweID() != null) {
-            String cwe = normalizeNumericId(type.getCweID().toString());
-            if (!cwe.isEmpty()) {
-                addKey(keyToRows, cweKey(url, method, cwe), rowIndex);
-            }
-        }
-        if (type.getWascID() != null) {
-            String wasc = normalizeNumericId(type.getWascID().toString());
-            if (!wasc.isEmpty()) {
-                addKey(keyToRows, wascKey(url, method, wasc), rowIndex);
-            }
-        }
-    }
-
-    private static Finding buildExpectedFinding(String url, VulnerabilityType type, String method) {
-        String cwe = (type.getCweID() != null) ? "CWE-" + type.getCweID() : null;
-        String wasc = (type.getWascID() != null) ? type.getWascID().toString() : null;
-        return new Finding(url, type.name(), null, null, cwe, wasc, method);
     }
 
     private static List<String> keysForFinding(String url, Finding finding) {
