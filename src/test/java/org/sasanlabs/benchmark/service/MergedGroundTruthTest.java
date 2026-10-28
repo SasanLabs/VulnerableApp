@@ -307,6 +307,115 @@ class MergedGroundTruthTest {
         server.verify();
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"/shared", "/VulnerableApp/shared"})
+    void secureRouteInAnotherAppKeepsUnlabelledFindingAmbiguous(String path) throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows(path, "REFLECTED_XSS")
+                        + ",\"other\":"
+                        + dastRows(path, "REFLECTED_XSS").replace("UNSECURE", "SECURE")
+                        + "}");
+        BenchmarkResult result = dast(new Finding(path, "REFLECTED_XSS"));
+        assertThat(result.getTotalExpected()).isEqualTo(1);
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems().get(0).getApplication()).isNull();
+        assertThat(result.getApplications().get("other").getTotalExpected()).isZero();
+        server.verify();
+    }
+
+    @Test
+    void explicitApplicationStillMatchesSharedRouteWithoutCreditingSecureApp() throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows("/shared", "REFLECTED_XSS")
+                        + ",\"other\":"
+                        + dastRows("/shared", "REFLECTED_XSS").replace("UNSECURE", "SECURE")
+                        + "}");
+        BenchmarkResult result =
+                dast(
+                        new Finding("/shared", "REFLECTED_XSS").withApplication("VulnerableApp"),
+                        new Finding("/shared", "REFLECTED_XSS").withApplication("other"));
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getApplications().get("VulnerableApp").getCoverage()).isEqualTo(100.0);
+        assertThat(result.getApplications().get("other").getDetected()).isZero();
+        assertThat(result.getUnmatchedItems())
+                .extracting(Finding::getApplication)
+                .containsExactly("other");
+        server.verify();
+    }
+
+    @Test
+    void distinctFullRoutesAreNotConfusedByContextPathNormalization() throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows("/VulnerableApp/shared", "REFLECTED_XSS")
+                        + ",\"other\":"
+                        + dastRows("/shared", "REFLECTED_XSS").replace("UNSECURE", "SECURE")
+                        + "}");
+        BenchmarkResult result =
+                dast(
+                        new Finding("/VulnerableApp/shared", "REFLECTED_XSS"),
+                        new Finding("/shared", "REFLECTED_XSS"));
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        assertThat(result.getApplications().get("VulnerableApp").getCoverage()).isEqualTo(100.0);
+        assertThat(result.getUnmatchedItems().get(0).getApplication()).isNull();
+        server.verify();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/VulnerableApp", "/custom"})
+    void unknownRouteUnderAppContextCannotMatchAnotherAppsAlias(String context) throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows(context + "/sql1", "REFLECTED_XSS")
+                        + ",\"other\":"
+                        + dastRows("/sql2", "REFLECTED_XSS")
+                        + "}");
+        BenchmarkResult result =
+                new DastBenchmarkStrategy(provider, context)
+                        .compare(
+                                new ScannerFindings(
+                                        "ZAP",
+                                        Collections.singletonList(
+                                                new Finding(context + "/sql2", "REFLECTED_XSS"))));
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        assertThat(result.getApplications().get("other").getDetected()).isZero();
+        server.verify();
+    }
+
+    @Test
+    void blankDastUrlUsesLocalDastInsteadOfSastGroundTruth() throws Exception {
+        respond(LOCAL_URL, dastRows("/VulnerableApp/sql", "BLIND_SQL_INJECTION"));
+        BenchmarkGroundTruthProvider blank =
+                new BenchmarkGroundTruthProvider(
+                        rest,
+                        () -> {
+                            throw new AssertionError("DAST must not load the SAST CSV");
+                        },
+                        "",
+                        LOCAL_URL,
+                        SAST_URL,
+                        "VulnerableApp");
+        BenchmarkResult result =
+                new DastBenchmarkStrategy(blank, "/VulnerableApp")
+                        .compare(
+                                new ScannerFindings(
+                                        "ZAP",
+                                        Collections.singletonList(
+                                                new Finding("/sql", "BLIND_SQL_INJECTION"))));
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getGroundTruthFallback()).isTrue();
+        server.verify();
+    }
+
     private void respond(String url, String body) {
         server.expect(requestTo(url)).andRespond(withSuccess(body, MediaType.APPLICATION_JSON));
     }
