@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
@@ -50,10 +52,10 @@ public class BenchmarkGroundTruthProvider {
     GroundTruth load(ScanType type) throws IOException {
         String url = type == ScanType.DAST ? dastUrl : sastUrl;
         if (url == null || url.isBlank()) {
-            return localSast(false);
+            return type == ScanType.SAST ? localSast(false) : fetch(localDastUrl, type, true);
         }
         try {
-            return new GroundTruth(fetch(url, type), false);
+            return fetch(url, type, false);
         } catch (IOException failure) {
             LOGGER.warn(
                     "Unable to load {} ground truth from {}; using local ground truth", type, url);
@@ -63,7 +65,7 @@ public class BenchmarkGroundTruthProvider {
             if (url.equals(localDastUrl)) {
                 throw failure;
             }
-            return new GroundTruth(fetch(localDastUrl, type), true);
+            return fetch(localDastUrl, type, true);
         }
     }
 
@@ -78,10 +80,11 @@ public class BenchmarkGroundTruthProvider {
                             issue.getLine(),
                             issue.getCwe()));
         }
-        return new GroundTruth(Collections.singletonMap(applicationName, rows), fallback);
+        return new GroundTruth(
+                Collections.singletonMap(applicationName, rows), Collections.emptyMap(), fallback);
     }
 
-    private Map<String, List<Finding>> fetch(String url, ScanType type) throws IOException {
+    private GroundTruth fetch(String url, ScanType type, boolean fallback) throws IOException {
         final JsonNode body;
         try {
             body = restTemplate.getForObject(url, JsonNode.class);
@@ -93,8 +96,11 @@ public class BenchmarkGroundTruthProvider {
                     "Expected an array or application-keyed ground truth object from " + url);
         }
         Map<String, List<Finding>> apps = new LinkedHashMap<>();
+        Map<String, Set<String>> dastUrls = new LinkedHashMap<>();
         if (body.isArray()) {
-            apps.put(applicationName, parseRows(body, type));
+            Set<String> urls = new LinkedHashSet<>();
+            apps.put(applicationName, parseRows(body, type, urls));
+            dastUrls.put(applicationName, urls);
         } else {
             Iterator<Map.Entry<String, JsonNode>> fields = body.fields();
             while (fields.hasNext()) {
@@ -102,17 +108,20 @@ public class BenchmarkGroundTruthProvider {
                 if (app.getKey().isBlank()) {
                     throw new IOException("Ground truth application name is empty");
                 }
-                apps.put(app.getKey(), parseRows(app.getValue(), type));
+                Set<String> urls = new LinkedHashSet<>();
+                apps.put(app.getKey(), parseRows(app.getValue(), type, urls));
+                dastUrls.put(app.getKey(), urls);
             }
         }
         if (apps.isEmpty()) {
             throw new IOException(
                     "Facade returned no applications; local ground truth is required");
         }
-        return apps;
+        return new GroundTruth(apps, dastUrls, fallback);
     }
 
-    private List<Finding> parseRows(JsonNode entries, ScanType type) throws IOException {
+    private List<Finding> parseRows(JsonNode entries, ScanType type, Set<String> dastUrls)
+            throws IOException {
         if (!entries.isArray()) {
             throw new IOException("Ground truth for each application must be an array");
         }
@@ -138,6 +147,11 @@ public class BenchmarkGroundTruthProvider {
                                 entry.get("line").intValue(),
                                 cwe));
             } else {
+                if (!entry.path("url").isTextual() || entry.get("url").textValue().isBlank()) {
+                    throw new IOException("DAST ground truth requires a nonempty url");
+                }
+                // Secure routes still identify their app, but do not contribute expected findings.
+                dastUrls.add(entry.get("url").textValue());
                 String variant = text(entry, "variant");
                 if ("SECURE".equalsIgnoreCase(variant)) {
                     continue;
@@ -185,10 +199,15 @@ public class BenchmarkGroundTruthProvider {
 
     static class GroundTruth {
         final Map<String, List<Finding>> applications;
+        final Map<String, Set<String>> dastUrls;
         final boolean fallback;
 
-        GroundTruth(Map<String, List<Finding>> applications, boolean fallback) {
+        GroundTruth(
+                Map<String, List<Finding>> applications,
+                Map<String, Set<String>> dastUrls,
+                boolean fallback) {
             this.applications = applications;
+            this.dastUrls = dastUrls;
             this.fallback = fallback;
         }
     }

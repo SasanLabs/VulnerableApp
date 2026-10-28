@@ -411,8 +411,9 @@ For SAST runs, items look like:
 Findings may include `"application": "VulnerableApp-jsp"`; the name must match a
 facade response key. This scopes matching and deduplication to that application.
 Legacy findings without this field still work: a single-app run assigns them to
-that app; multi-app DAST uses the application URL prefix or a URL unique to one
-app, and SAST uses a file path unique to one app. Ambiguous or unknown locations
+that app; multi-app DAST uses a URL unique to one app (including secure routes
+when determining ownership), then an application URL prefix for unknown routes.
+SAST uses a file path unique to one app. Ambiguous or unknown locations
 remain in aggregate `unmatchedItems` without an application label and are not
 credited to any app. Supply `application` when apps share paths. An explicit
 unknown application is reported separately with no expected rows.
@@ -424,7 +425,7 @@ unknown application is reported separately with no expected rows.
 | `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
 | `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
 | `benchmark.application-name` | `VulnerableApp` | Name used for standalone arrays and local ground truth. |
-| `benchmark.dast.ground-truth.fallback-url` | Local `/scanner/dast` URL, using the configured port and context path | Local source used if the configured DAST URL fails. |
+| `benchmark.dast.ground-truth.fallback-url` | Local `/scanner/dast` URL, using the configured port and context path | Local source used if the configured DAST URL fails or is blank. |
 | `benchmark.sast.ground-truth.url` | Empty | Optional facade `/scanner/sast` URL. Empty uses the local CSV directly; HTTP/parse failures fall back to that CSV. |
 | `benchmark.dast.ground-truth.connect-timeout-ms` | `5000` | Connect timeout (ms) for DAST and SAST HTTP ground-truth fetches. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads. |
 | `benchmark.dast.ground-truth.read-timeout-ms` | `10000` | Read timeout (ms) for DAST and SAST HTTP ground-truth fetches. |

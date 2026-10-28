@@ -33,6 +33,17 @@ final class ApplicationBenchmark {
                 owners.computeIfAbsent(key, ignored -> new LinkedHashSet<>()).add(app.getKey());
             }
         }
+        Map<String, Set<String>> fullUrlOwners = new LinkedHashMap<>();
+        for (Map.Entry<String, Set<String>> app : truth.dastUrls.entrySet()) {
+            for (String url : app.getValue()) {
+                String fullPath = DastBenchmarkStrategy.normalizeUrl(url, "");
+                fullUrlOwners
+                        .computeIfAbsent(fullPath, ignored -> new LinkedHashSet<>())
+                        .add(app.getKey());
+                String key = DastBenchmarkStrategy.normalizeUrl(url, contextPath);
+                owners.computeIfAbsent(key, ignored -> new LinkedHashSet<>()).add(app.getKey());
+            }
+        }
         List<Finding> unattributed = new ArrayList<>();
         if (input.getFindings() != null) {
             for (Finding finding : input.getFindings()) {
@@ -45,7 +56,8 @@ final class ApplicationBenchmark {
                                 input.getScanType(),
                                 truth.applications,
                                 contextPath,
-                                owners);
+                                owners,
+                                fullUrlOwners);
                 if (app == null) {
                     unattributed.add(finding.withApplication(null));
                 } else {
@@ -100,29 +112,40 @@ final class ApplicationBenchmark {
             ScanType type,
             Map<String, List<Finding>> apps,
             String contextPath,
-            Map<String, Set<String>> owners) {
+            Map<String, Set<String>> owners,
+            Map<String, Set<String>> fullUrlOwners) {
         if (finding.getApplication() != null && !finding.getApplication().isBlank()) {
             return finding.getApplication();
         }
         if (apps.size() == 1) {
             return apps.keySet().iterator().next();
         }
+        String prefixOwner = null;
         if (type == ScanType.DAST && finding.getUrl() != null) {
             String path = DastBenchmarkStrategy.normalizeUrl(finding.getUrl(), "");
-            String prefixOwner = null;
             for (String app : apps.keySet()) {
                 if ((path.equals("/" + app) || path.startsWith("/" + app + "/"))
                         && (prefixOwner == null || app.length() > prefixOwner.length())) {
                     prefixOwner = app;
                 }
             }
-            if (prefixOwner != null) {
+            Set<String> fullOwners = fullUrlOwners.get(path);
+            boolean explicitContext =
+                    contextPath != null
+                            && !contextPath.isEmpty()
+                            && (path.equals(contextPath) || path.startsWith(contextPath + "/"));
+            if (fullOwners != null && (prefixOwner != null || explicitContext)) {
+                return fullOwners.size() == 1 ? fullOwners.iterator().next() : null;
+            }
+            if (prefixOwner != null || explicitContext) {
                 return prefixOwner;
             }
         }
-        Set<String> candidates =
-                owners.getOrDefault(location(finding, type, contextPath), Collections.emptySet());
-        return candidates.size() == 1 ? candidates.iterator().next() : null;
+        Set<String> candidates = owners.get(location(finding, type, contextPath));
+        if (candidates != null) {
+            return candidates.size() == 1 ? candidates.iterator().next() : null;
+        }
+        return prefixOwner;
     }
 
     private static String location(Finding finding, ScanType type, String contextPath) {
