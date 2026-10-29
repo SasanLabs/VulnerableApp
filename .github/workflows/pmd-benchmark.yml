@@ -1,0 +1,188 @@
+name: PMD Benchmark
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pmd-benchmark:
+    name: PMD Benchmark (SAST)
+    runs-on: ubuntu-latest
+
+    env:
+      PMD_VERSION: '7.9.0'
+      PMD_RULES: >-
+        category/java/security.xml,category/java/bestpractices.xml/AvoidUsingHardCodedIP,category/java/bestpractices.xml/AvoidPrintStackTrace,category/java/errorprone.xml/CloseResource,category/java/errorprone.xml/AvoidLosingExceptionInformation
+      APP_URL: http://localhost:9090/VulnerableApp
+
+    steps:
+
+      # ------------------------------------------------------------------
+      # 1. Checkout repo
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TRAFFIC_TOKEN }}
+
+      # ------------------------------------------------------------------
+      # 2. Set up Java (needed by both PMD and VulnerableApp)
+      # ------------------------------------------------------------------
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      # ------------------------------------------------------------------
+      # 3. Build and start VulnerableApp from the checked-out source, so the
+      #    SAST ground truth always matches the code PMD scans.
+      # ------------------------------------------------------------------
+      - name: Build VulnerableApp JAR
+        run: |
+          chmod +x gradlew
+          ./gradlew bootJar --no-daemon
+
+      - name: Start VulnerableApp
+        run: |
+          JAR_FILE=$(find build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-plain.jar' | head -n 1)
+          if [ -z "$JAR_FILE" ]; then
+            echo "No executable jar found in build/libs"
+            ls -la build/libs || true
+            exit 1
+          fi
+          nohup java -jar "$JAR_FILE" > app.log 2>&1 &
+
+      - name: Wait for VulnerableApp
+        run: |
+          for i in {1..60}; do
+            if curl -fsS "$APP_URL/scanner/sast" >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            echo "Waiting for VulnerableApp... ($i/60)"
+            sleep 5
+          done
+          echo "App failed to start"
+          cat app.log
+          exit 1
+
+      # ------------------------------------------------------------------
+      # 4. Download PMD
+      # ------------------------------------------------------------------
+      - name: Install PMD ${{ env.PMD_VERSION }}
+        run: |
+          curl -fsSL -o pmd.zip \
+            "https://github.com/pmd/pmd/releases/download/pmd_releases%2F${PMD_VERSION}/pmd-dist-${PMD_VERSION}-bin.zip"
+          unzip -q pmd.zip -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/pmd-bin-${PMD_VERSION}/bin" >> "$GITHUB_PATH"
+
+      # ------------------------------------------------------------------
+      # 5. Run PMD scan (relative -d so reported paths are project-relative)
+      # ------------------------------------------------------------------
+      - name: Run PMD scan
+        run: |
+          set +e
+          pmd check -d src/main/java -R "$PMD_RULES" \
+            -f json -r benchmarks/PMD/pmd-raw-report.json \
+            --no-cache --no-progress
+          code=$?
+          set -e
+          # 0 = no violations, 4 = violations found, 5 = recoverable processing errors
+          if [ "$code" -ne 0 ] && [ "$code" -ne 4 ] && [ "$code" -ne 5 ]; then
+            echo "PMD failed with exit code $code"
+            exit "$code"
+          fi
+          test -s benchmarks/PMD/pmd-raw-report.json
+
+      # ------------------------------------------------------------------
+      # 6. Convert PMD report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert PMD report
+        run: |
+          python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test
+          python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
+            --input  benchmarks/PMD/pmd-raw-report.json \
+            --output benchmarks/PMD/pmd-benchmark-input.json
+
+      # ------------------------------------------------------------------
+      # 7. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark
+        run: |
+          curl -fsS -X POST "$APP_URL/scanner/benchmark" \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/PMD/pmd-benchmark-input.json \
+            -o benchmarks/PMD/pmd-results.json
+
+          echo "=== PMD Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/PMD/pmd-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:      {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:      {data[\"detected\"]}')
+          print(f'  Missed:        {data[\"missed\"]}')
+          print(f'  Unmatched:     {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 8. Commit and push results back to repo
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+        run: |
+          set -e
+
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
+          git add benchmarks/PMD/pmd-results.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update PMD benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            if git pull --rebase origin "${{ github.ref_name }}" && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+              success=true
+              break
+            fi
+
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
+
+      # ------------------------------------------------------------------
+      # 9. Upload raw report, input and results as artifacts
+      # ------------------------------------------------------------------
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-benchmark-artifacts
+          path: |
+            benchmarks/PMD/pmd-raw-report.json
+            benchmarks/PMD/pmd-benchmark-input.json
+            benchmarks/PMD/pmd-results.json
+            app.log
+          retention-days: 90

@@ -59,6 +59,7 @@ import argparse
 import json
 import os
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from typing import Optional
@@ -89,6 +90,19 @@ def normalise_path(raw: str, root: Optional[str] = None) -> str:
     while path.startswith("./"):
         path = path[2:]
     return path
+
+
+def load_report(path: Path) -> dict:
+    """Read a PMD JSON report, raising ValueError if it is malformed or not an object."""
+    try:
+        with path.open(encoding="utf-8") as fh:
+            report = json.load(fh)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid JSON in PMD report {path}: {exc}") from exc
+    if not isinstance(report, dict):
+        raise ValueError(f"unexpected PMD report format in {path}: expected a JSON "
+                         f"object, got {type(report).__name__}")
+    return report
 
 
 def convert(pmd_report: dict, root: Optional[str] = None) -> dict:
@@ -160,6 +174,22 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(normalise_path(".\\src\\Foo.java"), "src/Foo.java")
         self.assertEqual(normalise_path("C:\\r\\src\\Foo.java", root="C:\\r"), "src/Foo.java")
 
+    def _write_tmp(self, text):
+        fh = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+        fh.write(text)
+        fh.close()
+        self.addCleanup(os.remove, fh.name)
+        return Path(fh.name)
+
+    def test_load_report_rejects_malformed_json(self):
+        with self.assertRaises(ValueError):
+            load_report(self._write_tmp('{"files": ['))  # truncated report
+
+    def test_load_report_rejects_non_object(self):
+        with self.assertRaises(ValueError):
+            load_report(self._write_tmp("[]"))
+        self.assertEqual(load_report(self._write_tmp('{"files": []}')), {"files": []})
+
     def test_rule_map_well_formed(self):
         for rule, (cwe, label) in RULE_MAP.items():
             self.assertTrue(cwe.startswith("CWE-") and cwe[4:].isdigit(), rule)
@@ -191,8 +221,11 @@ def main() -> None:
         print(f"ERROR: input file not found: {input_path}", file=sys.stderr)
         sys.exit(1)
 
-    with input_path.open(encoding="utf-8") as fh:
-        pmd_report = json.load(fh)
+    try:
+        pmd_report = load_report(input_path)
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        sys.exit(1)
 
     errors = pmd_report.get("processingErrors") or []
     if errors:

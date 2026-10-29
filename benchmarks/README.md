@@ -70,6 +70,26 @@ ground truth in `expectedIssues.csv`. PMD's Java security rule set is small, so
 a low (even zero) coverage figure is an expected result, not a bug in the
 integration.
 
+### Latest results
+
+[`benchmarks/PMD/pmd-results.json`](PMD/pmd-results.json) is updated daily and
+on every manual workflow run.
+
+### Running the benchmark
+
+The full pipeline (build and start VulnerableApp → run PMD → convert →
+benchmark → commit results) is automated via GitHub Actions:
+
+1. Go to **Actions** tab → **PMD Benchmark**
+2. Click **Run workflow**
+3. Results are committed automatically to the file above
+
+See [`.github/workflows/pmd-benchmark.yml`](../.github/workflows/pmd-benchmark.yml)
+for the full workflow definition. The app is built from the same checkout that
+PMD scans, so the ground-truth line numbers always match the scanned code.
+
+To run it manually instead, follow the three steps below.
+
 ### 1. Run PMD
 
 Download PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases)
@@ -96,7 +116,9 @@ python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
 PMD reports contain no CWE IDs, so the script maps each PMD rule name to a CWE
 and a type label (`RULE_MAP` in the script). Rules not in the map are still
 emitted, with the rule name as `type` and no `cwe`. Absolute paths are made
-project-relative (override the root with `--root`). Self-test:
+project-relative (override the root with `--root`). A malformed or truncated
+report (e.g. from a failed `pmd check` run) exits with a clear error and a
+non-zero status instead of a traceback. Self-test:
 `python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test`.
 
 ### 3. Submit to the benchmark
