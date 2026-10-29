@@ -92,8 +92,9 @@ To run it manually instead, follow the three steps below.
 
 ### 1. Run PMD
 
-Download PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases)
-and run it from the repository root. The rules are PMD's Java `security`
+Download the latest PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases)
+(the workflow always uses the latest release; a specific version can be chosen
+when running it manually) and run it from the repository root. The rules are PMD's Java `security`
 category plus a few security-adjacent rules:
 
 ```bash
@@ -114,7 +115,41 @@ python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
 ```
 
 PMD reports contain no CWE IDs, so the script maps each PMD rule name to a CWE
-and a type label (`RULE_MAP` in the script). Rules not in the map are still
+and a type label (`RULE_MAP` in the script):
+
+| PMD rule | CWE | Type label |
+|---|---|---|
+| `HardCodedCryptoKey` | CWE-321 | Hard-coded Cryptographic Key |
+| `InsecureCryptoIv` | CWE-329 | Insecure Crypto IV |
+| `AvoidUsingHardCodedIP` | CWE-547 | Hard-coded Security-relevant Constant |
+| `AvoidPrintStackTrace` | CWE-209 | Information Exposure Through Error Message |
+| `CloseResource` | CWE-772 | Missing Resource Release |
+| `AvoidLosingExceptionInformation` | CWE-390 | Error Condition Without Action |
+
+Example of the converted input, with CWE (real output, abridged):
+
+```json
+{
+  "tool": "PMD",
+  "scanType": "SAST",
+  "findings": [
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/GenericUtils.java",
+      "line": 10,
+      "cwe": "CWE-547",
+      "type": "Hard-coded Security-relevant Constant"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 108,
+      "cwe": "CWE-772",
+      "type": "Missing Resource Release"
+    }
+  ]
+}
+```
+
+Rules not in the map are still
 emitted, with the rule name as `type` and no `cwe`. Absolute paths are made
 project-relative (override the root with `--root`). A malformed or truncated
 report (e.g. from a failed `pmd check` run) exits with a clear error and a
@@ -130,7 +165,7 @@ curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
 ```
 
 The response (also written to `benchmarks/pmd-results.json`) lists detected,
-missed and unmatched findings. In a run with PMD 7.9.0 against
+missed and unmatched findings. In a run with PMD 7.28.0 against
 `src/main/java`, PMD reported 5 findings, none of which matched the ground truth.
 
 ---

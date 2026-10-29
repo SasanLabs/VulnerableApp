@@ -21,21 +21,28 @@ Usage
 
 Input format (PMD JSON)
 -----------------------
+PMD's report has no CWE field; each violation only names the PMD rule:
+
     {
       "files": [
-        { "filename": "src/main/java/.../Foo.java",
-          "violations": [ { "beginline": 12, "rule": "HardCodedCryptoKey", ... } ] }
+        { "filename": "src/main/java/org/sasanlabs/internal/utility/GenericUtils.java",
+          "violations": [ { "beginline": 10, "rule": "AvoidUsingHardCodedIP", ... } ] }
       ]
     }
 
-Output format (VulnerableApp benchmark input)
----------------------------------------------
+Output format (VulnerableApp benchmark input, with CWE)
+-------------------------------------------------------
+The rule name is looked up in RULE_MAP to add ``cwe`` and ``type``. Real output
+from a scan of ``src/main/java`` (abridged):
+
     {
       "tool": "PMD",
       "scanType": "SAST",
       "findings": [
-        { "filePath": "src/main/java/.../Foo.java", "line": 12,
-          "cwe": "CWE-321", "type": "Hard-coded Cryptographic Key" }
+        { "filePath": "src/main/java/org/sasanlabs/internal/utility/GenericUtils.java",
+          "line": 10, "cwe": "CWE-547", "type": "Hard-coded Security-relevant Constant" },
+        { "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+          "line": 108, "cwe": "CWE-772", "type": "Missing Resource Release" }
       ]
     }
 
