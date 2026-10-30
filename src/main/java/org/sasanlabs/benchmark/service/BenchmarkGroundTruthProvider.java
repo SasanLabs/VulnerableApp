@@ -135,8 +135,12 @@ public class BenchmarkGroundTruthProvider {
                 throw new IOException("Ground truth row must be an object");
             }
             if (type == ScanType.SAST) {
-                if (!entry.path("filePath").isTextual() || !entry.path("line").isInt()) {
-                    throw new IOException("SAST ground truth requires filePath and line");
+                if (!entry.path("filePath").isTextual()
+                        || entry.get("filePath").textValue().isBlank()
+                        || !entry.path("line").isInt()
+                        || entry.get("line").intValue() < 1) {
+                    throw new IOException(
+                            "SAST ground truth requires a nonblank filePath and a positive line");
                 }
                 String label = text(entry, "type");
                 String cwe = text(entry, "cwe");

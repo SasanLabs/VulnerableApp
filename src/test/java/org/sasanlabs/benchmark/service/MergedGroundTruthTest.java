@@ -212,6 +212,16 @@ class MergedGroundTruthTest {
     }
 
     @Test
+    void unlabelledSastFindingInAFileOnlyOneAppHasStaysWithThatApp() throws Exception {
+        respond(
+                SAST_URL,
+                "{\"one\":" + sastRows("a.php", 20) + ",\"two\":" + sastRows("b.php", 5) + "}");
+        BenchmarkResult result = sast(sastFinding("a.php", 99));
+        assertThat(result.getApplications().get("one").getUnmatched()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems().get(0).getApplication()).isEqualTo("one");
+    }
+
+    @Test
     void explicitUnknownApplicationCannotMatchKnownApp() throws Exception {
         respond(SAST_URL, "{\"one\":" + sastRows("index.php", 20) + "}");
         BenchmarkResult result = sast(sastFinding("index.php", 20).withApplication("unknown"));
@@ -247,6 +257,9 @@ class MergedGroundTruthTest {
                 "{\"app\":null}",
                 "{\"app\":{}}",
                 "{\"app\":[{}]}",
+                "{\"app\":[{\"filePath\":\" \",\"line\":10,\"type\":\"SQL\"}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":0,\"type\":\"SQL\"}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":-1,\"type\":\"SQL\"}]}",
                 "<html>unavailable</html>"
             })
     void malformedSastResponseFallsBackInsteadOfReportingEmptyCoverage(String body)
