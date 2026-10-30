@@ -309,7 +309,8 @@ class MergedGroundTruthTest {
             strings = {
                 "{}",
                 "{\"app\":[{}]}",
-                "{\"app\":[{\"variant\":\"UNSECURE\",\"url\":\"/x\",\"vulnerabilityTypes\":[null]}]}"
+                "{\"app\":[{\"variant\":\"UNSECURE\",\"url\":\"/x\",\"vulnerabilityTypes\":[null]}]}",
+                "{\"app\":[{\"variant\":\"UNSECURE\",\"url\":\"/x\",\"vulnerabilityTypes\":[]}]}"
             })
     void malformedDastRowsTriggerLocalFallback(String body) throws Exception {
         respond(DAST_URL, body);
@@ -346,6 +347,23 @@ class MergedGroundTruthTest {
                         .replace("\"TYPES\"", "\"native-php-type\",\"NATIVE-PHP-TYPE \""));
         BenchmarkResult result = dast(new Finding("/sql", "native-php-type"));
         assertThat(result.getTotalExpected()).isEqualTo(1);
+        assertThat(result.getDetected()).isEqualTo(1);
+        server.verify();
+    }
+
+    @Test
+    void secureDastRowWithoutTypesIsStillAccepted() throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows("/VulnerableApp/sql", "BLIND_SQL_INJECTION")
+                        + ",\"other\":"
+                        + dastRows("/other/safe", "TYPES")
+                                .replace("UNSECURE", "SECURE")
+                                .replace("\"TYPES\"", "")
+                        + "}");
+        BenchmarkResult result = dast(new Finding("/VulnerableApp/sql", "BLIND_SQL_INJECTION"));
+        assertThat(result.getGroundTruthFallback()).isFalse();
         assertThat(result.getDetected()).isEqualTo(1);
         server.verify();
     }
