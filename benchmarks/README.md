@@ -181,6 +181,12 @@ CWE definitions.
 
 See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reproduction instructions.
 
+## Nuclei
+
+Nuclei is benchmarked in **DAST** mode. See
+[`benchmarks/Nuclei/README.md`](Nuclei/README.md) for the scan setup, the
+conversion script, and the latest results.
+
 ---
 
 ## Choosing a scan type
