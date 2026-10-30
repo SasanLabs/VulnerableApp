@@ -1,0 +1,71 @@
+{
+  "profile": "tabular-data-package",
+  "name": "vulnerableapp-scanner-benchmark",
+  "title": "VulnerableApp scanner benchmark",
+  "description": "How well security scanners detect the vulnerabilities in OWASP VulnerableApp. Built by analytics/engine from the scanner results in benchmarks/. The schema is independent of the engine and of any visualization: anything that reads CSV can consume it.",
+  "homepage": "https://sasanlabs.github.io/VulnerableApp/benchmark/",
+  "licenses": [
+    {
+      "name": "Apache-2.0",
+      "path": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "resources": [
+    {
+      "name": "runs",
+      "path": "runs.csv",
+      "profile": "tabular-data-resource",
+      "description": "One row per benchmark per day its results changed. Rows accumulate, so this is the history.",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          { "name": "run_date", "type": "date", "description": "Day the results file was committed (UTC)." },
+          { "name": "benchmark", "type": "string", "description": "Benchmark id from analytics/benchmark-sources.json, e.g. zap-modern. Joins runs to findings." },
+          { "name": "scanner", "type": "string", "description": "Scanner name, e.g. ZAP." },
+          { "name": "variant", "type": "string", "description": "What distinguishes this benchmark from others of the same scanner, e.g. Modern UI or a ruleset." },
+          { "name": "scan_type", "type": "string", "constraints": { "enum": ["DAST", "SAST"] } },
+          { "name": "scanner_version", "type": "string", "description": "Scanner version, when the results file records it." },
+          { "name": "total_expected", "type": "integer", "description": "Vulnerabilities in the ground truth." },
+          { "name": "detected", "type": "integer", "description": "Expected vulnerabilities the scanner found." },
+          { "name": "missed", "type": "integer", "description": "Expected vulnerabilities the scanner did not find." },
+          { "name": "unmatched", "type": "integer", "description": "Reported items that match no expected vulnerability. Not necessarily false positives." },
+          { "name": "coverage", "type": "number", "description": "detected / total_expected * 100, two decimals; 0 when total_expected is 0." },
+          { "name": "source_commit", "type": "string", "description": "Commit of the results file this row was built from." }
+        ],
+        "primaryKey": ["run_date", "benchmark"]
+      }
+    },
+    {
+      "name": "findings",
+      "path": "findings.csv",
+      "profile": "tabular-data-resource",
+      "description": "Every item of each benchmark's latest result, mapped to a VulnerableApp challenge. Rewritten on each build; past versions live in git history.",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          { "name": "run_date", "type": "date" },
+          { "name": "benchmark", "type": "string" },
+          { "name": "scanner", "type": "string" },
+          { "name": "variant", "type": "string" },
+          { "name": "scan_type", "type": "string", "constraints": { "enum": ["DAST", "SAST"] } },
+          { "name": "status", "type": "string", "constraints": { "enum": ["detected", "missed", "unmatched"] }, "description": "detected and missed rows are expected vulnerabilities; unmatched rows are reported items that match none." },
+          { "name": "challenge", "type": "string", "description": "VulnerableApp challenge, e.g. JWTVulnerability. Empty when the item is not on a challenge." },
+          { "name": "level", "type": "string", "description": "Challenge level, e.g. LEVEL_3. DAST only." },
+          { "name": "vulnerability_type", "type": "string", "description": "Type as named by the ground truth or the scanner." },
+          { "name": "cwe", "type": "string", "description": "CWE id, e.g. CWE-89. The common key across scanners." },
+          { "name": "location", "type": "string", "description": "URL path (DAST) or file:line (SAST)." }
+        ],
+        "foreignKeys": [
+          {
+            "fields": ["run_date", "benchmark"],
+            "reference": { "resource": "runs", "fields": ["run_date", "benchmark"] }
+          }
+        ]
+      }
+    }
+  ]
+}
