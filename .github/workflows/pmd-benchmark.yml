@@ -22,9 +22,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PMD_RULES: >-
-        category/java/security.xml,category/java/bestpractices.xml/AvoidUsingHardCodedIP,category/java/bestpractices.xml/AvoidPrintStackTrace,category/java/errorprone.xml/CloseResource,category/java/errorprone.xml/AvoidLosingExceptionInformation
       APP_URL: http://localhost:9090/VulnerableApp
+      FINDINGS_FILE: benchmarks/PMD/findings/pmd-findings.json
+      RESULTS_FILE: benchmarks/PMD/pmd-results.json
 
     steps:
 
@@ -107,12 +107,15 @@ jobs:
           echo "$RUNNER_TEMP/pmd-bin-${PMD_VERSION}/bin" >> "$GITHUB_PATH"
 
       # ------------------------------------------------------------------
-      # 5. Run PMD scan (relative -d so reported paths are project-relative)
+      # 5. Run PMD scan (relative -d so reported paths are project-relative).
+      #    The rules come from benchmarks/PMD/pmd-rule-cwe-mapping.csv.
       # ------------------------------------------------------------------
       - name: Run PMD scan
         run: |
+          RULES=$(python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --print-rulesets)
+          echo "PMD rules: $RULES"
           set +e
-          pmd check -d src/main/java -R "$PMD_RULES" \
+          pmd check -d src/main/java -R "$RULES" \
             -f json -r benchmarks/PMD/pmd-raw-report.json \
             --no-cache --no-progress
           code=$?
@@ -134,7 +137,7 @@ jobs:
           python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test
           python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
             --input  benchmarks/PMD/pmd-raw-report.json \
-            --output benchmarks/PMD/pmd-benchmark-input.json
+            --output "$FINDINGS_FILE"
 
       # ------------------------------------------------------------------
       # 7. Submit to benchmark endpoint and save results
@@ -143,8 +146,8 @@ jobs:
         run: |
           curl -fsS -X POST "$APP_URL/scanner/benchmark" \
             -H "Content-Type: application/json" \
-            -d @benchmarks/PMD/pmd-benchmark-input.json \
-            -o benchmarks/PMD/pmd-results.json
+            -d "@$FINDINGS_FILE" \
+            -o "$RESULTS_FILE"
 
           echo "=== PMD Benchmark Results ==="
           python3 -c "
@@ -163,8 +166,9 @@ jobs:
       # 8. Commit and push results back to repo
       # ------------------------------------------------------------------
       - name: Commit benchmark results
-        # Only publish results from master; runs on other branches keep them as artifacts.
-        if: github.ref == 'refs/heads/master'
+        # Only publish from master of the main repo; runs on other branches or in
+        # forks keep the findings and results as artifacts only.
+        if: github.repository == 'SasanLabs/VulnerableApp' && github.ref == 'refs/heads/master'
         env:
           TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
           REF_NAME: ${{ github.ref_name }}
@@ -173,7 +177,7 @@ jobs:
 
           git config user.name "preetkaran20"
           git config user.email "preetkaran20@gmail.com"
-          git add benchmarks/PMD/pmd-results.json
+          git add "$FINDINGS_FILE" "$RESULTS_FILE"
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
@@ -210,7 +214,7 @@ jobs:
           name: pmd-benchmark-artifacts
           path: |
             benchmarks/PMD/pmd-raw-report.json
-            benchmarks/PMD/pmd-benchmark-input.json
+            benchmarks/PMD/findings/pmd-findings.json
             benchmarks/PMD/pmd-results.json
             app.log
           retention-days: 90

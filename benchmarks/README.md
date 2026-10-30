@@ -65,108 +65,14 @@ A sample benchmark output is at
 
 ## PMD (SAST)
 
-[PMD](https://pmd.github.io/) is benchmarked in `SAST` mode against the
-ground truth in `expectedIssues.csv`. PMD's Java security rule set is small, so
-a low (even zero) coverage figure is an expected result, not a bug in the
-integration.
+PMD is benchmarked in `SAST` mode against the ground truth in
+`expectedIssues.csv`, automated daily via the **PMD Benchmark** GitHub Actions
+workflow. Latest findings and results:
+[`benchmarks/PMD/findings/pmd-findings.json`](PMD/findings/pmd-findings.json) and
+[`benchmarks/PMD/pmd-results.json`](PMD/pmd-results.json).
 
-### Latest results
-
-[`benchmarks/PMD/pmd-results.json`](PMD/pmd-results.json) is updated daily and
-on every manual workflow run.
-
-### Running the benchmark
-
-The full pipeline (build and start VulnerableApp → run PMD → convert →
-benchmark → commit results) is automated via GitHub Actions:
-
-1. Go to **Actions** tab → **PMD Benchmark**
-2. Click **Run workflow**
-3. Results are committed automatically to the file above
-
-See [`.github/workflows/pmd-benchmark.yml`](../.github/workflows/pmd-benchmark.yml)
-for the full workflow definition. The app is built from the same checkout that
-PMD scans, so the ground-truth line numbers always match the scanned code.
-
-To run it manually instead, follow the three steps below.
-
-### 1. Run PMD
-
-Download the latest PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases)
-(the workflow always uses the latest release; a specific version can be chosen
-when running it manually) and run it from the repository root. The rules are PMD's Java `security`
-category plus a few security-adjacent rules:
-
-```bash
-pmd check -d src/main/java \
-    -R category/java/security.xml,category/java/bestpractices.xml/AvoidUsingHardCodedIP,category/java/bestpractices.xml/AvoidPrintStackTrace,category/java/errorprone.xml/CloseResource,category/java/errorprone.xml/AvoidLosingExceptionInformation \
-    -f json -r benchmarks/PMD/pmd-raw-report.json
-```
-
-Run it from the repo root with a relative `-d` so reported paths are
-project-relative (`src/main/java/...`).
-
-### 2. Convert the output
-
-```bash
-python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py \
-    --input  benchmarks/PMD/pmd-raw-report.json \
-    --output benchmarks/PMD/pmd-benchmark-input.json
-```
-
-PMD reports contain no CWE IDs, so the script maps each PMD rule name to a CWE
-and a type label (`RULE_MAP` in the script):
-
-| PMD rule | CWE | Type label |
-|---|---|---|
-| `HardCodedCryptoKey` | CWE-321 | Hard-coded Cryptographic Key |
-| `InsecureCryptoIv` | CWE-329 | Insecure Crypto IV |
-| `AvoidUsingHardCodedIP` | CWE-547 | Hard-coded Security-relevant Constant |
-| `AvoidPrintStackTrace` | CWE-209 | Information Exposure Through Error Message |
-| `CloseResource` | CWE-772 | Missing Resource Release |
-| `AvoidLosingExceptionInformation` | CWE-390 | Error Condition Without Action |
-
-Example of the converted input, with CWE (real output, abridged):
-
-```json
-{
-  "tool": "PMD",
-  "scanType": "SAST",
-  "findings": [
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/GenericUtils.java",
-      "line": 10,
-      "cwe": "CWE-547",
-      "type": "Hard-coded Security-relevant Constant"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 108,
-      "cwe": "CWE-772",
-      "type": "Missing Resource Release"
-    }
-  ]
-}
-```
-
-Rules not in the map are still
-emitted, with the rule name as `type` and no `cwe`. Absolute paths are made
-project-relative (override the root with `--root`). A malformed or truncated
-report (e.g. from a failed `pmd check` run) exits with a clear error and a
-non-zero status instead of a traceback. Self-test:
-`python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test`.
-
-### 3. Submit to the benchmark
-
-```bash
-curl -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
-    -H "Content-Type: application/json" \
-    -d @benchmarks/PMD/pmd-benchmark-input.json
-```
-
-The response (also written to `benchmarks/pmd-results.json`) lists detected,
-missed and unmatched findings. In a run with PMD 7.28.0 against
-`src/main/java`, PMD reported 5 findings, none of which matched the ground truth.
+See [`benchmarks/PMD/README.md`](PMD/README.md) for how to run it, the
+rule → CWE mapping, and the input format.
 
 ---
 
