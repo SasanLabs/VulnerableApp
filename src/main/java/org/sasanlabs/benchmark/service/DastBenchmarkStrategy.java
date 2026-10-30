@@ -133,7 +133,11 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                     entry.getMethod() == null
                             ? METHOD_ANY
                             : entry.getMethod().trim().toUpperCase(Locale.ROOT);
-            String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + entry.getType();
+            String type =
+                    entry.getType() == null
+                            ? null
+                            : entry.getType().trim().toUpperCase(Locale.ROOT);
+            String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type;
             if (!seenRowSignatures.add(rowSignature)) {
                 continue;
             }
