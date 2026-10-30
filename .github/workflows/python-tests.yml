@@ -1,0 +1,28 @@
+﻿name: Python Validation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install pytest
+        run: python -m pip install pytest
+
+      - name: Validate Python syntax
+        run: |
+          python -c "import ast, pathlib; files = [p for p in pathlib.Path('.').rglob('*.py') if not any(part in {'.git', '.venv', 'venv'} for part in p.parts)]; assert files, 'No Python files found'; [ast.parse(p.read_text(encoding='utf-8'), filename=str(p)) for p in files]; print(f'Validated {len(files)} Python files')"
+
+      - name: Run unit tests
+        run: python -m pytest
