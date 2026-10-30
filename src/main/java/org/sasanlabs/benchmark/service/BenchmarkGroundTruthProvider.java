@@ -168,8 +168,11 @@ public class BenchmarkGroundTruthProvider {
                     throw new IOException(
                             "DAST ground truth requires a SECURE or UNSECURE variant");
                 }
-                if (!entry.path("url").isTextual() || !entry.path("vulnerabilityTypes").isArray()) {
-                    throw new IOException("DAST ground truth requires url and vulnerabilityTypes");
+                if (!entry.path("url").isTextual()
+                        || !entry.path("vulnerabilityTypes").isArray()
+                        || entry.get("vulnerabilityTypes").isEmpty()) {
+                    throw new IOException(
+                            "UNSECURE DAST ground truth requires a url and at least one type");
                 }
                 for (JsonNode label : entry.get("vulnerabilityTypes")) {
                     if (!label.isTextual() || label.asText().isBlank()) {
