@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Convert completed sqlmap 1.10.10 native JSON reports to benchmark findings."""
+"""Convert completed native JSON reports from a stable sqlmap release to benchmark findings."""
 import argparse
 import json
 from pathlib import Path
+import re
 from urllib.parse import urlsplit, urlunsplit
 
-SQLMAP_REVISION = '65b6e7b4acb13a736614a1ab73b0908476f3c24a'
-SQLMAP_VERSION = 'sqlmap/1.10.10#stable'
+# Release tags report e.g. sqlmap/1.10.10#stable; untagged builds report #dev.
+STABLE_VERSION = re.compile(r'sqlmap/\d+(?:\.\d+)*#stable')
 NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
 
 
@@ -24,7 +25,9 @@ def convert(envelope):
     if not isinstance(envelope, dict) or envelope.get('schemaVersion') != 1:
         raise ValueError('Expected a sqlmap benchmark run manifest (schemaVersion 1)')
     runs = envelope.get('runs')
-    if envelope.get('sqlmapVersion') != SQLMAP_VERSION or not isinstance(runs, list) or not runs:
+    version = envelope.get('sqlmapVersion')
+    if (not isinstance(version, str) or not STABLE_VERSION.fullmatch(version)
+            or not isinstance(runs, list) or not runs):
         raise ValueError('Missing runs or unsupported sqlmap version')
     if envelope.get('targetCount') != len(runs):
         raise ValueError('Not all planned targets were scanned')
@@ -45,7 +48,7 @@ def convert(envelope):
         if not isinstance(raw, dict) or raw.get('success') is not True or raw.get('error') != []:
             raise ValueError('Native sqlmap report is missing or reports an error')
         meta = raw.get('meta', {})
-        if (meta.get('sqlmap_version') != SQLMAP_VERSION or meta.get('api_version') != 2
+        if (meta.get('sqlmap_version') != version or meta.get('api_version') != 2
                 or clean_url(meta.get('url')) != url):
             raise ValueError('Native report version or target differs from the invocation')
         records = raw.get('data')

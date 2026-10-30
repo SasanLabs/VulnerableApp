@@ -1,9 +1,12 @@
 # sqlmap benchmark
 
 This integration tests the Java SQL-injection challenges against a controlled
-running instance. It uses upstream [sqlmap 1.10.10](https://github.com/sqlmapproject/sqlmap/tree/65b6e7b4acb13a736614a1ab73b0908476f3c24a),
-pinned to `65b6e7b4acb13a736614a1ab73b0908476f3c24a`. The scanner is fetched
-from upstream; its source is not bundled here. See upstream's licensing terms.
+running instance. It uses upstream [sqlmap](https://github.com/sqlmapproject/sqlmap)
+at its newest version-numbered tag, resolved when the workflow runs, so untagged
+master code is never used. The runner checks that the scanner reports that
+tag as a stable release, and the run artifacts record the reported version and
+the checked-out commit. The scanner is fetched from upstream; its source is not
+bundled here. See upstream's licensing terms.
 
 The [GitHub Actions workflow](../../.github/workflows/sqlmap-benchmark.yml) runs
 weekly, manually, and on PRs changing this integration. It builds the checked-out
@@ -60,15 +63,17 @@ Use only an instance you control. Start a fresh build of VulnerableApp separatel
 java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar --server.port=9090
 ```
 
-Check out the pinned upstream scanner, then run:
+Check out the newest upstream release tag, as the workflow does, then run:
 
 ```bash
-git clone https://github.com/sqlmapproject/sqlmap.git /tmp/sqlmap-benchmark
-git -C /tmp/sqlmap-benchmark checkout 65b6e7b4acb13a736614a1ab73b0908476f3c24a
+tag="$(git ls-remote --tags --refs https://github.com/sqlmapproject/sqlmap.git \
+  | sed 's#.*refs/tags/##' | grep -E '^[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)"
+git clone --depth 1 --branch "$tag" https://github.com/sqlmapproject/sqlmap.git /tmp/sqlmap-benchmark
 python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
 python3 benchmarks/sqlmap/scripts/run_sqlmap.py \
   --base-url http://127.0.0.1:9090/VulnerableApp \
   --sqlmap-dir /tmp/sqlmap-benchmark \
+  --sqlmap-tag "$tag" \
   --output-dir benchmarks/sqlmap/artifacts
 python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
   --input benchmarks/sqlmap/artifacts/runs.json \
@@ -92,34 +97,37 @@ technique list and matching request location. The converter preserves the
 original challenge URL and method, emits `cwe: "CWE-89"`, and deduplicates repeated
 parameters and techniques at the same endpoint.
 
-A local probe of this pinned release showed that both a completed negative and
+A local probe of sqlmap 1.10.10 showed that both a completed negative and
 a refused connection can produce exit code 0 and native JSON with
 `success: true, data: [], error: []`. Consequently the runner also saves and
-checks ERROR/CRITICAL diagnostics from the native console log. Only the pinned
-scanner's explicit `all tested parameters do not appear to be injectable.`
-conclusion is accepted as a completed negative. Other errors, tracebacks,
-nonzero exits, missing or partial reports, inconsistent targets, or missing
-planned scans fail conversion. Partial positive reports are retained as evidence
-but are not submitted as a complete benchmark.
+checks ERROR/CRITICAL diagnostics from the native console log. Only sqlmap's
+explicit `all tested parameters do not appear to be injectable.` conclusion is
+accepted as a completed negative. Other errors, tracebacks, nonzero exits,
+missing or partial reports, inconsistent targets or versions, or missing planned
+scans fail conversion, so a release that changes this message or the report
+fields the converter checks fails the run instead of producing a result. Partial
+positive reports are retained as evidence but are not submitted as a complete
+benchmark.
 
 Artifacts include each native report, console log, full invocation and fresh
 session; the combined run manifest; live ground truth and selected targets;
 scanner version/revision; application revision, JAR checksum and startup log;
 converted findings and the comparator response when submission succeeds.
 The fixtures in `fixtures/` are native JSON captured from local positive and
-negative probes of the pinned scanner; tests also cover failures and timeouts.
+negative probes of sqlmap 1.10.10; tests also cover failures and timeouts.
 
 ## Reading coverage
 
 The comparator's `coverage` denominator is **all Java DAST ground truth**, not
-just the selected SQL categories. In a local run against revision `5a94f0d`,
-9 advertised endpoints were scanned (8 UNSECURE and 1 SECURE); sqlmap confirmed
-6 endpoints and the comparator reported 6 detected out of 168 expected, 0
-unmatched, and **3.57% whole-benchmark coverage**. Within the eight advertised
-UNSECURE SQL rows, that run detected six (75%); this narrower fraction must not
-be presented as whole-benchmark coverage. Error-based levels 3–4 were not
-confirmed under the configured settings.
+just the selected SQL categories. In a local sqlmap 1.10.10 run against revision
+`5a94f0d`, 9 advertised endpoints were scanned (8 UNSECURE and 1 SECURE); sqlmap
+confirmed 6 endpoints and the comparator reported 6 detected out of 168
+expected, 0 unmatched, and **3.57% whole-benchmark coverage**. Within the eight
+advertised UNSECURE SQL rows, that run detected six (75%); this narrower
+fraction must not be presented as whole-benchmark coverage. Error-based levels
+3–4 were not confirmed under the configured settings.
 
-Results depend on scanner settings and application revision. The workflow
-uploads fresh evidence rather than promising this count on every run. Unmatched
-or out-of-scope findings are not automatically false positives.
+Results depend on the sqlmap release, scanner settings and application
+revision. The workflow uploads fresh evidence rather than promising this count
+on every run. Unmatched or out-of-scope findings are not automatically false
+positives.
