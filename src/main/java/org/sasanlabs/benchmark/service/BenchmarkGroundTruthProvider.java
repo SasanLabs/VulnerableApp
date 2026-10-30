@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
@@ -170,11 +171,13 @@ public class BenchmarkGroundTruthProvider {
                     if (!label.isTextual() || label.asText().isBlank()) {
                         throw new IOException("DAST vulnerability type must be a nonempty string");
                     }
-                    String name = label.asText();
+                    String name = label.asText().trim();
                     String cwe = null;
                     String wasc = null;
                     try {
-                        VulnerabilityType known = VulnerabilityType.valueOf(name);
+                        VulnerabilityType known =
+                                VulnerabilityType.valueOf(name.toUpperCase(Locale.ROOT));
+                        name = known.name();
                         cwe = known.getCweID() == null ? null : "CWE-" + known.getCweID();
                         wasc = known.getWascID() == null ? null : known.getWascID().toString();
                     } catch (IllegalArgumentException unknownType) {

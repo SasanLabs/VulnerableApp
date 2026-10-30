@@ -308,6 +308,36 @@ class MergedGroundTruthTest {
     }
 
     @ParameterizedTest
+    @ValueSource(
+            strings = {
+                "\"BLIND_SQL_INJECTION\",\" blind_sql_injection \"",
+                "\" blind_sql_injection \",\"BLIND_SQL_INJECTION\""
+            })
+    void dastCaseVariantsOfOneTypeAreOneRowWithItsCwe(String types) throws Exception {
+        String body = dastRows("/sql", "TYPES").replace("\"TYPES\"", types);
+        respond(DAST_URL, body);
+        respond(DAST_URL, body);
+        BenchmarkResult byType = dast(new Finding("/sql", "BLIND_SQL_INJECTION"));
+        BenchmarkResult byCwe = dast(new Finding("/sql", null, null, null, "CWE-89"));
+        assertThat(byType.getTotalExpected()).isEqualTo(1);
+        assertThat(byType.getDetected()).isEqualTo(1);
+        assertThat(byCwe.getDetected()).isEqualTo(1);
+        server.verify();
+    }
+
+    @Test
+    void dastCaseVariantsOfOneNativeTypeAreOneRow() throws Exception {
+        respond(
+                DAST_URL,
+                dastRows("/sql", "TYPES")
+                        .replace("\"TYPES\"", "\"native-php-type\",\"NATIVE-PHP-TYPE \""));
+        BenchmarkResult result = dast(new Finding("/sql", "native-php-type"));
+        assertThat(result.getTotalExpected()).isEqualTo(1);
+        assertThat(result.getDetected()).isEqualTo(1);
+        server.verify();
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {"/shared", "/VulnerableApp/shared"})
     void secureRouteInAnotherAppKeepsUnlabelledFindingAmbiguous(String path) throws Exception {
         respond(
