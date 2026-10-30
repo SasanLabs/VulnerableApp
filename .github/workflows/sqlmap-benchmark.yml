@@ -22,11 +22,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Checkout sqlmap 1.10.10
+      - name: Resolve newest sqlmap release tag
+        id: sqlmap
+        run: |
+          # Version-numbered tags only, so untagged master and old -rc tags are never used.
+          tag="$(git ls-remote --tags --refs https://github.com/sqlmapproject/sqlmap.git \
+            | sed 's#.*refs/tags/##' | grep -E '^[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)"
+          test -n "$tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout sqlmap ${{ steps.sqlmap.outputs.tag }}
         uses: actions/checkout@v4
         with:
           repository: sqlmapproject/sqlmap
-          ref: 65b6e7b4acb13a736614a1ab73b0908476f3c24a
+          ref: refs/tags/${{ steps.sqlmap.outputs.tag }}
           path: .tools/sqlmap
           persist-credentials: false
 
@@ -69,12 +78,15 @@ jobs:
           exit 1
 
       - name: Scan SQL ground-truth endpoints
+        env:
+          SQLMAP_TAG: ${{ steps.sqlmap.outputs.tag }}
         run: |
           # Limit scanner address space to 2 GiB; each target also has a process deadline.
           ulimit -v 2097152
           python3 benchmarks/sqlmap/scripts/run_sqlmap.py \
             --base-url http://127.0.0.1:9090/VulnerableApp \
             --sqlmap-dir .tools/sqlmap \
+            --sqlmap-tag "$SQLMAP_TAG" \
             --output-dir benchmarks/sqlmap/artifacts \
             --target-timeout 120
 

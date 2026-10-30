@@ -72,6 +72,15 @@ class ConverterTest(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(ValueError):
                 convert(envelope(raw))
 
+    def test_any_stable_release_is_accepted_but_dev_builds_are_not(self):
+        raw = report()
+        raw['meta']['sqlmap_version'] = 'sqlmap/1.10.11#stable'
+        wrapped = envelope(raw)
+        wrapped['sqlmapVersion'] = 'sqlmap/1.10.11#stable'
+        self.assertEqual(len(convert(wrapped)['findings']), 1)
+        raw['meta']['sqlmap_version'] = wrapped['sqlmapVersion'] = 'sqlmap/1.10.10.31#dev'
+        with self.assertRaises(ValueError): convert(wrapped)
+
     def test_report_must_belong_to_invoked_target(self):
         with self.assertRaises(ValueError):
             convert(envelope(url=URL.replace('LEVEL_1', 'LEVEL_2')))
@@ -145,16 +154,28 @@ class RunnerTest(unittest.TestCase):
             scanner.mkdir()
             (scanner / 'sqlmap.py').write_text(
                 "import sys,time\n"
-                "if '--version' in sys.argv: print('1.10.10#stable')\n"
+                "if '--version' in sys.argv: print('1.10.11#stable')\n"
                 "else: time.sleep(5)\n")
             rows = [dict(url=URL, method='GET', variant='UNSECURE',
                          vulnerabilityTypes=['UNION_BASED_SQL_INJECTION'])]
             with patch('run_sqlmap.urlopen', return_value=StringIO(json.dumps(rows))):
                 with self.assertRaises(ValueError):
-                    run('http://127.0.0.1:19090/VulnerableApp', scanner, root / 'out', 0.1)
+                    run('http://127.0.0.1:19090/VulnerableApp', scanner, '1.10.11', root / 'out', 0.1)
             manifest = json.loads((root / 'out' / 'runs.json').read_text())
+            self.assertEqual(manifest['sqlmapVersion'], 'sqlmap/1.10.11#stable')
             self.assertFalse(manifest['runs'][0]['completed'])
             self.assertIn('timeout', manifest['runs'][0]['diagnostics'][0])
+
+    def test_scanner_must_be_the_resolved_stable_tag(self):
+        for printed, tag in [('1.10.10.31#dev', '1.10.10'), ('1.10.10#stable', '1.10.11')]:
+            with self.subTest(printed=printed, tag=tag), tempfile.TemporaryDirectory() as directory:
+                scanner = Path(directory) / 'scanner'
+                scanner.mkdir()
+                (scanner / 'sqlmap.py').write_text('print(%r)\n' % printed)
+                with patch('run_sqlmap.urlopen') as fetch, self.assertRaises(ValueError):
+                    run('http://127.0.0.1:19090/VulnerableApp', scanner, tag,
+                        Path(directory) / 'out', 1)
+                fetch.assert_not_called()
 
     def test_missing_sql_ground_truth_is_not_clean_scan(self):
         with self.assertRaises(ValueError): discover_targets([], 'http://127.0.0.1:19090/VulnerableApp')

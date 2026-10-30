@@ -9,7 +9,7 @@ import sys
 from urllib.parse import urlencode, urlsplit
 from urllib.request import urlopen
 
-from convert_sqlmap_to_benchmark import SQLMAP_REVISION, SQLMAP_VERSION, clean_url, convert
+from convert_sqlmap_to_benchmark import clean_url, convert
 
 FAMILIES = ('BlindSQLInjectionVulnerability', 'ErrorBasedSQLInjectionVulnerability',
             'UnionBasedSQLInjectionVulnerability')
@@ -51,21 +51,22 @@ def discover_targets(rows, base_url):
     return list(selected.values())
 
 
-def run(base_url, sqlmap_dir, output_dir, target_timeout):
+def run(base_url, sqlmap_dir, sqlmap_tag, output_dir, target_timeout):
     output_dir.mkdir(parents=True, exist_ok=False)
     sqlmap = sqlmap_dir.resolve() / 'sqlmap.py'
     version = subprocess.check_output([sys.executable, str(sqlmap), '--version'], text=True,
                                       timeout=15).strip()
-    if 'sqlmap/' + version != SQLMAP_VERSION:
-        raise ValueError('Expected sqlmap 1.10.10#stable, got ' + version)
-    (output_dir / 'sqlmap-version.txt').write_text(version + '\n' + SQLMAP_REVISION + '\n')
+    if version != sqlmap_tag + '#stable':
+        raise ValueError('Expected sqlmap %s#stable, got %s' % (sqlmap_tag, version))
+    (output_dir / 'sqlmap-version.txt').write_text(version + '\n')
     endpoint = base_url.rstrip('/') + '/scanner/dast'
     with urlopen(endpoint, timeout=15) as response:
         rows = json.load(response)
     (output_dir / 'ground-truth.json').write_text(json.dumps(rows, indent=2) + '\n')
     targets = discover_targets(rows, base_url)
     (output_dir / 'targets.json').write_text(json.dumps(targets, indent=2) + '\n')
-    manifest = dict(schemaVersion=1, sqlmapVersion=SQLMAP_VERSION, targetCount=len(targets), runs=[])
+    manifest = dict(schemaVersion=1, sqlmapVersion='sqlmap/' + version, targetCount=len(targets),
+                    runs=[])
     manifest_path = output_dir / 'runs.json'
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
     for index, target in enumerate(targets):
@@ -104,13 +105,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base-url', required=True)
     parser.add_argument('--sqlmap-dir', required=True, type=Path)
+    parser.add_argument('--sqlmap-tag', required=True, help='release tag checked out in --sqlmap-dir')
     parser.add_argument('--output-dir', required=True, type=Path)
     parser.add_argument('--target-timeout', type=int, default=120)
     args = parser.parse_args()
     if not 1 <= args.target_timeout <= 300:
         parser.error('--target-timeout must be between 1 and 300 seconds')
     try:
-        run(args.base_url, args.sqlmap_dir, args.output_dir, args.target_timeout)
+        run(args.base_url, args.sqlmap_dir, args.sqlmap_tag, args.output_dir, args.target_timeout)
     except (ValueError, OSError, subprocess.SubprocessError) as error:
         parser.exit(1, str(error) + '\n')
 
