@@ -35,6 +35,9 @@ Inventory at application revision `5a94f0d`:
 The other source levels are not advertised by `/scanner/dast`; this integration
 does not invent additional ground-truth rows or claim to scan them. Recheck the
 uploaded `ground-truth.json` and `targets.json` for each run's actual scope.
+`AuthenticationVulnerability` LEVEL_1 is also advertised as
+`ERROR_BASED_SQL_INJECTION`, but it is outside these families and takes
+`username` and `password` instead of `id`, so it is not scanned.
 PHP currently has NoSQL challenges, not corresponding SQL-injection ground
 truth, so it is excluded. The facade and JSP applications are not scan targets.
 
@@ -63,7 +66,7 @@ Use only an instance you control. Start a fresh build of VulnerableApp separatel
 java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar --server.port=9090
 ```
 
-Check out the newest upstream release tag, as the workflow does, then run:
+Check out the newest version-numbered tag, as the workflow does, then run:
 
 ```bash
 tag="$(git ls-remote --tags --refs https://github.com/sqlmapproject/sqlmap.git \
@@ -122,12 +125,14 @@ probe of 1.10.11; tests also cover failures and timeouts.
 
 ## Reading coverage
 
-The comparator's `coverage` denominator is **all Java DAST ground truth**, not
-just the selected SQL categories. In a local sqlmap 1.10.10 run against revision
-`5a94f0d`, 9 advertised endpoints were scanned (8 UNSECURE and 1 SECURE); sqlmap
-confirmed 6 endpoints and the comparator reported 6 detected out of 168
-expected, 0 unmatched, and **3.57% whole-benchmark coverage**. Within the eight
-advertised UNSECURE SQL rows, that run detected six (75%); this narrower
+The comparator's `coverage` denominator is
+**all UNSECURE Java DAST ground truth**, counted once per URL, method and
+vulnerability type, not just the selected SQL categories. In a local sqlmap
+1.10.10 run against revision `5a94f0d`, 9 advertised endpoints were scanned (8
+UNSECURE and 1 SECURE); sqlmap confirmed 6 endpoints and the comparator
+reported 6 detected out of 168 expected (from 147 UNSECURE rows), 0 unmatched,
+and **3.57% whole-benchmark coverage**. Within the eight advertised UNSECURE
+rows of the three families, that run detected six (75%); this narrower
 fraction must not be presented as whole-benchmark coverage. Error-based levels
 3–4 were not confirmed under the configured settings.
 
