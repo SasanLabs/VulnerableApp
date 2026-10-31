@@ -47,6 +47,17 @@ class ConverterTest(unittest.TestCase):
         wrapped = envelope(raw, url=raw['meta']['url'], diagnostics=[NEGATIVE + ' Try more tests.'])
         self.assertEqual(convert(wrapped)['findings'], [])
 
+    def test_negative_conclusion_may_also_be_the_native_error(self):
+        # From 1.10.11 the native report repeats the console conclusion in "error".
+        raw = report('negative-1.10.11')
+        wrapped = envelope(raw, url=raw['meta']['url'], diagnostics=list(raw['error']))
+        wrapped['sqlmapVersion'] = raw['meta']['sqlmap_version']
+        self.assertEqual(convert(wrapped)['findings'], [])
+        for console in [[], [NEGATIVE]]:
+            wrapped['runs'][0]['diagnostics'] = console
+            with self.subTest(console=console), self.assertRaises(ValueError):
+                convert(wrapped)
+
     def test_empty_report_without_negative_conclusion_is_incomplete(self):
         raw = report('negative')
         with self.assertRaises(ValueError):

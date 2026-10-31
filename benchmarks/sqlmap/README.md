@@ -99,22 +99,26 @@ parameters and techniques at the same endpoint.
 
 A local probe of sqlmap 1.10.10 showed that both a completed negative and
 a refused connection can produce exit code 0 and native JSON with
-`success: true, data: [], error: []`. Consequently the runner also saves and
-checks ERROR/CRITICAL diagnostics from the native console log. Only sqlmap's
-explicit `all tested parameters do not appear to be injectable.` conclusion is
-accepted as a completed negative. Other errors, tracebacks, nonzero exits,
-missing or partial reports, inconsistent targets or versions, or missing planned
-scans fail conversion, so a release that changes this message or the report
-fields the converter checks fails the run instead of producing a result. Partial
-positive reports are retained as evidence but are not submitted as a complete
-benchmark.
+`success: true, data: [], error: []`. In sqlmap 1.10.11 both still exit 0, but
+the native `error` repeats the console message, such as the negative conclusion
+or `unable to connect to the target URL`. Consequently the runner also saves and
+checks ERROR/CRITICAL diagnostics from the native console log, and the converter
+accepts a native `error` only when it is empty or equal to those diagnostics.
+Only sqlmap's explicit `all tested parameters do not appear to be injectable.`
+conclusion is accepted as a completed negative. Other errors, tracebacks,
+nonzero exits, missing or partial reports, inconsistent targets or versions, or
+missing planned scans fail conversion, so a release that changes this message or
+the report fields the converter checks fails the run instead of producing a
+result. Partial positive reports are retained as evidence but are not submitted
+as a complete benchmark.
 
 Artifacts include each native report, console log, full invocation and fresh
 session; the combined run manifest; live ground truth and selected targets;
 scanner version/revision; application revision, JAR checksum and startup log;
 converted findings and the comparator response when submission succeeds.
 The fixtures in `fixtures/` are native JSON captured from local positive and
-negative probes of sqlmap 1.10.10; tests also cover failures and timeouts.
+negative probes of sqlmap 1.10.10, plus `negative-1.10.11.json` from a negative
+probe of 1.10.11; tests also cover failures and timeouts.
 
 ## Reading coverage
 
