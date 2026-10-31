@@ -12,7 +12,7 @@ jobs:
   nuclei-benchmark:
     name: Nuclei Benchmark
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -72,12 +72,12 @@ jobs:
           echo "targets: $(wc -l < benchmarks/Nuclei/.scan/urls.txt 2>/dev/null || echo 0)"
           head -5 benchmarks/Nuclei/.scan/urls.txt
 
-          echo "=== nuclei: misconfiguration/exposure/tech templates ==="
+          echo "=== nuclei: misconfiguration/tech templates ==="
           docker run --rm \
             --network host \
             -v "$(pwd)/benchmarks/Nuclei:/nuclei-out:rw" \
             projectdiscovery/nuclei:latest \
-            -l /nuclei-out/.scan/urls.txt -tags misconfig,exposure,tech -silent -ni -jsonl \
+            -l /nuclei-out/.scan/urls.txt -tags misconfig,tech -c 50 -timeout 5 -retries 1 -silent -ni -jsonl \
             -o /nuclei-out/.scan/nuclei-default.jsonl \
             2> benchmarks/Nuclei/.scan/nuclei-default.log
           echo "default-templates exit=$?"
@@ -87,7 +87,7 @@ jobs:
             --network host \
             -v "$(pwd)/benchmarks/Nuclei:/nuclei-out:rw" \
             projectdiscovery/nuclei:latest \
-            -l /nuclei-out/.scan/urls.txt -dast -ni -v -stats -jsonl \
+            -l /nuclei-out/.scan/urls.txt -dast -c 50 -timeout 5 -retries 1 -stats -ni -jsonl \
             -o /nuclei-out/.scan/nuclei-dast.jsonl \
             2> benchmarks/Nuclei/.scan/nuclei-scan.log
           echo "dast exit=$?"
