@@ -18,6 +18,13 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 
 ---
  
+## sqlmap
+
+The [sqlmap integration](sqlmap/README.md) scans the deployed Java SQL-injection
+families with the newest sqlmap release, converts confirmed native JSON results,
+and submits them to the comparator. Its workflow retains raw evidence and treats
+failed or incomplete scans separately from completed negatives.
+
 ## ZAP By Checkmarx
  
 ZAP is benchmarked against VulnerableApp in two modes — **Modern UI** (React

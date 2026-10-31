@@ -1,0 +1,24 @@
+{
+    "success": true,
+    "data": [
+        {
+            "status": 1,
+            "type": 0,
+            "type_name": "TARGET",
+            "value": {
+                "url": "http://127.0.0.1:9191/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_3",
+                "query": "id=1",
+                "data": null
+            }
+        }
+    ],
+    "error": [
+        "all tested parameters do not appear to be injectable. Try to increase values for '--level'/'--risk' options if you wish to perform more tests. Rerun without providing the option '--technique'. As heuristic test turned out positive you are strongly advised to continue on with the tests. If you suspect that there is some kind of protection mechanism involved (e.g. WAF) maybe you could try to use option '--tamper' (e.g. '--tamper=space2comment') and/or switch '--random-agent'"
+    ],
+    "meta": {
+        "api_version": 2,
+        "sqlmap_version": "sqlmap/1.10.11#stable",
+        "url": "http://127.0.0.1:9191/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_3",
+        "timestamp": "2026-10-31 06:28:12"
+    }
+}
