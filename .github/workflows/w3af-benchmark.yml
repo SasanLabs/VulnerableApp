@@ -73,12 +73,12 @@ jobs:
           rm -f benchmarks/w3af/.scan/w3af-raw.json
           cat > benchmarks/w3af/.scan/w3af-script.w3af << 'EOF'
           plugins
-          crawl web_spider
-          audit xss,sqli,lfi,os_commanding
-          output json_file
+          output console,json_file
           output config json_file
           set output_file /w3af-out/w3af-raw.json
           back
+          audit xss,sqli,lfi,os_commanding
+          crawl web_spider
           back
           target
           set target http://VulnerableApp-facade/
