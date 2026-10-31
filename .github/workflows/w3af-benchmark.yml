@@ -12,6 +12,7 @@ jobs:
   w3af-benchmark:
     name: w3af Benchmark
     runs-on: ubuntu-latest
+    timeout-minutes: 120
 
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -72,8 +73,8 @@ jobs:
           rm -f benchmarks/w3af/.scan/w3af-raw.json
           cat > benchmarks/w3af/.scan/w3af-script.w3af << 'EOF'
           plugins
-          discovery web_spider
-          audit xss,sqli,lfi,os_commanding,ssrf
+          crawl web_spider
+          audit xss,sqli,lfi,os_commanding
           output json_file
           output config json_file
           set output_file /w3af-out/w3af-raw.json
@@ -83,11 +84,15 @@ jobs:
           set target http://VulnerableApp-facade/
           back
           start
+          exit
           EOF
 
           W3AF_IMAGE="jones2748/docker-w3af:latest"
           docker pull "$W3AF_IMAGE"
-          
+
+          # the container runs as uid 1000; open the bind mount so it can write the report
+          chmod -R a+rwx benchmarks/w3af/.scan
+
           docker run --rm \
             --network "$NETWORK" \
             -v "$(pwd)/benchmarks/w3af/.scan:/w3af-out:rw" \
