@@ -45,7 +45,9 @@ def convert(envelope):
         if any(not m.startswith(NEGATIVE_CONCLUSION) for m in messages):
             raise ValueError('sqlmap reported an error: ' + '; '.join(messages))
         raw = run.get('report')
-        if not isinstance(raw, dict) or raw.get('success') is not True or raw.get('error') != []:
+        # From 1.10.11 a negative report also lists the console conclusion as its error.
+        if (not isinstance(raw, dict) or raw.get('success') is not True
+                or raw.get('error') not in ([], messages)):
             raise ValueError('Native sqlmap report is missing or reports an error')
         meta = raw.get('meta', {})
         if (meta.get('sqlmap_version') != version or meta.get('api_version') != 2
