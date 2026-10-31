@@ -13,10 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
+import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.MessageBundle;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
@@ -174,6 +176,7 @@ class EndPointsInformationProviderTest {
         assertThat(level2.getChallengeCards()).hasSize(1);
         assertThat(level2.getVariant()).isEqualTo(Variant.UNSECURE);
         assertThat(level2.getRequestMethod()).isEqualTo(RequestMethod.GET);
+        assertThat(level2.getProtocol()).isEqualTo(Protocol.HTTP);
     }
 
     @Test
@@ -184,6 +187,7 @@ class EndPointsInformationProviderTest {
         assertThat(level1.getHtmlTemplate()).isEqualTo("LEVEL_1/Fixture");
         assertThat(level1.getVariant()).isEqualTo(Variant.UNSECURE);
         assertThat(level1.getRequestMethod()).isEqualTo(RequestMethod.GET);
+        assertThat(level1.getProtocol()).isEqualTo(Protocol.WS);
         assertThat(level1.getAttackVectorResponseBeans()).hasSize(1);
         assertThat(level1.getAttackVectorResponseBeans().get(0).getVulnerabilityTypes())
                 .containsExactly(VulnerabilityType.INSECURE_DESERIALIZATION);
@@ -237,12 +241,24 @@ class EndPointsInformationProviderTest {
 
     @Test
     void getScannerRelatedEndPointInformation_includesTheWebSocketLevel() throws Exception {
-        assertThat(provider.getScannerRelatedEndPointInformation("http://localhost:9090/"))
+        List<ScannerResponseBean> scannerResponseBeans =
+                provider.getScannerRelatedEndPointInformation("http://localhost:9090/");
+
+        assertThat(scannerResponseBeans)
+                .anySatisfy(
+                        scanner -> {
+                            assertThat(scanner.getUrl())
+                                    .isEqualTo("http://localhost:9090/FixtureWebSocket/LEVEL_1");
+                            assertThat(scanner.getProtocol()).isEqualTo(Protocol.WS);
+                        });
+        assertThat(scannerResponseBeans)
                 .anySatisfy(
                         scanner ->
-                                assertThat(scanner.getUrl())
-                                        .isEqualTo(
-                                                "http://localhost:9090/FixtureWebSocket/LEVEL_1"));
+                                assertThat(scanner.getProtocol())
+                                        .as(
+                                                "a REST level's scanner entry should still be"
+                                                        + " marked HTTP")
+                                        .isEqualTo(Protocol.HTTP));
     }
 
     private EndPointsInformationProvider providerWith(

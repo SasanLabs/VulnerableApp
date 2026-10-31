@@ -17,6 +17,7 @@ import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.MessageBundle;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping;
@@ -87,7 +88,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 vulnLevel.value(),
                                                 vulnLevel.variant(),
                                                 vulnLevel.htmlTemplate(),
-                                                vulnLevel.requestMethod()));
+                                                vulnLevel.requestMethod(),
+                                                Protocol.HTTP));
                     }
                 }
                 allEndpoints.add(allEndPointsResponseBean);
@@ -115,7 +117,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 vulnLevel.value(),
                                                 vulnLevel.variant(),
                                                 vulnLevel.htmlTemplate(),
-                                                RequestMethod.GET));
+                                                RequestMethod.GET,
+                                                Protocol.WS));
                     }
                 }
                 allEndpoints.add(allEndPointsResponseBean);
@@ -137,9 +140,11 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             String level,
             org.sasanlabs.internal.utility.Variant variant,
             String htmlTemplate,
-            RequestMethod requestMethod) {
+            RequestMethod requestMethod,
+            Protocol protocol) {
         AttackVector[] attackVectors = method.getAnnotationsByType(AttackVector.class);
         LevelResponseBean levelResponseBean = new LevelResponseBean();
+        levelResponseBean.setProtocol(protocol);
         levelResponseBean.setLevel(level);
         levelResponseBean.setVariant(variant);
         levelResponseBean.setHtmlTemplate(htmlTemplate);
@@ -199,6 +204,7 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                             .toString(),
                                     levelResponseBean.getVariant().toString(),
                                     levelResponseBean.getRequestMethod(),
+                                    levelResponseBean.getProtocol(),
                                     attackVectorResponseBean.getVulnerabilityTypes()));
                 }
             }

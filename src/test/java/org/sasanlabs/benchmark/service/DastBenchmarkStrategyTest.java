@@ -18,6 +18,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -429,11 +430,13 @@ class DastBenchmarkStrategyTest {
 
     private static ScannerResponseBean unsecure(
             String url, RequestMethod method, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "UNSECURE", method, Arrays.asList(types));
+        return new ScannerResponseBean(
+                url, "UNSECURE", method, Protocol.HTTP, Arrays.asList(types));
     }
 
     private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "SECURE", RequestMethod.GET, Arrays.asList(types));
+        return new ScannerResponseBean(
+                url, "SECURE", RequestMethod.GET, Protocol.HTTP, Arrays.asList(types));
     }
 
     private static ScannerFindings input(String tool, Finding... findings) {
