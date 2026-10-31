@@ -213,6 +213,240 @@
       "method": "GET"
     },
     {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CryptographicFailures/LEVEL_8",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CryptographicFailures/LEVEL_7",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_6",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_3",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CommandInjection",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CommandInjection/LEVEL_3",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/ErrorBasedSQLInjectionVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_5",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_3",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_7",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_8",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection/LEVEL_9",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/IDORVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/IDORVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/JWTVulnerability/LEVEL_15",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/OTPVulnerability/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/OTPVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/OTPVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/OTPVulnerability/LEVEL_5",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PasswordResetVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PasswordResetVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PasswordResetVulnerability/LEVEL_10",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PathTraversal/LEVEL_11",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PathTraversal/LEVEL_9",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_5",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_6",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_7",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/PersistentXSSInHTMLTagVulnerability/LEVEL_8",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/XXEVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/XXEVulnerability/LEVEL_3",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1",
       "cwe": "CWE-541",
       "wascId": "33",
@@ -417,12 +651,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_1",
-      "cwe": "CWE-693",
-      "wascId": "14",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2",
       "cwe": "CWE-693",
       "wascId": "14",
@@ -430,6 +658,12 @@
     },
     {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_4",
+      "cwe": "CWE-693",
+      "wascId": "14",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_5",
       "cwe": "CWE-693",
       "wascId": "14",
       "method": "GET"
@@ -453,12 +687,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_1",
-      "cwe": "CWE-693",
-      "wascId": "15",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2",
       "cwe": "CWE-693",
       "wascId": "15",
@@ -466,6 +694,12 @@
     },
     {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_4",
+      "cwe": "CWE-693",
+      "wascId": "15",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_5",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"
@@ -483,13 +717,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability?query=query%25%27%29%29+AND+4173%3D6967+AND+%28%28%27%25%27%3D%27",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.css",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.css",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -501,13 +729,31 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.html?query=query%29%29%29+AND+8320%3D8958+AND+%28%28%285737%3D5737",
+      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability/LEVEL_1",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.js?p=1793338781830",
+      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.html",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.js?p=1793424402751",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.html?query=query%22%29%29+AND+2887%3D8577--+-",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -519,25 +765,103 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability/LEVEL_1",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/Common/CachePoisoning.css",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.html",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/Common/CachePoisoningCommon.js",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.html?query=query%27+AND+9451%3D1342--+-",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.js?p=1793420638846",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.css",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates)))%20AND%209359=2372%23/CachePoisoning/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.css?query=query%27%29+AND+9288%3D2479%23",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.html",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.js?p=1793422873858%27+AND+5561%3D9328%23",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.css",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.css",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_4/CachePoisoning.html",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.html",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/IIF(9942=9048,9942,1%2F0)/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/CryptographicFailures/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.js?p=1793424402751%27%29%29%29%3BIF%288058%3D6013%29+SELECT+8058+ELSE+DROP+FUNCTION+zfPr--",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1793424484919",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.html",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -555,49 +879,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability/LEVEL_4",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates))%20AND%201520=8408%2516/AuthenticationVulnerability/LEVEL_1",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.html",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.css",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.html",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.css",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.html",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.html?query=query%27%29%29%29+RLIKE+%28SELECT+%28CASE+WHEN+%281518%3D7385%29+THEN+0x7175657279+ELSE+0x28+END%29%29+AND+%28%28%28%27mKDl%27%3D%27mKDl",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -609,103 +891,49 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.js?p=1793337821427%25%22+AND+6900%3D7824%23",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_4/CachePoisoning.css?query=query%29+RLIKE+%28SELECT+%28CASE+WHEN+%283731%3D9317%29+THEN+0x7175657279+ELSE+0x28+END%29%29+AND+%284524%3D4524",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.css?query=query%27%2C%28SELECT+%28CASE+WHEN+%286653%3D4979%29+THEN+1+ELSE+6653*%28SELECT+6653+FROM+master..sysdatabases%29+END%29%29",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.css?query=query%27+RLIKE+%28SELECT+%28CASE+WHEN+%281215%3D3299%29+THEN+0x7175657279+ELSE+0x28+END%29%29+AND+%27Zeqn%27+LIKE+%27Zeqn",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.js?p=1793338963071",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.css",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability)))/LEVEL_1",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.js",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.html",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.js?p=1793337532519",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.js?p=1793422873858",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.css?query=query%27%3BIF%282584%3D2684%29+SELECT+2584+ELSE+DROP+FUNCTION+ZAzC--",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.html",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/CryptographicFailures/LEVEL_1",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_8/Auth.html",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_1/CachePoisoning.html?query=query%27+AND+MAKE_SET%288525%3D3161%2C3161%29+AND+%27maRz%27+LIKE+%27maRz",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.js?p=1793338781830%22+AND+MAKE_SET%285668%3D9301%2C9301%29+AND+%22xkKg%22%3D%22xkKg",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1793339017167%25%27%29+RLIKE+%28SELECT+%28CASE+WHEN+%287376%3D2833%29+THEN+0x31373933333339303137313637+ELSE+0x28+END%29%29+AND+%28%27%25%27%3D%27",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1793339017167",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/Common/CachePoisoning.css?query=query%25%27+RLIKE+%28SELECT+%28CASE+WHEN+%282747%3D3711%29+THEN+0x7175657279+ELSE+0x28+END%29%29+AND+%27%25%27%3D%27",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_4/CachePoisoning.html",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp'))/templates/AuthenticationVulnerability",
-      "cwe": "CWE-89",
-      "wascId": "19",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.html",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.js?p=1793422931695",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -771,7 +999,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php//FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php//FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793424106773",
       "cwe": "CWE-943",
       "wascId": "19",
       "method": "GET"
@@ -795,7 +1023,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php//MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793338445399",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php//MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793424223045",
       "cwe": "CWE-943",
       "wascId": "19",
       "method": "GET"
@@ -843,7 +1071,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793424106773",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -873,7 +1101,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793338445399",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793424223045",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -885,43 +1113,43 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/ClickjackingVulnerability?query=query%27+AND+%271%27%3D%271%27+--+",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_5/CachePoisoning.html'%20AND%20'1'='1'%20--%20",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1%20AND%201=1%20--%20",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.css?query=query%22+AND+%221%22%3D%221%22+--+",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.css/%20AND%201=1",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.html",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/ClickjackingVulnerability/LEVEL_1/ClickjackingVulnerability.js?p=1793423497135",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.html?query=query+ASC++--+",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CommandInjection/LEVEL_1/CI_Level1.css",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_2/CachePoisoning.js?p=1793337599895",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CommandInjection/LEVEL_1/CI_Level1.html",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3",
+      "url": "http://vulnerableapp-facade/VulnerableApp/templates/CachePoisoning/LEVEL_3/CachePoisoning.js?p=1793424368199",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -2372,61 +2600,61 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/mker319g1d",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/4qyir9tdgs",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PATCH"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/ns8nmyovf5",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/7qvima9m2p",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/nabkupir34",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/76e1jryj4r",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/96zizq26hi",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/5373xfa4pw",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/7v1bnpvo2e",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.css/nmsmb94nit",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.css/465gzdlut7",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.html/6uujmlkngy",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.html/g7m9g9pxbz",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.js?p=1793422874756/myrfvvt19v",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/LEVEL_1/FileUpload.js?p=1793336963620/ee30iz5frq",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/FileUpload/tzbxsyiv6e",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/vquv4upgg5",
+      "url": "http://vulnerableapp-facade/VulnerableApp-jsp/static/templates/nl999fblar",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/m2dhjrzg02",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/a41hzjnnt5",
       "cwe": "CWE-749",
       "wascId": "45",
       "method": "PUT"
@@ -2444,19 +2672,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793338445399",
-      "cwe": "CWE-190",
-      "wascId": "3",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1",
-      "cwe": "CWE-190",
-      "wascId": "3",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
       "cwe": "CWE-190",
       "wascId": "3",
       "method": "GET"
@@ -2468,13 +2684,25 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.css",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793424106773",
       "cwe": "CWE-190",
       "wascId": "3",
       "method": "GET"
     },
     {
       "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.css",
+      "cwe": "CWE-190",
+      "wascId": "3",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.css",
+      "cwe": "CWE-190",
+      "wascId": "3",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793424223045",
       "cwe": "CWE-190",
       "wascId": "3",
       "method": "GET"
@@ -2534,7 +2762,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.html",
       "cwe": "CWE-204",
       "wascId": "45",
       "method": "GET"
@@ -2570,7 +2798,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793424106773",
       "cwe": "CWE-541",
       "wascId": "34",
       "method": "GET"
@@ -2594,7 +2822,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793338445399",
+      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793424223045",
       "cwe": "CWE-541",
       "wascId": "34",
       "method": "GET"
@@ -2603,12 +2831,6 @@
       "url": "http://vulnerableapp-facade/VulnerableApp-php/templates",
       "cwe": "CWE-541",
       "wascId": "34",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerabilityDefinitions",
-      "cwe": "CWE-200",
-      "wascId": "-1",
       "method": "GET"
     },
     {
@@ -2672,24 +2894,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/static/js/2.84b3f739.chunk.js",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/static/js/main.f15785fd.chunk.js",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-facade/GlobalUtility.js",
       "cwe": "CWE-693",
       "wascId": "15",
@@ -2703,6 +2907,12 @@
     },
     {
       "url": "http://vulnerableapp-facade/VulnerabilityDefinitions",
+      "cwe": "CWE-497",
+      "wascId": "13",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-facade/GlobalUtility.js",
       "cwe": "CWE-497",
       "wascId": "13",
       "method": "GET"
@@ -2726,12 +2936,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/static/css/2.6d022045.chunk.css",
-      "cwe": "CWE-497",
-      "wascId": "13",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-facade/static/css/main.8f9beab2.chunk.css",
       "cwe": "CWE-497",
       "wascId": "13",
@@ -2756,535 +2960,13 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(2nd%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(2nd%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(3rd%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(3rd%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(4th%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(4th%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(another%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(another%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(fourth%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(fourth%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(second%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(second%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(third%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520(third%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520(2)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520(2)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520(3)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520(3)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520-%2520Copy/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy%2520-%2520Copy/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates%2520-%2520Copy/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1/FileUpload.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1/FileUpload.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/FileUploadVulnerability/LEVEL_1/FileUpload.js?p=1793338824738",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1/MagicHash.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1/MagicHash.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates'/MagicHashVulnerability/LEVEL_1/MagicHash.js?p=1793338445399",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(2nd%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(2nd%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(3rd%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(3rd%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(4th%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(4th%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(another%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(another%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(fourth%2520copy)/FileUploadVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates(fourth%2520copy)/MagicHashVulnerability",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/.svn/text-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/.svn/text-base/FileUploadVulnerability.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/.svn/text-base/MagicHashVulnerability.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/05550128221428968716762093122445474660201775/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/05550128221428968716762093122445474660201775/LEVEL_1/MagicHash.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/08090890849746133972188386018813984916695648/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/22310036248660224311172667409960490722110359/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/22310036248660224311172667409960490722110359/LEVEL_1/MagicHash.js?p=1793338445399",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/29656400121455670027695141372617169346448393/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/36474634093156177292499334030758961689109849/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/36474634093156177292499334030758961689109849/LEVEL_1/FileUpload.js?p=1793338824738",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/36585129209413298156712259354704627381168086/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/36585129209413298156712259354704627381168086/LEVEL_1/FileUpload.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/96304039257284439119211830622714263074660902/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/96304039257284439119211830622714263074660902/LEVEL_1/MagicHash.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/98809627144343279711919168411590483815788913/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/98809627144343279711919168411590483815788913/LEVEL_1/FileUpload.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/.svn/text-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/.svn/text-base/LEVEL_1.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/59441721007000277459925435811139447432068732/FileUpload.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/93601689448637593938021127204742134895174159/FileUpload.js?p=1793338824738",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/97182321883903540239110524540822278174970069/FileUpload.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/.svn/text-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/.svn/text-base/FileUpload.css.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/.svn/text-base/FileUpload.html.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/.svn/text-base/FileUpload.js.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.css/34252211353378554505429039612246208808229363",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.html/25208524751533026308027672720368421338443321",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/FileUploadVulnerability/LEVEL_1/FileUpload.js/73084836038652786467191556512340733516274136?p=1793338824738",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/.svn/text-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/.svn/text-base/LEVEL_1.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/05240230354394227292845317209819389750413995/MagicHash.css",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/34708425392951199211520117025088039964154986/MagicHash.js?p=1793338445399",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/46857084600931883031654650407416044753333350/MagicHash.html",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/.svn/text-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/.svn/text-base/MagicHash.css.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/.svn/text-base/MagicHash.html.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/.svn/text-base/MagicHash.js.svn-base",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.css/15464638598638691331838972789099432305692022",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.html/54048703490388274163287891441460711439674717",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-facade/VulnerableApp-php/templates/MagicHashVulnerability/LEVEL_1/MagicHash.js/98221122071057364477498260773830535442614158?p=1793338445399",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://VulnerableApp-facade/sitemap.xml",
+      "url": "http://VulnerableApp-facade/sitemap.xml?query=query%22+AND+6357%3D9477+AND+%22JxEl%22%3D%22JxEl",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://VulnerableApp-facade/sitemap.xml?query=query+AND+MAKE_SET%282490%3D8927%2C8927%29%23+KUXZ",
+      "url": "http://VulnerableApp-facade/sitemap.xml",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
