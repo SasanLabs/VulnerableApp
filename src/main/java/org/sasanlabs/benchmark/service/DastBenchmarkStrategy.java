@@ -180,6 +180,12 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
                 continue;
             }
+            // An HTTP-only scanner has no way to speak WebSocket, so a WS row would always
+            // show up as missed and drag down coverage for something it was never able to
+            // attempt. Full protocol-aware matching is tracked separately in #882.
+            if (entry.getProtocol() == Protocol.WS) {
+                continue;
+            }
             String url = normalizeUrl(entry.getUrl(), contextPath);
             String method =
                     Protocol.orDefault(entry.getProtocol())
