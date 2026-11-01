@@ -125,6 +125,27 @@ class DastBenchmarkStrategyTest {
     }
 
     @Test
+    void webSocketGroundTruth_isExcludedFromTheHttpExpectedSet() throws Exception {
+        stubGroundTruth(
+                unsecure(
+                        "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+                        VulnerabilityType.BLIND_SQL_INJECTION),
+                unsecureWebSocket(
+                        "http://localhost:9090/VulnerableApp/ws/WebSocketVulnerability/LEVEL_1",
+                        VulnerabilityType.MISSING_AUTHENTICATION));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input("ZAP", new Finding("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION")));
+
+        // Only the HTTP row counts: a WS row would never be found by an HTTP-only scanner, so
+        // it must not drag coverage down as a "missed" row it could never have detected.
+        assertThat(result.getTotalExpected()).isEqualTo(1);
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getMissed()).isZero();
+    }
+
+    @Test
     void findingAgainstSecureUrl_isCountedAsUnmatched() throws Exception {
         stubGroundTruth(
                 unsecure(
@@ -437,6 +458,11 @@ class DastBenchmarkStrategyTest {
     private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
         return new ScannerResponseBean(
                 url, "SECURE", RequestMethod.GET, Protocol.HTTP, Arrays.asList(types));
+    }
+
+    private static ScannerResponseBean unsecureWebSocket(String url, VulnerabilityType... types) {
+        return new ScannerResponseBean(
+                url, "UNSECURE", RequestMethod.GET, Protocol.WS, Arrays.asList(types));
     }
 
     private static ScannerFindings input(String tool, Finding... findings) {
