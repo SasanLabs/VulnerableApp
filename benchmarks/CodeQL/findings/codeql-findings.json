@@ -3,201 +3,6 @@
   "scanType": "SAST",
   "findings": [
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
-      "line": 67,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
-      "line": 94,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 54,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 86,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 120,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 378,
-      "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 378,
-      "cwe": "CWE-730"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 378,
-      "cwe": "CWE-400"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 379,
-      "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 379,
-      "cwe": "CWE-730"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 379,
-      "cwe": "CWE-400"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 81,
-      "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 81,
-      "cwe": "CWE-730"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 81,
-      "cwe": "CWE-400"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 113,
-      "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 113,
-      "cwe": "CWE-730"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 113,
-      "cwe": "CWE-400"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 113,
-      "cwe": "CWE-611"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 113,
-      "cwe": "CWE-776"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 113,
-      "cwe": "CWE-827"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 45,
-      "cwe": "CWE-918"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 65,
-      "cwe": "CWE-918"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
-      "line": 91,
-      "cwe": "CWE-918"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 57,
-      "cwe": "CWE-22"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 57,
-      "cwe": "CWE-23"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 57,
-      "cwe": "CWE-36"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 57,
-      "cwe": "CWE-73"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 61,
-      "cwe": "CWE-22"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 61,
-      "cwe": "CWE-23"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 61,
-      "cwe": "CWE-36"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
-      "line": 61,
-      "cwe": "CWE-73"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
-      "line": 130,
-      "cwe": "CWE-22"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
-      "line": 130,
-      "cwe": "CWE-23"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
-      "line": 130,
-      "cwe": "CWE-36"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
-      "line": 130,
-      "cwe": "CWE-73"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
-      "line": 66,
-      "cwe": "CWE-22"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
-      "line": 66,
-      "cwe": "CWE-23"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
-      "line": 66,
-      "cwe": "CWE-36"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
-      "line": 66,
-      "cwe": "CWE-73"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.java",
       "line": 43,
       "cwe": "CWE-90"
@@ -318,6 +123,236 @@
       "cwe": "CWE-564"
     },
     {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 378,
+      "cwe": "CWE-1333"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 378,
+      "cwe": "CWE-730"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 378,
+      "cwe": "CWE-400"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 379,
+      "cwe": "CWE-1333"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 379,
+      "cwe": "CWE-730"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
+      "line": 379,
+      "cwe": "CWE-400"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 81,
+      "cwe": "CWE-1333"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 81,
+      "cwe": "CWE-730"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 81,
+      "cwe": "CWE-400"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 113,
+      "cwe": "CWE-1333"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 113,
+      "cwe": "CWE-730"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 113,
+      "cwe": "CWE-400"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 67,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 94,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 54,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 86,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
+      "line": 120,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
+      "line": 88,
+      "cwe": "CWE-327"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
+      "line": 88,
+      "cwe": "CWE-328"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 150,
+      "cwe": "CWE-327"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 150,
+      "cwe": "CWE-328"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 151,
+      "cwe": "CWE-327"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
+      "line": 151,
+      "cwe": "CWE-328"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 48,
+      "cwe": "CWE-78"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 48,
+      "cwe": "CWE-88"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 53,
+      "cwe": "CWE-78"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 53,
+      "cwe": "CWE-88"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+      "line": 45,
+      "cwe": "CWE-918"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
+      "line": 65,
+      "cwe": "CWE-918"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+      "line": 91,
+      "cwe": "CWE-918"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 57,
+      "cwe": "CWE-22"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 57,
+      "cwe": "CWE-23"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 57,
+      "cwe": "CWE-36"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 57,
+      "cwe": "CWE-73"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 61,
+      "cwe": "CWE-22"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 61,
+      "cwe": "CWE-23"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 61,
+      "cwe": "CWE-36"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/benchmark/service/BenchmarkResultWriter.java",
+      "line": 61,
+      "cwe": "CWE-73"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+      "line": 130,
+      "cwe": "CWE-22"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+      "line": 130,
+      "cwe": "CWE-23"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+      "line": 130,
+      "cwe": "CWE-36"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
+      "line": 130,
+      "cwe": "CWE-73"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+      "line": 66,
+      "cwe": "CWE-22"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+      "line": 66,
+      "cwe": "CWE-23"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+      "line": 66,
+      "cwe": "CWE-36"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.java",
+      "line": 66,
+      "cwe": "CWE-73"
+    },
+    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
       "line": 109,
       "cwe": "CWE-209"
@@ -338,54 +373,19 @@
       "cwe": "CWE-209"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 48,
-      "cwe": "CWE-78"
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 113,
+      "cwe": "CWE-611"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 48,
-      "cwe": "CWE-88"
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 113,
+      "cwe": "CWE-776"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 53,
-      "cwe": "CWE-78"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 53,
-      "cwe": "CWE-88"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
-      "line": 88,
-      "cwe": "CWE-327"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/EncryptionUtils.java",
-      "line": 88,
-      "cwe": "CWE-328"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
-      "cwe": "CWE-327"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
-      "cwe": "CWE-328"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 151,
-      "cwe": "CWE-327"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 151,
-      "cwe": "CWE-328"
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 113,
+      "cwe": "CWE-827"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java",
