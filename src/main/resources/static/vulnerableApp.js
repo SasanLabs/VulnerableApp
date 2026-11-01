@@ -307,7 +307,14 @@ function getUrlForVulnerabilityLevel() {
 
 function getWebSocketUrlForVulnerabilityLevel() {
   const scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
-  return scheme + window.location.host + getUrlForVulnerabilityLevel();
+  return (
+    scheme +
+    window.location.host +
+    "/VulnerableApp/ws/" +
+    vulnerabilitySelected +
+    "/" +
+    vulnerabilityLevelSelected
+  );
 }
 
 // Only the WebSocket of the level being shown stays open, so it is closed when
@@ -320,6 +327,7 @@ function closeActiveWebSocket() {
     activeWebSocket.onopen = null;
     activeWebSocket.onmessage = null;
     activeWebSocket.onclose = null;
+    activeWebSocket.onerror = null;
     activeWebSocket.close();
     activeWebSocket = null;
   }

@@ -194,14 +194,17 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                     allEndPointsResponseBean.getLevelDescriptionSet()) {
                 for (AttackVectorResponseBean attackVectorResponseBean :
                         levelResponseBean.getAttackVectorResponseBeans()) {
+                    StringBuilder url = new StringBuilder().append(appUrl);
+                    if (levelResponseBean.getProtocol() == Protocol.WS) {
+                        url.append(FrameworkConstants.WEBSOCKET_PATH_PREFIX)
+                                .append(FrameworkConstants.SLASH);
+                    }
+                    url.append(allEndPointsResponseBean.getName())
+                            .append(FrameworkConstants.SLASH)
+                            .append(levelResponseBean.getLevel());
                     scannerResponseBeans.add(
                             new ScannerResponseBean(
-                                    new StringBuilder()
-                                            .append(appUrl)
-                                            .append(allEndPointsResponseBean.getName())
-                                            .append(FrameworkConstants.SLASH)
-                                            .append(levelResponseBean.getLevel())
-                                            .toString(),
+                                    url.toString(),
                                     levelResponseBean.getVariant().toString(),
                                     levelResponseBean.getRequestMethod(),
                                     levelResponseBean.getProtocol(),

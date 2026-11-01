@@ -9,7 +9,8 @@ import org.sasanlabs.internal.utility.Variant;
 /**
  * Registers a method of a {@link VulnerableAppWebSocketController} as the WebSocket endpoint of one
  * level, the WebSocket counterpart of {@link VulnerableAppRequestMapping}. The path is derived as
- * {@code /{controller name}/{level}}.
+ * {@code /ws/{controller name}/{level}}, under its own prefix so it never shares a path with a REST
+ * mapping on the same controller.
  *
  * <p>The annotated method has to be {@code public}, take a {@link
  * org.springframework.web.socket.WebSocketSession} and the received text message as {@link String},
@@ -17,10 +18,6 @@ import org.sasanlabs.internal.utility.Variant;
  *
  * <p>The cookies of the handshake request can be read with {@link
  * org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandshakeInterceptor#getCookie}.
- *
- * <p>A REST mapping on the exact same path answers the handshake of the WebSocket with a 405, so
- * any REST endpoint a level needs has to use a sub path such as {@code /{controller
- * name}/{level}/session}.
  *
  * @author KSASAN preetkaran20@gmail.com
  */

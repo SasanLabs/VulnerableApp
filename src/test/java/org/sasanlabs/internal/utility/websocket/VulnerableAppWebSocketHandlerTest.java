@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -81,22 +80,25 @@ class VulnerableAppWebSocketHandlerTest {
     }
 
     @Test
-    void handleTextMessage_rethrowsTheExceptionOfTheMethodItself() {
+    void handleTextMessage_wrapsTheExceptionOfTheMethodInsteadOfLeakingIt() {
         assertThatThrownBy(
                         () ->
                                 handlerFor("failing")
                                         .handleTextMessage(openSession(), new TextMessage("hi")))
-                .isInstanceOf(IOException.class)
+                .isInstanceOf(WebSocketHandlingException.class)
+                .hasMessageNotContaining("boom")
+                .hasCauseInstanceOf(IOException.class)
+                .getCause()
                 .hasMessage("boom");
     }
 
     @Test
-    void handleTextMessage_doesNotUnwrapAnErrorThrownByTheMethod() {
+    void handleTextMessage_wrapsAnErrorThrownByTheMethodTheSameWay() {
         assertThatThrownBy(
                         () ->
                                 handlerFor("crashing")
                                         .handleTextMessage(openSession(), new TextMessage("hi")))
-                .isInstanceOf(InvocationTargetException.class)
+                .isInstanceOf(WebSocketHandlingException.class)
                 .hasCauseInstanceOf(AssertionError.class);
     }
 }

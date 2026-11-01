@@ -248,7 +248,7 @@ class EndPointsInformationProviderTest {
                 .anySatisfy(
                         scanner -> {
                             assertThat(scanner.getUrl())
-                                    .isEqualTo("http://localhost:9090/FixtureWebSocket/LEVEL_1");
+                                    .isEqualTo("http://localhost:9090/ws/FixtureWebSocket/LEVEL_1");
                             assertThat(scanner.getProtocol()).isEqualTo(Protocol.WS);
                         });
         assertThat(scannerResponseBeans)

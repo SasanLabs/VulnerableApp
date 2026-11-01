@@ -47,6 +47,8 @@ public class VulnerableAppWebSocketConfiguration implements WebSocketConfigurer 
                 registry.addHandler(
                                 new VulnerableAppWebSocketHandler(controller, method),
                                 FrameworkConstants.SLASH
+                                        + FrameworkConstants.WEBSOCKET_PATH_PREFIX
+                                        + FrameworkConstants.SLASH
                                         + entry.getKey()
                                         + FrameworkConstants.SLASH
                                         + mapping.value())

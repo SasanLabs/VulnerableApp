@@ -104,7 +104,7 @@ class VulnerableAppWebSocketConfigurationTest {
             verify(registry)
                     .addHandler(
                             any(VulnerableAppWebSocketHandler.class),
-                            eq("/ValidController/" + level));
+                            eq("/ws/ValidController/" + level));
         }
     }
 
