@@ -44,6 +44,12 @@ public class VulnerableAppWebSocketConfiguration implements WebSocketConfigurer 
                     continue;
                 }
                 validateSignature(method);
+                // The method itself is required to be public, but Method.invoke still honors
+                // the accessibility of its declaring class: a public method on a package-private
+                // controller class throws IllegalAccessException when VulnerableAppWebSocketHandler
+                // invokes it from a different package. setAccessible once here, at registration,
+                // covers every later invocation of this same Method instance.
+                method.setAccessible(true);
                 registry.addHandler(
                                 new VulnerableAppWebSocketHandler(controller, method),
                                 FrameworkConstants.SLASH

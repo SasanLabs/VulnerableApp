@@ -3,6 +3,7 @@ package org.sasanlabs.configuration;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.RETURNS_SELF;
 import static org.mockito.Mockito.mock;
@@ -14,10 +15,12 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandler;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandshakeInterceptor;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -40,6 +43,17 @@ class VulnerableAppWebSocketConfigurationTest {
         @VulnerableAppWebSocketMapping(value = "LEVEL_3", allowedOrigins = "*")
         public String level3(WebSocketSession session, String message) {
             return null;
+        }
+    }
+
+    // Deliberately package-private: the mapped method below is public, but Method.invoke still
+    // honors the accessibility of its declaring class, so a naive registration would throw
+    // IllegalAccessException the moment VulnerableAppWebSocketHandler (a different package)
+    // invokes it.
+    static class PackagePrivateController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String level1(WebSocketSession session, String message) {
+            return "handled:" + message;
         }
     }
 
@@ -160,6 +174,23 @@ class VulnerableAppWebSocketConfigurationTest {
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("wrongSignature");
         }
+    }
+
+    @Test
+    void registerWebSocketHandlers_invokesAMethodOnAPackagePrivateControllerClass()
+            throws Exception {
+        controllers(new PackagePrivateController());
+        ArgumentCaptor<VulnerableAppWebSocketHandler> handlerCaptor =
+                ArgumentCaptor.forClass(VulnerableAppWebSocketHandler.class);
+        when(registry.addHandler(handlerCaptor.capture(), anyString())).thenReturn(registration);
+
+        new VulnerableAppWebSocketConfiguration(envUtils).registerWebSocketHandlers(registry);
+
+        WebSocketSession session = mock(WebSocketSession.class);
+        when(session.isOpen()).thenReturn(true);
+        handlerCaptor.getValue().handleMessage(session, new TextMessage("hi"));
+
+        verify(session).sendMessage(argThat(message -> message.getPayload().equals("handled:hi")));
     }
 
     @Test
