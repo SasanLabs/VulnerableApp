@@ -23,9 +23,11 @@ import org.springframework.stereotype.Service;
  * produces coverage / missed / unmatched metrics.
  *
  * <p>Each ground-truth row contributes up to two match keys: one keyed on CWE and one keyed on the
- * vulnerability-type label. A scanner finding matches if it shares the {@code (filePath, line)}
- * pair AND either the CWE or the type label (case-insensitive). Scanner findings are expected to
- * emit project-relative paths; backslashes and leading {@code ./} are normalised.
+ * vulnerability-type label, for each line the row covers: {@code line} and the {@code lineCount
+ * minus 1} lines after it. A scanner finding matches if its {@code filePath} is the row's and its
+ * {@code line} is one of those lines, AND it shares either the CWE or the type label
+ * (case-insensitive). A finding inside the ranges of two rows detects both. Scanner findings are
+ * expected to emit project-relative paths; backslashes and leading {@code ./} are normalised.
  */
 @Service
 public class SastBenchmarkStrategy implements BenchmarkStrategy {
@@ -138,8 +140,18 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems);
     }
 
+    /** The row's CWE and type keys, repeated for each line the row covers. */
     private static List<String> keysFor(ExpectedIssue ei) {
-        return buildKeys(ei.getFilePath(), ei.getLine(), ei.getCwe(), ei.getVulnerabilityType());
+        List<String> keys = new ArrayList<>();
+        for (int offset = 0; offset < ei.getLineCount(); offset++) {
+            keys.addAll(
+                    buildKeys(
+                            ei.getFilePath(),
+                            ei.getLine() + offset,
+                            ei.getCwe(),
+                            ei.getVulnerabilityType()));
+        }
+        return keys;
     }
 
     private static List<String> keysFor(Finding f) {

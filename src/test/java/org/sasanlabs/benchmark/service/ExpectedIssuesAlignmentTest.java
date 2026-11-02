@@ -15,7 +15,8 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
  * Guards the checked-in SAST ground truth against line drift. Every row of {@code
  * expectedIssues.csv} has to point at a line of code in an existing source file. Editing a
  * vulnerable class usually moves its rows, and a row that ends up on a blank line, a comment, an
- * annotation or a closing brace can never be matched by a scanner.
+ * annotation or a closing brace can never be matched by a scanner. A row whose {@code LineCount} is
+ * above 1 also has to end on a line of code inside the file.
  */
 class ExpectedIssuesAlignmentTest {
 
@@ -42,6 +43,23 @@ class ExpectedIssuesAlignmentTest {
             String code = lines.get(issue.getLine() - 1).trim();
             if (!isCode(code)) {
                 misaligned.add(row + " -> \"" + code + "\"");
+                continue;
+            }
+            int lastLine = issue.getLine() + issue.getLineCount() - 1;
+            if (lastLine > lines.size()) {
+                misaligned.add(
+                        row
+                                + " (LineCount "
+                                + issue.getLineCount()
+                                + " runs past the file's "
+                                + lines.size()
+                                + " lines)");
+                continue;
+            }
+            String lastCode = lines.get(lastLine - 1).trim();
+            if (!isCode(lastCode)) {
+                misaligned.add(
+                        row + " (LineCount ends on line " + lastLine + ": \"" + lastCode + "\")");
             }
         }
 

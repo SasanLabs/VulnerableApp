@@ -219,6 +219,136 @@ class SastBenchmarkStrategyTest {
     }
 
     @Test
+    void lineCountOfOne_keepsTheExactLineMatch() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 56, 1)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs",
+                                sastFinding(SQLI_FILE, 55, "CWE-89", "SQL Injection"),
+                                sastFinding(SQLI_FILE, 57, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(2);
+    }
+
+    @Test
+    void findingOnAnyLineOfTheRange_matches() throws Exception {
+        for (int line = 84; line <= 86; line++) {
+            when(provider.getExpectedIssues())
+                    .thenReturn(
+                            Collections.singletonList(
+                                    expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+
+            BenchmarkResult result =
+                    strategy.compare(
+                            sastInput(
+                                    "SpotBugs",
+                                    sastFinding(SQLI_FILE, line, "CWE-89", "SQL Injection")));
+
+            assertThat(result.getDetected()).as("finding on line %d", line).isEqualTo(1);
+            assertThat(result.getUnmatched()).as("finding on line %d", line).isZero();
+        }
+    }
+
+    @Test
+    void findingsJustOutsideTheRange_stayUnmatched() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs",
+                                sastFinding(SQLI_FILE, 83, "CWE-89", "SQL Injection"),
+                                sastFinding(SQLI_FILE, 87, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems()).extracting(Finding::getLine).containsExactly(83, 87);
+    }
+
+    @Test
+    void findingInsideTheRange_stillNeedsTheCweOrTypeAndTheFile() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs",
+                                sastFinding(SQLI_FILE, 85, "CWE-79", "Reflected XSS"),
+                                sastFinding(XSS_FILE, 85, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(2);
+    }
+
+    @Test
+    void severalFindingsInOneRange_detectTheRowOnceAndNoneIsUnmatched() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs",
+                                sastFinding(SQLI_FILE, 84, "CWE-89", "SQL Injection"),
+                                sastFinding(SQLI_FILE, 86, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getTotalExpected()).isEqualTo(1);
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getCoverage()).isEqualTo(100.0);
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
+    void findingCoveredByTwoRows_detectsBoth() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Arrays.asList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3),
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 86, 2)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs", sastFinding(SQLI_FILE, 86, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isEqualTo(2);
+        assertThat(result.getMissed()).isZero();
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
+    void missedRowWithARange_isReportedAtItsFirstLine() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        new ScannerFindings("SpotBugs", ScanType.SAST, Collections.emptyList()));
+
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getFilePath, Finding::getLine, Finding::getCwe)
+                .containsExactly(tuple(SQLI_FILE, 84, "CWE-89"));
+    }
+
+    @Test
     void filePathNormalization_unitCases() {
         assertThat(SastBenchmarkStrategy.normalizeFilePath("./src/main/java/Foo.java"))
                 .isEqualTo("src/main/java/Foo.java");
@@ -231,6 +361,11 @@ class SastBenchmarkStrategyTest {
 
     private static ExpectedIssue expected(String cwe, String type, String file, int line) {
         return new ExpectedIssue(cwe, type, file, line, 1);
+    }
+
+    private static ExpectedIssue expected(
+            String cwe, String type, String file, int line, int lineCount) {
+        return new ExpectedIssue(cwe, type, file, line, 1, lineCount);
     }
 
     private static Finding sastFinding(String file, int line, String cwe, String type) {

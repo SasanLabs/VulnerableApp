@@ -24,13 +24,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * Loads SAST ground truth from a CSV file with header columns {@code CWE}, {@code Vulnerability
- * Type}, {@code File}, {@code Line}, {@code Number of Sources}. The default path points at {@code
+ * Type}, {@code File}, {@code Line}, {@code Number of Sources} and an optional {@code LineCount}
+ * that defaults to 1 when the column or the cell is missing. The default path points at {@code
  * scanner/sast/expectedIssues.csv} on the classpath; a filesystem path (relative to the working
  * directory, or absolute) is still accepted, and any path may be overridden via the {@code
  * benchmark.sast.ground-truth.path} property.
  *
- * <p>Rows that fail to parse (missing columns, non-integer line / sources) are logged and skipped —
- * one bad row should not abort an entire benchmark run.
+ * <p>Rows that fail to parse (missing columns, non-integer line / sources, a line count below 1)
+ * are logged and skipped — one bad row should not abort an entire benchmark run.
  *
  * <p>The CSV is parsed once and cached, so repeated reads (the benchmark flow, and the {@code
  * /scanner/sast} endpoint) do not hit disk or re-parse on every call. The cache is warmed at
@@ -49,6 +50,7 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
     private static final String COL_FILE = "File";
     private static final String COL_LINE = "Line";
     private static final String COL_SOURCES = "Number of Sources";
+    private static final String COL_LINE_COUNT = "LineCount";
 
     private static final CSVFormat FORMAT =
             CSVFormat.DEFAULT
@@ -146,20 +148,39 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
             return null;
         }
         try {
+            int lineCount = parseLineCount(row);
+            if (lineCount < 1) {
+                LOGGER.warn(
+                        "Skipping SAST CSV row at line {} of {}: LineCount must be at least 1, was"
+                                + " {}",
+                        row.getRecordNumber(),
+                        csvPath,
+                        lineCount);
+                return null;
+            }
             return new ExpectedIssue(
                     row.get(COL_CWE),
                     row.get(COL_TYPE),
                     row.get(COL_FILE),
                     Integer.parseInt(row.get(COL_LINE)),
-                    Integer.parseInt(row.get(COL_SOURCES)));
+                    Integer.parseInt(row.get(COL_SOURCES)),
+                    lineCount);
         } catch (NumberFormatException nfe) {
             LOGGER.warn(
-                    "Skipping SAST CSV row at line {} of {}: non-integer line or sources column"
-                            + " ({})",
+                    "Skipping SAST CSV row at line {} of {}: non-integer line, sources or"
+                            + " LineCount column ({})",
                     row.getRecordNumber(),
                     csvPath,
                     nfe.getMessage());
             return null;
         }
+    }
+
+    /** A CSV without the column, or a row that leaves it empty, keeps the exact-line match. */
+    private static int parseLineCount(CSVRecord row) {
+        if (!row.isSet(COL_LINE_COUNT) || row.get(COL_LINE_COUNT).isEmpty()) {
+            return 1;
+        }
+        return Integer.parseInt(row.get(COL_LINE_COUNT));
     }
 }
