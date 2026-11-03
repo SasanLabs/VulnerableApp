@@ -23,6 +23,46 @@
       "cwe": "CWE-564"
     },
     {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 83,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 83,
+      "cwe": "CWE-564"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 143,
+      "cwe": "CWE-564"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 206,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 206,
+      "cwe": "CWE-564"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 272,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 272,
+      "cwe": "CWE-564"
+    },
+    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 93,
       "cwe": "CWE-89"
@@ -53,26 +93,6 @@
       "cwe": "CWE-564"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 83,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 83,
-      "cwe": "CWE-564"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 143,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 143,
-      "cwe": "CWE-564"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 85,
       "cwe": "CWE-89"
@@ -93,16 +113,6 @@
       "cwe": "CWE-564"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 206,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 206,
-      "cwe": "CWE-564"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 130,
       "cwe": "CWE-89"
@@ -113,24 +123,9 @@
       "cwe": "CWE-564"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 272,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 272,
-      "cwe": "CWE-564"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 378,
       "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 378,
-      "cwe": "CWE-730"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
@@ -145,22 +140,12 @@
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 379,
-      "cwe": "CWE-730"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
-      "line": 379,
       "cwe": "CWE-400"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
       "line": 81,
       "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 81,
-      "cwe": "CWE-730"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
@@ -171,11 +156,6 @@
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
       "line": 113,
       "cwe": "CWE-1333"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
-      "line": 113,
-      "cwe": "CWE-730"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
@@ -256,16 +236,6 @@
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
       "line": 53,
       "cwe": "CWE-88"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 45,
-      "cwe": "CWE-918"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 65,
-      "cwe": "CWE-918"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
