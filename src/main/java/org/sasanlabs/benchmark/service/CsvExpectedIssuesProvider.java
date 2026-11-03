@@ -148,6 +148,15 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
             return null;
         }
         try {
+            int line = Integer.parseInt(row.get(COL_LINE));
+            if (line < 1) {
+                LOGGER.warn(
+                        "Skipping SAST CSV row at line {} of {}: Line must be at least 1, was {}",
+                        row.getRecordNumber(),
+                        csvPath,
+                        line);
+                return null;
+            }
             int lineCount = parseLineCount(row);
             if (lineCount < 1) {
                 LOGGER.warn(
@@ -162,7 +171,7 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
                     row.get(COL_CWE),
                     row.get(COL_TYPE),
                     row.get(COL_FILE),
-                    Integer.parseInt(row.get(COL_LINE)),
+                    line,
                     Integer.parseInt(row.get(COL_SOURCES)),
                     lineCount);
         } catch (NumberFormatException nfe) {

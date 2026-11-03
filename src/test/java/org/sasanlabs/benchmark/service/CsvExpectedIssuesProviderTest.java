@@ -112,6 +112,24 @@ class CsvExpectedIssuesProviderTest {
     }
 
     @Test
+    void skipsRowsWithALineBelowOne(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER_WITH_LINE_COUNT
+                        + "CWE-89,SQL Injection,src/main/java/Foo.java,0,1,3\n"
+                        + "CWE-79,Reflected XSS,src/main/java/Bar.java,-1,1,1\n"
+                        + "CWE-77,Command Injection,src/main/java/Cmd.java,1,5,2\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues)
+                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLine)
+                .containsExactly(org.assertj.core.groups.Tuple.tuple("CWE-77", 1));
+    }
+
+    @Test
     void trimsWhitespaceInsideCells(@TempDir Path tempDir) throws Exception {
         Path csv = tempDir.resolve("expected.csv");
         write(csv, HEADER + "CWE-22,Path Traversal,src/main/java/Baz.java,65,12 \n");
