@@ -117,18 +117,6 @@
       "type": "Path Traversal"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 43,
-      "cwe": "CWE-918",
-      "type": "Server-Side Request Forgery (SSRF)"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 63,
-      "cwe": "CWE-918",
-      "type": "Server-Side Request Forgery (SSRF)"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 93,
       "cwe": "CWE-89",
