@@ -349,6 +349,30 @@ class SastBenchmarkStrategyTest {
     }
 
     @Test
+    void largeLineCount_isMatchedAsARangeWithoutOverflow() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected(
+                                        "CWE-89",
+                                        "SQL Injection",
+                                        SQLI_FILE,
+                                        84,
+                                        Integer.MAX_VALUE)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "SpotBugs",
+                                sastFinding(SQLI_FILE, 83, "CWE-89", "SQL Injection"),
+                                sastFinding(
+                                        SQLI_FILE, Integer.MAX_VALUE, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems()).extracting(Finding::getLine).containsExactly(83);
+    }
+
+    @Test
     void filePathNormalization_unitCases() {
         assertThat(SastBenchmarkStrategy.normalizeFilePath("./src/main/java/Foo.java"))
                 .isEqualTo("src/main/java/Foo.java");
