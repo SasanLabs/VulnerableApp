@@ -8,7 +8,7 @@ nav_order: 4
 While designing VulnerableApp, major emphasis was given on **Ease of adding Vulnerabilities** such that developers of Vulnerability Scanners need to put minimal effort for adding new Vulnerabilities for testing their payload/attack vectors.
 
 ## Technologies used
-- Java 8
+- Java 17
 - Spring Boot
 - ReactJS
 - Vanilla JavaScript
