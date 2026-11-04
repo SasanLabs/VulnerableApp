@@ -24,10 +24,11 @@ import org.springframework.stereotype.Service;
  *
  * <p>Each ground-truth row is indexed under up to two keys: its file with its CWE, and its file
  * with its vulnerability-type label. A scanner finding matches a row if it shares the {@code
- * filePath} and either the CWE or the type label (case-insensitive), AND its {@code line} is
- * between the row's {@code line} and {@code line + lineCount - 1}. A finding inside the ranges of
- * two rows detects both. Scanner findings are expected to emit project-relative paths; backslashes
- * and leading {@code ./} are normalised.
+ * filePath} and the CWE, or the type label (case-insensitive) when the finding or the row has no
+ * CWE, AND its {@code line} is between the row's {@code line} and {@code line + lineCount - 1}. A
+ * finding whose CWE differs from the row's does not match on its type. A finding inside the ranges
+ * of two rows detects both. Scanner findings are expected to emit project-relative paths;
+ * backslashes and leading {@code ./} are normalised.
  */
 @Service
 public class SastBenchmarkStrategy implements BenchmarkStrategy {
@@ -58,40 +59,43 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         List<Finding> rawFindings =
                 (input.getFindings() != null) ? input.getFindings() : new ArrayList<>();
 
-        List<Finding> uniqueFindings = new ArrayList<>();
-        Set<String> primaryKeysSeen = new HashSet<>();
+        // A finding without a CWE repeats a finding with one that has the same file, line and type,
+        // whichever of the two comes first.
+        Set<String> typesOfFindingsWithACwe = new HashSet<>();
         for (Finding f : rawFindings) {
-            if (f == null || f.getFilePath() == null || f.getLine() == null) {
+            if (isLocated(f) && hasText(f.getCwe()) && hasText(f.getType())) {
+                typesOfFindingsWithACwe.add(
+                        f.getLine() + KEY_SEPARATOR + typeKey(f.getFilePath(), f.getType()));
+            }
+        }
+
+        List<Finding> uniqueFindings = new ArrayList<>();
+        Set<String> keysSeen = new HashSet<>();
+        for (Finding f : rawFindings) {
+            if (!isLocated(f)) {
                 continue;
             }
-            List<String> keys = keysFor(f);
-            if (keys.isEmpty()) {
+            String key = identityKey(f);
+            if (key == null) {
                 continue;
             }
-            boolean alreadySeen = false;
-            for (String key : keys) {
-                if (primaryKeysSeen.contains(key)) {
-                    alreadySeen = true;
-                    break;
-                }
-            }
-            if (alreadySeen) {
+            String lineKey = f.getLine() + KEY_SEPARATOR + key;
+            if (!hasText(f.getCwe()) && typesOfFindingsWithACwe.contains(lineKey)) {
                 continue;
             }
-            primaryKeysSeen.addAll(keys);
-            uniqueFindings.add(f);
+            if (keysSeen.add(lineKey)) {
+                uniqueFindings.add(f);
+            }
         }
 
         Set<ExpectedIssue> detectedSet = new HashSet<>();
         List<Finding> unmatchedItems = new ArrayList<>();
         for (Finding f : uniqueFindings) {
             boolean hit = false;
-            for (String key : buildKeys(f.getFilePath(), f.getCwe(), f.getType())) {
-                for (ExpectedIssue ei : expectedByKey.getOrDefault(key, Collections.emptyList())) {
-                    if (covers(ei, f.getLine())) {
-                        detectedSet.add(ei);
-                        hit = true;
-                    }
+            for (ExpectedIssue ei : candidateRows(f, expectedByKey)) {
+                if (covers(ei, f.getLine())) {
+                    detectedSet.add(ei);
+                    hit = true;
                 }
             }
             if (!hit) {
@@ -138,13 +142,51 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         return line >= ei.getLine() && (long) line - ei.getLine() < ei.getLineCount();
     }
 
-    /** The finding's CWE and type keys on its own line, used to drop duplicate findings. */
-    private static List<String> keysFor(Finding f) {
-        List<String> keys = new ArrayList<>(2);
-        for (String key : buildKeys(f.getFilePath(), f.getCwe(), f.getType())) {
-            keys.add(f.getLine() + KEY_SEPARATOR + key);
+    private static boolean isLocated(Finding f) {
+        return f != null && f.getFilePath() != null && f.getLine() != null;
+    }
+
+    private static boolean hasText(String s) {
+        return s != null && !s.trim().isEmpty();
+    }
+
+    /**
+     * The key a finding is matched and de-duplicated by: its file with its CWE, or with its type
+     * when it has no CWE. {@code null} when it has neither.
+     */
+    private static String identityKey(Finding f) {
+        if (hasText(f.getCwe())) {
+            return buildKeys(f.getFilePath(), f.getCwe(), null).get(0);
         }
-        return keys;
+        if (hasText(f.getType())) {
+            return typeKey(f.getFilePath(), f.getType());
+        }
+        return null;
+    }
+
+    /**
+     * The rows a finding can match: the rows under its identity key and, for a finding with a CWE,
+     * the rows with its type that have no CWE to compare.
+     */
+    private static List<ExpectedIssue> candidateRows(
+            Finding f, Map<String, List<ExpectedIssue>> expectedByKey) {
+        List<ExpectedIssue> rows =
+                new ArrayList<>(
+                        expectedByKey.getOrDefault(identityKey(f), Collections.emptyList()));
+        if (hasText(f.getCwe()) && hasText(f.getType())) {
+            for (ExpectedIssue ei :
+                    expectedByKey.getOrDefault(
+                            typeKey(f.getFilePath(), f.getType()), Collections.emptyList())) {
+                if (!hasText(ei.getCwe())) {
+                    rows.add(ei);
+                }
+            }
+        }
+        return rows;
+    }
+
+    private static String typeKey(String filePath, String type) {
+        return buildKeys(filePath, null, type).get(0);
     }
 
     /** The file's CWE and type keys, without a line. */

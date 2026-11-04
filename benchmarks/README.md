@@ -331,11 +331,12 @@ A finding matches an expected issue when:
 1. The normalised **`filePath`** matches, AND
 2. The **`line`** is between `Line` and `Line + LineCount - 1`, which is
    exactly `Line` when `LineCount` is `1` (the default), AND
-3. Either **`cwe`** matches the CSV's `CWE` column **or** **`type`** matches
-   the `Vulnerability Type` column (case-insensitively).
+3. The finding's **`cwe`** matches the CSV's `CWE` column. When the finding or
+   the row has no CWE, the finding's **`type`** is matched against the
+   `Vulnerability Type` column (case-insensitively) instead.
 
-A scanner can emit either CWE, type, or both — whichever pair
-(`file + line + CWE` *or* `file + line + type`) hits the ground truth wins.
+A finding whose CWE differs from the row's does not match, even when its type
+matches the row's `Vulnerability Type`.
 
 - **Path normalisation:** backslashes → forward slashes; leading `./` stripped;
   whitespace trimmed. Scanner authors should emit project-relative paths;
@@ -344,8 +345,11 @@ A scanner can emit either CWE, type, or both — whichever pair
   match).
 - **Type comparison:** lower-cased + trimmed (e.g. `"SQL Injection"` and
   `"sql injection"` both match).
-- **Duplicates:** a scanner that emits the same `(filePath, line, CWE)` twice
-  gets credit once.
+- **Duplicates:** a finding with a CWE is counted once per
+  `(filePath, line, CWE)`, so two findings on one line with different CWEs are
+  both kept. A finding without a CWE is counted once per
+  `(filePath, line, type)`, and not at all when a finding with a CWE on the same
+  file and line has the same type, whichever of the two comes first.
 - **Line ranges:** several findings inside one row's range detect that row
   once, and none of them is counted as unmatched. A finding inside the ranges
   of two rows detects both. A row that no finding matches is listed in

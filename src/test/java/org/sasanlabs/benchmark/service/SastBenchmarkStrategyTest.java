@@ -113,6 +113,36 @@ class SastBenchmarkStrategyTest {
     }
 
     @Test
+    void blankCweFinding_fallsBackToItsType() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 56)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput("Semgrep", sastFinding(SQLI_FILE, 56, "  ", "SQL Injection")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
+    void rowWithoutACwe_isMatchedByTheFindingsType() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(expected("", "SQL Injection", SQLI_FILE, 56)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep", sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
     void filePathNormalization_handlesBackslashesAndLeadingDotSlash() throws Exception {
         when(provider.getExpectedIssues())
                 .thenReturn(
@@ -178,6 +208,93 @@ class SastBenchmarkStrategyTest {
 
         assertThat(result.getUnmatched()).isEqualTo(1);
         assertThat(result.getUnmatchedItems()).hasSize(1);
+    }
+
+    @Test
+    void sameLineAndTypeWithDifferentCwes_keepsBothFindings() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-79", "Reflected XSS", XSS_FILE, 45)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep",
+                                sastFinding(XSS_FILE, 45, "CWE-89", "generic-rule"),
+                                sastFinding(XSS_FILE, 45, "CWE-79", "generic-rule")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems())
+                .extracting(Finding::getCwe)
+                .containsExactly("CWE-89");
+    }
+
+    @Test
+    void sameLineAndCweWithDifferentTypes_isCountedOnce() throws Exception {
+        when(provider.getExpectedIssues()).thenReturn(Collections.emptyList());
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep",
+                                sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection"),
+                                sastFinding(SQLI_FILE, 56, "CWE-89", "sqli-rule")));
+
+        assertThat(result.getUnmatched()).isEqualTo(1);
+    }
+
+    @Test
+    void findingWithAndWithoutCwe_isCountedOnceInEitherOrder() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-89", "SQL Injection", SQLI_FILE, 56)));
+        Finding withCwe = sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection");
+        Finding withoutCwe = sastFinding(SQLI_FILE, 56, null, "SQL Injection");
+
+        BenchmarkResult cweFirst = strategy.compare(sastInput("Semgrep", withCwe, withoutCwe));
+        BenchmarkResult cweLast = strategy.compare(sastInput("Semgrep", withoutCwe, withCwe));
+
+        for (BenchmarkResult result : Arrays.asList(cweFirst, cweLast)) {
+            assertThat(result.getDetected()).isEqualTo(1);
+            assertThat(result.getUnmatched()).isZero();
+        }
+    }
+
+    @Test
+    void findingWithADifferentCwe_getsNoCreditFromItsType() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-77", "Command Injection", SQLI_FILE, 53)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep",
+                                sastFinding(SQLI_FILE, 53, "CWE-78", "Command Injection")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+    }
+
+    @Test
+    void typeOnlyCopyOfAFindingWithADifferentCwe_getsNoCreditInEitherOrder() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(
+                                expected("CWE-77", "Command Injection", SQLI_FILE, 53)));
+        Finding withCwe = sastFinding(SQLI_FILE, 53, "CWE-78", "Command Injection");
+        Finding withoutCwe = sastFinding(SQLI_FILE, 53, null, "Command Injection");
+
+        BenchmarkResult cweFirst = strategy.compare(sastInput("Semgrep", withCwe, withoutCwe));
+        BenchmarkResult cweLast = strategy.compare(sastInput("Semgrep", withoutCwe, withCwe));
+
+        for (BenchmarkResult result : Arrays.asList(cweFirst, cweLast)) {
+            assertThat(result.getDetected()).isZero();
+            assertThat(result.getUnmatched()).isEqualTo(1);
+        }
     }
 
     @Test
