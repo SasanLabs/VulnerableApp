@@ -315,8 +315,11 @@ it. Levels marked `Variant.SECURE` have no rows.
 fits on one line, `2` if it takes two, and so on. When it is above `1`, `Line`
 is the first line of the statement rather than the argument line described
 above, and a finding on any line from `Line` to `Line + LineCount - 1` matches
-the row. The column is optional. A CSV without it, or a row that leaves it
-empty, gets `1`, which keeps the exact `Line` match.
+the row. When the statement passes a lambda with a block body, such as a row
+mapper `(rs) -> { ... }`, the range stops on the line before that lambda, so it
+covers the call and its arguments but not the lambda's body. The column is
+optional. A CSV without it, or a row that leaves it empty, gets `1`, which keeps
+the exact `Line` match.
 
 A row never points at an annotation, a comment, a blank line or a brace, and a
 row with a `LineCount` above `1` also ends on a line of code inside the file.
