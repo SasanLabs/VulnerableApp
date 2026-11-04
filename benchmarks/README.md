@@ -321,8 +321,9 @@ covers the call and its arguments but not the lambda's body. The column is
 optional. A CSV without it, or a row that leaves it empty, gets `1`, which keeps
 the exact `Line` match.
 
-A row never points at an annotation, a comment, a blank line or a brace, and a
-row with a `LineCount` above `1` also ends on a line of code inside the file.
+A row never points at an annotation, including any line a multi-line
+annotation spans, a comment, a blank line or a brace, and a row with a
+`LineCount` above `1` also ends on a line of code inside the file.
 `ExpectedIssuesAlignmentTest` fails the build when a row breaks either rule,
 which is what happens when a vulnerable class is edited and its rows are not
 moved with it.
