@@ -17,8 +17,8 @@ CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjac
 CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java,122,1
 CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java,184,1
 CWE-1021,Clickjacking,src/main/java/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java,212,1
-CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,48,5
-CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,53,5
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,58,5
+CWE-77,Command Injection,src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java,63,5
 CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,82,1
 CWE-326,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,135,1
 CWE-330,Cryptographic Failures,src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java,191,1
