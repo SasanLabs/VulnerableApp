@@ -82,6 +82,36 @@ class ExpectedIssuesAlignmentTest {
         assertThat(misalignment(row(6, 1), ANNOTATED_METHOD)).isNull();
     }
 
+    @Test
+    void parenthesisInAComment_doesNotEndTheAnnotation() {
+        List<String> lines =
+                Arrays.asList(
+                        "    @AttackVector(",
+                        "            // the payload ends with )",
+                        "            description = \"PAYLOAD\")",
+                        "    public void level1() {");
+
+        assertThat(misalignment(row(3, 1), lines)).isNotNull();
+        assertThat(misalignment(row(4, 1), lines)).isNull();
+    }
+
+    @Test
+    void doubleSlashInAString_isNotAComment() {
+        List<String> lines =
+                Arrays.asList(
+                        "    @AttackVector(",
+                        "            description = \"http://example\")",
+                        "    public void level1() {");
+
+        assertThat(misalignment(row(3, 1), lines)).isNull();
+    }
+
+    @Test
+    void lineCountTooLargeForAnInt_isReportedAsRunningPastTheFile() {
+        assertThat(misalignment(row(4, Integer.MAX_VALUE), ANNOTATED_METHOD))
+                .contains("runs past the file's");
+    }
+
     /** Why {@code issue} does not point at a line of code in {@code lines}, or null if it does. */
     private static String misalignment(ExpectedIssue issue, List<String> lines) {
         String row = issue.getFilePath() + ":" + issue.getLine();
@@ -93,7 +123,7 @@ class ExpectedIssuesAlignmentTest {
         if (!isCode(code) || annotationLines.contains(issue.getLine())) {
             return row + " -> \"" + code + "\"";
         }
-        int lastLine = issue.getLine() + issue.getLineCount() - 1;
+        long lastLine = (long) issue.getLine() + issue.getLineCount() - 1;
         if (lastLine > lines.size()) {
             return row
                     + " (LineCount "
@@ -102,8 +132,8 @@ class ExpectedIssuesAlignmentTest {
                     + lines.size()
                     + " lines)";
         }
-        String lastCode = lines.get(lastLine - 1).trim();
-        if (!isCode(lastCode) || annotationLines.contains(lastLine)) {
+        String lastCode = lines.get((int) lastLine - 1).trim();
+        if (!isCode(lastCode) || annotationLines.contains((int) lastLine)) {
             return row + " (LineCount ends on line " + lastLine + ": \"" + lastCode + "\")";
         }
         return null;
@@ -137,7 +167,10 @@ class ExpectedIssuesAlignmentTest {
         return result;
     }
 
-    /** Opening minus closing parentheses on {@code line}, outside string and char literals. */
+    /**
+     * Opening minus closing parentheses on {@code line}, outside string and char literals and
+     * before a {@code //} comment.
+     */
     private static int parenthesisBalance(String line) {
         int balance = 0;
         char quote = 0;
@@ -151,6 +184,8 @@ class ExpectedIssuesAlignmentTest {
                 }
             } else if (c == '"' || c == '\'') {
                 quote = c;
+            } else if (c == '/' && i + 1 < line.length() && line.charAt(i + 1) == '/') {
+                break;
             } else if (c == '(') {
                 balance++;
             } else if (c == ')') {
