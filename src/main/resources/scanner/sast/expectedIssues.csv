@@ -81,10 +81,10 @@ CWE-613,Missing Logout Invalidation,src/main/java/org/sasanlabs/service/vulnerab
 CWE-307,No Login Rate Limiting,src/main/java/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService.java,177,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java,93,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java,135,1
-CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,83,1
-CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,143,1
-CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,206,1
-CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,272,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,87,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,147,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,210,1
+CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java,276,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,85,1
 CWE-89,SQL Injection,src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java,115,1
 CWE-918,SSRF,src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java,91,4
