@@ -456,12 +456,13 @@ false positives. This applies to any DAST scanner benchmarked against Vulnerable
 
 ### A finding on another line of the same flow is unmatched (all SAST scanners)
 
-The SAST matcher compares exact line numbers. A scanner that reports a real
-issue on a different line of the same data flow gets no credit for it: the
-expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
-example, Semgrep reports SSRF where the `URL` object is built
-(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
-call at line 85.
+The SAST matcher only credits a finding on a line from `Line` to
+`Line + LineCount - 1`, which is just `Line` for a row whose `LineCount` is `1`.
+A scanner that reports a real issue on another line of the same data flow gets
+no credit for it: the expected row shows up in `missedItems` and the finding in
+`unmatchedItems`. For example, Semgrep reports SSRF where the `URL` object is
+built (`SSRFVulnerability.java:73`), while the expected row is the
+`openConnection()` call at line 91.
 
 `unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings
 outside the intended vulnerability set (CSRF on request mappings, cookie flags),
