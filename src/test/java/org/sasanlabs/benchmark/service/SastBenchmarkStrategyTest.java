@@ -143,6 +143,39 @@ class SastBenchmarkStrategyTest {
     }
 
     @Test
+    void sameCweFindingWhoseTypeMatchesARowWithoutACwe_matchesInEitherOrder() throws Exception {
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Collections.singletonList(expected("", "SQL Injection", SQLI_FILE, 56)));
+        Finding otherType = sastFinding(SQLI_FILE, 56, "CWE-89", "sqli-rule");
+        Finding rowType = sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection");
+
+        BenchmarkResult rowTypeLast = strategy.compare(sastInput("Semgrep", otherType, rowType));
+        BenchmarkResult rowTypeFirst = strategy.compare(sastInput("Semgrep", rowType, otherType));
+
+        for (BenchmarkResult result : Arrays.asList(rowTypeLast, rowTypeFirst)) {
+            assertThat(result.getDetected()).isEqualTo(1);
+            assertThat(result.getUnmatched()).isZero();
+        }
+    }
+
+    @Test
+    void sameCweFindingsThatMatchNothing_areReportedOnceAsUnmatched() throws Exception {
+        when(provider.getExpectedIssues()).thenReturn(Collections.emptyList());
+
+        BenchmarkResult result =
+                strategy.compare(
+                        sastInput(
+                                "Semgrep",
+                                sastFinding(SQLI_FILE, 56, "CWE-89", "sqli-rule"),
+                                sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection")));
+
+        assertThat(result.getUnmatchedItems())
+                .extracting(Finding::getType)
+                .containsExactly("sqli-rule");
+    }
+
+    @Test
     void filePathNormalization_handlesBackslashesAndLeadingDotSlash() throws Exception {
         when(provider.getExpectedIssues())
                 .thenReturn(

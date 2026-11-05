@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -69,8 +70,12 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
-        List<Finding> uniqueFindings = new ArrayList<>();
-        Set<String> keysSeen = new HashSet<>();
+        // Every finding is matched, so the result does not depend on their order. Findings with
+        // the same file, line and CWE, or the same type when they have no CWE, form one group,
+        // which is listed once as unmatched when none of its findings matches a row.
+        Map<String, Finding> firstFindingOfGroup = new LinkedHashMap<>();
+        Set<String> matchedGroups = new HashSet<>();
+        Set<ExpectedIssue> detectedSet = new HashSet<>();
         for (Finding f : rawFindings) {
             if (!isLocated(f)) {
                 continue;
@@ -83,23 +88,19 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             if (!hasText(f.getCwe()) && typesOfFindingsWithACwe.contains(lineKey)) {
                 continue;
             }
-            if (keysSeen.add(lineKey)) {
-                uniqueFindings.add(f);
-            }
-        }
-
-        Set<ExpectedIssue> detectedSet = new HashSet<>();
-        List<Finding> unmatchedItems = new ArrayList<>();
-        for (Finding f : uniqueFindings) {
-            boolean hit = false;
+            firstFindingOfGroup.putIfAbsent(lineKey, f);
             for (ExpectedIssue ei : candidateRows(f, expectedByKey)) {
                 if (covers(ei, f.getLine())) {
                     detectedSet.add(ei);
-                    hit = true;
+                    matchedGroups.add(lineKey);
                 }
             }
-            if (!hit) {
-                unmatchedItems.add(f);
+        }
+
+        List<Finding> unmatchedItems = new ArrayList<>();
+        for (Map.Entry<String, Finding> group : firstFindingOfGroup.entrySet()) {
+            if (!matchedGroups.contains(group.getKey())) {
+                unmatchedItems.add(group.getValue());
             }
         }
 
