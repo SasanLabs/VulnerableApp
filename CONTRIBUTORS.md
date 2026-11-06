@@ -63,6 +63,7 @@ Thanks to these wonderful people 🎉
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/wenwenwu999-maker"><img src="https://avatars.githubusercontent.com/u/250820543?v=4?s=100" width="100px;" alt="wenwenwu999-maker"/><br /><sub><b>wenwenwu999-maker</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=wenwenwu999-maker" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ShlokGhadekar"><img src="https://avatars.githubusercontent.com/u/145497918?v=4?s=100" width="100px;" alt="Shlok Lobhas Ghadekar"/><br /><sub><b>Shlok Lobhas Ghadekar</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=ShlokGhadekar" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
