@@ -2,44 +2,60 @@ package org.sasanlabs.benchmark.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
-@ExtendWith(MockitoExtension.class)
 class DastBenchmarkStrategyTest {
 
     private static final String CONTEXT_PATH = "/VulnerableApp";
 
     private static final String GROUND_TRUTH_URL = "http://localhost:9090/VulnerableApp/scanner";
 
-    @Mock private RestTemplate restTemplate;
+    private RestTemplate restTemplate;
+    private MockRestServiceServer server;
 
     private DastBenchmarkStrategy strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new DastBenchmarkStrategy(restTemplate, GROUND_TRUTH_URL, CONTEXT_PATH);
+        restTemplate = new RestTemplateBuilder().build();
+        server = MockRestServiceServer.bindTo(restTemplate).build();
+        strategy =
+                new DastBenchmarkStrategy(
+                        new BenchmarkGroundTruthProvider(
+                                restTemplate,
+                                () -> Collections.emptyList(),
+                                GROUND_TRUTH_URL,
+                                GROUND_TRUTH_URL,
+                                "",
+                                "VulnerableApp"),
+                        CONTEXT_PATH);
     }
 
-    private void stubGroundTruth(ScannerResponseBean... beans) {
-        when(restTemplate.getForObject(eq(GROUND_TRUTH_URL), any(Class.class))).thenReturn(beans);
+    private void stubGroundTruth(ScannerResponseBean... beans) throws Exception {
+        server.expect(requestTo(GROUND_TRUTH_URL))
+                .andRespond(
+                        withSuccess(
+                                new ObjectMapper().writeValueAsString(beans),
+                                MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -348,8 +364,7 @@ class DastBenchmarkStrategyTest {
 
     @Test
     void groundTruthFetchFailure_isWrappedInIOException() {
-        when(restTemplate.getForObject(eq(GROUND_TRUTH_URL), any(Class.class)))
-                .thenThrow(new org.springframework.web.client.ResourceAccessException("connect"));
+        server.expect(requestTo(GROUND_TRUTH_URL)).andRespond(withServerError());
 
         org.assertj.core.api.Assertions.assertThatThrownBy(
                         () ->

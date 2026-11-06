@@ -12,21 +12,12 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
+import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
 
-/**
- * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
- * IExpectedIssuesProvider}, backed by {@code scanner/sast/expectedIssues.csv} by default) and
- * produces coverage / missed / unmatched metrics.
- *
- * <p>Each ground-truth row contributes up to two match keys: one keyed on CWE and one keyed on the
- * vulnerability-type label. A scanner finding matches if it shares the {@code (filePath, line)}
- * pair AND either the CWE or the type label (case-insensitive). Scanner findings are expected to
- * emit project-relative paths; backslashes and leading {@code ./} are normalised.
- */
+/** Scores SAST findings by file path and line plus either CWE or vulnerability type. */
 @Service
 public class SastBenchmarkStrategy implements BenchmarkStrategy {
 
@@ -36,18 +27,22 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
     private static final String CWE_TAG = "CWE";
     private static final String TYPE_TAG = "TYPE";
 
-    private final IExpectedIssuesProvider expectedIssuesProvider;
+    private final BenchmarkGroundTruthProvider groundTruthProvider;
 
-    public SastBenchmarkStrategy(IExpectedIssuesProvider expectedIssuesProvider) {
-        this.expectedIssuesProvider = expectedIssuesProvider;
+    public SastBenchmarkStrategy(BenchmarkGroundTruthProvider groundTruthProvider) {
+        this.groundTruthProvider = groundTruthProvider;
     }
 
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ExpectedIssue> expected = expectedIssuesProvider.getExpectedIssues();
+        return ApplicationBenchmark.compare(
+                input, groundTruthProvider.load(ScanType.SAST), "", this::score);
+    }
 
-        Map<String, ExpectedIssue> expectedByKey = new LinkedHashMap<>();
-        for (ExpectedIssue ei : expected) {
+    private BenchmarkResult score(ScannerFindings input, List<Finding> expected) {
+
+        Map<String, Finding> expectedByKey = new LinkedHashMap<>();
+        for (Finding ei : expected) {
             for (String key : keysFor(ei)) {
                 expectedByKey.putIfAbsent(key, ei);
             }
@@ -84,9 +79,9 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
-        Set<ExpectedIssue> detectedSet = new LinkedHashSet<>();
+        Set<Finding> detectedSet = new LinkedHashSet<>();
         List<Finding> missedItems = new ArrayList<>();
-        for (ExpectedIssue ei : expected) {
+        for (Finding ei : expected) {
             boolean hit = false;
             for (String key : keysFor(ei)) {
                 if (foundByKey.containsKey(key)) {
@@ -97,7 +92,13 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             if (hit) {
                 detectedSet.add(ei);
             } else {
-                missedItems.add(toFinding(ei));
+                missedItems.add(
+                        new Finding(
+                                null,
+                                ei.getType(),
+                                normalizeFilePath(ei.getFilePath()),
+                                ei.getLine(),
+                                ei.getCwe()));
             }
         }
 
@@ -138,10 +139,6 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems);
     }
 
-    private static List<String> keysFor(ExpectedIssue ei) {
-        return buildKeys(ei.getFilePath(), ei.getLine(), ei.getCwe(), ei.getVulnerabilityType());
-    }
-
     private static List<String> keysFor(Finding f) {
         return buildKeys(f.getFilePath(), f.getLine(), f.getCwe(), f.getType());
     }
@@ -176,14 +173,5 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             s = s.substring(2);
         }
         return s;
-    }
-
-    private static Finding toFinding(ExpectedIssue ei) {
-        return new Finding(
-                null,
-                ei.getVulnerabilityType(),
-                normalizeFilePath(ei.getFilePath()),
-                ei.getLine(),
-                ei.getCwe());
     }
 }

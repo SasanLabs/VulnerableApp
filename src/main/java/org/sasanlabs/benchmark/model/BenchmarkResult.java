@@ -2,15 +2,48 @@ package org.sasanlabs.benchmark.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Result of comparing a scanner's findings against VulnerableApp's DAST ground truth.
+ * Result of comparing scanner findings against DAST or SAST ground truth.
  *
  * <p>{@code coverage} is detected / totalExpected as a percentage, or 0.0 when the ground truth is
  * empty.
  */
 public class BenchmarkResult {
+
+    @JsonProperty("schemaVersion")
+    private final int schemaVersion = 2;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonProperty("applications")
+    private Map<String, BenchmarkResult> applications = Collections.emptyMap();
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("groundTruthFallback")
+    private Boolean groundTruthFallback;
+
+    public int getSchemaVersion() {
+        return schemaVersion;
+    }
+
+    public Map<String, BenchmarkResult> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(Map<String, BenchmarkResult> applications) {
+        this.applications = applications;
+    }
+
+    public Boolean getGroundTruthFallback() {
+        return groundTruthFallback;
+    }
+
+    public void setGroundTruthFallback(Boolean fallback) {
+        this.groundTruthFallback = fallback;
+    }
 
     @JsonProperty("tool")
     private String tool;
