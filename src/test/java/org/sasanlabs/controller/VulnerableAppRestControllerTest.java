@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -77,6 +78,7 @@ class VulnerableAppRestControllerTest {
                                         "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
                                         "LEVEL_1",
                                         RequestMethod.GET,
+                                        Protocol.HTTP,
                                         Arrays.asList(
                                                 VulnerabilityType.ERROR_BASED_SQL_INJECTION))));
     }

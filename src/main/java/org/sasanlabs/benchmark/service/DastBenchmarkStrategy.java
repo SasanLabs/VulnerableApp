@@ -17,6 +17,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -169,6 +170,12 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         Set<String> seenRowSignatures = new HashSet<>();
         for (ScannerResponseBean entry : groundTruth) {
             if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
+                continue;
+            }
+            // An HTTP-only scanner has no way to speak WebSocket, so a WS row would always
+            // show up as missed and drag down coverage for something it was never able to
+            // attempt. Full protocol-aware matching is tracked separately in #882.
+            if (entry.getProtocol() == Protocol.WS) {
                 continue;
             }
             String url = normalizeUrl(entry.getUrl(), contextPath);

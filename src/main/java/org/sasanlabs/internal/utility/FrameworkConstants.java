@@ -27,4 +27,8 @@ public interface FrameworkConstants {
 
     // As VulnerableApp is added to each URL hence creating a constant for reference.
     String VULNERABLE_APP = "VulnerableApp";
+
+    // A WebSocket handshake lives under its own prefix, separate from REST mappings, so the two
+    // transports never collide on the same path.
+    String WEBSOCKET_PATH_PREFIX = "ws";
 }
