@@ -311,21 +311,36 @@ shared by all levels of a class, there is one row for that line and
 `Number of Sources` holds the number of levels that expose the issue through
 it. Levels marked `Variant.SECURE` have no rows.
 
-A row never points at an annotation, a comment, a blank line or a brace.
-`ExpectedIssuesAlignmentTest` fails the build when one does, which is what
-happens when a vulnerable class is edited and its rows are not moved with it.
+`LineCount` is the number of lines the vulnerable statement occupies: `1` if it
+fits on one line, `2` if it takes two, and so on. When it is above `1`, `Line`
+is the first line of the statement rather than the argument line described
+above, and a finding on any line from `Line` to `Line + LineCount - 1` matches
+the row. When the statement passes a lambda with a block body, such as a row
+mapper `(rs) -> { ... }`, the range stops on the line before that lambda, so it
+covers the call and its arguments but not the lambda's body. The column is
+optional. A CSV without it, or a row that leaves it empty, gets `1`, which keeps
+the exact `Line` match.
+
+A row never points at an annotation, including any line a multi-line
+annotation spans, a comment, a blank line or a brace, and a row with a
+`LineCount` above `1` also ends on a line of code inside the file.
+`ExpectedIssuesAlignmentTest` fails the build when a row breaks either rule,
+which is what happens when a vulnerable class is edited and its rows are not
+moved with it.
 
 ### SAST matching rules
 
 A finding matches an expected issue when:
 
 1. The normalised **`filePath`** matches, AND
-2. The **`line`** matches exactly, AND
-3. Either **`cwe`** matches the CSV's `CWE` column **or** **`type`** matches
-   the `Vulnerability Type` column (case-insensitively).
+2. The **`line`** is between `Line` and `Line + LineCount - 1`, which is
+   exactly `Line` when `LineCount` is `1` (the default), AND
+3. The finding's **`cwe`** matches the CSV's `CWE` column. When the finding or
+   the row has no CWE, the finding's **`type`** is matched against the
+   `Vulnerability Type` column (case-insensitively) instead.
 
-A scanner can emit either CWE, type, or both — whichever pair
-(`file + line + CWE` *or* `file + line + type`) hits the ground truth wins.
+A finding whose CWE differs from the row's does not match, even when its type
+matches the row's `Vulnerability Type`.
 
 - **Path normalisation:** backslashes → forward slashes; leading `./` stripped;
   whitespace trimmed. Scanner authors should emit project-relative paths;
@@ -334,8 +349,15 @@ A scanner can emit either CWE, type, or both — whichever pair
   match).
 - **Type comparison:** lower-cased + trimmed (e.g. `"SQL Injection"` and
   `"sql injection"` both match).
-- **Duplicates:** a scanner that emits the same `(filePath, line, CWE)` twice
-  gets credit once.
+- **Duplicates:** a finding with a CWE is counted once per
+  `(filePath, line, CWE)`, so two findings on one line with different CWEs are
+  both kept. A finding without a CWE is counted once per
+  `(filePath, line, type)`, and not at all when a finding with a CWE on the same
+  file and line has the same type, whichever of the two comes first.
+- **Line ranges:** several findings inside one row's range detect that row
+  once, and none of them is counted as unmatched. A finding inside the ranges
+  of two rows detects both. A row that no finding matches is listed in
+  `missedItems` at its `Line`.
 - **`Number of Sources` column:** the number of vulnerable levels that expose
   the issue through that line (`1` unless several levels share it). It is there
   for human reference and is **not used for scoring**: the first match gets
@@ -434,12 +456,13 @@ false positives. This applies to any DAST scanner benchmarked against Vulnerable
 
 ### A finding on another line of the same flow is unmatched (all SAST scanners)
 
-The SAST matcher compares exact line numbers. A scanner that reports a real
-issue on a different line of the same data flow gets no credit for it: the
-expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
-example, Semgrep reports SSRF where the `URL` object is built
-(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
-call at line 85.
+The SAST matcher only credits a finding on a line from `Line` to
+`Line + LineCount - 1`, which is just `Line` for a row whose `LineCount` is `1`.
+A scanner that reports a real issue on another line of the same data flow gets
+no credit for it: the expected row shows up in `missedItems` and the finding in
+`unmatchedItems`. For example, Semgrep reports SSRF where the `URL` object is
+built (`SSRFVulnerability.java:73`), while the expected row is the
+`openConnection()` call at line 91.
 
 `unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings
 outside the intended vulnerability set (CSRF on request mappings, cookie flags),
