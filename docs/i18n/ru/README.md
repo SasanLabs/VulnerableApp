@@ -24,7 +24,7 @@ OWASP VulnerableApp — это модульное намеренно уязви�
 - 🧪 Обеспечивать детерминированное поведение уязвимостей для повторяемых результатов сканирования
 - 🧠 Быть полезным инженерам по безопасности, исследователям и преподавателям
 
-![Полная архитектура](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Полная архитектура](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/russian.png)
 
 ### VulnerableApp помогает вам:
 
