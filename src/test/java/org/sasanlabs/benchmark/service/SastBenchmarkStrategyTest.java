@@ -81,6 +81,12 @@ class SastBenchmarkStrategyTest {
         assertThat(result.getUnmatchedItems())
                 .extracting(Finding::getFilePath, Finding::getLine)
                 .containsExactly(tuple("src/main/java/Imaginary.java", 1));
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getFilePath, Finding::getLine, Finding::getCwe)
+                .containsExactly(tuple(SQLI_FILE, 56, "CWE-89"));
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getFilePath, Finding::getLine)
+                .containsExactly(tuple(XSS_FILE, 45));
     }
 
     @Test
@@ -210,6 +216,28 @@ class SastBenchmarkStrategyTest {
 
         assertThat(result.getDetected()).isEqualTo(1);
         assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
+    void detectedItems_alwaysMatchTheDetectedCount_whenExpectedIssuesRepeat() throws Exception {
+        ExpectedIssue sqli = expected("CWE-89", "SQL Injection", SQLI_FILE, 56);
+        Finding finding = sastFinding(SQLI_FILE, 56, "CWE-89", "SQL Injection");
+
+        // The same instance listed twice is one expected issue.
+        when(provider.getExpectedIssues()).thenReturn(Arrays.asList(sqli, sqli));
+        BenchmarkResult sameInstance = strategy.compare(sastInput("Semgrep", finding));
+
+        assertThat(sameInstance.getDetected()).isEqualTo(1);
+        assertThat(sameInstance.getDetectedItems()).hasSize(sameInstance.getDetected());
+
+        // Two identical CSV rows are separate instances, so both are expected and detected.
+        when(provider.getExpectedIssues())
+                .thenReturn(
+                        Arrays.asList(sqli, expected("CWE-89", "SQL Injection", SQLI_FILE, 56)));
+        BenchmarkResult identicalRows = strategy.compare(sastInput("Semgrep", finding));
+
+        assertThat(identicalRows.getDetected()).isEqualTo(2);
+        assertThat(identicalRows.getDetectedItems()).hasSize(identicalRows.getDetected());
     }
 
     @Test

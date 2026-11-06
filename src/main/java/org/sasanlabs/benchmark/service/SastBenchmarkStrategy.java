@@ -104,10 +104,15 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
+        List<Finding> detectedItems = new ArrayList<>();
         List<Finding> missedItems = new ArrayList<>();
+        Set<ExpectedIssue> listedAsDetected = new HashSet<>();
         for (ExpectedIssue ei : expected) {
             if (!detectedSet.contains(ei)) {
                 missedItems.add(toFinding(ei));
+            } else if (listedAsDetected.add(ei)) {
+                // Listed once, as detected counts it once
+                detectedItems.add(toFinding(ei));
             }
         }
 
@@ -130,6 +135,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 detected,
                 missedItems.size(),
                 unmatchedItems.size(),
+                detectedItems,
                 missedItems,
                 unmatchedItems);
     }

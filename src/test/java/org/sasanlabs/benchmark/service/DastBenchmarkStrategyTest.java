@@ -121,6 +121,12 @@ class DastBenchmarkStrategyTest {
         assertThat(result.getUnmatchedItems())
                 .extracting(Finding::getUrl, Finding::getType)
                 .containsExactly(tuple("/PathTraversal/LEVEL_1", "PATH_TRAVERSAL"));
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getUrl, Finding::getType, Finding::getCwe)
+                .containsExactly(tuple("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION", "CWE-89"));
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getUrl)
+                .containsExactlyInAnyOrder("/XSS/LEVEL_1", "/CommandInjection/LEVEL_1");
     }
 
     @Test
