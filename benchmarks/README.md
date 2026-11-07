@@ -3,7 +3,7 @@
 This framework grades a security scanner against the ground truth that
 VulnerableApp already ships. It supports two scan modes today:
 
-- **DAST** — graded against the live `/scanner/dast` endpoint (URL + vulnerability type).
+- **DAST** — graded against the live `/scanner/dast` endpoint (URL + protocol + vulnerability type).
 - **SAST** — graded against the expected-issues ground truth served by `/scanner/sast`
   (file path + line + CWE / vulnerability type).
 
@@ -222,19 +222,55 @@ omitted, it defaults to `DAST` so existing payloads keep working.
   against the ground-truth row's request method. See "DAST matching rules"
   below for the omitted-method semantics.
 
+### DAST protocol scope
+
+`findings[].protocol` is optional: `"HTTP"` or `"WS"`. Omitted or null means
+HTTP, including when the URL uses a WebSocket scheme. Protocol is explicit;
+neither a URL nor a GET handshake proves that WebSocket frames were tested.
+
+The optional request-level `supportedProtocols` declares which protocols the
+scanner tested. Omitted or null defaults to `["HTTP"]` for existing scanners.
+Use `["WS"]` for a WS-only scan, or `["HTTP", "WS"]` for a scan of both.
+Ground-truth entries outside this scope do not enter `totalExpected` or
+`missedItems`. Scope does not depend on which findings were reported: a mixed
+scan with no findings misses both protocols. Findings outside the declared
+scope are unmatched and never increase coverage.
+
+```json
+{
+  "tool": "MixedScanner",
+  "supportedProtocols": ["HTTP", "WS"],
+  "findings": [
+    { "url": "/shared", "type": "REFLECTED_XSS", "method": "GET" },
+    { "url": "/shared", "protocol": "WS", "cwe": "CWE-79" }
+  ]
+}
+```
+
+Protocol values are case-sensitive strings. Unknown values, numeric enum
+ordinals, wrong JSON types, an empty capability list, or null list members
+produce HTTP 400 before comparison or report persistence. Duplicate capability
+values are collapsed. An explicit null finding protocol behaves like omission.
+These fields do not participate in SAST matching. The DAST-only `protocol`
+property is omitted from all SAST result items, including unmatched findings,
+even when a valid protocol was supplied on input. Invalid protocol values still
+fail JSON binding before either strategy runs. Existing scanner converters
+continue to produce HTTP-only payloads; this change does not add WS scanning.
+
 ### DAST matching rules
 
-A scanner finding matches a ground-truth row when **all three** of these hold:
+A scanner finding matches a ground-truth row when **all four** of these hold:
 
 1. The URL agrees, AND
-2. The HTTP method check passes (opt-in — see below for the omitted-method
-   semantics), AND
-3. **Any one of** these axes agrees:
+2. The protocol agrees (legacy ground truth without a protocol means HTTP), AND
+3. For HTTP, the method check passes (opt-in — see below); for WS, the HTTP
+   handshake method is ignored, AND
+4. **Any one of** these axes agrees:
    - `type` matches the `VulnerabilityType` enum name (case-insensitive), OR
    - `cwe` matches the type's `cweID`, OR
    - `wascId` matches the type's `wascID`.
 
-The method check is opt-in: if your scanner emits a `method` field, it is
+For HTTP, the method check is opt-in: if your scanner emits a `method` field, it is
 matched strictly (`POST` vs ground-truth `GET` becomes unmatched). If
 the field is omitted, the finding matches the URL's ground-truth row regardless
 of method — leniency for scanners whose output format does not include the
@@ -242,7 +278,9 @@ method. This means existing payloads continue to work; emit `method` to enable
 the stricter check.
 
 A scanner that emits multiple axes (type + cwe, etc.) for the same alert is
-counted once. A finding that matches no axis on any expected URL ends up in
+counted once. HTTP and WS findings and ground-truth rows remain distinct even
+at the same URL with the same vulnerability type, CWE, or WASC. WS duplicates
+collapse regardless of their handshake method; HTTP method distinctions remain. A finding that matches no axis on any expected URL ends up in
 `unmatchedItems`.
 
 ### Canonical DAST vulnerability type values
@@ -399,7 +437,21 @@ The output schema is the same for DAST and SAST. The fields inside each
 }
 ```
 
-For SAST runs, items look like:
+DAST HTTP items retain their existing JSON fields. WS detected and missed items
+include `"protocol": "WS"` and omit the handshake method, for example:
+
+```json
+{ "url": "/shared", "type": "REFLECTED_XSS", "cwe": "CWE-79", "wascId": "8", "protocol": "WS" }
+```
+
+Unmatched WS items retain the scanner's method, if supplied, for diagnosis.
+The report's top-level schema is unchanged and does not store protocol scope.
+Keep the input `supportedProtocols` alongside each report and compare coverage
+percentages only for equivalent scopes. A scanner's capability declaration is
+self-reported; the comparator does not verify that scanning actually occurred.
+
+For SAST runs, items retain the SAST output shape without the DAST-only
+`protocol` field, including in `unmatchedItems`:
 
 ```json
 { "filePath": "src/main/java/.../Foo.java", "line": 56, "type": "SQL Injection", "cwe": "CWE-89" }
@@ -408,9 +460,9 @@ For SAST runs, items look like:
 - `coverage` — `detected / totalExpected * 100`. Reported as `0.0` when ground
   truth is empty.
 - `totalExpected` — number of unique ground-truth items. For DAST, count of
-  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
-  (SECURE entries are intentionally clean and don't count). For SAST, count of
-  rows in the CSV.
+  `(protocol, URL, method, vulnerabilityType)` combinations in the declared
+  protocol scope across `UNSECURE` entries; WS ignores method. SECURE entries
+  are intentionally clean and do not count. For SAST, count of rows in the CSV.
 - `detectedItems` — expected items the scanner reported. Results written before
   this field existed omit it.
 - `missedItems` — expected items the scanner did not report.
