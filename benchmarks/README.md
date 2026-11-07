@@ -251,7 +251,10 @@ Protocol values are case-sensitive strings. Unknown values, numeric enum
 ordinals, wrong JSON types, an empty capability list, or null list members
 produce HTTP 400 before comparison or report persistence. Duplicate capability
 values are collapsed. An explicit null finding protocol behaves like omission.
-These fields do not participate in SAST matching. Existing scanner converters
+These fields do not participate in SAST matching. The DAST-only `protocol`
+property is omitted from all SAST result items, including unmatched findings,
+even when a valid protocol was supplied on input. Invalid protocol values still
+fail JSON binding before either strategy runs. Existing scanner converters
 continue to produce HTTP-only payloads; this change does not add WS scanning.
 
 ### DAST matching rules
@@ -447,7 +450,8 @@ Keep the input `supportedProtocols` alongside each report and compare coverage
 percentages only for equivalent scopes. A scanner's capability declaration is
 self-reported; the comparator does not verify that scanning actually occurred.
 
-For SAST runs, items look like:
+For SAST runs, items retain the SAST output shape without the DAST-only
+`protocol` field, including in `unmatchedItems`:
 
 ```json
 { "filePath": "src/main/java/.../Foo.java", "line": 56, "type": "SQL Injection", "cwe": "CWE-89" }

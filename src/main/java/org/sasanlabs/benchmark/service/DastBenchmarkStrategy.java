@@ -67,6 +67,13 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
      */
     private final String contextPath;
 
+    /**
+     * Configures the ground-truth client and the URL normalisation shared by both protocols.
+     *
+     * @param restTemplate client used to fetch scanner ground truth
+     * @param groundTruthUrl HTTP source of ground truth, including an aggregated facade endpoint
+     * @param contextPath application context prefix to strip; null or empty strips no prefix
+     */
     public DastBenchmarkStrategy(
             RestTemplate restTemplate,
             @Value("${benchmark.dast.ground-truth.url}") String groundTruthUrl,
@@ -76,6 +83,20 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         this.contextPath = contextPath;
     }
 
+    /**
+     * Grades only UNSECURE rows in the request's declared protocol scope.
+     *
+     * <p>Scope comes from the request, including when no findings are reported. Matching requires
+     * URL and protocol agreement plus a taxonomy axis; HTTP retains its opt-in method check and WS
+     * ignores the handshake method. Null protocols retain legacy HTTP semantics. Findings outside
+     * scope remain unmatched and cannot earn credit.
+     *
+     * <p>Equivalent match-key signatures are processed once and each expected row is credited at
+     * most once. Null findings and findings without a URL or usable taxonomy axis are ignored. An
+     * empty eligible ground truth produces zero coverage rather than division by zero.
+     *
+     * @throws IOException if the ground-truth HTTP request fails
+     */
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         List<ScannerResponseBean> groundTruth = fetchGroundTruth();
@@ -161,6 +182,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems);
     }
 
+    /** Fetches ground truth, treating an empty response body as no expected rows. */
     private List<ScannerResponseBean> fetchGroundTruth() throws IOException {
         try {
             ScannerResponseBean[] response =
@@ -171,6 +193,13 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         }
     }
 
+    /**
+     * Adds eligible, unique expected rows and indexes each available type/CWE/WASC matching axis.
+     *
+     * <p>HTTP row identity includes protocol, URL, method and type; WS identity omits method. HTTP
+     * rows also receive wildcard-method keys for findings that omit their method. Scope is applied
+     * before rows enter either the index or the coverage denominator.
+     */
     private Map<String, Set<Integer>> buildExpectedIndex(
             List<ScannerResponseBean> groundTruth,
             List<Finding> rowsOut,
@@ -217,11 +246,16 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         return keyToRows;
     }
 
+    /** Preserves HTTP semantics for findings and older ground-truth payloads without a protocol. */
     private static Protocol effectiveProtocol(Protocol protocol) {
         // Ground-truth responses from older deployments omitted this property.
         return protocol != null ? protocol : Protocol.HTTP;
     }
 
+    /**
+     * Registers every available taxonomy axis in the same protocol/method namespace. Multiple keys
+     * may reference one row; the comparison still credits that row only once.
+     */
     private static void addAxisKeys(
             Map<String, Set<Integer>> keyToRows,
             int rowIndex,
@@ -244,6 +278,9 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         }
     }
 
+    /**
+     * Keeps the legacy HTTP report shape, while WS expected items identify protocol, not method.
+     */
     private static Finding buildExpectedFinding(
             String url, VulnerabilityType type, String method, Protocol protocol) {
         String cwe = (type.getCweID() != null) ? "CWE-" + type.getCweID() : null;
@@ -260,6 +297,11 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 protocol == Protocol.WS ? Protocol.WS : null);
     }
 
+    /**
+     * Builds the finding's usable taxonomy keys in stable type/CWE/WASC order for matching and
+     * duplicate signatures. A missing or blank HTTP method uses the wildcard; the WS key prefix
+     * excludes method entirely. An empty list means no taxonomy axis can be evaluated.
+     */
     private static List<String> keysForFinding(String url, Finding finding) {
         Protocol protocol = effectiveProtocol(finding.getProtocol());
         String method =
@@ -285,6 +327,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         map.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(rowIndex);
     }
 
+    /** Separates protocol namespaces and includes method only for ordinary HTTP findings. */
     private static String keyPrefix(String axis, String url, Protocol protocol, String method) {
         // WS keys intentionally omit the HTTP handshake method.
         return axis
@@ -336,6 +379,9 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
      * <p>Strips scheme + host + port, the context path the application is served under, the query
      * string, and a trailing slash. Leaves the path case unchanged. An empty or {@code null} {@code
      * contextPath} strips no prefix, leaving a root deployment's paths unchanged.
+     *
+     * <p>This reduction also handles {@code ws://} and {@code wss://} URLs, but never infers a
+     * finding's protocol from its scheme. Transport remains a separate matching dimension.
      */
     static String normalizeUrl(String url, String contextPath) {
         if (url == null) {

@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -781,6 +782,36 @@ class DastBenchmarkStrategyTest {
         BenchmarkResult result = strategy.compare(scan(List.of(Protocol.WS), finding));
         assertThat(result.getDetected()).isEqualTo(1);
         assertThat(result.getDetectedItems().get(0).getUrl()).isEqualTo("/XSS/LEVEL_1");
+    }
+
+    @ParameterizedTest(name = "explicitNullProtocol={0}")
+    @ValueSource(booleans = {false, true})
+    void wssJsonFindingWithOmittedOrNullProtocolDetectsOnlyHttpRow(boolean explicitNullProtocol)
+            throws Exception {
+        stubGroundTruth(row(Protocol.HTTP, RequestMethod.GET), row(Protocol.WS, RequestMethod.GET));
+        // A WebSocket URL does not override the request's documented HTTP protocol default.
+        String json =
+                "{\"tool\":\"Protocol defaults\",\"supportedProtocols\":[\"HTTP\",\"WS\"],"
+                        + "\"findings\":[{\"url\":\"wss://localhost:9090/VulnerableApp/XSS/LEVEL_1/?token=test\","
+                        + "\"type\":\"REFLECTED_XSS\",\"method\":\"GET\""
+                        + (explicitNullProtocol ? ",\"protocol\":null" : "")
+                        + "}]}";
+        ScannerFindings input = new ObjectMapper().readValue(json, ScannerFindings.class);
+
+        BenchmarkResult result = strategy.compare(input);
+
+        assertThat(input.getFindings().get(0).getProtocol()).isNull();
+        assertThat(result)
+                .extracting("totalExpected", "detected", "missed", "unmatched", "coverage")
+                .containsExactly(2, 1, 1, 0, 50.0);
+        assertThat(result.getDetectedItems())
+                .extracting(
+                        Finding::getUrl, Finding::getType, Finding::getProtocol, Finding::getMethod)
+                .containsExactly(tuple("/XSS/LEVEL_1", "REFLECTED_XSS", null, "GET"));
+        assertThat(result.getMissedItems())
+                .extracting(
+                        Finding::getUrl, Finding::getType, Finding::getProtocol, Finding::getMethod)
+                .containsExactly(tuple("/XSS/LEVEL_1", "REFLECTED_XSS", Protocol.WS, null));
     }
 
     @Test

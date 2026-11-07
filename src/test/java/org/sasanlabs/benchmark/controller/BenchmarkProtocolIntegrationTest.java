@@ -2,6 +2,8 @@ package org.sasanlabs.benchmark.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -12,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -20,13 +23,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
 import org.sasanlabs.benchmark.BenchmarkConfiguration;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
+import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.sasanlabs.benchmark.service.BenchmarkResultWriter;
 import org.sasanlabs.benchmark.service.BenchmarkService;
 import org.sasanlabs.benchmark.service.DastBenchmarkStrategy;
 import org.sasanlabs.benchmark.service.SastBenchmarkStrategy;
+import org.sasanlabs.internal.utility.Protocol;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -218,6 +225,62 @@ class BenchmarkProtocolIntegrationTest {
                 .isEqualTo(mapper.readTree(legacyResponse.getResponse().getContentAsString()));
         assertPersistedEqualsResponse(metadataResponse);
         // No DAST ground-truth request was registered or is allowed during these SAST requests.
+        groundTruthServer.verify();
+    }
+
+    @ParameterizedTest
+    @EnumSource(Protocol.class)
+    void sastUnmatchedReportOmitsProtocolAndPreservesEveryLegacyField(Protocol protocol)
+            throws Exception {
+        String finding =
+                "{\"url\":\"http://scanner.invalid/legacy?keep=1\",\"filePath\":\"./src/Other.java\","
+                        + "\"line\":77,\"cwe\":\"CWE-89\",\"type\":\"SQL Injection\","
+                        + "\"wascId\":\"19\",\"method\":\"POST\"}";
+        String legacyRequest =
+                "{\"tool\":\"ProtocolTest\",\"scanType\":\"SAST\",\"findings\":[" + finding + "]}";
+        ObjectNode metadataRequest = (ObjectNode) mapper.readTree(legacyRequest);
+        metadataRequest.putArray("supportedProtocols").add("WS");
+        ((ObjectNode) metadataRequest.path("findings").get(0)).put("protocol", protocol.name());
+
+        MvcResult legacyResponse =
+                mockMvc.perform(
+                                post("/scanner/benchmark")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(legacyRequest))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.coverage").value(0.0))
+                        .andExpect(jsonPath("$.detected").value(0))
+                        .andExpect(jsonPath("$.missed").value(1))
+                        .andExpect(jsonPath("$.unmatched").value(1))
+                        .andReturn();
+        assertPersistedEqualsResponse(legacyResponse);
+        assertThat(
+                        mapper.readTree(legacyResponse.getResponse().getContentAsString())
+                                .path("unmatchedItems")
+                                .get(0))
+                .isEqualTo(mapper.readTree(finding));
+
+        MvcResult metadataResponse =
+                mockMvc.perform(
+                                post("/scanner/benchmark")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(mapper.writeValueAsString(metadataRequest)))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.unmatchedItems[0].protocol").doesNotExist())
+                        .andExpect(
+                                jsonPath("$.unmatchedItems[0].url")
+                                        .value("http://scanner.invalid/legacy?keep=1"))
+                        .andExpect(jsonPath("$.unmatchedItems[0].method").value("POST"))
+                        .andExpect(jsonPath("$.unmatchedItems[0].wascId").value("19"))
+                        .andReturn();
+        assertThat(mapper.readTree(metadataResponse.getResponse().getContentAsString()))
+                .isEqualTo(mapper.readTree(legacyResponse.getResponse().getContentAsString()));
+        assertPersistedEqualsResponse(metadataResponse);
+
+        ArgumentCaptor<ScannerFindings> inputs = ArgumentCaptor.forClass(ScannerFindings.class);
+        verify(benchmarkService, times(2)).compare(inputs.capture());
+        assertThat(inputs.getAllValues().get(1).getFindings().get(0).getProtocol())
+                .isEqualTo(protocol);
         groundTruthServer.verify();
     }
 
