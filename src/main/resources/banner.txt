@@ -1,9 +1,23 @@
-┌──────────────────────────────────────────────────────────┐
-│  Thank you for using OWASP SasanLabs VulnerableApp!      │
-│  This project is 100% free, open-source, and community-  │
-│  driven. If it helps your testing or CI/CD pipelines,    │
-│  please support our work by leaving a star:              │
-│  https://github.com/SasanLabs/VulnerableApp              │
-│  and follow SasanLabs on GitHub:                         │
-│  https://github.com/SasanLabs                            │
-└──────────────────────────────────────────────────────────┘
+                   ██████╗ ██╗    ██╗ █████╗ ███████╗██████╗
+ ${AnsiColor.208}▄▄▄▄▄████▄▄▄▄▄${AnsiStyle.NORMAL}   ██╔═══██╗██║    ██║██╔══██╗██╔════╝██╔══██╗
+${AnsiBackground.208}${AnsiColor.231}  ██     ▄██▄   ${AnsiStyle.NORMAL}  ██║   ██║██║ █╗ ██║███████║███████╗██████╔╝
+${AnsiBackground.208}${AnsiColor.231}   ██    ██ ██  ${AnsiStyle.NORMAL}  ██║   ██║██║███╗██║██╔══██║╚════██║██╔═══╝
+${AnsiBackground.208}${AnsiColor.231}    ██  ██   ██ ${AnsiStyle.NORMAL}  ╚██████╔╝╚███╔███╔╝██║  ██║███████║██║
+${AnsiBackground.208}${AnsiColor.231}     ██▄█▀▀▀▀██ ${AnsiStyle.NORMAL}   ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚═╝
+${AnsiBackground.208}${AnsiColor.231}      ███    ██ ${AnsiStyle.NORMAL}  ██╗   ██╗██╗   ██╗██╗     ███╗   ██╗███████╗██████╗  █████╗ ██████╗ ██╗     ███████╗        █████╗ ██████╗ ██████╗
+ ${AnsiColor.208}▀${AnsiBackground.208}            ${AnsiStyle.NORMAL}${AnsiColor.208}▀${AnsiStyle.NORMAL}   ██║   ██║██║   ██║██║     ████╗  ██║██╔════╝██╔══██╗██╔══██╗██╔══██╗██║     ██╔════╝       ██╔══██╗██╔══██╗██╔══██╗
+   ${AnsiColor.208}▀████████▀${AnsiStyle.NORMAL}     ██║   ██║██║   ██║██║     ██╔██╗ ██║█████╗  ██████╔╝███████║██████╔╝██║     █████╗         ███████║██████╔╝██████╔╝
+     ${AnsiColor.208}▀████▀${AnsiStyle.NORMAL}       ╚██╗ ██╔╝██║   ██║██║     ██║╚██╗██║██╔══╝  ██╔══██╗██╔══██║██╔══██╗██║     ██╔══╝         ██╔══██║██╔═══╝ ██╔═══╝
+                   ╚████╔╝ ╚██████╔╝███████╗██║ ╚████║███████╗██║  ██║██║  ██║██████╔╝███████╗███████╗       ██║  ██║██║     ██║
+                    ╚═══╝   ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝       ╚═╝  ╚═╝╚═╝     ╚═╝
+
+                       ${AnsiStyle.BOLD}    ${AnsiColor.208}        Break it » Scan it » Benchmark it » Improve it${AnsiStyle.NORMAL}
+                             ${AnsiColor.BRIGHT_CYAN}${AnsiStyle.ITALIC}┌──────────────────────────────────────────────────────────┐
+                             │  Thank you for using OWASP SasanLabs VulnerableApp!      │
+                             │  This project is 100% free, open-source, and community-  │
+                             │  driven. If it helps your testing or CI/CD pipelines,    │
+                             │  please support our work by leaving a star:              │
+                             │  https://github.com/SasanLabs/VulnerableApp              │
+                             │  and follow SasanLabs on GitHub:                         │
+                             │  https://github.com/SasanLabs                            │
+                             └──────────────────────────────────────────────────────────┘${AnsiStyle.NORMAL}

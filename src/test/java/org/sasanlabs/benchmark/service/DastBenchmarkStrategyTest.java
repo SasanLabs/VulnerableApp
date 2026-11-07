@@ -18,6 +18,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -121,6 +122,12 @@ class DastBenchmarkStrategyTest {
         assertThat(result.getUnmatchedItems())
                 .extracting(Finding::getUrl, Finding::getType)
                 .containsExactly(tuple("/PathTraversal/LEVEL_1", "PATH_TRAVERSAL"));
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getUrl, Finding::getType, Finding::getCwe)
+                .containsExactly(tuple("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION", "CWE-89"));
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getUrl)
+                .containsExactlyInAnyOrder("/XSS/LEVEL_1", "/CommandInjection/LEVEL_1");
     }
 
     @Test
@@ -429,11 +436,13 @@ class DastBenchmarkStrategyTest {
 
     private static ScannerResponseBean unsecure(
             String url, RequestMethod method, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "UNSECURE", method, Arrays.asList(types));
+        return new ScannerResponseBean(
+                url, "UNSECURE", method, Protocol.HTTP, Arrays.asList(types));
     }
 
     private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(url, "SECURE", RequestMethod.GET, Arrays.asList(types));
+        return new ScannerResponseBean(
+                url, "SECURE", RequestMethod.GET, Protocol.HTTP, Arrays.asList(types));
     }
 
     private static ScannerFindings input(String tool, Finding... findings) {

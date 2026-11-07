@@ -73,6 +73,7 @@ cwe: CWE id for the Vulnerability
 filePath: Full path of the file containing the Vulnerability
 line: Line number of the vulnerable statement, the line a SAST tool is expected to report
 numberOfSources: Number of vulnerable levels that expose the issue through that line (1 unless several levels share it)
+lineCount: Number of lines the vulnerable statement occupies, starting at line (1 if it fits on one line); a finding on any of those lines matches
 ```
 The rule for choosing the line is described in [`benchmarks/README.md`](https://github.com/SasanLabs/VulnerableApp/blob/master/benchmarks/README.md#what-a-ground-truth-row-points-at).
 
