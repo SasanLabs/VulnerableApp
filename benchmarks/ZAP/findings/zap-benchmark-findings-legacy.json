@@ -111,6 +111,18 @@
       "method": "GET"
     },
     {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CommandInjection/LEVEL_7",
+      "cwe": "CWE-943",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/CommandInjection/LEVEL_8",
+      "cwe": "CWE-943",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_3",
       "cwe": "CWE-943",
       "wascId": "19",
@@ -429,19 +441,37 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/CryptographicFailures",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/LDAPInjectionVulnerability?query=query+ASC++--+",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_10",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_3",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -507,6 +537,12 @@
       "method": "GET"
     },
     {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
+      "cwe": "CWE-693",
+      "wascId": "15",
+      "method": "GET"
+    },
+    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.html",
       "cwe": "CWE-693",
       "wascId": "15",
@@ -544,6 +580,12 @@
     },
     {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/",
+      "cwe": "CWE-1021",
+      "wascId": "15",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
       "cwe": "CWE-1021",
       "wascId": "15",
       "method": "GET"
@@ -729,7 +771,19 @@
       "method": "GET"
     },
     {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
+      "cwe": "CWE-693",
+      "wascId": "14",
+      "method": "GET"
+    },
+    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.html",
+      "cwe": "CWE-693",
+      "wascId": "14",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2",
       "cwe": "CWE-693",
       "wascId": "14",
       "method": "GET"
@@ -741,37 +795,13 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
-      "cwe": "CWE-693",
-      "wascId": "14",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/vulnerableApp.css",
       "cwe": "CWE-693",
       "wascId": "14",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/vulnerableApp.js",
-      "cwe": "CWE-693",
-      "wascId": "14",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/RemoteFileInclusion/LEVEL_1",
-      "cwe": "CWE-200",
-      "wascId": "-1",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/RemoteFileInclusion/LEVEL_2",
       "cwe": "CWE-200",
       "wascId": "-1",
       "method": "GET"
@@ -789,7 +819,7 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1793590614853",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/templates/AuthenticationVulnerability/LEVEL_1/Auth.js?p=1793939002961",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"
@@ -825,13 +855,13 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/scanner/dast",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/AuthenticationVulnerability/LEVEL_2",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/scanner/dast",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"

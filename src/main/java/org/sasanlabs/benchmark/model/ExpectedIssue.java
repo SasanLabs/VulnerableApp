@@ -14,14 +14,26 @@ public class ExpectedIssue {
     private final String filePath;
     private final int line;
     private final int numberOfSources;
+    private final int lineCount;
 
     public ExpectedIssue(
             String cwe, String vulnerabilityType, String filePath, int line, int numberOfSources) {
+        this(cwe, vulnerabilityType, filePath, line, numberOfSources, 1);
+    }
+
+    public ExpectedIssue(
+            String cwe,
+            String vulnerabilityType,
+            String filePath,
+            int line,
+            int numberOfSources,
+            int lineCount) {
         this.cwe = cwe;
         this.vulnerabilityType = vulnerabilityType;
         this.filePath = filePath;
         this.line = line;
         this.numberOfSources = numberOfSources;
+        this.lineCount = lineCount;
     }
 
     public String getCwe() {
@@ -46,5 +58,13 @@ public class ExpectedIssue {
 
     public int getNumberOfSources() {
         return numberOfSources;
+    }
+
+    /**
+     * Number of lines the vulnerable statement occupies, starting at {@link #getLine()}. A finding
+     * on any line from {@code line} to {@code line + lineCount - 1} matches this row.
+     */
+    public int getLineCount() {
+        return lineCount;
     }
 }

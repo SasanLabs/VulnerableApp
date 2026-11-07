@@ -76,7 +76,13 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
-      "line": 53,
+      "line": 63,
+      "cwe": "CWE-78",
+      "type": "Command Injection"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java",
+      "line": 98,
       "cwe": "CWE-78",
       "type": "Command Injection"
     },
@@ -117,18 +123,6 @@
       "type": "Path Traversal"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 43,
-      "cwe": "CWE-918",
-      "type": "Server-Side Request Forgery (SSRF)"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/rfi/UrlParamBasedRFI.java",
-      "line": 63,
-      "cwe": "CWE-918",
-      "type": "Server-Side Request Forgery (SSRF)"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
       "line": 93,
       "cwe": "CWE-89",
@@ -148,25 +142,25 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 83,
+      "line": 87,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 143,
+      "line": 147,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 206,
+      "line": 210,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 272,
+      "line": 276,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
