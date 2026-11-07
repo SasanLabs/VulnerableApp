@@ -1,0 +1,11 @@
+{
+    "success": true,
+    "data": [],
+    "error": [],
+    "meta": {
+        "api_version": 2,
+        "sqlmap_version": "sqlmap/1.10.10#stable",
+        "url": "http://127.0.0.1:19090/VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_3",
+        "timestamp": "2026-10-28 17:26:24"
+    }
+}
