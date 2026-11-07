@@ -2,12 +2,16 @@ package org.sasanlabs.benchmark.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.LinkedHashSet;
 import java.util.List;
+import org.sasanlabs.internal.utility.Protocol;
 
 /**
  * Tool-agnostic input payload for the benchmark endpoint. {@code scanType} selects which benchmark
  * strategy runs — defaults to {@link ScanType#DAST} when omitted, preserving the original DAST-only
- * request shape.
+ * request shape. For DAST, {@code supportedProtocols} scopes the ground truth; omitted or null
+ * defaults to HTTP. SAST does not use this field.
  */
 public class ScannerFindings {
 
@@ -20,14 +24,41 @@ public class ScannerFindings {
     @JsonProperty("findings")
     private List<Finding> findings;
 
+    @JsonProperty("supportedProtocols")
+    private List<Protocol> supportedProtocols;
+
     @JsonCreator
     public ScannerFindings(
             @JsonProperty("tool") String tool,
             @JsonProperty("scanType") ScanType scanType,
-            @JsonProperty("findings") List<Finding> findings) {
+            @JsonProperty("findings") List<Finding> findings,
+            @JsonProperty("supportedProtocols")
+                    @JsonDeserialize(contentUsing = BenchmarkProtocolDeserializer.class)
+                    List<Protocol> supportedProtocols) {
         this.tool = tool;
         this.scanType = (scanType != null) ? scanType : ScanType.DAST;
         this.findings = findings;
+        setSupportedProtocols(supportedProtocols);
+    }
+
+    @JsonProperty("supportedProtocols")
+    @JsonDeserialize(contentUsing = BenchmarkProtocolDeserializer.class)
+    private void setSupportedProtocols(List<Protocol> supportedProtocols) {
+        if (supportedProtocols != null
+                && (supportedProtocols.isEmpty()
+                        || supportedProtocols.stream().anyMatch(protocol -> protocol == null))) {
+            throw new IllegalArgumentException(
+                    "supportedProtocols must contain at least one of HTTP or WS and no nulls");
+        }
+        // Scope is declared independently of findings, including scans that detect nothing.
+        this.supportedProtocols =
+                supportedProtocols == null
+                        ? List.of(Protocol.HTTP)
+                        : List.copyOf(new LinkedHashSet<>(supportedProtocols));
+    }
+
+    public ScannerFindings(String tool, ScanType scanType, List<Finding> findings) {
+        this(tool, scanType, findings, null);
     }
 
     public ScannerFindings(String tool, List<Finding> findings) {
@@ -44,5 +75,9 @@ public class ScannerFindings {
 
     public List<Finding> getFindings() {
         return findings;
+    }
+
+    public List<Protocol> getSupportedProtocols() {
+        return supportedProtocols;
     }
 }

@@ -17,6 +17,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,10 @@ import org.springframework.web.client.RestTemplate;
  * surface.
  *
  * <p>Matching is set-based and tolerant to scanner-specific vocabularies: a scanner finding matches
- * a ground-truth row when the URL agrees AND <em>any one of</em> the type-name, CWE, or WASC axes
- * agrees. Scanners that don't speak {@link VulnerabilityType} names (most of them) can therefore
- * still be graded by emitting a CWE or WASC ID alongside their finding.
+ * a ground-truth row when URL and protocol agree, the HTTP method check passes (ignored for
+ * WebSockets), AND <em>any one of</em> the type-name, CWE, or WASC axes agrees. Scanners that don't
+ * speak {@link VulnerabilityType} names (most of them) can therefore still be graded by emitting a
+ * CWE or WASC ID alongside their finding.
  *
  * <p>Only {@code UNSECURE} ground-truth entries count toward expected — a scanner finding against a
  * {@code SECURE} URL is treated as unmatched (out of scope rather than a true false positive, since
@@ -79,7 +81,8 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         List<ScannerResponseBean> groundTruth = fetchGroundTruth();
 
         List<Finding> expectedRows = new ArrayList<>();
-        Map<String, Set<Integer>> keyToExpected = buildExpectedIndex(groundTruth, expectedRows);
+        Map<String, Set<Integer>> keyToExpected =
+                buildExpectedIndex(groundTruth, expectedRows, input.getSupportedProtocols());
 
         Set<Integer> detectedIndices = new LinkedHashSet<>();
         List<Finding> unmatchedItems = new ArrayList<>();
@@ -117,7 +120,8 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                                 null,
                                 finding.getCwe(),
                                 finding.getWascId(),
-                                finding.getMethod()));
+                                finding.getMethod(),
+                                finding.getProtocol()));
             } else {
                 detectedIndices.addAll(hits);
             }
@@ -168,11 +172,17 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     }
 
     private Map<String, Set<Integer>> buildExpectedIndex(
-            List<ScannerResponseBean> groundTruth, List<Finding> rowsOut) {
+            List<ScannerResponseBean> groundTruth,
+            List<Finding> rowsOut,
+            List<Protocol> supportedProtocols) {
         Map<String, Set<Integer>> keyToRows = new LinkedHashMap<>();
         Set<String> seenRowSignatures = new HashSet<>();
         for (ScannerResponseBean entry : groundTruth) {
             if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
+                continue;
+            }
+            Protocol protocol = effectiveProtocol(entry.getProtocol());
+            if (!supportedProtocols.contains(protocol)) {
                 continue;
             }
             String url = normalizeUrl(entry.getUrl(), contextPath);
@@ -185,62 +195,88 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 continue;
             }
             for (VulnerabilityType type : types) {
-                String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type.name();
+                // WebSocket's GET handshake is not an ordinary HTTP method to benchmark.
+                String rowSignature =
+                        protocol
+                                + KEY_SEPARATOR
+                                + url
+                                + KEY_SEPARATOR
+                                + (protocol == Protocol.HTTP ? method + KEY_SEPARATOR : "")
+                                + type.name();
                 if (!seenRowSignatures.add(rowSignature)) {
                     continue;
                 }
                 int rowIndex = rowsOut.size();
-                rowsOut.add(buildExpectedFinding(url, type, method));
-                addAxisKeys(keyToRows, rowIndex, url, method, type);
-                addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
+                rowsOut.add(buildExpectedFinding(url, type, method, protocol));
+                addAxisKeys(keyToRows, rowIndex, url, protocol, method, type);
+                if (protocol == Protocol.HTTP) {
+                    addAxisKeys(keyToRows, rowIndex, url, protocol, METHOD_ANY, type);
+                }
             }
         }
         return keyToRows;
+    }
+
+    private static Protocol effectiveProtocol(Protocol protocol) {
+        // Ground-truth responses from older deployments omitted this property.
+        return protocol != null ? protocol : Protocol.HTTP;
     }
 
     private static void addAxisKeys(
             Map<String, Set<Integer>> keyToRows,
             int rowIndex,
             String url,
+            Protocol protocol,
             String method,
             VulnerabilityType type) {
-        addKey(keyToRows, typeKey(url, method, type.name()), rowIndex);
+        addKey(keyToRows, typeKey(url, protocol, method, type.name()), rowIndex);
         if (type.getCweID() != null) {
             String cwe = normalizeNumericId(type.getCweID().toString());
             if (!cwe.isEmpty()) {
-                addKey(keyToRows, cweKey(url, method, cwe), rowIndex);
+                addKey(keyToRows, cweKey(url, protocol, method, cwe), rowIndex);
             }
         }
         if (type.getWascID() != null) {
             String wasc = normalizeNumericId(type.getWascID().toString());
             if (!wasc.isEmpty()) {
-                addKey(keyToRows, wascKey(url, method, wasc), rowIndex);
+                addKey(keyToRows, wascKey(url, protocol, method, wasc), rowIndex);
             }
         }
     }
 
-    private static Finding buildExpectedFinding(String url, VulnerabilityType type, String method) {
+    private static Finding buildExpectedFinding(
+            String url, VulnerabilityType type, String method, Protocol protocol) {
         String cwe = (type.getCweID() != null) ? "CWE-" + type.getCweID() : null;
         String wasc = (type.getWascID() != null) ? type.getWascID().toString() : null;
-        return new Finding(url, type.name(), null, null, cwe, wasc, method);
+        // Keep the legacy HTTP output shape. WS results must identify their transport.
+        return new Finding(
+                url,
+                type.name(),
+                null,
+                null,
+                cwe,
+                wasc,
+                protocol == Protocol.HTTP ? method : null,
+                protocol == Protocol.WS ? Protocol.WS : null);
     }
 
     private static List<String> keysForFinding(String url, Finding finding) {
+        Protocol protocol = effectiveProtocol(finding.getProtocol());
         String method =
                 (finding.getMethod() != null && !finding.getMethod().trim().isEmpty())
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
                         : METHOD_ANY;
         List<String> keys = new ArrayList<>(3);
         if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
-            keys.add(typeKey(url, method, finding.getType()));
+            keys.add(typeKey(url, protocol, method, finding.getType()));
         }
         String cwe = normalizeNumericId(finding.getCwe());
         if (!cwe.isEmpty()) {
-            keys.add(cweKey(url, method, cwe));
+            keys.add(cweKey(url, protocol, method, cwe));
         }
         String wasc = normalizeNumericId(finding.getWascId());
         if (!wasc.isEmpty()) {
-            keys.add(wascKey(url, method, wasc));
+            keys.add(wascKey(url, protocol, method, wasc));
         }
         return keys;
     }
@@ -249,28 +285,28 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         map.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(rowIndex);
     }
 
-    private static String typeKey(String url, String method, String typeName) {
-        return AXIS_TYPE
+    private static String keyPrefix(String axis, String url, Protocol protocol, String method) {
+        // WS keys intentionally omit the HTTP handshake method.
+        return axis
                 + KEY_SEPARATOR
-                + method
+                + protocol
                 + KEY_SEPARATOR
                 + url
                 + KEY_SEPARATOR
+                + (protocol == Protocol.HTTP ? method + KEY_SEPARATOR : "");
+    }
+
+    private static String typeKey(String url, Protocol protocol, String method, String typeName) {
+        return keyPrefix(AXIS_TYPE, url, protocol, method)
                 + typeName.trim().toUpperCase(Locale.ROOT);
     }
 
-    private static String cweKey(String url, String method, String cweDigits) {
-        return AXIS_CWE + KEY_SEPARATOR + method + KEY_SEPARATOR + url + KEY_SEPARATOR + cweDigits;
+    private static String cweKey(String url, Protocol protocol, String method, String cweDigits) {
+        return keyPrefix(AXIS_CWE, url, protocol, method) + cweDigits;
     }
 
-    private static String wascKey(String url, String method, String wascDigits) {
-        return AXIS_WASC
-                + KEY_SEPARATOR
-                + method
-                + KEY_SEPARATOR
-                + url
-                + KEY_SEPARATOR
-                + wascDigits;
+    private static String wascKey(String url, Protocol protocol, String method, String wascDigits) {
+        return keyPrefix(AXIS_WASC, url, protocol, method) + wascDigits;
     }
 
     /**

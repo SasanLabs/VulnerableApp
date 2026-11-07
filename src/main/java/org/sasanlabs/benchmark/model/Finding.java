@@ -3,12 +3,14 @@ package org.sasanlabs.benchmark.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.sasanlabs.internal.utility.Protocol;
 
 /**
  * A single scanner finding. DAST findings populate {@code url} + {@code type} (and optionally
- * {@code method} / {@code cwe} / {@code wascId} for taxonomy-tolerant matching); SAST findings
- * populate {@code filePath} + {@code line} + {@code type} (and optionally {@code cwe}). Unused
- * fields are omitted from the serialised output.
+ * {@code protocol} / {@code method} / {@code cwe} / {@code wascId} for taxonomy-tolerant matching);
+ * SAST findings populate {@code filePath} + {@code line} + {@code type} (and optionally {@code
+ * cwe}). Unused fields are omitted from the serialised output.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Finding {
@@ -34,6 +36,10 @@ public class Finding {
     @JsonProperty("method")
     private String method;
 
+    @JsonProperty("protocol")
+    @JsonDeserialize(using = BenchmarkProtocolDeserializer.class)
+    private Protocol protocol;
+
     @JsonCreator
     public Finding(
             @JsonProperty("url") String url,
@@ -42,7 +48,9 @@ public class Finding {
             @JsonProperty("line") Integer line,
             @JsonProperty("cwe") String cwe,
             @JsonProperty("wascId") String wascId,
-            @JsonProperty("method") String method) {
+            @JsonProperty("method") String method,
+            @JsonProperty("protocol") @JsonDeserialize(using = BenchmarkProtocolDeserializer.class)
+                    Protocol protocol) {
         this.url = url;
         this.type = type;
         this.filePath = filePath;
@@ -50,6 +58,18 @@ public class Finding {
         this.cwe = cwe;
         this.wascId = wascId;
         this.method = method;
+        this.protocol = protocol;
+    }
+
+    public Finding(
+            String url,
+            String type,
+            String filePath,
+            Integer line,
+            String cwe,
+            String wascId,
+            String method) {
+        this(url, type, filePath, line, cwe, wascId, method, null);
     }
 
     public Finding(
@@ -91,5 +111,10 @@ public class Finding {
 
     public String getMethod() {
         return method;
+    }
+
+    /** Null retains the legacy JSON shape; the DAST comparator interprets it as HTTP. */
+    public Protocol getProtocol() {
+        return protocol;
     }
 }
