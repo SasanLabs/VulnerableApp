@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
-import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,11 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         return ApplicationBenchmark.compare(
-                input, groundTruthProvider.load(ScanType.DAST), contextPath, this::score);
+                input,
+                groundTruthProvider.loadDast(),
+                contextPath,
+                row -> normalizeUrl(row.getUrl(), contextPath),
+                this::score);
     }
 
     private BenchmarkResult score(ScannerFindings input, List<Finding> groundTruth) {

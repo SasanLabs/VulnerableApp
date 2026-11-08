@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScanType;
@@ -19,17 +20,22 @@ import org.sasanlabs.benchmark.model.ScannerFindings;
 final class ApplicationBenchmark {
     private ApplicationBenchmark() {}
 
-    static BenchmarkResult compare(
+    /**
+     * Scores each application's findings against that application's rows. {@code rowLocation} gives
+     * the file path or URL that marks a row as owned by its application.
+     */
+    static <T> BenchmarkResult compare(
             ScannerFindings input,
-            BenchmarkGroundTruthProvider.GroundTruth truth,
+            BenchmarkGroundTruthProvider.GroundTruth<T> truth,
             String contextPath,
-            BiFunction<ScannerFindings, List<Finding>, BenchmarkResult> scorer) {
+            Function<T, String> rowLocation,
+            BiFunction<ScannerFindings, List<T>, BenchmarkResult> scorer) {
         Map<String, List<Finding>> grouped = new LinkedHashMap<>();
         truth.applications.keySet().forEach(app -> grouped.put(app, new ArrayList<>()));
         Map<String, Set<String>> owners = new LinkedHashMap<>();
-        for (Map.Entry<String, List<Finding>> app : truth.applications.entrySet()) {
-            for (Finding row : app.getValue()) {
-                String key = location(row, input.getScanType(), contextPath);
+        for (Map.Entry<String, List<T>> app : truth.applications.entrySet()) {
+            for (T row : app.getValue()) {
+                String key = rowLocation.apply(row);
                 owners.computeIfAbsent(key, ignored -> new LinkedHashSet<>()).add(app.getKey());
             }
         }
@@ -54,7 +60,7 @@ final class ApplicationBenchmark {
                         resolveApplication(
                                 finding,
                                 input.getScanType(),
-                                truth.applications,
+                                truth.applications.keySet(),
                                 contextPath,
                                 owners,
                                 fullUrlOwners);
@@ -67,6 +73,7 @@ final class ApplicationBenchmark {
             }
         }
         Map<String, BenchmarkResult> results = new LinkedHashMap<>();
+        List<Finding> detectedItems = new ArrayList<>();
         List<Finding> missed = new ArrayList<>();
         List<Finding> unmatched = new ArrayList<>();
         int total = 0;
@@ -77,6 +84,10 @@ final class ApplicationBenchmark {
                             new ScannerFindings(
                                     input.getTool(), input.getScanType(), app.getValue()),
                             truth.applications.getOrDefault(app.getKey(), Collections.emptyList()));
+            if (result.getDetectedItems() != null) {
+                result.getDetectedItems().replaceAll(f -> f.withApplication(app.getKey()));
+                detectedItems.addAll(result.getDetectedItems());
+            }
             result.getMissedItems().replaceAll(f -> f.withApplication(app.getKey()));
             result.getUnmatchedItems().replaceAll(f -> f.withApplication(app.getKey()));
             results.put(app.getKey(), result);
@@ -100,6 +111,7 @@ final class ApplicationBenchmark {
                         detected,
                         missed.size(),
                         unmatched.size(),
+                        detectedItems,
                         missed,
                         unmatched);
         result.setApplications(results);
@@ -110,7 +122,7 @@ final class ApplicationBenchmark {
     private static String resolveApplication(
             Finding finding,
             ScanType type,
-            Map<String, List<Finding>> apps,
+            Set<String> apps,
             String contextPath,
             Map<String, Set<String>> owners,
             Map<String, Set<String>> fullUrlOwners) {
@@ -118,12 +130,12 @@ final class ApplicationBenchmark {
             return finding.getApplication();
         }
         if (apps.size() == 1) {
-            return apps.keySet().iterator().next();
+            return apps.iterator().next();
         }
         String prefixOwner = null;
         if (type == ScanType.DAST && finding.getUrl() != null) {
             String path = DastBenchmarkStrategy.normalizeUrl(finding.getUrl(), "");
-            for (String app : apps.keySet()) {
+            for (String app : apps) {
                 if ((path.equals("/" + app) || path.startsWith("/" + app + "/"))
                         && (prefixOwner == null || app.length() > prefixOwner.length())) {
                     prefixOwner = app;
