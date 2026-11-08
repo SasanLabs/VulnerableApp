@@ -15,14 +15,14 @@ import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
-import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
 
 /**
- * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
- * IExpectedIssuesProvider}, backed by {@code scanner/sast/expectedIssues.csv} by default) and
- * produces coverage / missed / unmatched metrics.
+ * Compares scanner findings against SAST ground truth and produces coverage / missed / unmatched
+ * metrics. The rows come from the {@link IExpectedIssuesProvider} (backed by {@code
+ * scanner/sast/expectedIssues.csv} by default), or from {@code benchmark.sast.ground-truth.url}
+ * when it is set, and each application's findings are scored against that application's rows.
  *
  * <p>Each ground-truth row is indexed under up to two keys: its file with its CWE, and its file
  * with its vulnerability-type label. A scanner finding matches a row if it shares the {@code
@@ -50,17 +50,14 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         return ApplicationBenchmark.compare(
-                input, groundTruthProvider.load(ScanType.SAST), "", this::score);
+                input,
+                groundTruthProvider.loadSast(),
+                "",
+                row -> normalizeFilePath(row.getFilePath()),
+                this::score);
     }
 
-    private BenchmarkResult score(ScannerFindings input, List<Finding> rows) {
-        List<ExpectedIssue> expected = new ArrayList<>();
-        for (Finding row : rows) {
-            expected.add(
-                    new ExpectedIssue(
-                            row.getCwe(), row.getType(), row.getFilePath(), row.getLine(), 0));
-        }
-
+    private BenchmarkResult score(ScannerFindings input, List<ExpectedIssue> expected) {
         Map<String, List<ExpectedIssue>> expectedByKey = new HashMap<>();
         for (ExpectedIssue ei : expected) {
             for (String key : buildKeys(ei.getFilePath(), ei.getCwe(), ei.getVulnerabilityType())) {

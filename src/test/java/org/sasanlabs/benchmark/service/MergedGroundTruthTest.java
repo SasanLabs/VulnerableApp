@@ -2,6 +2,7 @@ package org.sasanlabs.benchmark.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withException;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
@@ -260,6 +261,12 @@ class MergedGroundTruthTest {
                 "{\"app\":[{\"filePath\":\" \",\"line\":10,\"type\":\"SQL\"}]}",
                 "{\"app\":[{\"filePath\":\"Java.java\",\"line\":0,\"type\":\"SQL\"}]}",
                 "{\"app\":[{\"filePath\":\"Java.java\",\"line\":-1,\"type\":\"SQL\"}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":0}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":-1}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":\"3\"}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":1.5}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":3.0}]}",
+                "{\"app\":[{\"filePath\":\"Java.java\",\"line\":10,\"type\":\"SQL\",\"lineCount\":3000000000}]}",
                 "<html>unavailable</html>"
             })
     void malformedSastResponseFallsBackInsteadOfReportingEmptyCoverage(String body)
@@ -268,6 +275,69 @@ class MergedGroundTruthTest {
         BenchmarkResult result = sast(sastFinding("Local.java", 10));
         assertThat(result.getGroundTruthFallback()).isTrue();
         assertThat(result.getDetected()).isEqualTo(1);
+        server.verify();
+    }
+
+    @Test
+    void facadeSastRowKeepsItsLineCount() throws Exception {
+        respond(
+                SAST_URL,
+                "{\"java\":[{\"filePath\":\"Java.java\",\"line\":10,\"lineCount\":3,"
+                        + "\"type\":\"SQL\",\"cwe\":\"CWE-89\"}]}");
+        BenchmarkResult result = sast(sastFinding("Java.java", 12), sastFinding("Java.java", 13));
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems()).extracting(Finding::getLine).containsExactly(13);
+        assertThat(result.getGroundTruthFallback()).isFalse();
+        server.verify();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", ",\"lineCount\":null", ",\"lineCount\":1"})
+    void facadeSastRowWithoutALongerLineCountMatchesOnlyItsLine(String lineCount) throws Exception {
+        respond(
+                SAST_URL,
+                "[{\"filePath\":\"Java.java\",\"line\":10"
+                        + lineCount
+                        + ",\"type\":\"SQL\",\"cwe\":\"CWE-89\"}]");
+        BenchmarkResult result = sast(sastFinding("Java.java", 10), sastFinding("Java.java", 11));
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatchedItems()).extracting(Finding::getLine).containsExactly(11);
+        assertThat(result.getGroundTruthFallback()).isFalse();
+        server.verify();
+    }
+
+    @Test
+    void sastDetectedItemsAreListedPerApplicationAndInTheAggregate() throws Exception {
+        respond(
+                SAST_URL,
+                "{\"java\":"
+                        + sastRows("Java.java", 10)
+                        + ",\"php\":"
+                        + sastRows("index.php", 20)
+                        + "}");
+        BenchmarkResult sast = sast(sastFinding("Java.java", 10));
+        assertThat(sast.getDetectedItems())
+                .extracting(Finding::getApplication, Finding::getFilePath)
+                .containsExactly(tuple("java", "Java.java"));
+        assertThat(sast.getApplications().get("java").getDetectedItems()).hasSize(1);
+        assertThat(sast.getApplications().get("php").getDetectedItems()).isEmpty();
+        server.verify();
+    }
+
+    @Test
+    void dastDetectedItemsAreListedPerApplicationAndInTheAggregate() throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":"
+                        + dastRows("/VulnerableApp/sql", "BLIND_SQL_INJECTION")
+                        + ",\"VulnerableApp-jsp\":"
+                        + dastRows("/VulnerableApp-jsp/xss", "REFLECTED_XSS")
+                        + "}");
+        BenchmarkResult dast = dast(new Finding("/VulnerableApp-jsp/xss", "REFLECTED_XSS"));
+        assertThat(dast.getDetectedItems())
+                .extracting(Finding::getApplication, Finding::getType)
+                .containsExactly(tuple("VulnerableApp-jsp", "REFLECTED_XSS"));
+        assertThat(dast.getApplications().get("VulnerableApp").getDetectedItems()).isEmpty();
         server.verify();
     }
 
@@ -300,6 +370,7 @@ class MergedGroundTruthTest {
         assertThat(json.at("/applications/java/detected").asInt()).isEqualTo(1);
         assertThat(json.at("/applications/php/missed").asInt()).isEqualTo(1);
         assertThat(json.at("/missedItems/0/application").asText()).isEqualTo("php");
+        assertThat(json.at("/detectedItems/0/application").asText()).isEqualTo("java");
         BenchmarkResult roundTrip = mapper.readValue(target.toFile(), BenchmarkResult.class);
         assertThat(roundTrip.getApplications().get("java").getCoverage()).isEqualTo(100.0);
     }

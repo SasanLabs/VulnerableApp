@@ -400,6 +400,7 @@ vary by scan type (unused fields are omitted from the JSON).
       "detected": 6,
       "missed": 134,
       "unmatched": 147,
+      "detectedItems": [{ "application": "VulnerableApp", "url": "/...", "type": "..." }],
       "missedItems": [{ "application": "VulnerableApp", "url": "/...", "type": "..." }],
       "unmatchedItems": [{ "application": "VulnerableApp", "url": "/...", "cwe": "..." }]
     }
@@ -409,9 +410,9 @@ vary by scan type (unused fields are omitted from the JSON).
   "detected": 6,
   "missed": 134,
   "unmatched": 147,
-  "detectedItems":   [ { "url": "/...", "type": "..." } ],
-  "missedItems":     [ { "url": "/...", "type": "..." } ],
-  "unmatchedItems":  [ { "url": "/...", "cwe": "..." } ]
+  "detectedItems":   [ { "application": "VulnerableApp", "url": "/...", "type": "..." } ],
+  "missedItems":     [ { "application": "VulnerableApp", "url": "/...", "type": "..." } ],
+  "unmatchedItems":  [ { "application": "VulnerableApp", "url": "/...", "cwe": "..." } ]
 }
 ```
 
@@ -475,6 +476,10 @@ are accepted. Unavailable apps omitted by a successful facade response are
 outside that run's scope; the comparator does not discover them separately.
 An empty facade object (`{}`), emitted when every backing endpoint fails,
 triggers local fallback. Named applications with empty arrays remain valid.
+A `/scanner/sast` row without `lineCount`, or with `null`, gets `1`, as a CSV row
+without `LineCount` does. Any other value that is not a plain integer from 1 to
+`Integer.MAX_VALUE` (`3`, not `3.0` or `"3"`) triggers local fallback for the
+whole response, whereas a bad CSV `LineCount` skips only its row.
 
 ```properties
 benchmark.dast.ground-truth.url=http://facade/scanner/dast
