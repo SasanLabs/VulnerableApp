@@ -241,7 +241,7 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
-      "line": 135,
+      "line": 134,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
@@ -1307,19 +1307,19 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 93,
+      "line": 92,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 135,
+      "line": 134,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.java",
-      "line": 185,
+      "line": 184,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
@@ -1331,31 +1331,31 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 272,
+      "line": 271,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 83,
+      "line": 82,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 143,
+      "line": 142,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 206,
+      "line": 205,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 272,
+      "line": 271,
       "cwe": "CWE-89",
       "type": "A prepared statement is generated from a nonconstant String"
     },
@@ -1379,19 +1379,19 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
-      "line": 85,
+      "line": 84,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
-      "line": 115,
+      "line": 114,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
-      "line": 130,
+      "line": 129,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },

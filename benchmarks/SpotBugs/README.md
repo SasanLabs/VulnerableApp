@@ -92,22 +92,9 @@ curl -s -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
 
 ---
 
-## Conversion Script & Ground-Truth Alignment
+## Conversion Script
 
 The conversion script (`benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py`)
 parses `<BugInstance>` elements from SpotBugs' XML report, resolves CWE identifiers
-and vulnerability descriptions, normalises file paths, and maps reported lines to
-VulnerableApp's SAST ground truth.
-
-### Bytecode line resolution
-
-In compiled Java bytecode, method invocations spanning multiple lines (such as
-`applicationJdbcTemplate.query(\n "select * ...")`) attribute the `INVOKEVIRTUAL`
-instruction to the line where the method call begins. VulnerableApp's SAST ground
-truth (`scanner/sast/expectedIssues.csv`) expects the exact line where the SQL query
-expression is defined.
-
-The converter checks the source code for multiline sink calls (e.g. `query(`,
-`prepareStatement(`, `execute(`, `executeUpdate(`, `batchUpdate(`) and aligns
-the finding to the query argument line so that valid vulnerabilities are correctly
-credited by the SAST benchmark matcher.
+and vulnerability descriptions directly from the report's metadata, normalises file paths,
+and outputs VulnerableApp SAST benchmark input format.
