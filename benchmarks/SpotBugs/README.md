@@ -1,0 +1,100 @@
+# SpotBugs with FindSecBugs Benchmark
+
+SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
+SAST mode against VulnerableApp's compiled bytecode.
+
+SpotBugs runs via a temporary Gradle initialization script (`spotbugs.init.gradle`),
+applying the official SpotBugs Gradle plugin and FindSecBugs security rules dynamically
+during the scan without modifying VulnerableApp's core `build.gradle`.
+
+---
+
+## Latest Results
+
+| Tool | Results File | Raw XML Report |
+|---|---|---|
+| SpotBugs + FindSecBugs | [`benchmarks/SpotBugs/spotbugs-results.json`](spotbugs-results.json) | [`benchmarks/SpotBugs/spotbugs-raw-report.xml`](spotbugs-raw-report.xml) |
+
+Results are auto-updated on `master` every day and on every manual workflow run.
+
+---
+
+## Running the Benchmark
+
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack, run standalone SpotBugs with FindSecBugs, convert, benchmark, commit
+results and raw XML) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **SpotBugs Benchmark**
+2. Click **Run workflow**
+3. On `master`, results and raw reports are committed automatically:
+   - `benchmarks/SpotBugs/spotbugs-results.json`
+   - `benchmarks/SpotBugs/findings/spotbugs-findings.json`
+   - `benchmarks/SpotBugs/spotbugs-raw-report.xml`
+   On other branches, nothing is committed; download the
+   `spotbugs-benchmark-artifacts` artifact of the run instead.
+
+See [`.github/workflows/spotbugs-benchmark.yml`](../../.github/workflows/spotbugs-benchmark.yml)
+for the full workflow definition.
+
+---
+
+## Running Locally
+
+To run the benchmark locally:
+
+### 1. Run the SpotBugs scan
+
+Run the scan directly using the Gradle wrapper and the initialization script:
+
+```bash
+./gradlew --refresh-dependencies \
+    --init-script benchmarks/SpotBugs/scripts/spotbugs.init.gradle \
+    spotbugsMain
+```
+
+Alternatively, you can run the Python helper:
+
+```bash
+python3 benchmarks/SpotBugs/scripts/run_spotbugs.py
+```
+
+This outputs the raw XML report to `benchmarks/SpotBugs/spotbugs-raw-report.xml`.
+
+### 2. Convert the report to benchmark input format
+
+Convert the XML report to benchmark input format using the conversion script:
+
+```bash
+python3 benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py \
+    --input  benchmarks/SpotBugs/spotbugs-raw-report.xml \
+    --output benchmarks/SpotBugs/findings/spotbugs-findings.json
+```
+
+### 3. Start VulnerableApp
+
+Start VulnerableApp from the same checkout:
+
+```bash
+./gradlew bootRun
+```
+
+### 4. Submit findings to the benchmark endpoint
+
+Post the converted findings to VulnerableApp's benchmark endpoint:
+
+```bash
+curl -s -X POST http://localhost:9090/VulnerableApp/scanner/benchmark \
+    -H "Content-Type: application/json" \
+    -d @benchmarks/SpotBugs/findings/spotbugs-findings.json \
+    -o benchmarks/SpotBugs/spotbugs-results.json
+```
+
+---
+
+## Conversion Script
+
+The conversion script (`benchmarks/SpotBugs/scripts/convert_spotbugs_to_benchmark.py`)
+parses `<BugInstance>` elements from SpotBugs' XML report, resolves CWE identifiers
+and vulnerability descriptions directly from the report's metadata, normalises file paths,
+and outputs VulnerableApp SAST benchmark input format.
