@@ -2,6 +2,7 @@ package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -26,6 +27,9 @@ public class ScannerResponseBean {
     @JsonProperty("method")
     private RequestMethod requestMethod;
 
+    @JsonProperty("protocol")
+    private Protocol protocol;
+
     @JsonProperty("vulnerabilityTypes")
     private List<VulnerabilityType> vulnerabilityTypes;
 
@@ -33,11 +37,13 @@ public class ScannerResponseBean {
             String url,
             String variant,
             RequestMethod requestMethod,
+            Protocol protocol,
             List<VulnerabilityType> vulnerabilityTypes) {
         super();
         this.url = url;
         this.variant = variant;
         this.requestMethod = requestMethod;
+        this.protocol = protocol;
         this.vulnerabilityTypes = vulnerabilityTypes;
     }
 
@@ -51,6 +57,10 @@ public class ScannerResponseBean {
 
     public RequestMethod getRequestMethod() {
         return requestMethod;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
     }
 
     public List<VulnerabilityType> getVulnerabilityTypes() {

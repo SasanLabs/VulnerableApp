@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.sasanlabs.internal.utility.LevelConstants;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.internal.utility.Variant;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +37,9 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     @JsonProperty("HttpMethod")
     private RequestMethod requestMethod;
+
+    @JsonProperty("Protocol")
+    private Protocol protocol;
 
     @JsonProperty("AttackVectors")
     private List<AttackVectorResponseBean> attackVectorResponseBeans = new ArrayList<>();
@@ -105,6 +109,14 @@ public class LevelResponseBean implements Comparable<LevelResponseBean> {
 
     public void setRequestMethod(RequestMethod httpMethod) {
         this.requestMethod = httpMethod;
+    }
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 
     public List<AttackVectorResponseBean> getAttackVectorResponseBeans() {
