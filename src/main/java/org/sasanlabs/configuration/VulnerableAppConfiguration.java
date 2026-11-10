@@ -46,8 +46,7 @@ public class VulnerableAppConfiguration {
     private static final String ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN =
             "classpath:/attackvectors/*.properties";
     private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
-            List.of(
-                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
+            List.of("/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -77,7 +76,7 @@ public class VulnerableAppConfiguration {
      *
      * @param resourceLoader loads the resources
      * @return {@link VulnerableAppProperties} which is injected in spring context.
-     * @throws IOException throws IOException
+     * @throws IOException if the attack vector property files cannot be read
      */
     @Bean
     public VulnerableAppProperties propertyLoader(ResourceLoader resourceLoader)
