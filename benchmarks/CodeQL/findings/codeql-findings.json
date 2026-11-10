@@ -268,6 +268,16 @@
       "cwe": "CWE-564"
     },
     {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 87,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 87,
+      "cwe": "CWE-564"
+    },
+    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 85,
       "cwe": "CWE-89"
@@ -279,12 +289,12 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 87,
+      "line": 147,
       "cwe": "CWE-89"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 87,
+      "line": 147,
       "cwe": "CWE-564"
     },
     {
@@ -305,16 +315,6 @@
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 130,
-      "cwe": "CWE-564"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 147,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 147,
       "cwe": "CWE-564"
     },
     {
