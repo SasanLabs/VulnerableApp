@@ -1,0 +1,5 @@
+{
+  "tool": "Wapiti",
+  "scanType": "DAST",
+  "findings": []
+}

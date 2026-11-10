@@ -25,9 +25,9 @@ frontend via VulnerableApp-facade) and **Legacy UI** (JSP backend directly).
  
 ### Latest results
  
-| UI | Results file |
-|---|---|
-| Modern | [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json) |
+| UI     | Results file                                                            |
+|--------|-------------------------------------------------------------------------|
+| Modern | [`benchmarks/ZAP/zap-results.json`](ZAP/zap-results.json)               |
 | Legacy | [`benchmarks/ZAP/zap-results-legacy.json`](ZAP/zap-results-legacy.json) |
  
 Results are auto-updated everyday and on every manual workflow run.
@@ -69,8 +69,8 @@ Semgrep is benchmarked in SAST mode against the VulnerableApp source tree.
 
 ### Latest results
 
-| Ruleset | Results file |
-|---|---|
+| Ruleset     | Results file                                                              |
+|-------------|---------------------------------------------------------------------------|
 | `p/default` | [`benchmarks/Semgrep/semgrep-results.json`](Semgrep/semgrep-results.json) |
 
 Results are auto-updated on `master` every day and on every manual workflow
@@ -135,11 +135,21 @@ warning, because the matcher cannot score it. No manual rule mapping is needed.
 
 ---
 
+## CodeQL
+
+CodeQL is benchmarked in SAST mode against the VulnerableApp source tree.
+
+See [`benchmarks/CodeQL/README.md`](CodeQL/README.md) for workflow instructions,
+local execution, bundle configuration, query coverage, conversion details, and
+the latest benchmark results.
+
+---
+
 ## SpotBugs with FindSecBugs
 
 SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
-SAST mode against VulnerableApp's compiled bytecode. SpotBugs runs as a standalone
-CLI tool without requiring scanner plugins in `build.gradle`.
+SAST mode against VulnerableApp's compiled bytecode. SpotBugs runs via a dynamic
+Gradle init script without requiring permanent scanner plugins in `build.gradle`.
 
 ### Latest results
 
@@ -152,7 +162,7 @@ Results are auto-updated on `master` every day and on every manual workflow run.
 ### Running the benchmark
 
 The full pipeline (build the VulnerableApp image from the checkout, start the
-Docker stack, run standalone SpotBugs with FindSecBugs, convert, benchmark, commit
+Docker stack, run SpotBugs with FindSecBugs, convert, benchmark, commit
 results and raw XML) is automated via GitHub Actions:
 
 1. Open the **Actions** tab and pick **SpotBugs Benchmark**
@@ -168,15 +178,53 @@ For local execution instructions, CLI options, and conversion script details, se
 
 ---
 
+## w3af
+
+w3af is benchmarked in **DAST** mode. See
+[`benchmarks/w3af/README.md`](w3af/README.md) for the scan setup, the
+conversion script, and the latest results.
+
+## Wapiti
+
+Wapiti is benchmarked against VulnerableApp using its DAST scanner.
+
+### Latest results
+
+| Scanner | Results file                                                          |
+|---------|-----------------------------------------------------------------------|
+| Wapiti  | [`benchmarks/Wapiti/wapiti-results.json`](Wapiti/wapiti-results.json) |
+
+Results are auto-updated daily via [`.github/workflows/wapiti-benchmark.yml`](../.github/workflows/wapiti-benchmark.yml).
+
+### Conversion script
+
+Convert Wapiti's JSON report (`-f json`) into the benchmark input format:
+
+```bash
+python3 benchmarks/Wapiti/scripts/convert_wapiti_to_benchmark.py \
+    --input  benchmarks/Wapiti/wapiti-raw-report.json \
+    --output benchmarks/Wapiti/findings/wapiti-findings.json
+```
+
+The script emits one finding per CWE reference in Wapiti's classifications: the URL,
+HTTP method, the CWE ID, and the mapped vulnerability type (if applicable). When a
+category lists several CWEs (e.g. Resource consumption with CWE-405 and CWE-400), each
+CWE reference produces a finding so that the benchmark matcher can evaluate all applicable
+CWE definitions.
+
+See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reproduction instructions.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
 omitted, it defaults to `DAST` so existing payloads keep working.
 
-| `scanType`        | Ground truth                                | Per-finding fields                        |
-|-------------------|---------------------------------------------|-------------------------------------------|
-| `DAST` (default)  | live `/scanner/dast` endpoint               | `url`, `type`                             |
-| `SAST`            | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
+| `scanType`       | Ground truth                                | Per-finding fields                           |
+|------------------|---------------------------------------------|----------------------------------------------|
+| `DAST` (default) | live `/scanner/dast` endpoint               | `url`, `type`                                |
+| `SAST`           | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
 
 ## DAST input format
 
@@ -296,21 +344,36 @@ shared by all levels of a class, there is one row for that line and
 `Number of Sources` holds the number of levels that expose the issue through
 it. Levels marked `Variant.SECURE` have no rows.
 
-A row never points at an annotation, a comment, a blank line or a brace.
-`ExpectedIssuesAlignmentTest` fails the build when one does, which is what
-happens when a vulnerable class is edited and its rows are not moved with it.
+`LineCount` is the number of lines the vulnerable statement occupies: `1` if it
+fits on one line, `2` if it takes two, and so on. When it is above `1`, `Line`
+is the first line of the statement rather than the argument line described
+above, and a finding on any line from `Line` to `Line + LineCount - 1` matches
+the row. When the statement passes a lambda with a block body, such as a row
+mapper `(rs) -> { ... }`, the range stops on the line before that lambda, so it
+covers the call and its arguments but not the lambda's body. The column is
+optional. A CSV without it, or a row that leaves it empty, gets `1`, which keeps
+the exact `Line` match.
+
+A row never points at an annotation, including any line a multi-line
+annotation spans, a comment, a blank line or a brace, and a row with a
+`LineCount` above `1` also ends on a line of code inside the file.
+`ExpectedIssuesAlignmentTest` fails the build when a row breaks either rule,
+which is what happens when a vulnerable class is edited and its rows are not
+moved with it.
 
 ### SAST matching rules
 
 A finding matches an expected issue when:
 
 1. The normalised **`filePath`** matches, AND
-2. The **`line`** matches exactly, AND
-3. Either **`cwe`** matches the CSV's `CWE` column **or** **`type`** matches
-   the `Vulnerability Type` column (case-insensitively).
+2. The **`line`** is between `Line` and `Line + LineCount - 1`, which is
+   exactly `Line` when `LineCount` is `1` (the default), AND
+3. The finding's **`cwe`** matches the CSV's `CWE` column. When the finding or
+   the row has no CWE, the finding's **`type`** is matched against the
+   `Vulnerability Type` column (case-insensitively) instead.
 
-A scanner can emit either CWE, type, or both — whichever pair
-(`file + line + CWE` *or* `file + line + type`) hits the ground truth wins.
+A finding whose CWE differs from the row's does not match, even when its type
+matches the row's `Vulnerability Type`.
 
 - **Path normalisation:** backslashes → forward slashes; leading `./` stripped;
   whitespace trimmed. Scanner authors should emit project-relative paths;
@@ -319,8 +382,15 @@ A scanner can emit either CWE, type, or both — whichever pair
   match).
 - **Type comparison:** lower-cased + trimmed (e.g. `"SQL Injection"` and
   `"sql injection"` both match).
-- **Duplicates:** a scanner that emits the same `(filePath, line, CWE)` twice
-  gets credit once.
+- **Duplicates:** a finding with a CWE is counted once per
+  `(filePath, line, CWE)`, so two findings on one line with different CWEs are
+  both kept. A finding without a CWE is counted once per
+  `(filePath, line, type)`, and not at all when a finding with a CWE on the same
+  file and line has the same type, whichever of the two comes first.
+- **Line ranges:** several findings inside one row's range detect that row
+  once, and none of them is counted as unmatched. A finding inside the ranges
+  of two rows detects both. A row that no finding matches is listed in
+  `missedItems` at its `Line`.
 - **`Number of Sources` column:** the number of vulnerable levels that expose
   the issue through that line (`1` unless several levels share it). It is there
   for human reference and is **not used for scoring**: the first match gets
@@ -345,8 +415,8 @@ The HTTP response contains the same JSON that gets persisted to disk.
 ## Output format
 
 The output schema is the same for DAST and SAST. The fields inside each
-`missedItems` / `unmatchedItems` entry vary by scan type (unused fields are
-omitted from the JSON).
+`detectedItems` / `missedItems` / `unmatchedItems` entry vary by scan type
+(unused fields are omitted from the JSON).
 
 ```json
 {
@@ -356,6 +426,7 @@ omitted from the JSON).
   "detected": 6,
   "missed": 134,
   "unmatched": 147,
+  "detectedItems":   [ { "url": "/...", "type": "..." } ],
   "missedItems":     [ { "url": "/...", "type": "..." } ],
   "unmatchedItems":  [ { "url": "/...", "cwe": "..." } ]
 }
@@ -373,19 +444,21 @@ For SAST runs, items look like:
   `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
   (SECURE entries are intentionally clean and don't count). For SAST, count of
   rows in the CSV.
+- `detectedItems` — expected items the scanner reported. Results written before
+  this field existed omit it.
 - `missedItems` — expected items the scanner did not report.
 - `unmatchedItems` — items the scanner reported that don't line up with any
   expected ground-truth row.
 
 ## Configuration
 
-| Property | Default | Purpose |
-|---|---|---|
-| `benchmark.output.dir` | `benchmarks` | Directory the JSON report is written to. |
-| `benchmark.dast.ground-truth.url` | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app. |
-| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000` | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads. |
-| `benchmark.dast.ground-truth.read-timeout-ms` | `10000` | Read timeout (ms) for the ground-truth fetch. |
-| `benchmark.sast.ground-truth.path` | `classpath:scanner/sast/expectedIssues.csv` | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
+| Property                                         | Default                                                                                          | Purpose                                                                                                                                        |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `benchmark.output.dir`                           | `benchmarks`                                                                                     | Directory the JSON report is written to.                                                                                                       |
+| `benchmark.dast.ground-truth.url`                | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app.      |
+| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000`                                                                                           | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads.                    |
+| `benchmark.dast.ground-truth.read-timeout-ms`    | `10000`                                                                                          | Read timeout (ms) for the ground-truth fetch.                                                                                                  |
+| `benchmark.sast.ground-truth.path`               | `classpath:scanner/sast/expectedIssues.csv`                                                      | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
 
 The default DAST URL is a self-call against the running app, which means
 benchmarking works out of the box in standalone mode. In a facade-composed
@@ -419,12 +492,13 @@ false positives. This applies to any DAST scanner benchmarked against Vulnerable
 
 ### A finding on another line of the same flow is unmatched (all SAST scanners)
 
-The SAST matcher compares exact line numbers. A scanner that reports a real
-issue on a different line of the same data flow gets no credit for it: the
-expected row shows up in `missedItems` and the finding in `unmatchedItems`. For
-example, Semgrep reports SSRF where the `URL` object is built
-(`SSRFVulnerability.java:67`), while the expected row is the `openConnection()`
-call at line 85.
+The SAST matcher only credits a finding on a line from `Line` to
+`Line + LineCount - 1`, which is just `Line` for a row whose `LineCount` is `1`.
+A scanner that reports a real issue on another line of the same data flow gets
+no credit for it: the expected row shows up in `missedItems` and the finding in
+`unmatchedItems`. For example, Semgrep reports SSRF where the `URL` object is
+built (`SSRFVulnerability.java:73`), while the expected row is the
+`openConnection()` call at line 91.
 
 `unmatchedItems` also holds findings on levels marked `Variant.SECURE`, findings
 outside the intended vulnerability set (CSRF on request mappings, cookie flags),

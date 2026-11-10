@@ -27,8 +27,8 @@ public interface IEndPointsInformationProvider {
 
     /**
      * This Api provides information required by VulnerableApp-Facade for building a facade User
-     * Interface. For more information visit: {@link
-     * https://github.com/SasanLabs/VulnerableApp-facade}
+     * Interface. For more information visit: {@link <a
+     * href="https://github.com/SasanLabs/VulnerableApp-facade">...</a>}
      */
     List<VulnerabilityDefinition> getVulnerabilityDefinitions() throws JsonProcessingException;
 

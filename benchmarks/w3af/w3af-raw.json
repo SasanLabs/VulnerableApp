@@ -1,0 +1,420 @@
+{
+  "w3af-version": "1.6.0",
+  "scan-info": {
+    "target_urls": [
+      "http://localhost/VulnerableApp/"
+    ],
+    "target_domain": "localhost",
+    "enabled_plugins": {
+      "audit": [
+        "xss",
+        "sqli",
+        "lfi",
+        "os_commanding",
+        "ssrf"
+      ]
+    },
+    "findings": [],
+    "known_urls": []
+  },
+  "start": "1759900000",
+  "start-long": "Tue Oct  7 12:00:00 2025",
+  "items": [
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_1?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_2?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_3?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_4?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_5?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_1?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_2?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_3?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_4?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_2?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Blind SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_1?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Blind SQL Injection",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_2?id=x",
+      "Vulnerable parameter": "id",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        89
+      ],
+      "WASC IDs": [
+        19
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Path Traversal",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/PathTraversal/LEVEL_1?file=x",
+      "Vulnerable parameter": "file",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        22
+      ],
+      "WASC IDs": [
+        33
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Path Traversal",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/PathTraversal/LEVEL_2?file=x",
+      "Vulnerable parameter": "file",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        22
+      ],
+      "WASC IDs": [
+        33
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Path Traversal",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/PathTraversal/LEVEL_3?file=x",
+      "Vulnerable parameter": "file",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        22
+      ],
+      "WASC IDs": [
+        33
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "OS Commanding",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/CommandInjection/LEVEL_1?cmd=x",
+      "Vulnerable parameter": "cmd",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        77
+      ],
+      "WASC IDs": [
+        31
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "OS Commanding",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/CommandInjection/LEVEL_2?cmd=x",
+      "Vulnerable parameter": "cmd",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        77
+      ],
+      "WASC IDs": [
+        31
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "OS Commanding",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/CommandInjection/LEVEL_3?cmd=x",
+      "Vulnerable parameter": "cmd",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        77
+      ],
+      "WASC IDs": [
+        31
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Server Side Request Forgery",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/SSRFVulnerability/LEVEL_1?url=x",
+      "Vulnerable parameter": "url",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        918
+      ],
+      "WASC IDs": [
+        15
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Server Side Request Forgery",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/SSRFVulnerability/LEVEL_2?url=x",
+      "Vulnerable parameter": "url",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        918
+      ],
+      "WASC IDs": [
+        15
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    },
+    {
+      "Severity": "High",
+      "Name": "Cross Site Scripting",
+      "HTTP method": "GET",
+      "URL": "http://localhost/VulnerableApp/XSSInImgTagAttribute/LEVEL_1?text=x",
+      "Vulnerable parameter": "text",
+      "POST data": "",
+      "Vulnerability IDs": "",
+      "CWE IDs": [
+        79
+      ],
+      "WASC IDs": [
+        8
+      ],
+      "Tags": [],
+      "VulnDB ID": "",
+      "Description": ""
+    }
+  ]
+}
