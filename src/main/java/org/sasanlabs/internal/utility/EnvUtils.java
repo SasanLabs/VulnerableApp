@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvUtils {
 
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
     public EnvUtils(ApplicationContext context) {
         this.context = context;

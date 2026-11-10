@@ -12,7 +12,7 @@ import java.util.Properties;
 public class VulnerableAppProperties {
 
     /** Contains all the properties present in {@code attackvectors/*.properties} */
-    private Properties attackVectorProperties;
+    private final Properties attackVectorProperties;
 
     public VulnerableAppProperties(Properties attackVectorProperties) {
         super();
@@ -20,7 +20,7 @@ public class VulnerableAppProperties {
     }
 
     /**
-     * @param propertyKey
+     * @param propertyKey requires property key
      * @return property value by reading {@code attackvectors/*.properties} files.
      */
     public String getAttackVectorProperty(String propertyKey) {

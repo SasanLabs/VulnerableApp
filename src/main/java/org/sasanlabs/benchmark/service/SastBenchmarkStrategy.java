@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
  * <p>Each ground-truth row contributes up to two match keys: one keyed on CWE and one keyed on the
  * vulnerability-type label. A scanner finding matches if it shares the {@code (filePath, line)}
  * pair AND either the CWE or the type label (case-insensitive). Scanner findings are expected to
- * emit project-relative paths; backslashes and leading {@code ./} are normalised.
+ * emit project-relative paths; backslashes and leading {@code ./} are normalized.
  */
 @Service
 public class SastBenchmarkStrategy implements BenchmarkStrategy {

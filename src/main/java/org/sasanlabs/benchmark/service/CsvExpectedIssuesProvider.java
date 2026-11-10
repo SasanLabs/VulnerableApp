@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
  * one bad row should not abort an entire benchmark run.
  *
  * <p>The CSV is parsed once and cached, so repeated reads (the benchmark flow, and the {@code
- * /scanner/sast} endpoint) do not hit disk or re-parse on every call. The cache is warmed at
+ * /scanner/sast} endpoint) do not hit disk or reparse on every call. The cache is warmed at
  * startup, so a file that cannot be read aborts the context rather than failing the first request,
  * the same way {@code EmbeddedLDAPConfig} treats its own startup work.
  */
