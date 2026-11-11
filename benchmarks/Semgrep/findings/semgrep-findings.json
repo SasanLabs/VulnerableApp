@@ -274,7 +274,7 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 364,
+      "line": 367,
       "cwe": "CWE-611",
       "type": "XML Injection"
     }
