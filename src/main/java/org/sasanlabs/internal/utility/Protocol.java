@@ -17,9 +17,9 @@ public enum Protocol {
     WS;
 
     /**
-     * Binds JSON only from the exact constant name, so numeric ordinals such as {@code 0} or
-     * {@code "0"} are rejected. {@code @JsonFormat(shape = STRING)} alone does not change enum
-     * deserialization in Jackson 2.13.
+     * Binds JSON only from the exact constant name, so numeric ordinals such as 0 or "0" are
+     * rejected. {@code @JsonFormat(shape = STRING)} alone does not change enum deserialization in
+     * Jackson 2.13.
      */
     @JsonCreator
     public static Protocol fromName(String name) {
