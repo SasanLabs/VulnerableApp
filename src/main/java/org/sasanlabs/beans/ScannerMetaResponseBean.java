@@ -6,7 +6,7 @@ import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 
 /**
- * This class represents the meta data about the data provided by scanner endpoint. This is useful
+ * This class represents the metadata about the data provided by scanner endpoint. This is useful
  * for scanners to map there vulnerability type names with VulnerableApp's vulnerability type names
  * and same goes with the request parameter locations etc. This is mainly used for mapping
  * conventions across different applications
