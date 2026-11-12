@@ -4,13 +4,13 @@
   "findings": [
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
-      "line": 134,
+      "line": 130,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
-      "line": 135,
+      "line": 131,
       "cwe": "CWE-89",
       "type": "SQL Injection"
     },
