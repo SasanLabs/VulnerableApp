@@ -33,4 +33,16 @@ public enum Protocol {
     public static Protocol orDefault(Protocol protocol) {
         return protocol != null ? protocol : HTTP;
     }
+
+    /**
+     * Returns the request method when it applies to this protocol, or null when it does not. Only
+     * {@link #HTTP} uses a method; a WebSocket level is always opened with a GET handshake, so its
+     * method says nothing about which frames were tested.
+     *
+     * @param method the request method, which may be null
+     * @return {@code method} for {@link #HTTP}, otherwise null
+     */
+    public String getMethodIfApplicable(String method) {
+        return this == HTTP ? method : null;
+    }
 }

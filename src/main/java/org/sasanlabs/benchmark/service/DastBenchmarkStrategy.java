@@ -223,14 +223,15 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             if (types == null) {
                 continue;
             }
+            // WebSocket's GET handshake is not an ordinary HTTP method to benchmark.
+            String applicableMethod = protocol.getMethodIfApplicable(method);
             for (VulnerabilityType type : types) {
-                // WebSocket's GET handshake is not an ordinary HTTP method to benchmark.
                 String rowSignature =
                         protocol
                                 + KEY_SEPARATOR
                                 + url
                                 + KEY_SEPARATOR
-                                + (protocol == Protocol.HTTP ? method + KEY_SEPARATOR : "")
+                                + (applicableMethod != null ? applicableMethod + KEY_SEPARATOR : "")
                                 + type.name();
                 if (!seenRowSignatures.add(rowSignature)) {
                     continue;
@@ -238,7 +239,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 int rowIndex = rowsOut.size();
                 rowsOut.add(buildExpectedFinding(url, type, method, protocol));
                 addAxisKeys(keyToRows, rowIndex, url, protocol, method, type);
-                if (protocol == Protocol.HTTP) {
+                if (applicableMethod != null) {
                     addAxisKeys(keyToRows, rowIndex, url, protocol, METHOD_ANY, type);
                 }
             }
@@ -287,7 +288,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 null,
                 cwe,
                 wasc,
-                protocol == Protocol.HTTP ? method : null,
+                protocol.getMethodIfApplicable(method),
                 protocol == Protocol.WS ? Protocol.WS : null);
     }
 
@@ -324,13 +325,14 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     /** Separates protocol namespaces and includes method only for ordinary HTTP findings. */
     private static String keyPrefix(String axis, String url, Protocol protocol, String method) {
         // WS keys intentionally omit the HTTP handshake method.
+        String applicableMethod = protocol.getMethodIfApplicable(method);
         return axis
                 + KEY_SEPARATOR
                 + protocol
                 + KEY_SEPARATOR
                 + url
                 + KEY_SEPARATOR
-                + (protocol == Protocol.HTTP ? method + KEY_SEPARATOR : "");
+                + (applicableMethod != null ? applicableMethod + KEY_SEPARATOR : "");
     }
 
     /** Builds the matching key for the vulnerability-type axis. */
