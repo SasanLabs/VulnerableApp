@@ -271,13 +271,13 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
-      "line": 134,
+      "line": 130,
       "cwe": "CWE-89",
       "type": "Potential JDBC Injection (Spring JDBC)"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/configuration/VulnerableAppConfiguration.java",
-      "line": 197,
+      "line": 193,
       "type": "Could be refactored into a named static inner class"
     },
     {
