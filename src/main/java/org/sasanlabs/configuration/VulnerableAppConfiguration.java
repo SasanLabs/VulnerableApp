@@ -2,7 +2,6 @@ package org.sasanlabs.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -47,8 +46,7 @@ public class VulnerableAppConfiguration {
     private static final String ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN =
             "classpath:/attackvectors/*.properties";
     private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
-            Arrays.asList(
-                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
+            List.of("/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -76,9 +74,9 @@ public class VulnerableAppConfiguration {
      * This method reads all the property which are useful for vulnerableApp and then injects them
      * into the context so that entire application can use it.
      *
-     * @param resourceLoader
+     * @param resourceLoader loads the resources
      * @return {@link VulnerableAppProperties} which is injected in spring context.
-     * @throws IOException
+     * @throws IOException if the attack vector property files cannot be read
      */
     @Bean
     public VulnerableAppProperties propertyLoader(ResourceLoader resourceLoader)
@@ -90,9 +88,7 @@ public class VulnerableAppConfiguration {
         for (Resource attackVectorResource : attackVectorsResources) {
             PropertiesLoaderUtils.fillProperties(attackVectorProperties, attackVectorResource);
         }
-        VulnerableAppProperties vulnerableAppProperties =
-                new VulnerableAppProperties(attackVectorProperties);
-        return vulnerableAppProperties;
+        return new VulnerableAppProperties(attackVectorProperties);
     }
 
     /**
@@ -208,7 +204,6 @@ public class VulnerableAppConfiguration {
                 }
             }
         }
-        ;
         return new MaxUploadSizeOverrideMultipartFilter();
     }
 }
