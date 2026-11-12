@@ -16,26 +16,21 @@ jobs:
   commix-benchmark:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Pinned so reruns of the same application revision use the same scanner.
+      # Update together with the tag in benchmarks/commix/README.md.
+      COMMIX_TAG: v4.1
     steps:
       - name: Checkout application
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Resolve newest commix release tag
-        id: commix
-        run: |
-          # Version-numbered tags only, so untagged master and pre-release tags are never used.
-          tag="$(git ls-remote --tags --refs https://github.com/commixproject/commix.git \
-            | sed 's#.*refs/tags/##' | grep -E '^v[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)"
-          test -n "$tag"
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout commix ${{ steps.commix.outputs.tag }}
+      - name: Checkout commix ${{ env.COMMIX_TAG }}
         uses: actions/checkout@v4
         with:
           repository: commixproject/commix
-          ref: refs/tags/${{ steps.commix.outputs.tag }}
+          ref: refs/tags/${{ env.COMMIX_TAG }}
           path: .tools/commix
           persist-credentials: false
 
@@ -78,8 +73,6 @@ jobs:
           exit 1
 
       - name: Scan command-injection ground-truth endpoints
-        env:
-          COMMIX_TAG: ${{ steps.commix.outputs.tag }}
         run: |
           # Limit scanner address space to 2 GiB; each target also has a process deadline.
           ulimit -v 2097152

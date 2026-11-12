@@ -2,8 +2,10 @@
 
 This integration measures the Java OS command-injection challenges against a
 controlled running instance. It uses upstream
-[Commix](https://github.com/commixproject/commix) at its newest version-numbered
-tag, resolved when the workflow runs, so untagged `master` code is never used.
+[Commix](https://github.com/commixproject/commix) pinned to the release tag `v4.1`
+(set as `COMMIX_TAG` in the workflow), so reruns of the same application revision
+use the same scanner and untagged `master` code is never used. Update the tag in
+the workflow and in the commands below together.
 The runner checks that the scanner reports that tag as its stable version, and
 the run artifacts record the reported version and the checked-out commit. Commix
 is GPLv3-or-later; it is fetched from upstream and its source is not bundled
@@ -71,11 +73,10 @@ separately:
 java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar --server.port=9090
 ```
 
-Check out the newest version-numbered tag, as the workflow does, then run:
+Check out the pinned tag, as the workflow does, then run:
 
 ```bash
-tag="$(git ls-remote --tags --refs https://github.com/commixproject/commix.git \
-  | sed 's#.*refs/tags/##' | grep -E '^v[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)"
+tag=v4.1
 git clone --depth 1 --branch "$tag" https://github.com/commixproject/commix.git /tmp/commix-benchmark
 python3 -m unittest discover -s benchmarks/commix/scripts -v
 python3 benchmarks/commix/scripts/run_commix.py \
