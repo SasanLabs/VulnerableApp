@@ -46,13 +46,6 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         this.expectedIssuesProvider = expectedIssuesProvider;
     }
 
-    /**
-     * Grades source locations and taxonomy against the SAST ground truth, independently of DAST
-     * protocol scope. Unmatched groups retain their original diagnostic fields; the DAST-only
-     * protocol is removed from report copies without changing caller-owned findings.
-     *
-     * @throws IOException if the expected-issues provider cannot load the ground truth
-     */
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         List<ExpectedIssue> expected = expectedIssuesProvider.getExpectedIssues();
@@ -107,7 +100,7 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         List<Finding> unmatchedItems = new ArrayList<>();
         for (Map.Entry<String, Finding> group : firstFindingOfGroup.entrySet()) {
             if (!matchedGroups.contains(group.getKey())) {
-                unmatchedItems.add(withoutDastProtocol(group.getValue()));
+                unmatchedItems.add(group.getValue());
             }
         }
 
@@ -145,21 +138,6 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 detectedItems,
                 missedItems,
                 unmatchedItems);
-    }
-
-    /** Keeps DAST protocol metadata out of SAST reports while preserving legacy finding fields. */
-    private static Finding withoutDastProtocol(Finding finding) {
-        if (finding.getProtocol() == null) {
-            return finding;
-        }
-        return new Finding(
-                finding.getUrl(),
-                finding.getType(),
-                finding.getFilePath(),
-                finding.getLine(),
-                finding.getCwe(),
-                finding.getWascId(),
-                finding.getMethod());
     }
 
     /**
