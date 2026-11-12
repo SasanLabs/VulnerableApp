@@ -20,7 +20,7 @@ public interface IEndPointsInformationProvider {
      * This Api provides entire information about the exposed vulnerable endpoints by the
      * application like all the supported vulnerabilities, levels, attack vectors etc.
      *
-     * @return
+     * @return {@code List<AllEndPointsResponseBean>} containing the supported endpoints
      * @throws JsonProcessingException
      */
     List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException;

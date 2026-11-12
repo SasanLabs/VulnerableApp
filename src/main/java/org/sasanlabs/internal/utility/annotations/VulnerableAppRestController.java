@@ -23,7 +23,7 @@ public @interface VulnerableAppRestController {
     /**
      * Unique name (Endpoint Name)
      *
-     * @return
+     * @return String
      */
     @AliasFor(annotation = RequestMapping.class)
     String value();

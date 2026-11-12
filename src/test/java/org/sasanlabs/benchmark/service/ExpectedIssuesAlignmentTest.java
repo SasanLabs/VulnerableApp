@@ -120,7 +120,7 @@ class ExpectedIssuesAlignmentTest {
         }
         Set<Integer> annotationLines = annotationLines(lines);
         String code = lines.get(issue.getLine() - 1).trim();
-        if (!isCode(code) || annotationLines.contains(issue.getLine())) {
+        if (isCode(code) || annotationLines.contains(issue.getLine())) {
             return row + " -> \"" + code + "\"";
         }
         long lastLine = (long) issue.getLine() + issue.getLineCount() - 1;
@@ -133,7 +133,7 @@ class ExpectedIssuesAlignmentTest {
                     + " lines)";
         }
         String lastCode = lines.get((int) lastLine - 1).trim();
-        if (!isCode(lastCode) || annotationLines.contains((int) lastLine)) {
+        if (isCode(lastCode) || annotationLines.contains((int) lastLine)) {
             return row + " (LineCount ends on line " + lastLine + ": \"" + lastCode + "\")";
         }
         return null;
@@ -144,9 +144,9 @@ class ExpectedIssuesAlignmentTest {
                 || line.startsWith("/*")
                 || line.startsWith("*")
                 || line.startsWith("@")) {
-            return false;
+            return true;
         }
-        return line.chars().anyMatch(Character::isLetterOrDigit);
+        return line.chars().noneMatch(Character::isLetterOrDigit);
     }
 
     /**
