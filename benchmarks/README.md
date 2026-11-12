@@ -247,10 +247,9 @@ scope are unmatched and never increase coverage.
 }
 ```
 
-Protocol values use Jackson's standard enum binding. Names are case-sensitive
-and surrounding whitespace is trimmed. Numeric enum ordinals also bind: `0` or
-`"0"` means `HTTP` and `1` means `WS`. Unknown names, booleans, objects, arrays,
-an empty capability list, or null list members produce HTTP 400 before
+Protocol values must be the exact strings `"HTTP"` or `"WS"` (case-sensitive,
+no surrounding whitespace). Numeric enum ordinals, unknown names, other JSON
+types, an empty capability list, or null list members produce HTTP 400 before
 comparison or report persistence. Duplicate capability
 values are collapsed. An explicit null finding protocol behaves like omission.
 These fields do not participate in SAST matching. The DAST-only `protocol`

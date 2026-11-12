@@ -139,7 +139,19 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"true", "{}", "[]", "\"FTP\"", "\"\"", "\"ws\""})
+    @ValueSource(
+            strings = {
+                "0",
+                "1",
+                "\"0\"",
+                "true",
+                "{}",
+                "[]",
+                "\"FTP\"",
+                "\"\"",
+                "\"ws\"",
+                "\" WS \""
+            })
     void malformedFindingProtocolsAreRejected(String protocol) {
         String json =
                 "{\"tool\":\"Invalid\",\"findings\":[{\"url\":\"/shared\",\"protocol\":"
@@ -151,7 +163,19 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"true", "{}", "[]", "\"FTP\"", "\"\"", "\"ws\""})
+    @ValueSource(
+            strings = {
+                "0",
+                "1",
+                "\"0\"",
+                "true",
+                "{}",
+                "[]",
+                "\"FTP\"",
+                "\"\"",
+                "\"ws\"",
+                "\" WS \""
+            })
     void malformedCapabilityProtocolsAreRejected(String protocol) {
         String json =
                 "{\"tool\":\"Invalid\",\"findings\":[],\"supportedProtocols\":[" + protocol + "]}";
@@ -161,7 +185,7 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"[]", "[null]", "[\"HTTP\",null]", "[\"FTP\"]"})
+    @ValueSource(strings = {"[]", "[null]", "[\"HTTP\",null]", "[0]"})
     void duplicateCapabilitiesCannotBypassValidationAfterCreatorConstruction(String declaration) {
         // Supplying every creator property makes Jackson construct the object before it reads
         // the duplicate property, exercising its fallback setter rather than only the creator.
@@ -186,6 +210,14 @@ class BenchmarkProtocolJsonTest {
         assertThat(input.getSupportedProtocols()).containsExactly(Protocol.HTTP);
         assertThatThrownBy(() -> input.getSupportedProtocols().add(Protocol.WS))
                 .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
+    void protocolBindsOnlyFromItsNameAndSerialisesAsAString() throws Exception {
+        assertThat(mapper.readValue("\"WS\"", Protocol.class)).isEqualTo(Protocol.WS);
+        assertThat(mapper.writeValueAsString(Protocol.HTTP)).isEqualTo("\"HTTP\"");
+        assertThatThrownBy(() -> mapper.readValue("0", Protocol.class))
+                .isInstanceOf(JsonProcessingException.class);
     }
 
     @Test
