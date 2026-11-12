@@ -3,25 +3,31 @@ package org.sasanlabs.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
+import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.JSONSerializationUtils;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.internal.utility.annotations.RequestParameterLocation;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.sasanlabs.vulnerableapp.facade.schema.VulnerabilityDefinition;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -241,5 +247,60 @@ public class VulnerableAppRestController {
         }
         xmlBuilder.append(FrameworkConstants.SITEMAP_URLSET_TAG_END);
         return xmlBuilder.toString();
+    }
+
+    /**
+     * HTML counterpart of {@code /sitemap.xml} for crawlers like Wapiti that discover endpoints by
+     * following {@code <a href>} links and do not parse XML sitemaps. It lists one link per
+     * vulnerability level, grouped by vulnerability.
+     *
+     * <p>The links are root-relative and start with the context path this instance is served under,
+     * so a crawler resolves them against the host it actually fetched the page from, even when that
+     * is a reverse proxy in front of the application. WebSocket levels are left out because a
+     * crawler following a link would only send a plain GET to a handshake URL; they stay listed,
+     * with their protocol, in {@code /scanner/dast}.
+     *
+     * @param request the incoming request, used to resolve the context path
+     * @return HTML page linking to every HTTP vulnerability level
+     * @throws JsonProcessingException if the endpoint information cannot be processed
+     */
+    @GetMapping("/sitemap.html")
+    public ResponseEntity<String> htmlSitemapForCrawlers(HttpServletRequest request)
+            throws JsonProcessingException {
+        String contextPath = HtmlUtils.htmlEscape(request.getContextPath());
+        StringBuilder htmlBuilder =
+                new StringBuilder(FrameworkConstants.SITEMAP_HTML_DOCUMENT_START);
+        for (AllEndPointsResponseBean endPoint : allEndPointsJsonResponse()) {
+            List<String> levels =
+                    endPoint.getLevelDescriptionSet().stream()
+                            .filter(level -> level.getProtocol() != Protocol.WS)
+                            .map(LevelResponseBean::getLevel)
+                            .collect(Collectors.toList());
+            if (levels.isEmpty()) {
+                continue;
+            }
+            String name = HtmlUtils.htmlEscape(endPoint.getName());
+            htmlBuilder.append("<h2>").append(name).append("</h2>\n<ul>\n");
+            for (String level : levels) {
+                String escapedLevel = HtmlUtils.htmlEscape(level);
+                htmlBuilder
+                        .append("<li><a href=\"")
+                        .append(contextPath)
+                        .append(FrameworkConstants.SLASH)
+                        .append(name)
+                        .append(FrameworkConstants.SLASH)
+                        .append(escapedLevel)
+                        .append("\">")
+                        .append(name)
+                        .append(FrameworkConstants.SLASH)
+                        .append(escapedLevel)
+                        .append("</a></li>\n");
+            }
+            htmlBuilder.append("</ul>\n");
+        }
+        htmlBuilder.append(FrameworkConstants.SITEMAP_HTML_DOCUMENT_END);
+        return ResponseEntity.ok()
+                .contentType(new MediaType(MediaType.TEXT_HTML, StandardCharsets.UTF_8))
+                .body(htmlBuilder.toString());
     }
 }
