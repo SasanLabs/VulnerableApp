@@ -65,16 +65,16 @@ public class EncryptionUtils {
         return EncodingUtils.encodeBase64(reversed);
     }
 
-    private static final byte[] salt = new byte[16];
+    private static final byte[] SALT = new byte[16];
 
     static {
-        new SecureRandom().nextBytes(salt);
+        new SecureRandom().nextBytes(SALT);
     }
 
     public static SecretKey getKeyFromPassword(String password) throws EncryptionException {
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 1, 128);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), SALT, 1, 128);
 
             return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

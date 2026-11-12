@@ -42,7 +42,7 @@ public @interface AttackVector {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
-    public @interface AttackVectors {
+    @interface AttackVectors {
         AttackVector[] value();
     }
 }
