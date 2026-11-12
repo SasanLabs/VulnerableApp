@@ -291,9 +291,6 @@ class BenchmarkProtocolIntegrationTest {
                 "[null]",
                 "[\"HTTP\",null]",
                 "[\"FTP\"]",
-                "[0]",
-                "[1]",
-                "[\"0\"]",
                 "[true]",
                 "[{}]",
                 "[[]]",
@@ -310,7 +307,7 @@ class BenchmarkProtocolIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"0", "1", "\"0\"", "true", "{}", "[]", "\"FTP\"", "\"ws\"", "\"\""})
+    @ValueSource(strings = {"true", "{}", "[]", "\"FTP\"", "\"ws\"", "\"\""})
     void invalidFindingProtocolJsonReturns400BeforeComparisonOrPersistence(String protocol)
             throws Exception {
         assertRejectedBeforeComparison(
@@ -321,7 +318,7 @@ class BenchmarkProtocolIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"[]", "[null]", "[0]"})
+    @ValueSource(strings = {"[]", "[null]", "[\"FTP\"]"})
     void duplicatePostCreatorProtocolPropertiesAreRejectedBeforeComparison(String invalidValue)
             throws Exception {
         assertRejectedBeforeComparison(

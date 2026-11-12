@@ -2,7 +2,6 @@ package org.sasanlabs.benchmark.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.LinkedHashSet;
 import java.util.List;
 import org.sasanlabs.internal.utility.Protocol;
@@ -41,9 +40,7 @@ public class ScannerFindings {
             @JsonProperty("tool") String tool,
             @JsonProperty("scanType") ScanType scanType,
             @JsonProperty("findings") List<Finding> findings,
-            @JsonProperty("supportedProtocols")
-                    @JsonDeserialize(contentUsing = BenchmarkProtocolDeserializer.class)
-                    List<Protocol> supportedProtocols) {
+            @JsonProperty("supportedProtocols") List<Protocol> supportedProtocols) {
         this.tool = tool;
         this.scanType = (scanType != null) ? scanType : ScanType.DAST;
         this.findings = findings;
@@ -61,7 +58,6 @@ public class ScannerFindings {
      * @throws IllegalArgumentException if the list is empty or contains a null member
      */
     @JsonProperty("supportedProtocols")
-    @JsonDeserialize(contentUsing = BenchmarkProtocolDeserializer.class)
     private void setSupportedProtocols(List<Protocol> supportedProtocols) {
         if (supportedProtocols != null
                 && (supportedProtocols.isEmpty()

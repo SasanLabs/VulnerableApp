@@ -3,7 +3,6 @@ package org.sasanlabs.benchmark.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.sasanlabs.internal.utility.Protocol;
 
 /**
@@ -42,7 +41,6 @@ public class Finding {
     private String method;
 
     @JsonProperty("protocol")
-    @JsonDeserialize(using = BenchmarkProtocolDeserializer.class)
     private Protocol protocol;
 
     /**
@@ -61,8 +59,7 @@ public class Finding {
             @JsonProperty("cwe") String cwe,
             @JsonProperty("wascId") String wascId,
             @JsonProperty("method") String method,
-            @JsonProperty("protocol") @JsonDeserialize(using = BenchmarkProtocolDeserializer.class)
-                    Protocol protocol) {
+            @JsonProperty("protocol") Protocol protocol) {
         this.url = url;
         this.type = type;
         this.filePath = filePath;

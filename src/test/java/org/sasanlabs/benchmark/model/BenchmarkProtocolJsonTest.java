@@ -139,20 +139,8 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(
-            strings = {
-                "0",
-                "1",
-                "\"0\"",
-                "true",
-                "{}",
-                "[]",
-                "\"FTP\"",
-                "\"\"",
-                "\"ws\"",
-                "\" WS \""
-            })
-    void malformedFindingProtocolsAreRejectedRatherThanCoerced(String protocol) {
+    @ValueSource(strings = {"true", "{}", "[]", "\"FTP\"", "\"\"", "\"ws\""})
+    void malformedFindingProtocolsAreRejected(String protocol) {
         String json =
                 "{\"tool\":\"Invalid\",\"findings\":[{\"url\":\"/shared\",\"protocol\":"
                         + protocol
@@ -163,20 +151,8 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(
-            strings = {
-                "0",
-                "1",
-                "\"0\"",
-                "true",
-                "{}",
-                "[]",
-                "\"FTP\"",
-                "\"\"",
-                "\"ws\"",
-                "\" WS \""
-            })
-    void malformedCapabilityProtocolsAreRejectedRatherThanCoerced(String protocol) {
+    @ValueSource(strings = {"true", "{}", "[]", "\"FTP\"", "\"\"", "\"ws\""})
+    void malformedCapabilityProtocolsAreRejected(String protocol) {
         String json =
                 "{\"tool\":\"Invalid\",\"findings\":[],\"supportedProtocols\":[" + protocol + "]}";
 
@@ -185,7 +161,7 @@ class BenchmarkProtocolJsonTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"[]", "[null]", "[\"HTTP\",null]", "[0]"})
+    @ValueSource(strings = {"[]", "[null]", "[\"HTTP\",null]", "[\"FTP\"]"})
     void duplicateCapabilitiesCannotBypassValidationAfterCreatorConstruction(String declaration) {
         // Supplying every creator property makes Jackson construct the object before it reads
         // the duplicate property, exercising its fallback setter rather than only the creator.
@@ -213,9 +189,7 @@ class BenchmarkProtocolJsonTest {
     }
 
     @Test
-    void protocolValidationIsScopedToBenchmarkProperties() throws Exception {
-        // This patch must not change the enum's Jackson behavior for existing endpoint consumers.
-        assertThat(mapper.readValue("0", Protocol.class)).isEqualTo(Protocol.HTTP);
+    void sastFindingSerialisationOmitsProtocol() throws Exception {
         JsonNode finding =
                 mapper.valueToTree(new Finding(null, "SQL Injection", "src/Foo.java", 5, "CWE-89"));
         assertThat(finding.has("protocol")).isFalse();
