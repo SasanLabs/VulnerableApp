@@ -25,4 +25,12 @@ public enum Protocol {
     public static Protocol fromName(String name) {
         return valueOf(name);
     }
+
+    /**
+     * Returns the given protocol, or {@link #HTTP} when it is null. Findings and ground-truth
+     * payloads from before protocols were reported omit the field, and they describe HTTP.
+     */
+    public static Protocol orDefault(Protocol protocol) {
+        return protocol != null ? protocol : HTTP;
+    }
 }

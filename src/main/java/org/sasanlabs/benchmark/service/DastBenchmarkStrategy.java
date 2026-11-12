@@ -210,7 +210,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
                 continue;
             }
-            Protocol protocol = effectiveProtocol(entry.getProtocol());
+            Protocol protocol = Protocol.orDefault(entry.getProtocol());
             if (!supportedProtocols.contains(protocol)) {
                 continue;
             }
@@ -244,12 +244,6 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
         return keyToRows;
-    }
-
-    /** Preserves HTTP semantics for findings and older ground-truth payloads without a protocol. */
-    private static Protocol effectiveProtocol(Protocol protocol) {
-        // Ground-truth responses from older deployments omitted this property.
-        return protocol != null ? protocol : Protocol.HTTP;
     }
 
     /**
@@ -303,7 +297,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
      * excludes method entirely. An empty list means no taxonomy axis can be evaluated.
      */
     private static List<String> keysForFinding(String url, Finding finding) {
-        Protocol protocol = effectiveProtocol(finding.getProtocol());
+        Protocol protocol = Protocol.orDefault(finding.getProtocol());
         String method =
                 (finding.getMethod() != null && !finding.getMethod().trim().isEmpty())
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
