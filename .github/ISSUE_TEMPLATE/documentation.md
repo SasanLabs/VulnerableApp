@@ -1,8 +1,10 @@
+---
 name: Documentation
 about: Report missing, incorrect, or unclear documentation
 title:
 labels:
 assignees:
+---
 
 What documentation needs to be improved?
 
