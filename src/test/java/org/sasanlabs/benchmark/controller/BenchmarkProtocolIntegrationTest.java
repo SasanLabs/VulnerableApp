@@ -273,6 +273,7 @@ class BenchmarkProtocolIntegrationTest {
                         .andExpect(jsonPath("$.unmatchedItems[0].method").value("POST"))
                         .andExpect(jsonPath("$.unmatchedItems[0].wascId").value("19"))
                         .andReturn();
+        assertPersistedEqualsResponse(metadataResponse);
         assertThat(mapper.readTree(metadataResponse.getResponse().getContentAsString()))
                 .isEqualTo(mapper.readTree(legacyResponse.getResponse().getContentAsString()));
         assertPersistedEqualsResponse(metadataResponse);
@@ -294,6 +295,7 @@ class BenchmarkProtocolIntegrationTest {
                 "[0]",
                 "[1]",
                 "[\"0\"]",
+                "[\"1\"]",
                 "[true]",
                 "[{}]",
                 "[[]]",
@@ -310,7 +312,8 @@ class BenchmarkProtocolIntegrationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"0", "1", "\"0\"", "true", "{}", "[]", "\"FTP\"", "\"ws\"", "\"\""})
+    @ValueSource(
+            strings = {"0", "1", "\"0\"", "\"1\"", "true", "{}", "[]", "\"FTP\"", "\"ws\"", "\"\""})
     void invalidFindingProtocolJsonReturns400BeforeComparisonOrPersistence(String protocol)
             throws Exception {
         assertRejectedBeforeComparison(

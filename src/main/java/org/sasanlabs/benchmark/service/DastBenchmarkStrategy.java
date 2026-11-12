@@ -333,15 +333,18 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 + (protocol == Protocol.HTTP ? method + KEY_SEPARATOR : "");
     }
 
+    /** Builds the matching key for the vulnerability-type axis. */
     private static String typeKey(String url, Protocol protocol, String method, String typeName) {
         return keyPrefix(AXIS_TYPE, url, protocol, method)
                 + typeName.trim().toUpperCase(Locale.ROOT);
     }
 
+    /** Builds the matching key for the CWE axis. */
     private static String cweKey(String url, Protocol protocol, String method, String cweDigits) {
         return keyPrefix(AXIS_CWE, url, protocol, method) + cweDigits;
     }
 
+    /** Builds the matching key for the WASC axis. */
     private static String wascKey(String url, Protocol protocol, String method, String wascDigits) {
         return keyPrefix(AXIS_WASC, url, protocol, method) + wascDigits;
     }
