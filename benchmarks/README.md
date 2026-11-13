@@ -214,6 +214,15 @@ CWE definitions.
 
 See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reproduction instructions.
 
+## Dalfox
+
+Dalfox is benchmarked in **DAST** mode against the Java reflected-XSS challenges
+(`XSSInImgTagAttribute` and `XSSWithHtmlTagInjection`). Each ground-truth endpoint
+is seeded with the value its challenge page sends and scanned on its own, and only
+Dalfox's `V` (Vulnerable) tier is submitted; reflection-only results are kept as
+observations. See [`benchmarks/Dalfox/README.md`](Dalfox/README.md) for the scan
+setup, discovery scope, conversion script, and limitations.
+
 ---
 
 ## Choosing a scan type
