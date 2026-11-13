@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;

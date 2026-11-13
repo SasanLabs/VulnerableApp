@@ -1,17 +1,6 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -21,6 +10,17 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Loads SAST ground truth from a CSV file with header columns {@code CWE}, {@code Vulnerability
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  * are logged and skipped — one bad row should not abort an entire benchmark run.
  *
  * <p>The CSV is parsed once and cached, so repeated reads (the benchmark flow, and the {@code
- * /scanner/sast} endpoint) do not hit disk or re-parse on every call. The cache is warmed at
+ * /scanner/sast} endpoint) do not hit disk or reparse on every call. The cache is warmed at
  * startup, so a file that cannot be read aborts the context rather than failing the first request,
  * the same way {@code EmbeddedLDAPConfig} treats its own startup work.
  */
@@ -71,6 +71,14 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
         this.csvPath = csvPath;
     }
 
+    /** A CSV without the column, or a row that leaves it empty, keeps the exact-line match. */
+    private static int parseLineCount(CSVRecord row) {
+        if (!row.isSet(COL_LINE_COUNT) || row.get(COL_LINE_COUNT).isEmpty()) {
+            return 1;
+        }
+        return Integer.parseInt(row.get(COL_LINE_COUNT));
+    }
+
     @PostConstruct
     void cacheAtStartup() {
         try {
@@ -105,7 +113,7 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
         if (csvPath.startsWith(CLASSPATH_PREFIX)) {
             return parseFromResource(csvPath.substring(CLASSPATH_PREFIX.length()));
         }
-        return parseFromPath(Paths.get(csvPath));
+        return parseFromPath(Path.of(csvPath));
     }
 
     private List<ExpectedIssue> parseFromResource(String location) throws IOException {
@@ -117,7 +125,7 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
     }
 
     private List<ExpectedIssue> parseFromPath(Path path) throws IOException {
-        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+        try (Reader reader = Files.newBufferedReader(path);
                 CSVParser parser = FORMAT.parse(reader)) {
             return parseAll(parser);
         }
@@ -183,13 +191,5 @@ public class CsvExpectedIssuesProvider implements IExpectedIssuesProvider {
                     nfe.getMessage());
             return null;
         }
-    }
-
-    /** A CSV without the column, or a row that leaves it empty, keeps the exact-line match. */
-    private static int parseLineCount(CSVRecord row) {
-        if (!row.isSet(COL_LINE_COUNT) || row.get(COL_LINE_COUNT).isEmpty()) {
-            return 1;
-        }
-        return Integer.parseInt(row.get(COL_LINE_COUNT));
     }
 }

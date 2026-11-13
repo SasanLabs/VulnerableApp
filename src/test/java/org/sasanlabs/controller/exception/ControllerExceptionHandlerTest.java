@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,6 +20,8 @@ import org.springframework.web.context.request.WebRequest;
 
 class ControllerExceptionHandlerTest {
 
+    private AutoCloseable mocks;
+
     @Mock private MessageBundle messageBundle;
 
     @Mock private WebRequest webRequest;
@@ -27,7 +30,7 @@ class ControllerExceptionHandlerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.initMocks(this);
+        mocks = MockitoAnnotations.openMocks(this);
         controllerExceptionHandler = new ControllerExceptionHandler(messageBundle);
     }
 
@@ -64,5 +67,10 @@ class ControllerExceptionHandlerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals("IO exception occurred", responseEntity.getBody());
         verify(messageBundle).getString(any(), any());
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 }

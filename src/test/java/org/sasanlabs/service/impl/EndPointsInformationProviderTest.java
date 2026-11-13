@@ -15,11 +15,7 @@ import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.LevelResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
-import org.sasanlabs.internal.utility.EnvUtils;
-import org.sasanlabs.internal.utility.LevelConstants;
-import org.sasanlabs.internal.utility.MessageBundle;
-import org.sasanlabs.internal.utility.Protocol;
-import org.sasanlabs.internal.utility.Variant;
+import org.sasanlabs.internal.utility.*;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
@@ -35,78 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.socket.WebSocketSession;
 
 class EndPointsInformationProviderTest {
-
-    // Stands in for a real WebSocket vulnerability module, reusing existing message keys so the
-    // "same message source as the application" check below still catches a missing key, without
-    // this framework-level test depending on any specific vulnerability module.
-    @org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketController(
-            value = "FixtureWebSocket",
-            descriptionLabel = "INSECURE_DESERIALIZATION_VULNERABILITY")
-    public static class FixtureWebSocketController {
-        @AttackVector(
-                vulnerabilityExposed = VulnerabilityType.INSECURE_DESERIALIZATION,
-                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
-        @ChallengeCard(
-                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
-                hints = {
-                    @ChallengeCard.Hint(
-                            order = 1,
-                            text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1"),
-                    @ChallengeCard.Hint(order = 2, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_2")
-                },
-                payload =
-                        @ChallengeCard.Payload(
-                                description =
-                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
-                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
-        @VulnerableAppWebSocketMapping(
-                value = LevelConstants.LEVEL_1,
-                htmlTemplate = "LEVEL_1/Fixture")
-        public String level1(WebSocketSession session, String message) {
-            return null;
-        }
-
-        @AttackVector(
-                vulnerabilityExposed = VulnerabilityType.PERSISTENT_XSS,
-                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
-        @ChallengeCard(
-                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
-                hints = {
-                    @ChallengeCard.Hint(order = 1, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1")
-                },
-                payload =
-                        @ChallengeCard.Payload(
-                                description =
-                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
-                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
-        @VulnerableAppWebSocketMapping(
-                value = LevelConstants.LEVEL_2,
-                htmlTemplate = "LEVEL_2/Fixture")
-        public String level2(WebSocketSession session, String message) {
-            return null;
-        }
-
-        @AttackVector(
-                vulnerabilityExposed = VulnerabilityType.IMPROPER_AUTHORIZATION,
-                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
-        @ChallengeCard(
-                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
-                hints = {
-                    @ChallengeCard.Hint(order = 1, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1")
-                },
-                payload =
-                        @ChallengeCard.Payload(
-                                description =
-                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
-                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
-        @VulnerableAppWebSocketMapping(
-                value = LevelConstants.LEVEL_3,
-                htmlTemplate = "LEVEL_3/Fixture",
-                allowedOrigins = "*")
-        public String level3(WebSocketSession session, String message) {
-            return null;
-        }
-    }
 
     private EndPointsInformationProvider provider;
 
@@ -304,5 +228,77 @@ class EndPointsInformationProviderTest {
 
         assertThat(level1.getChallengeCards().get(0).getPayload().getValue())
                 .isEqualTo("Payload is not applicable.");
+    }
+
+    // Stands in for a real WebSocket vulnerability module, reusing existing message keys so the
+    // "same message source as the application" check below still catches a missing key, without
+    // this framework-level test depending on any specific vulnerability module.
+    @org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketController(
+            value = "FixtureWebSocket",
+            descriptionLabel = "INSECURE_DESERIALIZATION_VULNERABILITY")
+    public static class FixtureWebSocketController {
+        @AttackVector(
+                vulnerabilityExposed = VulnerabilityType.INSECURE_DESERIALIZATION,
+                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
+        @ChallengeCard(
+                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
+                hints = {
+                    @ChallengeCard.Hint(
+                            order = 1,
+                            text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1"),
+                    @ChallengeCard.Hint(order = 2, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_2")
+                },
+                payload =
+                        @ChallengeCard.Payload(
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
+        @VulnerableAppWebSocketMapping(
+                value = LevelConstants.LEVEL_1,
+                htmlTemplate = "LEVEL_1/Fixture")
+        public String level1(WebSocketSession session, String message) {
+            return null;
+        }
+
+        @AttackVector(
+                vulnerabilityExposed = VulnerabilityType.PERSISTENT_XSS,
+                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
+        @ChallengeCard(
+                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
+                hints = {
+                    @ChallengeCard.Hint(order = 1, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1")
+                },
+                payload =
+                        @ChallengeCard.Payload(
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
+        @VulnerableAppWebSocketMapping(
+                value = LevelConstants.LEVEL_2,
+                htmlTemplate = "LEVEL_2/Fixture")
+        public String level2(WebSocketSession session, String message) {
+            return null;
+        }
+
+        @AttackVector(
+                vulnerabilityExposed = VulnerabilityType.IMPROPER_AUTHORIZATION,
+                description = "INSECURE_DESERIALIZATION_LEVEL_1_BASIC")
+        @ChallengeCard(
+                challengeText = "INSECURE_DESERIALIZATION_LEVEL_1_CHALLENGE",
+                hints = {
+                    @ChallengeCard.Hint(order = 1, text = "INSECURE_DESERIALIZATION_LEVEL_1_HINT_1")
+                },
+                payload =
+                        @ChallengeCard.Payload(
+                                description =
+                                        "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_DESCRIPTION",
+                                value = "INSECURE_DESERIALIZATION_LEVEL_1_PAYLOAD_VALUE"))
+        @VulnerableAppWebSocketMapping(
+                value = LevelConstants.LEVEL_3,
+                htmlTemplate = "LEVEL_3/Fixture",
+                allowedOrigins = "*")
+        public String level3(WebSocketSession session, String message) {
+            return null;
+        }
     }
 }

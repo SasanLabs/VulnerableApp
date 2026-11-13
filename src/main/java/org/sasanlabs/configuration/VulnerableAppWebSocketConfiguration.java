@@ -1,18 +1,20 @@
 package org.sasanlabs.configuration;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Map;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandler;
 import org.sasanlabs.internal.utility.websocket.VulnerableAppWebSocketHandshakeInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
 
 /**
  * Registers the WebSocket endpoint of every level found on the beans annotated with {@link
@@ -32,7 +34,7 @@ public class VulnerableAppWebSocketConfiguration implements WebSocketConfigurer 
     }
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    public void registerWebSocketHandlers(@NonNull WebSocketHandlerRegistry registry) {
         Map<String, Object> nameVsController =
                 envUtils.getAllClassesAnnotatedWithVulnerableAppWebSocketController();
         for (Map.Entry<String, Object> entry : nameVsController.entrySet()) {

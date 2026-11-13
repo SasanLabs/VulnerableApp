@@ -13,9 +13,9 @@ public enum ExceptionStatusCodeEnum {
     INVALID_ARGUMENTS("INVALID_ARGUMENTS"),
     SYSTEM_ERROR("SYSTEM_ERROR");
 
-    private String label;
+    private final String label;
 
-    private ExceptionStatusCodeEnum(String label) {
+    ExceptionStatusCodeEnum(String label) {
         this.label = label;
     }
 

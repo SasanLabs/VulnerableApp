@@ -9,10 +9,11 @@ import java.util.Properties;
  *
  * @author KSASAN preetkaran20@gmail.com
  */
+@SuppressWarnings("JavadocDeclaration")
 public class VulnerableAppProperties {
 
     /** Contains all the properties present in {@code attackvectors/*.properties} */
-    private Properties attackVectorProperties;
+    private final Properties attackVectorProperties;
 
     public VulnerableAppProperties(Properties attackVectorProperties) {
         super();

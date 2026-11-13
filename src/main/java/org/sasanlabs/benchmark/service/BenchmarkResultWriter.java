@@ -1,25 +1,26 @@
 package org.sasanlabs.benchmark.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Locale;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Locale;
+
 /**
  * Persists a {@link BenchmarkResult} to a JSON file under the configured benchmarks directory.
- * Filename is derived from the (sanitised) tool name; existing files are overwritten so callers
+ * Filename is derived from the (sanitized) tool name; existing files are overwritten so callers
  * always see the latest run for a given tool.
  */
 @Component
 public class BenchmarkResultWriter {
 
+    private static final int MAX_TOOL_LENGTH = 64;
     private final ObjectMapper objectMapper;
     private final String defaultBenchmarksDir;
 
@@ -28,26 +29,6 @@ public class BenchmarkResultWriter {
             @Value("${benchmark.output.dir:benchmarks}") String defaultBenchmarksDir) {
         this.objectMapper = objectMapper;
         this.defaultBenchmarksDir = defaultBenchmarksDir;
-    }
-
-    public Path write(BenchmarkResult result) throws IOException {
-        return write(result, defaultBenchmarksDir);
-    }
-
-    public Path write(BenchmarkResult result, String benchmarksDir) throws IOException {
-        Path dir = Paths.get(benchmarksDir);
-        Files.createDirectories(dir);
-        String fileName = sanitizeToolName(result.getTool()) + "-results.json";
-        Path target = dir.resolve(fileName);
-        Path temp = Files.createTempFile(dir, fileName + ".", ".tmp");
-        try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(temp.toFile(), result);
-            moveAtomicallyOrReplace(temp, target);
-        } catch (IOException ioe) {
-            Files.deleteIfExists(temp);
-            throw ioe;
-        }
-        return target;
     }
 
     private static void moveAtomicallyOrReplace(Path source, Path target) throws IOException {
@@ -62,8 +43,6 @@ public class BenchmarkResultWriter {
         }
     }
 
-    private static final int MAX_TOOL_LENGTH = 64;
-
     static String sanitizeToolName(String tool) {
         if (tool == null) {
             return "unknown";
@@ -77,5 +56,25 @@ public class BenchmarkResultWriter {
             cleaned = cleaned.substring(0, MAX_TOOL_LENGTH);
         }
         return cleaned;
+    }
+
+    public Path write(BenchmarkResult result) throws IOException {
+        return write(result, defaultBenchmarksDir);
+    }
+
+    public Path write(BenchmarkResult result, String benchmarksDir) throws IOException {
+        Path dir = Path.of(benchmarksDir);
+        Files.createDirectories(dir);
+        String fileName = sanitizeToolName(result.getTool()) + "-results.json";
+        Path target = dir.resolve(fileName);
+        Path temp = Files.createTempFile(dir, fileName + ".", ".tmp");
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(temp.toFile(), result);
+            moveAtomicallyOrReplace(temp, target);
+        } catch (IOException ioe) {
+            Files.deleteIfExists(temp);
+            throw ioe;
+        }
+        return target;
     }
 }

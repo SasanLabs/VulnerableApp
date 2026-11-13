@@ -3,10 +3,7 @@ package org.sasanlabs.internal.utility.websocket;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -17,24 +14,6 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 class VulnerableAppWebSocketHandlerTest {
-
-    public static class Controller {
-        public String echo(WebSocketSession session, String message) {
-            return "echo:" + message;
-        }
-
-        public String silent(WebSocketSession session, String message) {
-            return null;
-        }
-
-        public String failing(WebSocketSession session, String message) throws IOException {
-            throw new IOException("boom");
-        }
-
-        public String crashing(WebSocketSession session, String message) {
-            throw new AssertionError("crash");
-        }
-    }
 
     private VulnerableAppWebSocketHandler handlerFor(String methodName)
             throws NoSuchMethodException {
@@ -100,5 +79,23 @@ class VulnerableAppWebSocketHandlerTest {
                                         .handleTextMessage(openSession(), new TextMessage("hi")))
                 .isInstanceOf(WebSocketHandlingException.class)
                 .hasCauseInstanceOf(AssertionError.class);
+    }
+
+    public static class Controller {
+        public String echo(WebSocketSession session, String message) {
+            return "echo:" + message;
+        }
+
+        public String silent(WebSocketSession session, String message) {
+            return null;
+        }
+
+        public String failing(WebSocketSession session, String message) throws IOException {
+            throw new IOException("boom");
+        }
+
+        public String crashing(WebSocketSession session, String message) {
+            throw new AssertionError("crash");
+        }
     }
 }

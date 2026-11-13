@@ -1,15 +1,12 @@
 package org.sasanlabs.internal.utility.annotations;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Annotation to define learning challenges for vulnerabilities. * @author Aryan
  * mr.aryankaushal@gmail.com
  */
+@Documented
 @Repeatable(ChallengeCard.ChallengeCards.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
@@ -22,21 +19,24 @@ public @interface ChallengeCard {
     Payload payload();
 
     /** Container annotation for making {@link ChallengeCard} repeatable. */
+    @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
-    public @interface ChallengeCards {
+    @interface ChallengeCards {
         ChallengeCard[] value();
     }
 
     /** Defines a hint for the challenge. */
-    public @interface Hint {
+    @Documented
+    @interface Hint {
         int order();
 
         String text();
     }
 
     /** Defines the exploit payload for the challenge. */
-    public @interface Payload {
+    @Documented
+    @interface Payload {
         String description();
 
         String value();

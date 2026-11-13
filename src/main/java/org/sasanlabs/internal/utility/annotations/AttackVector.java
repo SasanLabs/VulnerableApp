@@ -1,17 +1,15 @@
 package org.sasanlabs.internal.utility.annotations;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
+
+import java.lang.annotation.*;
 
 /**
  * Purpose of this file is just to help user to know various payloads and ways to bypass security
  *
  * @author KSASAN preetkaran20@gmail.com
  */
+@Documented
 @Repeatable(AttackVector.AttackVectors.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.METHOD)
@@ -40,6 +38,7 @@ public @interface AttackVector {
      */
     String description();
 
+    @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
     public @interface AttackVectors {

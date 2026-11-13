@@ -1,10 +1,11 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ScanType;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 /**
  * Entry point for the scanner-benchmark API. Dispatches to a {@link BenchmarkStrategy}
@@ -24,13 +25,10 @@ public class BenchmarkService {
 
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         ScanType scanType = input.getScanType() != null ? input.getScanType() : ScanType.DAST;
-        switch (scanType) {
-            case DAST:
-                return dastStrategy.compare(input);
-            case SAST:
-                return sastStrategy.compare(input);
-            default:
-                throw new IllegalArgumentException("Unsupported scan type: " + scanType);
-        }
+        return switch (scanType) {
+            case DAST -> dastStrategy.compare(input);
+            case SAST -> sastStrategy.compare(input);
+            default -> throw new IllegalArgumentException("Unsupported scan type: " + scanType);
+        };
     }
 }

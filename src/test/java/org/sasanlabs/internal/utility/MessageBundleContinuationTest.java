@@ -1,17 +1,13 @@
 package org.sasanlabs.internal.utility;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -48,29 +44,10 @@ class MessageBundleContinuationTest {
     /** Longest HTML entity the bundles use, {@code &quot;}, plus room to spare. */
     private static final int LONGEST_ENTITY = 12;
 
-    @Test
-    @DisplayName("i18n: no entry joins two words together across a line continuation")
-    void noContinuationGluesTwoWords() throws Exception {
-        List<Path> bundles = messageBundles();
-        assertTrue(bundles.size() > 1, "expected to find the i18n bundles, found " + bundles);
-
-        List<String> failures = new ArrayList<>();
-        for (Path bundle : bundles) {
-            failures.addAll(gluedContinuations(bundle));
-        }
-
-        if (!failures.isEmpty()) {
-            fail(
-                    "A continuation line joins two words together. Move the space to the end of the"
-                            + " previous line, before the backslash:\n  "
-                            + String.join("\n  ", failures));
-        }
-    }
-
     private static List<Path> messageBundles() throws URISyntaxException, IOException {
         URL i18n = MessageBundleContinuationTest.class.getResource("/i18n");
         assertNotNull(i18n, "/i18n is not on the classpath");
-        try (Stream<Path> entries = Files.list(Paths.get(i18n.toURI()))) {
+        try (Stream<Path> entries = Files.list(Path.of(i18n.toURI()))) {
             return entries.filter(p -> p.getFileName().toString().endsWith(".properties"))
                     .sorted()
                     .collect(Collectors.toList());
@@ -80,7 +57,7 @@ class MessageBundleContinuationTest {
     private static List<String> gluedContinuations(Path bundle) {
         List<String> lines;
         try {
-            lines = Files.readAllLines(bundle, StandardCharsets.UTF_8);
+            lines = Files.readAllLines(bundle);
         } catch (IOException e) {
             throw new UncheckedIOException("cannot read " + bundle, e);
         }
@@ -214,5 +191,24 @@ class MessageBundleContinuationTest {
 
     private static String firstWord(String text) {
         return text.split("\\s")[0];
+    }
+
+    @Test
+    @DisplayName("i18n: no entry joins two words together across a line continuation")
+    void noContinuationGluesTwoWords() throws Exception {
+        List<Path> bundles = messageBundles();
+        assertTrue(bundles.size() > 1, "expected to find the i18n bundles, found " + bundles);
+
+        List<String> failures = new ArrayList<>();
+        for (Path bundle : bundles) {
+            failures.addAll(gluedContinuations(bundle));
+        }
+
+        if (!failures.isEmpty()) {
+            fail(
+                    "A continuation line joins two words together. Move the space to the end of the"
+                            + " previous line, before the backslash:\n  "
+                            + String.join("\n  ", failures));
+        }
     }
 }

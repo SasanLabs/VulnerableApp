@@ -1,11 +1,7 @@
 package org.sasanlabs.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.ScannerMetaResponseBean;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -22,6 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author KSASAN preetkaran20@gmail.com
@@ -106,6 +107,7 @@ public class VulnerableAppRestController {
      *     its responses carry {@code Deprecation} and {@code Sunset} headers, plus a {@code Link}
      *     header identifying the successor.
      */
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated(forRemoval = true)
     @GetMapping
     @RequestMapping("/scanner")
@@ -188,7 +190,7 @@ public class VulnerableAppRestController {
 
     /**
      * This Endpoint is exposed to help the scanners in finding the Vulnerable EndPoints. Here we
-     * are not using any library as we need a very basic sitemap and we don't want to make
+     * are not using any library as we need a very basic sitemap, and we don't want to make
      * VulnerableApp heavy.
      *
      * @param request the incoming request, used to resolve scheme, host, port and context path
@@ -216,28 +218,26 @@ public class VulnerableAppRestController {
         for (AllEndPointsResponseBean endPoint : allEndPoints) {
             endPoint.getLevelDescriptionSet()
                     .forEach(
-                            level -> {
-                                xmlBuilder
-                                        .append(FrameworkConstants.SITEMAP_URL_TAG_START)
-                                        .append(FrameworkConstants.NEXT_LINE)
-                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
-                                        .append(FrameworkConstants.NEXT_LINE)
-                                        .append(scheme)
-                                        .append("://")
-                                        .append(serverName)
-                                        .append(FrameworkConstants.COLON)
-                                        .append(serverPort)
-                                        .append(contextPath)
-                                        .append(FrameworkConstants.SLASH)
-                                        .append(endPoint.getName())
-                                        .append(FrameworkConstants.SLASH)
-                                        .append(level.getLevel())
-                                        .append(FrameworkConstants.NEXT_LINE)
-                                        .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
-                                        .append(FrameworkConstants.NEXT_LINE)
-                                        .append(FrameworkConstants.SITEMAP_URL_TAG_END)
-                                        .append(FrameworkConstants.NEXT_LINE);
-                            });
+                            level -> xmlBuilder
+                                    .append(FrameworkConstants.SITEMAP_URL_TAG_START)
+                                    .append(FrameworkConstants.NEXT_LINE)
+                                    .append(FrameworkConstants.SITEMAP_LOC_TAG_START)
+                                    .append(FrameworkConstants.NEXT_LINE)
+                                    .append(scheme)
+                                    .append("://")
+                                    .append(serverName)
+                                    .append(FrameworkConstants.COLON)
+                                    .append(serverPort)
+                                    .append(contextPath)
+                                    .append(FrameworkConstants.SLASH)
+                                    .append(endPoint.getName())
+                                    .append(FrameworkConstants.SLASH)
+                                    .append(level.getLevel())
+                                    .append(FrameworkConstants.NEXT_LINE)
+                                    .append(FrameworkConstants.SITEMAP_LOC_TAG_END)
+                                    .append(FrameworkConstants.NEXT_LINE)
+                                    .append(FrameworkConstants.SITEMAP_URL_TAG_END)
+                                    .append(FrameworkConstants.NEXT_LINE));
         }
         xmlBuilder.append(FrameworkConstants.SITEMAP_URLSET_TAG_END);
         return xmlBuilder.toString();

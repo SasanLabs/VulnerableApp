@@ -1,13 +1,15 @@
 package org.sasanlabs.internal.utility.websocket;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketMapping;
+import org.springframework.lang.NonNull;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Bridges the WebSocket endpoint of a level to the method annotated with {@link
@@ -35,7 +37,7 @@ public class VulnerableAppWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message)
+    protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message)
             throws Exception {
         String reply;
         try {

@@ -1,15 +1,5 @@
 package org.sasanlabs.benchmark.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
@@ -17,6 +7,9 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
@@ -29,7 +22,7 @@ import org.springframework.stereotype.Service;
  * CWE, AND its {@code line} is between the row's {@code line} and {@code line + lineCount - 1}. A
  * finding whose CWE differs from the row's does not match on its type. A finding inside the ranges
  * of two rows detects both. Scanner findings are expected to emit project-relative paths;
- * backslashes and leading {@code ./} are normalised.
+ * backslashes and leading {@code ./} are normalized.
  */
 @Service
 public class SastBenchmarkStrategy implements BenchmarkStrategy {
@@ -46,13 +39,111 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
         this.expectedIssuesProvider = expectedIssuesProvider;
     }
 
+    /**
+     * Whether {@code line} is one of the row's lines, {@code line} to {@code line + lineCount - 1},
+     * compared without building that range so a large count needs no extra memory and cannot
+     * overflow.
+     */
+    private static boolean covers(ExpectedIssue ei, int line) {
+        return line >= ei.line() && (long) line - ei.line() < ei.lineCount();
+    }
+
+    private static boolean isLocated(Finding f) {
+        return f != null && f.getFilePath() != null && f.getLine() != null;
+    }
+
+    private static boolean hasText(String s) {
+        return s != null && !s.trim().isEmpty();
+    }
+
+    /**
+     * The key a finding is matched and de-duplicated by: its file with its CWE, or with its type
+     * when it has no CWE. {@code null} when it has neither.
+     */
+    private static String identityKey(Finding f) {
+        if (hasText(f.getCwe())) {
+            return buildKeys(f.getFilePath(), f.getCwe(), null).get(0);
+        }
+        if (hasText(f.getType())) {
+            return typeKey(f.getFilePath(), f.getType());
+        }
+        return null;
+    }
+
+    /**
+     * The rows a finding can match: the rows under its identity key and, for a finding with a CWE,
+     * the rows with its type that have no CWE to compare.
+     */
+    private static List<ExpectedIssue> candidateRows(
+            Finding f, Map<String, List<ExpectedIssue>> expectedByKey) {
+        List<ExpectedIssue> rows =
+                new ArrayList<>(
+                        expectedByKey.getOrDefault(identityKey(f), Collections.emptyList()));
+        if (hasText(f.getCwe()) && hasText(f.getType())) {
+            for (ExpectedIssue ei :
+                    expectedByKey.getOrDefault(
+                            typeKey(f.getFilePath(), f.getType()), Collections.emptyList())) {
+                if (!hasText(ei.cwe())) {
+                    rows.add(ei);
+                }
+            }
+        }
+        return rows;
+    }
+
+    private static String typeKey(String filePath, String type) {
+        return buildKeys(filePath, null, type).get(0);
+    }
+
+    /** The file's CWE and type keys, without a line. */
+    private static List<String> buildKeys(String filePath, String cwe, String type) {
+        if (filePath == null) {
+            return new ArrayList<>();
+        }
+        String path = normalizeFilePath(filePath);
+        String prefix = path + KEY_SEPARATOR;
+        List<String> keys = new ArrayList<>(2);
+        if (cwe != null && !cwe.trim().isEmpty()) {
+            keys.add(prefix + CWE_TAG + KEY_SEPARATOR + cwe.trim().toUpperCase(Locale.ROOT));
+        }
+        if (type != null && !type.trim().isEmpty()) {
+            keys.add(prefix + TYPE_TAG + KEY_SEPARATOR + type.trim().toLowerCase(Locale.ROOT));
+        }
+        return keys;
+    }
+
+    /**
+     * Normalises a SAST file path to a project-relative form: backslashes → forward slashes,
+     * leading {@code ./} stripped, surrounding whitespace trimmed. Scanner authors are expected to
+     * emit project-root-relative paths; absolute paths or unexpected prefixes will not match.
+     */
+    static String normalizeFilePath(String path) {
+        if (path == null) {
+            return "";
+        }
+        String s = path.trim().replace('\\', '/');
+        while (s.startsWith("./")) {
+            s = s.substring(2);
+        }
+        return s;
+    }
+
+    private static Finding toFinding(ExpectedIssue ei) {
+        return new Finding(
+                null,
+                ei.vulnerabilityType(),
+                normalizeFilePath(ei.filePath()),
+                ei.line(),
+                ei.cwe());
+    }
+
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         List<ExpectedIssue> expected = expectedIssuesProvider.getExpectedIssues();
 
         Map<String, List<ExpectedIssue>> expectedByKey = new HashMap<>();
         for (ExpectedIssue ei : expected) {
-            for (String key : buildKeys(ei.getFilePath(), ei.getCwe(), ei.getVulnerabilityType())) {
+            for (String key : buildKeys(ei.filePath(), ei.cwe(), ei.vulnerabilityType())) {
                 expectedByKey.computeIfAbsent(key, k -> new ArrayList<>()).add(ei);
             }
         }
@@ -138,103 +229,5 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
                 detectedItems,
                 missedItems,
                 unmatchedItems);
-    }
-
-    /**
-     * Whether {@code line} is one of the row's lines, {@code line} to {@code line + lineCount - 1},
-     * compared without building that range so a large count needs no extra memory and cannot
-     * overflow.
-     */
-    private static boolean covers(ExpectedIssue ei, int line) {
-        return line >= ei.getLine() && (long) line - ei.getLine() < ei.getLineCount();
-    }
-
-    private static boolean isLocated(Finding f) {
-        return f != null && f.getFilePath() != null && f.getLine() != null;
-    }
-
-    private static boolean hasText(String s) {
-        return s != null && !s.trim().isEmpty();
-    }
-
-    /**
-     * The key a finding is matched and de-duplicated by: its file with its CWE, or with its type
-     * when it has no CWE. {@code null} when it has neither.
-     */
-    private static String identityKey(Finding f) {
-        if (hasText(f.getCwe())) {
-            return buildKeys(f.getFilePath(), f.getCwe(), null).get(0);
-        }
-        if (hasText(f.getType())) {
-            return typeKey(f.getFilePath(), f.getType());
-        }
-        return null;
-    }
-
-    /**
-     * The rows a finding can match: the rows under its identity key and, for a finding with a CWE,
-     * the rows with its type that have no CWE to compare.
-     */
-    private static List<ExpectedIssue> candidateRows(
-            Finding f, Map<String, List<ExpectedIssue>> expectedByKey) {
-        List<ExpectedIssue> rows =
-                new ArrayList<>(
-                        expectedByKey.getOrDefault(identityKey(f), Collections.emptyList()));
-        if (hasText(f.getCwe()) && hasText(f.getType())) {
-            for (ExpectedIssue ei :
-                    expectedByKey.getOrDefault(
-                            typeKey(f.getFilePath(), f.getType()), Collections.emptyList())) {
-                if (!hasText(ei.getCwe())) {
-                    rows.add(ei);
-                }
-            }
-        }
-        return rows;
-    }
-
-    private static String typeKey(String filePath, String type) {
-        return buildKeys(filePath, null, type).get(0);
-    }
-
-    /** The file's CWE and type keys, without a line. */
-    private static List<String> buildKeys(String filePath, String cwe, String type) {
-        if (filePath == null) {
-            return new ArrayList<>();
-        }
-        String path = normalizeFilePath(filePath);
-        String prefix = path + KEY_SEPARATOR;
-        List<String> keys = new ArrayList<>(2);
-        if (cwe != null && !cwe.trim().isEmpty()) {
-            keys.add(prefix + CWE_TAG + KEY_SEPARATOR + cwe.trim().toUpperCase(Locale.ROOT));
-        }
-        if (type != null && !type.trim().isEmpty()) {
-            keys.add(prefix + TYPE_TAG + KEY_SEPARATOR + type.trim().toLowerCase(Locale.ROOT));
-        }
-        return keys;
-    }
-
-    /**
-     * Normalises a SAST file path to a project-relative form: backslashes → forward slashes,
-     * leading {@code ./} stripped, surrounding whitespace trimmed. Scanner authors are expected to
-     * emit project-root-relative paths; absolute paths or unexpected prefixes will not match.
-     */
-    static String normalizeFilePath(String path) {
-        if (path == null) {
-            return "";
-        }
-        String s = path.trim().replace('\\', '/');
-        while (s.startsWith("./")) {
-            s = s.substring(2);
-        }
-        return s;
-    }
-
-    private static Finding toFinding(ExpectedIssue ei) {
-        return new Finding(
-                null,
-                ei.getVulnerabilityType(),
-                normalizeFilePath(ei.getFilePath()),
-                ei.getLine(),
-                ei.getCwe());
     }
 }

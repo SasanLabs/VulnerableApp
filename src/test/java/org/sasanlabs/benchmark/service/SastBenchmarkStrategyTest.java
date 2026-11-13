@@ -12,11 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.sasanlabs.benchmark.model.BenchmarkResult;
-import org.sasanlabs.benchmark.model.ExpectedIssue;
-import org.sasanlabs.benchmark.model.Finding;
-import org.sasanlabs.benchmark.model.ScanType;
-import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.benchmark.model.*;
 
 @ExtendWith(MockitoExtension.class)
 class SastBenchmarkStrategyTest {
@@ -28,9 +24,28 @@ class SastBenchmarkStrategyTest {
             "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/"
                     + "XSSWithHtmlTagInjection.java";
 
-    @Mock private IExpectedIssuesProvider provider;
+    @Mock
+    private IExpectedIssuesProvider provider;
 
     private SastBenchmarkStrategy strategy;
+
+    private static ExpectedIssue expected(String cwe, String type, String file, int line) {
+        return new ExpectedIssue(cwe, type, file, line, 1);
+    }
+
+    private static ExpectedIssue expected(
+            int line, int lineCount) {
+        return new ExpectedIssue("CWE-89", "SQL Injection", SastBenchmarkStrategyTest.SQLI_FILE, line, 1, lineCount);
+    }
+
+    private static Finding sastFinding(String file, int line, String cwe, String type) {
+        return new Finding(null, type, file, line, cwe);
+    }
+
+    private static ScannerFindings sastInput(String tool, Finding... findings) {
+        List<Finding> list = Arrays.asList(findings);
+        return new ScannerFindings(tool, ScanType.SAST, list);
+    }
 
     @BeforeEach
     void setUp() {
@@ -401,7 +416,7 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Collections.singletonList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 56, 1)));
+                                expected(56, 1)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -421,7 +436,7 @@ class SastBenchmarkStrategyTest {
             when(provider.getExpectedIssues())
                     .thenReturn(
                             Collections.singletonList(
-                                    expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+                                    expected(84, 3)));
 
             BenchmarkResult result =
                     strategy.compare(
@@ -439,7 +454,7 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Collections.singletonList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+                                expected(84, 3)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -458,7 +473,7 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Collections.singletonList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+                                expected(84, 3)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -477,7 +492,7 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Collections.singletonList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+                                expected(84, 3)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -497,8 +512,8 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Arrays.asList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3),
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 86, 2)));
+                                expected(84, 3),
+                                expected(86, 2)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -515,7 +530,7 @@ class SastBenchmarkStrategyTest {
         when(provider.getExpectedIssues())
                 .thenReturn(
                         Collections.singletonList(
-                                expected("CWE-89", "SQL Injection", SQLI_FILE, 84, 3)));
+                                expected(84, 3)));
 
         BenchmarkResult result =
                 strategy.compare(
@@ -532,9 +547,6 @@ class SastBenchmarkStrategyTest {
                 .thenReturn(
                         Collections.singletonList(
                                 expected(
-                                        "CWE-89",
-                                        "SQL Injection",
-                                        SQLI_FILE,
                                         84,
                                         Integer.MAX_VALUE)));
 
@@ -559,23 +571,5 @@ class SastBenchmarkStrategyTest {
         assertThat(SastBenchmarkStrategy.normalizeFilePath("  ./src/main/Foo.java  "))
                 .isEqualTo("src/main/Foo.java");
         assertThat(SastBenchmarkStrategy.normalizeFilePath(null)).isEqualTo("");
-    }
-
-    private static ExpectedIssue expected(String cwe, String type, String file, int line) {
-        return new ExpectedIssue(cwe, type, file, line, 1);
-    }
-
-    private static ExpectedIssue expected(
-            String cwe, String type, String file, int line, int lineCount) {
-        return new ExpectedIssue(cwe, type, file, line, 1, lineCount);
-    }
-
-    private static Finding sastFinding(String file, int line, String cwe, String type) {
-        return new Finding(null, type, file, line, cwe);
-    }
-
-    private static ScannerFindings sastInput(String tool, Finding... findings) {
-        List<Finding> list = Arrays.asList(findings);
-        return new ScannerFindings(tool, ScanType.SAST, list);
     }
 }

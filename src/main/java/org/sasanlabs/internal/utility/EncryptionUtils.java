@@ -1,23 +1,25 @@
 package org.sasanlabs.internal.utility;
 
+import org.sasanlabs.internal.utility.exception.EncryptionException;
+
+import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.sasanlabs.internal.utility.exception.EncryptionException;
 
 /** This class contains methods related to encryption. */
 public class EncryptionUtils {
+
+    private static final byte[] salt = new byte[16];
+
+    static {
+        new SecureRandom().nextBytes(salt);
+    }
 
     private EncryptionUtils() {}
 
@@ -63,12 +65,6 @@ public class EncryptionUtils {
         }
         String reversed = new StringBuilder(rawPassword).reverse().toString();
         return EncodingUtils.encodeBase64(reversed);
-    }
-
-    private static final byte[] salt = new byte[16];
-
-    static {
-        new SecureRandom().nextBytes(salt);
     }
 
     public static SecretKey getKeyFromPassword(String password) throws EncryptionException {

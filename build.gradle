@@ -1,23 +1,27 @@
 //Community Plugins
 plugins {
-    id 'org.springframework.boot' version '2.7.18'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '3.0.13'
+    id 'io.spring.dependency-management' version '1.1.7'
+
     id 'java'
     id 'eclipse'
     id 'idea'
-    id 'com.diffplug.spotless' version '6.25.0'
-    id 'com.google.cloud.tools.jib' version '3.3.1'
-    id("org.sonarqube") version "7.2.2.6593"
+
+    id 'com.diffplug.spotless' version '8.11.0'
+    id 'com.google.cloud.tools.jib' version '3.5.4'
+    id("org.sonarqube") version "7.5.0.8588"
+
     id 'jacoco'
+    id 'org.openrewrite.rewrite' version '7.39.0'
 }
 
 tasks.named("bootJar") {
-    archiveBaseName.set("VulnerableApp")
-    archiveVersion.set("1.0.0")
+    archiveBaseName.set "VulnerableApp"
+    archiveVersion.set "1.0.0"
 }
 
 configurations {
-    all {
+    configureEach {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
@@ -27,13 +31,12 @@ repositories {
     mavenLocal()
 }
 
-sonarqube {
+sonar {
     properties {
         property "sonar.projectKey", "SasanLabs_VulnerableApp"
         property "sonar.organization", "sasanlabs"
         property "sonar.host.url", "https://sonarcloud.io"
-        property 'sonar.java.source', '17'
-        property 'sonar.java.target', '17'
+        property "sonar.java.source", "17"
     }
 }
 
@@ -88,7 +91,11 @@ jib {
 }
 
 jacoco {
-    toolVersion = "0.8.11"
+    toolVersion = "0.8.15"
+}
+
+rewrite {
+    activeRecipe('org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_0')
 }
 
 tasks.register('GenerateSampleVulnerability') {
@@ -118,61 +125,50 @@ tasks.register('GenerateSampleVulnerability') {
 }
 
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
-
-    // https://mvnrepository.com/artifact/org.mockito/mockito-core
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.5.13'
-
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.0'
-
-    // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.17.2'
+    implementation "org.springframework.boot:spring-boot-starter-mail"
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    // Apache Commons
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-text:1.10.0'
 
-    runtimeOnly group: 'com.h2database', name: 'h2'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api'
+    implementation 'org.glassfish.jaxb:jaxb-runtime'
 
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+    runtimeOnly "com.h2database:h2"
 
     // Log4j Dependencies
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
+    implementation "org.springframework.boot:spring-boot-starter-log4j2"
 
     // https://mvnrepository.com/artifact/org.json/json
-    implementation group: 'org.json', name: 'json', version: '20190722'
+    implementation "org.json:json:20231013"
 
     // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.31'
+    implementation "com.nimbusds:nimbus-jose-jwt:10.0.2"
 
     // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+    implementation "commons-io:commons-io:2.14.0"
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
-    implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
+    implementation "org.apache.commons:commons-csv:1.10.0"
 
-    implementation group: 'io.github.sasanlabs', name: 'facade-schema', version: '1.0.3'
-
-    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
-
-    // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+    implementation "io.github.sasanlabs:facade-schema:1.0.3"
 
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
     implementation 'org.springframework.security:spring-security-crypto'
 
     // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on
-    implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.84'
+    implementation "org.bouncycastle:bcprov-jdk18on:1.86"
+
+    rewrite 'org.openrewrite.recipe:rewrite-spring:latest.release'
 }
 
 test {
@@ -184,10 +180,10 @@ tasks.named("jacocoTestReport") {
     dependsOn(tasks.test)
 
     reports {
-        xml.required.set(true)
-        html.required.set(true)
-        csv.required.set(false)
+        xml.required.set true
+        html.required.set true
+        csv.required.set false
 
-        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco.xml"))
+        xml.outputLocation.set layout.buildDirectory.file("reports/jacoco.xml")
     }
 }

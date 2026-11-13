@@ -1,16 +1,8 @@
 package org.sasanlabs.configuration;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.RETURNS_SELF;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -26,76 +18,6 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistra
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 class VulnerableAppWebSocketConfigurationTest {
-
-    // Three levels, same shape as a real vulnerability module: default allowed origins on the
-    // first two, wide open on the third, to exercise registerWebSocketHandlers generically.
-    public static class ValidController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public String level1(WebSocketSession session, String message) {
-            return null;
-        }
-
-        @VulnerableAppWebSocketMapping("LEVEL_2")
-        public String level2(WebSocketSession session, String message) {
-            return null;
-        }
-
-        @VulnerableAppWebSocketMapping(value = "LEVEL_3", allowedOrigins = "*")
-        public String level3(WebSocketSession session, String message) {
-            return null;
-        }
-    }
-
-    // Deliberately package-private: the mapped method below is public, but Method.invoke still
-    // honors the accessibility of its declaring class, so a naive registration would throw
-    // IllegalAccessException the moment VulnerableAppWebSocketHandler (a different package)
-    // invokes it.
-    static class PackagePrivateController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public String level1(WebSocketSession session, String message) {
-            return "handled:" + message;
-        }
-    }
-
-    public static class InvalidController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public void wrongSignature(WebSocketSession session) {}
-    }
-
-    public static class WrongParameterCountController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public String wrongSignature(WebSocketSession session) {
-            return null;
-        }
-    }
-
-    public static class NotPublicController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        String wrongSignature(WebSocketSession session, String message) {
-            return null;
-        }
-    }
-
-    public static class WrongReturnTypeController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public Object wrongSignature(WebSocketSession session, String message) {
-            return null;
-        }
-    }
-
-    public static class WrongSessionTypeController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public String wrongSignature(Object session, String message) {
-            return null;
-        }
-    }
-
-    public static class WrongMessageTypeController {
-        @VulnerableAppWebSocketMapping("LEVEL_1")
-        public String wrongSignature(WebSocketSession session, Object message) {
-            return null;
-        }
-    }
 
     private final EnvUtils envUtils = mock(EnvUtils.class);
     private final WebSocketHandlerRegistry registry = mock(WebSocketHandlerRegistry.class);
@@ -202,5 +124,75 @@ class VulnerableAppWebSocketConfigurationTest {
 
         verify(registration, times(3))
                 .addInterceptors(any(VulnerableAppWebSocketHandshakeInterceptor.class));
+    }
+
+    // Three levels, same shape as a real vulnerability module: default allowed origins on the
+    // first two, wide open on the third, to exercise registerWebSocketHandlers generically.
+    public static class ValidController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String level1(WebSocketSession session, String message) {
+            return null;
+        }
+
+        @VulnerableAppWebSocketMapping("LEVEL_2")
+        public String level2(WebSocketSession session, String message) {
+            return null;
+        }
+
+        @VulnerableAppWebSocketMapping(value = "LEVEL_3", allowedOrigins = "*")
+        public String level3(WebSocketSession session, String message) {
+            return null;
+        }
+    }
+
+    // Deliberately package-private: the mapped method below is public, but Method.invoke still
+    // honors the accessibility of its declaring class, so a naive registration would throw
+    // IllegalAccessException the moment VulnerableAppWebSocketHandler (a different package)
+    // invokes it.
+    static class PackagePrivateController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String level1(WebSocketSession session, String message) {
+            return "handled:" + message;
+        }
+    }
+
+    public static class InvalidController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public void wrongSignature(WebSocketSession session) {}
+    }
+
+    public static class WrongParameterCountController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(WebSocketSession session) {
+            return null;
+        }
+    }
+
+    public static class NotPublicController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        String wrongSignature(WebSocketSession session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongReturnTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public Object wrongSignature(WebSocketSession session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongSessionTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(Object session, String message) {
+            return null;
+        }
+    }
+
+    public static class WrongMessageTypeController {
+        @VulnerableAppWebSocketMapping("LEVEL_1")
+        public String wrongSignature(WebSocketSession session, Object message) {
+            return null;
+        }
     }
 }

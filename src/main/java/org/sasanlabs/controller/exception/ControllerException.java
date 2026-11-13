@@ -3,12 +3,14 @@ package org.sasanlabs.controller.exception;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 
+import java.io.Serial;
+
 /**
  * @author KSASAN preetkaran20@gmail.com
  */
 public class ControllerException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
     private ExceptionStatusCodeEnum exceptionStatusCode;
     private Object[] args;
 

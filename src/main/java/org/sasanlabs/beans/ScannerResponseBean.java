@@ -1,14 +1,15 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 /**
  * This class represents the response which is used by the scanners for executing attacks on the
- * VulnerableApp applications. This response bean is self sufficient for scanners to know about all
+ * VulnerableApp applications. This response bean is self-sufficient for scanners to know about all
  * the exposed vulnerabilities by the application.
  *
  * <p><a href="https://github.com/SasanLabs/VulnerableApp/issues/130">For more information on how

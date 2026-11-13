@@ -1,12 +1,13 @@
 package org.sasanlabs.internal.utility;
 
-import java.util.Map;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketController;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * This class is used to get the instance of CustomVulnerableEndpoint. We are using
@@ -20,18 +21,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvUtils {
 
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
     public EnvUtils(ApplicationContext context) {
         this.context = context;
     }
 
     /**
-     * @param <T>
+     * @param <T> T
      * @param clazz Type of the returned Bean
      * @param name name of Spring Bean
      * @return Instance of the Spring Bean based on the provided clazz and name.
-     * @throws ServiceApplicationException
+     * @throws ServiceApplicationException .
      */
     public <T> T getInstance(Class<T> clazz, String name) throws ServiceApplicationException {
         if (this.context.containsBean(name)) {
@@ -48,9 +49,9 @@ public class EnvUtils {
      * Please use {@link this#getInstance(Class, String)} if possible as this method is not type
      * safe.
      *
-     * @param name
+     * @param name String
      * @return Instance of the Spring Bean based on the provided name
-     * @throws ServiceApplicationException
+     * @throws ServiceApplicationException error
      */
     public Object getInstance(String name) throws ServiceApplicationException {
         if (this.context.containsBean(name)) {

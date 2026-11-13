@@ -1,21 +1,12 @@
 package org.sasanlabs.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -25,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +51,12 @@ class VulnerableAppRestControllerTest {
     private VulnerableAppRestController controller;
 
     private MockMvc mockMvc;
+
+    private static List<ExpectedIssue> twoExpectedIssues() {
+        return Arrays.asList(
+                new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1),
+                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3, 4));
+    }
 
     @BeforeEach
     void setUp() {
@@ -259,11 +255,5 @@ class VulnerableAppRestControllerTest {
         when(expectedIssuesProvider.getExpectedIssues()).thenThrow(new IOException("boom"));
 
         assertThrows(IOException.class, () -> controller.getSastScannerRelatedInformation());
-    }
-
-    private static List<ExpectedIssue> twoExpectedIssues() {
-        return Arrays.asList(
-                new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1),
-                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3, 4));
     }
 }

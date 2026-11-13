@@ -18,6 +18,10 @@ class CsvExpectedIssuesProviderTest {
     private static final String HEADER_WITH_LINE_COUNT =
             "CWE,Vulnerability Type,File,Line,Number of Sources,LineCount\n";
 
+    private static void write(Path path, String content) throws IOException {
+        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
+    }
+
     @Test
     void parsesHeaderAndAllValidRows(@TempDir Path tempDir) throws Exception {
         Path csv = tempDir.resolve("expected.csv");
@@ -32,11 +36,11 @@ class CsvExpectedIssuesProviderTest {
 
         assertThat(issues)
                 .extracting(
-                        ExpectedIssue::getCwe,
-                        ExpectedIssue::getVulnerabilityType,
-                        ExpectedIssue::getFilePath,
-                        ExpectedIssue::getLine,
-                        ExpectedIssue::getNumberOfSources)
+                        ExpectedIssue::cwe,
+                        ExpectedIssue::vulnerabilityType,
+                        ExpectedIssue::filePath,
+                        ExpectedIssue::line,
+                        ExpectedIssue::numberOfSources)
                 .containsExactly(
                         org.assertj.core.groups.Tuple.tuple(
                                 "CWE-89", "SQL Injection", "src/main/java/Foo.java", 56, 1),
@@ -58,9 +62,9 @@ class CsvExpectedIssuesProviderTest {
 
         assertThat(issues)
                 .extracting(
-                        ExpectedIssue::getLine,
-                        ExpectedIssue::getNumberOfSources,
-                        ExpectedIssue::getLineCount)
+                        ExpectedIssue::line,
+                        ExpectedIssue::numberOfSources,
+                        ExpectedIssue::lineCount)
                 .containsExactly(
                         org.assertj.core.groups.Tuple.tuple(84, 1, 3),
                         org.assertj.core.groups.Tuple.tuple(42, 3, 1));
@@ -74,7 +78,7 @@ class CsvExpectedIssuesProviderTest {
         List<ExpectedIssue> issues =
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
-        assertThat(issues).extracting(ExpectedIssue::getLineCount).containsExactly(1);
+        assertThat(issues).extracting(ExpectedIssue::lineCount).containsExactly(1);
     }
 
     @Test
@@ -89,7 +93,7 @@ class CsvExpectedIssuesProviderTest {
         List<ExpectedIssue> issues =
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
-        assertThat(issues).extracting(ExpectedIssue::getLineCount).containsExactly(1, 1);
+        assertThat(issues).extracting(ExpectedIssue::lineCount).containsExactly(1, 1);
     }
 
     @Test
@@ -107,7 +111,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues)
-                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLineCount)
+                .extracting(ExpectedIssue::cwe, ExpectedIssue::lineCount)
                 .containsExactly(org.assertj.core.groups.Tuple.tuple("CWE-77", 2));
     }
 
@@ -125,7 +129,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues)
-                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLine)
+                .extracting(ExpectedIssue::cwe, ExpectedIssue::line)
                 .containsExactly(org.assertj.core.groups.Tuple.tuple("CWE-77", 1));
     }
 
@@ -138,7 +142,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues).hasSize(1);
-        assertThat(issues.get(0).getNumberOfSources()).isEqualTo(12);
+        assertThat(issues.get(0).numberOfSources()).isEqualTo(12);
     }
 
     @Test
@@ -173,7 +177,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues).hasSize(2);
-        assertThat(issues).extracting(ExpectedIssue::getCwe).containsExactly("CWE-89", "CWE-77");
+        assertThat(issues).extracting(ExpectedIssue::cwe).containsExactly("CWE-89", "CWE-77");
     }
 
     @Test
@@ -190,7 +194,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues).hasSize(1);
-        assertThat(issues.get(0).getCwe()).isEqualTo("CWE-77");
+        assertThat(issues.get(0).cwe()).isEqualTo("CWE-77");
     }
 
     @Test
@@ -207,7 +211,7 @@ class CsvExpectedIssuesProviderTest {
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
 
         assertThat(issues)
-                .extracting(ExpectedIssue::getVulnerabilityType, ExpectedIssue::getLine)
+                .extracting(ExpectedIssue::vulnerabilityType, ExpectedIssue::line)
                 .containsExactly(
                         org.assertj.core.groups.Tuple.tuple("Injection, SQL", 56),
                         org.assertj.core.groups.Tuple.tuple("XSS, Reflected", 42));
@@ -218,7 +222,10 @@ class CsvExpectedIssuesProviderTest {
         Path csv = tempDir.resolve("expected.csv");
         write(
                 csv,
-                "CWE,Vulnerability Type,Line,Number of Sources\n" + "CWE-89,SQL Injection,56,1\n");
+                """
+                        CWE,Vulnerability Type,Line,Number of Sources
+                        CWE-89,SQL Injection,56,1
+                        """);
 
         List<ExpectedIssue> issues =
                 new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
@@ -252,7 +259,7 @@ class CsvExpectedIssuesProviderTest {
                         .getExpectedIssues();
 
         assertThat(issues)
-                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLine)
+                .extracting(ExpectedIssue::cwe, ExpectedIssue::line)
                 .containsExactly(
                         org.assertj.core.groups.Tuple.tuple("CWE-89", 56),
                         org.assertj.core.groups.Tuple.tuple("CWE-79", 42));
@@ -306,9 +313,5 @@ class CsvExpectedIssuesProviderTest {
                 .hasMessageContaining("benchmark.sast.ground-truth.path")
                 .hasMessageContaining("classpath:does/not/exist.csv")
                 .hasCauseInstanceOf(IOException.class);
-    }
-
-    private static void write(Path path, String content) throws IOException {
-        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
     }
 }

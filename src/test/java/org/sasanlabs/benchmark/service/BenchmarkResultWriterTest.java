@@ -16,6 +16,18 @@ class BenchmarkResultWriterTest {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    private static BenchmarkResult sampleResult(String tool) {
+        return new BenchmarkResult(
+                tool,
+                50.0,
+                2,
+                1,
+                1,
+                0,
+                Arrays.asList(new Finding("/SQLInjection/LEVEL_2", "BLIND_SQL_INJECTION")),
+                Collections.emptyList());
+    }
+
     @Test
     void write_persistsResultToToolNamedFileInDefaultDir(@TempDir Path tempDir) throws Exception {
         BenchmarkResultWriter writer = new BenchmarkResultWriter(MAPPER, tempDir.toString());
@@ -114,17 +126,5 @@ class BenchmarkResultWriterTest {
         assertThat(BenchmarkResultWriter.sanitizeToolName("OWASP-ZAP_v2"))
                 .isEqualTo("owasp-zap_v2");
         assertThat(BenchmarkResultWriter.sanitizeToolName("../etc/passwd")).isEqualTo("etcpasswd");
-    }
-
-    private static BenchmarkResult sampleResult(String tool) {
-        return new BenchmarkResult(
-                tool,
-                50.0,
-                2,
-                1,
-                1,
-                0,
-                Arrays.asList(new Finding("/SQLInjection/LEVEL_2", "BLIND_SQL_INJECTION")),
-                Collections.emptyList());
     }
 }

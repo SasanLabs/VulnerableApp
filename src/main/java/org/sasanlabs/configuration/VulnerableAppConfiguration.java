@@ -1,26 +1,13 @@
 package org.sasanlabs.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
-import org.sasanlabs.internal.utility.LevelConstants;
-import org.sasanlabs.service.vulnerability.fileupload.UnrestrictedFileUpload;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -30,10 +17,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Properties;
 
 /**
  * This is the Configuration Class for Injecting Configurations into the Context.
@@ -46,9 +35,6 @@ public class VulnerableAppConfiguration {
     private static final String I18N_MESSAGE_FILE_LOCATION = "classpath:i18n/messages";
     private static final String ATTACK_VECTOR_PAYLOAD_PROPERTY_FILES_LOCATION_PATTERN =
             "classpath:/attackvectors/*.properties";
-    private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
-            Arrays.asList(
-                    "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -76,9 +62,9 @@ public class VulnerableAppConfiguration {
      * This method reads all the property which are useful for vulnerableApp and then injects them
      * into the context so that entire application can use it.
      *
-     * @param resourceLoader
+     * @param resourceLoader loads the resources
      * @return {@link VulnerableAppProperties} which is injected in spring context.
-     * @throws IOException
+     * @throws IOException throws input-output exception
      */
     @Bean
     public VulnerableAppProperties propertyLoader(ResourceLoader resourceLoader)
@@ -90,9 +76,7 @@ public class VulnerableAppConfiguration {
         for (Resource attackVectorResource : attackVectorsResources) {
             PropertiesLoaderUtils.fillProperties(attackVectorProperties, attackVectorResource);
         }
-        VulnerableAppProperties vulnerableAppProperties =
-                new VulnerableAppProperties(attackVectorProperties);
-        return vulnerableAppProperties;
+        return new VulnerableAppProperties(attackVectorProperties);
     }
 
     /**
@@ -126,6 +110,7 @@ public class VulnerableAppConfiguration {
      * applicationDataSource bean tries to connect.
      */
     @Bean
+    @DependsOnDatabaseInitialization
     public DataSourceInitializer adminDataSourceInitializer(
             @Qualifier("adminDataSource") DataSource adminDataSource,
             @Value("${spring.datasource.application.password}") String appPassword) {
@@ -184,31 +169,5 @@ public class VulnerableAppConfiguration {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    /**
-     * Customized MultipartFilter bean disables default max upload size for multipart files and
-     * their overall requests, for select paths. See {@link
-     * UnrestrictedFileUpload#getVulnerablePayloadLevel10()} for usage.
-     */
-    @Bean
-    @Order(0)
-    public MultipartFilter multipartFilter() {
-        class MaxUploadSizeOverrideMultipartFilter extends MultipartFilter {
-            @Override
-            protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
-                if (MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS.contains(request.getServletPath())) {
-                    CommonsMultipartResolver multipart = new CommonsMultipartResolver();
-                    multipart.setMaxUploadSize(-1);
-                    multipart.setMaxUploadSizePerFile(-1);
-                    return multipart;
-                } else {
-                    // returns default implementation
-                    return lookupMultipartResolver();
-                }
-            }
-        }
-        ;
-        return new MaxUploadSizeOverrideMultipartFilter();
     }
 }

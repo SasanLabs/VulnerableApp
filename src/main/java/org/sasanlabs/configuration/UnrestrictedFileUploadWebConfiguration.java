@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * {@link UnrestrictedFileUpload} writes the uploads of its {@code root}-backed levels to a real OS
  * directory outside the application's classpath (see {@link
- * UnrestrictedFileUpload#uploadsBaseDirectory()}), so Spring's default static resource handler,
+ * UnrestrictedFileUpload->uploadsBaseDirectory()}), so Spring's default static resource handler,
  * which only serves {@code classpath:/static/}, never sees them. This registers the same directory
  * as the source for the {@code /upload/**} URLs those levels return, so an uploaded file is
  * actually fetchable back.

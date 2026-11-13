@@ -34,6 +34,27 @@ class DastBenchmarkStrategyTest {
 
     private DastBenchmarkStrategy strategy;
 
+    private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {
+        return unsecure(url, RequestMethod.GET, types);
+    }
+
+    private static ScannerResponseBean unsecure(
+            String url, RequestMethod method, VulnerabilityType... types) {
+        return new ScannerResponseBean(
+                url, "UNSECURE", method, Protocol.HTTP, Arrays.asList(types));
+    }
+
+    private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
+        return new ScannerResponseBean(
+                url, "SECURE", RequestMethod.GET, Protocol.HTTP, Arrays.asList(types));
+    }
+
+    private static ScannerFindings input(String tool, Finding... findings) {
+        List<Finding> list =
+                findings.length == 0 ? Collections.emptyList() : Arrays.asList(findings);
+        return new ScannerFindings(tool, list);
+    }
+
     @BeforeEach
     void setUp() {
         strategy = new DastBenchmarkStrategy(restTemplate, GROUND_TRUTH_URL, CONTEXT_PATH);
@@ -428,26 +449,5 @@ class DastBenchmarkStrategyTest {
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", null))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-    }
-
-    private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {
-        return unsecure(url, RequestMethod.GET, types);
-    }
-
-    private static ScannerResponseBean unsecure(
-            String url, RequestMethod method, VulnerabilityType... types) {
-        return new ScannerResponseBean(
-                url, "UNSECURE", method, Protocol.HTTP, Arrays.asList(types));
-    }
-
-    private static ScannerResponseBean secure(String url, VulnerabilityType... types) {
-        return new ScannerResponseBean(
-                url, "SECURE", RequestMethod.GET, Protocol.HTTP, Arrays.asList(types));
-    }
-
-    private static ScannerFindings input(String tool, Finding... findings) {
-        List<Finding> list =
-                findings.length == 0 ? Collections.emptyList() : Arrays.asList(findings);
-        return new ScannerFindings(tool, list);
     }
 }
