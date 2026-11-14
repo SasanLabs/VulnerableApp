@@ -26,8 +26,8 @@ seed value the legacy challenge page sends:
 | `XSSInImgTagAttribute` | 1–5 UNSECURE; 6 SECURE | GET / `src` | `/VulnerableApp/images/OWASP.png` |
 | `XSSWithHtmlTagInjection` | 1–3 UNSECURE; 4–5 SECURE | GET / `value` | `vulnerableapp` |
 
-Inventory at application revision `2e68df7`. The image seed follows the deployed
-context path; it is required because levels 5 and 6 reject any other value. Every
+Inventory at application revision `2e68df7`. The image seed is fixed and does not
+follow the deployed context path; levels 5 and 6 reject any other value. Every
 selected URL must belong to the configured application origin and context. A
 newly exposed unsupported method, protocol or variant, or a supported family that
 disappears from the ground truth, fails the run rather than being silently

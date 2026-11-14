@@ -173,10 +173,11 @@ class DiscoveryTest(unittest.TestCase):
         self.assertEqual(seed_url(targets[0]),
                          BASE + "/XSSInImgTagAttribute/LEVEL_1?src=%2FVulnerableApp%2Fimages%2FOWASP.png")
 
-    def test_image_seed_follows_the_deployed_context_path(self):
+    def test_image_seed_stays_fixed_while_urls_follow_the_deployed_context_path(self):
         rows = [dict(row, url=row["url"].replace("/VulnerableApp/", "/lab/")) for row in self.rows()]
         targets = discover_targets(rows, "http://127.0.0.1:9090/lab")
-        self.assertEqual(targets[0]["seed"], "/lab/images/OWASP.png")
+        self.assertEqual(targets[0]["url"], "http://127.0.0.1:9090/lab/XSSInImgTagAttribute/LEVEL_1")
+        self.assertEqual(targets[0]["seed"], "/VulnerableApp/images/OWASP.png")
 
     def test_duplicate_rows_are_collapsed(self):
         self.assertEqual(len(discover_targets(self.rows(self.rows()[1]), BASE)), 2)

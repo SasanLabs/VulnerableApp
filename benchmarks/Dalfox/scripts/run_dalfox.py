@@ -19,9 +19,10 @@ from convert_dalfox_to_benchmark import clean_url, convert
 
 # Challenge family -> (query parameter, seed path or value). The seeds are the
 # values the legacy challenge pages send: XSSInImgTagAttribute's secure levels
-# only accept an allow-listed image path, and the HTML-tag levels echo any value.
+# only accept the allow-listed /VulnerableApp image path whatever context the
+# app is deployed under, and the HTML-tag levels echo any value.
 FAMILIES = {
-    "XSSInImgTagAttribute": ("src", "{context}/images/OWASP.png"),
+    "XSSInImgTagAttribute": ("src", "/VulnerableApp/images/OWASP.png"),
     "XSSWithHtmlTagInjection": ("value", "vulnerableapp"),
 }
 # The challenge pages insert these responses into the DOM with innerHTML, so
@@ -59,7 +60,7 @@ def discover_targets(rows, base_url):
             "variant": row["variant"],
             "vulnerabilityTypes": row.get("vulnerabilityTypes", []),
             "parameter": parameter,
-            "seed": seed.format(context=context),
+            "seed": seed,
         }
         if target["url"] in selected and selected[target["url"]] != target:
             raise ValueError("Conflicting ground-truth entries for one URL")
