@@ -1,0 +1,10 @@
+
+=====================================
+| Started in 2026-11-11 at 11:31:26 |
+=====================================
+[info] Tested URL : http://127.0.0.1:19390/VulnerableApp/CommandInjection/LEVEL_1?ipaddress=127.0.0.1
+[info] Type: Results-Based Os Command Injection
+[info] Technique: Classic Command Injection Technique
+[info] Parameter: (GET) ipaddress
+[info] Used payload: 127.0.0.1;echo WCSVNZ$((96%2B67))$(echo WCSVNZ)WCSVNZ
+[info] User-supplied command 'echo commixrce2f9c1a7b4e' execution output: commixrce2f9c1a7b4e

@@ -1,0 +1,127 @@
+name: Commix Benchmark
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'benchmarks/commix/**'
+      - '.github/workflows/commix-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  commix-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Pinned so reruns of the same application revision use the same scanner.
+      # Update together with the tag in benchmarks/commix/README.md.
+      COMMIX_TAG: v4.1
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Checkout commix ${{ env.COMMIX_TAG }}
+        uses: actions/checkout@v4
+        with:
+          repository: commixproject/commix
+          ref: refs/tags/${{ env.COMMIX_TAG }}
+          path: .tools/commix
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test converter, parser and target discovery
+        run: python3 -m unittest discover -s benchmarks/commix/scripts -v
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build deployed application
+        run: ./gradlew bootJar
+
+      - name: Start isolated Java lab
+        run: |
+          mkdir -p benchmarks/commix/artifacts-metadata
+          git rev-parse HEAD > benchmarks/commix/artifacts-metadata/application-revision.txt
+          git -C .tools/commix rev-parse HEAD > benchmarks/commix/artifacts-metadata/commix-revision.txt
+          java -version 2> benchmarks/commix/artifacts-metadata/java-version.txt
+          sha256sum build/libs/VulnerableApp-1.0.0.jar > benchmarks/commix/artifacts-metadata/application-jar.sha256
+          java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar \
+            --server.port=9090 \
+            --benchmark.output.dir=benchmarks/commix/artifacts-metadata/results \
+            > benchmarks/commix/artifacts-metadata/application.log 2>&1 &
+          echo $! > benchmarks/commix/artifacts-metadata/application.pid
+          for attempt in {1..40}; do
+            if curl --fail --silent --max-time 2 http://127.0.0.1:9090/VulnerableApp/scanner/dast > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'Java lab did not become ready'
+          exit 1
+
+      - name: Scan command-injection ground-truth endpoints
+        run: |
+          # Limit scanner address space to 2 GiB; each target also has a process deadline.
+          ulimit -v 2097152
+          python3 benchmarks/commix/scripts/run_commix.py \
+            --base-url http://127.0.0.1:9090/VulnerableApp \
+            --commix-dir .tools/commix \
+            --commix-tag "$COMMIX_TAG" \
+            --output-dir benchmarks/commix/artifacts \
+            --target-timeout 150
+
+      - name: Convert confirmed injections
+        run: |
+          python3 benchmarks/commix/scripts/convert_commix_to_benchmark.py \
+            --input benchmarks/commix/artifacts/runs.json \
+            --output benchmarks/commix/artifacts/commix-findings.json
+
+      - name: Submit to benchmark
+        run: |
+          curl --fail-with-body --show-error --silent --max-time 60 \
+            http://127.0.0.1:9090/VulnerableApp/scanner/benchmark \
+            -H 'Content-Type: application/json' \
+            --data-binary @benchmarks/commix/artifacts/commix-findings.json \
+            -o benchmarks/commix/artifacts/commix-results.json
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          result = json.loads(Path('benchmarks/commix/artifacts/commix-results.json').read_text())
+          targets = json.loads(Path('benchmarks/commix/artifacts/targets.json').read_text())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('## Commix: Java command-injection scope\n')
+              summary.write(f"Scanned {len(targets)} metadata endpoints using GET ipaddress and the classic technique.\n\n")
+              summary.write(f"Detected: {result['detected']}; whole-benchmark coverage: {result['coverage']:.2f}%.\n\n")
+              summary.write('Coverage denominator includes all Java DAST vulnerabilities, not just command injection.\n')
+              summary.write('Unmatched findings require review; they are not automatically false positives.\n')
+          PY
+
+      - name: Stop Java lab
+        if: always()
+        run: |
+          if [ -f benchmarks/commix/artifacts-metadata/application.pid ]; then
+            kill "$(cat benchmarks/commix/artifacts-metadata/application.pid)" || true
+          fi
+
+      - name: Upload reports and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: commix-benchmark-${{ github.run_id }}
+          path: |
+            benchmarks/commix/artifacts/
+            benchmarks/commix/artifacts-metadata/
+          retention-days: 30

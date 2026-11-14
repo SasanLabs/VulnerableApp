@@ -1,0 +1,5 @@
+
+=====================================
+| Started in 2026-11-11 at 11:29:23 |
+=====================================
+[info] Tested URL : http://127.0.0.1:19390/VulnerableApp/CommandInjection/LEVEL_7?ipaddress=127.0.0.1

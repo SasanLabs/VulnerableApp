@@ -214,6 +214,14 @@ CWE definitions.
 
 See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reproduction instructions.
 
+## Commix
+
+Commix is benchmarked in **DAST** mode against the Java OS command-injection
+challenges. It confirms each finding by executing a command whose unique marker
+the target echoes back, rather than by heuristics. See
+[`benchmarks/commix/README.md`](commix/README.md) for the scan setup, discovery
+scope, the conversion script, and failure handling.
+
 ---
 
 ## Choosing a scan type
