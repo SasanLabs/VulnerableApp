@@ -19,9 +19,10 @@ import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.stereotype.Service;
 
 /**
- * Compares scanner findings against VulnerableApp's SAST ground truth (the {@link
- * IExpectedIssuesProvider}, backed by {@code scanner/sast/expectedIssues.csv} by default) and
- * produces coverage / missed / unmatched metrics.
+ * Compares scanner findings against SAST ground truth and produces coverage / missed / unmatched
+ * metrics. The rows come from the {@link IExpectedIssuesProvider} (backed by {@code
+ * scanner/sast/expectedIssues.csv} by default), or from {@code benchmark.sast.ground-truth.url}
+ * when it is set, and each application's findings are scored against that application's rows.
  *
  * <p>Each ground-truth row is indexed under up to two keys: its file with its CWE, and its file
  * with its vulnerability-type label. A scanner finding matches a row if it shares the {@code
@@ -40,16 +41,23 @@ public class SastBenchmarkStrategy implements BenchmarkStrategy {
     private static final String CWE_TAG = "CWE";
     private static final String TYPE_TAG = "TYPE";
 
-    private final IExpectedIssuesProvider expectedIssuesProvider;
+    private final BenchmarkGroundTruthProvider groundTruthProvider;
 
-    public SastBenchmarkStrategy(IExpectedIssuesProvider expectedIssuesProvider) {
-        this.expectedIssuesProvider = expectedIssuesProvider;
+    public SastBenchmarkStrategy(BenchmarkGroundTruthProvider groundTruthProvider) {
+        this.groundTruthProvider = groundTruthProvider;
     }
 
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ExpectedIssue> expected = expectedIssuesProvider.getExpectedIssues();
+        return ApplicationBenchmark.compare(
+                input,
+                groundTruthProvider.loadSast(),
+                "",
+                row -> normalizeFilePath(row.getFilePath()),
+                this::score);
+    }
 
+    private BenchmarkResult score(ScannerFindings input, List<ExpectedIssue> expected) {
         Map<String, List<ExpectedIssue>> expectedByKey = new HashMap<>();
         for (ExpectedIssue ei : expected) {
             for (String key : buildKeys(ei.getFilePath(), ei.getCwe(), ei.getVulnerabilityType())) {

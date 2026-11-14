@@ -414,21 +414,38 @@ The HTTP response contains the same JSON that gets persisted to disk.
 
 ## Output format
 
-The output schema is the same for DAST and SAST. The fields inside each
-`detectedItems` / `missedItems` / `unmatchedItems` entry vary by scan type
-(unused fields are omitted from the JSON).
+Schema version 2 is shared by DAST and SAST. Existing aggregate metrics remain;
+`applications` contains the same metrics and item lists for each application.
+The fields inside each `detectedItems` / `missedItems` / `unmatchedItems` entry
+vary by scan type (unused fields are omitted from the JSON).
 
 ```json
 {
+  "schemaVersion": 2,
   "tool": "ZAP",
+  "groundTruthFallback": false,
+  "applications": {
+    "VulnerableApp": {
+      "schemaVersion": 2,
+      "tool": "ZAP",
+      "coverage": 4.29,
+      "totalExpected": 140,
+      "detected": 6,
+      "missed": 134,
+      "unmatched": 147,
+      "detectedItems": [{ "application": "VulnerableApp", "url": "/...", "type": "..." }],
+      "missedItems": [{ "application": "VulnerableApp", "url": "/...", "type": "..." }],
+      "unmatchedItems": [{ "application": "VulnerableApp", "url": "/...", "cwe": "..." }]
+    }
+  },
   "coverage": 4.29,
   "totalExpected": 140,
   "detected": 6,
   "missed": 134,
   "unmatched": 147,
-  "detectedItems":   [ { "url": "/...", "type": "..." } ],
-  "missedItems":     [ { "url": "/...", "type": "..." } ],
-  "unmatchedItems":  [ { "url": "/...", "cwe": "..." } ]
+  "detectedItems":   [ { "application": "VulnerableApp", "url": "/...", "type": "..." } ],
+  "missedItems":     [ { "application": "VulnerableApp", "url": "/...", "type": "..." } ],
+  "unmatchedItems":  [ { "application": "VulnerableApp", "url": "/...", "cwe": "..." } ]
 }
 ```
 
@@ -446,9 +463,28 @@ For SAST runs, items look like:
   rows in the CSV.
 - `detectedItems` — expected items the scanner reported. Results written before
   this field existed omit it.
+- `schemaVersion` — `2` identifies reports with per-application scope. Existing
+  checked-in reports retain their original schema until the next benchmark run.
+- `groundTruthFallback` — `true` when the remote source failed and only local
+  VulnerableApp ground truth was scored. Failure of the local source still fails
+  the run; it does not become a successful empty benchmark.
+- `applications` — metrics grouped by the application keys supplied by the facade.
+  Aggregate coverage is computed from total counts, not an average of percentages.
 - `missedItems` — expected items the scanner did not report.
 - `unmatchedItems` — items the scanner reported that don't line up with any
   expected ground-truth row.
+
+### Finding attribution
+
+Findings may include `"application": "VulnerableApp-jsp"`; the name must match a
+facade response key. This scopes matching and deduplication to that application.
+Legacy findings without this field still work: a single-app run assigns them to
+that app; multi-app DAST uses a URL unique to one app (including secure routes
+when determining ownership), then an application URL prefix for unknown routes.
+SAST uses a file path unique to one app. Ambiguous or unknown locations
+remain in aggregate `unmatchedItems` without an application label and are not
+credited to any app. Supply `application` when apps share paths. An explicit
+unknown application is reported separately with no expected rows.
 
 ## Configuration
 
@@ -456,15 +492,32 @@ For SAST runs, items look like:
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | `benchmark.output.dir`                           | `benchmarks`                                                                                     | Directory the JSON report is written to.                                                                                                       |
 | `benchmark.dast.ground-truth.url`                | `http://localhost:${server.port:9090}${server.servlet.context-path:/VulnerableApp}/scanner/dast` | URL the DAST comparator fetches ground truth from. Override when running behind VulnerableApp-facade so coverage spans every backing app.      |
-| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000`                                                                                           | Connect timeout (ms) for the ground-truth fetch. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads.                    |
-| `benchmark.dast.ground-truth.read-timeout-ms`    | `10000`                                                                                          | Read timeout (ms) for the ground-truth fetch.                                                                                                  |
+| `benchmark.application-name`                     | `VulnerableApp`                                                                                  | Name used for standalone arrays and local ground truth.                                                                                        |
+| `benchmark.dast.ground-truth.fallback-url`       | Local `/scanner/dast` URL, using the configured port and context path                            | Local source used if the configured DAST URL fails or is blank.                                                                                |
+| `benchmark.sast.ground-truth.url`                | Empty                                                                                            | Optional facade `/scanner/sast` URL. Empty uses the local CSV directly; HTTP/parse failures fall back to that CSV.                             |
+| `benchmark.dast.ground-truth.connect-timeout-ms` | `5000`                                                                                           | Connect timeout (ms) for DAST and SAST HTTP ground-truth fetches. Fail-fast bound so a stalled endpoint can't tie up Tomcat request threads.   |
+| `benchmark.dast.ground-truth.read-timeout-ms`    | `10000`                                                                                          | Read timeout (ms) for DAST and SAST HTTP ground-truth fetches.                                                                                 |
 | `benchmark.sast.ground-truth.path`               | `classpath:scanner/sast/expectedIssues.csv`                                                      | CSV the SAST comparator loads expected issues from, and `/scanner/sast` serves. Drop the `classpath:` prefix to read a file from disk instead. |
 
 The default DAST URL is a self-call against the running app, which means
 benchmarking works out of the box in standalone mode. In a facade-composed
-deployment, point this at the facade's aggregated `/scanner/dast` endpoint so
-scanner findings are graded against the union of every backing app's ground
-truth.
+deployment, set `benchmark.dast.ground-truth.url` and
+`benchmark.sast.ground-truth.url` to the facade's `/scanner/dast` and
+`/scanner/sast`. Each benchmark fetches its selected endpoint once, without
+per-app requests. Both standalone arrays and facade objects keyed by application
+are accepted. Unavailable apps omitted by a successful facade response are
+outside that run's scope; the comparator does not discover them separately.
+An empty facade object (`{}`), emitted when every backing endpoint fails,
+triggers local fallback. Named applications with empty arrays remain valid.
+A `/scanner/sast` row without `lineCount`, or with `null`, gets `1`, as a CSV row
+without `LineCount` does. Any other value that is not a plain integer from 1 to
+`Integer.MAX_VALUE` (`3`, not `3.0` or `"3"`) triggers local fallback for the
+whole response, whereas a bad CSV `LineCount` skips only its row.
+
+```properties
+benchmark.dast.ground-truth.url=http://facade/scanner/dast
+benchmark.sast.ground-truth.url=http://facade/scanner/sast
+```
 
 ## Where the report is written
 
