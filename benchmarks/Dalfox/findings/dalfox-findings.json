@@ -1,0 +1,36 @@
+{
+  "tool": "Dalfox",
+  "scanType": "DAST",
+  "findings": [
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSInImgTagAttribute/LEVEL_1",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSInImgTagAttribute/LEVEL_2",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSInImgTagAttribute/LEVEL_3",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_2",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_3",
+      "method": "GET",
+      "type": "REFLECTED_XSS"
+    }
+  ]
+}
