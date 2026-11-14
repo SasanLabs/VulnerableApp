@@ -21,12 +21,19 @@ Fixing [issues](https://github.com/SasanLabs/VulnerableApp/issues) is very valua
 For more understanding on VulnerableApp's internal framework please visit: [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
 #### Guidelines for Pull Request (PR) submission and processing:
 
-##### Format/Style Java Code
+##### Format/Style & Code Quality Validation
 
-The Java code is formatted according to Google Java Style (AOSP variant). The build automatically checks
-that the code conforms to the style (using [Spotless], which delegates to [google-java-format]), it can
-also be used to format the code (with the Gradle task `spotlessApply`) if the IDE/editor in use
-does not support it.
+The Java code is formatted according to Google Java Style (AOSP variant) and validated for code quality and maintainability rules.
+
+- **Spotless**: Checks code formatting using Spotless (which delegates to Google Java Format). You can automatically format your code locally with:
+  ```bash
+  ./gradlew spotlessApply
+  ```
+- **Checkstyle**: Validates maintainability rules such as naming conventions, import hygiene, modifier order, and Java code-quality standards. You can run Checkstyle checks locally with:
+  ```bash
+  ./gradlew checkstyleMain checkstyleTest
+  ```
+Both Checkstyle and Spotless checks are verified in CI for every pull request and push to `master`.
 
 ##### What should you, the author of a pull request, expect from us (VulnerableApp Team)?
 * How much time (maximum) until the first feedback? 1 week.

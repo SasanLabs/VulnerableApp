@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+    <!-- Tests: method names commonly use underscores (e.g. testFeature_scenario_expected) -->
+    <suppress checks="MethodName" files="[/\\]src[/\\]test[/\\]java[/\\].*"/>
+
+    <!-- Legacy constants interface -->
+    <suppress checks="InterfaceIsType" files="FrameworkConstants\.java"/>
+
+    <!-- JAXB generated naming conventions -->
+    <suppress checks="ConstantName" files="ObjectFactory\.java"/>
+
+    <!-- JWT cryptographic algorithm-specific method names (e.g. getJWTToken_RS256) -->
+    <suppress checks="MethodName" files="IJWTTokenGenerator\.java|LibBasedJWTGenerator\.java"/>
+
+    <!-- Cryptographic failures: keep file line counts intact for SAST benchmark alignment -->
+    <suppress checks="LocalVariableName|AvoidStarImport" files="CryptographicFailuresVulnerability\.java"/>
+</suppressions>

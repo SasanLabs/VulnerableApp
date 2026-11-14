@@ -1,7 +1,10 @@
 package org.sasanlabs.internal.utility;
 
 import java.nio.charset.StandardCharsets;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -11,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public final class PasswordHashingUtils {
 
     private static final String HASH_SEPARATOR = ":";
-    private static final int bcryptWorkFactor = 12;
+    private static final int BCRYPT_WORK_FACTOR = 12;
 
     private PasswordHashingUtils() {}
 
@@ -89,16 +92,16 @@ public final class PasswordHashingUtils {
 
     // BC not used for bcrypt due to extra complexity for BC implementation
     public static int getbcryptWorkFactor() {
-        return bcryptWorkFactor;
+        return BCRYPT_WORK_FACTOR;
     }
 
     public static String bCryptHash(String rawPassword) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(bcryptWorkFactor);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_WORK_FACTOR);
         return encoder.encode(rawPassword);
     }
 
     public static boolean isValidBcrypt(String rawPassword, String bcryptHash) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(bcryptWorkFactor);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_WORK_FACTOR);
         return encoder.matches(rawPassword, bcryptHash);
     }
 
