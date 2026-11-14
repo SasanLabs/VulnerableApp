@@ -673,6 +673,24 @@ function _addingEventListenerToModeToggle(vulnerableAppEndPointData) {
 }
 
 /**
+ * Shows the About Us page when the URL fragment is "#about" and the home page
+ * otherwise, and marks the matching navbar item as active. Driven by the URL
+ * fragment so that the About Us link, a bookmarked or shared "#about" URL and
+ * the browser's back/forward buttons all show the same page.
+ */
+function _showPageForLocationHash() {
+  let showAbout = window.location.hash === "#about";
+  document
+    .getElementById("homeContainer")
+    .classList.toggle("hide-component", showAbout);
+  document
+    .getElementById("aboutContainer")
+    .classList.toggle("hide-component", !showAbout);
+  document.getElementById("home").classList.toggle("active", !showAbout);
+  document.getElementById("about").classList.toggle("active", showAbout);
+}
+
+/**
  * Autoregistered Event listeners
  */
 (function _autoRegister() {
@@ -712,7 +730,8 @@ function _addingEventListenerToModeToggle(vulnerableAppEndPointData) {
     document.getElementById("vulnLearnBtn").classList.add("hide-component");
   });
 
-  //  document.getElementById("about").addEventListener("click", () => {
-  //    document.getElementById("aboutContainer").scrollIntoView(true);
-  //  });
+  window.addEventListener("hashchange", _showPageForLocationHash);
+  // This script is loaded from inside homeContainer, before aboutContainer is
+  // parsed, so the initial page is chosen once the whole document is available.
+  document.addEventListener("DOMContentLoaded", _showPageForLocationHash);
 })();
