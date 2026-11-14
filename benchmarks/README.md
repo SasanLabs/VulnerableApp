@@ -274,6 +274,12 @@ of method — leniency for scanners whose output format does not include the
 method. This means existing payloads continue to work; emit `method` to enable
 the stricter check.
 
+The ground truth says whether each entry is HTTP or WebSocket (`protocol`;
+entries without it are HTTP). The method check applies to HTTP entries only. A
+WebSocket entry is matched on its URL and one of the axes, whatever `method`
+the finding carries, since a WebSocket level is always opened with a GET
+handshake. WebSocket items in the report have no `method`.
+
 A scanner that emits multiple axes (type + cwe, etc.) for the same alert is
 counted once. A finding that matches no axis on any expected URL ends up in
 `unmatchedItems`.
@@ -441,9 +447,9 @@ For SAST runs, items look like:
 - `coverage` — `detected / totalExpected * 100`. Reported as `0.0` when ground
   truth is empty.
 - `totalExpected` — number of unique ground-truth items. For DAST, count of
-  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
-  (SECURE entries are intentionally clean and don't count). For SAST, count of
-  rows in the CSV.
+  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries,
+  HTTP and WebSocket alike (SECURE entries are intentionally clean and don't
+  count). For SAST, count of rows in the CSV.
 - `detectedItems` — expected items the scanner reported. Results written before
   this field existed omit it.
 - `missedItems` — expected items the scanner did not report.

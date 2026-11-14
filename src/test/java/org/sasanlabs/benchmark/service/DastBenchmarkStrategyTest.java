@@ -12,6 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -428,6 +431,161 @@ class DastBenchmarkStrategyTest {
                 .isEqualTo("/SQLInjection/LEVEL_1");
         assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", null))
                 .isEqualTo("/SQLInjection/LEVEL_1");
+    }
+
+    private static final String WS_URL = "ws://localhost:9090/VulnerableApp/ws/XSS/LEVEL_1";
+
+    private static ScannerResponseBean webSocket(
+            String url, RequestMethod method, VulnerabilityType... types) {
+        return new ScannerResponseBean(url, "UNSECURE", method, Protocol.WS, Arrays.asList(types));
+    }
+
+    private static Finding finding(
+            String url, String type, String cwe, String wasc, String method) {
+        return new Finding(url, type, null, null, cwe, wasc, method);
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"GET", "POST", "delete", " "})
+    void webSocketEntryMatchesOnUrlWhateverTheFindingMethod(String method) throws Exception {
+        stubGroundTruth(webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input(
+                                "ZAP",
+                                finding("/ws/XSS/LEVEL_1", "REFLECTED_XSS", null, null, method)));
+
+        assertThat(result.getCoverage()).isEqualTo(100.0);
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
+    void webSocketEntryMatchesOnCweOrWascAlone() throws Exception {
+        stubGroundTruth(webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.PATH_TRAVERSAL));
+
+        BenchmarkResult byCwe =
+                strategy.compare(
+                        input("ZAP", finding("/ws/XSS/LEVEL_1", null, "CWE-22", null, "GET")));
+        BenchmarkResult byWasc =
+                strategy.compare(input("ZAP", finding("/ws/XSS/LEVEL_1", null, null, "33", null)));
+
+        assertThat(byCwe.getDetected()).isEqualTo(1);
+        assertThat(byWasc.getDetected()).isEqualTo(1);
+    }
+
+    @Test
+    void webSocketEntryIsReportedWithoutItsHandshakeMethod() throws Exception {
+        stubGroundTruth(webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result = strategy.compare(input("ZAP"));
+
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getUrl, Finding::getType, Finding::getMethod)
+                .containsExactly(tuple("/ws/XSS/LEVEL_1", "REFLECTED_XSS", null));
+    }
+
+    @Test
+    void webSocketEntriesDifferingOnlyByMethodCountOnce() throws Exception {
+        stubGroundTruth(
+                webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS),
+                webSocket(WS_URL, RequestMethod.POST, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result = strategy.compare(input("ZAP"));
+
+        assertThat(result.getTotalExpected()).isEqualTo(1);
+    }
+
+    @Test
+    void httpAndWebSocketEntriesBothCountTowardCoverage() throws Exception {
+        stubGroundTruth(
+                unsecure(
+                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
+                        VulnerabilityType.REFLECTED_XSS),
+                webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result =
+                strategy.compare(input("ZAP", new Finding("/XSS/LEVEL_1", "REFLECTED_XSS")));
+
+        assertThat(result.getTotalExpected()).isEqualTo(2);
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getCoverage()).isEqualTo(50.0);
+        assertThat(result.getMissedItems())
+                .extracting(Finding::getUrl)
+                .containsExactly("/ws/XSS/LEVEL_1");
+    }
+
+    @Test
+    void httpEntryStillChecksTheMethodWhenWebSocketsArePresent() throws Exception {
+        stubGroundTruth(
+                unsecure(
+                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
+                        RequestMethod.GET,
+                        VulnerabilityType.REFLECTED_XSS),
+                webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input("ZAP", finding("/XSS/LEVEL_1", "REFLECTED_XSS", null, null, "POST")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+    }
+
+    @Test
+    void groundTruthWithoutProtocolIsTreatedAsHttp() throws Exception {
+        stubGroundTruth(
+                new ScannerResponseBean(
+                        "http://localhost:9090/VulnerableApp/XSS/LEVEL_1",
+                        "UNSECURE",
+                        RequestMethod.GET,
+                        null,
+                        Arrays.asList(VulnerabilityType.REFLECTED_XSS)));
+
+        BenchmarkResult wrongMethod =
+                strategy.compare(
+                        input("ZAP", finding("/XSS/LEVEL_1", "REFLECTED_XSS", null, null, "POST")));
+        BenchmarkResult rightMethod =
+                strategy.compare(
+                        input("ZAP", finding("/XSS/LEVEL_1", "REFLECTED_XSS", null, null, "GET")));
+
+        assertThat(wrongMethod.getDetected()).isZero();
+        assertThat(rightMethod.getDetected()).isEqualTo(1);
+        assertThat(rightMethod.getDetectedItems().get(0).getMethod()).isEqualTo("GET");
+    }
+
+    @Test
+    void secureWebSocketEntryIsNotExpected() throws Exception {
+        stubGroundTruth(
+                new ScannerResponseBean(
+                        WS_URL,
+                        "SECURE",
+                        RequestMethod.GET,
+                        Protocol.WS,
+                        Arrays.asList(VulnerabilityType.REFLECTED_XSS)));
+
+        BenchmarkResult result =
+                strategy.compare(input("ZAP", new Finding("/ws/XSS/LEVEL_1", "REFLECTED_XSS")));
+
+        assertThat(result.getTotalExpected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+    }
+
+    @Test
+    void webSocketSchemeFindingUrlIsNormalised() throws Exception {
+        stubGroundTruth(webSocket(WS_URL, RequestMethod.GET, VulnerabilityType.REFLECTED_XSS));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input(
+                                "ZAP",
+                                new Finding(
+                                        "wss://localhost:9090/VulnerableApp/ws/XSS/LEVEL_1/?t=1",
+                                        "reflected_xss")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
     }
 
     private static ScannerResponseBean unsecure(String url, VulnerabilityType... types) {

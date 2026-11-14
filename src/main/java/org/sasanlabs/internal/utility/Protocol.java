@@ -10,5 +10,25 @@ package org.sasanlabs.internal.utility;
  */
 public enum Protocol {
     HTTP,
-    WS
+    WS;
+
+    /**
+     * Returns the given protocol, or {@link #HTTP} when it is null. Ground-truth entries from
+     * before protocols were reported omit the field, and they describe HTTP.
+     */
+    public static Protocol orDefault(Protocol protocol) {
+        return protocol != null ? protocol : HTTP;
+    }
+
+    /**
+     * Returns the request method when it applies to this protocol, or null when it does not. Only
+     * {@link #HTTP} uses a method; a WebSocket level is always opened with a GET handshake, so its
+     * method says nothing about which frames were tested.
+     *
+     * @param method the request method, which may be null
+     * @return {@code method} for {@link #HTTP}, otherwise null
+     */
+    public String getMethodIfApplicable(String method) {
+        return this == HTTP ? method : null;
+    }
 }
