@@ -150,6 +150,10 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
+16. [Insecure Deserialisation](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/deserialization)
+17. [Session Management](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/sessionManagement)
+18. [OTP Based Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/otp)
+19. [Cache Poisioning](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning)
 
 > **New to security?** To learn what these vulnerabilities are, see the
 > [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
