@@ -2,6 +2,7 @@ package org.sasanlabs.benchmark.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -17,7 +18,13 @@ import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/** Scores DAST findings by URL, method, and any matching type, CWE, or WASC axis. */
+/**
+ * Scores DAST findings by URL, method, and any matching type, CWE, or WASC axis.
+ *
+ * <p>The ground truth says whether each entry is HTTP or WebSocket. HTTP entries are keyed by URL
+ * and request method; WebSocket entries are keyed by URL alone, because a WebSocket level is always
+ * opened with a GET handshake and that method says nothing about which frames were tested.
+ */
 @Service
 public class DastBenchmarkStrategy implements BenchmarkStrategy {
 
@@ -27,7 +34,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
     private static final String AXIS_TYPE = "TYPE";
     private static final String AXIS_CWE = "CWE";
     private static final String AXIS_WASC = "WASC";
-    private static final String METHOD_ANY = "ANY";
+    static final String METHOD_ANY = "ANY";
 
     private final BenchmarkGroundTruthProvider groundTruthProvider;
     private final String contextPath;
@@ -136,15 +143,16 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         Set<String> seenRowSignatures = new HashSet<>();
         for (Finding entry : groundTruth) {
             String url = normalizeUrl(entry.getUrl(), contextPath);
+            // A null method marks a WebSocket row; HTTP rows without a method carry METHOD_ANY.
             String method =
                     entry.getMethod() == null
-                            ? METHOD_ANY
+                            ? null
                             : entry.getMethod().trim().toUpperCase(Locale.ROOT);
             String type =
                     entry.getType() == null
                             ? null
                             : entry.getType().trim().toUpperCase(Locale.ROOT);
-            String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type;
+            String rowSignature = keyPrefix(url, method) + type;
             if (!seenRowSignatures.add(rowSignature)) {
                 continue;
             }
@@ -159,31 +167,36 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                             entry.getWascId(),
                             method);
             rowsOut.add(row);
-            for (String key : keysForFinding(url, row)) {
-                addKey(keyToRows, key, rowIndex);
+            List<String> keys = new ArrayList<>(6);
+            addAxisKeys(keys, url, method, row);
+            if (method != null) {
+                addAxisKeys(keys, url, METHOD_ANY, row);
             }
-            Finding anyMethod =
-                    new Finding(
-                            url,
-                            entry.getType(),
-                            null,
-                            null,
-                            entry.getCwe(),
-                            entry.getWascId(),
-                            METHOD_ANY);
-            for (String key : keysForFinding(url, anyMethod)) {
+            for (String key : keys) {
                 addKey(keyToRows, key, rowIndex);
             }
         }
         return keyToRows;
     }
 
+    /**
+     * Builds the finding's keys with its method, for HTTP entries, and with its URL alone, for
+     * WebSocket entries. A finding does not say which protocol it tested, so both are tried.
+     */
     private static List<String> keysForFinding(String url, Finding finding) {
         String method =
                 (finding.getMethod() != null && !finding.getMethod().trim().isEmpty())
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
                         : METHOD_ANY;
-        List<String> keys = new ArrayList<>(3);
+        List<String> keys = new ArrayList<>(6);
+        for (String keyMethod : Arrays.asList(method, null)) {
+            addAxisKeys(keys, url, keyMethod, finding);
+        }
+        return keys;
+    }
+
+    /** Adds one key per type, CWE, and WASC axis the finding carries, under one method. */
+    private static void addAxisKeys(List<String> keys, String url, String method, Finding finding) {
         if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
             keys.add(typeKey(url, method, finding.getType()));
         }
@@ -195,35 +208,30 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         if (!wasc.isEmpty()) {
             keys.add(wascKey(url, method, wasc));
         }
-        return keys;
     }
 
     private static void addKey(Map<String, Set<Integer>> map, String key, int rowIndex) {
         map.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(rowIndex);
     }
 
+    /** Starts a key with the method when there is one, and with the URL alone otherwise. */
+    private static String keyPrefix(String url, String method) {
+        return (method != null ? method + KEY_SEPARATOR : "") + url + KEY_SEPARATOR;
+    }
+
     private static String typeKey(String url, String method, String typeName) {
         return AXIS_TYPE
                 + KEY_SEPARATOR
-                + method
-                + KEY_SEPARATOR
-                + url
-                + KEY_SEPARATOR
+                + keyPrefix(url, method)
                 + typeName.trim().toUpperCase(Locale.ROOT);
     }
 
     private static String cweKey(String url, String method, String cweDigits) {
-        return AXIS_CWE + KEY_SEPARATOR + method + KEY_SEPARATOR + url + KEY_SEPARATOR + cweDigits;
+        return AXIS_CWE + KEY_SEPARATOR + keyPrefix(url, method) + cweDigits;
     }
 
     private static String wascKey(String url, String method, String wascDigits) {
-        return AXIS_WASC
-                + KEY_SEPARATOR
-                + method
-                + KEY_SEPARATOR
-                + url
-                + KEY_SEPARATOR
-                + wascDigits;
+        return AXIS_WASC + KEY_SEPARATOR + keyPrefix(url, method) + wascDigits;
     }
 
     /**

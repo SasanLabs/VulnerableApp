@@ -519,6 +519,9 @@ A `/scanner/sast` row without `lineCount`, or with `null`, gets `1`, as a CSV ro
 without `LineCount` does. Any other value that is not a plain integer from 1 to
 `Integer.MAX_VALUE` (`3`, not `3.0` or `"3"`) triggers local fallback for the
 whole response, whereas a bad CSV `LineCount` skips only its row.
+A `/scanner/dast` row's `protocol` must be missing, `null`, `"HTTP"` or `"WS"`;
+any other value, such as `"ws"` or `1`, also triggers local fallback for the
+whole response.
 
 ```properties
 benchmark.dast.ground-truth.url=http://facade/scanner/dast

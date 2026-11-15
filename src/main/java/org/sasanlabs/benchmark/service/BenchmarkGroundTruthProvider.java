@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScanType;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -214,6 +215,13 @@ public class BenchmarkGroundTruthProvider {
                 throw new IOException(
                         "UNSECURE DAST ground truth requires a url and at least one type");
             }
+            // WebSocket rows carry no method, so they are matched on their URL alone.
+            String method =
+                    protocol(entry)
+                            .getMethodIfApplicable(
+                                    text(entry, "method") == null
+                                            ? DastBenchmarkStrategy.METHOD_ANY
+                                            : text(entry, "method"));
             for (JsonNode label : entry.get("vulnerabilityTypes")) {
                 if (!label.isTextual() || label.asText().isBlank()) {
                     throw new IOException("DAST vulnerability type must be a nonempty string");
@@ -231,18 +239,26 @@ public class BenchmarkGroundTruthProvider {
                     // Other applications may expose native type names absent from the Java
                     // enum.
                 }
-                rows.add(
-                        new Finding(
-                                text(entry, "url"),
-                                name,
-                                null,
-                                null,
-                                cwe,
-                                wasc,
-                                text(entry, "method")));
+                rows.add(new Finding(text(entry, "url"), name, null, null, cwe, wasc, method));
             }
         }
         return rows;
+    }
+
+    /** Reads an entry's protocol; entries without one describe HTTP. */
+    private static Protocol protocol(JsonNode entry) throws IOException {
+        JsonNode protocol = entry.path("protocol");
+        if (protocol.isMissingNode() || protocol.isNull()) {
+            return Protocol.HTTP;
+        }
+        if (protocol.isTextual()) {
+            try {
+                return Protocol.valueOf(protocol.textValue());
+            } catch (IllegalArgumentException unknownProtocol) {
+                // Reported below with the other malformed values.
+            }
+        }
+        throw new IOException("DAST ground truth protocol must be HTTP or WS");
     }
 
     private static String text(JsonNode node, String field) {

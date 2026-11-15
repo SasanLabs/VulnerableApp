@@ -548,6 +548,84 @@ class MergedGroundTruthTest {
         server.verify();
     }
 
+    @Test
+    void facadeWebSocketRowCountsForItsApplicationAndMatchesOnUrl() throws Exception {
+        respond(
+                DAST_URL,
+                "{\"VulnerableApp\":["
+                        + "{\"url\":\"/VulnerableApp/xss\",\"variant\":\"UNSECURE\","
+                        + "\"method\":\"GET\",\"protocol\":\"HTTP\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]},"
+                        + "{\"url\":\"ws://localhost/VulnerableApp/ws/xss\",\"variant\":\"UNSECURE\","
+                        + "\"method\":\"GET\",\"protocol\":\"WS\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]}],"
+                        + "\"other\":"
+                        + dastRows("/other/xss", "REFLECTED_XSS")
+                        + "}");
+        BenchmarkResult result =
+                dast(
+                        new Finding(
+                                "/VulnerableApp/ws/xss",
+                                "REFLECTED_XSS",
+                                null,
+                                null,
+                                null,
+                                null,
+                                "POST"));
+        assertThat(result.getTotalExpected()).isEqualTo(3);
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getApplications().get("VulnerableApp").getTotalExpected()).isEqualTo(2);
+        assertThat(result.getApplications().get("VulnerableApp").getDetected()).isEqualTo(1);
+        assertThat(result.getApplications().get("other").getDetected()).isZero();
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getApplication, Finding::getUrl, Finding::getMethod)
+                .containsExactly(tuple("VulnerableApp", "/ws/xss", null));
+        server.verify();
+    }
+
+    @Test
+    void dastRowWithoutProtocolKeepsTheHttpMethodCheck() throws Exception {
+        respond(DAST_URL, dastRows("/VulnerableApp/sql", "BLIND_SQL_INJECTION"));
+        BenchmarkResult result =
+                dast(new Finding("/sql", "BLIND_SQL_INJECTION", null, null, null, null, "POST"));
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getUnmatched()).isEqualTo(1);
+        server.verify();
+    }
+
+    @Test
+    void httpDastRowWithoutMethodMatchesOnlyFindingsWithoutMethod() throws Exception {
+        String row =
+                "[{\"url\":\"/VulnerableApp/xss\",\"variant\":\"UNSECURE\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]}]";
+        respond(DAST_URL, row);
+        respond(DAST_URL, row);
+        BenchmarkResult withMethod =
+                dast(new Finding("/xss", "REFLECTED_XSS", null, null, null, null, "POST"));
+        BenchmarkResult withoutMethod = dast(new Finding("/xss", "REFLECTED_XSS"));
+        assertThat(withMethod.getDetected()).isZero();
+        assertThat(withMethod.getUnmatched()).isEqualTo(1);
+        assertThat(withoutMethod.getDetectedItems())
+                .extracting(Finding::getUrl, Finding::getMethod)
+                .containsExactly(tuple("/xss", "ANY"));
+        server.verify();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\"ws\"", "\" WS\"", "\"WEBSOCKET\"", "1", "{}"})
+    void unknownDastProtocolTriggersLocalFallback(String protocol) throws Exception {
+        respond(
+                DAST_URL,
+                "{\"app\":[{\"url\":\"/x\",\"variant\":\"UNSECURE\",\"protocol\":"
+                        + protocol
+                        + ",\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]}]}");
+        respond(LOCAL_URL, dastRows("/VulnerableApp/sql", "BLIND_SQL_INJECTION"));
+        BenchmarkResult result = dast(new Finding("/sql", "BLIND_SQL_INJECTION"));
+        assertThat(result.getGroundTruthFallback()).isTrue();
+        assertThat(result.getDetected()).isEqualTo(1);
+        server.verify();
+    }
+
     private void respond(String url, String body) {
         server.expect(requestTo(url)).andRespond(withSuccess(body, MediaType.APPLICATION_JSON));
     }
