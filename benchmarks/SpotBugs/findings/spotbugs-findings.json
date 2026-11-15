@@ -212,13 +212,13 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java",
-      "line": 72,
+      "line": 77,
       "cwe": "CWE-374",
       "type": "May expose internal representation by incorporating reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java",
-      "line": 175,
+      "line": 180,
       "cwe": "CWE-176",
       "type": "Improper handling of Unicode transformations"
     },
@@ -293,107 +293,112 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 225,
+      "line": 231,
       "type": "An unsafe string is potentially injected into an XML string"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 168,
+      "line": 174,
       "cwe": "CWE-807",
       "type": "Untrusted Hostname header"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 206,
+      "line": 212,
       "cwe": "CWE-807",
       "type": "Untrusted Hostname header"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 59,
+      "line": 65,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 93,
+      "line": 99,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 136,
+      "line": 142,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 151,
+      "line": 157,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 114,
+      "line": 120,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 184,
+      "line": 190,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 75,
+      "line": 81,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 203,
+      "line": 209,
       "cwe": "CWE-352",
       "type": "Spring CSRF unrestricted RequestMapping"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 59,
+      "line": 65,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 93,
+      "line": 99,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 136,
+      "line": 142,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 151,
+      "line": 157,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 114,
+      "line": 120,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 184,
+      "line": 190,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 75,
+      "line": 81,
       "type": "Found Spring endpoint"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
-      "line": 203,
+      "line": 270,
+      "type": "Found Spring endpoint"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/controller/VulnerableAppRestController.java",
+      "line": 209,
       "type": "Found Spring endpoint"
     },
     {
