@@ -151,6 +151,10 @@ Password: hacker
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
 
+> **New to security?** To learn what these vulnerabilities are, see the
+> [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
+> and the [CWE Top N lists](https://cwe.mitre.org/scoring/index.html#top_n_lists).
+
 ## Benchmarking your scanner
 
 VulnerableApp ships a comparator that grades a scanner's findings against the
