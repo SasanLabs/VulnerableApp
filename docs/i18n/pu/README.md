@@ -23,7 +23,7 @@ OWASP VulnerableApp ਇੱਕ ਮੋਡੀਊਲਰ, ਜਾਣ-ਬੁੱਝ ਕ�
 - 🧪 ਦੁਹਰਾਏ ਜਾ ਸਕਣ ਵਾਲੇ ਸਕੈਨਿੰਗ ਨਤੀਜਿਆਂ ਲਈ ਨਿਰਧਾਰਿਤ ਕਮਜ਼ੋਰੀ ਵਿਵਹਾਰ
 - 🧠 ਸੁਰੱਖਿਆ ਇੰਜੀਨੀਅਰਾਂ, ਖੋਜਕਰਤਾਵਾਂ ਅਤੇ ਅਧਿਆਪਕਾਂ ਲਈ ਬਣਾਇਆ ਗਿਆ
 
-![ਪੂਰਾ ਆਰਕੀਟੈਕਚਰ ਸਟੈਕ](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![ਪੂਰਾ ਆਰਕੀਟੈਕਚਰ ਸਟੈਕ](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/punjabi.png)
 
 ### VulnerableApp ਤੁਹਾਡੀ ਮਦਦ ਕਰਦਾ ਹੈ:
 

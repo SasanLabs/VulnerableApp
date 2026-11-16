@@ -6,6 +6,10 @@ labels: Need-To-Look
 assignees: ''
 
 ---
+> [!IMPORTANT]
+> Before opening a bug report, please read our [Security Policy](https://github.com/SasanLabs/VulnerableApp/security/policy). 
+> VulnerableApp is deliberately vulnerable, so the vulnerabilities in its vulnerable endpoints 
+> and levels are by design and should **not** be reported as bugs.
 
 **Describe the bug**
 A clear and concise description of what the bug is.

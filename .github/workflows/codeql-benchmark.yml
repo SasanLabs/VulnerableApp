@@ -1,0 +1,274 @@
+name: CodeQL Benchmark
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+# The results commit pushes with GH_TRAFFIC_TOKEN, so the job token only needs to read
+permissions:
+  contents: read
+
+jobs:
+  codeql-benchmark:
+    name: CodeQL Benchmark
+    runs-on: ubuntu-latest
+    # Upper bound for the whole job (build, analysis, benchmark)
+    timeout-minutes: 60
+
+    defaults:
+      run:
+        shell: bash
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      QUERY_SUITE: 'codeql/java-queries:codeql-suites/java-security-extended.qls'
+      # Resource bounds for the CodeQL CLI
+      CODEQL_THREADS: '2'
+      CODEQL_RAM_MB: '4096'
+
+    steps:
+
+      # ------------------------------------------------------------------
+      # 1. Checkout repo. No token is kept in .git/config, so CodeQL and the
+      #    containers never see a credential that can push
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+
+
+      # ------------------------------------------------------------------
+      # 2. Run the converter unit tests first, so a broken converter fails
+      #    fast and never produces a misleading benchmark
+      # ------------------------------------------------------------------
+      - name: Test CodeQL converter
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest benchmarks/CodeQL/scripts -q
+
+
+      # ------------------------------------------------------------------
+      # 3. Build the VulnerableApp image from this checkout, so the ground
+      #    truth it serves matches the sources that are scanned
+      # ------------------------------------------------------------------
+      - name: Build VulnerableApp image
+        run: |
+          chmod +x gradlew
+          ./gradlew jibDockerBuild -Djib.to.image=sasanlabs/owasp-vulnerableapp:latest
+
+
+      # ------------------------------------------------------------------
+      # 4. Start the stack, like the Semgrep and ZAP benchmarks. Compose uses
+      #    the image built above and pulls the other services
+      # ------------------------------------------------------------------
+      - name: Start VulnerableApp
+        run: docker compose -f docker-compose.without_llm.yml up -d
+
+
+      # ------------------------------------------------------------------
+      # 5. Wait for app to be ready
+      # ------------------------------------------------------------------
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for _ in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner/sast >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "App failed to start"
+          exit 1
+          
+
+      # ------------------------------------------------------------------
+      # 6. Install the latest CodeQL bundle (CLI + query packs together)
+      # ------------------------------------------------------------------
+      - name: Install CodeQL bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/codeql-bundle" codeql-artifacts
+          # codeql-action also has normal action releases, so pick the newest codeql-bundle-v* one
+          tag=$(gh release list --repo github/codeql-action --limit 100 \
+            --json tagName --jq '[.[] | select(.tagName | startswith("codeql-bundle-v"))][0].tagName')
+          if [ -z "$tag" ] || [ "$tag" = "null" ]; then
+            echo "Could not find a CodeQL bundle release"
+            exit 1
+          fi
+          echo "Using CodeQL bundle release: $tag"
+          bundle="$RUNNER_TEMP/codeql-bundle.tar.gz"
+          gh release download "$tag" --repo github/codeql-action --clobber \
+            --pattern 'codeql-bundle-linux64.tar.gz' --output "$bundle" \
+            || gh release download "$tag" --repo github/codeql-action --clobber \
+            --pattern 'codeql-bundle.tar.gz' --output "$bundle"
+          tar -xzf "$bundle" -C "$RUNNER_TEMP/codeql-bundle"
+          echo "$RUNNER_TEMP/codeql-bundle/codeql" >> "$GITHUB_PATH"
+
+
+      # ------------------------------------------------------------------
+      # 7. Record what was used: versions, source revision and the queries
+      #    in the suite. Uploaded with the artifacts
+      # ------------------------------------------------------------------
+      - name: Record tool versions and queries
+        run: |
+          {
+            echo "source revision: $(git rev-parse HEAD)"
+            echo "runner image:    ${ImageOS:-unknown} ${ImageVersion:-unknown}"
+            echo "java:            $(java -version 2>&1 | head -n 1)"
+            echo "python:          $(python --version 2>&1)"
+            echo "query suite:     ${QUERY_SUITE}"
+            echo "threads / ram:   ${CODEQL_THREADS} / ${CODEQL_RAM_MB} MB"
+            echo
+            codeql version
+            echo
+            codeql resolve packs
+          } 2>&1 | tee codeql-artifacts/tool-versions.txt
+
+          codeql resolve queries "${QUERY_SUITE}" > codeql-artifacts/codeql-queries.txt
+          echo "Queries in suite: $(wc -l < codeql-artifacts/codeql-queries.txt)"
+
+
+      # ------------------------------------------------------------------
+      # 8. Create the Java database while rebuilding the sources. Formatting
+      #    tasks are skipped: they need npm and are irrelevant to analysis
+      # ------------------------------------------------------------------
+      - name: Create CodeQL database
+        timeout-minutes: 30
+        run: |
+          codeql database create "$RUNNER_TEMP/codeql-db" \
+            --language=java \
+            --source-root="$GITHUB_WORKSPACE" \
+            --command="./gradlew --no-daemon clean build -x test -x spotlessCheck -x spotlessJava -x spotlessJavaCheck -x spotlessJavascript -x spotlessJavascriptCheck --no-build-cache" \
+            --threads="$CODEQL_THREADS" --ram="$CODEQL_RAM_MB" \
+            2>&1 | tee codeql-artifacts/codeql-database-create.log
+
+
+      # ------------------------------------------------------------------
+      # 9. Run the security queries. Reported paths are project-relative,
+      #    which is what the SAST matcher compares
+      # ------------------------------------------------------------------
+      - name: Run CodeQL analysis
+        timeout-minutes: 30
+        run: |
+          codeql database analyze "$RUNNER_TEMP/codeql-db" "${QUERY_SUITE}" \
+            --format=sarif-latest \
+            --output=benchmarks/CodeQL/codeql-raw-report.json \
+            --threads="$CODEQL_THREADS" --ram="$CODEQL_RAM_MB" \
+            2>&1 | tee codeql-artifacts/codeql-analyze.log
+
+
+      # ------------------------------------------------------------------
+      # 10. Convert the SARIF report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert CodeQL report
+        run: |
+          python benchmarks/CodeQL/scripts/convert_codeql_to_benchmark.py \
+            --input  benchmarks/CodeQL/codeql-raw-report.json \
+            --output benchmarks/CodeQL/findings/codeql-findings.json \
+            2>&1 | tee codeql-artifacts/convert.log
+
+
+      # ------------------------------------------------------------------
+      # 11. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark
+        run: |
+          curl -sS --fail-with-body -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/CodeQL/findings/codeql-findings.json \
+            -o benchmarks/CodeQL/codeql-results.json
+
+          echo "=== CodeQL Benchmark Results ==="
+          python -c "
+          import json
+          with open('benchmarks/CodeQL/codeql-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:  {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:  {data[\"detected\"]}')
+          print(f'  Missed:    {data[\"missed\"]}')
+          print(f'  Unmatched: {data[\"unmatched\"]}')
+          "
+
+
+      # ------------------------------------------------------------------
+      # 12. Commit and push results back to repo (master only). The token
+      #     is only handed to this step. The raw SARIF is not committed;
+      #     it is kept as an artifact instead
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        if: github.ref == 'refs/heads/master'
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+        run: |
+          set -e
+
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
+          git add benchmarks/CodeQL/codeql-results.json benchmarks/CodeQL/findings/codeql-findings.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update CodeQL benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            if git pull --rebase origin master && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+              success=true
+              break
+            fi
+
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
+
+
+      # ------------------------------------------------------------------
+      # 13. Save the container logs and upload them with the raw SARIF,
+      #     findings, results, versions and logs as artifacts
+      # ------------------------------------------------------------------
+      - name: Save VulnerableApp logs
+        if: always()
+        run: |
+          mkdir -p codeql-artifacts
+          docker compose -f docker-compose.without_llm.yml logs --no-color > codeql-artifacts/vulnerableapp.log 2>&1 || true
+
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-benchmark-artifacts
+          path: |
+            benchmarks/CodeQL/codeql-raw-report.json
+            benchmarks/CodeQL/findings/codeql-findings.json
+            benchmarks/CodeQL/codeql-results.json
+            codeql-artifacts/
+          retention-days: 90

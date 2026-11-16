@@ -20,15 +20,15 @@ public interface IEndPointsInformationProvider {
      * This Api provides entire information about the exposed vulnerable endpoints by the
      * application like all the supported vulnerabilities, levels, attack vectors etc.
      *
-     * @return
+     * @return {@code List<AllEndPointsResponseBean>} containing the supported endpoints
      * @throws JsonProcessingException
      */
     List<AllEndPointsResponseBean> getSupportedEndPoints() throws JsonProcessingException;
 
     /**
      * This Api provides information required by VulnerableApp-Facade for building a facade User
-     * Interface. For more information visit: {@link
-     * https://github.com/SasanLabs/VulnerableApp-facade}
+     * Interface. For more information visit: {@link <a
+     * href="https://github.com/SasanLabs/VulnerableApp-facade">...</a>}
      */
     List<VulnerabilityDefinition> getVulnerabilityDefinitions() throws JsonProcessingException;
 

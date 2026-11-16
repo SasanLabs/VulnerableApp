@@ -1,0 +1,132 @@
+{
+  "tool": "w3af",
+  "scanType": "DAST",
+  "findings": [
+    {
+      "url": "/VulnerableApp/XSSInImgTagAttribute/LEVEL_1",
+      "cwe": "CWE-79",
+      "wascId": "8",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/XSSInImgTagAttribute/LEVEL_2",
+      "cwe": "CWE-79",
+      "wascId": "8",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/XSSInImgTagAttribute/LEVEL_3",
+      "cwe": "CWE-79",
+      "wascId": "8",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/XSSInImgTagAttribute/LEVEL_4",
+      "cwe": "CWE-79",
+      "wascId": "8",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/XSSInImgTagAttribute/LEVEL_5",
+      "cwe": "CWE-79",
+      "wascId": "8",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_3",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/ErrorBasedSQLInjectionVulnerability/LEVEL_4",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_1",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/BlindSQLInjectionVulnerability/LEVEL_2",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/PathTraversal/LEVEL_1",
+      "cwe": "CWE-22",
+      "wascId": "33",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/PathTraversal/LEVEL_2",
+      "cwe": "CWE-22",
+      "wascId": "33",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/PathTraversal/LEVEL_3",
+      "cwe": "CWE-22",
+      "wascId": "33",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/CommandInjection/LEVEL_1",
+      "cwe": "CWE-77",
+      "wascId": "31",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/CommandInjection/LEVEL_2",
+      "cwe": "CWE-77",
+      "wascId": "31",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/CommandInjection/LEVEL_3",
+      "cwe": "CWE-77",
+      "wascId": "31",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/SSRFVulnerability/LEVEL_1",
+      "cwe": "CWE-918",
+      "wascId": "15",
+      "method": "GET"
+    },
+    {
+      "url": "/VulnerableApp/SSRFVulnerability/LEVEL_2",
+      "cwe": "CWE-918",
+      "wascId": "15",
+      "method": "GET"
+    }
+  ]
+}

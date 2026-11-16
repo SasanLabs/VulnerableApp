@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
 import org.sasanlabs.benchmark.service.IExpectedIssuesProvider;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.service.IEndPointsInformationProvider;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -77,6 +78,7 @@ class VulnerableAppRestControllerTest {
                                         "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
                                         "LEVEL_1",
                                         RequestMethod.GET,
+                                        Protocol.HTTP,
                                         Arrays.asList(
                                                 VulnerabilityType.ERROR_BASED_SQL_INJECTION))));
     }
@@ -220,9 +222,9 @@ class VulnerableAppRestControllerTest {
 
     /**
      * The field names are the cross-application contract settled on issue #725: {@code type} rather
-     * than the Java property name {@code vulnerabilityType}, and {@code numberOfSources} included.
-     * VulnerableApp-php and VulnerableApp-jsp follow whatever shape lands here, so a rename has to
-     * break a test.
+     * than the Java property name {@code vulnerabilityType}, and {@code numberOfSources} and {@code
+     * lineCount} included. VulnerableApp-php and VulnerableApp-jsp follow whatever shape lands
+     * here, so a rename has to break a test.
      */
     @Test
     void sastEndpoint_serialisesTheAgreedFieldNames() throws Exception {
@@ -234,6 +236,8 @@ class VulnerableAppRestControllerTest {
                 .andExpect(jsonPath("$[0].filePath").value("src/main/java/Foo.java"))
                 .andExpect(jsonPath("$[0].line").value(40))
                 .andExpect(jsonPath("$[0].numberOfSources").value(1))
+                .andExpect(jsonPath("$[0].lineCount").value(1))
+                .andExpect(jsonPath("$[1].lineCount").value(4))
                 .andExpect(jsonPath("$[0].vulnerabilityType").doesNotExist());
     }
 
@@ -260,6 +264,6 @@ class VulnerableAppRestControllerTest {
     private static List<ExpectedIssue> twoExpectedIssues() {
         return Arrays.asList(
                 new ExpectedIssue("CWE-89", "SQL Injection", "src/main/java/Foo.java", 40, 1),
-                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3));
+                new ExpectedIssue("CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3, 4));
     }
 }

@@ -15,6 +15,8 @@ import org.sasanlabs.benchmark.model.ExpectedIssue;
 class CsvExpectedIssuesProviderTest {
 
     private static final String HEADER = "CWE,Vulnerability Type,File,Line,Number of Sources\n";
+    private static final String HEADER_WITH_LINE_COUNT =
+            "CWE,Vulnerability Type,File,Line,Number of Sources,LineCount\n";
 
     @Test
     void parsesHeaderAndAllValidRows(@TempDir Path tempDir) throws Exception {
@@ -40,6 +42,91 @@ class CsvExpectedIssuesProviderTest {
                                 "CWE-89", "SQL Injection", "src/main/java/Foo.java", 56, 1),
                         org.assertj.core.groups.Tuple.tuple(
                                 "CWE-79", "Reflected XSS", "src/main/java/Bar.java", 42, 3));
+    }
+
+    @Test
+    void parsesTheLineCountColumn(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER_WITH_LINE_COUNT
+                        + "CWE-89,SQL Injection,src/main/java/Foo.java,84,1,3\n"
+                        + "CWE-79,Reflected XSS,src/main/java/Bar.java,42,3,1\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues)
+                .extracting(
+                        ExpectedIssue::getLine,
+                        ExpectedIssue::getNumberOfSources,
+                        ExpectedIssue::getLineCount)
+                .containsExactly(
+                        org.assertj.core.groups.Tuple.tuple(84, 1, 3),
+                        org.assertj.core.groups.Tuple.tuple(42, 3, 1));
+    }
+
+    @Test
+    void missingLineCountColumn_defaultsToOne(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(csv, HEADER + "CWE-89,SQL Injection,src/main/java/Foo.java,56,1\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues).extracting(ExpectedIssue::getLineCount).containsExactly(1);
+    }
+
+    @Test
+    void emptyLineCountCell_defaultsToOne(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER_WITH_LINE_COUNT
+                        + "CWE-89,SQL Injection,src/main/java/Foo.java,56,1,\n"
+                        + "CWE-79,Reflected XSS,src/main/java/Bar.java,42,3\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues).extracting(ExpectedIssue::getLineCount).containsExactly(1, 1);
+    }
+
+    @Test
+    void skipsRowsWithANonIntegerOrNonPositiveLineCount(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER_WITH_LINE_COUNT
+                        + "CWE-89,SQL Injection,src/main/java/Foo.java,56,1,two\n"
+                        + "CWE-79,Reflected XSS,src/main/java/Bar.java,42,3,0\n"
+                        + "CWE-22,Path Traversal,src/main/java/Baz.java,65,1,-1\n"
+                        + "CWE-77,Command Injection,src/main/java/Cmd.java,46,5,2\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues)
+                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLineCount)
+                .containsExactly(org.assertj.core.groups.Tuple.tuple("CWE-77", 2));
+    }
+
+    @Test
+    void skipsRowsWithALineBelowOne(@TempDir Path tempDir) throws Exception {
+        Path csv = tempDir.resolve("expected.csv");
+        write(
+                csv,
+                HEADER_WITH_LINE_COUNT
+                        + "CWE-89,SQL Injection,src/main/java/Foo.java,0,1,3\n"
+                        + "CWE-79,Reflected XSS,src/main/java/Bar.java,-1,1,1\n"
+                        + "CWE-77,Command Injection,src/main/java/Cmd.java,1,5,2\n");
+
+        List<ExpectedIssue> issues =
+                new CsvExpectedIssuesProvider(csv.toString()).getExpectedIssues();
+
+        assertThat(issues)
+                .extracting(ExpectedIssue::getCwe, ExpectedIssue::getLine)
+                .containsExactly(org.assertj.core.groups.Tuple.tuple("CWE-77", 1));
     }
 
     @Test

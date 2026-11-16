@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
+import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
 import org.sasanlabs.benchmark.service.BenchmarkResultWriter;
 import org.sasanlabs.benchmark.service.BenchmarkService;
@@ -65,6 +66,45 @@ class BenchmarkControllerTest {
                 .andExpect(jsonPath("$.detected").value(1));
 
         verify(benchmarkResultWriter, times(1)).write(argThat(r -> "ZAP".equals(r.getTool())));
+    }
+
+    @Test
+    void detectedItems_areSerializedWhenPresentAndOmittedOtherwise() throws Exception {
+        BenchmarkResult withDetected =
+                new BenchmarkResult(
+                        "ZAP",
+                        100.0,
+                        1,
+                        1,
+                        0,
+                        0,
+                        Collections.singletonList(
+                                new Finding("/SQLInjection/LEVEL_1", "BLIND_SQL_INJECTION")),
+                        Collections.emptyList(),
+                        Collections.emptyList());
+        BenchmarkResult withoutDetected =
+                new BenchmarkResult(
+                        "ZAP", 100.0, 1, 1, 0, 0, Collections.emptyList(), Collections.emptyList());
+        when(benchmarkService.compare(any(ScannerFindings.class)))
+                .thenReturn(withDetected, withoutDetected);
+        when(benchmarkResultWriter.write(any(BenchmarkResult.class)))
+                .thenReturn(Paths.get("benchmarks/zap-results.json"));
+
+        String body = "{\"tool\":\"ZAP\",\"findings\":[]}";
+
+        mockMvc.perform(
+                        post("/scanner/benchmark")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.detectedItems[0].url").value("/SQLInjection/LEVEL_1"));
+
+        mockMvc.perform(
+                        post("/scanner/benchmark")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.detectedItems").doesNotExist());
     }
 
     @Test

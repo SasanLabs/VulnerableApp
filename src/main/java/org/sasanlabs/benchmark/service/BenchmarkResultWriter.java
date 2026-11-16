@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Persists a {@link BenchmarkResult} to a JSON file under the configured benchmarks directory.
- * Filename is derived from the (sanitised) tool name; existing files are overwritten so callers
+ * Persists a {@link BenchmarkResult} to a JSON file under the configured benchmark's directory.
+ * Filename is derived from the (sanitized) tool name; existing files are overwritten so callers
  * always see the latest run for a given tool.
  */
 @Component

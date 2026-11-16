@@ -17,6 +17,18 @@ public interface FrameworkConstants {
     String SITEMAP_LOC_TAG_END = "</loc>";
     String SITEMAP_URLSET_TAG_END = "</urlset>";
 
+    // HTML site map related constants
+    String SITEMAP_HTML_DOCUMENT_START =
+            "<!DOCTYPE html>\n"
+                    + "<html lang=\"en\">\n"
+                    + "<head>\n"
+                    + "<meta charset=\"UTF-8\">\n"
+                    + "<title>VulnerableApp Sitemap</title>\n"
+                    + "</head>\n"
+                    + "<body>\n"
+                    + "<h1>VulnerableApp Sitemap</h1>\n";
+    String SITEMAP_HTML_DOCUMENT_END = "</body>\n</html>\n";
+
     String HTTP = "http://";
     String HTTPS = "https://";
 
@@ -27,4 +39,8 @@ public interface FrameworkConstants {
 
     // As VulnerableApp is added to each URL hence creating a constant for reference.
     String VULNERABLE_APP = "VulnerableApp";
+
+    // A WebSocket handshake lives under its own prefix, separate from REST mappings, so the two
+    // transports never collide on the same path.
+    String WEBSOCKET_PATH_PREFIX = "ws";
 }
