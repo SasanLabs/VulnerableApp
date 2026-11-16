@@ -52,6 +52,10 @@ output from a scan of ``src/main/java`` (abridged):
 
 Self-test:  python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --test
 
+PMD version: 7.3.0 or later is required (earlier versions do not exit with code 5
+on processing errors). Check one with
+``python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --check-pmd-version 7.28.0``.
+
 Notes
 -----
 - Rules that are not in the mapping CSV are still emitted, with ``type`` set to
@@ -80,8 +84,14 @@ TOOL_NAME = "PMD"
 SCAN_TYPE = "SAST"
 DEFAULT_RULES_CSV = Path(__file__).resolve().parent.parent / "pmd-rule-cwe-mapping.csv"
 
+# PMD 7.3.0 added exit code 5 for recoverable processing errors (e.g. a file that
+# cannot be parsed). Earlier versions exit 0/4 with an incomplete report, so the
+# workflow would publish partial results as if the scan had succeeded.
+MIN_PMD_VERSION = (7, 3, 0)
+
 _CWE_RE = re.compile(r"^CWE-\d+$")
 _NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
+_VERSION_RE = re.compile(r"^(\d+)\.(\d+)\.(\d+)$")
 
 
 class Rule(NamedTuple):
@@ -115,6 +125,18 @@ def load_rules(path: Path = DEFAULT_RULES_CSV) -> list[Rule]:
     if not rules:
         raise ValueError(f"{path}: no rules defined")
     return rules
+
+
+def check_pmd_version(version: str) -> None:
+    """Raise ValueError unless ``version`` is X.Y.Z and at least MIN_PMD_VERSION."""
+    match = _VERSION_RE.match(version)
+    if not match:
+        raise ValueError(f"invalid PMD version {version!r}: expected X.Y.Z")
+    if tuple(int(part) for part in match.groups()) < MIN_PMD_VERSION:
+        minimum = ".".join(str(part) for part in MIN_PMD_VERSION)
+        raise ValueError(f"PMD {version} is not supported: use {minimum} or later "
+                         "(earlier versions do not fail on processing errors, so an "
+                         "incomplete scan could be published)")
 
 
 def ruleset_refs(rules: list[Rule]) -> str:
@@ -254,6 +276,15 @@ class ConverterTest(unittest.TestCase):
             with self.assertRaises(ValueError, msg=body):
                 load_rules(self._write_tmp(header + body, suffix=".csv"))
 
+    def test_check_pmd_version_accepts_supported(self):
+        for version in ("7.3.0", "7.3.1", "7.10.0", "7.29.0", "8.0.0"):
+            check_pmd_version(version)  # must not raise
+
+    def test_check_pmd_version_rejects_old_or_invalid(self):
+        for version in ("7.2.0", "7.2.9", "7.0.0", "6.55.0", "7.3", "latest", "7.3.0-rc1", ""):
+            with self.assertRaises(ValueError, msg=version):
+                check_pmd_version(version)
+
     def test_ruleset_refs(self):
         rules = [Rule("security", "HardCodedCryptoKey", "CWE-321", "Key"),
                  Rule("errorprone", "CloseResource", "CWE-772", "Leak")]
@@ -270,6 +301,15 @@ def main() -> None:
 
     if "--print-rulesets" in sys.argv:
         print(ruleset_refs(load_rules()))
+        return
+
+    if "--check-pmd-version" in sys.argv:
+        index = sys.argv.index("--check-pmd-version")
+        try:
+            check_pmd_version(sys.argv[index + 1] if index + 1 < len(sys.argv) else "")
+        except ValueError as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            sys.exit(1)
         return
 
     parser = argparse.ArgumentParser(

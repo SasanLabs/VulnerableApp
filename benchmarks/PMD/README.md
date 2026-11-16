@@ -23,8 +23,8 @@ The full pipeline (build and start VulnerableApp → run PMD → convert →
 benchmark → commit findings and results) is automated via GitHub Actions:
 
 1. Go to **Actions** tab → **PMD Benchmark**
-2. Click **Run workflow** (optionally enter a PMD version; the default is the
-   latest PMD release)
+2. Click **Run workflow** (optionally enter a PMD version, **7.3.0 or later**;
+   the default is the latest PMD release)
 3. The findings and results are committed automatically to the files above
 
 See [`.github/workflows/pmd-benchmark.yml`](../../.github/workflows/pmd-benchmark.yml)
@@ -39,7 +39,10 @@ root.
 ### 1. Run PMD
 
 Download the latest PMD 7.x from the [releases page](https://github.com/pmd/pmd/releases).
-The rules passed to `-R` are built from `pmd-rule-cwe-mapping.csv`:
+**Use PMD 7.3.0 or later**: older versions do not exit with code 5 when a file
+cannot be processed, so a scan can look successful while its report is incomplete.
+The workflow rejects older versions. The rules passed to `-R` are built from
+`pmd-rule-cwe-mapping.csv`:
 
 ```bash
 pmd check -d src/main/java \

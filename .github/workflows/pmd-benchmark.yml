@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       pmd_version:
-        description: 'PMD version to use (e.g. 7.28.0), or "latest"'
+        description: 'PMD version to use (7.3.0 or later, e.g. 7.28.0), or "latest"'
         required: false
         default: 'latest'
         type: string
@@ -100,6 +100,9 @@ jobs:
             echo "Invalid PMD version: $PMD_VERSION"
             exit 1
           fi
+          # PMD < 7.3.0 does not exit with code 5 on processing errors, so an
+          # incomplete scan could pass the exit-code check below.
+          python3 benchmarks/PMD/scripts/convert_pmd_to_benchmark.py --check-pmd-version "$PMD_VERSION"
           echo "Using PMD $PMD_VERSION"
           curl -fsSL -o pmd.zip \
             "https://github.com/pmd/pmd/releases/download/pmd_releases%2F${PMD_VERSION}/pmd-dist-${PMD_VERSION}-bin.zip"
