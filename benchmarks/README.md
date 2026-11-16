@@ -145,6 +145,39 @@ the latest benchmark results.
 
 ---
 
+## SpotBugs with FindSecBugs
+
+SpotBugs, enhanced with the FindSecBugs security rules plugin, is benchmarked in
+SAST mode against VulnerableApp's compiled bytecode. SpotBugs runs via a dynamic
+Gradle init script without requiring permanent scanner plugins in `build.gradle`.
+
+### Latest results
+
+| Tool | Results file | Raw XML Report |
+|---|---|---|
+| SpotBugs + FindSecBugs | [`benchmarks/SpotBugs/spotbugs-results.json`](SpotBugs/spotbugs-results.json) | [`benchmarks/SpotBugs/spotbugs-raw-report.xml`](SpotBugs/spotbugs-raw-report.xml) |
+
+Results are auto-updated on `master` every day and on every manual workflow run.
+
+### Running the benchmark
+
+The full pipeline (build the VulnerableApp image from the checkout, start the
+Docker stack, run SpotBugs with FindSecBugs, convert, benchmark, commit
+results and raw XML) is automated via GitHub Actions:
+
+1. Open the **Actions** tab and pick **SpotBugs Benchmark**
+2. Click **Run workflow**
+3. On `master`, results and raw reports are committed automatically to the files above,
+   along with converted findings in `benchmarks/SpotBugs/findings/spotbugs-findings.json`.
+
+See [`.github/workflows/spotbugs-benchmark.yml`](../.github/workflows/spotbugs-benchmark.yml)
+for the full workflow definition.
+
+For local execution instructions, CLI options, and conversion script details, see
+[`benchmarks/SpotBugs/README.md`](SpotBugs/README.md).
+
+---
+
 ## w3af
 
 w3af is benchmarked in **DAST** mode. See
@@ -240,6 +273,12 @@ the field is omitted, the finding matches the URL's ground-truth row regardless
 of method — leniency for scanners whose output format does not include the
 method. This means existing payloads continue to work; emit `method` to enable
 the stricter check.
+
+The ground truth says whether each entry is HTTP or WebSocket (`protocol`;
+entries without it are HTTP). The method check applies to HTTP entries only. A
+WebSocket entry is matched on its URL and one of the axes, whatever `method`
+the finding carries, since a WebSocket level is always opened with a GET
+handshake. WebSocket items in the report have no `method`.
 
 A scanner that emits multiple axes (type + cwe, etc.) for the same alert is
 counted once. A finding that matches no axis on any expected URL ends up in
@@ -408,9 +447,9 @@ For SAST runs, items look like:
 - `coverage` — `detected / totalExpected * 100`. Reported as `0.0` when ground
   truth is empty.
 - `totalExpected` — number of unique ground-truth items. For DAST, count of
-  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
-  (SECURE entries are intentionally clean and don't count). For SAST, count of
-  rows in the CSV.
+  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries,
+  HTTP and WebSocket alike (SECURE entries are intentionally clean and don't
+  count). For SAST, count of rows in the CSV.
 - `detectedItems` — expected items the scanner reported. Results written before
   this field existed omit it.
 - `missedItems` — expected items the scanner did not report.

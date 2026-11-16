@@ -60,6 +60,10 @@ New to the project? Watch this OWASP Spotlight session for a high-level overview
 ![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
 
 ### Running the project
+
+> [!WARNING]
+> VulnerableApp is deliberately vulnerable. Run it only on your own machine, in a VM, or in a Docker container, and never expose it to the internet. See the [Security Policy](SECURITY.md) for what to report, what not to report, and how to run it safely.
+
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
     1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
@@ -146,6 +150,14 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
+16. [Insecure Deserialisation](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/deserialization)
+17. [Session Management](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/sessionManagement)
+18. [OTP Based Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/otp)
+19. [Cache Poisioning](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning)
+
+> **New to security?** To learn what these vulnerabilities are, see the
+> [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
+> and the [CWE Top N lists](https://cwe.mitre.org/scoring/index.html#top_n_lists).
 
 ## Benchmarking your scanner
 
@@ -168,7 +180,8 @@ schemas, matching rules, canonical vulnerability-type vocabulary, and `curl`
 examples.
 
 ## Contact
-In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
+In case you are stuck with any of the steps or understanding anything related to project and its goals, read [Security Policy](SECURITY.md) if then also it is not resolved
+feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues), and we will try our best to help you.
 
 ## Documentation and References
 

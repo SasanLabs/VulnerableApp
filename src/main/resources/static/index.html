@@ -95,6 +95,7 @@
 				<ol>
 				<li><a href="/VulnerableApp/scanner/dast">Scanner Endpoint</a></li>
 				<li><a href="/VulnerableApp/sitemap.xml">SiteMap Endpoint</a></li>
+				<li><a href="/VulnerableApp/sitemap.html">HTML SiteMap Endpoint</a></li>
 				</ol>
 				
 				<b>Scanner Endpoint</b><br/>
@@ -109,6 +110,8 @@
 				</ol>
 				As Vulnerability Scanning Tools use "sitemap.xml", "robots.txt" etc in order to find the exposed endpoints
 				so we have provided sitemap which provides all the vulnerable endpoints present in the VulnerableApp.
+				For crawlers which only follow HTML links and do not parse "sitemap.xml", the same endpoints are also
+				listed as plain links in the HTML SiteMap.
 				
 				In case Vulnerability Scanning Tools wants to use VulnerableApp, you need to understand the
 				output of Scanner endpoint and only that information alone can suffice for all needs. These tools can also 
