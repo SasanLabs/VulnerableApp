@@ -1,174 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="4.10.5" sequence="0" timestamp="1794739073331" analysisTimestamp="1794739073378" release="unspecified">
+<BugCollection version="4.10.5" sequence="0" timestamp="1794826457407" analysisTimestamp="1794826457444" release="unspecified">
   <Project projectName="VulnerableApp (spotbugsMain)">
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/Application.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/AttackVectorResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean$PayloadResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/LevelResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ScannerMetaResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean$HintResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/AllEndPointsResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ScannerResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkStrategy.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/CsvExpectedIssuesProvider.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkResultWriter.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkService.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/SastBenchmarkStrategy.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkService$1.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/IExpectedIssuesProvider.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/controller/BenchmarkController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ScanType.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ExpectedIssue.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ScannerFindings.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/BenchmarkResult.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/Finding.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/BenchmarkConfiguration.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/exception/ExceptionStatusCodeEnum.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/exception/ServiceApplicationException.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/impl/EndPointsInformationProvider.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/email/EmailServiceImpl.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/email/EmailService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppConfiguration$1MaxUploadSizeOverrideMultipartFilter.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppWebSocketConfiguration.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/H2ConsoleJdbcUrlFilter.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/ModuleSeeder.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/EmailConfiguration.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/EmbeddedLDAPConfig.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/PasswordResetReferrerPolicyFilter.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/UnrestrictedFileUploadWebConfiguration.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppConfiguration.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppProperties.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/DatabaseSeeder.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EnvUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/Protocol.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/LevelConstants.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EncryptionUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/FrameworkConstants.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppRequestMapping.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/RequestParameterLocation.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$ChallengeCards.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppRestController.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ResponseType.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$Hint.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppWebSocketController.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/AttackVector.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/AttackVector$AttackVectors.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$Payload.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppWebSocketMapping.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/VulnerableAppWebSocketHandler.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/WebSocketHandlingException.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/VulnerableAppWebSocketHandshakeInterceptor.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/PasswordHashingUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/exception/EncryptionException.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/exception/DeserializationException.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/JSONSerializationUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/PasswordHashingUtils$HashAlgorithm.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/GenericUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/MessageBundle.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EncodingUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/Variant.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/IEndPointsInformationProvider.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/bean/GenericVulnerabilityResponseBean.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionUserRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService$FailedLoginAttempt.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionUser.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionLoginRequest.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/fileupload/PreflightController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUserAlgorithm.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService$AuthResult.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUser.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService$1.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUserRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/VaultEntity.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresVaultRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/VaultEntity.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/RefreshHeaderBasedInjection.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/MetaTagBasedInjection.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection$1.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/ClientSideInjection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/RefreshHeaderBasedInjection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUserRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPResult.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPService.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUserSeeder.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUser.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPEntity.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetUser.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService$ResetAttempt.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetToken.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetUserRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetRequest.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/openRedirect/Http3xxStatusCodeBasedInjection$1.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetUserRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetService$ResetAttempt.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetSeeder.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetToken.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetRequest.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetTokenRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/passwordReset/PasswordResetUser.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService$FailedLoginAttempt.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionLoginRequest.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionUser.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionUserRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sessionManagement/SessionManagementService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/User.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginDetails.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginService$AuthRecord.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginController.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/bean/ObjectFactory.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/bean/Book.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/TimingXMLFilter.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/TimeoutInputStream.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/dao/BookEntityRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService$AuthResult.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthenticationVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService$1.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUserAlgorithm.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUser.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthUserRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/authentication/AuthLoginService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/UserPreferences.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/DeserializationUtils.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/VisitedSection.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationCookieController.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/Role.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/InsecureDeserializationVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/VisitedSection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/DeserializationUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/deserialization/UserPreferences.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/pathTraversal/PathTraversalVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/PostRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/Post.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginDetails.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginService.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORLoginService$AuthRecord.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/idor/User.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cachePoisoning/CachedResponse.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/CarInformation.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/CarInformationRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/KeyStrength.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS$1.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/SymmetricAlgorithmKey.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/IJWTTokenGenerator.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS$1.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/keys/KeyStrength.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/impl/LibBasedJWTGenerator.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/IJWTValidator.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/bean/Book.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/bean/ObjectFactory.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/TimingXMLFilter.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/TimeoutInputStream.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/dao/BookEntityRepository.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/jwt/IJWTTokenGenerator.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/PostRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/persistent/Post.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/cachePoisoning/CachedResponse.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPResult.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUser.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUserSeeder.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPEntity.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/otp/OTPUserRepository.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock$MetaDataEndpointResponseBean.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/ldapInjection/LDAPInjectionVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/CarInformationRepository.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/BlindSQLInjectionVulnerability.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/sqlInjection/CarInformation.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/vulnerability/fileupload/PreflightController.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/exception/ExceptionStatusCodeEnum.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/exception/ServiceApplicationException.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/impl/EndPointsInformationProvider.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/email/EmailService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/service/email/EmailServiceImpl.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/vulnerability/utils/Constants.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/vulnerability/types/VulnerabilityType.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/VulnerableAppRestController.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/exception/ControllerExceptionHandler.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/exception/ControllerException.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/EmailTestController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/VulnerableAppRestController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppConfiguration$1MaxUploadSizeOverrideMultipartFilter.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppProperties.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/UnrestrictedFileUploadWebConfiguration.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/PasswordResetReferrerPolicyFilter.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppConfiguration.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/EmailConfiguration.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/EmbeddedLDAPConfig.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/H2ConsoleJdbcUrlFilter.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/VulnerableAppWebSocketConfiguration.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/DatabaseSeeder.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/configuration/ModuleSeeder.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/MessageBundle.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/LevelConstants.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/Variant.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/Protocol.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EnvUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/JSONSerializationUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/exception/EncryptionException.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/exception/DeserializationException.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/GenericUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EncryptionUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$ChallengeCards.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$Payload.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ResponseType.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard$Hint.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/ChallengeCard.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppWebSocketController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppWebSocketMapping.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/AttackVector$AttackVectors.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppRequestMapping.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/AttackVector.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/RequestParameterLocation.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/annotations/VulnerableAppRestController.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/PasswordHashingUtils$HashAlgorithm.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/FrameworkConstants.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/VulnerableAppWebSocketHandler.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/VulnerableAppWebSocketHandshakeInterceptor.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/websocket/WebSocketHandlingException.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/PasswordHashingUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/internal/utility/EncodingUtils.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/vulnerability/types/VulnerabilityType.class</Jar>
-    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/vulnerability/utils/Constants.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean$HintResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ScannerMetaResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean$PayloadResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ChallengeCardResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/AllEndPointsResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/LevelResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/AttackVectorResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/ScannerResponseBean.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ScannerFindings.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ExpectedIssue.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/ScanType.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/BenchmarkResult.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/model/Finding.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/BenchmarkConfiguration.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkStrategy.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkService.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/SastBenchmarkStrategy.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/IExpectedIssuesProvider.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkService$1.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/CsvExpectedIssuesProvider.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/service/BenchmarkResultWriter.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/benchmark/controller/BenchmarkController.class</Jar>
+    <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/Application.class</Jar>
     <AuxClasspathEntry>/home/runner/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-websocket/2.7.18/ba984d0abaa8b0313b84b988a99f3074df61a279/spring-boot-starter-websocket-2.7.18.jar</AuxClasspathEntry>
     <AuxClasspathEntry>/home/runner/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.7.18/dd62ea85098187b4604e78dc15a7ff87dba173d/spring-boot-starter-web-2.7.18.jar</AuxClasspathEntry>
     <AuxClasspathEntry>/home/runner/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-mail/2.7.18/7a406a5cc3c83f174e9977cae2cb716016ba3a46/spring-boot-starter-mail-2.7.18.jar</AuxClasspathEntry>
@@ -7681,7 +7681,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <Description>Servlet Parameter</Description>
   </BugCode>
   <Errors errors="0" missingClasses="0"></Errors>
-  <FindBugsSummary timestamp="Sun, 15 Nov 2026 10:37:53 +0000" total_classes="167" referenced_classes="698" total_bugs="276" total_size="7246" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="44.26" clock_seconds="13.44" peak_mbytes="561.51" alloc_mbytes="3996.00" gc_seconds="0.25" priority_3="126" priority_2="110" priority_1="40">
+  <FindBugsSummary timestamp="Mon, 16 Nov 2026 10:54:17 +0000" total_classes="167" referenced_classes="698" total_bugs="276" total_size="7246" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="27.27" clock_seconds="8.06" peak_mbytes="667.25" alloc_mbytes="3926.00" gc_seconds="0.18" priority_3="126" priority_2="110" priority_1="40">
     <FileStats path="org/sasanlabs/Application.java" bugCount="0" size="6"/>
     <FileStats path="org/sasanlabs/beans/AllEndPointsResponseBean.java" bugCount="4" size="28" bugHash="1d64f120f73c55eb47790864e3637b23"/>
     <FileStats path="org/sasanlabs/beans/AttackVectorResponseBean.java" bugCount="2" size="16" bugHash="9547051a1b6809c9de4629cf44458827"/>
@@ -8092,82 +8092,86 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.vulnerability.utils.Constants" sourceFile="Constants.java" interface="true" size="9" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="969" invocations="3056" avgMicrosecondsPerInvocation="317" maxMicrosecondsPerInvocation="13602" standardDeviationMicrosecondsPerInvocation="736"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="561" invocations="3070" avgMicrosecondsPerInvocation="182" maxMicrosecondsPerInvocation="68334" standardDeviationMicrosecondsPerInvocation="1747"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="507" invocations="698" avgMicrosecondsPerInvocation="727" maxMicrosecondsPerInvocation="31251" standardDeviationMicrosecondsPerInvocation="1895"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="498" invocations="698" avgMicrosecondsPerInvocation="713" maxMicrosecondsPerInvocation="21654" standardDeviationMicrosecondsPerInvocation="1699"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="406" invocations="1168" avgMicrosecondsPerInvocation="348" maxMicrosecondsPerInvocation="21864" standardDeviationMicrosecondsPerInvocation="1171"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="401" invocations="2068" avgMicrosecondsPerInvocation="194" maxMicrosecondsPerInvocation="23397" standardDeviationMicrosecondsPerInvocation="759"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="380" invocations="1166" avgMicrosecondsPerInvocation="326" maxMicrosecondsPerInvocation="10138" standardDeviationMicrosecondsPerInvocation="595"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="361" invocations="1168" avgMicrosecondsPerInvocation="309" maxMicrosecondsPerInvocation="8261" standardDeviationMicrosecondsPerInvocation="652"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="346" invocations="1258" avgMicrosecondsPerInvocation="275" maxMicrosecondsPerInvocation="18865" standardDeviationMicrosecondsPerInvocation="882"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="318" invocations="1168" avgMicrosecondsPerInvocation="272" maxMicrosecondsPerInvocation="14729" standardDeviationMicrosecondsPerInvocation="710"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="292" invocations="1259" avgMicrosecondsPerInvocation="232" maxMicrosecondsPerInvocation="9290" standardDeviationMicrosecondsPerInvocation="569"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="206" invocations="1264" avgMicrosecondsPerInvocation="163" maxMicrosecondsPerInvocation="18542" standardDeviationMicrosecondsPerInvocation="598"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="200" invocations="866" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="3885" standardDeviationMicrosecondsPerInvocation="403"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="196" invocations="1065" avgMicrosecondsPerInvocation="184" maxMicrosecondsPerInvocation="20517" standardDeviationMicrosecondsPerInvocation="731"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="181" invocations="698" avgMicrosecondsPerInvocation="259" maxMicrosecondsPerInvocation="21023" standardDeviationMicrosecondsPerInvocation="963"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="151" invocations="698" avgMicrosecondsPerInvocation="216" maxMicrosecondsPerInvocation="15751" standardDeviationMicrosecondsPerInvocation="835"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="145" invocations="698" avgMicrosecondsPerInvocation="208" maxMicrosecondsPerInvocation="22506" standardDeviationMicrosecondsPerInvocation="1012"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="132" invocations="698" avgMicrosecondsPerInvocation="189" maxMicrosecondsPerInvocation="17681" standardDeviationMicrosecondsPerInvocation="761"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="124" invocations="1270" avgMicrosecondsPerInvocation="97" maxMicrosecondsPerInvocation="32280" standardDeviationMicrosecondsPerInvocation="998"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="100" invocations="698" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="5147" standardDeviationMicrosecondsPerInvocation="345"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="100" invocations="167" avgMicrosecondsPerInvocation="599" maxMicrosecondsPerInvocation="6038" standardDeviationMicrosecondsPerInvocation="918"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="97" invocations="167" avgMicrosecondsPerInvocation="586" maxMicrosecondsPerInvocation="6923" standardDeviationMicrosecondsPerInvocation="875"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="93" invocations="698" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="12602" standardDeviationMicrosecondsPerInvocation="519"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="92" invocations="2964" avgMicrosecondsPerInvocation="31" maxMicrosecondsPerInvocation="1318" standardDeviationMicrosecondsPerInvocation="64"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="92" invocations="167" avgMicrosecondsPerInvocation="552" maxMicrosecondsPerInvocation="11834" standardDeviationMicrosecondsPerInvocation="1116"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="91" invocations="167" avgMicrosecondsPerInvocation="547" maxMicrosecondsPerInvocation="7234" standardDeviationMicrosecondsPerInvocation="750"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="90" invocations="698" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="25268" standardDeviationMicrosecondsPerInvocation="983"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="90" invocations="1168" avgMicrosecondsPerInvocation="77" maxMicrosecondsPerInvocation="2336" standardDeviationMicrosecondsPerInvocation="158"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="78" invocations="698" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="3337" standardDeviationMicrosecondsPerInvocation="284"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="73" invocations="698" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="3577" standardDeviationMicrosecondsPerInvocation="268"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="63" invocations="167" avgMicrosecondsPerInvocation="380" maxMicrosecondsPerInvocation="6620" standardDeviationMicrosecondsPerInvocation="669"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="62" invocations="167" avgMicrosecondsPerInvocation="377" maxMicrosecondsPerInvocation="3118" standardDeviationMicrosecondsPerInvocation="404"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="60" invocations="167" avgMicrosecondsPerInvocation="361" maxMicrosecondsPerInvocation="3411" standardDeviationMicrosecondsPerInvocation="500"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="57" invocations="24567" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="801" standardDeviationMicrosecondsPerInvocation="9"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="55" invocations="259" avgMicrosecondsPerInvocation="213" maxMicrosecondsPerInvocation="3151" standardDeviationMicrosecondsPerInvocation="273"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="53" invocations="1063" avgMicrosecondsPerInvocation="50" maxMicrosecondsPerInvocation="2491" standardDeviationMicrosecondsPerInvocation="124"/>
-      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="53" invocations="45848" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="3055" standardDeviationMicrosecondsPerInvocation="16"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="51" invocations="167" avgMicrosecondsPerInvocation="308" maxMicrosecondsPerInvocation="4996" standardDeviationMicrosecondsPerInvocation="566"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="50" invocations="167" avgMicrosecondsPerInvocation="305" maxMicrosecondsPerInvocation="11351" standardDeviationMicrosecondsPerInvocation="1215"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="50" invocations="167" avgMicrosecondsPerInvocation="302" maxMicrosecondsPerInvocation="15967" standardDeviationMicrosecondsPerInvocation="1267"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="4748" standardDeviationMicrosecondsPerInvocation="524"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="267" maxMicrosecondsPerInvocation="5158" standardDeviationMicrosecondsPerInvocation="857"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="265" maxMicrosecondsPerInvocation="7067" standardDeviationMicrosecondsPerInvocation="662"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="43" invocations="167" avgMicrosecondsPerInvocation="262" maxMicrosecondsPerInvocation="8455" standardDeviationMicrosecondsPerInvocation="718"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="43" invocations="1166" avgMicrosecondsPerInvocation="37" maxMicrosecondsPerInvocation="1947" standardDeviationMicrosecondsPerInvocation="75"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="42" invocations="1229" avgMicrosecondsPerInvocation="34" maxMicrosecondsPerInvocation="7009" standardDeviationMicrosecondsPerInvocation="267"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="251" maxMicrosecondsPerInvocation="1885" standardDeviationMicrosecondsPerInvocation="263"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="251" maxMicrosecondsPerInvocation="2936" standardDeviationMicrosecondsPerInvocation="396"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="251" maxMicrosecondsPerInvocation="2373" standardDeviationMicrosecondsPerInvocation="358"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="249" maxMicrosecondsPerInvocation="3172" standardDeviationMicrosecondsPerInvocation="454"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="40" invocations="167" avgMicrosecondsPerInvocation="240" maxMicrosecondsPerInvocation="2872" standardDeviationMicrosecondsPerInvocation="357"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="40" invocations="698" avgMicrosecondsPerInvocation="57" maxMicrosecondsPerInvocation="9714" standardDeviationMicrosecondsPerInvocation="473"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindAssertionsWithSideEffects" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="238" maxMicrosecondsPerInvocation="19052" standardDeviationMicrosecondsPerInvocation="1473"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="3002" standardDeviationMicrosecondsPerInvocation="331"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="229" maxMicrosecondsPerInvocation="3135" standardDeviationMicrosecondsPerInvocation="416"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="228" maxMicrosecondsPerInvocation="3759" standardDeviationMicrosecondsPerInvocation="431"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="227" maxMicrosecondsPerInvocation="6178" standardDeviationMicrosecondsPerInvocation="548"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="226" maxMicrosecondsPerInvocation="2336" standardDeviationMicrosecondsPerInvocation="325"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.injection.sql.SqlInjectionDetector" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="222" maxMicrosecondsPerInvocation="16594" standardDeviationMicrosecondsPerInvocation="1295"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="208" maxMicrosecondsPerInvocation="3393" standardDeviationMicrosecondsPerInvocation="528"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="204" maxMicrosecondsPerInvocation="1896" standardDeviationMicrosecondsPerInvocation="315"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="199" maxMicrosecondsPerInvocation="2071" standardDeviationMicrosecondsPerInvocation="254"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="194" maxMicrosecondsPerInvocation="2022" standardDeviationMicrosecondsPerInvocation="256"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="1152" standardDeviationMicrosecondsPerInvocation="199"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="186" maxMicrosecondsPerInvocation="2327" standardDeviationMicrosecondsPerInvocation="274"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="178" maxMicrosecondsPerInvocation="2754" standardDeviationMicrosecondsPerInvocation="294"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.IncompatMask" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="3156" standardDeviationMicrosecondsPerInvocation="328"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="2307" standardDeviationMicrosecondsPerInvocation="255"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="2335" standardDeviationMicrosecondsPerInvocation="267"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="28" invocations="698" avgMicrosecondsPerInvocation="41" maxMicrosecondsPerInvocation="2343" standardDeviationMicrosecondsPerInvocation="107"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="2712" standardDeviationMicrosecondsPerInvocation="289"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.template.PebbleDetector" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="9022" standardDeviationMicrosecondsPerInvocation="716"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectionIncreaseAccessibility" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="2820" standardDeviationMicrosecondsPerInvocation="320"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.ldap.LdapEntryPoisoningDetector" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="170" maxMicrosecondsPerInvocation="5122" standardDeviationMicrosecondsPerInvocation="447"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="1866" standardDeviationMicrosecondsPerInvocation="260"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="4741" standardDeviationMicrosecondsPerInvocation="398"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="584" invocations="3056" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="16063" standardDeviationMicrosecondsPerInvocation="623"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="277" invocations="698" avgMicrosecondsPerInvocation="397" maxMicrosecondsPerInvocation="13925" standardDeviationMicrosecondsPerInvocation="987"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="256" invocations="1166" avgMicrosecondsPerInvocation="219" maxMicrosecondsPerInvocation="18655" standardDeviationMicrosecondsPerInvocation="643"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="252" invocations="698" avgMicrosecondsPerInvocation="361" maxMicrosecondsPerInvocation="11782" standardDeviationMicrosecondsPerInvocation="819"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="243" invocations="1168" avgMicrosecondsPerInvocation="208" maxMicrosecondsPerInvocation="21125" standardDeviationMicrosecondsPerInvocation="808"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="226" invocations="2068" avgMicrosecondsPerInvocation="109" maxMicrosecondsPerInvocation="14740" standardDeviationMicrosecondsPerInvocation="442"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="212" invocations="1168" avgMicrosecondsPerInvocation="182" maxMicrosecondsPerInvocation="4013" standardDeviationMicrosecondsPerInvocation="327"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="211" invocations="3070" avgMicrosecondsPerInvocation="68" maxMicrosecondsPerInvocation="3176" standardDeviationMicrosecondsPerInvocation="138"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="188" invocations="1258" avgMicrosecondsPerInvocation="150" maxMicrosecondsPerInvocation="6311" standardDeviationMicrosecondsPerInvocation="296"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="182" invocations="1168" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="5640" standardDeviationMicrosecondsPerInvocation="342"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="162" invocations="1259" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="5312" standardDeviationMicrosecondsPerInvocation="279"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="158" invocations="1264" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="23019" standardDeviationMicrosecondsPerInvocation="751"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="128" invocations="1065" avgMicrosecondsPerInvocation="120" maxMicrosecondsPerInvocation="13093" standardDeviationMicrosecondsPerInvocation="453"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="123" invocations="866" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="11835" standardDeviationMicrosecondsPerInvocation="454"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="113" invocations="698" avgMicrosecondsPerInvocation="162" maxMicrosecondsPerInvocation="5058" standardDeviationMicrosecondsPerInvocation="370"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="96" invocations="698" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="18454" standardDeviationMicrosecondsPerInvocation="779"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="80" invocations="698" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="3613" standardDeviationMicrosecondsPerInvocation="281"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="72" invocations="698" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="6668" standardDeviationMicrosecondsPerInvocation="350"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="71" invocations="698" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="5518" standardDeviationMicrosecondsPerInvocation="312"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="66" invocations="1270" avgMicrosecondsPerInvocation="52" maxMicrosecondsPerInvocation="15454" standardDeviationMicrosecondsPerInvocation="442"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="65" invocations="698" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="2844" standardDeviationMicrosecondsPerInvocation="244"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="63" invocations="167" avgMicrosecondsPerInvocation="378" maxMicrosecondsPerInvocation="5699" standardDeviationMicrosecondsPerInvocation="621"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="62" invocations="698" avgMicrosecondsPerInvocation="89" maxMicrosecondsPerInvocation="2432" standardDeviationMicrosecondsPerInvocation="221"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="60" invocations="167" avgMicrosecondsPerInvocation="362" maxMicrosecondsPerInvocation="4832" standardDeviationMicrosecondsPerInvocation="606"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="59" invocations="2964" avgMicrosecondsPerInvocation="20" maxMicrosecondsPerInvocation="597" standardDeviationMicrosecondsPerInvocation="37"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="56" invocations="698" avgMicrosecondsPerInvocation="81" maxMicrosecondsPerInvocation="18879" standardDeviationMicrosecondsPerInvocation="727"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="56" invocations="698" avgMicrosecondsPerInvocation="81" maxMicrosecondsPerInvocation="4939" standardDeviationMicrosecondsPerInvocation="280"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="55" invocations="167" avgMicrosecondsPerInvocation="330" maxMicrosecondsPerInvocation="6021" standardDeviationMicrosecondsPerInvocation="547"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="52" invocations="1063" avgMicrosecondsPerInvocation="48" maxMicrosecondsPerInvocation="13523" standardDeviationMicrosecondsPerInvocation="518"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="50" invocations="1168" avgMicrosecondsPerInvocation="42" maxMicrosecondsPerInvocation="1354" standardDeviationMicrosecondsPerInvocation="93"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="46" invocations="167" avgMicrosecondsPerInvocation="275" maxMicrosecondsPerInvocation="2645" standardDeviationMicrosecondsPerInvocation="386"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="40" invocations="167" avgMicrosecondsPerInvocation="240" maxMicrosecondsPerInvocation="1310" standardDeviationMicrosecondsPerInvocation="214"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="40" invocations="24567" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="499" standardDeviationMicrosecondsPerInvocation="6"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="229" maxMicrosecondsPerInvocation="2625" standardDeviationMicrosecondsPerInvocation="343"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="227" maxMicrosecondsPerInvocation="3187" standardDeviationMicrosecondsPerInvocation="352"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="35" invocations="45848" avgMicrosecondsPerInvocation="0" maxMicrosecondsPerInvocation="104" standardDeviationMicrosecondsPerInvocation="1"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="202" maxMicrosecondsPerInvocation="9483" standardDeviationMicrosecondsPerInvocation="881"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="3834" standardDeviationMicrosecondsPerInvocation="635"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="4651" standardDeviationMicrosecondsPerInvocation="397"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="29" invocations="1229" avgMicrosecondsPerInvocation="24" maxMicrosecondsPerInvocation="6090" standardDeviationMicrosecondsPerInvocation="214"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="176" maxMicrosecondsPerInvocation="3497" standardDeviationMicrosecondsPerInvocation="337"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="28" invocations="1166" avgMicrosecondsPerInvocation="24" maxMicrosecondsPerInvocation="907" standardDeviationMicrosecondsPerInvocation="46"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="1870" standardDeviationMicrosecondsPerInvocation="217"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="27" invocations="259" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="829" standardDeviationMicrosecondsPerInvocation="98"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.jsp.JspIncludeDetector" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="10206" standardDeviationMicrosecondsPerInvocation="804"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="158" maxMicrosecondsPerInvocation="2038" standardDeviationMicrosecondsPerInvocation="267"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="1800" standardDeviationMicrosecondsPerInvocation="280"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="155" maxMicrosecondsPerInvocation="1809" standardDeviationMicrosecondsPerInvocation="305"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="148" maxMicrosecondsPerInvocation="1587" standardDeviationMicrosecondsPerInvocation="210"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="147" maxMicrosecondsPerInvocation="1600" standardDeviationMicrosecondsPerInvocation="213"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="1483" standardDeviationMicrosecondsPerInvocation="240"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="141" maxMicrosecondsPerInvocation="1317" standardDeviationMicrosecondsPerInvocation="222"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="140" maxMicrosecondsPerInvocation="2300" standardDeviationMicrosecondsPerInvocation="260"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="23" invocations="698" avgMicrosecondsPerInvocation="33" maxMicrosecondsPerInvocation="1421" standardDeviationMicrosecondsPerInvocation="75"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="1258" standardDeviationMicrosecondsPerInvocation="158"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1100" standardDeviationMicrosecondsPerInvocation="181"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="128" maxMicrosecondsPerInvocation="1115" standardDeviationMicrosecondsPerInvocation="165"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="127" maxMicrosecondsPerInvocation="2705" standardDeviationMicrosecondsPerInvocation="332"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="20" invocations="167" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="1323" standardDeviationMicrosecondsPerInvocation="170"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="20" invocations="167" avgMicrosecondsPerInvocation="121" maxMicrosecondsPerInvocation="1026" standardDeviationMicrosecondsPerInvocation="184"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="20" invocations="698" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="2495" standardDeviationMicrosecondsPerInvocation="194"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="116" maxMicrosecondsPerInvocation="739" standardDeviationMicrosecondsPerInvocation="134"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="116" maxMicrosecondsPerInvocation="1294" standardDeviationMicrosecondsPerInvocation="178"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="936" standardDeviationMicrosecondsPerInvocation="142"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.IncompatMask" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="2977" standardDeviationMicrosecondsPerInvocation="264"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="18" invocations="167" avgMicrosecondsPerInvocation="110" maxMicrosecondsPerInvocation="867" standardDeviationMicrosecondsPerInvocation="151"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.crypto.WeakMessageDigestDetector" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="3446" standardDeviationMicrosecondsPerInvocation="299"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="867" standardDeviationMicrosecondsPerInvocation="135"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="1006" standardDeviationMicrosecondsPerInvocation="147"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.ImproperHandlingUnicodeDetector" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="101" maxMicrosecondsPerInvocation="1370" standardDeviationMicrosecondsPerInvocation="176"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine" totalMilliseconds="16" invocations="3130" avgMicrosecondsPerInvocation="5" maxMicrosecondsPerInvocation="2848" standardDeviationMicrosecondsPerInvocation="51"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.crypto.HazelcastSymmetricEncryptionDetector" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="3464" standardDeviationMicrosecondsPerInvocation="285"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="99" maxMicrosecondsPerInvocation="918" standardDeviationMicrosecondsPerInvocation="139"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="99" maxMicrosecondsPerInvocation="1197" standardDeviationMicrosecondsPerInvocation="146"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="98" maxMicrosecondsPerInvocation="1329" standardDeviationMicrosecondsPerInvocation="163"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BadSyntaxForRegularExpression" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="95" maxMicrosecondsPerInvocation="982" standardDeviationMicrosecondsPerInvocation="155"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.Naming" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="3159" standardDeviationMicrosecondsPerInvocation="259"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectionIncreaseAccessibility" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="1347" standardDeviationMicrosecondsPerInvocation="158"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.cookie.CookieReadDetector" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="3419" standardDeviationMicrosecondsPerInvocation="280"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDoubleCheck" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="93" maxMicrosecondsPerInvocation="872" standardDeviationMicrosecondsPerInvocation="132"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
