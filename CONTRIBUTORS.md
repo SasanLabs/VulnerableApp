@@ -68,6 +68,7 @@ Thanks to these wonderful people 🎉
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/pavan-nagesh"><img src="https://avatars.githubusercontent.com/u/355868576?v=4&size=100" width="100px" height="100px" alt="Pavan"/><br /><sub><b>Pavan</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=pavan-nagesh" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/007xf"><img src="https://avatars.githubusercontent.com/u/173441682?v=4&size=100" width="100px" height="100px" alt="KBH君"/><br /><sub><b>KBH君</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=007xf" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DeviousCardi"><img src="https://avatars.githubusercontent.com/u/115358213?v=4&size=100" width="100px" height="100px" alt="DeviousCardi"/><br /><sub><b>DeviousCardi</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=DeviousCardi" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ahin042"><img src="https://avatars.githubusercontent.com/u/272797981?v=4&size=100" width="100px" height="100px" alt="아인"/><br /><sub><b>아인</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=ahin042" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
