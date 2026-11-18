@@ -17,6 +17,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.ExpectedIssue;
@@ -590,6 +591,66 @@ class MergedGroundTruthTest {
                 dast(new Finding("/sql", "BLIND_SQL_INJECTION", null, null, null, null, "POST"));
         assertThat(result.getDetected()).isZero();
         assertThat(result.getUnmatched()).isEqualTo(1);
+        server.verify();
+    }
+
+    @ParameterizedTest
+    @CsvSource({"GET, 2, 50.0", "POST, 1, 25.0"})
+    void mixedProtocolsAtTheSameUrlStayWithinTheSelectedApplication(
+            String method, int expectedDetected, double expectedCoverage) throws Exception {
+        String rows =
+                "[{\"url\":\"/shared\",\"variant\":\"UNSECURE\","
+                        + "\"method\":\"GET\",\"protocol\":\"HTTP\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]},"
+                        + "{\"url\":\"/shared\",\"variant\":\"UNSECURE\","
+                        + "\"method\":\"GET\",\"protocol\":\"WS\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]}]";
+        respond(DAST_URL, "{\"alpha\":" + rows + ",\"beta\":" + rows + "}");
+        Finding finding =
+                new Finding("/shared", "REFLECTED_XSS", null, null, null, null, method)
+                        .withApplication("beta");
+
+        BenchmarkResult result = dast(finding, finding);
+
+        assertThat(result.getTotalExpected()).isEqualTo(4);
+        assertThat(result.getDetected()).isEqualTo(expectedDetected);
+        assertThat(result.getUnmatched()).isZero();
+        assertThat(result.getCoverage()).isEqualTo(expectedCoverage);
+        assertThat(result.getApplications().get("alpha").getDetected()).isZero();
+        assertThat(result.getApplications().get("alpha").getMissed()).isEqualTo(2);
+        assertThat(result.getApplications().get("beta").getDetected()).isEqualTo(expectedDetected);
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getApplication)
+                .containsOnly("beta");
+        assertThat(result.getDetectedItems())
+                .extracting(Finding::getMethod)
+                .containsExactlyElementsOf(
+                        "GET".equals(method)
+                                ? Arrays.asList("GET", null)
+                                : Collections.singletonList(null));
+        assertThat(finding.getUrl()).isEqualTo("/shared");
+        assertThat(finding.getMethod()).isEqualTo(method);
+        server.verify();
+    }
+
+    @Test
+    void webSocketFindingWithoutApplicationCannotCreditAnAmbiguousUrl() throws Exception {
+        String rows =
+                "[{\"url\":\"/shared\",\"variant\":\"UNSECURE\","
+                        + "\"method\":\"GET\",\"protocol\":\"WS\","
+                        + "\"vulnerabilityTypes\":[\"REFLECTED_XSS\"]}]";
+        respond(DAST_URL, "{\"alpha\":" + rows + ",\"beta\":" + rows + "}");
+
+        BenchmarkResult result = dast(new Finding("/shared", "REFLECTED_XSS"));
+
+        assertThat(result.getTotalExpected()).isEqualTo(2);
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(2);
+        assertThat(result.getApplications().get("alpha").getDetected()).isZero();
+        assertThat(result.getApplications().get("beta").getDetected()).isZero();
+        assertThat(result.getUnmatchedItems())
+                .extracting(Finding::getApplication, Finding::getUrl)
+                .containsExactly(tuple(null, "/shared"));
         server.verify();
     }
 
