@@ -214,17 +214,13 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             String method,
             VulnerabilityType type) {
         addKey(keyToRows, typeKey(url, method, type.name()), rowIndex);
-        if (type.getCweID() != null) {
-            String cwe = normalizeNumericId(type.getCweID().toString());
-            if (!cwe.isEmpty()) {
-                addKey(keyToRows, cweKey(url, method, cwe), rowIndex);
-            }
+        Integer cweId = type.getCweID();
+        if (cweId != null && cweId > 0) {
+            addKey(keyToRows, cweKey(url, method, cweId.toString()), rowIndex);
         }
-        if (type.getWascID() != null) {
-            String wasc = normalizeNumericId(type.getWascID().toString());
-            if (!wasc.isEmpty()) {
-                addKey(keyToRows, wascKey(url, method, wasc), rowIndex);
-            }
+        Integer wascId = type.getWascID();
+        if (wascId != null && wascId > 0) {
+            addKey(keyToRows, wascKey(url, method, wascId.toString()), rowIndex);
         }
     }
 
