@@ -27,6 +27,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Remove previously committed reports
+        run: |
+          # The artifact must only contain reports produced by this run.
+          rm -f benchmarks/commix/findings/commix-findings.json benchmarks/commix/commix-results.json
+
       - name: Run Converter Unit Tests
         run: python3 -m unittest discover -s benchmarks/commix/scripts -v
 
