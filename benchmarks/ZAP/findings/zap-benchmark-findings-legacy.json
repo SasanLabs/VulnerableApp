@@ -369,10 +369,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/JWTVulnerability/LEVEL_13",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/JWTVulnerability/LEVEL_14",
       "method": "GET"
     },
@@ -429,7 +425,13 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/Http3xxStatusCodeBasedInjection",
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/ClickjackingVulnerability",
+      "cwe": "CWE-89",
+      "wascId": "19",
+      "method": "GET"
+    },
+    {
+      "url": "http://vulnerableapp-base:9090/VulnerableApp/UnrestrictedFileUpload",
       "cwe": "CWE-89",
       "wascId": "19",
       "method": "GET"
@@ -867,12 +869,6 @@
       "method": "GET"
     },
     {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
-      "cwe": "CWE-693",
-      "wascId": "14",
-      "method": "GET"
-    },
-    {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/vulnerableApp.css",
       "cwe": "CWE-693",
       "wascId": "14",
@@ -934,12 +930,6 @@
     },
     {
       "url": "http://vulnerableapp-base:9090/VulnerableApp/scanner/dast",
-      "cwe": "CWE-693",
-      "wascId": "15",
-      "method": "GET"
-    },
-    {
-      "url": "http://vulnerableapp-base:9090/VulnerableApp/sitemap.xml",
       "cwe": "CWE-693",
       "wascId": "15",
       "method": "GET"
