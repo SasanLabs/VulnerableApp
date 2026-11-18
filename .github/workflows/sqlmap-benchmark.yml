@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Test converter and target discovery
+      - name: Test native-report conversion and sitemap input
         run: python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
 
       - name: Setup Java
@@ -53,75 +53,102 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Build deployed application
-        run: ./gradlew bootJar
+      - name: Build application image from this checkout
+        run: ./gradlew jibDockerBuild
 
-      - name: Start isolated Java lab
+      - name: Start modern UI Docker stack
         run: |
           mkdir -p benchmarks/sqlmap/artifacts-metadata
           git rev-parse HEAD > benchmarks/sqlmap/artifacts-metadata/application-revision.txt
           git -C .tools/sqlmap rev-parse HEAD > benchmarks/sqlmap/artifacts-metadata/sqlmap-revision.txt
-          java -version 2> benchmarks/sqlmap/artifacts-metadata/java-version.txt
-          sha256sum build/libs/VulnerableApp-1.0.0.jar > benchmarks/sqlmap/artifacts-metadata/application-jar.sha256
-          java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar \
-            --server.port=9090 \
-            --benchmark.output.dir=benchmarks/sqlmap/artifacts-metadata/results \
-            > benchmarks/sqlmap/artifacts-metadata/application.log 2>&1 &
-          echo $! > benchmarks/sqlmap/artifacts-metadata/application.pid
+          docker compose -f docker-compose.without_llm.yml \
+            -f benchmarks/sqlmap/compose.override.yml up -d
+          docker image inspect sasanlabs/owasp-vulnerableapp:unreleased \
+            sasanlabs/owasp-vulnerableapp-facade:latest \
+            sasanlabs/owasp-vulnerableapp-jsp:latest sasanlabs/owasp-vulnerableapp-php:latest \
+            --format '{{.Id}} {{json .RepoDigests}}' \
+            > benchmarks/sqlmap/artifacts-metadata/images.txt
           for attempt in {1..40}; do
-            if curl --fail --silent --max-time 2 http://127.0.0.1:9090/VulnerableApp/scanner/dast > /dev/null; then
+            if curl --fail --silent --max-time 2 http://127.0.0.1/VulnerableApp/ > /dev/null; then
               exit 0
             fi
             sleep 2
           done
-          echo 'Java lab did not become ready'
+          echo 'Facade stack did not become ready'
           exit 1
 
-      - name: Scan SQL ground-truth endpoints
+      - name: Prepare sitemap input
+        run: |
+          mkdir -p benchmarks/sqlmap/artifacts
+          curl --fail --show-error --silent --max-time 30 http://127.0.0.1/sitemap.xml \
+            -o benchmarks/sqlmap/artifacts/sitemap.xml
+          python3 benchmarks/sqlmap/scripts/sitemap_to_targets.py \
+            --sitemap benchmarks/sqlmap/artifacts/sitemap.xml \
+            --base-url http://127.0.0.1 \
+            --output benchmarks/sqlmap/artifacts/targets.txt
+
+      - name: Run sqlmap CLI
         env:
           SQLMAP_TAG: ${{ steps.sqlmap.outputs.tag }}
         run: |
-          # Limit scanner address space to 2 GiB; each target also has a process deadline.
+          test "$(python3 .tools/sqlmap/sqlmap.py --version)" = "$SQLMAP_TAG#stable"
+          python3 .tools/sqlmap/sqlmap.py --version > benchmarks/sqlmap/artifacts/sqlmap-version.txt
           ulimit -v 2097152
-          python3 benchmarks/sqlmap/scripts/run_sqlmap.py \
-            --base-url http://127.0.0.1:9090/VulnerableApp \
-            --sqlmap-dir .tools/sqlmap \
-            --sqlmap-tag "$SQLMAP_TAG" \
-            --output-dir benchmarks/sqlmap/artifacts \
-            --target-timeout 120
+          set -x
+          timeout --signal=TERM --kill-after=10s 20m \
+            python3 .tools/sqlmap/sqlmap.py \
+            -m benchmarks/sqlmap/artifacts/targets.txt \
+            --scope='/VulnerableApp/(BlindSQLInjectionVulnerability|ErrorBasedSQLInjectionVulnerability|UnionBasedSQLInjectionVulnerability)/LEVEL_[0-9]+' \
+            -p id --batch --answers='skip further tests=N' \
+            --disable-coloring --technique=BEU --level=1 --risk=1 \
+            --threads=1 --timeout=5 --retries=0 --flush-session \
+            --report-json=benchmarks/sqlmap/artifacts/report.json \
+            --output-dir=benchmarks/sqlmap/artifacts/session \
+            2>&1 | tee benchmarks/sqlmap/artifacts/scan.log
 
       - name: Convert confirmed injections
         run: |
           python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
-            --input benchmarks/sqlmap/artifacts/runs.json \
+            --input benchmarks/sqlmap/artifacts/report.json \
             --output benchmarks/sqlmap/artifacts/sqlmap-findings.json
 
       - name: Submit to benchmark
         run: |
           curl --fail-with-body --show-error --silent --max-time 60 \
-            http://127.0.0.1:9090/VulnerableApp/scanner/benchmark \
+            http://127.0.0.1/VulnerableApp/scanner/benchmark \
             -H 'Content-Type: application/json' \
             --data-binary @benchmarks/sqlmap/artifacts/sqlmap-findings.json \
             -o benchmarks/sqlmap/artifacts/sqlmap-results.json
+          curl --fail --show-error --silent --max-time 30 \
+            http://127.0.0.1/VulnerableApp/scanner/dast \
+            -o benchmarks/sqlmap/artifacts/ground-truth.json
+          docker compose -f docker-compose.without_llm.yml \
+            -f benchmarks/sqlmap/compose.override.yml exec -T VulnerableApp-base \
+            cat /benchmark-results/sqlmap-results.json \
+            > benchmarks/sqlmap/artifacts/persisted-results.json
           python3 - <<'PY'
           import json, os
           from pathlib import Path
           result = json.loads(Path('benchmarks/sqlmap/artifacts/sqlmap-results.json').read_text())
-          targets = json.loads(Path('benchmarks/sqlmap/artifacts/targets.json').read_text())
+          persisted = json.loads(Path('benchmarks/sqlmap/artifacts/persisted-results.json').read_text())
+          if result != persisted:
+              raise SystemExit('HTTP and persisted benchmark reports differ')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
               summary.write('## sqlmap: Java SQL-injection scope\n')
-              summary.write(f"Scanned {len(targets)} metadata endpoints using GET id=1 and BEU techniques.\n\n")
+              summary.write('Targets come from the facade sitemap, using GET id=1 and BEU techniques.\n\n')
               summary.write(f"Detected: {result['detected']}; whole-benchmark coverage: {result['coverage']:.2f}%.\n\n")
               summary.write('Coverage denominator includes all Java DAST vulnerabilities, not just SQL injection.\n')
               summary.write('Unmatched findings require review; they are not automatically false positives.\n')
           PY
 
-      - name: Stop Java lab
+      - name: Collect stack logs and stop containers
         if: always()
         run: |
-          if [ -f benchmarks/sqlmap/artifacts-metadata/application.pid ]; then
-            kill "$(cat benchmarks/sqlmap/artifacts-metadata/application.pid)" || true
-          fi
+          docker compose -f docker-compose.without_llm.yml \
+            -f benchmarks/sqlmap/compose.override.yml logs --no-color \
+            > benchmarks/sqlmap/artifacts-metadata/stack.log
+          docker compose -f docker-compose.without_llm.yml \
+            -f benchmarks/sqlmap/compose.override.yml down -v --remove-orphans
 
       - name: Upload reports and provenance
         if: always()

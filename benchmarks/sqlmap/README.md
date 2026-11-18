@@ -1,142 +1,122 @@
 # sqlmap benchmark
 
-This integration tests the Java SQL-injection challenges against a controlled
-running instance. It uses upstream [sqlmap](https://github.com/sqlmapproject/sqlmap)
-at its newest version-numbered tag, resolved when the workflow runs, so untagged
-master code is never used. The runner checks that the scanner reports that
-tag as a stable release, and the run artifacts record the reported version and
-the checked-out commit. The scanner is fetched from upstream; its source is not
-bundled here. See upstream's licensing terms.
+This integration runs upstream [sqlmap](https://github.com/sqlmapproject/sqlmap)
+against the three Java SQL-injection families in issue #860. Each workflow run
+resolves the newest version-numbered release tag, checks out that tag, and checks
+the scanner's `--version` before scanning. Untagged development builds are not used.
+The scanner's source is fetched from upstream and is not bundled here.
 
-The [GitHub Actions workflow](../../.github/workflows/sqlmap-benchmark.yml) runs
-weekly, manually, and on PRs changing this integration. It builds the checked-out
-Java application, starts its JAR on port 9090, runs the scan and converter,
-submits to `/VulnerableApp/scanner/benchmark`, and uploads artifacts even after a
-failure. It does not push results to master or need repository write permissions.
+The [workflow](../../.github/workflows/sqlmap-benchmark.yml) runs weekly, manually,
+and on PRs that change this integration. It builds the checked-out application
+with Jib and starts the modern UI Docker stack with Java, JSP, PHP, MongoDB,
+Mailpit, and the Nginx facade, using `docker-compose.without_llm.yml` plus the
+[backend override](compose.override.yml). All scan requests go through the facade.
+LLMForge and its model downloads are outside this SQL benchmark.
 
-## Scope and discovery
+## Discovery and scope
 
-Targets come from the deployed Java `/VulnerableApp/scanner/dast` response.
-Selection uses the three family names below; there is no per-level URL table.
-Every selected URL must belong to the configured application origin and context.
-The runner tests `GET ?id=1`, matching the current implementations' `id` query
-parameter. A newly exposed unsupported method fails the run rather than being
-silently treated as scanned. Any exposed `SECURE` rows are scanned as controls,
-and a confirmed injection on one is retained for investigation.
+Discovery starts with the facade's `/sitemap.xml`. The small
+`scripts/sitemap_to_targets.py` adapter preserves every listed path and query,
+replaces Docker-internal origins with the configured facade origin, and adds
+`?id=1` only when a URL has no query. It does not select vulnerability families,
+levels, variants, or known-vulnerable endpoints.
 
-Inventory at application revision `5a94f0d`:
+sqlmap's native `-m` bulk input and `--scope` filter select these Java families:
 
-| Family | Source levels | Exposed in live DAST ground truth | Method / parameter |
-|---|---|---|---|
-| `BlindSQLInjectionVulnerability` | 1–5 | 1–2, UNSECURE | GET / `id` |
-| `ErrorBasedSQLInjectionVulnerability` | 1–5 | 1–4, UNSECURE | GET / `id` |
-| `UnionBasedSQLInjectionVulnerability` | 1–9 | 1–2 UNSECURE; 3 SECURE | GET / `id` |
+- `BlindSQLInjectionVulnerability`
+- `ErrorBasedSQLInjectionVulnerability`
+- `UnionBasedSQLInjectionVulnerability`
 
-The other source levels are not advertised by `/scanner/dast`; this integration
-does not invent additional ground-truth rows or claim to scan them. Recheck the
-uploaded `ground-truth.json` and `targets.json` for each run's actual scope.
-`AuthenticationVulnerability` LEVEL_1 is also advertised as
-`ERROR_BASED_SQL_INJECTION`, but it is outside these families and takes
-`username` and `password` instead of `id`, so it is not scanned.
-PHP currently has NoSQL challenges, not corresponding SQL-injection ground
-truth, so it is excluded. The facade and JSP applications are not scan targets.
+The scope is deliberately limited to issue #860. The native filter includes secure
+controls when they appear in the sitemap. No ground-truth endpoint is read to
+choose targets. The workflow captures `/VulnerableApp/scanner/dast` after scanning
+for audit; only the benchmark comparator uses it for scoring.
 
-## Scan settings and limits
+sqlmap 1.10.11 has no `--sitemap-url` option, and its bulk parser needs URLs with
+parameters. The adapter supplies the sitemap URLs and the common `id` seed needed
+by these Java labs. This is not browser-based form discovery. Authentication SQLi
+uses `username` and `password`, so it remains outside this run, as do PHP's NoSQL
+labs and the JSP application. Extending the scope requires reviewing the request
+parameters and scanner settings; being present in the sitemap alone does not mean
+an endpoint was scanned.
 
-Each target uses a fresh session directory, `--flush-session`, `--batch`,
-`--technique=BEU`, `--level=1`, `--risk=1`, and `--threads=1`.
-BEU enables boolean-based blind, error-based, and UNION-query tests. Stacked,
-time-based blind, inline-query techniques, elevated level/risk tests, tamper
-scripts, authenticated scenarios, and data extraction are outside this run's
-scope. A completed negative means no injection was confirmed by these settings;
-it does not prove that a level is secure.
+## Scan and report handling
 
-Requests time out after 5 seconds with no retry. Each scanner process has a
-120-second deadline (configurable from 1–300 seconds), and the Actions job has a
-30-minute limit. CI bounds scanner virtual memory to 2 GiB and the Java heap to
-768 MiB. A target timeout makes the overall run incomplete; it is not submitted
-to the comparator as a clean scan.
+The workflow invokes sqlmap directly, without a Python process runner. Settings
+are `-p id`, `--batch`, `--technique=BEU`, `--level=1`, `--risk=1`, `--threads=1`,
+`--timeout=5`, and `--retries=0`. BEU selects boolean-based blind, error-based,
+and UNION-query tests. Time-based and stacked-query techniques, authenticated
+scenarios, and data extraction are outside this run.
+
+`--answers='skip further tests=N'` prevents sqlmap's default bulk-mode behavior
+from skipping the rest of a host after the first confirmed injection.
+
+Each workflow gets fresh sessions and uses `--flush-session`. GNU `timeout` stops
+the whole scanner after 20 minutes and kills it after a further 10 seconds if
+necessary. The Actions job has a 30-minute bound; scanner address space is limited
+to 2 GiB and the Java heap to 768 MiB. A timeout or nonzero scanner exit stops
+the workflow before conversion or submission.
+
+`convert_sqlmap_to_benchmark.py` reads the native `--report-json` output, including
+its bulk `targets` groups. A confirmed TECHNIQUES record becomes a finding with
+the native TARGET URL, the request's method, and `cwe: "CWE-89"`. Multiple parameter
+findings are retained. URL normalization, matching, and deduplication belong to
+`/scanner/benchmark`.
+
+A completed negative has sqlmap's explicit negative conclusion in the native
+report. Transport errors, missing target identity, partial records, or a report
+with neither confirmed techniques nor that conclusion stop conversion. These
+checks distinguish a failed scan from a completed negative; they do not score
+findings or validate them against ground truth.
+
+Artifacts retain the sitemap, bulk input, native report, session files, console
+log, scanner version and revision, application revision, container image IDs and
+digests, stack logs, converted findings, ground truth, and benchmark response.
+The exact CLI invocation is visible in the Actions step log. The workflow also
+reads the persisted report from the backend and compares it with the HTTP response.
+Containers and volumes are removed in the cleanup step, including after failure.
 
 ## Local run
 
-Use only an instance you control. Start a fresh build of VulnerableApp separately:
+Use a controlled instance and a fresh artifact directory. The workflow contains
+the complete commands; the same pipeline can be run locally:
 
 ```bash
-./gradlew bootJar
-java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar --server.port=9090
+./gradlew jibDockerBuild
+docker compose -f docker-compose.without_llm.yml \
+  -f benchmarks/sqlmap/compose.override.yml up -d
+python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
+
+mkdir -p benchmarks/sqlmap/artifacts
+curl --fail http://127.0.0.1/sitemap.xml -o benchmarks/sqlmap/artifacts/sitemap.xml
+python3 benchmarks/sqlmap/scripts/sitemap_to_targets.py \
+  --sitemap benchmarks/sqlmap/artifacts/sitemap.xml --base-url http://127.0.0.1 \
+  --output benchmarks/sqlmap/artifacts/targets.txt
 ```
 
-Check out the newest version-numbered tag, as the workflow does, then run:
+Check out the newest stable tag as the workflow does, then run its sqlmap CLI
+command against `targets.txt`. Convert the native report and submit the findings:
 
 ```bash
-tag="$(git ls-remote --tags --refs https://github.com/sqlmapproject/sqlmap.git \
-  | sed 's#.*refs/tags/##' | grep -E '^[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)"
-git clone --depth 1 --branch "$tag" https://github.com/sqlmapproject/sqlmap.git /tmp/sqlmap-benchmark
-python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
-python3 benchmarks/sqlmap/scripts/run_sqlmap.py \
-  --base-url http://127.0.0.1:9090/VulnerableApp \
-  --sqlmap-dir /tmp/sqlmap-benchmark \
-  --sqlmap-tag "$tag" \
-  --output-dir benchmarks/sqlmap/artifacts
 python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
-  --input benchmarks/sqlmap/artifacts/runs.json \
+  --input benchmarks/sqlmap/artifacts/report.json \
   --output benchmarks/sqlmap/artifacts/sqlmap-findings.json
-curl --fail-with-body --show-error --max-time 60 \
-  http://127.0.0.1:9090/VulnerableApp/scanner/benchmark \
+curl --fail-with-body http://127.0.0.1/VulnerableApp/scanner/benchmark \
   -H 'Content-Type: application/json' \
   --data-binary @benchmarks/sqlmap/artifacts/sqlmap-findings.json \
   -o benchmarks/sqlmap/artifacts/sqlmap-results.json
+docker compose -f docker-compose.without_llm.yml \
+  -f benchmarks/sqlmap/compose.override.yml down -v --remove-orphans
 ```
 
-Use a new output directory for each run; the runner refuses to reuse an existing
-one. Stop after a failed command and inspect artifacts before submitting.
-Python's standard library is sufficient; no extra Python packages are needed.
+Stop after a failed command and inspect the artifacts. Python's standard library
+is sufficient for both scripts and their tests.
 
-## Reports and failure handling
+## Reading results
 
-sqlmap's native `--report-json` contains `meta`, `data`, and `error`. Confirmed
-injections come only from complete `TECHNIQUES` records (type 1), with a nonempty
-technique list and matching request location. The converter preserves the
-original challenge URL and method, emits `cwe: "CWE-89"`, and deduplicates repeated
-parameters and techniques at the same endpoint.
-
-A local probe of sqlmap 1.10.10 showed that both a completed negative and
-a refused connection can produce exit code 0 and native JSON with
-`success: true, data: [], error: []`. In sqlmap 1.10.11 both still exit 0, but
-the native `error` repeats the console message, such as the negative conclusion
-or `unable to connect to the target URL`. Consequently the runner also saves and
-checks ERROR/CRITICAL diagnostics from the native console log, and the converter
-accepts a native `error` only when it is empty or equal to those diagnostics.
-Only sqlmap's explicit `all tested parameters do not appear to be injectable.`
-conclusion is accepted as a completed negative. Other errors, tracebacks,
-nonzero exits, missing or partial reports, inconsistent targets or versions, or
-missing planned scans fail conversion, so a release that changes this message or
-the report fields the converter checks fails the run instead of producing a
-result. Partial positive reports are retained as evidence but are not submitted
-as a complete benchmark.
-
-Artifacts include each native report, console log, full invocation and fresh
-session; the combined run manifest; live ground truth and selected targets;
-scanner version/revision; application revision, JAR checksum and startup log;
-converted findings and the comparator response when submission succeeds.
-The fixtures in `fixtures/` are native JSON captured from local positive and
-negative probes of sqlmap 1.10.10, plus `negative-1.10.11.json` from a negative
-probe of 1.10.11; tests also cover failures and timeouts.
-
-## Reading coverage
-
-The comparator's `coverage` denominator is
-**all UNSECURE Java DAST ground truth**, counted once per URL, method and
-vulnerability type, not just the selected SQL categories. In a local sqlmap
-1.10.10 run against revision `5a94f0d`, 9 advertised endpoints were scanned (8
-UNSECURE and 1 SECURE); sqlmap confirmed 6 endpoints and the comparator
-reported 6 detected out of 168 expected (from 147 UNSECURE rows), 0 unmatched,
-and **3.57% whole-benchmark coverage**. Within the eight advertised UNSECURE
-rows of the three families, that run detected six (75%); this narrower
-fraction must not be presented as whole-benchmark coverage. Error-based levels
-3–4 were not confirmed under the configured settings.
-
-Results depend on the sqlmap release, scanner settings and application
-revision. The workflow uploads fresh evidence rather than promising this count
-on every run. Unmatched or out-of-scope findings are not automatically false
-positives.
+The comparator's coverage denominator contains all UNSECURE Java DAST expected
+items, not just SQL injection. A completed negative means the selected scanner
+settings confirmed no injection; it does not establish that a lab is secure.
+Results depend on the scanner release, application revision, and settings.
+Unmatched or out-of-scope findings require review and are not automatically
+false positives.

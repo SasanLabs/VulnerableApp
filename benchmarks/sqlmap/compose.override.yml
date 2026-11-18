@@ -1,0 +1,6 @@
+services:
+  VulnerableApp-base:
+    image: sasanlabs/owasp-vulnerableapp:unreleased
+    environment:
+      JAVA_TOOL_OPTIONS: -Xmx768m
+      BENCHMARK_OUTPUT_DIR: /benchmark-results

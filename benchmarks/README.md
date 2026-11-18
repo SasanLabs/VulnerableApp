@@ -21,8 +21,9 @@ reported that don't line up with any ground-truth row), and writes a JSON report
 ## sqlmap
 
 The [sqlmap integration](sqlmap/README.md) scans the deployed Java SQL-injection
-families with the newest version-numbered sqlmap tag, converts confirmed native
-JSON results, and submits them to the comparator. Its workflow retains raw
+families through the Docker facade with the newest version-numbered sqlmap tag.
+It discovers URLs from the sitemap, converts confirmed native JSON results,
+and submits them to the comparator. Its workflow retains raw
 evidence and treats failed or incomplete scans separately from completed
 negatives.
 
