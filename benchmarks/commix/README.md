@@ -26,7 +26,8 @@ The `CommandInjection` URLs are read from the application's `sitemap.xml`; the
 scan. Commix's `-x` option only accepts sitemap URLs that already carry GET
 parameters, and the sitemap lists none, so the workflow adds
 `?ipaddress=127.0.0.1` to each URL and passes `-p ipaddress`. This parameter is
-hardcoded for now.
+hardcoded for now. The sitemap lists the container-internal host, so the workflow
+also rewrites it to `http://localhost`, the address the runner can reach.
 
 ## Scan settings
 

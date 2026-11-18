@@ -58,6 +58,10 @@ class ConvertTest(unittest.TestCase):
             },
         )
 
+    def test_logs_without_scanned_target_fail(self):
+        with self.assertRaises(ValueError):
+            convert([""])
+
     def test_read_logs_from_directory_and_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             nested = Path(tmp) / "localhost" / "logs.txt"

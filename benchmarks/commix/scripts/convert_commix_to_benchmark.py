@@ -92,6 +92,8 @@ def convert_log(text):
 
 
 def convert(logs):
+    if not any(_TESTED_URL.match(line.rstrip()) for log in logs for line in log.splitlines()):
+        raise ValueError("No scanned target found in the Commix logs, the scan did not run")
     return {"tool": "Commix", "scanType": "DAST", "findings": [f for log in logs for f in convert_log(log)]}
 
 
@@ -109,7 +111,7 @@ def main():
     args = parser.parse_args()
     try:
         result = convert(read_logs(args.input))
-    except OSError as error:
+    except (OSError, ValueError) as error:
         sys.exit(str(error))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")

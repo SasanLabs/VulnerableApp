@@ -66,10 +66,11 @@ jobs:
         run: |
           # Commix only parses sitemap URLs that already carry GET parameters and the sitemap
           # has none, so the command-injection URLs are taken from the sitemap and the
-          # ipaddress parameter is supplied here.
+          # ipaddress parameter is supplied here. The sitemap lists the container-internal
+          # host, so it is rewritten to the address the runner reaches through the facade.
           curl -sf http://localhost/VulnerableApp/sitemap.xml \
             | grep -oE 'https?://[^<[:space:]]*/CommandInjection/[^<[:space:]]*' \
-            | sed 's/$/?ipaddress=127.0.0.1/' > benchmarks/commix/artifacts/commix-targets.txt
+            | sed -E 's|^https?://[^/]+|http://localhost|; s|$|?ipaddress=127.0.0.1|' > benchmarks/commix/artifacts/commix-targets.txt
           if [ ! -s benchmarks/commix/artifacts/commix-targets.txt ]; then
             echo 'No command-injection URLs found in the sitemap'
             exit 1
