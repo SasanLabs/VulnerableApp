@@ -257,6 +257,34 @@ class DastBenchmarkStrategyTest {
     }
 
     @Test
+    void nonPositiveGroundTruthIds_doNotMatchFindings() throws Exception {
+        stubGroundTruth(unsecure("/sample", VulnerabilityType.SAMPLE_VULNERABILITY));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input(
+                                "ZAP",
+                                new Finding("/sample", null, null, null, "CWE-1"),
+                                new Finding("/sample", null, null, null, null, "1")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(2);
+    }
+
+    @Test
+    void typeNameMatchesWhenGroundTruthIdsAreNonPositive() throws Exception {
+        stubGroundTruth(unsecure("/sample", VulnerabilityType.SAMPLE_VULNERABILITY));
+
+        BenchmarkResult result =
+                strategy.compare(input("ZAP", new Finding("/sample", "SAMPLE_VULNERABILITY")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getMissed()).isZero();
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @Test
     void cweMismatchOnDifferentUrl_isStillUnmatched() throws Exception {
         stubGroundTruth(
                 unsecure(
