@@ -92,7 +92,7 @@ There are 2 ways in which this project can be built and used:
 
 ## Contributing to Project
 
-There are multiple ways in which you can contribute to the project:
+There are multiple ways in which you can contribute to the project (see [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributing guidelines):
 1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
@@ -150,6 +150,14 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
+16. [Insecure Deserialisation](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/deserialization)
+17. [Session Management](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/sessionManagement)
+18. [OTP Based Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/otp)
+19. [Cache Poisioning](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning)
+
+> **New to security?** To learn what these vulnerabilities are, see the
+> [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
+> and the [CWE Top N lists](https://cwe.mitre.org/scoring/index.html#top_n_lists).
 
 ## Benchmarking your scanner
 
