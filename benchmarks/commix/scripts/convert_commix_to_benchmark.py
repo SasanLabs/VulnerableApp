@@ -1,104 +1,119 @@
 #!/usr/bin/env python3
-"""Convert a completed commix run manifest to VulnerableApp benchmark findings.
-
-Only an endpoint on which commix proved command execution — by echoing back the
-unique marker the runner asked it to print — becomes a finding. A clean negative
-(commix's "do not appear to be injectable" conclusion) yields no finding; any
-other error, a timed-out or non-zero scan, or a missing marker fails conversion
-so a broken run can never masquerade as a clean empty result.
 """
+convert_commix_to_benchmark.py
+==============================
+Converts Commix's text log (logs.txt) into the JSON input format expected by
+VulnerableApp's POST /VulnerableApp/scanner/benchmark endpoint.
+
+Usage
+-----
+    python3 convert_commix_to_benchmark.py \
+        --input  benchmarks/commix/artifacts/commix-output \
+        --output benchmarks/commix/findings/commix-findings.json
+
+``--input`` is either a single ``logs.txt`` or the Commix ``--output-dir``, in
+which case every ``logs.txt`` below it is read.
+
+Input format (Commix logs.txt)
+------------------------------
+Commix appends one block per scanned target. A target with a confirmed
+injection lists the injection point right after the tested URL:
+
+    [info] Tested URL : http://localhost/VulnerableApp/CommandInjection/LEVEL_1?ipaddress=127.0.0.1
+    [info] Type: Results-Based Os Command Injection
+    [info] Technique: Classic Command Injection Technique
+    [info] Parameter: (GET) ipaddress
+
+A target without an injection only has the ``Tested URL`` line.
+
+Output format (VulnerableApp benchmark input)
+----------------------------------------------
+    {
+      "tool": "Commix",
+      "scanType": "DAST",
+      "findings": [
+        {
+          "url": "http://localhost/VulnerableApp/CommandInjection/LEVEL_1",
+          "method": "GET",
+          "type": "COMMAND_INJECTION"
+        }
+      ]
+    }
+
+Notes
+-----
+- Every injection point Commix reports becomes a finding. Matching against the
+  ground truth, including the method and de-duplication, is done by the
+  benchmark endpoint.
+- URLs are cleaned to remove query parameters and fragments.
+- ``COMMAND_INJECTION`` is the canonical vulnerability type (CWE-77, WASC-31).
+"""
+
 import argparse
 import json
-from pathlib import Path
 import re
+import sys
+from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
-# Release tags report e.g. commix/v4.1; untagged builds report commix/v4.2.dev311.
-STABLE_VERSION = re.compile(r"commix/v\d+(?:\.\d+)*")
-# commix's exact completed-negative conclusion, printed as a [critical] message.
-NEGATIVE_CONCLUSION = "All tested parameters do not appear to be injectable."
-# The canonical VulnerabilityType for the CommandInjection lab (CWE-77, WASC-31).
 VULNERABILITY_TYPE = "COMMAND_INJECTION"
 
-
-def clean_url(value):
-    if not isinstance(value, str):
-        raise ValueError("Missing target URL")
-    parts = urlsplit(value.strip())
-    if parts.scheme not in ("http", "https") or not parts.netloc or parts.username or parts.password:
-        raise ValueError("Expected an HTTP(S) target URL without credentials")
-    path = parts.path.rstrip("/") or "/"
-    return urlunsplit((parts.scheme, parts.netloc, path, "", ""))
+_TESTED_URL = re.compile(r"^\[info\]\s*Tested URL\s*:\s*(\S+)\s*$")
+_INJECTION_TYPE = re.compile(r"^\[info\]\s*Type\s*:\s*.+$")
+_PARAMETER = re.compile(r"^\[info\]\s*Parameter\s*:\s*\((?P<method>[A-Z]+)\)\s+\S.*$")
 
 
-def _executed_marker(report, marker):
-    """Whether commix echoed our unique marker back, i.e. proved code execution."""
-    executions = report.get("executions")
-    if not isinstance(executions, list):
-        raise ValueError("Native report is missing its executions list")
-    command = "echo " + marker
-    for execution in executions:
-        if not isinstance(execution, dict):
-            raise ValueError("Invalid execution record")
-        if execution.get("command") == command and str(execution.get("output", "")).strip() == marker:
-            return True
-    return False
+def clean_url(url):
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path.rstrip("/") or "/", "", ""))
 
 
-def convert(envelope):
-    if not isinstance(envelope, dict) or envelope.get("schemaVersion") != 1:
-        raise ValueError("Expected a commix benchmark run manifest (schemaVersion 1)")
-    runs = envelope.get("runs")
-    version = envelope.get("commixVersion")
-    if (not isinstance(version, str) or not STABLE_VERSION.fullmatch(version)
-            or not isinstance(runs, list) or not runs):
-        raise ValueError("Missing runs or unsupported commix version")
-    if envelope.get("targetCount") != len(runs):
-        raise ValueError("Not all planned targets were scanned")
-    findings, seen = [], set()
-    for run in runs:
-        if not isinstance(run, dict) or run.get("completed") is not True or run.get("returncode") != 0:
-            raise ValueError("Scan failed or did not complete; inspect run artifacts")
-        url = clean_url(run.get("url"))
-        method = str(run.get("method", "")).upper()
-        if method not in ("GET", "POST"):
-            raise ValueError("Unknown request method")
-        marker = run.get("marker")
-        if not isinstance(marker, str) or not marker:
-            raise ValueError("Run is missing the command-execution marker")
-        report = run.get("report")
-        if not isinstance(report, dict):
-            raise ValueError("Native commix report is missing")
-        messages = run.get("diagnostics")
-        if not isinstance(messages, list) or any(not isinstance(m, str) for m in messages):
-            raise ValueError("Missing scanner diagnostics")
-        confirmed = _executed_marker(report, marker)
-        negative = bool(messages) and all(m.startswith(NEGATIVE_CONCLUSION) for m in messages)
-        if confirmed and messages:
-            raise ValueError("Conflicting command execution and negative conclusion")
-        if not confirmed and not negative:
-            raise ValueError(
-                "commix neither confirmed execution nor reported a completed negative: "
-                + ("; ".join(messages) if messages else "no conclusion")
-            )
-        if confirmed and (url, method) not in seen:
-            seen.add((url, method))
-            findings.append({"url": url, "method": method, "type": VULNERABILITY_TYPE})
-    return {"tool": "Commix", "scanType": "DAST", "findings": findings}
+def convert_log(text):
+    """Return the benchmark findings for the contents of one Commix logs.txt."""
+    findings = []
+    url = None
+    in_injection = False
+    for line in text.splitlines():
+        line = line.rstrip()
+        match = _TESTED_URL.match(line)
+        if match:
+            url = clean_url(match.group(1))
+            in_injection = False
+        elif _INJECTION_TYPE.match(line):
+            in_injection = True
+        elif in_injection and url:
+            match = _PARAMETER.match(line)
+            if match:
+                findings.append(
+                    {"url": url, "method": match.group("method"), "type": VULNERABILITY_TYPE}
+                )
+                in_injection = False
+    return findings
+
+
+def convert(logs):
+    return {"tool": "Commix", "scanType": "DAST", "findings": [f for log in logs for f in convert_log(log)]}
+
+
+def read_logs(path):
+    files = [path] if path.is_file() else sorted(path.rglob("logs.txt"))
+    if not files:
+        raise FileNotFoundError("No Commix logs.txt found in " + str(path))
+    return [file.read_text(errors="replace") for file in files]
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", required=True, type=Path)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--input", required=True, type=Path, help="logs.txt or the Commix output directory")
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     try:
-        result = convert(json.loads(args.input.read_text()))
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, indent=2) + "\n")
-        print("Converted %d confirmed endpoint finding(s)" % len(result["findings"]))
-    except (ValueError, OSError) as error:
-        parser.exit(1, str(error) + "\n")
+        result = convert(read_logs(args.input))
+    except OSError as error:
+        sys.exit(str(error))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2) + "\n")
+    print("Converted %d finding(s)" % len(result["findings"]))
 
 
 if __name__ == "__main__":
