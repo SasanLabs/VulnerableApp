@@ -1,13 +1,15 @@
 # sqlmap benchmark
 
 This integration runs upstream [sqlmap](https://github.com/sqlmapproject/sqlmap)
-against the three Java SQL-injection families in issue #860. Each workflow run
+against the three Java SQL-injection families in issue #860. Each benchmark run
 resolves the newest version-numbered release tag, checks out that tag, and checks
 the scanner's `--version` before scanning. Untagged development builds are not used.
 The scanner's source is fetched from upstream and is not bundled here.
 
-The [workflow](../../.github/workflows/sqlmap-benchmark.yml) runs weekly, manually,
-and on PRs that change this integration. It builds the checked-out application
+The [workflow](../../.github/workflows/sqlmap-benchmark.yml) runs the converter and
+sitemap fixture tests and checks pipeline exit status with a dummy process on PRs
+that change this integration. The full benchmark runs only on a weekly schedule
+or manual dispatch, after those tests pass. It builds the checked-out application
 with Jib and starts the modern UI Docker stack with Java, JSP, PHP, MongoDB,
 Mailpit, and the Nginx facade, using `docker-compose.without_llm.yml` plus the
 [backend override](compose.override.yml). All scan requests go through the facade.
