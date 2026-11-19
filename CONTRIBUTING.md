@@ -39,3 +39,16 @@ Both Checkstyle and Spotless checks are verified in CI for every pull request an
 * How much time (maximum) until the first feedback? 1 week.
 * And following iterations? 1 week.
 * This is a guideline we should normally be able to hit. If it's been more than a week and you haven't heard then please feel free to add a comment to your PR.
+
+##### Issue assignment and inactivity
+To keep issues moving and make sure no issue stays blocked by an assignment nobody is working on, the [Remind and unassign inactive assignees](.github/workflows/inactive-assignees.yml) workflow runs every day and checks all open issues that have an assignee:
+
+* If you have had no activity on an issue assigned to you for 10 days, you will get a reminder asking for a short progress update. Further reminders follow every 10 days while the issue stays inactive.
+* If you still have no activity 30 days after you were assigned or last active, you will be unassigned and a comment will explain that the issue is available for other contributors. You are only unassigned after a reminder has gone unanswered for at least 10 days.
+* Commenting on the issue, opening an issue or pull request that references it, pushing a commit that references it, or linking a pull request to it counts as activity and restarts the timer. Comments from other people and from bots do not.
+* While you have an open pull request that references the issue, you are never reminded or unassigned, so waiting for a review is not counted against you.
+* Issues labelled `pinned` or `do-not-close` are skipped.
+
+If you are unassigned but are still working on the issue, leave a comment and a maintainer can assign it back to you.
+
+Maintainers can change the inactivity period (`INACTIVITY_DAYS`), the reminder interval (`REMINDER_INTERVAL_DAYS`) and the exempt labels (`EXEMPT_LABELS`) in the workflow file. Running the workflow manually from the Actions tab does a dry run by default, which only lists the reminders and unassignments it would make in the run summary.

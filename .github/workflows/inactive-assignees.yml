@@ -1,0 +1,74 @@
+# Reminds assignees of open issues that have had no activity from them and
+# unassigns them after a configurable inactivity period, so that the issue
+# becomes available to other contributors again.
+#
+# The logic lives in .github/scripts/inactive-assignees.js and is documented in
+# the "Issue assignment and inactivity" section of CONTRIBUTING.md.
+name: Remind and unassign inactive assignees
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Only log what would happen, without commenting or unassigning'
+        type: boolean
+        default: true
+  schedule:
+  - cron: '0 6 * * *'
+  pull_request:
+    branches: [ master ]
+    paths:
+    - '.github/scripts/inactive-assignees*.js'
+    - '.github/workflows/inactive-assignees.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: inactive-assignees-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: .github/scripts
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Run unit tests
+      run: node --test .github/scripts/inactive-assignees.test.js
+
+  process:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: .github/scripts
+
+    - name: Remind and unassign inactive assignees
+      uses: actions/github-script@v7
+      env:
+        # Days without activity from an assignee before they are unassigned.
+        INACTIVITY_DAYS: 30
+        # Days without activity before the first reminder, and between reminders.
+        REMINDER_INTERVAL_DAYS: 10
+        # Comma-separated labels whose issues are never processed.
+        EXEMPT_LABELS: 'pinned,do-not-close'
+        DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+      with:
+        script: |
+          const { run } = require('./.github/scripts/inactive-assignees.js');
+          await run({ github, context, core });
