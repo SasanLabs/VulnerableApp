@@ -228,7 +228,8 @@ omitted, it defaults to `DAST` so existing payloads keep working.
 
 ## DAST ground-truth schema
 
-The [contract agreed in #854](https://github.com/SasanLabs/VulnerableApp/issues/854) applies to each row returned by `GET /scanner/dast` as applications adopt it.
+This schema applies to each row returned by `GET /scanner/dast` as
+applications adopt it.
 
 | Field | Contract |
 |-------|----------|
@@ -259,12 +260,9 @@ contributes CWE `434` and has no WASC mapping.
 }
 ```
 
-[Java (#855)](https://github.com/SasanLabs/VulnerableApp/issues/855) and
-[PHP (#856)](https://github.com/SasanLabs/VulnerableApp/issues/856) share this
-row format. PHP converts its stored string IDs to integers and uses `"HTTP"`
-for its HTTP endpoints. The
-[facade (#857)](https://github.com/SasanLabs/VulnerableApp/issues/857) groups
-responses by application and passes through the fields each application
+The Java and PHP applications share this row format. PHP converts its stored
+string IDs to integers and uses `"HTTP"` for its HTTP endpoints. The facade
+groups responses by application and passes through the fields each application
 returns. During rollout, a legacy row can omit the new fields. An empty array
 from an updated application means the row has no mapping for that ID system.
 
