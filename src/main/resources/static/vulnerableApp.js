@@ -711,8 +711,4 @@ function _addingEventListenerToModeToggle(vulnerableAppEndPointData) {
       .classList.remove("hide-component");
     document.getElementById("vulnLearnBtn").classList.add("hide-component");
   });
-
-  //  document.getElementById("about").addEventListener("click", () => {
-  //    document.getElementById("aboutContainer").scrollIntoView(true);
-  //  });
 })();
