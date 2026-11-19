@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * A single scanner finding. DAST findings populate {@code url} + {@code type} (and optionally
  * {@code method} / {@code cwe} / {@code wascId} for taxonomy-tolerant matching); SAST findings
  * populate {@code filePath} + {@code line} + {@code type} (and optionally {@code cwe}). Unused
- * fields are omitted from the serialised output.
+ * fields are omitted from the serialized output.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Finding {

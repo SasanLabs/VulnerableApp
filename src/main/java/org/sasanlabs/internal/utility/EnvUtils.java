@@ -2,6 +2,7 @@ package org.sasanlabs.internal.utility;
 
 import java.util.Map;
 import org.sasanlabs.internal.utility.annotations.VulnerableAppRestController;
+import org.sasanlabs.internal.utility.annotations.VulnerableAppWebSocketController;
 import org.sasanlabs.service.exception.ExceptionStatusCodeEnum;
 import org.sasanlabs.service.exception.ServiceApplicationException;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvUtils {
 
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
     public EnvUtils(ApplicationContext context) {
         this.context = context;
@@ -61,5 +62,9 @@ public class EnvUtils {
 
     public Map<String, Object> getAllClassesAnnotatedWithVulnerableAppRestController() {
         return context.getBeansWithAnnotation(VulnerableAppRestController.class);
+    }
+
+    public Map<String, Object> getAllClassesAnnotatedWithVulnerableAppWebSocketController() {
+        return context.getBeansWithAnnotation(VulnerableAppWebSocketController.class);
     }
 }

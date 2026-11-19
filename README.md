@@ -1,3 +1,5 @@
+[English](README.md) | [Русский](docs/i18n/ru/README.md) | [中文](docs/i18n/zh-CN/README.md) | [हिन्दी](docs/i18n/hi/README.md) | [ਪੰਜਾਬੀ](docs/i18n/pu/README.md) | [한국어](docs/i18n/ko/README.md) | [Português (Brasil)](docs/i18n/pt-BR/README.md)
+
 # ![OWASP VulnerableApp](https://raw.githubusercontent.com/SasanLabs/VulnerableApp/master/docs/logos/Coloured/iconColoured.png) OWASP VulnerableApp
 
 ![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg) ![](https://img.shields.io/github/v/release/SasanLabs/VulnerableApp?style=flat) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Java CI with Gradle](https://github.com/SasanLabs/VulnerableApp/workflows/Java%20CI%20with%20Gradle/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![Docker Pulls](https://badgen.net/docker/pulls/sasanlabs/owasp-vulnerableapp?icon=docker&label=pulls)](https://hub.docker.com/r/sasanlabs/owasp-vulnerableapp/) [![codecov](https://codecov.io/gh/SasanLabs/VulnerableApp/graph/badge.svg?token=DTS3PA8WXZ)](https://codecov.io/gh/SasanLabs/VulnerableApp)
@@ -18,7 +20,7 @@ Unlike traditional vulnerable applications, VulnerableApp is designed as a testa
 - 🧪 Deterministic vulnerability behavior for repeatable scanning results
 - 🧠 Built for security engineers, researchers, and educators
 
-![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/sasanlabs.png)
+![Entire architecture stack](https://github.com/SasanLabs/VulnerableApp/blob/master/docs/logos/Sasanlabs/english.png)
 
 
 ### VulnerableApp helps you:
@@ -38,10 +40,30 @@ Most vulnerable apps are:
 ### VulnerableApp is built for:
 automation, reproducibility, and evolution
 
-### User Interface ###
-![VulnerableApp-facade UI](https://raw.githubusercontent.com/SasanLabs/VulnerableApp-facade/main/docs/images/gif/VulnerableApp-Facade.gif)
+## 🎥 Video Overview
 
-## Running the project
+New to the project? Watch this OWASP Spotlight session for a high-level overview of VulnerableApp:
+
+[OWASP Spotlight series: VulnerableApp overview](https://www.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T)
+
+## User Interface
+#### Challenge Mode
+![Challenge Mode](docs/gifs/challenge-mode.gif)
+
+#### Switching Modes (Challenge & Scanner)
+![Switching Modes](docs/gifs/scanner-mode.gif)
+
+#### Scanner Mode Endpoints (DAST & SAST)
+![Scanner Mode](docs/gifs/scanner-mode1.gif)
+
+#### Scanner Mode Benchmark Comparator
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
+### Running the project
+
+> [!WARNING]
+> VulnerableApp is deliberately vulnerable. Run it only on your own machine, in a VM, or in a Docker container, and never expose it to the internet. See the [Security Policy](SECURITY.md) for what to report, what not to report, and how to run it safely.
+
 There are 2 ways to run the project:
 1. The simplest way to run the project is using Docker containers which will run the full-fleged VulnerableApplication with all the components. For running as Docker application, follow following steps:
     1. Download and Install [Docker Compose](https://docs.docker.com/compose/install/) 
@@ -70,7 +92,7 @@ There are 2 ways in which this project can be built and used:
 
 ## Contributing to Project
 
-There are multiple ways in which you can contribute to the project:
+There are multiple ways in which you can contribute to the project (see [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributing guidelines):
 1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
@@ -128,6 +150,14 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
+16. [Insecure Deserialisation](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/deserialization)
+17. [Session Management](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/sessionManagement)
+18. [OTP Based Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/otp)
+19. [Cache Poisioning](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning)
+
+> **New to security?** To learn what these vulnerabilities are, see the
+> [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
+> and the [CWE Top N lists](https://cwe.mitre.org/scoring/index.html#top_n_lists).
 
 ## Benchmarking your scanner
 
@@ -135,11 +165,14 @@ VulnerableApp ships a comparator that grades a scanner's findings against the
 project's built-in ground truth and writes a coverage / missed / unmatched
 report. Both DAST and SAST scanners are supported via the same endpoint:
 
+![Scanner Benchmark](docs/gifs/scanner-benchmark.gif)
+
 - Endpoint: `POST http://<baseurl>/VulnerableApp/scanner/benchmark`
 - Request body — pick the shape that matches your scanner:
   - DAST: `{ tool, scanType: "DAST", findings: [ { url, type, cwe, wascId } ] }` (`scanType` is optional and defaults to `DAST`; `type`/`cwe`/`wascId` are individually optional — any one axis matching is enough)
   - SAST: `{ tool, scanType: "SAST", findings: [ { filePath, line, cwe, type } ] }`
 - Response body and `benchmarks/<tool>-results.json` on disk: coverage report
+- Ground truth: `GET http://<baseurl>/VulnerableApp/scanner/dast` for DAST and `GET http://<baseurl>/VulnerableApp/scanner/sast` for SAST. The bare `/scanner` path is deprecated and stays until 30 Sep 2027.
 
 Running the scanner itself is out of scope — you supply the JSON. See
 [`benchmarks/README.md`](benchmarks/README.md) for the full input/output
@@ -147,15 +180,17 @@ schemas, matching rules, canonical vulnerability-type vocabulary, and `curl`
 examples.
 
 ## Contact
-In case you are stuck with any of the steps or understanding anything related to project and its goals, feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues) and we will try our best to help you.
+In case you are stuck with any of the steps or understanding anything related to project and its goals, read [Security Policy](SECURITY.md) if then also it is not resolved
+feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues), and we will try our best to help you.
 
 ## Documentation and References
 
-1. [Documentation](https://sasanlabs.github.io/VulnerableApp)
-2. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
-3. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
-4. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
-5. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+1. [OWASP Spotlight series overview of project](https://m.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T&pp=iAQB)
+2. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
+3. [Documentation](https://sasanlabs.github.io/VulnerableApp)
+4. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
+5. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
+6. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
 
 ### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
@@ -169,11 +204,3 @@ In case you are stuck with any of the steps or understanding anything related to
    
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
-
-### Readme in other languages
-
-1. [Russian](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ru/README.md)
-2. [Chinese](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/zh-CN/README.md)
-3. [Hindi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/hi/README.md)
-4. [Punjabi](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/pa/README.md)
-5. [Korean](https://github.com/SasanLabs/VulnerableApp/tree/master/docs/i18n/ko/README.md)

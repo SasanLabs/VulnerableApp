@@ -8,7 +8,7 @@ import org.sasanlabs.vulnerability.types.VulnerabilityType;
  * This class is the response bean for the attack vector annotation. Provides the hint for the
  * vulnerability level.
  *
- * <p>Note: As these beans are returned to UI so they expects that all the labels/property keys are
+ * <p>Note: As these beans are returned to UI so they expect that all the labels/property keys are
  * resolved to their respective values. Like here {@code curlPayload} is a property key stored in
  * {@code classpath:attackvectors/*properties} and {@code description} is label which is stored in
  * {@code i18n}

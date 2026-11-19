@@ -1,0 +1,98 @@
+#http3xxStatusCodeBasedInjection {
+    color: black;
+    text-align: left;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#http3xxStatusCodeBasedInjection * {
+    color: black;
+    text-align: left;
+}
+
+#http3xxStatusCodeBasedInjection strong {
+    font-weight: bold;
+}
+
+.test-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+#http3xxStatusCodeBasedInjection input {
+    width: 420px;
+    padding: 10px 12px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    font-size: 16px;
+    background: white;
+}
+
+#testRedirectBtn {
+    display: inline-block;
+    text-decoration: none;
+    background: #2e7d32;
+    color: white !important;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s opacity;
+}
+
+#testRedirectBtn:hover {
+    opacity: 0.9;
+}
+
+.policyNote {
+    margin-top: 14px;
+    margin-bottom: 18px;
+    padding: 12px;
+    border-left: 5px solid #2e7d32;
+    background: #eef7ee;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.examples-section {
+    margin-top: 10px;
+    margin-bottom: 18px;
+}
+
+.example-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.allowed-link {
+    color: #1b5e20 !important;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.allowed-link:hover {
+    text-decoration: underline;
+}
+
+.blocked-link {
+    color: #c0392b !important;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.blocked-link:hover {
+    text-decoration: underline;
+}
+
+#mindset {
+    font-weight: bold;
+    margin-top: 10px;
+}

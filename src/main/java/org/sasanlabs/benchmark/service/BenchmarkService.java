@@ -24,13 +24,10 @@ public class BenchmarkService {
 
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
         ScanType scanType = input.getScanType() != null ? input.getScanType() : ScanType.DAST;
-        switch (scanType) {
-            case DAST:
-                return dastStrategy.compare(input);
-            case SAST:
-                return sastStrategy.compare(input);
-            default:
-                throw new IllegalArgumentException("Unsupported scan type: " + scanType);
-        }
+        return switch (scanType) {
+            case DAST -> dastStrategy.compare(input);
+            case SAST -> sastStrategy.compare(input);
+            default -> throw new IllegalArgumentException("Unsupported scan type: " + scanType);
+        };
     }
 }

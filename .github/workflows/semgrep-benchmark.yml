@@ -1,0 +1,178 @@
+name: Semgrep Benchmark
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+# The results commit pushes with GH_TRAFFIC_TOKEN, so the job token only needs to read
+permissions:
+  contents: read
+
+jobs:
+  semgrep-benchmark:
+    name: Semgrep Benchmark
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+
+      # ------------------------------------------------------------------
+      # 1. Checkout repo. No token is kept in .git/config, so Semgrep and the
+      #    containers never see a credential that can push
+      # ------------------------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # ------------------------------------------------------------------
+      # 2. Build the VulnerableApp image from this checkout, so the ground
+      #    truth it serves matches the sources that are scanned
+      # ------------------------------------------------------------------
+      - name: Build VulnerableApp image
+        run: |
+          chmod +x gradlew
+          ./gradlew jibDockerBuild -Djib.to.image=sasanlabs/owasp-vulnerableapp:latest
+
+      # ------------------------------------------------------------------
+      # 3. Start the stack, like the ZAP benchmark. Compose uses the image
+      #    built above and pulls the other services
+      # ------------------------------------------------------------------
+      - name: Start VulnerableApp
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      # ------------------------------------------------------------------
+      # 4. Run Semgrep while the stack starts
+      # ------------------------------------------------------------------
+      - name: Run Semgrep scan
+        run: |
+          python -m pip install --quiet semgrep
+          semgrep --version
+          semgrep scan --config p/default --metrics=off --timeout 30 --json \
+            --output benchmarks/Semgrep/semgrep-raw-report.json src/main/java
+
+      # ------------------------------------------------------------------
+      # 5. Convert Semgrep report to benchmark input format
+      # ------------------------------------------------------------------
+      - name: Convert Semgrep report
+        run: |
+          python benchmarks/Semgrep/scripts/convert_semgrep_to_benchmark.py \
+            --input  benchmarks/Semgrep/semgrep-raw-report.json \
+            --output benchmarks/Semgrep/findings/semgrep-findings.json
+
+      # ------------------------------------------------------------------
+      # 6. Wait for app to be ready
+      # ------------------------------------------------------------------
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for _ in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner/sast >/dev/null; then
+              echo "App is ready"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "App failed to start"
+          exit 1
+
+      # ------------------------------------------------------------------
+      # 7. Submit to benchmark endpoint and save results
+      # ------------------------------------------------------------------
+      - name: Run benchmark
+        run: |
+          curl -sS --fail-with-body -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/Semgrep/findings/semgrep-findings.json \
+            -o benchmarks/Semgrep/semgrep-results.json
+
+          echo "=== Semgrep Benchmark Results ==="
+          python -c "
+          import json
+          with open('benchmarks/Semgrep/semgrep-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:          {data[\"tool\"]}')
+          print(f'  Coverage:  {data[\"coverage\"]:.2f}%')
+          print(f'  Total Expected:{data[\"totalExpected\"]}')
+          print(f'  Detected:  {data[\"detected\"]}')
+          print(f'  Missed:    {data[\"missed\"]}')
+          print(f'  Unmatched: {data[\"unmatched\"]}')
+          "
+
+      # ------------------------------------------------------------------
+      # 8. Commit and push results back to repo (master only). The token
+      #    is only handed to this step
+      # ------------------------------------------------------------------
+      - name: Commit benchmark results
+        if: github.ref == 'refs/heads/master'
+        env:
+          TOKEN: ${{ secrets.GH_TRAFFIC_TOKEN }}
+        run: |
+          set -e
+
+          git config user.name "preetkaran20"
+          git config user.email "preetkaran20@gmail.com"
+          git add benchmarks/Semgrep/semgrep-results.json benchmarks/Semgrep/findings/semgrep-findings.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update Semgrep benchmark results [$(date -u '+%Y-%m-%d')]"
+          success=false
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            if git pull --rebase origin master && git push "https://preetkaran20:${TOKEN}@github.com/SasanLabs/VulnerableApp.git" HEAD:master; then
+              success=true
+              break
+            fi
+
+            git rebase --abort 2>/dev/null || true
+            echo "Push failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$success" != "true" ]; then
+            echo "Failed to push after 5 attempts."
+            exit 1
+          fi
+
+      # ------------------------------------------------------------------
+      # 9. Save the container logs and upload them with the raw report,
+      #    findings and results as artifacts
+      # ------------------------------------------------------------------
+      - name: Save VulnerableApp logs
+        if: always()
+        run: |
+          docker compose -f docker-compose.without_llm.yml logs --no-color > vulnerableapp.log 2>&1 || true
+
+      - name: Upload scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-benchmark-artifacts
+          path: |
+            benchmarks/Semgrep/semgrep-raw-report.json
+            benchmarks/Semgrep/findings/semgrep-findings.json
+            benchmarks/Semgrep/semgrep-results.json
+            vulnerableapp.log
+          retention-days: 90

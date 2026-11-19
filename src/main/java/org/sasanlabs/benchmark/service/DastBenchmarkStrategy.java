@@ -17,6 +17,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
+import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,10 @@ import org.springframework.web.client.RestTemplate;
  * a ground-truth row when the URL agrees AND <em>any one of</em> the type-name, CWE, or WASC axes
  * agrees. Scanners that don't speak {@link VulnerabilityType} names (most of them) can therefore
  * still be graded by emitting a CWE or WASC ID alongside their finding.
+ *
+ * <p>The ground truth says whether each entry is HTTP or WebSocket. HTTP entries are keyed by URL
+ * and request method; WebSocket entries are keyed by URL alone, because a WebSocket level is always
+ * opened with a GET handshake and that method says nothing about which frames were tested.
  *
  * <p>Only {@code UNSECURE} ground-truth entries count toward expected — a scanner finding against a
  * {@code SECURE} URL is treated as unmatched (out of scope rather than a true false positive, since
@@ -123,9 +128,12 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             }
         }
 
+        List<Finding> detectedItems = new ArrayList<>();
         List<Finding> missedItems = new ArrayList<>();
         for (int i = 0; i < expectedRows.size(); i++) {
-            if (!detectedIndices.contains(i)) {
+            if (detectedIndices.contains(i)) {
+                detectedItems.add(expectedRows.get(i));
+            } else {
                 missedItems.add(expectedRows.get(i));
             }
         }
@@ -149,6 +157,7 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 detected,
                 missedItems.size(),
                 unmatchedItems.size(),
+                detectedItems,
                 missedItems,
                 unmatchedItems);
     }
@@ -173,22 +182,26 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             }
             String url = normalizeUrl(entry.getUrl(), contextPath);
             String method =
-                    (entry.getRequestMethod() != null)
-                            ? entry.getRequestMethod().name()
-                            : METHOD_ANY;
+                    Protocol.orDefault(entry.getProtocol())
+                            .getMethodIfApplicable(
+                                    (entry.getRequestMethod() != null)
+                                            ? entry.getRequestMethod().name()
+                                            : METHOD_ANY);
             List<VulnerabilityType> types = entry.getVulnerabilityTypes();
             if (types == null) {
                 continue;
             }
             for (VulnerabilityType type : types) {
-                String rowSignature = url + KEY_SEPARATOR + method + KEY_SEPARATOR + type.name();
+                String rowSignature = keyPrefix(url, method) + type.name();
                 if (!seenRowSignatures.add(rowSignature)) {
                     continue;
                 }
                 int rowIndex = rowsOut.size();
                 rowsOut.add(buildExpectedFinding(url, type, method));
                 addAxisKeys(keyToRows, rowIndex, url, method, type);
-                addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
+                if (method != null) {
+                    addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
+                }
             }
         }
         return keyToRows;
@@ -201,17 +214,13 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
             String method,
             VulnerabilityType type) {
         addKey(keyToRows, typeKey(url, method, type.name()), rowIndex);
-        if (type.getCweID() != null) {
-            String cwe = normalizeNumericId(type.getCweID().toString());
-            if (!cwe.isEmpty()) {
-                addKey(keyToRows, cweKey(url, method, cwe), rowIndex);
-            }
+        Integer cweId = type.getCweID();
+        if (cweId != null && cweId > 0) {
+            addKey(keyToRows, cweKey(url, method, cweId.toString()), rowIndex);
         }
-        if (type.getWascID() != null) {
-            String wasc = normalizeNumericId(type.getWascID().toString());
-            if (!wasc.isEmpty()) {
-                addKey(keyToRows, wascKey(url, method, wasc), rowIndex);
-            }
+        Integer wascId = type.getWascID();
+        if (wascId != null && wascId > 0) {
+            addKey(keyToRows, wascKey(url, method, wascId.toString()), rowIndex);
         }
     }
 
@@ -221,22 +230,28 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         return new Finding(url, type.name(), null, null, cwe, wasc, method);
     }
 
+    /**
+     * Builds the finding's keys with its method, for HTTP entries, and with its URL alone, for
+     * WebSocket entries. A finding does not say which protocol it tested, so both are tried.
+     */
     private static List<String> keysForFinding(String url, Finding finding) {
         String method =
                 (finding.getMethod() != null && !finding.getMethod().trim().isEmpty())
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
                         : METHOD_ANY;
-        List<String> keys = new ArrayList<>(3);
-        if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
-            keys.add(typeKey(url, method, finding.getType()));
-        }
-        String cwe = normalizeNumericId(finding.getCwe());
-        if (!cwe.isEmpty()) {
-            keys.add(cweKey(url, method, cwe));
-        }
-        String wasc = normalizeNumericId(finding.getWascId());
-        if (!wasc.isEmpty()) {
-            keys.add(wascKey(url, method, wasc));
+        List<String> keys = new ArrayList<>(6);
+        for (String keyMethod : Arrays.asList(method, null)) {
+            if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
+                keys.add(typeKey(url, keyMethod, finding.getType()));
+            }
+            String cwe = normalizeNumericId(finding.getCwe());
+            if (!cwe.isEmpty()) {
+                keys.add(cweKey(url, keyMethod, cwe));
+            }
+            String wasc = normalizeNumericId(finding.getWascId());
+            if (!wasc.isEmpty()) {
+                keys.add(wascKey(url, keyMethod, wasc));
+            }
         }
         return keys;
     }
@@ -245,28 +260,24 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
         map.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(rowIndex);
     }
 
+    /** Starts a key with the method when there is one, and with the URL alone otherwise. */
+    private static String keyPrefix(String url, String method) {
+        return (method != null ? method + KEY_SEPARATOR : "") + url + KEY_SEPARATOR;
+    }
+
     private static String typeKey(String url, String method, String typeName) {
         return AXIS_TYPE
                 + KEY_SEPARATOR
-                + method
-                + KEY_SEPARATOR
-                + url
-                + KEY_SEPARATOR
+                + keyPrefix(url, method)
                 + typeName.trim().toUpperCase(Locale.ROOT);
     }
 
     private static String cweKey(String url, String method, String cweDigits) {
-        return AXIS_CWE + KEY_SEPARATOR + method + KEY_SEPARATOR + url + KEY_SEPARATOR + cweDigits;
+        return AXIS_CWE + KEY_SEPARATOR + keyPrefix(url, method) + cweDigits;
     }
 
     private static String wascKey(String url, String method, String wascDigits) {
-        return AXIS_WASC
-                + KEY_SEPARATOR
-                + method
-                + KEY_SEPARATOR
-                + url
-                + KEY_SEPARATOR
-                + wascDigits;
+        return AXIS_WASC + KEY_SEPARATOR + keyPrefix(url, method) + wascDigits;
     }
 
     /**
