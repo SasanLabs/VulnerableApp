@@ -49,10 +49,10 @@ class ConverterTest(unittest.TestCase):
         self.assertEqual(finding['url'], 'https://example.invalid/page?view=a%2Fb&view=c+d&empty=#details')
 
     def test_completed_native_negative_is_empty(self):
-        self.assertEqual(convert(report('negative-1.10.11'))['findings'], [])
+        self.assertEqual(convert(report('negative'))['findings'], [])
 
     def test_transport_error_is_not_a_clean_negative(self):
-        raw = report('negative-1.10.11')
+        raw = report('negative')
         raw['error'] = ['unable to connect to the target URL']
         with self.assertRaises(ValueError):
             convert(raw)
@@ -93,7 +93,7 @@ class ConverterTest(unittest.TestCase):
             self.assertFalse(output.exists())
 
     def test_offline_cli_rejects_missing_entries_before_writing_output(self):
-        first, second = report(), report('negative-1.10.11')
+        first, second = report(), report('negative')
         second['data'][0]['value']['url'] = 'https://example.invalid/another'
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / 'report.json'

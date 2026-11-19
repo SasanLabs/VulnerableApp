@@ -74,8 +74,8 @@ findings or validate them against ground truth.
 Artifacts retain the sitemap, bulk input, native report, session files, console
 log, scanner version and revision, application revision, container image IDs and
 digests, stack logs, converted findings, ground truth, and benchmark response.
-The exact CLI invocation is visible in the Actions step log. The workflow also
-reads the persisted report from the backend and compares it with the HTTP response.
+The Actions step log records the exact CLI invocation. The step summary uses
+the benchmark response.
 Containers and volumes are removed in the cleanup step, including after failure.
 
 ## Local run

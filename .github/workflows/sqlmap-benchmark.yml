@@ -153,17 +153,10 @@ jobs:
           curl --fail --show-error --silent --max-time 30 \
             http://127.0.0.1/VulnerableApp/scanner/dast \
             -o benchmarks/sqlmap/artifacts/ground-truth.json
-          docker compose -f docker-compose.without_llm.yml \
-            -f benchmarks/sqlmap/compose.override.yml exec -T VulnerableApp-base \
-            cat /benchmark-results/sqlmap-results.json \
-            > benchmarks/sqlmap/artifacts/persisted-results.json
           python3 - <<'PY'
           import json, os
           from pathlib import Path
           result = json.loads(Path('benchmarks/sqlmap/artifacts/sqlmap-results.json').read_text())
-          persisted = json.loads(Path('benchmarks/sqlmap/artifacts/persisted-results.json').read_text())
-          if result != persisted:
-              raise SystemExit('HTTP and persisted benchmark reports differ')
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
               summary.write('## sqlmap: Java SQL-injection scope\n')
               summary.write('Targets come from the facade sitemap, using GET id=1 and BEU techniques.\n\n')

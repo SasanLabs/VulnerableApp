@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Translate sqlmap's native single-target or bulk JSON report into benchmark findings."""
+# Single-target report excerpt (URL shortened). Bulk reports wrap these objects in "targets".
+# {"success": true, "data": [{"status": 1, "type": 0, "type_name": "TARGET",
+#   "value": {"url": "https://example.invalid/page", "query": "id=1", "data": null}}]}
 import argparse
 from collections import Counter
 import json
