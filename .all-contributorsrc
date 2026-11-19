@@ -261,6 +261,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rusetiq",
+      "name": "aarush",
+      "avatar_url": "https://avatars.githubusercontent.com/u/234747645?v=4",
+      "profile": "https://rusetiq.github.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "sharankumar-k",
+      "name": "Sharan Kumar.K",
+      "avatar_url": "https://avatars.githubusercontent.com/u/295021077?v=4",
+      "profile": "https://github.com/sharankumar-k",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

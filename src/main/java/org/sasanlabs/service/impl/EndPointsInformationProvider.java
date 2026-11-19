@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sasanlabs.beans.AllEndPointsResponseBean;
 import org.sasanlabs.beans.AttackVectorResponseBean;
 import org.sasanlabs.beans.ChallengeCardResponseBean;
@@ -16,6 +19,7 @@ import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.configuration.VulnerableAppProperties;
 import org.sasanlabs.internal.utility.EnvUtils;
 import org.sasanlabs.internal.utility.FrameworkConstants;
+import org.sasanlabs.internal.utility.LevelConstants;
 import org.sasanlabs.internal.utility.MessageBundle;
 import org.sasanlabs.internal.utility.annotations.AttackVector;
 import org.sasanlabs.internal.utility.annotations.ChallengeCard;
@@ -40,6 +44,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EndPointsInformationProvider implements IEndPointsInformationProvider {
+
+    private static final Logger LOGGER = LogManager.getLogger(EndPointsInformationProvider.class);
+
+    private static final Pattern CATALOG_LEVEL = Pattern.compile("LEVEL_[1-9][0-9]*");
 
     private EnvUtils envUtils;
 
@@ -69,6 +77,10 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             String name = entry.getKey();
             Class<?> clazz = entry.getValue().getClass();
             if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
+                Method[] methods = clazz.getDeclaredMethods();
+                if (!hasValidCatalogMappings(name, methods)) {
+                    continue;
+                }
                 VulnerableAppRestController vulnerableServiceRestEndPoint =
                         clazz.getAnnotation(VulnerableAppRestController.class);
                 String description = vulnerableServiceRestEndPoint.descriptionLabel();
@@ -76,7 +88,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                 allEndPointsResponseBean.setName(name);
                 allEndPointsResponseBean.setDescription(messageBundle.getString(description, null));
 
-                Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
                     VulnerableAppRequestMapping vulnLevel =
                             method.getAnnotation(VulnerableAppRequestMapping.class);
@@ -209,6 +220,10 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             String name = entry.getKey();
             Class<?> clazz = entry.getValue().getClass();
             if (clazz.isAnnotationPresent(VulnerableAppRestController.class)) {
+                Method[] methods = clazz.getDeclaredMethods();
+                if (!hasValidCatalogMappings(name, methods)) {
+                    continue;
+                }
                 VulnerableAppRestController vulnerableServiceRestEndPoint =
                         clazz.getAnnotation(VulnerableAppRestController.class);
                 String description = vulnerableServiceRestEndPoint.descriptionLabel();
@@ -221,7 +236,6 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                 List<VulnerabilityType> facadeVulnerabilityTypes =
                         new ArrayList<VulnerabilityType>();
                 facadeVulnerabilityDefinition.setVulnerabilityTypes(facadeVulnerabilityTypes);
-                Method[] methods = clazz.getDeclaredMethods();
                 for (Method method : methods) {
                     VulnerableAppRequestMapping vulnLevel =
                             method.getAnnotation(VulnerableAppRequestMapping.class);
@@ -312,6 +326,34 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             }
         }
         return vulnerabilityDefinitions;
+    }
+
+    private boolean hasValidCatalogMappings(String module, Method[] methods) {
+        for (Method method : methods) {
+            VulnerableAppRequestMapping mapping =
+                    method.getAnnotation(VulnerableAppRequestMapping.class);
+            if (mapping != null && !isCatalogLevel(mapping.value())) {
+                LOGGER.warn(
+                        "Skipping catalog module {}: {} has invalid level mapping {}",
+                        module,
+                        method.getName(),
+                        mapping.value());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isCatalogLevel(String level) {
+        if (!CATALOG_LEVEL.matcher(level).matches()) {
+            return false;
+        }
+        try {
+            LevelConstants.getOrdinal(level);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private String getPayload(String payloadKey) {

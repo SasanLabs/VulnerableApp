@@ -148,7 +148,7 @@ VulnerableApp 内置了一个比较器，可将扫描器发现的问题与项目
 - 响应体以及磁盘上的 `benchmarks/<tool>-results.json`：覆盖率报告
 
 扫描器本身的运行不在本项目范围内——你只需提供 JSON。完整的输入/输出 Schema、匹配规则、规范化漏洞类型词汇表以及 `curl` 示例，请参阅：
-[`benchmarks/README.md`](benchmarks/README.md)
+[`benchmarks/README.md`](../../../benchmarks/README.md)
 
 ## 联系方式
 如果你在任何步骤中遇到困难，或者对项目及其目标有任何疑问，欢迎发送邮件至 karan.sasan@owasp.org，或者提交一个 [issue](https://github.com/SasanLabs/VulnerableApp/issues)，我们将尽力提供帮助。
@@ -171,7 +171,7 @@ VulnerableApp 内置了一个比较器，可将扫描器发现的问题与项目
 
 ### OWASP VulnerableApp 的使用情况
 
-1. [查看全球学术关注度](./docs/Usage.md)
+1. [查看全球学术关注度](../../Usage.md)
 
 ### 故障排除参考
 

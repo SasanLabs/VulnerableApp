@@ -25,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 @ExtendWith(MockitoExtension.class)
 class DastBenchmarkStrategyTest {
 
+    private static final String CONTEXT_PATH = "/VulnerableApp";
+
     private static final String GROUND_TRUTH_URL = "http://localhost:9090/VulnerableApp/scanner";
 
     @Mock private RestTemplate restTemplate;
@@ -33,7 +35,7 @@ class DastBenchmarkStrategyTest {
 
     @BeforeEach
     void setUp() {
-        strategy = new DastBenchmarkStrategy(restTemplate, GROUND_TRUTH_URL);
+        strategy = new DastBenchmarkStrategy(restTemplate, GROUND_TRUTH_URL, CONTEXT_PATH);
     }
 
     private void stubGroundTruth(ScannerResponseBean... beans) {
@@ -379,15 +381,45 @@ class DastBenchmarkStrategyTest {
     void urlNormalization_acceptsAbsoluteRelativeAndContextStrippedForms() {
         assertThat(
                         DastBenchmarkStrategy.normalizeUrl(
-                                "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1"))
+                                "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
+                                CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(DastBenchmarkStrategy.normalizeUrl("/VulnerableApp/SQLInjection/LEVEL_1"))
+        assertThat(
+                        DastBenchmarkStrategy.normalizeUrl(
+                                "/VulnerableApp/SQLInjection/LEVEL_1", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1"))
+        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1/"))
+        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1/", CONTEXT_PATH))
                 .isEqualTo("/SQLInjection/LEVEL_1");
-        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1?attack=1' OR 1=1--"))
+        assertThat(
+                        DastBenchmarkStrategy.normalizeUrl(
+                                "/SQLInjection/LEVEL_1?attack=1' OR 1=1--", CONTEXT_PATH))
+                .isEqualTo("/SQLInjection/LEVEL_1");
+    }
+
+    /**
+     * The context path is configuration, not a constant, so the same collapsing has to work for a
+     * deployment served anywhere else. Under a hardcoded {@code /VulnerableApp} the absolute and
+     * context-relative forms below would key differently and stop matching each other.
+     */
+    @Test
+    void urlNormalization_stripsWhicheverContextPathTheAppIsServedUnder() {
+        assertThat(
+                        DastBenchmarkStrategy.normalizeUrl(
+                                "https://10.0.0.5:443/customCtx/SQLInjection/LEVEL_1",
+                                "/customCtx"))
+                .isEqualTo("/SQLInjection/LEVEL_1");
+        assertThat(
+                        DastBenchmarkStrategy.normalizeUrl(
+                                "/customCtx/SQLInjection/LEVEL_1", "/customCtx"))
+                .isEqualTo("/SQLInjection/LEVEL_1");
+        assertThat(DastBenchmarkStrategy.normalizeUrl("/customCtx", "/customCtx")).isEqualTo("/");
+
+        // A root deployment has an empty context path and must strip nothing.
+        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", ""))
+                .isEqualTo("/SQLInjection/LEVEL_1");
+        assertThat(DastBenchmarkStrategy.normalizeUrl("/SQLInjection/LEVEL_1", null))
                 .isEqualTo("/SQLInjection/LEVEL_1");
     }
 
