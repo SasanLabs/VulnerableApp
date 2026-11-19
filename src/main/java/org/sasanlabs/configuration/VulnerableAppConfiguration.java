@@ -142,6 +142,8 @@ public class VulnerableAppConfiguration {
         populator.addScript(new ClassPathResource("scripts/SessionManagement/db/schema.sql"));
         populator.addScript(new ClassPathResource("scripts/SessionManagement/db/data.sql"));
         populator.addScript(new ClassPathResource("scripts/OTP/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/CSRF/db/schema.sql"));
+        populator.addScript(new ClassPathResource("scripts/CSRF/db/data.sql"));
         populator.setSeparator(";");
 
         DataSourceInitializer initializer = new DataSourceInitializer();

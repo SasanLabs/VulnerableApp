@@ -1,0 +1,10 @@
+INSERT INTO csrf_accounts_l1 VALUES (1, 'victim', 'CSRF_SALT_L1:f5e2a35c9dac8a96fbe2ddf38a7694cf5177ed293bc6e600236ae8aefb677407', 'victim@example.com');
+INSERT INTO csrf_accounts_l1 VALUES (2, 'attacker', 'CSRF_SALT_L1:d6f84008e9cbadae9ed05181db30fd185ab79266574e388ccda0aaa30f6f525f', 'attacker@example.com');
+INSERT INTO csrf_accounts_l2 VALUES (1, 'victim', 'CSRF_SALT_L2:d49608978e2ed53cf73f57fdba1fc49c77149a237bb52b5db45be28267d4d3d8', 'victim@example.com');
+INSERT INTO csrf_accounts_l2 VALUES (2, 'attacker', 'CSRF_SALT_L2:5aee8e1fc08a785ba8c506ec08afbced0689f20a4b5f6c4c41d4bdd0a08215e5', 'attacker@example.com');
+INSERT INTO csrf_accounts_l3 VALUES (1, 'victim', 'CSRF_SALT_L3:ecad93df0a7647c1ec08c295f48b3a6e7805b936616571b86c67a36c4aa2dd41', 'victim@example.com');
+INSERT INTO csrf_accounts_l3 VALUES (2, 'attacker', 'CSRF_SALT_L3:4e46dc613de300bb4d38a2b291f5e9fa4e4791be1cdacb87876889b7dd24f062', 'attacker@example.com');
+INSERT INTO csrf_accounts_l4 VALUES (1, 'victim', 'CSRF_SALT_L4:188f5110e871f562a71c5ac61415560d2f445a1e2cab733a761703bc155e7a73', 'victim@example.com');
+INSERT INTO csrf_accounts_l4 VALUES (2, 'attacker', 'CSRF_SALT_L4:1d452cb5d992f0481aa9d24b1c5c108fe0a8857132088b3c755a8e9ce2d5e2ee', 'attacker@example.com');
+INSERT INTO csrf_accounts_l5 VALUES (1, 'victim', 'CSRF_SALT_L5:c5896a95c341d90a254c6ce4cbf6b897ef8e94c832035159e2e4ec9e705ce0ed', 'victim@example.com');
+INSERT INTO csrf_accounts_l5 VALUES (2, 'attacker', 'CSRF_SALT_L5:ac33445e397fe2a17338816998d9835da6c85480b96f4e98dba87ca2d6f8b34b', 'attacker@example.com');
