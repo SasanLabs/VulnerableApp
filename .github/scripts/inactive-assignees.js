@@ -100,17 +100,15 @@ function isOpenPullRequestBy(event, login) {
 }
 
 // Returns true when the timeline event is progress made by the assignee:
-// a comment, an issue or pull request referencing this issue, a commit
-// referencing it, or a pull request linked through the Development sidebar.
-// Comments and events from bots, including this automation, never count.
+// a comment, a reference to this issue from another issue or pull request,
+// a commit referencing it, or a pull request linked through the Development
+// sidebar. Comments and events from bots, including this automation, never
+// count.
 function isActivityBy(event, login) {
   switch (event.event) {
     case "commented":
       return !isBot(event.user) && sameLogin(event.user && event.user.login, login);
-    case "cross-referenced": {
-      const issue = event.source && event.source.issue;
-      return Boolean(issue) && !isBot(issue.user) && sameLogin(issue.user && issue.user.login, login);
-    }
+    case "cross-referenced":
     case "referenced":
     case "connected":
       return !isBot(event.actor) && sameLogin(event.actor && event.actor.login, login);
@@ -129,16 +127,17 @@ function isMarkerCommentFor(event, marker) {
 }
 
 // Works out what should happen to a single assignee of an issue, based on the
-// issue timeline. The result's `action` is one of:
+// issue timeline and the authors of open pull requests linked to the issue.
+// The result's `action` is one of:
 //   "none"     - nothing to do (recently active, already reminded, or has an
 //                open pull request for the issue)
 //   "remind"   - post a reminder asking for a progress update
 //   "unassign" - remove the assignee and explain why
-function evaluateAssignee(login, timeline, now, config) {
+function evaluateAssignee(login, timeline, now, config, openPullRequestAuthors = []) {
   let assignedAt = null;
   let lastActivityAt = null;
   let lastReminderAt = null;
-  let hasOpenPullRequest = false;
+  let hasOpenPullRequest = openPullRequestAuthors.some((author) => sameLogin(author, login));
 
   for (const event of timeline) {
     const time = timestamp(event.created_at);
@@ -230,6 +229,35 @@ function buildUnassignedComment(logins, config) {
   ].join("\n");
 }
 
+// Pull requests linked through the Development sidebar only show up as
+// `connected` timeline events, which do not say which pull request was linked
+// or whether it is still open, so they are looked up through GraphQL.
+const LINKED_PULL_REQUESTS_QUERY = `
+  query ($owner: String!, $repo: String!, $number: Int!) {
+    repository(owner: $owner, name: $repo) {
+      issue(number: $number) {
+        closedByPullRequestsReferences(first: 100, includeClosedPrs: false) {
+          nodes {
+            state
+            author {
+              login
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+async function fetchOpenLinkedPullRequestAuthors(github, owner, repo, number) {
+  const result = await github.graphql(LINKED_PULL_REQUESTS_QUERY, { owner, repo, number });
+  const issue = result && result.repository && result.repository.issue;
+  const nodes = (issue && issue.closedByPullRequestsReferences.nodes) || [];
+  return nodes
+    .filter((pullRequest) => pullRequest && pullRequest.state === "OPEN" && pullRequest.author)
+    .map((pullRequest) => pullRequest.author.login);
+}
+
 async function processIssue({ github, owner, repo, issue, now, config, core }) {
   const timeline = await github.paginate(github.rest.issues.listEventsForTimeline, {
     owner,
@@ -237,9 +265,15 @@ async function processIssue({ github, owner, repo, issue, now, config, core }) {
     issue_number: issue.number,
     per_page: 100,
   });
+  const openPullRequestAuthors = await fetchOpenLinkedPullRequestAuthors(
+    github,
+    owner,
+    repo,
+    issue.number,
+  );
 
   const decisions = issue.assignees.map((assignee) =>
-    evaluateAssignee(assignee.login, timeline, now, config),
+    evaluateAssignee(assignee.login, timeline, now, config, openPullRequestAuthors),
   );
   const toUnassign = decisions.filter((d) => d.action === "unassign").map((d) => d.login);
   const toRemind = decisions.filter((d) => d.action === "remind").map((d) => d.login);

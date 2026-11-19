@@ -33,17 +33,17 @@ function reminder(login, days) {
   return { event: "commented", user: BOT, body: buildReminderComment([login], CONFIG), created_at: daysAgo(days) };
 }
 
-function crossReference(login, days, { pullRequest = false, state = "closed" } = {}) {
+function crossReference(login, days, { pullRequest = false, state = "closed", author = login } = {}) {
   return {
     event: "cross-referenced",
-    actor: { login },
+    actor: { login, type: "User" },
     created_at: daysAgo(days),
     source: {
       type: "issue",
       issue: {
         number: 1000,
         state,
-        user: { login, type: "User" },
+        user: { login: author, type: "User" },
         ...(pullRequest ? { pull_request: { url: "https://example.test/pr/1000" } } : {}),
       },
     },
@@ -181,6 +181,26 @@ describe("evaluateAssignee", () => {
     assert.equal(evaluateAssignee("alice", timeline, NOW, CONFIG).action, "unassign");
   });
 
+  it("attributes a reference to whoever wrote it, not to the author of the referencing issue", () => {
+    const base = [assigned("alice", 40), reminder("alice", 15)];
+    const byBobInAlicesIssue = crossReference("bob", 2, { author: "alice" });
+    const byAliceInBobsIssue = crossReference("alice", 2, { author: "bob" });
+    assert.equal(evaluateAssignee("alice", [...base, byBobInAlicesIssue], NOW, CONFIG).action, "unassign");
+    assert.equal(evaluateAssignee("alice", [...base, byAliceInBobsIssue], NOW, CONFIG).action, "none");
+  });
+
+  it("leaves assignees alone while an open pull request of theirs is linked to the issue", () => {
+    const timeline = [
+      assigned("alice", 90),
+      { event: "connected", actor: { login: "alice" }, created_at: daysAgo(40) },
+      reminder("alice", 15),
+    ];
+    assert.equal(evaluateAssignee("alice", timeline, NOW, CONFIG, ["bob"]).action, "unassign");
+    const result = evaluateAssignee("alice", timeline, NOW, CONFIG, ["Alice"]);
+    assert.equal(result.action, "none");
+    assert.match(result.reason, /open pull request/);
+  });
+
   it("leaves assignees alone while they have an open pull request for the issue", () => {
     const timeline = [
       assigned("alice", 120),
@@ -238,7 +258,7 @@ describe("comments", () => {
 });
 
 describe("run", () => {
-  function fakeGitHub({ issues, timelines }) {
+  function fakeGitHub({ issues, timelines, linkedPullRequests = {} }) {
     const calls = { removeAssignees: [], createComment: [] };
     const rest = {
       issues: {
@@ -262,7 +282,14 @@ describe("run", () => {
       }
       throw new Error("unexpected method");
     };
-    return { github: { rest, paginate }, calls };
+    const graphql = async (query, variables) => {
+      assert.match(query, /closedByPullRequestsReferences\(first: 100, includeClosedPrs: false\)/);
+      assert.equal(variables.owner, "SasanLabs");
+      assert.equal(variables.repo, "VulnerableApp");
+      const nodes = linkedPullRequests[variables.number] || [];
+      return { repository: { issue: { closedByPullRequestsReferences: { nodes } } } };
+    };
+    return { github: { rest, paginate, graphql }, calls };
   }
 
   function fakeCore() {
@@ -302,10 +329,19 @@ describe("run", () => {
         issue(2, ["carol"]),
         issue(3, ["dave"], ["pinned"]),
         { ...issue(4, ["erin"]), pull_request: {} },
+        issue(5, ["frank"]),
       ],
       timelines: {
         1: [assigned("alice", 40), reminder("alice", 15), assigned("bob", 12)],
         2: [assigned("carol", 2)],
+        5: [assigned("frank", 60), reminder("frank", 20)],
+      },
+      linkedPullRequests: {
+        1: [{ state: "OPEN", author: { login: "someone-else" } }],
+        5: [
+          { state: "MERGED", author: { login: "frank" } },
+          { state: "OPEN", author: { login: "frank" } },
+        ],
       },
     });
     const core = fakeCore();
@@ -315,6 +351,7 @@ describe("run", () => {
     assert.deepEqual(results.map((r) => [r.number, r.toUnassign, r.toRemind]), [
       [1, ["alice"], ["bob"]],
       [2, [], []],
+      [5, [], []],
     ]);
     assert.deepEqual(calls.removeAssignees, [
       { owner: "SasanLabs", repo: "VulnerableApp", issue_number: 1, assignees: ["alice"] },

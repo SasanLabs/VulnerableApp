@@ -46,7 +46,7 @@ To keep issues moving and make sure no issue stays blocked by an assignment nobo
 * If you have had no activity on an issue assigned to you for 10 days, you will get a reminder asking for a short progress update. Further reminders follow every 10 days while the issue stays inactive.
 * If you still have no activity 30 days after you were assigned or last active, you will be unassigned and a comment will explain that the issue is available for other contributors. You are only unassigned after a reminder has gone unanswered for at least 10 days.
 * Commenting on the issue, opening an issue or pull request that references it, pushing a commit that references it, or linking a pull request to it counts as activity and restarts the timer. Comments from other people and from bots do not.
-* While you have an open pull request that references the issue, you are never reminded or unassigned, so waiting for a review is not counted against you.
+* While you have an open pull request that references the issue or is linked to it, you are never reminded or unassigned, so waiting for a review is not counted against you.
 * Issues labelled `pinned` or `do-not-close` are skipped.
 
 If you are unassigned but are still working on the issue, leave a comment and a maintainer can assign it back to you.

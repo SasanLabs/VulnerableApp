@@ -24,10 +24,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: inactive-assignees-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -49,6 +45,10 @@ jobs:
     needs: test
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    # Never let a scheduled and a manual run post reminders at the same time.
+    concurrency:
+      group: inactive-assignees
+      cancel-in-progress: false
     permissions:
       contents: read
       issues: write
