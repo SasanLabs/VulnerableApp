@@ -98,6 +98,27 @@ div.navbar-item-menu a {
     margin-left: 5%;
     margin-right: 5%;
     padding-bottom: 5%;
+    display: none;
+}
+
+/* About is a separate page selected through the native anchor navigation:
+ * only #aboutContainer in the URL shows it and hides the home page. */
+.aboutContainer:target {
+    display: block;
+}
+
+body:has(.aboutContainer:target) .homeContainer {
+    display: none;
+}
+
+body:has(.aboutContainer:target) #home {
+    color: inherit;
+    font-weight: normal;
+}
+
+body:has(.aboutContainer:target) #about {
+    color: black;
+    font-weight: 600;
 }
 
 #testScanner {
