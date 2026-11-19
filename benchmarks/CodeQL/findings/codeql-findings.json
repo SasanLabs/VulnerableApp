@@ -29,22 +29,22 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
+      "line": 153,
       "cwe": "CWE-327"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
+      "line": 153,
       "cwe": "CWE-328"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 151,
+      "line": 154,
       "cwe": "CWE-327"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 151,
+      "line": 154,
       "cwe": "CWE-328"
     },
     {
@@ -83,16 +83,6 @@
       "cwe": "CWE-827"
     },
     {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
-      "line": 67,
-      "cwe": "CWE-79"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
-      "line": 94,
-      "cwe": "CWE-79"
-    },
-    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java",
       "line": 54,
       "cwe": "CWE-79"
@@ -108,6 +98,16 @@
       "cwe": "CWE-79"
     },
     {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 67,
+      "cwe": "CWE-79"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xss/reflected/XSSInImgTagAttribute.java",
+      "line": 94,
+      "cwe": "CWE-79"
+    },
+    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java",
       "line": 378,
       "cwe": "CWE-1333"
@@ -268,6 +268,16 @@
       "cwe": "CWE-564"
     },
     {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 87,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 87,
+      "cwe": "CWE-564"
+    },
+    {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 85,
       "cwe": "CWE-89"
@@ -275,6 +285,16 @@
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 85,
+      "cwe": "CWE-564"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 147,
+      "cwe": "CWE-89"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
+      "line": 147,
       "cwe": "CWE-564"
     },
     {
@@ -295,26 +315,6 @@
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java",
       "line": 130,
-      "cwe": "CWE-564"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 87,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 87,
-      "cwe": "CWE-564"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 147,
-      "cwe": "CWE-89"
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java",
-      "line": 147,
       "cwe": "CWE-564"
     },
     {
@@ -379,12 +379,12 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 57,
+      "line": 60,
       "cwe": "CWE-327"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 57,
+      "line": 60,
       "cwe": "CWE-328"
     },
     {

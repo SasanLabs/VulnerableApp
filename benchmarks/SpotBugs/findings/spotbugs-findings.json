@@ -451,60 +451,60 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
+      "line": 153,
       "cwe": "CWE-353",
       "type": "Cipher with no integrity"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
+      "line": 153,
       "cwe": "CWE-327",
       "type": "DES is insecure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 115,
+      "line": 118,
       "type": "Consider using Locale parameterized version of invoked method"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 150,
+      "line": 153,
       "cwe": "CWE-327",
       "type": "ECB mode is insecure"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 79,
+      "line": 82,
       "cwe": "CWE-176",
       "type": "Improper handling of Unicode transformations"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 136,
+      "line": 139,
       "cwe": "CWE-397",
       "type": "Method lists Exception in its throws clause, but it could be more specific."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 61,
+      "line": 64,
       "cwe": "CWE-397",
       "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 63,
+      "line": 66,
       "cwe": "CWE-397",
       "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 130,
+      "line": 133,
       "cwe": "CWE-397",
       "type": "Method intentionally throws RuntimeException."
     },
     {
       "filePath": "src/main/java/org/sasanlabs/internal/utility/PasswordHashingUtils.java",
-      "line": 75,
+      "line": 78,
       "cwe": "CWE-203",
       "type": "Unsafe hash equals"
     },
@@ -695,13 +695,8 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java",
-      "line": 22,
+      "line": 23,
       "type": "Be wary of letting constructors throw exceptions."
-    },
-    {
-      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java",
-      "line": 17,
-      "type": "Unread field: should this field be static?"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.java",
@@ -1016,12 +1011,12 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java",
-      "line": 128,
+      "line": 124,
       "type": "Unchecked/unconfirmed cast"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java",
-      "line": 107,
+      "line": 103,
       "type": "Consider using Locale parameterized version of invoked method"
     },
     {

@@ -15,7 +15,7 @@ public enum ExceptionStatusCodeEnum {
 
     private String label;
 
-    private ExceptionStatusCodeEnum(String label) {
+    ExceptionStatusCodeEnum(String label) {
         this.label = label;
     }
 

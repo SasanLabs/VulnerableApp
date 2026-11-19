@@ -27,10 +27,10 @@
 			<!-- TODO Add active to mode when clicked-->
 			<div class="navbar-menu">
 				<div class="navbar-item-menu active" id="home">
-					<a href="/VulnerableApp">Home</a>
+					<a href="#homeContainer">Home</a>
 				</div>
 				<div class="navbar-item-menu" id="about">
-					<a href="#about">About Us</a>
+					<a href="#aboutContainer">About Us</a>
 				</div>
 				<div class="navbar-item-menu navbar-item-menu-star">
 				<a class="gh-star" href="https://github.com/SasanLabs/VulnerableApp"
@@ -120,27 +120,62 @@
 			</div>
 			<script src="vulnerableApp.js"></script>
 		</div>
-		<!-- <div id="contribution">
-			For Contribution to Vulnerable App visit <a href="https://github.com/SasanLabs/VulnerableApp/blob/master/README.md#contributing-to-project">Github</a>
-		</div>
 		<div id="aboutContainer" class="aboutContainer">
-			<div>
-				As Web Applications are becoming very popular these days, there comes the needs to
-				secure them and there are many security vulnerability finding tools but while
-				developing those tools developers need to test them but there are no or
-				very less such extensible vulnerable apps for testing those tools.
-				There are deliberately vulnerable applications exists in the market, but they
-				are not written with such an intent and hence lags extensibility e.g. adding new vulnerablities is quite
-				difficult.
-			</div>
-			<div>
-				So generally developer write their own vulnerable applications but that cause productivity loss and
-				also many times rework is done. This Project VulnerableApp is build keeping these factors in mind so
-				this
-				project
-				is scalable, extensible, easier to integrate and easier to learn.
-			</div>
-		</div> -->
+			<h2>About VulnerableApp</h2>
+			<hr>
+			<p>
+				OWASP VulnerableApp is a modular deliberately vulnerable application designed primarily for
+				validating and benchmarking security scanners through reproducible test scenarios, while
+				also supporting learning and experimentation.
+			</p>
+			<h3>What makes it different</h3>
+			<p>
+				Unlike traditional vulnerable applications, VulnerableApp is designed as a testable
+				security ecosystem, not a static training app. It enables:
+			</p>
+			<ul>
+				<li>Scanner benchmarking for tools like Burp Suite, OWASP ZAP, and custom DAST engines</li>
+				<li>Modular vulnerability design that allows new scenarios without modifying core services</li>
+				<li>Security regression testing across releases and environments</li>
+				<li>Realistic attack surface simulation for modern web application patterns</li>
+				<li>Deterministic vulnerability behavior for repeatable scanning results</li>
+				<li>Built for security engineers, researchers, and educators</li>
+			</ul>
+			<h3>VulnerableApp helps you</h3>
+			<ul>
+				<li>Validate how security tools behave across known vulnerability patterns</li>
+				<li>Build controlled environments for security experimentation</li>
+				<li>Extend vulnerability coverage as new attack techniques emerge</li>
+				<li>Run consistent, repeatable security testing pipelines</li>
+			</ul>
+			<h3>Why it matters</h3>
+			<p>
+				Most vulnerable apps are static, hard to extend and designed only for manual learning.
+				VulnerableApp is built for automation, reproducibility, and evolution.
+			</p>
+			<h3>Video Overview</h3>
+			<p>
+				New to the project? Watch this OWASP Spotlight session for a high-level overview:
+				<a href="https://www.youtube.com/watch?v=hoCxzQQugZc&amp;list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T" target="_blank" rel="noopener">OWASP Spotlight series: VulnerableApp overview</a>
+			</p>
+			<h3>Learn More</h3>
+			<ul>
+				<li><a href="https://owasp.org/www-project-vulnerableapp/" target="_blank" rel="noopener">OWASP VulnerableApp project page</a></li>
+				<li><a href="https://sasanlabs.github.io/VulnerableApp" target="_blank" rel="noopener">Documentation</a></li>
+				<li><a href="https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html" target="_blank" rel="noopener">Design Documentation</a></li>
+			</ul>
+			<h3>Contribute</h3>
+			<p>
+				VulnerableApp is a community project. Read the
+				<a href="https://github.com/SasanLabs/VulnerableApp/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">contributing guide</a>
+				or pick an <a href="https://github.com/SasanLabs/VulnerableApp/issues" target="_blank" rel="noopener">issue</a>
+				on GitHub to get started.
+			</p>
+			<h3>Contact Us</h3>
+			<p>
+				<a href="mailto:karan.sasan@owasp.org">karan.sasan@owasp.org</a>
+			</p>
+		</div>
 	</div>
 </body>
 

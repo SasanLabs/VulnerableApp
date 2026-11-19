@@ -168,9 +168,11 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                             method);
             rowsOut.add(row);
             List<String> keys = new ArrayList<>(6);
-            addAxisKeys(keys, url, method, row);
+            String cwe = positiveGroundTruthId(row.getCwe());
+            String wasc = positiveGroundTruthId(row.getWascId());
+            addAxisKeys(keys, url, method, type, cwe, wasc);
             if (method != null) {
-                addAxisKeys(keys, url, METHOD_ANY, row);
+                addAxisKeys(keys, url, METHOD_ANY, type, cwe, wasc);
             }
             for (String key : keys) {
                 addKey(keyToRows, key, rowIndex);
@@ -189,25 +191,34 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
                         : METHOD_ANY;
         List<String> keys = new ArrayList<>(6);
+        String cwe = normalizeNumericId(finding.getCwe());
+        String wasc = normalizeNumericId(finding.getWascId());
         for (String keyMethod : Arrays.asList(method, null)) {
-            addAxisKeys(keys, url, keyMethod, finding);
+            addAxisKeys(keys, url, keyMethod, finding.getType(), cwe, wasc);
         }
         return keys;
     }
 
-    /** Adds one key per type, CWE, and WASC axis the finding carries, under one method. */
-    private static void addAxisKeys(List<String> keys, String url, String method, Finding finding) {
-        if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
-            keys.add(typeKey(url, method, finding.getType()));
+    private static void addAxisKeys(
+            List<String> keys, String url, String method, String type, String cwe, String wasc) {
+        if (type != null && !type.trim().isEmpty()) {
+            keys.add(typeKey(url, method, type));
         }
-        String cwe = normalizeNumericId(finding.getCwe());
         if (!cwe.isEmpty()) {
             keys.add(cweKey(url, method, cwe));
         }
-        String wasc = normalizeNumericId(finding.getWascId());
         if (!wasc.isEmpty()) {
             keys.add(wascKey(url, method, wasc));
         }
+    }
+
+    private static String positiveGroundTruthId(String id) {
+        if (id == null) {
+            return "";
+        }
+        // Ground truth serializes integer metadata as "CWE-<id>" or a bare WASC number.
+        String number = id.startsWith("CWE-") ? id.substring("CWE-".length()) : id;
+        return number.startsWith("-") || "0".equals(number) ? "" : number;
     }
 
     private static void addKey(Map<String, Set<Integer>> map, String key, int rowIndex) {

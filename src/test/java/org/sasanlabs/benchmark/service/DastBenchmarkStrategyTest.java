@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.sasanlabs.beans.ScannerResponseBean;
@@ -269,6 +270,48 @@ class DastBenchmarkStrategyTest {
         BenchmarkResult result = strategy.compare(input("ZAP", scannerFinding));
 
         assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isZero();
+    }
+
+    @ParameterizedTest
+    @EnumSource(Protocol.class)
+    void nonPositiveGroundTruthIds_doNotMatchFindings(Protocol protocol) throws Exception {
+        stubGroundTruth(
+                new ScannerResponseBean(
+                        "/sample",
+                        "UNSECURE",
+                        RequestMethod.GET,
+                        protocol,
+                        List.of(VulnerabilityType.SAMPLE_VULNERABILITY)));
+
+        BenchmarkResult result =
+                strategy.compare(
+                        input(
+                                "ZAP",
+                                new Finding("/sample", null, null, null, "CWE-1"),
+                                new Finding("/sample", null, null, null, null, "1")));
+
+        assertThat(result.getDetected()).isZero();
+        assertThat(result.getMissed()).isEqualTo(1);
+        assertThat(result.getUnmatched()).isEqualTo(2);
+    }
+
+    @ParameterizedTest
+    @EnumSource(Protocol.class)
+    void typeNameMatchesWhenGroundTruthIdsAreNonPositive(Protocol protocol) throws Exception {
+        stubGroundTruth(
+                new ScannerResponseBean(
+                        "/sample",
+                        "UNSECURE",
+                        RequestMethod.GET,
+                        protocol,
+                        List.of(VulnerabilityType.SAMPLE_VULNERABILITY)));
+
+        BenchmarkResult result =
+                strategy.compare(input("ZAP", new Finding("/sample", "SAMPLE_VULNERABILITY")));
+
+        assertThat(result.getDetected()).isEqualTo(1);
+        assertThat(result.getMissed()).isZero();
         assertThat(result.getUnmatched()).isZero();
     }
 

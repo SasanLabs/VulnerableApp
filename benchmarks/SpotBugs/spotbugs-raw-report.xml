@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="4.10.5" sequence="0" timestamp="1794915594702" analysisTimestamp="1794915594876" release="unspecified">
+<BugCollection version="4.10.5" sequence="0" timestamp="1795087456158" analysisTimestamp="1795087456211" release="unspecified">
   <Project projectName="VulnerableApp (spotbugsMain)">
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/Application.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/beans/AttackVectorResponseBean.class</Jar>
@@ -1109,8 +1109,8 @@
     <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
     <LongMessage>new org.sasanlabs.benchmark.service.DastBenchmarkStrategy(RestTemplate, String, String) may expose internal representation by storing an externally mutable object into DastBenchmarkStrategy.restTemplate</LongMessage>
     <Class classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" primary="true" classAnnotationNames="org.springframework.stereotype.Service">
-      <SourceLine classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" start="52" end="352" sourcefile="DastBenchmarkStrategy.java" sourcepath="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" relSourcepath="java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java">
-        <Message>At DastBenchmarkStrategy.java:[lines 52-352]</Message>
+      <SourceLine classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" start="52" end="348" sourcefile="DastBenchmarkStrategy.java" sourcepath="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" relSourcepath="java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java">
+        <Message>At DastBenchmarkStrategy.java:[lines 52-348]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.benchmark.service.DastBenchmarkStrategy</Message>
     </Class>
@@ -1135,8 +1135,8 @@
     <ShortMessage>Improper handling of Unicode transformations</ShortMessage>
     <LongMessage>Improper handling of Unicode transformations such as case mapping and normalization.</LongMessage>
     <Class classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" primary="true" classAnnotationNames="org.springframework.stereotype.Service">
-      <SourceLine classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" start="52" end="352" sourcefile="DastBenchmarkStrategy.java" sourcepath="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" relSourcepath="java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java">
-        <Message>At DastBenchmarkStrategy.java:[lines 52-352]</Message>
+      <SourceLine classname="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" start="52" end="348" sourcefile="DastBenchmarkStrategy.java" sourcepath="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" relSourcepath="java/org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java">
+        <Message>At DastBenchmarkStrategy.java:[lines 52-348]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.benchmark.service.DastBenchmarkStrategy</Message>
     </Class>
@@ -1949,34 +1949,34 @@
     <ShortMessage>Cipher with no integrity</ShortMessage>
     <LongMessage>The cipher does not provide data integrity</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmDesEncrypt" signature="([B)[B" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="136" end="152" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="139" end="155" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmDesEncrypt(byte[])</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="150" end="150" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 150]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="153" end="153" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 153]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="DES_USAGE" priority="2" rank="12" abbrev="SECDU" category="SECURITY" instanceHash="c584fc44ad76f14cde7590cd8e094e05" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="327">
     <ShortMessage>DES is insecure</ShortMessage>
     <LongMessage>DES should be replaced with AES</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmDesEncrypt" signature="([B)[B" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="136" end="152" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="139" end="155" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmDesEncrypt(byte[])</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="150" end="150" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 150]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="153" end="153" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 153]</Message>
     </SourceLine>
     <String value="javax/crypto/Cipher.getInstance(Ljava/lang/String;Ljava/lang/String;)Ljavax/crypto/Cipher;" role="Sink method">
       <Message>Sink method javax/crypto/Cipher.getInstance(Ljava/lang/String;Ljava/lang/String;)Ljavax/crypto/Cipher;</Message>
@@ -1989,136 +1989,136 @@
     <ShortMessage>Consider using Locale parameterized version of invoked method</ShortMessage>
     <LongMessage>Use of non-localized String.toUpperCase() or String.toLowerCase() in org.sasanlabs.internal.utility.PasswordHashingUtils.lmHash(String)</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmHash" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="115" end="130" startBytecode="0" endBytecode="270" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="118" end="133" startBytecode="0" endBytecode="270" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmHash(String)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="115" end="115" startBytecode="1" endBytecode="1" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 115]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="118" end="118" startBytecode="1" endBytecode="1" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 118]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="ECB_MODE" priority="1" rank="10" abbrev="SECECB" category="SECURITY" instanceHash="6721f175659ae839d5ce084ffadd4362" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="327">
     <ShortMessage>ECB mode is insecure</ShortMessage>
     <LongMessage>The cipher uses ECB mode, which provides poor confidentiality for encrypted data</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmDesEncrypt" signature="([B)[B" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="136" end="152" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="139" end="155" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmDesEncrypt(byte[])</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="150" end="150" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 150]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="153" end="153" startBytecode="164" endBytecode="164" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 153]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="IMPROPER_UNICODE" priority="3" rank="15" abbrev="SECUNI" category="SECURITY" instanceHash="249a0552eee4b5470b2cf61d9c9538c3" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="176">
     <ShortMessage>Improper handling of Unicode transformations</ShortMessage>
     <LongMessage>Improper handling of Unicode transformations such as case mapping and normalization.</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="isValidSaltedSha256" signature="(Ljava/lang/String;Ljava/lang/String;)Z" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="68" end="79" startBytecode="0" endBytecode="157" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="71" end="82" startBytecode="0" endBytecode="157" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.isValidSaltedSha256(String, String)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="79" end="79" startBytecode="42" endBytecode="42" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 79]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="82" end="82" startBytecode="42" endBytecode="42" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 82]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION" priority="3" rank="19" abbrev="THROWS" category="BAD_PRACTICE" instanceHash="f4acf0f66211db389bd920992cb64298" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="397">
     <ShortMessage>Method lists Exception in its throws clause, but it could be more specific.</ShortMessage>
     <LongMessage>Method lists Exception in its throws clause, but it could be more specific.</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmDesEncrypt" signature="([B)[B" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="136" end="152" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="139" end="155" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmDesEncrypt(byte[])</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="136" end="152" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java" synthetic="true">
-      <Message>At PasswordHashingUtils.java:[lines 136-152]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="139" end="155" startBytecode="0" endBytecode="341" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java" synthetic="true">
+      <Message>At PasswordHashingUtils.java:[lines 139-155]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION" priority="3" rank="19" abbrev="THROWS" category="BAD_PRACTICE" instanceHash="7c58073a27f154c1efb9b74c0a836dd8" instanceOccurrenceNum="0" instanceOccurrenceMax="1" cweid="397">
     <ShortMessage>Method intentionally throws RuntimeException.</ShortMessage>
     <LongMessage>Method intentionally throws RuntimeException.</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="getHashAsHex" signature="(Ljava/lang/String;Lorg/sasanlabs/internal/utility/PasswordHashingUtils$HashAlgorithm;)Ljava/lang/String;" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="57" end="63" startBytecode="0" endBytecode="205" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="60" end="66" startBytecode="0" endBytecode="205" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.getHashAsHex(String, PasswordHashingUtils$HashAlgorithm)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="61" end="61" startBytecode="45" endBytecode="45" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 61]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="64" end="64" startBytecode="45" endBytecode="45" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 64]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION" priority="3" rank="19" abbrev="THROWS" category="BAD_PRACTICE" instanceHash="7c58073a27f154c1efb9b74c0a836dd8" instanceOccurrenceNum="1" instanceOccurrenceMax="1" cweid="397">
     <ShortMessage>Method intentionally throws RuntimeException.</ShortMessage>
     <LongMessage>Method intentionally throws RuntimeException.</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="getHashAsHex" signature="(Ljava/lang/String;Lorg/sasanlabs/internal/utility/PasswordHashingUtils$HashAlgorithm;)Ljava/lang/String;" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="57" end="63" startBytecode="0" endBytecode="205" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="60" end="66" startBytecode="0" endBytecode="205" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.getHashAsHex(String, PasswordHashingUtils$HashAlgorithm)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="63" end="63" startBytecode="57" endBytecode="57" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 63]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="66" end="66" startBytecode="57" endBytecode="57" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 66]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION" priority="3" rank="19" abbrev="THROWS" category="BAD_PRACTICE" instanceHash="e1211becb8cfdfc85ab2cd33376c0c16" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="397">
     <ShortMessage>Method intentionally throws RuntimeException.</ShortMessage>
     <LongMessage>Method intentionally throws RuntimeException.</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="lmHash" signature="(Ljava/lang/String;)Ljava/lang/String;" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="115" end="130" startBytecode="0" endBytecode="270" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="118" end="133" startBytecode="0" endBytecode="270" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.lmHash(String)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="130" end="130" startBytecode="98" endBytecode="98" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 130]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="133" end="133" startBytecode="98" endBytecode="98" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 133]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="UNSAFE_HASH_EQUALS" priority="1" rank="10" abbrev="SECUHE" category="SECURITY" instanceHash="3e15124ae095c8007676b9ad890373f1" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="203">
     <ShortMessage>Unsafe hash equals</ShortMessage>
     <LongMessage>Unsafe comparison of hash that are susceptible to timing attack</LongMessage>
     <Class classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="16" end="152" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-        <Message>At PasswordHashingUtils.java:[lines 16-152]</Message>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="19" end="155" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+        <Message>At PasswordHashingUtils.java:[lines 19-155]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.internal.utility.PasswordHashingUtils</Message>
     </Class>
     <Method classname="org.sasanlabs.internal.utility.PasswordHashingUtils" name="isValidSaltedSha256" signature="(Ljava/lang/String;Ljava/lang/String;)Z" isStatic="true" primary="true">
-      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="68" end="79" startBytecode="0" endBytecode="157" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
+      <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" start="71" end="82" startBytecode="0" endBytecode="157" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java"/>
       <Message>In method org.sasanlabs.internal.utility.PasswordHashingUtils.isValidSaltedSha256(String, String)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="75" end="75" startBytecode="26" endBytecode="26" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
-      <Message>At PasswordHashingUtils.java:[line 75]</Message>
+    <SourceLine classname="org.sasanlabs.internal.utility.PasswordHashingUtils" primary="true" start="78" end="78" startBytecode="26" endBytecode="26" sourcefile="PasswordHashingUtils.java" sourcepath="org/sasanlabs/internal/utility/PasswordHashingUtils.java" relSourcepath="java/org/sasanlabs/internal/utility/PasswordHashingUtils.java">
+      <Message>At PasswordHashingUtils.java:[line 78]</Message>
     </SourceLine>
     <String value="java/lang/String.equals(Ljava/lang/Object;)Z" role="Sink method">
       <Message>Sink method java/lang/String.equals(Ljava/lang/Object;)Z</Message>
@@ -2574,7 +2574,7 @@
       <Message>At CachePoisoningVulnerability.java:[lines 480-482]</Message>
     </SourceLine>
   </BugInstance>
-  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="9f24ea425ae2db4eccb65145aa4d9bdd" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
+  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="91ac379df8c60593949b9d2326653a6e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
     <ShortMessage>Potential Command Injection</ShortMessage>
     <LongMessage>This usage of java/lang/ProcessBuilder.&lt;init&gt;(Ljava/util/List;)V can be vulnerable to Command Injection</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.commandInjection.CommandInjection" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
@@ -2596,17 +2596,17 @@
     <String value="0" role="Sink parameter">
       <Message>Sink parameter 0</Message>
     </String>
-    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
+    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
     </String>
     <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0" role="Unknown source">
       <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0</Message>
     </String>
+    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
+    </String>
     <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1" role="Unknown source">
       <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1</Message>
-    </String>
-    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
     </String>
     <String value="with tainted arguments detected" role="Method usage">
       <Message>Method usage with tainted arguments detected</Message>
@@ -2882,42 +2882,23 @@
     <ShortMessage>Be wary of letting constructors throw exceptions.</ShortMessage>
     <LongMessage>Exception thrown in class org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder at new org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder(CryptographicFailuresVaultRepository) will leave the constructor. The object under construction remains partially initialized and may be vulnerable to Finalizer attacks.</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" primary="true" classAnnotationNames="org.springframework.stereotype.Component">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="17" end="140" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-        <Message>At CryptographicFailuresSeeder.java:[lines 17-140]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="20" end="141" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
+        <Message>At CryptographicFailuresSeeder.java:[lines 20-141]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" name="&lt;init&gt;" signature="(Lorg/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresVaultRepository;)V" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="62" end="64" startBytecode="0" endBytecode="203" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="63" end="65" startBytecode="0" endBytecode="193" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java"/>
       <Message>In method new org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder(CryptographicFailuresVaultRepository)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" primary="true" start="22" end="22" startBytecode="34" endBytecode="34" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-      <Message>At CryptographicFailuresSeeder.java:[line 22]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" primary="true" start="23" end="23" startBytecode="28" endBytecode="28" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
+      <Message>At CryptographicFailuresSeeder.java:[line 23]</Message>
     </SourceLine>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="22" end="22" startBytecode="34" endBytecode="34" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-      <Message>At CryptographicFailuresSeeder.java:[line 22]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="23" end="23" startBytecode="28" endBytecode="28" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
+      <Message>At CryptographicFailuresSeeder.java:[line 23]</Message>
     </SourceLine>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="28" end="28" startBytecode="72" endBytecode="72" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" role="SOURCE_LINE_ANOTHER_INSTANCE">
-      <Message>Another occurrence at CryptographicFailuresSeeder.java:[line 28]</Message>
-    </SourceLine>
-  </BugInstance>
-  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" rank="18" abbrev="SS" category="PERFORMANCE" instanceHash="30db7d8031e1238cce398b34064b4dab" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
-    <ShortMessage>Unread field: should this field be static?</ShortMessage>
-    <LongMessage>Unread field: org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder.CHARSET; should this field be static?</LongMessage>
-    <Class classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" primary="true" classAnnotationNames="org.springframework.stereotype.Component">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="17" end="140" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-        <Message>At CryptographicFailuresSeeder.java:[lines 17-140]</Message>
-      </SourceLine>
-      <Message>In class org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder</Message>
-    </Class>
-    <Field classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" name="CHARSET" signature="Ljava/lang/String;" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-        <Message>In CryptographicFailuresSeeder.java</Message>
-      </SourceLine>
-      <Message>Field org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder.CHARSET</Message>
-    </Field>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" primary="true" start="17" end="17" startBytecode="7" endBytecode="7" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java">
-      <Message>At CryptographicFailuresSeeder.java:[line 17]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" start="29" end="29" startBytecode="66" endBytecode="66" sourcefile="CryptographicFailuresSeeder.java" sourcepath="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" relSourcepath="java/org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" role="SOURCE_LINE_ANOTHER_INSTANCE">
+      <Message>Another occurrence at CryptographicFailuresSeeder.java:[line 29]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="JLM_JSR166_UTILCONCURRENT_MONITORENTER" priority="1" rank="6" abbrev="JLM" category="MT_CORRECTNESS" instanceHash="fa7ea7e8cd8331748610f4a7a41c2954" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
@@ -4026,13 +4007,13 @@
     <ShortMessage>Unchecked/unconfirmed cast</ShortMessage>
     <LongMessage>Unchecked/unconfirmed cast from java.security.Key to java.security.interfaces.RSAPublicKey in org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator.genericJWTTokenValidator(String, Key, String)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" classAnnotationNames="org.springframework.stereotype.Component">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="41" end="283" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
-        <Message>At JWTValidator.java:[lines 41-283]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="41" end="279" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
+        <Message>At JWTValidator.java:[lines 41-279]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" name="genericJWTTokenValidator" signature="(Ljava/lang/String;Ljava/security/Key;Ljava/lang/String;)Z" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="122" end="137" startBytecode="0" endBytecode="50" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="118" end="133" startBytecode="0" endBytecode="50" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator.genericJWTTokenValidator(String, Key, String)</Message>
     </Method>
     <Type descriptor="Ljava/security/Key;" role="TYPE_FOUND">
@@ -4050,25 +4031,25 @@
     <LocalVariable name="key" register="2" pc="47" role="LOCAL_VARIABLE_VALUE_OF">
       <Message>Value loaded from key</Message>
     </LocalVariable>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" start="128" end="128" startBytecode="48" endBytecode="48" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
-      <Message>At JWTValidator.java:[line 128]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" start="124" end="124" startBytecode="48" endBytecode="48" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
+      <Message>At JWTValidator.java:[line 124]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="DM_CONVERT_CASE" priority="3" rank="20" abbrev="Dm" category="I18N" instanceHash="3c85278bd50fd6df2ad26c6a6060b9db" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
     <ShortMessage>Consider using Locale parameterized version of invoked method</ShortMessage>
     <LongMessage>Use of non-localized String.toUpperCase() or String.toLowerCase() in org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator.customHMACNoneAlgorithmVulnerableValidator(String, byte[], String)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" classAnnotationNames="org.springframework.stereotype.Component">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="41" end="283" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
-        <Message>At JWTValidator.java:[lines 41-283]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="41" end="279" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
+        <Message>At JWTValidator.java:[lines 41-279]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" name="customHMACNoneAlgorithmVulnerableValidator" signature="(Ljava/lang/String;[BLjava/lang/String;)Z" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="99" end="113" startBytecode="0" endBytecode="310" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" start="95" end="109" startBytecode="0" endBytecode="310" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator.customHMACNoneAlgorithmVulnerableValidator(String, byte[], String)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" start="107" end="107" startBytecode="60" endBytecode="60" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
-      <Message>At JWTValidator.java:[line 107]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" primary="true" start="103" end="103" startBytecode="60" endBytecode="60" sourcefile="JWTValidator.java" sourcepath="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" relSourcepath="java/org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java">
+      <Message>At JWTValidator.java:[line 103]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="CRLF_INJECTION_LOGS" priority="3" rank="15" abbrev="SECCRLFLOG" category="SECURITY" instanceHash="bbf9fc9a6afb7932d1df9f1d8e0de5dd" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="117">
@@ -6642,16 +6623,6 @@ if(MessageDigest.isEqual(userInput.getBytes(),actualHash.getBytes())) {
       </p>
     ]]></Details>
   </BugPattern>
-  <BugPattern type="SS_SHOULD_BE_STATIC" abbrev="SS" category="PERFORMANCE">
-    <ShortDescription>Unread field: should this field be static?</ShortDescription>
-    <Details><![CDATA[
-
-  <p> This class contains an instance final field that
-   is initialized to a compile-time static value.
-   Consider making the field static.</p>
-
-    ]]></Details>
-  </BugPattern>
   <BugPattern type="SERVLET_PARAMETER" abbrev="SECSP" category="SECURITY" cweid="20">
     <ShortDescription>Untrusted servlet parameter</ShortDescription>
     <Details><![CDATA[
@@ -7533,11 +7504,47 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
 
     ]]></Details>
   </BugPattern>
+  <BugCode abbrev="SECPR">
+    <Description>Predictable Pseudo Random Generator</Description>
+  </BugCode>
+  <BugCode abbrev="BC">
+    <Description>Bad casts of object references</Description>
+  </BugCode>
+  <BugCode abbrev="NP" cweid="476">
+    <Description>Null pointer dereference</Description>
+  </BugCode>
+  <BugCode abbrev="SECLDAPI">
+    <Description>LDAP Injection</Description>
+  </BugCode>
+  <BugCode abbrev="RV" cweid="440">
+    <Description>Bad use of return value from method</Description>
+  </BugCode>
+  <BugCode abbrev="SECHOC">
+    <Description>Cookie without the HttpOnly flag</Description>
+  </BugCode>
+  <BugCode abbrev="JLM">
+    <Description>Synchronization on java.util.concurrent objects</Description>
+  </BugCode>
   <BugCode abbrev="SECSQLIJDBC">
     <Description>SQL Injection (JDBC)</Description>
   </BugCode>
+  <BugCode abbrev="SECSSSRFUC">
+    <Description>URLConnection Server-Side Request Forgery</Description>
+  </BugCode>
+  <BugCode abbrev="Eq">
+    <Description>Problems with implementation of equals()</Description>
+  </BugCode>
   <BugCode abbrev="EI2">
     <Description>Storing reference to mutable object</Description>
+  </BugCode>
+  <BugCode abbrev="SECUHE">
+    <Description>Hard Coded Key</Description>
+  </BugCode>
+  <BugCode abbrev="SECCU">
+    <Description>Potentially Sensitive Data in Cookie</Description>
+  </BugCode>
+  <BugCode abbrev="SECHCK">
+    <Description>Hard coded key</Description>
   </BugCode>
   <BugCode abbrev="SECSSN">
     <Description>Hostname Header</Description>
@@ -7560,11 +7567,20 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
   <BugCode abbrev="SECECB">
     <Description>ECB Mode</Description>
   </BugCode>
+  <BugCode abbrev="ST">
+    <Description>Misuse of static fields</Description>
+  </BugCode>
+  <BugCode abbrev="DMI" cweid="440">
+    <Description>Dubious method invocation</Description>
+  </BugCode>
   <BugCode abbrev="EI">
     <Description>Method may expose internal representation</Description>
   </BugCode>
   <BugCode abbrev="SECCRLFLOG">
     <Description>CRLF Injection for logs</Description>
+  </BugCode>
+  <BugCode abbrev="SECCI">
+    <Description>Command Injection</Description>
   </BugCode>
   <BugCode abbrev="MS" cweid="493">
     <Description>Mutable static field</Description>
@@ -7578,6 +7594,9 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
   <BugCode abbrev="Dm">
     <Description>Dubious method used</Description>
   </BugCode>
+  <BugCode abbrev="SECHCP">
+    <Description>Hard coded password</Description>
+  </BugCode>
   <BugCode abbrev="SIC">
     <Description>Inner class could be made static</Description>
   </BugCode>
@@ -7586,66 +7605,6 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
   </BugCode>
   <BugCode abbrev="SECDU">
     <Description>DES</Description>
-  </BugCode>
-  <BugCode abbrev="SECHRS">
-    <Description>HTTP Response Splitting</Description>
-  </BugCode>
-  <BugCode abbrev="THROWS">
-    <Description>Exception throwing related problems</Description>
-  </BugCode>
-  <BugCode abbrev="SECIC">
-    <Description>Cookie without the secure flag</Description>
-  </BugCode>
-  <BugCode abbrev="SECPR">
-    <Description>Predictable Pseudo Random Generator</Description>
-  </BugCode>
-  <BugCode abbrev="BC">
-    <Description>Bad casts of object references</Description>
-  </BugCode>
-  <BugCode abbrev="NP" cweid="476">
-    <Description>Null pointer dereference</Description>
-  </BugCode>
-  <BugCode abbrev="SECLDAPI">
-    <Description>LDAP Injection</Description>
-  </BugCode>
-  <BugCode abbrev="RV" cweid="440">
-    <Description>Bad use of return value from method</Description>
-  </BugCode>
-  <BugCode abbrev="SECHOC">
-    <Description>Cookie without the HttpOnly flag</Description>
-  </BugCode>
-  <BugCode abbrev="JLM">
-    <Description>Synchronization on java.util.concurrent objects</Description>
-  </BugCode>
-  <BugCode abbrev="SECSSSRFUC">
-    <Description>URLConnection Server-Side Request Forgery</Description>
-  </BugCode>
-  <BugCode abbrev="Eq">
-    <Description>Problems with implementation of equals()</Description>
-  </BugCode>
-  <BugCode abbrev="SECUHE">
-    <Description>Hard Coded Key</Description>
-  </BugCode>
-  <BugCode abbrev="SECCU">
-    <Description>Potentially Sensitive Data in Cookie</Description>
-  </BugCode>
-  <BugCode abbrev="SECHCK">
-    <Description>Hard coded key</Description>
-  </BugCode>
-  <BugCode abbrev="SS">
-    <Description>Unread field should be static</Description>
-  </BugCode>
-  <BugCode abbrev="ST">
-    <Description>Misuse of static fields</Description>
-  </BugCode>
-  <BugCode abbrev="DMI" cweid="440">
-    <Description>Dubious method invocation</Description>
-  </BugCode>
-  <BugCode abbrev="SECCI">
-    <Description>Command Injection</Description>
-  </BugCode>
-  <BugCode abbrev="SECHCP">
-    <Description>Hard coded password</Description>
   </BugCode>
   <BugCode abbrev="USO">
     <Description>Use private final lock objects for synchronization</Description>
@@ -7671,6 +7630,15 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
   <BugCode abbrev="SECSH">
     <Description>HTTP Headers Untrusted</Description>
   </BugCode>
+  <BugCode abbrev="SECHRS">
+    <Description>HTTP Response Splitting</Description>
+  </BugCode>
+  <BugCode abbrev="THROWS">
+    <Description>Exception throwing related problems</Description>
+  </BugCode>
+  <BugCode abbrev="SECIC">
+    <Description>Cookie without the secure flag</Description>
+  </BugCode>
   <BugCode abbrev="SECPTI">
     <Description>Potential Path Traversal (file read)</Description>
   </BugCode>
@@ -7681,7 +7649,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <Description>Servlet Parameter</Description>
   </BugCode>
   <Errors errors="0" missingClasses="0"></Errors>
-  <FindBugsSummary timestamp="Tue, 17 Nov 2026 11:39:54 +0000" total_classes="167" referenced_classes="698" total_bugs="276" total_size="7246" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="30.37" clock_seconds="9.46" peak_mbytes="579.87" alloc_mbytes="3996.00" gc_seconds="0.19" priority_3="126" priority_2="110" priority_1="40">
+  <FindBugsSummary timestamp="Thu, 19 Nov 2026 11:24:16 +0000" total_classes="167" referenced_classes="698" total_bugs="275" total_size="7241" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="43.33" clock_seconds="13.04" peak_mbytes="445.72" alloc_mbytes="3996.00" gc_seconds="0.26" priority_3="126" priority_2="109" priority_1="40">
     <FileStats path="org/sasanlabs/Application.java" bugCount="0" size="6"/>
     <FileStats path="org/sasanlabs/beans/AllEndPointsResponseBean.java" bugCount="4" size="28" bugHash="1d64f120f73c55eb47790864e3637b23"/>
     <FileStats path="org/sasanlabs/beans/AttackVectorResponseBean.java" bugCount="2" size="16" bugHash="9547051a1b6809c9de4629cf44458827"/>
@@ -7700,7 +7668,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/benchmark/service/BenchmarkService.java" bugCount="0" size="18"/>
     <FileStats path="org/sasanlabs/benchmark/service/BenchmarkStrategy.java" bugCount="0" size="2"/>
     <FileStats path="org/sasanlabs/benchmark/service/CsvExpectedIssuesProvider.java" bugCount="1" size="100" bugHash="302e1106ebf156a8a7b7bb60c0316ac5"/>
-    <FileStats path="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" bugCount="2" size="181" bugHash="d2a75ed6c23d708cac6e5b9ad0f3d1c0"/>
+    <FileStats path="org/sasanlabs/benchmark/service/DastBenchmarkStrategy.java" bugCount="2" size="179" bugHash="d2a75ed6c23d708cac6e5b9ad0f3d1c0"/>
     <FileStats path="org/sasanlabs/benchmark/service/IExpectedIssuesProvider.java" bugCount="0" size="2"/>
     <FileStats path="org/sasanlabs/benchmark/service/SastBenchmarkStrategy.java" bugCount="0" size="119"/>
     <FileStats path="org/sasanlabs/configuration/DatabaseSeeder.java" bugCount="1" size="28" bugHash="4e536b2a4f7311ef70c3298913a28310"/>
@@ -7725,7 +7693,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/internal/utility/JSONSerializationUtils.java" bugCount="0" size="14"/>
     <FileStats path="org/sasanlabs/internal/utility/LevelConstants.java" bugCount="1" size="24" bugHash="fa72d063884753cf82f3fd5b4bea1958"/>
     <FileStats path="org/sasanlabs/internal/utility/MessageBundle.java" bugCount="0" size="8"/>
-    <FileStats path="org/sasanlabs/internal/utility/PasswordHashingUtils.java" bugCount="10" size="93" bugHash="1fd11010fee60b9a964c19b789a5a432"/>
+    <FileStats path="org/sasanlabs/internal/utility/PasswordHashingUtils.java" bugCount="10" size="93" bugHash="5dd349134bbe2baffee96bdd0518ffb0"/>
     <FileStats path="org/sasanlabs/internal/utility/Protocol.java" bugCount="0" size="16"/>
     <FileStats path="org/sasanlabs/internal/utility/Variant.java" bugCount="0" size="12"/>
     <FileStats path="org/sasanlabs/internal/utility/annotations/AttackVector.java" bugCount="0" size="6"/>
@@ -7756,9 +7724,9 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java" bugCount="4" size="173" bugHash="19675de7fef7365e35bca30d441ba4ca"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachedResponse.java" bugCount="0" size="22"/>
     <FileStats path="org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java" bugCount="0" size="39"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="94ed2b0cd3702671b77146f9fdac796a"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="b9359ddded40520a3dd55b66e2570217"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java" bugCount="5" size="107" bugHash="cacc896590f80ea0f68fb0384ff9ab46"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" bugCount="2" size="67" bugHash="dd858896eddfd36ec899d71bfefec34e"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" bugCount="1" size="66" bugHash="5c91121d11b341778c4ff4b35a508bc8"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresVaultRepository.java" bugCount="0" size="8"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/VaultEntity.java" bugCount="0" size="27"/>
     <FileStats path="org/sasanlabs/service/vulnerability/deserialization/AuditLogGadget.java" bugCount="3" size="24" bugHash="f2fcaf51653f62838aa736e8e86adbcd"/>
@@ -7779,7 +7747,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/IJWTValidator.java" bugCount="0" size="11"/>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java" bugCount="1" size="506" bugHash="52a81933cdb7a68844fac5567e52f728"/>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/bean/JWTUtils.java" bugCount="0" size="79"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" bugCount="2" size="144" bugHash="67a5505c60ef6e370d7381377eaf6214"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/jwt/impl/JWTValidator.java" bugCount="2" size="142" bugHash="0692952d9535590e1fc3f55642fe512c"/>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/impl/LibBasedJWTGenerator.java" bugCount="0" size="54"/>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/keys/JWTAlgorithmKMS.java" bugCount="6" size="51" bugHash="f02a80e8ae95e2b4ac240cdeaf79f913"/>
     <FileStats path="org/sasanlabs/service/vulnerability/jwt/keys/KeyStrength.java" bugCount="0" size="14"/>
@@ -7858,13 +7826,13 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.benchmark.model.ScanType" sourceFile="ScanType.java" interface="false" size="16" bugs="0"/>
       <ClassStats class="org.sasanlabs.benchmark.model.ScannerFindings" sourceFile="ScannerFindings.java" interface="false" size="19" bugs="2" priority_2="2"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.benchmark.service" total_bugs="6" total_types="8" total_size="462" priority_3="1" priority_2="5">
+    <PackageStats package="org.sasanlabs.benchmark.service" total_bugs="6" total_types="8" total_size="460" priority_3="1" priority_2="5">
       <ClassStats class="org.sasanlabs.benchmark.service.BenchmarkResultWriter" sourceFile="BenchmarkResultWriter.java" interface="false" size="40" bugs="3" priority_2="3"/>
       <ClassStats class="org.sasanlabs.benchmark.service.BenchmarkService" sourceFile="BenchmarkService.java" interface="false" size="14" bugs="0"/>
       <ClassStats class="org.sasanlabs.benchmark.service.BenchmarkService$1" sourceFile="BenchmarkService.java" interface="false" size="4" bugs="0"/>
       <ClassStats class="org.sasanlabs.benchmark.service.BenchmarkStrategy" sourceFile="BenchmarkStrategy.java" interface="true" size="2" bugs="0"/>
       <ClassStats class="org.sasanlabs.benchmark.service.CsvExpectedIssuesProvider" sourceFile="CsvExpectedIssuesProvider.java" interface="false" size="100" bugs="1" priority_2="1"/>
-      <ClassStats class="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" sourceFile="DastBenchmarkStrategy.java" interface="false" size="181" bugs="2" priority_3="1" priority_2="1"/>
+      <ClassStats class="org.sasanlabs.benchmark.service.DastBenchmarkStrategy" sourceFile="DastBenchmarkStrategy.java" interface="false" size="179" bugs="2" priority_3="1" priority_2="1"/>
       <ClassStats class="org.sasanlabs.benchmark.service.IExpectedIssuesProvider" sourceFile="IExpectedIssuesProvider.java" interface="true" size="2" bugs="0"/>
       <ClassStats class="org.sasanlabs.benchmark.service.SastBenchmarkStrategy" sourceFile="SastBenchmarkStrategy.java" interface="false" size="119" bugs="0"/>
     </PackageStats>
@@ -7965,8 +7933,8 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <PackageStats package="org.sasanlabs.service.vulnerability.cryptographicFailures" total_bugs="5" total_types="1" total_size="107" priority_2="5">
       <ClassStats class="org.sasanlabs.service.vulnerability.cryptographicFailures.CryptographicFailuresVulnerability" sourceFile="CryptographicFailuresVulnerability.java" interface="false" size="107" bugs="5" priority_2="5"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.service.vulnerability.cryptographicFailures.repo" total_bugs="2" total_types="3" total_size="102" priority_2="2">
-      <ClassStats class="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" sourceFile="CryptographicFailuresSeeder.java" interface="false" size="67" bugs="2" priority_2="2"/>
+    <PackageStats package="org.sasanlabs.service.vulnerability.cryptographicFailures.repo" total_bugs="1" total_types="3" total_size="101" priority_2="1">
+      <ClassStats class="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresSeeder" sourceFile="CryptographicFailuresSeeder.java" interface="false" size="66" bugs="1" priority_2="1"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.CryptographicFailuresVaultRepository" sourceFile="CryptographicFailuresVaultRepository.java" interface="true" size="8" bugs="0"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.cryptographicFailures.repo.VaultEntity" sourceFile="VaultEntity.java" interface="false" size="27" bugs="0"/>
     </PackageStats>
@@ -7999,8 +7967,8 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <PackageStats package="org.sasanlabs.service.vulnerability.jwt.bean" total_bugs="0" total_types="1" total_size="79">
       <ClassStats class="org.sasanlabs.service.vulnerability.jwt.bean.JWTUtils" sourceFile="JWTUtils.java" interface="false" size="79" bugs="0"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.service.vulnerability.jwt.impl" total_bugs="2" total_types="2" total_size="198" priority_3="2">
-      <ClassStats class="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" sourceFile="JWTValidator.java" interface="false" size="144" bugs="2" priority_3="2"/>
+    <PackageStats package="org.sasanlabs.service.vulnerability.jwt.impl" total_bugs="2" total_types="2" total_size="196" priority_3="2">
+      <ClassStats class="org.sasanlabs.service.vulnerability.jwt.impl.JWTValidator" sourceFile="JWTValidator.java" interface="false" size="142" bugs="2" priority_3="2"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.jwt.impl.LibBasedJWTGenerator" sourceFile="LibBasedJWTGenerator.java" interface="false" size="54" bugs="0"/>
     </PackageStats>
     <PackageStats package="org.sasanlabs.service.vulnerability.jwt.keys" total_bugs="6" total_types="4" total_size="108" priority_3="4" priority_2="1" priority_1="1">
@@ -8092,67 +8060,80 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.vulnerability.utils.Constants" sourceFile="Constants.java" interface="true" size="9" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="1111" invocations="3070" avgMicrosecondsPerInvocation="362" maxMicrosecondsPerInvocation="274073" standardDeviationMicrosecondsPerInvocation="6813"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="728" invocations="3056" avgMicrosecondsPerInvocation="238" maxMicrosecondsPerInvocation="18838" standardDeviationMicrosecondsPerInvocation="636"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="335" invocations="698" avgMicrosecondsPerInvocation="480" maxMicrosecondsPerInvocation="22326" standardDeviationMicrosecondsPerInvocation="1442"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="296" invocations="698" avgMicrosecondsPerInvocation="425" maxMicrosecondsPerInvocation="13861" standardDeviationMicrosecondsPerInvocation="985"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="258" invocations="2068" avgMicrosecondsPerInvocation="124" maxMicrosecondsPerInvocation="16902" standardDeviationMicrosecondsPerInvocation="537"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="237" invocations="1166" avgMicrosecondsPerInvocation="203" maxMicrosecondsPerInvocation="7188" standardDeviationMicrosecondsPerInvocation="408"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="231" invocations="1168" avgMicrosecondsPerInvocation="198" maxMicrosecondsPerInvocation="14433" standardDeviationMicrosecondsPerInvocation="609"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="210" invocations="1168" avgMicrosecondsPerInvocation="179" maxMicrosecondsPerInvocation="3846" standardDeviationMicrosecondsPerInvocation="330"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="197" invocations="1258" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="6301" standardDeviationMicrosecondsPerInvocation="354"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="195" invocations="1168" avgMicrosecondsPerInvocation="167" maxMicrosecondsPerInvocation="19407" standardDeviationMicrosecondsPerInvocation="647"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="164" invocations="1259" avgMicrosecondsPerInvocation="130" maxMicrosecondsPerInvocation="4765" standardDeviationMicrosecondsPerInvocation="276"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="134" invocations="1264" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="4748" standardDeviationMicrosecondsPerInvocation="210"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="131" invocations="1065" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="12554" standardDeviationMicrosecondsPerInvocation="454"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="122" invocations="698" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="15365" standardDeviationMicrosecondsPerInvocation="729"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="120" invocations="866" avgMicrosecondsPerInvocation="139" maxMicrosecondsPerInvocation="2160" standardDeviationMicrosecondsPerInvocation="237"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="86" invocations="698" avgMicrosecondsPerInvocation="124" maxMicrosecondsPerInvocation="7949" standardDeviationMicrosecondsPerInvocation="417"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="84" invocations="698" avgMicrosecondsPerInvocation="120" maxMicrosecondsPerInvocation="6576" standardDeviationMicrosecondsPerInvocation="362"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="80" invocations="698" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="5637" standardDeviationMicrosecondsPerInvocation="330"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="78" invocations="698" avgMicrosecondsPerInvocation="112" maxMicrosecondsPerInvocation="31651" standardDeviationMicrosecondsPerInvocation="1207"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="71" invocations="698" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="4068" standardDeviationMicrosecondsPerInvocation="264"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="71" invocations="1270" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="13144" standardDeviationMicrosecondsPerInvocation="389"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="71" invocations="698" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="10091" standardDeviationMicrosecondsPerInvocation="429"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="71" invocations="167" avgMicrosecondsPerInvocation="425" maxMicrosecondsPerInvocation="11392" standardDeviationMicrosecondsPerInvocation="1008"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="67" invocations="2964" avgMicrosecondsPerInvocation="22" maxMicrosecondsPerInvocation="1401" standardDeviationMicrosecondsPerInvocation="57"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="62" invocations="167" avgMicrosecondsPerInvocation="372" maxMicrosecondsPerInvocation="4970" standardDeviationMicrosecondsPerInvocation="584"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="58" invocations="167" avgMicrosecondsPerInvocation="349" maxMicrosecondsPerInvocation="7455" standardDeviationMicrosecondsPerInvocation="639"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="53" invocations="167" avgMicrosecondsPerInvocation="320" maxMicrosecondsPerInvocation="3331" standardDeviationMicrosecondsPerInvocation="473"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="51" invocations="1168" avgMicrosecondsPerInvocation="44" maxMicrosecondsPerInvocation="1300" standardDeviationMicrosecondsPerInvocation="99"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="51" invocations="698" avgMicrosecondsPerInvocation="73" maxMicrosecondsPerInvocation="2726" standardDeviationMicrosecondsPerInvocation="204"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="46" invocations="698" avgMicrosecondsPerInvocation="66" maxMicrosecondsPerInvocation="2506" standardDeviationMicrosecondsPerInvocation="166"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="42" invocations="167" avgMicrosecondsPerInvocation="253" maxMicrosecondsPerInvocation="2109" standardDeviationMicrosecondsPerInvocation="260"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="41" invocations="24567" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="3103" standardDeviationMicrosecondsPerInvocation="21"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="41" invocations="1063" avgMicrosecondsPerInvocation="38" maxMicrosecondsPerInvocation="10066" standardDeviationMicrosecondsPerInvocation="320"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="40" invocations="167" avgMicrosecondsPerInvocation="242" maxMicrosecondsPerInvocation="2906" standardDeviationMicrosecondsPerInvocation="377"/>
-      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="39" invocations="45848" avgMicrosecondsPerInvocation="0" maxMicrosecondsPerInvocation="4304" standardDeviationMicrosecondsPerInvocation="25"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="228" maxMicrosecondsPerInvocation="2034" standardDeviationMicrosecondsPerInvocation="307"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="220" maxMicrosecondsPerInvocation="5143" standardDeviationMicrosecondsPerInvocation="761"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadEndOfStreamCheck" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="215" maxMicrosecondsPerInvocation="12664" standardDeviationMicrosecondsPerInvocation="1155"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="10473" standardDeviationMicrosecondsPerInvocation="953"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="35" invocations="1229" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="7009" standardDeviationMicrosecondsPerInvocation="275"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="207" maxMicrosecondsPerInvocation="3971" standardDeviationMicrosecondsPerInvocation="460"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="34" invocations="259" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1370" standardDeviationMicrosecondsPerInvocation="161"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="202" maxMicrosecondsPerInvocation="5912" standardDeviationMicrosecondsPerInvocation="480"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="189" maxMicrosecondsPerInvocation="5579" standardDeviationMicrosecondsPerInvocation="599"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="186" maxMicrosecondsPerInvocation="1780" standardDeviationMicrosecondsPerInvocation="211"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="30" invocations="1166" avgMicrosecondsPerInvocation="26" maxMicrosecondsPerInvocation="2801" standardDeviationMicrosecondsPerInvocation="93"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="2036" standardDeviationMicrosecondsPerInvocation="274"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBugsSummaryStats" totalMilliseconds="27" invocations="698" avgMicrosecondsPerInvocation="39" maxMicrosecondsPerInvocation="19740" standardDeviationMicrosecondsPerInvocation="749"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="1598" standardDeviationMicrosecondsPerInvocation="271"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="159" maxMicrosecondsPerInvocation="11026" standardDeviationMicrosecondsPerInvocation="851"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="158" maxMicrosecondsPerInvocation="1489" standardDeviationMicrosecondsPerInvocation="240"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="2230" standardDeviationMicrosecondsPerInvocation="306"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="1444" standardDeviationMicrosecondsPerInvocation="244"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="24" invocations="698" avgMicrosecondsPerInvocation="34" maxMicrosecondsPerInvocation="1929" standardDeviationMicrosecondsPerInvocation="87"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="145" maxMicrosecondsPerInvocation="1609" standardDeviationMicrosecondsPerInvocation="257"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="1023" standardDeviationMicrosecondsPerInvocation="172"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.ModificationAfterValidationDetector" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="12740" standardDeviationMicrosecondsPerInvocation="983"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="23" invocations="698" avgMicrosecondsPerInvocation="33" maxMicrosecondsPerInvocation="5064" standardDeviationMicrosecondsPerInvocation="262"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="1085" standardDeviationMicrosecondsPerInvocation="194"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.injection.trust.TrustBoundaryViolationAttributeDetector" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="136" maxMicrosecondsPerInvocation="12239" standardDeviationMicrosecondsPerInvocation="943"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="136" maxMicrosecondsPerInvocation="1131" standardDeviationMicrosecondsPerInvocation="172"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="1121" invocations="3056" avgMicrosecondsPerInvocation="366" maxMicrosecondsPerInvocation="21170" standardDeviationMicrosecondsPerInvocation="947"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="469" invocations="698" avgMicrosecondsPerInvocation="672" maxMicrosecondsPerInvocation="32552" standardDeviationMicrosecondsPerInvocation="1883"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="465" invocations="3070" avgMicrosecondsPerInvocation="151" maxMicrosecondsPerInvocation="38529" standardDeviationMicrosecondsPerInvocation="1004"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="464" invocations="698" avgMicrosecondsPerInvocation="665" maxMicrosecondsPerInvocation="22241" standardDeviationMicrosecondsPerInvocation="1613"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="426" invocations="2068" avgMicrosecondsPerInvocation="206" maxMicrosecondsPerInvocation="28646" standardDeviationMicrosecondsPerInvocation="1157"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="398" invocations="1168" avgMicrosecondsPerInvocation="340" maxMicrosecondsPerInvocation="21144" standardDeviationMicrosecondsPerInvocation="1071"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="391" invocations="1166" avgMicrosecondsPerInvocation="336" maxMicrosecondsPerInvocation="16437" standardDeviationMicrosecondsPerInvocation="787"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="371" invocations="1168" avgMicrosecondsPerInvocation="317" maxMicrosecondsPerInvocation="20664" standardDeviationMicrosecondsPerInvocation="872"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="355" invocations="1258" avgMicrosecondsPerInvocation="282" maxMicrosecondsPerInvocation="13610" standardDeviationMicrosecondsPerInvocation="783"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="313" invocations="1168" avgMicrosecondsPerInvocation="268" maxMicrosecondsPerInvocation="13254" standardDeviationMicrosecondsPerInvocation="688"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="284" invocations="1259" avgMicrosecondsPerInvocation="226" maxMicrosecondsPerInvocation="9037" standardDeviationMicrosecondsPerInvocation="556"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="208" invocations="1065" avgMicrosecondsPerInvocation="196" maxMicrosecondsPerInvocation="20513" standardDeviationMicrosecondsPerInvocation="947"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="196" invocations="866" avgMicrosecondsPerInvocation="226" maxMicrosecondsPerInvocation="3993" standardDeviationMicrosecondsPerInvocation="358"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="191" invocations="1264" avgMicrosecondsPerInvocation="151" maxMicrosecondsPerInvocation="8198" standardDeviationMicrosecondsPerInvocation="312"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="160" invocations="698" avgMicrosecondsPerInvocation="229" maxMicrosecondsPerInvocation="8521" standardDeviationMicrosecondsPerInvocation="558"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="126" invocations="698" avgMicrosecondsPerInvocation="180" maxMicrosecondsPerInvocation="11425" standardDeviationMicrosecondsPerInvocation="590"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="125" invocations="698" avgMicrosecondsPerInvocation="179" maxMicrosecondsPerInvocation="12306" standardDeviationMicrosecondsPerInvocation="627"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="114" invocations="698" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="3821" standardDeviationMicrosecondsPerInvocation="364"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="110" invocations="698" avgMicrosecondsPerInvocation="158" maxMicrosecondsPerInvocation="8165" standardDeviationMicrosecondsPerInvocation="433"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="97" invocations="2964" avgMicrosecondsPerInvocation="32" maxMicrosecondsPerInvocation="1019" standardDeviationMicrosecondsPerInvocation="66"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="96" invocations="1270" avgMicrosecondsPerInvocation="76" maxMicrosecondsPerInvocation="25418" standardDeviationMicrosecondsPerInvocation="720"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="96" invocations="698" avgMicrosecondsPerInvocation="137" maxMicrosecondsPerInvocation="31550" standardDeviationMicrosecondsPerInvocation="1217"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="96" invocations="167" avgMicrosecondsPerInvocation="575" maxMicrosecondsPerInvocation="9980" standardDeviationMicrosecondsPerInvocation="1012"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="93" invocations="167" avgMicrosecondsPerInvocation="561" maxMicrosecondsPerInvocation="5450" standardDeviationMicrosecondsPerInvocation="810"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="93" invocations="698" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="13728" standardDeviationMicrosecondsPerInvocation="560"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="90" invocations="1168" avgMicrosecondsPerInvocation="77" maxMicrosecondsPerInvocation="2580" standardDeviationMicrosecondsPerInvocation="165"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="89" invocations="167" avgMicrosecondsPerInvocation="533" maxMicrosecondsPerInvocation="10409" standardDeviationMicrosecondsPerInvocation="920"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="79" invocations="167" avgMicrosecondsPerInvocation="474" maxMicrosecondsPerInvocation="4245" standardDeviationMicrosecondsPerInvocation="651"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="73" invocations="698" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="3759" standardDeviationMicrosecondsPerInvocation="285"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="65" invocations="698" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="1908" standardDeviationMicrosecondsPerInvocation="219"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="63" invocations="167" avgMicrosecondsPerInvocation="378" maxMicrosecondsPerInvocation="5099" standardDeviationMicrosecondsPerInvocation="574"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="59" invocations="1063" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="4131" standardDeviationMicrosecondsPerInvocation="169"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="59" invocations="167" avgMicrosecondsPerInvocation="353" maxMicrosecondsPerInvocation="2519" standardDeviationMicrosecondsPerInvocation="357"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="58" invocations="259" avgMicrosecondsPerInvocation="227" maxMicrosecondsPerInvocation="3571" standardDeviationMicrosecondsPerInvocation="370"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="58" invocations="167" avgMicrosecondsPerInvocation="350" maxMicrosecondsPerInvocation="9277" standardDeviationMicrosecondsPerInvocation="886"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="58" invocations="24559" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="1880" standardDeviationMicrosecondsPerInvocation="15"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="55" invocations="167" avgMicrosecondsPerInvocation="332" maxMicrosecondsPerInvocation="2829" standardDeviationMicrosecondsPerInvocation="440"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="49" invocations="45848" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="83" standardDeviationMicrosecondsPerInvocation="0"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="47" invocations="167" avgMicrosecondsPerInvocation="284" maxMicrosecondsPerInvocation="3574" standardDeviationMicrosecondsPerInvocation="393"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="46" invocations="167" avgMicrosecondsPerInvocation="280" maxMicrosecondsPerInvocation="5263" standardDeviationMicrosecondsPerInvocation="910"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="46" invocations="167" avgMicrosecondsPerInvocation="279" maxMicrosecondsPerInvocation="11205" standardDeviationMicrosecondsPerInvocation="1097"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="45" invocations="1166" avgMicrosecondsPerInvocation="38" maxMicrosecondsPerInvocation="2077" standardDeviationMicrosecondsPerInvocation="98"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="266" maxMicrosecondsPerInvocation="3534" standardDeviationMicrosecondsPerInvocation="458"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="264" maxMicrosecondsPerInvocation="3538" standardDeviationMicrosecondsPerInvocation="553"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="43" invocations="1229" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="9659" standardDeviationMicrosecondsPerInvocation="325"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="42" invocations="167" avgMicrosecondsPerInvocation="256" maxMicrosecondsPerInvocation="3193" standardDeviationMicrosecondsPerInvocation="421"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="247" maxMicrosecondsPerInvocation="5189" standardDeviationMicrosecondsPerInvocation="446"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="245" maxMicrosecondsPerInvocation="3300" standardDeviationMicrosecondsPerInvocation="425"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.cookie.CookieReadDetector" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="20034" standardDeviationMicrosecondsPerInvocation="1546"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="39" invocations="698" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="7581" standardDeviationMicrosecondsPerInvocation="423"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="230" maxMicrosecondsPerInvocation="2393" standardDeviationMicrosecondsPerInvocation="382"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="225" maxMicrosecondsPerInvocation="2201" standardDeviationMicrosecondsPerInvocation="380"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="222" maxMicrosecondsPerInvocation="2915" standardDeviationMicrosecondsPerInvocation="363"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="221" maxMicrosecondsPerInvocation="2043" standardDeviationMicrosecondsPerInvocation="377"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="1747" standardDeviationMicrosecondsPerInvocation="281"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="3387" standardDeviationMicrosecondsPerInvocation="359"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="207" maxMicrosecondsPerInvocation="2223" standardDeviationMicrosecondsPerInvocation="299"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="206" maxMicrosecondsPerInvocation="3376" standardDeviationMicrosecondsPerInvocation="338"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="200" maxMicrosecondsPerInvocation="3316" standardDeviationMicrosecondsPerInvocation="524"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.crypto.EsapiEncryptorDetector" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="200" maxMicrosecondsPerInvocation="14876" standardDeviationMicrosecondsPerInvocation="1152"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="196" maxMicrosecondsPerInvocation="2409" standardDeviationMicrosecondsPerInvocation="323"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="31" invocations="698" avgMicrosecondsPerInvocation="45" maxMicrosecondsPerInvocation="2449" standardDeviationMicrosecondsPerInvocation="118"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="1813" standardDeviationMicrosecondsPerInvocation="267"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.extra.JstlExpressionWhiteLister" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="14416" standardDeviationMicrosecondsPerInvocation="1114"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.DangerousPermissionCombination" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="10132" standardDeviationMicrosecondsPerInvocation="790"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="1611" standardDeviationMicrosecondsPerInvocation="191"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="1965" standardDeviationMicrosecondsPerInvocation="266"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="168" maxMicrosecondsPerInvocation="1647" standardDeviationMicrosecondsPerInvocation="216"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="165" maxMicrosecondsPerInvocation="1683" standardDeviationMicrosecondsPerInvocation="225"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="165" maxMicrosecondsPerInvocation="1809" standardDeviationMicrosecondsPerInvocation="233"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="160" maxMicrosecondsPerInvocation="1713" standardDeviationMicrosecondsPerInvocation="227"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.jsp.JspIncludeDetector" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="159" maxMicrosecondsPerInvocation="3331" standardDeviationMicrosecondsPerInvocation="322"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="159" maxMicrosecondsPerInvocation="1638" standardDeviationMicrosecondsPerInvocation="221"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="158" maxMicrosecondsPerInvocation="1781" standardDeviationMicrosecondsPerInvocation="237"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
