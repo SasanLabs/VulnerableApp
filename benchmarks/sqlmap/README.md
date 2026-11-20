@@ -9,10 +9,11 @@ The scanner's source is fetched from upstream and is not bundled here.
 The [workflow](../../.github/workflows/sqlmap-benchmark.yml) runs the converter and
 sitemap fixture tests and checks pipeline exit status with a dummy process on PRs
 that change this integration. The full benchmark runs only on a weekly schedule
-or manual dispatch, after those tests pass. It builds the checked-out application
-with Jib and starts the modern UI Docker stack with Java, JSP, PHP, MongoDB,
-Mailpit, and the Nginx facade, using `docker-compose.without_llm.yml` plus the
-[backend override](compose.override.yml). All scan requests go through the facade.
+or manual dispatch, after those tests pass. Like the other DAST workflows, it
+starts the modern UI Docker stack from `docker-compose.without_llm.yml` with the
+published images (Java, JSP, PHP, MongoDB, Mailpit, and the Nginx facade) and
+records the Java, JSP, PHP and facade image IDs and digests. All scan requests
+go through the facade.
 LLMForge and its model downloads are outside this SQL benchmark.
 
 ## Discovery and scope
@@ -55,15 +56,16 @@ from skipping the rest of a host after the first confirmed injection.
 
 Each workflow gets fresh sessions and uses `--flush-session`. GNU `timeout` stops
 the whole scanner after 20 minutes and kills it after a further 10 seconds if
-necessary. The Actions job has a 30-minute bound; scanner address space is limited
-to 2 GiB and the Java heap to 768 MiB. A timeout or nonzero scanner exit stops
-the workflow before conversion or submission.
+necessary. The Actions job has a 30-minute bound, and scanner address space is
+limited to 2 GiB. A timeout or nonzero scanner exit stops the workflow before
+conversion or submission.
 
 `convert_sqlmap_to_benchmark.py` reads the native `--report-json` output, including
 its bulk `targets` groups. A confirmed TECHNIQUES record becomes a finding with
-the native TARGET URL, the request's method, and `cwe: "CWE-89"`. Multiple parameter
-findings are retained. URL normalization, matching, and deduplication belong to
-`/scanner/benchmark`.
+the native TARGET URL without its query, the request's method, and
+`cwe: "CWE-89"`. The comparator ignores the query when it matches URLs, so the
+finding carries the path only. Multiple parameter findings are retained. Matching
+and deduplication belong to `/scanner/benchmark`.
 
 A completed negative has sqlmap's explicit negative conclusion in the native
 report. Transport errors, missing target identity, partial records, or a report
@@ -72,7 +74,7 @@ checks distinguish a failed scan from a completed negative; they do not score
 findings or validate them against ground truth.
 
 Artifacts retain the sitemap, bulk input, native report, session files, console
-log, scanner version and revision, application revision, container image IDs and
+log, scanner version and revision, workflow revision, container image IDs and
 digests, stack logs, converted findings, ground truth, and benchmark response.
 The Actions step log records the exact CLI invocation. The step summary uses
 the benchmark response.
@@ -84,9 +86,7 @@ Use a controlled instance and a fresh artifact directory. The workflow contains
 the complete commands; the same pipeline can be run locally:
 
 ```bash
-./gradlew jibDockerBuild
-docker compose -f docker-compose.without_llm.yml \
-  -f benchmarks/sqlmap/compose.override.yml up -d
+docker compose -f docker-compose.without_llm.yml up -d
 python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
 
 mkdir -p benchmarks/sqlmap/artifacts
@@ -107,8 +107,7 @@ curl --fail-with-body http://127.0.0.1/VulnerableApp/scanner/benchmark \
   -H 'Content-Type: application/json' \
   --data-binary @benchmarks/sqlmap/artifacts/sqlmap-findings.json \
   -o benchmarks/sqlmap/artifacts/sqlmap-results.json
-docker compose -f docker-compose.without_llm.yml \
-  -f benchmarks/sqlmap/compose.override.yml down -v --remove-orphans
+docker compose -f docker-compose.without_llm.yml down -v --remove-orphans
 ```
 
 Stop after a failed command and inspect the artifacts. Python's standard library

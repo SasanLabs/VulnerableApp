@@ -11,7 +11,6 @@ from convert_sqlmap_to_benchmark import convert
 FIXTURES = Path(__file__).resolve().parents[1] / 'fixtures'
 SCRIPTS = Path(__file__).resolve().parent
 URL = 'http://127.0.0.1:19090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1'
-URL_WITH_QUERY = URL + '?id=1'
 
 
 def report(name='positive'):
@@ -22,15 +21,15 @@ class ConverterTest(unittest.TestCase):
     def test_native_confirmed_injection_is_translated_without_a_runner_manifest(self):
         self.assertEqual(convert(report()), {
             'tool': 'sqlmap', 'scanType': 'DAST',
-            'findings': [{'url': URL_WITH_QUERY, 'method': 'GET', 'cwe': 'CWE-89'}]})
+            'findings': [{'url': URL, 'method': 'GET', 'cwe': 'CWE-89'}]})
 
     def test_multiple_parameters_are_left_for_the_comparator_to_deduplicate(self):
         raw = report()
         raw['data'][1]['value'].append(copy.deepcopy(raw['data'][1]['value'][0]))
         raw['data'][1]['value'][1]['parameter'] = 'other'
         self.assertEqual(convert(raw)['findings'], [
-            {'url': URL_WITH_QUERY, 'method': 'GET', 'cwe': 'CWE-89'},
-            {'url': URL_WITH_QUERY, 'method': 'GET', 'cwe': 'CWE-89'}])
+            {'url': URL, 'method': 'GET', 'cwe': 'CWE-89'},
+            {'url': URL, 'method': 'GET', 'cwe': 'CWE-89'}])
 
     def test_bulk_report_uses_each_targets_native_identity(self):
         first, second = report(), report()
@@ -38,15 +37,17 @@ class ConverterTest(unittest.TestCase):
         second['data'][0]['value']['data'] = 'search=test'
         raw = {'success': True, 'targets': [first, second], 'meta': second['meta']}
         self.assertEqual(convert(raw)['findings'], [
-            {'url': URL_WITH_QUERY, 'method': 'GET', 'cwe': 'CWE-89'},
-            {'url': 'http://lab/another?id=2', 'method': 'POST', 'cwe': 'CWE-89'}])
+            {'url': URL, 'method': 'GET', 'cwe': 'CWE-89'},
+            {'url': 'http://lab/another', 'method': 'POST', 'cwe': 'CWE-89'}])
 
-    def test_separate_query_keeps_encoding_and_order_before_fragment(self):
-        raw = report()
-        raw['data'][0]['value'].update(url='https://example.invalid/page#details',
-                                      query='view=a%2Fb&view=c+d&empty=')
-        finding, = convert(raw)['findings']
-        self.assertEqual(finding['url'], 'https://example.invalid/page?view=a%2Fb&view=c+d&empty=#details')
+    def test_query_and_fragment_are_dropped_from_the_finding_url(self):
+        for url in ['https://example.invalid/page#details',
+                    'https://example.invalid/page?view=a%2Fb&empty=#details']:
+            raw = report()
+            raw['data'][0]['value'].update(url=url, query='view=a%2Fb')
+            with self.subTest(url=url):
+                finding, = convert(raw)['findings']
+                self.assertEqual(finding['url'], 'https://example.invalid/page')
 
     def test_completed_native_negative_is_empty(self):
         self.assertEqual(convert(report('negative'))['findings'], [])
@@ -85,7 +86,7 @@ class ConverterTest(unittest.TestCase):
                        '--input', str(source), '--output', str(output)]
             result = subprocess.run(command, capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(json.loads(output.read_text())['findings'][0]['url'], URL_WITH_QUERY)
+            self.assertEqual(json.loads(output.read_text())['findings'][0]['url'], URL)
             output.unlink()
             source.write_text(json.dumps({'success': False}))
             result = subprocess.run(command, capture_output=True)
@@ -99,7 +100,7 @@ class ConverterTest(unittest.TestCase):
             source = Path(directory) / 'report.json'
             output = Path(directory) / 'findings.json'
             expected = Path(directory) / 'expected-urls.txt'
-            expected.write_text(URL_WITH_QUERY + '\nhttps://example.invalid/another?id=1\n')
+            expected.write_text(URL + '?id=1\nhttps://example.invalid/another?id=1\n')
             command = [sys.executable, str(SCRIPTS / 'convert_sqlmap_to_benchmark.py'),
                        '--input', str(source), '--output', str(output), '--expected-urls', str(expected)]
             source.write_text(json.dumps({'success': True, 'targets': [second, first]}))

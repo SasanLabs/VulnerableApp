@@ -11,15 +11,9 @@ from pathlib import Path
 NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
 
 
-def original_url(identity):
-    url = identity['url']
-    base, separator, fragment = url.partition('#')
-    if '?' in base:
-        return url
-    query = identity.get('query')
-    if query is not None and not isinstance(query, str):
-        raise ValueError('Native TARGET record has an invalid query')
-    return f'{base}?{query}{separator}{fragment}' if query else url
+def target_url(url):
+    """The comparator ignores the query when matching, so findings carry the path only."""
+    return url.split('#', 1)[0].split('?', 1)[0]
 
 
 def convert(report, *, expected_urls=None):
@@ -49,7 +43,7 @@ def convert(report, *, expected_urls=None):
         identity = next((record.get('value') for record in records if record.get('type') == 0), None)
         if not isinstance(identity, dict) or not isinstance(identity.get('url'), str) or not identity['url']:
             raise ValueError('Native TARGET record is missing its URL')
-        url = original_url(identity)
+        url = target_url(identity['url'])
         reported_urls[url] += 1
         confirmed = False
         for record in records:
@@ -73,7 +67,7 @@ def convert(report, *, expected_urls=None):
         if not confirmed and not errors:
             raise ValueError('No confirmed injection or completed negative conclusion')
     if expected_urls is not None:
-        expected = Counter(expected_urls)
+        expected = Counter(target_url(url) for url in expected_urls)
         missing = sum((expected - reported_urls).values())
         if missing:
             raise ValueError(f'Missing expected report entries: {missing}')

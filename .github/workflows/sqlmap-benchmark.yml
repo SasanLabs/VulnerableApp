@@ -77,23 +77,13 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Build application image from this checkout
-        run: ./gradlew jibDockerBuild
-
       - name: Start modern UI Docker stack
         run: |
           mkdir -p benchmarks/sqlmap/artifacts-metadata
-          git rev-parse HEAD > benchmarks/sqlmap/artifacts-metadata/application-revision.txt
+          git rev-parse HEAD > benchmarks/sqlmap/artifacts-metadata/workflow-revision.txt
           git -C .tools/sqlmap rev-parse HEAD > benchmarks/sqlmap/artifacts-metadata/sqlmap-revision.txt
-          docker compose -f docker-compose.without_llm.yml \
-            -f benchmarks/sqlmap/compose.override.yml up -d
-          docker image inspect sasanlabs/owasp-vulnerableapp:unreleased \
+          docker compose -f docker-compose.without_llm.yml up -d
+          docker image inspect sasanlabs/owasp-vulnerableapp:latest \
             sasanlabs/owasp-vulnerableapp-facade:latest \
             sasanlabs/owasp-vulnerableapp-jsp:latest sasanlabs/owasp-vulnerableapp-php:latest \
             --format '{{.Id}} {{json .RepoDigests}}' \
@@ -168,11 +158,9 @@ jobs:
       - name: Collect stack logs and stop containers
         if: always()
         run: |
-          docker compose -f docker-compose.without_llm.yml \
-            -f benchmarks/sqlmap/compose.override.yml logs --no-color \
+          docker compose -f docker-compose.without_llm.yml logs --no-color \
             > benchmarks/sqlmap/artifacts-metadata/stack.log
-          docker compose -f docker-compose.without_llm.yml \
-            -f benchmarks/sqlmap/compose.override.yml down -v --remove-orphans
+          docker compose -f docker-compose.without_llm.yml down -v --remove-orphans
 
       - name: Upload reports and provenance
         if: always()
