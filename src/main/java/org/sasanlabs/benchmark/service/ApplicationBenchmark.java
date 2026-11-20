@@ -60,7 +60,7 @@ final class ApplicationBenchmark {
                         resolveApplication(
                                 finding,
                                 input.getScanType(),
-                                truth.applications.keySet(),
+                                truth,
                                 contextPath,
                                 owners,
                                 fullUrlOwners);
@@ -122,20 +122,20 @@ final class ApplicationBenchmark {
     private static String resolveApplication(
             Finding finding,
             ScanType type,
-            Set<String> apps,
+            BenchmarkGroundTruthProvider.GroundTruth<?> truth,
             String contextPath,
             Map<String, Set<String>> owners,
             Map<String, Set<String>> fullUrlOwners) {
         if (finding.getApplication() != null && !finding.getApplication().isBlank()) {
             return finding.getApplication();
         }
-        if (apps.size() == 1) {
-            return apps.iterator().next();
+        if (truth.standaloneApplication != null) {
+            return truth.standaloneApplication;
         }
         String prefixOwner = null;
         if (type == ScanType.DAST && finding.getUrl() != null) {
             String path = DastBenchmarkStrategy.normalizeUrl(finding.getUrl(), "");
-            for (String app : apps) {
+            for (String app : truth.applications.keySet()) {
                 if ((path.equals("/" + app) || path.startsWith("/" + app + "/"))
                         && (prefixOwner == null || app.length() > prefixOwner.length())) {
                     prefixOwner = app;

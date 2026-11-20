@@ -141,15 +141,11 @@ class MergedGroundTruthTest {
         BenchmarkResult result =
                 dast(
                         new Finding(
-                                "/sql?x=1",
-                                "scanner-specific",
-                                null,
-                                null,
-                                "CWE-089",
-                                null,
-                                "GET"));
+                                "/sql?x=1", "scanner-specific", null, null, "CWE-089", null, "GET"),
+                        new Finding("/missing", "BLIND_SQL_INJECTION"));
         assertThat(result.getCoverage()).isEqualTo(100.0);
         assertThat(result.getApplications()).containsOnlyKeys("VulnerableApp");
+        assertThat(result.getApplications().get("VulnerableApp").getUnmatched()).isEqualTo(1);
         server.verify();
     }
 
@@ -224,6 +220,21 @@ class MergedGroundTruthTest {
     }
 
     @Test
+    void singleFacadeSastAppDoesNotClaimAnUnknownFile() throws Exception {
+        respond(SAST_URL, "{\"other\":" + sastRows("known.java", 10) + "}");
+
+        BenchmarkResult result =
+                sast(sastFinding("known.java", 10), sastFinding("unknown.java", 10));
+
+        assertThat(result.getApplications().get("other").getDetected()).isEqualTo(1);
+        assertThat(result.getApplications().get("other").getUnmatched()).isZero();
+        assertThat(result.getUnmatchedItems())
+                .extracting(Finding::getFilePath, Finding::getApplication)
+                .containsExactly(tuple("unknown.java", null));
+        server.verify();
+    }
+
+    @Test
     void explicitUnknownApplicationCannotMatchKnownApp() throws Exception {
         respond(SAST_URL, "{\"one\":" + sastRows("index.php", 20) + "}");
         BenchmarkResult result = sast(sastFinding("index.php", 20).withApplication("unknown"));
@@ -244,7 +255,10 @@ class MergedGroundTruthTest {
     @Test
     void standaloneSastHttpArrayIsSupported() throws Exception {
         respond(SAST_URL, sastRows("Local.java", 10));
-        assertThat(sast(sastFinding("Local.java", 10)).getCoverage()).isEqualTo(100.0);
+        BenchmarkResult result =
+                sast(sastFinding("Local.java", 10), sastFinding("unknown.java", 10));
+        assertThat(result.getCoverage()).isEqualTo(100.0);
+        assertThat(result.getApplications().get("VulnerableApp").getUnmatched()).isEqualTo(1);
         server.verify();
     }
 
@@ -521,6 +535,27 @@ class MergedGroundTruthTest {
         assertThat(result.getDetected()).isZero();
         assertThat(result.getUnmatched()).isEqualTo(1);
         assertThat(result.getApplications().get("other").getDetected()).isZero();
+        server.verify();
+    }
+
+    @Test
+    void singleFacadeDastAppDoesNotClaimAnotherAppsContext() throws Exception {
+        String body = "{\"other\":" + dastRows("/shared", "REFLECTED_XSS") + "}";
+        respond(DAST_URL, body);
+        respond(DAST_URL, body);
+
+        BenchmarkResult outside = dast(new Finding("/VulnerableApp/shared", "REFLECTED_XSS"));
+        BenchmarkResult inside = dast(new Finding("/shared", "REFLECTED_XSS"));
+
+        assertThat(outside.getGroundTruthFallback()).isFalse();
+        assertThat(outside.getApplications()).containsOnlyKeys("other");
+        assertThat(outside.getDetected()).isZero();
+        assertThat(outside.getApplications().get("other").getMissed()).isEqualTo(1);
+        assertThat(outside.getApplications().get("other").getUnmatched()).isZero();
+        assertThat(outside.getUnmatchedItems())
+                .extracting(Finding::getApplication)
+                .containsExactly((String) null);
+        assertThat(inside.getApplications().get("other").getDetected()).isEqualTo(1);
         server.verify();
     }
 

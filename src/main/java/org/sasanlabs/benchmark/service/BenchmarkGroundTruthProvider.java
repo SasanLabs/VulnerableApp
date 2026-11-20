@@ -91,7 +91,8 @@ public class BenchmarkGroundTruthProvider {
         return new GroundTruth<>(
                 Collections.singletonMap(applicationName, localIssues.getExpectedIssues()),
                 Collections.emptyMap(),
-                fallback);
+                fallback,
+                applicationName);
     }
 
     private <T> GroundTruth<T> fetch(
@@ -128,7 +129,7 @@ public class BenchmarkGroundTruthProvider {
             throw new IOException(
                     "Facade returned no applications; local ground truth is required");
         }
-        return new GroundTruth<>(apps, dastUrls, fallback);
+        return new GroundTruth<>(apps, dastUrls, fallback, body.isArray() ? applicationName : null);
     }
 
     /** Reads one application's rows; DAST rows also record every URL the application owns. */
@@ -269,14 +270,17 @@ public class BenchmarkGroundTruthProvider {
         final Map<String, List<T>> applications;
         final Map<String, Set<String>> dastUrls;
         final boolean fallback;
+        final String standaloneApplication;
 
         GroundTruth(
                 Map<String, List<T>> applications,
                 Map<String, Set<String>> dastUrls,
-                boolean fallback) {
+                boolean fallback,
+                String standaloneApplication) {
             this.applications = applications;
             this.dastUrls = dastUrls;
             this.fallback = fallback;
+            this.standaloneApplication = standaloneApplication;
         }
     }
 }

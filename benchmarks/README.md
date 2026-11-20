@@ -484,9 +484,10 @@ For SAST runs, items look like:
 
 Findings may include `"application": "VulnerableApp-jsp"`; the name must match a
 facade response key. This scopes matching and deduplication to that application.
-Legacy findings without this field still work: a single-app run assigns them to
-that app; multi-app DAST uses a URL unique to one app (including secure routes
-when determining ownership), then an application URL prefix for unknown routes.
+Standalone arrays and the local SAST CSV use the configured application name
+for findings without this field. For facade responses, even when one app is
+returned, DAST uses a URL unique to one app (including secure routes when
+determining ownership), then an application URL prefix for unknown routes.
 SAST uses a file path unique to one app. Ambiguous or unknown locations
 remain in aggregate `unmatchedItems` without an application label and are not
 credited to any app. Supply `application` when apps share paths. An explicit
