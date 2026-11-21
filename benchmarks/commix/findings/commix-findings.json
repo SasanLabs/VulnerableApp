@@ -1,0 +1,31 @@
+{
+  "tool": "Commix",
+  "scanType": "DAST",
+  "findings": [
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/CommandInjection/LEVEL_1",
+      "method": "GET",
+      "type": "COMMAND_INJECTION"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/CommandInjection/LEVEL_2",
+      "method": "GET",
+      "type": "COMMAND_INJECTION"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/CommandInjection/LEVEL_3",
+      "method": "GET",
+      "type": "COMMAND_INJECTION"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/CommandInjection/LEVEL_4",
+      "method": "GET",
+      "type": "COMMAND_INJECTION"
+    },
+    {
+      "url": "http://127.0.0.1:9090/VulnerableApp/CommandInjection/LEVEL_5",
+      "method": "GET",
+      "type": "COMMAND_INJECTION"
+    }
+  ]
+}
