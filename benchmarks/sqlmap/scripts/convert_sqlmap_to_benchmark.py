@@ -7,6 +7,7 @@ import argparse
 from collections import Counter
 import json
 from pathlib import Path
+import re
 
 NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
 
@@ -14,6 +15,16 @@ NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
 def target_url(url):
     """The comparator ignores the query when matching, so findings carry the path only."""
     return url.split('#', 1)[0].split('?', 1)[0]
+
+
+def scanned_targets(lines, scope=None):
+    """Follows sqlmap's -m loading: '#' comments, case-insensitive scope, query required, no repeats."""
+    targets = {}
+    for line in lines:
+        line = line.split('#', 1)[0].strip()
+        if line and (scope is None or re.search(scope, line, re.I)) and re.match(r'[^ ]+\?(.+)', line):
+            targets.setdefault(line)
+    return list(targets)
 
 
 def convert(report, *, expected_urls=None):
@@ -67,7 +78,8 @@ def convert(report, *, expected_urls=None):
         if not confirmed and not errors:
             raise ValueError('No confirmed injection or completed negative conclusion')
     if expected_urls is not None:
-        expected = Counter(target_url(url) for url in expected_urls)
+        # With -p, sqlmap tests a host and path once, so a second query on it gets no report entry.
+        expected = Counter(set(target_url(url) for url in expected_urls))
         missing = sum((expected - reported_urls).values())
         if missing:
             raise ValueError(f'Missing expected report entries: {missing}')
@@ -82,10 +94,14 @@ def main():
     parser.add_argument('--input', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--expected-urls', type=Path,
-                        help='Check a saved report against a local list with one exact URL per line')
+                        help='Check the report against the sqlmap bulk file it was scanned from')
+    parser.add_argument('--scope', help='The --scope regex sqlmap was run with')
     args = parser.parse_args()
+    if args.scope is not None and args.expected_urls is None:
+        parser.error('--scope needs --expected-urls')
     try:
-        expected_urls = args.expected_urls.read_text().splitlines() if args.expected_urls else None
+        expected_urls = (scanned_targets(args.expected_urls.read_text().splitlines(), args.scope)
+                         if args.expected_urls else None)
         result = convert(json.loads(args.input.read_text()), expected_urls=expected_urls)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(result, indent=2) + '\n')

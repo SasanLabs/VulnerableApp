@@ -49,6 +49,8 @@ jobs:
     needs: report-tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      SQLMAP_SCOPE: '/VulnerableApp/(BlindSQLInjectionVulnerability|ErrorBasedSQLInjectionVulnerability|UnionBasedSQLInjectionVulnerability)/LEVEL_[0-9]+'
     steps:
       - name: Checkout application
         uses: actions/checkout@v4
@@ -119,7 +121,7 @@ jobs:
           timeout --signal=TERM --kill-after=10s 20m \
             python3 .tools/sqlmap/sqlmap.py \
             -m benchmarks/sqlmap/artifacts/targets.txt \
-            --scope='/VulnerableApp/(BlindSQLInjectionVulnerability|ErrorBasedSQLInjectionVulnerability|UnionBasedSQLInjectionVulnerability)/LEVEL_[0-9]+' \
+            --scope="$SQLMAP_SCOPE" \
             -p id --batch --answers='skip further tests=N' \
             --disable-coloring --technique=BEU --level=1 --risk=1 \
             --threads=1 --timeout=5 --retries=0 --flush-session \
@@ -131,6 +133,8 @@ jobs:
         run: |
           python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
             --input benchmarks/sqlmap/artifacts/report.json \
+            --expected-urls benchmarks/sqlmap/artifacts/targets.txt \
+            --scope "$SQLMAP_SCOPE" \
             --output benchmarks/sqlmap/artifacts/sqlmap-findings.json
 
       - name: Submit to benchmark

@@ -73,6 +73,11 @@ with neither confirmed techniques nor that conclusion stop conversion. These
 checks distinguish a failed scan from a completed negative; they do not score
 findings or validate them against ground truth.
 
+The workflow defines the scan scope once, in `SQLMAP_SCOPE`, and passes it to
+sqlmap and to the converter. The converter reads `targets.txt` the way sqlmap's
+`-m` option does and needs exactly one report entry per scanned path, so a
+missing target or an extra report entry stops the run before submission.
+
 Artifacts retain the sitemap, bulk input, native report, session files, console
 log, scanner version and revision, workflow revision, container image IDs and
 digests, stack logs, converted findings, ground truth, and benchmark response.
