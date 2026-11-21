@@ -1,0 +1,138 @@
+name: Dalfox Benchmark
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'benchmarks/Dalfox/**'
+      - '.github/workflows/dalfox-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  dalfox-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Pinned so reruns of the same application revision use the same scanner.
+      # Update the version and checksum together with benchmarks/Dalfox/README.md.
+      DALFOX_VERSION: 3.3.0
+      DALFOX_SHA256: 7b6deb400cda5a100b7a8978e46ef974133df61e9ad1df5ed014c37093037a1c
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Dalfox ${{ env.DALFOX_VERSION }}
+        run: |
+          archive="dalfox-v${DALFOX_VERSION}-linux-x86_64.tar.gz"
+          mkdir -p .tools
+          curl --fail --silent --show-error --location --max-time 120 \
+            -o ".tools/${archive}" \
+            "https://github.com/hahwul/dalfox/releases/download/v${DALFOX_VERSION}/${archive}"
+          echo "${DALFOX_SHA256}  .tools/${archive}" | sha256sum --check
+          tar -xzf ".tools/${archive}" -C .tools
+          echo "DALFOX_BIN=${GITHUB_WORKSPACE}/.tools/dalfox-v${DALFOX_VERSION}-linux-x86_64/dalfox" >> "$GITHUB_ENV"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test converter, runner and target discovery
+        run: python3 -m unittest discover -s benchmarks/Dalfox/scripts -v
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build deployed application
+        run: ./gradlew bootJar
+
+      - name: Start isolated Java lab
+        run: |
+          mkdir -p benchmarks/Dalfox/artifacts-metadata
+          git rev-parse HEAD > benchmarks/Dalfox/artifacts-metadata/application-revision.txt
+          echo "${DALFOX_SHA256}" > benchmarks/Dalfox/artifacts-metadata/dalfox-archive.sha256
+          java -version 2> benchmarks/Dalfox/artifacts-metadata/java-version.txt
+          sha256sum build/libs/VulnerableApp-1.0.0.jar > benchmarks/Dalfox/artifacts-metadata/application-jar.sha256
+          java -Xmx768m -jar build/libs/VulnerableApp-1.0.0.jar \
+            --server.port=9090 \
+            --benchmark.output.dir=benchmarks/Dalfox/artifacts-metadata/results \
+            > benchmarks/Dalfox/artifacts-metadata/application.log 2>&1 &
+          echo $! > benchmarks/Dalfox/artifacts-metadata/application.pid
+          for attempt in {1..40}; do
+            if curl --fail --silent --max-time 2 http://127.0.0.1:9090/VulnerableApp/scanner/dast > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'Java lab did not become ready'
+          exit 1
+
+      - name: Scan reflected-XSS ground-truth endpoints
+        run: |
+          # Limit scanner address space to 2 GiB; each target also has a process deadline.
+          ulimit -v 2097152
+          python3 benchmarks/Dalfox/scripts/run_dalfox.py \
+            --base-url http://127.0.0.1:9090/VulnerableApp \
+            --dalfox "$DALFOX_BIN" \
+            --dalfox-version "$DALFOX_VERSION" \
+            --output-dir benchmarks/Dalfox/artifacts \
+            --target-timeout 240 \
+            --scan-timeout 180 \
+            --workers 4
+
+      - name: Convert confirmed findings
+        run: |
+          python3 benchmarks/Dalfox/scripts/convert_dalfox_to_benchmark.py \
+            --input benchmarks/Dalfox/artifacts/runs.json \
+            --output benchmarks/Dalfox/artifacts/dalfox-findings.json \
+            --observations benchmarks/Dalfox/artifacts/observations.json
+
+      - name: Submit to benchmark
+        run: |
+          curl --fail-with-body --show-error --silent --max-time 60 \
+            http://127.0.0.1:9090/VulnerableApp/scanner/benchmark \
+            -H 'Content-Type: application/json' \
+            --data-binary @benchmarks/Dalfox/artifacts/dalfox-findings.json \
+            -o benchmarks/Dalfox/artifacts/dalfox-results.json
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          artifacts = Path('benchmarks/Dalfox/artifacts')
+          result = json.loads((artifacts / 'dalfox-results.json').read_text())
+          targets = json.loads((artifacts / 'targets.json').read_text())
+          observations = json.loads((artifacts / 'observations.json').read_text())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('## Dalfox: Java reflected-XSS scope\n')
+              summary.write(f"Scanned {len(targets)} metadata endpoints, one seeded query parameter each.\n\n")
+              summary.write(f"Detected: {result['detected']}; unmatched: {result['unmatched']}; "
+                            f"whole-benchmark coverage: {result['coverage']:.2f}%.\n\n")
+              summary.write(f"Unsubmitted reflection-only or off-target observations: {len(observations)}.\n\n")
+              summary.write('Coverage denominator includes all Java DAST vulnerabilities, not just reflected XSS.\n')
+              summary.write('Unmatched findings require review; they are not automatically false positives.\n')
+          PY
+
+      - name: Stop Java lab
+        if: always()
+        run: |
+          if [ -f benchmarks/Dalfox/artifacts-metadata/application.pid ]; then
+            kill "$(cat benchmarks/Dalfox/artifacts-metadata/application.pid)" || true
+          fi
+
+      - name: Upload reports and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalfox-benchmark-${{ github.run_id }}
+          path: |
+            benchmarks/Dalfox/artifacts/
+            benchmarks/Dalfox/artifacts-metadata/
+          retention-days: 30
