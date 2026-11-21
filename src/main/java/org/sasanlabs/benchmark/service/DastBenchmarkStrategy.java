@@ -3,7 +3,6 @@ package org.sasanlabs.benchmark.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -13,75 +12,51 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.sasanlabs.beans.ScannerResponseBean;
 import org.sasanlabs.benchmark.model.BenchmarkResult;
 import org.sasanlabs.benchmark.model.Finding;
 import org.sasanlabs.benchmark.model.ScannerFindings;
-import org.sasanlabs.internal.utility.Protocol;
-import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 /**
- * Compares scanner findings against VulnerableApp's DAST ground truth (fetched from the {@code
- * /scanner/dast} HTTP endpoint) and produces coverage / missed / unmatched metrics.
- *
- * <p>The ground-truth source is an HTTP URL rather than an in-process bean so the comparator works
- * unchanged when VulnerableApp is composed behind VulnerableApp-facade with other backing apps —
- * point the property at the facade's aggregated endpoint and coverage reflects the full attack
- * surface.
- *
- * <p>Matching is set-based and tolerant to scanner-specific vocabularies: a scanner finding matches
- * a ground-truth row when the URL agrees AND <em>any one of</em> the type-name, CWE, or WASC axes
- * agrees. Scanners that don't speak {@link VulnerabilityType} names (most of them) can therefore
- * still be graded by emitting a CWE or WASC ID alongside their finding.
+ * Scores DAST findings by URL, method, and any matching type, CWE, or WASC axis.
  *
  * <p>The ground truth says whether each entry is HTTP or WebSocket. HTTP entries are keyed by URL
  * and request method; WebSocket entries are keyed by URL alone, because a WebSocket level is always
  * opened with a GET handshake and that method says nothing about which frames were tested.
- *
- * <p>Only {@code UNSECURE} ground-truth entries count toward expected — a scanner finding against a
- * {@code SECURE} URL is treated as unmatched (out of scope rather than a true false positive, since
- * hardening / SSL-style alerts on a SECURE URL aren't modelled here as vulnerabilities).
  */
 @Service
 public class DastBenchmarkStrategy implements BenchmarkStrategy {
 
     private static final Logger LOGGER = LogManager.getLogger(DastBenchmarkStrategy.class);
 
-    private static final String UNSECURE_VARIANT = "UNSECURE";
     private static final String KEY_SEPARATOR = "::";
     private static final String AXIS_TYPE = "TYPE";
     private static final String AXIS_CWE = "CWE";
     private static final String AXIS_WASC = "WASC";
-    private static final String METHOD_ANY = "ANY";
+    static final String METHOD_ANY = "ANY";
 
-    private final RestTemplate restTemplate;
-    private final String groundTruthUrl;
-
-    /**
-     * The context path this instance is served under, used to reduce scanner findings and
-     * ground-truth entries to a common key. Read from configuration rather than hardcoded: {@code
-     * benchmark.dast.ground-truth.url} already follows {@code server.servlet.context-path}, so a
-     * fixed value here would disagree with the very URLs it is comparing. Empty for a root
-     * deployment, which strips nothing.
-     */
+    private final BenchmarkGroundTruthProvider groundTruthProvider;
     private final String contextPath;
 
     public DastBenchmarkStrategy(
-            RestTemplate restTemplate,
-            @Value("${benchmark.dast.ground-truth.url}") String groundTruthUrl,
+            BenchmarkGroundTruthProvider groundTruthProvider,
             @Value("${server.servlet.context-path:}") String contextPath) {
-        this.restTemplate = restTemplate;
-        this.groundTruthUrl = groundTruthUrl;
+        this.groundTruthProvider = groundTruthProvider;
         this.contextPath = contextPath;
     }
 
     @Override
     public BenchmarkResult compare(ScannerFindings input) throws IOException {
-        List<ScannerResponseBean> groundTruth = fetchGroundTruth();
+        return ApplicationBenchmark.compare(
+                input,
+                groundTruthProvider.loadDast(),
+                contextPath,
+                row -> normalizeUrl(row.getUrl(), contextPath),
+                this::score);
+    }
+
+    private BenchmarkResult score(ScannerFindings input, List<Finding> groundTruth) {
 
         List<Finding> expectedRows = new ArrayList<>();
         Map<String, Set<Integer>> keyToExpected = buildExpectedIndex(groundTruth, expectedRows);
@@ -162,72 +137,48 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                 unmatchedItems);
     }
 
-    private List<ScannerResponseBean> fetchGroundTruth() throws IOException {
-        try {
-            ScannerResponseBean[] response =
-                    restTemplate.getForObject(groundTruthUrl, ScannerResponseBean[].class);
-            return (response == null) ? Collections.emptyList() : Arrays.asList(response);
-        } catch (RestClientException rce) {
-            throw new IOException("Failed to fetch DAST ground truth from " + groundTruthUrl, rce);
-        }
-    }
-
     private Map<String, Set<Integer>> buildExpectedIndex(
-            List<ScannerResponseBean> groundTruth, List<Finding> rowsOut) {
+            List<Finding> groundTruth, List<Finding> rowsOut) {
         Map<String, Set<Integer>> keyToRows = new LinkedHashMap<>();
         Set<String> seenRowSignatures = new HashSet<>();
-        for (ScannerResponseBean entry : groundTruth) {
-            if (!UNSECURE_VARIANT.equalsIgnoreCase(entry.getVariant())) {
-                continue;
-            }
+        for (Finding entry : groundTruth) {
             String url = normalizeUrl(entry.getUrl(), contextPath);
+            // A null method marks a WebSocket row; HTTP rows without a method carry METHOD_ANY.
             String method =
-                    Protocol.orDefault(entry.getProtocol())
-                            .getMethodIfApplicable(
-                                    (entry.getRequestMethod() != null)
-                                            ? entry.getRequestMethod().name()
-                                            : METHOD_ANY);
-            List<VulnerabilityType> types = entry.getVulnerabilityTypes();
-            if (types == null) {
+                    entry.getMethod() == null
+                            ? null
+                            : entry.getMethod().trim().toUpperCase(Locale.ROOT);
+            String type =
+                    entry.getType() == null
+                            ? null
+                            : entry.getType().trim().toUpperCase(Locale.ROOT);
+            String rowSignature = keyPrefix(url, method) + type;
+            if (!seenRowSignatures.add(rowSignature)) {
                 continue;
             }
-            for (VulnerabilityType type : types) {
-                String rowSignature = keyPrefix(url, method) + type.name();
-                if (!seenRowSignatures.add(rowSignature)) {
-                    continue;
-                }
-                int rowIndex = rowsOut.size();
-                rowsOut.add(buildExpectedFinding(url, type, method));
-                addAxisKeys(keyToRows, rowIndex, url, method, type);
-                if (method != null) {
-                    addAxisKeys(keyToRows, rowIndex, url, METHOD_ANY, type);
-                }
+            int rowIndex = rowsOut.size();
+            Finding row =
+                    new Finding(
+                            url,
+                            entry.getType(),
+                            null,
+                            null,
+                            entry.getCwe(),
+                            entry.getWascId(),
+                            method);
+            rowsOut.add(row);
+            List<String> keys = new ArrayList<>(6);
+            String cwe = positiveGroundTruthId(row.getCwe());
+            String wasc = positiveGroundTruthId(row.getWascId());
+            addAxisKeys(keys, url, method, type, cwe, wasc);
+            if (method != null) {
+                addAxisKeys(keys, url, METHOD_ANY, type, cwe, wasc);
+            }
+            for (String key : keys) {
+                addKey(keyToRows, key, rowIndex);
             }
         }
         return keyToRows;
-    }
-
-    private static void addAxisKeys(
-            Map<String, Set<Integer>> keyToRows,
-            int rowIndex,
-            String url,
-            String method,
-            VulnerabilityType type) {
-        addKey(keyToRows, typeKey(url, method, type.name()), rowIndex);
-        Integer cweId = type.getCweID();
-        if (cweId != null && cweId > 0) {
-            addKey(keyToRows, cweKey(url, method, cweId.toString()), rowIndex);
-        }
-        Integer wascId = type.getWascID();
-        if (wascId != null && wascId > 0) {
-            addKey(keyToRows, wascKey(url, method, wascId.toString()), rowIndex);
-        }
-    }
-
-    private static Finding buildExpectedFinding(String url, VulnerabilityType type, String method) {
-        String cwe = (type.getCweID() != null) ? "CWE-" + type.getCweID() : null;
-        String wasc = (type.getWascID() != null) ? type.getWascID().toString() : null;
-        return new Finding(url, type.name(), null, null, cwe, wasc, method);
     }
 
     /**
@@ -240,20 +191,34 @@ public class DastBenchmarkStrategy implements BenchmarkStrategy {
                         ? finding.getMethod().trim().toUpperCase(Locale.ROOT)
                         : METHOD_ANY;
         List<String> keys = new ArrayList<>(6);
+        String cwe = normalizeNumericId(finding.getCwe());
+        String wasc = normalizeNumericId(finding.getWascId());
         for (String keyMethod : Arrays.asList(method, null)) {
-            if (finding.getType() != null && !finding.getType().trim().isEmpty()) {
-                keys.add(typeKey(url, keyMethod, finding.getType()));
-            }
-            String cwe = normalizeNumericId(finding.getCwe());
-            if (!cwe.isEmpty()) {
-                keys.add(cweKey(url, keyMethod, cwe));
-            }
-            String wasc = normalizeNumericId(finding.getWascId());
-            if (!wasc.isEmpty()) {
-                keys.add(wascKey(url, keyMethod, wasc));
-            }
+            addAxisKeys(keys, url, keyMethod, finding.getType(), cwe, wasc);
         }
         return keys;
+    }
+
+    private static void addAxisKeys(
+            List<String> keys, String url, String method, String type, String cwe, String wasc) {
+        if (type != null && !type.trim().isEmpty()) {
+            keys.add(typeKey(url, method, type));
+        }
+        if (!cwe.isEmpty()) {
+            keys.add(cweKey(url, method, cwe));
+        }
+        if (!wasc.isEmpty()) {
+            keys.add(wascKey(url, method, wasc));
+        }
+    }
+
+    private static String positiveGroundTruthId(String id) {
+        if (id == null) {
+            return "";
+        }
+        // Ground truth serializes integer metadata as "CWE-<id>" or a bare WASC number.
+        String number = id.startsWith("CWE-") ? id.substring("CWE-".length()) : id;
+        return number.startsWith("-") || "0".equals(number) ? "" : number;
     }
 
     private static void addKey(Map<String, Set<Integer>> map, String key, int rowIndex) {
