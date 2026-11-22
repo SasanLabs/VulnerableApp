@@ -71,6 +71,18 @@ class VulnerableAppRestControllerTest {
     }
 
     private void givenDastGroundTruth() throws Exception {
+        givenDastGroundTruth(
+                Collections.singletonList(
+                        VulnerabilityType.ERROR_BASED_SQL_INJECTION));
+    }
+
+    private void givenDastGroundTruth(List<VulnerabilityType> types)
+            throws Exception {
+        givenDastGroundTruth(types, Protocol.HTTP);
+    }
+
+    private void givenDastGroundTruth(
+            List<VulnerabilityType> types, Protocol protocol) throws Exception {
         when(endPointsInformationProvider.getScannerRelatedEndPointInformation(anyString()))
                 .thenReturn(
                         Collections.singletonList(
@@ -78,9 +90,8 @@ class VulnerableAppRestControllerTest {
                                         "http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1",
                                         "LEVEL_1",
                                         RequestMethod.GET,
-                                        Protocol.HTTP,
-                                        Arrays.asList(
-                                                VulnerabilityType.ERROR_BASED_SQL_INJECTION))));
+                                        protocol,
+                                        types)));
     }
 
     @Test
@@ -259,6 +270,95 @@ class VulnerableAppRestControllerTest {
         when(expectedIssuesProvider.getExpectedIssues()).thenThrow(new IOException("boom"));
 
         assertThrows(IOException.class, () -> controller.getSastScannerRelatedInformation());
+    }
+
+    @Test
+    void dastEndpoint_returnsSortedAndDeduplicatedCweAndWascIds()
+            throws Exception {
+        givenDastGroundTruth(
+                Arrays.asList(
+                        VulnerabilityType.BLIND_SQL_INJECTION,
+                        VulnerabilityType.REFLECTED_XSS,
+                        VulnerabilityType.PERSISTENT_XSS));
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].cweIds").isArray())
+                .andExpect(jsonPath("$[0].wascIds").isArray())
+                .andExpect(jsonPath("$[0].cweIds.length()").value(2))
+                .andExpect(jsonPath("$[0].wascIds.length()").value(2))
+                .andExpect(jsonPath("$[0].cweIds[0]").value(79))
+                .andExpect(jsonPath("$[0].cweIds[1]").value(89))
+                .andExpect(jsonPath("$[0].wascIds[0]").value(8))
+                .andExpect(jsonPath("$[0].wascIds[1]").value(19));
+    }
+
+    @Test
+    void dastEndpoint_excludesInvalidIdsAndKeepsPartialMappings()
+            throws Exception {
+        givenDastGroundTruth(
+                Arrays.asList(
+                        VulnerabilityType.SAMPLE_VULNERABILITY,
+                        VulnerabilityType.UNRESTRICTED_FILE_UPLOAD));
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].cweIds").isArray())
+                .andExpect(jsonPath("$[0].wascIds").isArray())
+                .andExpect(jsonPath("$[0].cweIds.length()").value(1))
+                .andExpect(jsonPath("$[0].cweIds[0]").value(434))
+                .andExpect(jsonPath("$[0].wascIds.length()").value(0));
+    }
+
+    @Test
+    void dastEndpoint_returnsEmptyArraysWhenAllIdsAreInvalid()
+            throws Exception {
+        givenDastGroundTruth(
+                Collections.singletonList(
+                        VulnerabilityType.SAMPLE_VULNERABILITY));
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].cweIds").isArray())
+                .andExpect(jsonPath("$[0].wascIds").isArray())
+                .andExpect(jsonPath("$[0].cweIds.length()").value(0))
+                .andExpect(jsonPath("$[0].wascIds.length()").value(0));
+    }
+
+    @Test
+    void dastEndpoint_preservesExistingFieldsAndIncludesHttpProtocol()
+            throws Exception {
+        givenDastGroundTruth();
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].url")
+                        .value("http://localhost:9090/VulnerableApp/SQLInjection/LEVEL_1"))
+                .andExpect(jsonPath("$[0].method").value("GET"))
+                .andExpect(jsonPath("$[0].variant").value("LEVEL_1"))
+                .andExpect(jsonPath("$[0].protocol").value("HTTP"))
+                .andExpect(jsonPath("$[0].vulnerabilityTypes").isArray())
+                .andExpect(jsonPath("$[0].vulnerabilityTypes.length()").value(1))
+                .andExpect(jsonPath("$[0].vulnerabilityTypes[0]")
+                        .value("ERROR_BASED_SQL_INJECTION"))
+                .andExpect(jsonPath("$[0].cweIds").isArray())
+                .andExpect(jsonPath("$[0].wascIds").isArray())
+                .andExpect(jsonPath("$[0].cweIds.length()").value(1))
+                .andExpect(jsonPath("$[0].wascIds.length()").value(1))
+                .andExpect(jsonPath("$[0].cweIds[0]").isNumber())
+                .andExpect(jsonPath("$[0].wascIds[0]").isNumber());
+    }
+
+    @Test
+    void dastEndpoint_preservesWebSocketProtocol() throws Exception {
+        givenDastGroundTruth(
+                Collections.singletonList(
+                        VulnerabilityType.ERROR_BASED_SQL_INJECTION),
+                Protocol.WS);
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].protocol").value("WS"));
     }
 
     private static List<ExpectedIssue> twoExpectedIssues() {
