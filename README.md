@@ -183,14 +183,21 @@ examples.
 In case you are stuck with any of the steps or understanding anything related to project and its goals, read [Security Policy](SECURITY.md) if then also it is not resolved
 feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues), and we will try our best to help you.
 
-## Documentation and References
+## External Usage, Research & Integrations
 
-1. [OWASP Spotlight series overview of project](https://m.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T&pp=iAQB)
-2. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
-3. [Documentation](https://sasanlabs.github.io/VulnerableApp)
-4. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
-5. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
-6. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+OWASP VulnerableApp is used and referenced in independent security research, scanner evaluations, AI-powered security testing, security education, and integrations with other OWASP projects.
+
+See [External Usage, Research & Integrations page](docs/Usage.md) for links to research papers, scanner benchmarks, AI security testing, OWASP integrations, and other public references.
+
+## Project Documentation & Resources
+
+1. [OWASP VulnerableApp overview — OWASP Spotlight](https://www.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T)
+2. [OWASP Spotlight overview video](https://www.youtube.com/watch?v=HRRTrnRgMjs)
+3. [Project documentation](https://sasanlabs.github.io/VulnerableApp)
+4. [Design documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
+5. [OWASP project page](https://owasp.org/projects/vulnerableapp)
+6. [OWASP VulnerableApp overview video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+7. [Scanner benchmarking documentation](benchmarks/README.md)
 
 ### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
@@ -198,9 +205,6 @@ feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://g
 3. [Introduction to Owasp VulnerableApp by Kenji Nakajima](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [Gen AI based platform Shannon exploiting VulnerableApp](https://qiita.com/fiord/items/9351bcff6d646862f181)
 5. [I Built the OWASP ZAP File Upload Addon. Here’s Why VulnerableApp-Facade Had to Exist First](https://medium.com/p/52c4f2226ed3)
-
-### Usage of OWASP VulnerableApp
-1. [View Global Academic Interest](./docs/Usage.md)
    
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)
