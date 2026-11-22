@@ -319,6 +319,18 @@ class VulnerableAppRestControllerTest {
     }
 
     @Test
+    void dastEndpoint_returnsEmptyArraysWhenVulnerabilityTypesAreNull() throws Exception {
+        givenDastGroundTruth(null);
+
+        mockMvc.perform(get("/scanner/dast"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].cweIds").isArray())
+                .andExpect(jsonPath("$[0].wascIds").isArray())
+                .andExpect(jsonPath("$[0].cweIds.length()").value(0))
+                .andExpect(jsonPath("$[0].wascIds.length()").value(0));
+    }
+
+    @Test
     void dastEndpoint_preservesExistingFieldsAndIncludesHttpProtocol() throws Exception {
         givenDastGroundTruth();
 
