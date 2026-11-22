@@ -16,6 +16,7 @@ This page collects public links showing how OWASP VulnerableApp is used, evaluat
 
 - [Autonomous AI pentesting with Shannon against VulnerableApp (2025) — Qiita](https://qiita.com/fiord/items/9351bcff6d646862f181)
 - [Self-Supervised Detection of Unseen Command Injection Attacks Against OWASP VulnerableApp Using a Denoising Autoencoder — Slogix](https://slogix.in/projects/cybersecurity-industry-projects/cyber-project/ai-based-zero-day-attack-detection/self-supervised-detection-of-unseen-command-injection-attacks-against-owasp-vulnerableapp-using-a-denoising-autoencoder/)
+- [Exploring Burp Suite Custom AI Agent using VulnerableApp (2026) — NEC Security Technology Center](https://group.nec/jp/ja/solutions/cybersecurity/blog/260807)
 
 ## OWASP Integrations
 
