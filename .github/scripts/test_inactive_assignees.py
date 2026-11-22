@@ -220,10 +220,15 @@ class FakeClient:
         return timeline
 
     def graphql(self, query, variables):
-        assert "closedByPullRequestsReferences(first: 100, includeClosedPrs: false)" in query
+        assert "closedByPullRequestsReferences(first: 100, after: $after, includeClosedPrs: false)" in query
         assert (variables["owner"], variables["repo"]) == ("SasanLabs", "VulnerableApp")
         nodes = self.linked.get(variables["number"], [])
-        return {"repository": {"issue": {"closedByPullRequestsReferences": {"nodes": nodes}}}}
+        page_size = 2
+        start = int(variables["after"] or 0)
+        end = start + page_size
+        page_info = {"hasNextPage": end < len(nodes), "endCursor": str(end)}
+        return {"repository": {"issue": {"closedByPullRequestsReferences": {
+            "pageInfo": page_info, "nodes": nodes[start:end]}}}}
 
     def remove_assignees(self, repo, number, logins):
         self.removed.append((number, logins))
@@ -271,6 +276,14 @@ class RunTest(unittest.TestCase):
         self.assertIn("@alice has been unassigned", client.comments[0][1])
         self.assertIn("Hi @bob,", client.comments[1][1])
         self.assertIn(ia.reminder_marker("bob"), client.comments[1][1])
+
+    def test_reads_every_page_of_linked_pull_requests(self):
+        others = [{"state": "OPEN", "author": {"login": f"user{i}"}} for i in range(3)]
+        client = FakeClient([issue(1, ["alice"])],
+                            {1: [assigned("alice", 40), reminder("alice", 15)]},
+                            {1: others + [{"state": "OPEN", "author": {"login": "alice"}}]})
+        results, _, _ = ia.run(client, self.REPO, {}, now=NOW, log=lambda _: None)
+        self.assertEqual((results[0].to_unassign, results[0].to_remind), ([], []))
 
     def test_makes_no_changes_in_dry_run_mode(self):
         client = FakeClient([issue(1, ["alice"])],

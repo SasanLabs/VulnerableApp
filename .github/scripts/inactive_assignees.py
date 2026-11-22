@@ -44,10 +44,14 @@ DEFAULT_REMINDER_INTERVAL_DAYS = 10
 # `connected` timeline events, which do not say which pull request was linked
 # or whether it is still open, so they are looked up through GraphQL.
 LINKED_PULL_REQUESTS_QUERY = """
-query ($owner: String!, $repo: String!, $number: Int!) {
+query ($owner: String!, $repo: String!, $number: Int!, $after: String) {
   repository(owner: $owner, name: $repo) {
     issue(number: $number) {
-      closedByPullRequestsReferences(first: 100, includeClosedPrs: false) {
+      closedByPullRequestsReferences(first: 100, after: $after, includeClosedPrs: false) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           state
           author {
@@ -334,14 +338,21 @@ class GitHubClient:
 
 def fetch_open_linked_pull_request_authors(client, repo, number):
     owner, name = repo.split("/", 1)
-    data = client.graphql(LINKED_PULL_REQUESTS_QUERY,
-                          {"owner": owner, "repo": name, "number": number})
-    issue = (data.get("repository") or {}).get("issue") or {}
-    nodes = (issue.get("closedByPullRequestsReferences") or {}).get("nodes") or []
-    return [
-        node["author"]["login"] for node in nodes
-        if node and node.get("state") == "OPEN" and node.get("author")
-    ]
+    authors = []
+    after = None
+    while True:
+        data = client.graphql(LINKED_PULL_REQUESTS_QUERY,
+                              {"owner": owner, "repo": name, "number": number, "after": after})
+        issue = (data.get("repository") or {}).get("issue") or {}
+        references = issue.get("closedByPullRequestsReferences") or {}
+        authors += [
+            node["author"]["login"] for node in references.get("nodes") or []
+            if node and node.get("state") == "OPEN" and node.get("author")
+        ]
+        page_info = references.get("pageInfo") or {}
+        if not page_info.get("hasNextPage"):
+            return authors
+        after = page_info["endCursor"]
 
 
 def process_issue(client, repo, issue, now, config, log):
