@@ -61,10 +61,14 @@ finding carries the path only. Multiple parameter findings are retained. Matchin
 and deduplication belong to `/scanner/benchmark`.
 
 A completed negative has sqlmap's explicit negative conclusion in the native
-report. Transport errors, missing target identity, partial records, or a report
-with neither confirmed techniques nor that conclusion stop conversion. These
-checks distinguish a failed scan from a completed negative; they do not score
-findings or validate them against ground truth.
+report, alone or with the WAF/IPS heuristic or page-stability message sqlmap logs
+during those tests. When a lab answers the first request with 401, or with another
+HTTP error and an empty body, sqlmap stops before testing. That URL is not tested:
+it is neither a finding nor a failure, and the native report and scan log record
+it. Any other error, missing target identity, partial records, or a report with
+neither confirmed techniques nor one of these outcomes stops conversion. These
+checks distinguish a failed scan from a completed or untested target; they do not
+score findings or validate them against ground truth.
 
 The converter reads `targets.txt` the way sqlmap's `-m` option does and needs
 exactly one report entry per URL. sqlmap skips a repeated path whose parameters it

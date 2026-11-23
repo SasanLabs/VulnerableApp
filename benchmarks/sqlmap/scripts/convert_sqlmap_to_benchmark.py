@@ -10,6 +10,13 @@ from pathlib import Path
 import re
 
 NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
+# Logged during tests that still end in an injection or the negative conclusion.
+NEGATIVE_NOTES = ('heuristics detected that the target is protected by some kind of WAF/IPS',
+                  'there was an error checking the stability of page because of lack of content.')
+# sqlmap stops before testing when the first response is a 401, or an HTTP error with an empty body.
+NOT_TESTED = ('unable to retrieve page content',
+              'not authorized, try to provide right HTTP authentication')
+OUTCOMES = (NEGATIVE_CONCLUSION,) + NOT_TESTED
 
 
 def target_url(url):
@@ -49,7 +56,7 @@ def convert(report, *, expected_urls=None):
             raise ValueError('Incomplete native target report')
         errors = target.get('error')
         if (not isinstance(errors, list)
-                or any(not isinstance(error, str) or not error.startswith(NEGATIVE_CONCLUSION)
+                or any(not isinstance(error, str) or not error.startswith(OUTCOMES + NEGATIVE_NOTES)
                        for error in errors)):
             raise ValueError('sqlmap reported a scan error; inspect the native report')
         records = target.get('data')
@@ -81,7 +88,7 @@ def convert(report, *, expected_urls=None):
                                      method='POST' if identity.get('data') is not None else 'GET',
                                      cwe='CWE-89'))
                 confirmed = True
-        if not confirmed and not errors:
+        if not confirmed and not any(error.startswith(OUTCOMES) for error in errors):
             raise ValueError('No confirmed injection or completed negative conclusion')
     if expected is not None:
         missing = sum((expected - reported_urls).values())

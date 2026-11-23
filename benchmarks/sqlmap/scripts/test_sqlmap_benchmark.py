@@ -12,6 +12,14 @@ FIXTURES = Path(__file__).resolve().parents[1] / 'fixtures'
 SCRIPTS = Path(__file__).resolve().parent
 URL = 'http://127.0.0.1:19090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1'
 LAB = 'http://h/VulnerableApp/ErrorBasedSQLInjectionVulnerability/'
+# Messages from sqlmap 1.10.11 on labs that reject GET id=1.
+NOT_TESTED = ['unable to retrieve page content, skipping to the next target',
+              'not authorized, try to provide right HTTP authentication type and valid credentials (401). '
+              "If this is intended, try to rerun by providing a valid value for option '--ignore-code', "
+              'skipping to the next target']
+NOTES = ['heuristics detected that the target is protected by some kind of WAF/IPS',
+         'there was an error checking the stability of page because of lack of content. '
+         'Please check the page request results (and probable errors) by using higher verbosity levels']
 
 
 def report(name='positive'):
@@ -58,6 +66,29 @@ class ConverterTest(unittest.TestCase):
         raw['error'] = ['unable to connect to the target URL']
         with self.assertRaises(ValueError):
             convert(raw)
+        raw['error'] = report('negative')['error'] + ['connection timed out to the target URL']
+        with self.assertRaisesRegex(ValueError, 'scan error'):
+            convert(raw)
+
+    def test_a_lab_that_answers_with_an_http_error_is_not_tested_and_not_a_failure(self):
+        for message in NOT_TESTED:
+            with self.subTest(message=message[:30]):
+                raw = report('negative')
+                raw['error'] = [message]
+                self.assertEqual(convert(raw)['findings'], [])
+
+    def test_notes_are_accepted_only_with_an_injection_or_the_negative_conclusion(self):
+        for note in NOTES:
+            with self.subTest(note=note[:30]):
+                raw = report('negative')
+                raw['error'].insert(0, note)
+                self.assertEqual(convert(raw)['findings'], [])
+                raw['error'] = [note]
+                with self.assertRaisesRegex(ValueError, 'No confirmed injection or completed negative'):
+                    convert(raw)
+                raw = report()
+                raw['error'] = [note]
+                self.assertEqual(len(convert(raw)['findings']), 1)
 
     def test_partial_report_is_not_submitted(self):
         raw = report()
@@ -120,10 +151,10 @@ class ConverterTest(unittest.TestCase):
 
 
     def test_expected_targets_follow_sqlmap_bulk_loading(self):
-        lines = [LAB + 'LEVEL_1?id=1', 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', LAB + 'LEVEL_1?id=1',
-                 LAB + 'LEVEL_3', '  ' + LAB + 'LEVEL_4?id=1#note  ', '', '# ' + LAB + 'LEVEL_5?id=1']
-        self.assertEqual(scanned_targets(lines), [
-            LAB + 'LEVEL_1?id=1', 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', LAB + 'LEVEL_4?id=1'])
+        xss = 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1'
+        lines = [LAB + 'LEVEL_1?id=1', xss, LAB + 'LEVEL_1?id=1', LAB + 'LEVEL_3',
+                 '  ' + LAB + 'LEVEL_4?id=1#note  ', '', '# ' + LAB + 'LEVEL_5?id=1']
+        self.assertEqual(scanned_targets(lines), [LAB + 'LEVEL_1?id=1', xss, LAB + 'LEVEL_4?id=1'])
 
     def test_expected_urls_must_not_repeat_a_path(self):
         raw = {'success': True, 'targets': [report()]}
