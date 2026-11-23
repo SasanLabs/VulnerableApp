@@ -11,7 +11,6 @@ from convert_sqlmap_to_benchmark import convert, scanned_targets
 FIXTURES = Path(__file__).resolve().parents[1] / 'fixtures'
 SCRIPTS = Path(__file__).resolve().parent
 URL = 'http://127.0.0.1:19090/VulnerableApp/UnionBasedSQLInjectionVulnerability/LEVEL_1'
-SCOPE = '/VulnerableApp/(ErrorBasedSQLInjectionVulnerability|UnionBasedSQLInjectionVulnerability)/LEVEL_[0-9]+'
 LAB = 'http://h/VulnerableApp/ErrorBasedSQLInjectionVulnerability/'
 
 
@@ -121,37 +120,34 @@ class ConverterTest(unittest.TestCase):
 
 
     def test_expected_targets_follow_sqlmap_bulk_loading(self):
-        lines = [LAB + 'LEVEL_1?id=1', 'http://h/vulnerableapp/errorbasedsqlinjectionvulnerability/LEVEL_2?id=1',
-                 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', LAB + 'LEVEL_1?id=1', LAB + 'LEVEL_3',
-                 '  ' + LAB + 'LEVEL_4?id=1#note  ', '', '# ' + LAB + 'LEVEL_5?id=1']
-        self.assertEqual(scanned_targets(lines, SCOPE), [
-            LAB + 'LEVEL_1?id=1', 'http://h/vulnerableapp/errorbasedsqlinjectionvulnerability/LEVEL_2?id=1',
-            LAB + 'LEVEL_4?id=1'])
-        self.assertIn('http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', scanned_targets(lines))
+        lines = [LAB + 'LEVEL_1?id=1', 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', LAB + 'LEVEL_1?id=1',
+                 LAB + 'LEVEL_3', '  ' + LAB + 'LEVEL_4?id=1#note  ', '', '# ' + LAB + 'LEVEL_5?id=1']
+        self.assertEqual(scanned_targets(lines), [
+            LAB + 'LEVEL_1?id=1', 'http://h/VulnerableApp/XSSVulnerability/LEVEL_1?id=1', LAB + 'LEVEL_4?id=1'])
 
-    def test_a_second_query_on_a_scanned_path_is_not_expected_again(self):
+    def test_expected_urls_must_not_repeat_a_path(self):
         raw = {'success': True, 'targets': [report()]}
-        self.assertEqual(len(convert(raw, expected_urls=[URL + '?id=1', URL + '?id=2'])['findings']), 1)
+        self.assertEqual(len(convert(raw, expected_urls=[URL + '?id=1'])['findings']), 1)
+        with self.assertRaisesRegex(ValueError, 'Expected URLs repeat a path'):
+            convert(raw, expected_urls=[URL + '?id=1', URL + '?id=2'])
         with self.assertRaisesRegex(ValueError, 'Unexpected report entries: 1'):
             convert({'success': True, 'targets': [report(), report()]}, expected_urls=[URL + '?id=1'])
 
-    def test_cli_checks_the_report_against_the_scoped_bulk_file(self):
+    def test_cli_checks_the_report_against_the_bulk_file(self):
         with tempfile.TemporaryDirectory() as directory:
             source, output = Path(directory) / 'report.json', Path(directory) / 'findings.json'
             targets = Path(directory) / 'targets.txt'
-            targets.write_text(URL + '?id=1\nhttp://127.0.0.1:19090/VulnerableApp/XSSVulnerability/LEVEL_1?id=1\n')
             source.write_text(json.dumps({'success': True, 'targets': [report()]}))
             command = [sys.executable, str(SCRIPTS / 'convert_sqlmap_to_benchmark.py'), '--input', str(source),
                        '--output', str(output), '--expected-urls', str(targets)]
-            result = subprocess.run(command + ['--scope', SCOPE], capture_output=True, text=True)
+            targets.write_text(URL + '?id=1\n# ' + LAB + 'LEVEL_1?id=1\n' + LAB + 'LEVEL_2\n')
+            result = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             output.unlink()
+            targets.write_text(URL + '?id=1\n' + LAB + 'LEVEL_2?id=1\n')
             result = subprocess.run(command, capture_output=True, text=True)
             self.assertIn('Missing expected report entries: 1', result.stderr)
             self.assertFalse(output.exists())
-            result = subprocess.run(command[:-2] + ['--scope', SCOPE], capture_output=True, text=True)
-            self.assertEqual(result.returncode, 2)
-            self.assertIn('--scope needs --expected-urls', result.stderr)
 
 
 class SitemapTest(unittest.TestCase):

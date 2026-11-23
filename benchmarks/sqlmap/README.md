@@ -1,7 +1,7 @@
 # sqlmap benchmark
 
 This integration runs upstream [sqlmap](https://github.com/sqlmapproject/sqlmap)
-against the three Java SQL-injection families in issue #860. Each benchmark run
+against every URL in the facade sitemap, for issue #860. Each benchmark run
 resolves the newest version-numbered release tag, checks out that tag, and checks
 the scanner's `--version` before scanning. Untagged development builds are not used.
 The scanner's source is fetched from upstream and is not bundled here.
@@ -16,38 +16,31 @@ records the Java, JSP, PHP and facade image IDs and digests. All scan requests
 go through the facade.
 LLMForge and its model downloads are outside this SQL benchmark.
 
-## Discovery and scope
+## Discovery and targets
 
 Discovery starts with the facade's `/sitemap.xml`. The small
 `scripts/sitemap_to_targets.py` adapter preserves every listed path and query,
 replaces Docker-internal origins with the configured facade origin, and adds
-`?id=1` only when a URL has no query. It does not select vulnerability families,
-levels, variants, or known-vulnerable endpoints.
+`?id=1` only when a URL has no query. sqlmap scans every resulting URL; nothing
+selects vulnerability families, levels, variants, or known-vulnerable endpoints.
+No ground-truth endpoint is read to choose targets. The workflow captures
+`/VulnerableApp/scanner/dast` after scanning for audit; only the benchmark
+comparator uses it for scoring.
 
-sqlmap's native `-m` bulk input and `--scope` filter select these Java families:
-
-- `BlindSQLInjectionVulnerability`
-- `ErrorBasedSQLInjectionVulnerability`
-- `UnionBasedSQLInjectionVulnerability`
-
-The scope is deliberately limited to issue #860. The native filter includes secure
-controls when they appear in the sitemap. No ground-truth endpoint is read to
-choose targets. The workflow captures `/VulnerableApp/scanner/dast` after scanning
-for audit; only the benchmark comparator uses it for scoring.
-
-sqlmap 1.10.11 has no `--sitemap-url` option, and its bulk parser needs URLs with
-parameters. The adapter supplies the sitemap URLs and the common `id` seed needed
-by these Java labs. This is not browser-based form discovery. Authentication SQLi
-uses `username` and `password`, so it remains outside this run, as do PHP's NoSQL
-labs and the JSP application. Extending the scope requires reviewing the request
-parameters and scanner settings; being present in the sitemap alone does not mean
-an endpoint was scanned.
+sqlmap 1.10.11 has no `--sitemap-url` option, and its `-m` bulk input skips a URL
+without a query, so a sitemap URL without one would not be scanned at all. sqlmap
+tests the parameters in the URL; it does not discover parameter names, and this is
+not browser-based form discovery. `id` is the parameter the Java SQL-injection labs
+read. Labs that read other parameters, such as Authentication SQLi with `username`
+and `password`, are only tested with the `id` seed, so a negative result there says
+nothing about their real parameters.
 
 ## Scan and report handling
 
 The workflow invokes sqlmap directly, without a Python process runner. Settings
-are `-p id`, `--batch`, `--technique=BEU`, `--level=1`, `--risk=1`, `--threads=1`,
-`--timeout=5`, and `--retries=0`. BEU selects boolean-based blind, error-based,
+are `--batch`, `--technique=BEU`, `--level=1`, `--risk=1`, `--threads=1`,
+`--timeout=5`, and `--retries=0`. At level 1 sqlmap tests GET and POST parameters,
+not cookies or other headers. BEU selects boolean-based blind, error-based,
 and UNION-query tests. Time-based and stacked-query techniques, authenticated
 scenarios, and data extraction are outside this run.
 
@@ -73,10 +66,10 @@ with neither confirmed techniques nor that conclusion stop conversion. These
 checks distinguish a failed scan from a completed negative; they do not score
 findings or validate them against ground truth.
 
-The workflow defines the scan scope once, in `SQLMAP_SCOPE`, and passes it to
-sqlmap and to the converter. The converter reads `targets.txt` the way sqlmap's
-`-m` option does and needs exactly one report entry per scanned path, so a
-missing target or an extra report entry stops the run before submission.
+The converter reads `targets.txt` the way sqlmap's `-m` option does and needs
+exactly one report entry per URL. sqlmap skips a repeated path whose parameters it
+has already tested, so `targets.txt` must list each path once. A missing target,
+an extra report entry, or a repeated path stops the run before submission.
 
 Artifacts retain the sitemap, bulk input, native report, session files, console
 log, scanner version and revision, workflow revision, container image IDs and
@@ -107,6 +100,7 @@ command against `targets.txt`. Convert the native report and submit the findings
 ```bash
 python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
   --input benchmarks/sqlmap/artifacts/report.json \
+  --expected-urls benchmarks/sqlmap/artifacts/targets.txt \
   --output benchmarks/sqlmap/artifacts/sqlmap-findings.json
 curl --fail-with-body http://127.0.0.1/VulnerableApp/scanner/benchmark \
   -H 'Content-Type: application/json' \
@@ -121,8 +115,9 @@ is sufficient for both scripts and their tests.
 ## Reading results
 
 The comparator's coverage denominator contains all UNSECURE Java DAST expected
-items, not just SQL injection. A completed negative means the selected scanner
-settings confirmed no injection; it does not establish that a lab is secure.
+items, not just SQL injection. A finding on a URL the ground truth does not list
+is unmatched; `/scanner/dast` currently lists only Java endpoints. A completed
+negative means the selected scanner settings confirmed no injection; it does not
+establish that a lab is secure.
 Results depend on the scanner release, application revision, and settings.
-Unmatched or out-of-scope findings require review and are not automatically
-false positives.
+Unmatched findings require review and are not automatically false positives.
