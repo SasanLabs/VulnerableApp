@@ -305,6 +305,14 @@ function getUrlForVulnerabilityLevel() {
   );
 }
 
+// Always the HTTP(S) path, even for a WebSocket level, for a companion REST endpoint such as
+// a WebSocket level's own session setup. getUrlForVulnerabilityLevel() already returns this
+// here, but the facade's version of this function returns a ws(s):// URL for a WebSocket
+// level, so a level's own script that needs the HTTP path specifically calls this one instead.
+function getHttpUrlForVulnerabilityLevel() {
+  return getUrlForVulnerabilityLevel();
+}
+
 function getWebSocketUrlForVulnerabilityLevel() {
   const scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
   return (
