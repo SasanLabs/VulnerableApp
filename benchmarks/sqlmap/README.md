@@ -85,10 +85,17 @@ Containers and volumes are removed in the cleanup step, including after failure.
 ## Local run
 
 Use a controlled instance and a fresh artifact directory. The workflow contains
-the complete commands; the same pipeline can be run locally:
+the complete commands; the same pipeline can be run locally. The commands use
+their own Compose project, `vulnerableapp-sqlmap`, so the final `down -v` deletes
+only that project's MongoDB and Mailpit volumes. The stack publishes ports 80,
+8025 and 27017, so stop anything else using them first.
 
 ```bash
-docker compose -f docker-compose.without_llm.yml up -d
+docker compose -p vulnerableapp-sqlmap -f docker-compose.without_llm.yml up -d
+for attempt in {1..40}; do
+  curl --fail --silent --max-time 2 http://127.0.0.1/VulnerableApp/ > /dev/null && break
+  sleep 2
+done
 python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
 
 mkdir -p benchmarks/sqlmap/artifacts
@@ -110,7 +117,7 @@ curl --fail-with-body http://127.0.0.1/VulnerableApp/scanner/benchmark \
   -H 'Content-Type: application/json' \
   --data-binary @benchmarks/sqlmap/artifacts/sqlmap-findings.json \
   -o benchmarks/sqlmap/artifacts/sqlmap-results.json
-docker compose -f docker-compose.without_llm.yml down -v --remove-orphans
+docker compose -p vulnerableapp-sqlmap -f docker-compose.without_llm.yml down -v --remove-orphans
 ```
 
 Stop after a failed command and inspect the artifacts. Python's standard library
