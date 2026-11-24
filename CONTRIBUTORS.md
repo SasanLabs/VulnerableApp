@@ -72,6 +72,7 @@ Thanks to these wonderful people 🎉
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ritik2005yadav"><img src="https://avatars.githubusercontent.com/u/127892018?v=4&size=100" width="100px" height="100px" alt="Ritik yadav"/><br /><sub><b>Ritik yadav</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=ritik2005yadav" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/parthjan2006sharma-eng"><img src="https://avatars.githubusercontent.com/u/260422943?v=4&size=100" width="100px" height="100px" alt="Parth Sharma"/><br /><sub><b>Parth Sharma</b></sub></a><br /><a href="https://github.com/SasanLabs/VulnerableApp/commits?author=parthjan2006sharma-eng" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
