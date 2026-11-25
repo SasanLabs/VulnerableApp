@@ -38,7 +38,7 @@ SCHEDULE_TOLERANCE = timedelta(hours=2)
 REMINDER_MARKER_PREFIX = "inactive-assignee-reminder"
 
 DEFAULT_INACTIVITY_DAYS = 30
-DEFAULT_REMINDER_INTERVAL_DAYS = 10
+DEFAULT_REMINDER_INTERVAL_DAYS = 15
 
 # Pull requests linked through the Development sidebar only show up as
 # `connected` timeline events, which do not say which pull request was linked
