@@ -14,7 +14,7 @@ on:
         type: boolean
         default: true
   schedule:
-  - cron: '0 6 * * *'
+  - cron: '0 6 */3 * *'
   pull_request:
     branches: [ master ]
     paths:
