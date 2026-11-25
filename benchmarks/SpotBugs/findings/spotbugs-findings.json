@@ -117,13 +117,25 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
-      "line": 67,
+      "line": 107,
       "cwe": "CWE-374",
       "type": "May expose internal representation by returning reference to mutable object"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
-      "line": 47,
+      "line": 103,
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
+      "line": 111,
+      "cwe": "CWE-374",
+      "type": "May expose internal representation by returning reference to mutable object"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/beans/ScannerResponseBean.java",
+      "line": 54,
       "cwe": "CWE-374",
       "type": "May expose internal representation by incorporating reference to mutable object"
     },

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="4.10.5" sequence="0" timestamp="1795527015029" analysisTimestamp="1795527015069" release="unspecified">
+<BugCollection version="4.10.5" sequence="0" timestamp="1795609666914" analysisTimestamp="1795609666961" release="unspecified">
   <Project projectName="VulnerableApp (spotbugsMain)">
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/VulnerableAppRestController.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/exception/ControllerExceptionHandler.class</Jar>
@@ -710,17 +710,40 @@
       <Message>At ScannerMetaResponseBean.java:[line 28]</Message>
     </SourceLine>
   </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" instanceHash="165415eea570fd0752fb2dc47c8dc537" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="374">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>org.sasanlabs.beans.ScannerResponseBean.getCweIds() may expose internal representation by returning ScannerResponseBean.cweIds</LongMessage>
+    <Class classname="org.sasanlabs.beans.ScannerResponseBean" primary="true">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="49" end="111" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>At ScannerResponseBean.java:[lines 49-111]</Message>
+      </SourceLine>
+      <Message>In class org.sasanlabs.beans.ScannerResponseBean</Message>
+    </Class>
+    <Method classname="org.sasanlabs.beans.ScannerResponseBean" name="getCweIds" signature="()Ljava/util/List;" isStatic="false" primary="true">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="107" end="107" startBytecode="0" endBytecode="46" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
+      <Message>In method org.sasanlabs.beans.ScannerResponseBean.getCweIds()</Message>
+    </Method>
+    <Field classname="org.sasanlabs.beans.ScannerResponseBean" name="cweIds" signature="Ljava/util/List;" isStatic="false" primary="true" classAnnotationNames="com.fasterxml.jackson.annotation.JsonProperty">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>In ScannerResponseBean.java</Message>
+      </SourceLine>
+      <Message>Field org.sasanlabs.beans.ScannerResponseBean.cweIds</Message>
+    </Field>
+    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="107" end="107" startBytecode="4" endBytecode="4" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+      <Message>At ScannerResponseBean.java:[line 107]</Message>
+    </SourceLine>
+  </BugInstance>
   <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" instanceHash="61e4d8422a5cf1b2be598d67f2611070" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="374">
     <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
     <LongMessage>org.sasanlabs.beans.ScannerResponseBean.getVulnerabilityTypes() may expose internal representation by returning ScannerResponseBean.vulnerabilityTypes</LongMessage>
     <Class classname="org.sasanlabs.beans.ScannerResponseBean" primary="true">
-      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="42" end="67" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
-        <Message>At ScannerResponseBean.java:[lines 42-67]</Message>
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="49" end="111" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>At ScannerResponseBean.java:[lines 49-111]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.beans.ScannerResponseBean</Message>
     </Class>
     <Method classname="org.sasanlabs.beans.ScannerResponseBean" name="getVulnerabilityTypes" signature="()Ljava/util/List;" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="67" end="67" startBytecode="0" endBytecode="46" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="103" end="103" startBytecode="0" endBytecode="46" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
       <Message>In method org.sasanlabs.beans.ScannerResponseBean.getVulnerabilityTypes()</Message>
     </Method>
     <Field classname="org.sasanlabs.beans.ScannerResponseBean" name="vulnerabilityTypes" signature="Ljava/util/List;" isStatic="false" primary="true" classAnnotationNames="com.fasterxml.jackson.annotation.JsonProperty">
@@ -729,21 +752,44 @@
       </SourceLine>
       <Message>Field org.sasanlabs.beans.ScannerResponseBean.vulnerabilityTypes</Message>
     </Field>
-    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="67" end="67" startBytecode="4" endBytecode="4" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
-      <Message>At ScannerResponseBean.java:[line 67]</Message>
+    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="103" end="103" startBytecode="4" endBytecode="4" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+      <Message>At ScannerResponseBean.java:[line 103]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" rank="18" abbrev="EI" category="MALICIOUS_CODE" instanceHash="e103ce7760363fd31c40397855b92c4e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="374">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>org.sasanlabs.beans.ScannerResponseBean.getWascIds() may expose internal representation by returning ScannerResponseBean.wascIds</LongMessage>
+    <Class classname="org.sasanlabs.beans.ScannerResponseBean" primary="true">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="49" end="111" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>At ScannerResponseBean.java:[lines 49-111]</Message>
+      </SourceLine>
+      <Message>In class org.sasanlabs.beans.ScannerResponseBean</Message>
+    </Class>
+    <Method classname="org.sasanlabs.beans.ScannerResponseBean" name="getWascIds" signature="()Ljava/util/List;" isStatic="false" primary="true">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="111" end="111" startBytecode="0" endBytecode="46" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
+      <Message>In method org.sasanlabs.beans.ScannerResponseBean.getWascIds()</Message>
+    </Method>
+    <Field classname="org.sasanlabs.beans.ScannerResponseBean" name="wascIds" signature="Ljava/util/List;" isStatic="false" primary="true" classAnnotationNames="com.fasterxml.jackson.annotation.JsonProperty">
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>In ScannerResponseBean.java</Message>
+      </SourceLine>
+      <Message>Field org.sasanlabs.beans.ScannerResponseBean.wascIds</Message>
+    </Field>
+    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="111" end="111" startBytecode="4" endBytecode="4" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+      <Message>At ScannerResponseBean.java:[line 111]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="EI_EXPOSE_REP2" priority="2" rank="18" abbrev="EI2" category="MALICIOUS_CODE" instanceHash="8086dc1a754244b2eff146efbc28bafe" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="374">
     <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
     <LongMessage>new org.sasanlabs.beans.ScannerResponseBean(String, String, RequestMethod, Protocol, List) may expose internal representation by storing an externally mutable object into ScannerResponseBean.vulnerabilityTypes</LongMessage>
     <Class classname="org.sasanlabs.beans.ScannerResponseBean" primary="true">
-      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="42" end="67" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
-        <Message>At ScannerResponseBean.java:[lines 42-67]</Message>
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="49" end="111" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+        <Message>At ScannerResponseBean.java:[lines 49-111]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.beans.ScannerResponseBean</Message>
     </Class>
     <Method classname="org.sasanlabs.beans.ScannerResponseBean" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;Lorg/springframework/web/bind/annotation/RequestMethod;Lorg/sasanlabs/internal/utility/Protocol;Ljava/util/List;)V" isStatic="false" primary="true">
-      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="42" end="48" startBytecode="0" endBytecode="165" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
+      <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" start="49" end="58" startBytecode="0" endBytecode="196" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java"/>
       <Message>In method new org.sasanlabs.beans.ScannerResponseBean(String, String, RequestMethod, Protocol, List)</Message>
     </Method>
     <Field classname="org.sasanlabs.beans.ScannerResponseBean" name="vulnerabilityTypes" signature="Ljava/util/List;" isStatic="false" primary="true" classAnnotationNames="com.fasterxml.jackson.annotation.JsonProperty">
@@ -752,11 +798,11 @@
       </SourceLine>
       <Message>Field org.sasanlabs.beans.ScannerResponseBean.vulnerabilityTypes</Message>
     </Field>
-    <LocalVariable name="vulnerabilityTypes" register="5" pc="28" role="LOCAL_VARIABLE_NAMED">
+    <LocalVariable name="vulnerabilityTypes" register="5" pc="31" role="LOCAL_VARIABLE_NAMED">
       <Message>Local variable named vulnerabilityTypes</Message>
     </LocalVariable>
-    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="47" end="47" startBytecode="28" endBytecode="28" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
-      <Message>At ScannerResponseBean.java:[line 47]</Message>
+    <SourceLine classname="org.sasanlabs.beans.ScannerResponseBean" primary="true" start="54" end="54" startBytecode="31" endBytecode="31" sourcefile="ScannerResponseBean.java" sourcepath="org/sasanlabs/beans/ScannerResponseBean.java" relSourcepath="java/org/sasanlabs/beans/ScannerResponseBean.java">
+      <Message>At ScannerResponseBean.java:[line 54]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="EI_EXPOSE_REP2" priority="2" rank="18" abbrev="EI2" category="MALICIOUS_CODE" instanceHash="5323fde3827e7c2c9d8f3017b0cf3e09" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="374">
@@ -2574,7 +2620,7 @@
       <Message>At CachePoisoningVulnerability.java:[lines 480-482]</Message>
     </SourceLine>
   </BugInstance>
-  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="91ac379df8c60593949b9d2326653a6e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
+  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="d6c675a04ce031bb5877802ddf3ec31c" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
     <ShortMessage>Potential Command Injection</ShortMessage>
     <LongMessage>This usage of java/lang/ProcessBuilder.&lt;init&gt;(Ljava/util/List;)V can be vulnerable to Command Injection</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.commandInjection.CommandInjection" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
@@ -2596,17 +2642,17 @@
     <String value="0" role="Sink parameter">
       <Message>Sink parameter 0</Message>
     </String>
-    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
-    </String>
     <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0" role="Unknown source">
       <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0</Message>
     </String>
-    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
+    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
     </String>
     <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1" role="Unknown source">
       <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1</Message>
+    </String>
+    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
     </String>
     <String value="with tainted arguments detected" role="Method usage">
       <Message>Method usage with tainted arguments detected</Message>
@@ -7649,14 +7695,14 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <Description>Servlet Parameter</Description>
   </BugCode>
   <Errors errors="0" missingClasses="0"></Errors>
-  <FindBugsSummary timestamp="Tue, 24 Nov 2026 13:30:15 +0000" total_classes="167" referenced_classes="698" total_bugs="275" total_size="7241" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="23.53" clock_seconds="6.99" peak_mbytes="460.08" alloc_mbytes="3996.00" gc_seconds="0.20" priority_3="126" priority_2="109" priority_1="40">
+  <FindBugsSummary timestamp="Wed, 25 Nov 2026 12:27:46 +0000" total_classes="167" referenced_classes="698" total_bugs="277" total_size="7269" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="42.55" clock_seconds="12.86" peak_mbytes="441.11" alloc_mbytes="3996.00" gc_seconds="0.23" priority_3="126" priority_2="111" priority_1="40">
     <FileStats path="org/sasanlabs/Application.java" bugCount="0" size="6"/>
     <FileStats path="org/sasanlabs/beans/AllEndPointsResponseBean.java" bugCount="4" size="28" bugHash="1d64f120f73c55eb47790864e3637b23"/>
     <FileStats path="org/sasanlabs/beans/AttackVectorResponseBean.java" bugCount="2" size="16" bugHash="9547051a1b6809c9de4629cf44458827"/>
     <FileStats path="org/sasanlabs/beans/ChallengeCardResponseBean.java" bugCount="2" size="40" bugHash="61fbd3fea9b44a148ca8f20af424f315"/>
     <FileStats path="org/sasanlabs/beans/LevelResponseBean.java" bugCount="7" size="75" bugHash="65f40ae1ee9ba59dd495726d3e9fd9f9"/>
     <FileStats path="org/sasanlabs/beans/ScannerMetaResponseBean.java" bugCount="4" size="12" bugHash="619dc0e7a1ad52987597411a02983012"/>
-    <FileStats path="org/sasanlabs/beans/ScannerResponseBean.java" bugCount="2" size="24" bugHash="026ce0555deb8728299a6ffcc53e15ea"/>
+    <FileStats path="org/sasanlabs/beans/ScannerResponseBean.java" bugCount="4" size="52" bugHash="f9d05276b7d0868c7928ae324822ca17"/>
     <FileStats path="org/sasanlabs/benchmark/BenchmarkConfiguration.java" bugCount="0" size="7"/>
     <FileStats path="org/sasanlabs/benchmark/controller/BenchmarkController.java" bugCount="2" size="29" bugHash="83dc717b02ba110f93508dba1678210f"/>
     <FileStats path="org/sasanlabs/benchmark/model/BenchmarkResult.java" bugCount="6" size="49" bugHash="617b33c59c8095d736e0b432ecb9a6bf"/>
@@ -7724,7 +7770,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java" bugCount="4" size="173" bugHash="19675de7fef7365e35bca30d441ba4ca"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachedResponse.java" bugCount="0" size="22"/>
     <FileStats path="org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java" bugCount="0" size="39"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="b9359ddded40520a3dd55b66e2570217"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="526dcfbedd58a39994c66df0b874d485"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java" bugCount="5" size="107" bugHash="cacc896590f80ea0f68fb0384ff9ab46"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" bugCount="1" size="66" bugHash="5c91121d11b341778c4ff4b35a508bc8"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresVaultRepository.java" bugCount="0" size="8"/>
@@ -7803,7 +7849,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <PackageStats package="org.sasanlabs" total_bugs="0" total_types="1" total_size="6">
       <ClassStats class="org.sasanlabs.Application" sourceFile="Application.java" interface="false" size="6" bugs="0"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.beans" total_bugs="21" total_types="8" total_size="195" priority_2="21">
+    <PackageStats package="org.sasanlabs.beans" total_bugs="23" total_types="8" total_size="223" priority_2="23">
       <ClassStats class="org.sasanlabs.beans.AllEndPointsResponseBean" sourceFile="AllEndPointsResponseBean.java" interface="false" size="28" bugs="4" priority_2="4"/>
       <ClassStats class="org.sasanlabs.beans.AttackVectorResponseBean" sourceFile="AttackVectorResponseBean.java" interface="false" size="16" bugs="2" priority_2="2"/>
       <ClassStats class="org.sasanlabs.beans.ChallengeCardResponseBean" sourceFile="ChallengeCardResponseBean.java" interface="false" size="16" bugs="2" priority_2="2"/>
@@ -7811,7 +7857,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.beans.ChallengeCardResponseBean$PayloadResponseBean" sourceFile="ChallengeCardResponseBean.java" interface="false" size="12" bugs="0"/>
       <ClassStats class="org.sasanlabs.beans.LevelResponseBean" sourceFile="LevelResponseBean.java" interface="false" size="75" bugs="7" priority_2="7"/>
       <ClassStats class="org.sasanlabs.beans.ScannerMetaResponseBean" sourceFile="ScannerMetaResponseBean.java" interface="false" size="12" bugs="4" priority_2="4"/>
-      <ClassStats class="org.sasanlabs.beans.ScannerResponseBean" sourceFile="ScannerResponseBean.java" interface="false" size="24" bugs="2" priority_2="2"/>
+      <ClassStats class="org.sasanlabs.beans.ScannerResponseBean" sourceFile="ScannerResponseBean.java" interface="false" size="52" bugs="4" priority_2="4"/>
     </PackageStats>
     <PackageStats package="org.sasanlabs.benchmark" total_bugs="0" total_types="1" total_size="7">
       <ClassStats class="org.sasanlabs.benchmark.BenchmarkConfiguration" sourceFile="BenchmarkConfiguration.java" interface="false" size="7" bugs="0"/>
@@ -8060,74 +8106,81 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.vulnerability.utils.Constants" sourceFile="Constants.java" interface="true" size="9" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="512" invocations="3056" avgMicrosecondsPerInvocation="167" maxMicrosecondsPerInvocation="16705" standardDeviationMicrosecondsPerInvocation="561"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="444" invocations="3070" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="41472" standardDeviationMicrosecondsPerInvocation="1373"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="240" invocations="698" avgMicrosecondsPerInvocation="344" maxMicrosecondsPerInvocation="15093" standardDeviationMicrosecondsPerInvocation="924"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="224" invocations="698" avgMicrosecondsPerInvocation="321" maxMicrosecondsPerInvocation="10661" standardDeviationMicrosecondsPerInvocation="742"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="217" invocations="1166" avgMicrosecondsPerInvocation="186" maxMicrosecondsPerInvocation="17226" standardDeviationMicrosecondsPerInvocation="754"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="189" invocations="2068" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="14991" standardDeviationMicrosecondsPerInvocation="419"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="186" invocations="1168" avgMicrosecondsPerInvocation="159" maxMicrosecondsPerInvocation="14417" standardDeviationMicrosecondsPerInvocation="550"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="180" invocations="1258" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="21817" standardDeviationMicrosecondsPerInvocation="684"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="166" invocations="1168" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="3724" standardDeviationMicrosecondsPerInvocation="287"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="151" invocations="1168" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="5126" standardDeviationMicrosecondsPerInvocation="328"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="140" invocations="1259" avgMicrosecondsPerInvocation="111" maxMicrosecondsPerInvocation="4802" standardDeviationMicrosecondsPerInvocation="267"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="134" invocations="1065" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="22736" standardDeviationMicrosecondsPerInvocation="806"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="112" invocations="1264" avgMicrosecondsPerInvocation="89" maxMicrosecondsPerInvocation="4750" standardDeviationMicrosecondsPerInvocation="185"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="95" invocations="866" avgMicrosecondsPerInvocation="110" maxMicrosecondsPerInvocation="2024" standardDeviationMicrosecondsPerInvocation="182"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="85" invocations="698" avgMicrosecondsPerInvocation="122" maxMicrosecondsPerInvocation="5792" standardDeviationMicrosecondsPerInvocation="317"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="66" invocations="1270" avgMicrosecondsPerInvocation="52" maxMicrosecondsPerInvocation="13453" standardDeviationMicrosecondsPerInvocation="401"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="65" invocations="698" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="9133" standardDeviationMicrosecondsPerInvocation="397"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="64" invocations="698" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="6585" standardDeviationMicrosecondsPerInvocation="321"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="63" invocations="698" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="16643" standardDeviationMicrosecondsPerInvocation="829"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="61" invocations="698" avgMicrosecondsPerInvocation="88" maxMicrosecondsPerInvocation="6005" standardDeviationMicrosecondsPerInvocation="296"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="57" invocations="167" avgMicrosecondsPerInvocation="345" maxMicrosecondsPerInvocation="5714" standardDeviationMicrosecondsPerInvocation="587"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="56" invocations="698" avgMicrosecondsPerInvocation="81" maxMicrosecondsPerInvocation="2916" standardDeviationMicrosecondsPerInvocation="215"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="56" invocations="167" avgMicrosecondsPerInvocation="337" maxMicrosecondsPerInvocation="7484" standardDeviationMicrosecondsPerInvocation="715"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="50" invocations="167" avgMicrosecondsPerInvocation="304" maxMicrosecondsPerInvocation="6004" standardDeviationMicrosecondsPerInvocation="565"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="50" invocations="698" avgMicrosecondsPerInvocation="72" maxMicrosecondsPerInvocation="8541" standardDeviationMicrosecondsPerInvocation="340"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="48" invocations="2964" avgMicrosecondsPerInvocation="16" maxMicrosecondsPerInvocation="591" standardDeviationMicrosecondsPerInvocation="33"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="47" invocations="1168" avgMicrosecondsPerInvocation="40" maxMicrosecondsPerInvocation="2077" standardDeviationMicrosecondsPerInvocation="101"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="246" maxMicrosecondsPerInvocation="2018" standardDeviationMicrosecondsPerInvocation="332"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="39" invocations="698" avgMicrosecondsPerInvocation="56" maxMicrosecondsPerInvocation="2301" standardDeviationMicrosecondsPerInvocation="159"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="222" maxMicrosecondsPerInvocation="1158" standardDeviationMicrosecondsPerInvocation="200"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="221" maxMicrosecondsPerInvocation="16489" standardDeviationMicrosecondsPerInvocation="1283"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="35" invocations="698" avgMicrosecondsPerInvocation="51" maxMicrosecondsPerInvocation="2151" standardDeviationMicrosecondsPerInvocation="131"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="34" invocations="167" avgMicrosecondsPerInvocation="207" maxMicrosecondsPerInvocation="2437" standardDeviationMicrosecondsPerInvocation="319"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="34" invocations="24559" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="1615" standardDeviationMicrosecondsPerInvocation="13"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="30" invocations="1063" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="1369" standardDeviationMicrosecondsPerInvocation="70"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="1385" standardDeviationMicrosecondsPerInvocation="230"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="176" maxMicrosecondsPerInvocation="3958" standardDeviationMicrosecondsPerInvocation="325"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="29" invocations="1229" avgMicrosecondsPerInvocation="23" maxMicrosecondsPerInvocation="5350" standardDeviationMicrosecondsPerInvocation="200"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="167" maxMicrosecondsPerInvocation="5956" standardDeviationMicrosecondsPerInvocation="614"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="27" invocations="259" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="712" standardDeviationMicrosecondsPerInvocation="117"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="4235" standardDeviationMicrosecondsPerInvocation="568"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="160" maxMicrosecondsPerInvocation="1456" standardDeviationMicrosecondsPerInvocation="180"/>
-      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="26" invocations="45848" avgMicrosecondsPerInvocation="0" maxMicrosecondsPerInvocation="49" standardDeviationMicrosecondsPerInvocation="0"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="145" maxMicrosecondsPerInvocation="1438" standardDeviationMicrosecondsPerInvocation="234"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="2790" standardDeviationMicrosecondsPerInvocation="263"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DateFormatStringChecker" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="12865" standardDeviationMicrosecondsPerInvocation="991"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindFloatEquality" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="13323" standardDeviationMicrosecondsPerInvocation="1026"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindVulnerableSecurityCheckMethods" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="137" maxMicrosecondsPerInvocation="12937" standardDeviationMicrosecondsPerInvocation="997"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="22" invocations="1166" avgMicrosecondsPerInvocation="19" maxMicrosecondsPerInvocation="889" standardDeviationMicrosecondsPerInvocation="43"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1185" standardDeviationMicrosecondsPerInvocation="210"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1590" standardDeviationMicrosecondsPerInvocation="203"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="127" maxMicrosecondsPerInvocation="1150" standardDeviationMicrosecondsPerInvocation="185"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="3284" standardDeviationMicrosecondsPerInvocation="288"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="20" invocations="167" avgMicrosecondsPerInvocation="123" maxMicrosecondsPerInvocation="1626" standardDeviationMicrosecondsPerInvocation="184"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="20" invocations="698" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="1427" standardDeviationMicrosecondsPerInvocation="75"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.injection.script.SpelViewDetector" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="10069" standardDeviationMicrosecondsPerInvocation="776"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="19" invocations="167" avgMicrosecondsPerInvocation="114" maxMicrosecondsPerInvocation="1457" standardDeviationMicrosecondsPerInvocation="208"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="18" invocations="167" avgMicrosecondsPerInvocation="108" maxMicrosecondsPerInvocation="2071" standardDeviationMicrosecondsPerInvocation="261"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="793" standardDeviationMicrosecondsPerInvocation="130"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.extra.JstlExpressionWhiteLister" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="10759" standardDeviationMicrosecondsPerInvocation="829"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="17" invocations="698" avgMicrosecondsPerInvocation="24" maxMicrosecondsPerInvocation="3381" standardDeviationMicrosecondsPerInvocation="184"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="17" invocations="167" avgMicrosecondsPerInvocation="102" maxMicrosecondsPerInvocation="977" standardDeviationMicrosecondsPerInvocation="112"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="761" standardDeviationMicrosecondsPerInvocation="132"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="99" maxMicrosecondsPerInvocation="980" standardDeviationMicrosecondsPerInvocation="153"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="16" invocations="167" avgMicrosecondsPerInvocation="98" maxMicrosecondsPerInvocation="844" standardDeviationMicrosecondsPerInvocation="110"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="15" invocations="167" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="926" standardDeviationMicrosecondsPerInvocation="128"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantPoolGenFactory" totalMilliseconds="14" invocations="169" avgMicrosecondsPerInvocation="88" maxMicrosecondsPerInvocation="2484" standardDeviationMicrosecondsPerInvocation="235"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="14" invocations="167" avgMicrosecondsPerInvocation="88" maxMicrosecondsPerInvocation="674" standardDeviationMicrosecondsPerInvocation="122"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="1091" invocations="3056" avgMicrosecondsPerInvocation="357" maxMicrosecondsPerInvocation="25126" standardDeviationMicrosecondsPerInvocation="1035"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="496" invocations="698" avgMicrosecondsPerInvocation="711" maxMicrosecondsPerInvocation="33467" standardDeviationMicrosecondsPerInvocation="1925"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="491" invocations="698" avgMicrosecondsPerInvocation="704" maxMicrosecondsPerInvocation="33758" standardDeviationMicrosecondsPerInvocation="1820"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="406" invocations="3070" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="25394" standardDeviationMicrosecondsPerInvocation="788"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="401" invocations="2074" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="27588" standardDeviationMicrosecondsPerInvocation="821"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="391" invocations="1174" avgMicrosecondsPerInvocation="333" maxMicrosecondsPerInvocation="44345" standardDeviationMicrosecondsPerInvocation="1536"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="368" invocations="1172" avgMicrosecondsPerInvocation="314" maxMicrosecondsPerInvocation="9140" standardDeviationMicrosecondsPerInvocation="560"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="361" invocations="1174" avgMicrosecondsPerInvocation="307" maxMicrosecondsPerInvocation="22141" standardDeviationMicrosecondsPerInvocation="868"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="292" invocations="1264" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="8489" standardDeviationMicrosecondsPerInvocation="485"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="285" invocations="1174" avgMicrosecondsPerInvocation="243" maxMicrosecondsPerInvocation="8876" standardDeviationMicrosecondsPerInvocation="526"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="268" invocations="1265" avgMicrosecondsPerInvocation="212" maxMicrosecondsPerInvocation="6549" standardDeviationMicrosecondsPerInvocation="483"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="193" invocations="870" avgMicrosecondsPerInvocation="221" maxMicrosecondsPerInvocation="4505" standardDeviationMicrosecondsPerInvocation="376"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="182" invocations="1270" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="6331" standardDeviationMicrosecondsPerInvocation="298"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="177" invocations="1065" avgMicrosecondsPerInvocation="166" maxMicrosecondsPerInvocation="21748" standardDeviationMicrosecondsPerInvocation="735"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="165" invocations="698" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="9814" standardDeviationMicrosecondsPerInvocation="585"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="138" invocations="698" avgMicrosecondsPerInvocation="197" maxMicrosecondsPerInvocation="11128" standardDeviationMicrosecondsPerInvocation="607"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="134" invocations="698" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="20543" standardDeviationMicrosecondsPerInvocation="869"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="124" invocations="698" avgMicrosecondsPerInvocation="178" maxMicrosecondsPerInvocation="4130" standardDeviationMicrosecondsPerInvocation="418"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="120" invocations="698" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="8425" standardDeviationMicrosecondsPerInvocation="460"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="115" invocations="167" avgMicrosecondsPerInvocation="690" maxMicrosecondsPerInvocation="19040" standardDeviationMicrosecondsPerInvocation="1785"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="103" invocations="1174" avgMicrosecondsPerInvocation="87" maxMicrosecondsPerInvocation="17497" standardDeviationMicrosecondsPerInvocation="530"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="98" invocations="1276" avgMicrosecondsPerInvocation="77" maxMicrosecondsPerInvocation="20300" standardDeviationMicrosecondsPerInvocation="587"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="95" invocations="167" avgMicrosecondsPerInvocation="573" maxMicrosecondsPerInvocation="5007" standardDeviationMicrosecondsPerInvocation="822"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="95" invocations="2964" avgMicrosecondsPerInvocation="32" maxMicrosecondsPerInvocation="3979" standardDeviationMicrosecondsPerInvocation="108"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="95" invocations="698" avgMicrosecondsPerInvocation="136" maxMicrosecondsPerInvocation="27976" standardDeviationMicrosecondsPerInvocation="1089"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="94" invocations="698" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="12766" standardDeviationMicrosecondsPerInvocation="526"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="87" invocations="698" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="3649" standardDeviationMicrosecondsPerInvocation="331"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="86" invocations="167" avgMicrosecondsPerInvocation="519" maxMicrosecondsPerInvocation="12224" standardDeviationMicrosecondsPerInvocation="1016"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="82" invocations="167" avgMicrosecondsPerInvocation="492" maxMicrosecondsPerInvocation="9050" standardDeviationMicrosecondsPerInvocation="877"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="78" invocations="698" avgMicrosecondsPerInvocation="112" maxMicrosecondsPerInvocation="2572" standardDeviationMicrosecondsPerInvocation="270"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="69" invocations="698" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="28601" standardDeviationMicrosecondsPerInvocation="1173"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="67" invocations="167" avgMicrosecondsPerInvocation="406" maxMicrosecondsPerInvocation="14480" standardDeviationMicrosecondsPerInvocation="1170"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="62" invocations="167" avgMicrosecondsPerInvocation="371" maxMicrosecondsPerInvocation="3036" standardDeviationMicrosecondsPerInvocation="467"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="58" invocations="167" avgMicrosecondsPerInvocation="349" maxMicrosecondsPerInvocation="3308" standardDeviationMicrosecondsPerInvocation="535"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="53" invocations="24619" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="1056" standardDeviationMicrosecondsPerInvocation="10"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="51" invocations="1067" avgMicrosecondsPerInvocation="48" maxMicrosecondsPerInvocation="2439" standardDeviationMicrosecondsPerInvocation="117"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="49" invocations="167" avgMicrosecondsPerInvocation="294" maxMicrosecondsPerInvocation="4844" standardDeviationMicrosecondsPerInvocation="503"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="48" invocations="45848" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="972" standardDeviationMicrosecondsPerInvocation="4"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="48" invocations="167" avgMicrosecondsPerInvocation="290" maxMicrosecondsPerInvocation="10991" standardDeviationMicrosecondsPerInvocation="1187"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="47" invocations="259" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="1132" standardDeviationMicrosecondsPerInvocation="171"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="46" invocations="167" avgMicrosecondsPerInvocation="281" maxMicrosecondsPerInvocation="4769" standardDeviationMicrosecondsPerInvocation="912"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="45" invocations="1172" avgMicrosecondsPerInvocation="38" maxMicrosecondsPerInvocation="2586" standardDeviationMicrosecondsPerInvocation="100"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="266" maxMicrosecondsPerInvocation="11673" standardDeviationMicrosecondsPerInvocation="932"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="266" maxMicrosecondsPerInvocation="9301" standardDeviationMicrosecondsPerInvocation="799"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="43" invocations="1235" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="7710" standardDeviationMicrosecondsPerInvocation="286"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="43" invocations="167" avgMicrosecondsPerInvocation="261" maxMicrosecondsPerInvocation="2192" standardDeviationMicrosecondsPerInvocation="331"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizingOnContentsOfFieldToProtectField" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="238" maxMicrosecondsPerInvocation="17715" standardDeviationMicrosecondsPerInvocation="1367"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="233" maxMicrosecondsPerInvocation="2056" standardDeviationMicrosecondsPerInvocation="338"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="232" maxMicrosecondsPerInvocation="4919" standardDeviationMicrosecondsPerInvocation="428"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="224" maxMicrosecondsPerInvocation="3241" standardDeviationMicrosecondsPerInvocation="366"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="217" maxMicrosecondsPerInvocation="2380" standardDeviationMicrosecondsPerInvocation="363"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="217" maxMicrosecondsPerInvocation="1945" standardDeviationMicrosecondsPerInvocation="301"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="211" maxMicrosecondsPerInvocation="1604" standardDeviationMicrosecondsPerInvocation="270"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="1860" standardDeviationMicrosecondsPerInvocation="335"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="2190" standardDeviationMicrosecondsPerInvocation="297"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="200" maxMicrosecondsPerInvocation="1738" standardDeviationMicrosecondsPerInvocation="261"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="199" maxMicrosecondsPerInvocation="1407" standardDeviationMicrosecondsPerInvocation="249"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="32" invocations="698" avgMicrosecondsPerInvocation="46" maxMicrosecondsPerInvocation="2444" standardDeviationMicrosecondsPerInvocation="114"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="1613" standardDeviationMicrosecondsPerInvocation="282"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="188" maxMicrosecondsPerInvocation="1240" standardDeviationMicrosecondsPerInvocation="237"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="4017" standardDeviationMicrosecondsPerInvocation="404"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="3181" standardDeviationMicrosecondsPerInvocation="335"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnnecessaryEnvUsage" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="7764" standardDeviationMicrosecondsPerInvocation="620"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="1086" standardDeviationMicrosecondsPerInvocation="176"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="1480" standardDeviationMicrosecondsPerInvocation="235"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="1240" standardDeviationMicrosecondsPerInvocation="236"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="1804" standardDeviationMicrosecondsPerInvocation="228"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="1798" standardDeviationMicrosecondsPerInvocation="240"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="170" maxMicrosecondsPerInvocation="2487" standardDeviationMicrosecondsPerInvocation="400"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="2210" standardDeviationMicrosecondsPerInvocation="262"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="160" maxMicrosecondsPerInvocation="934" standardDeviationMicrosecondsPerInvocation="207"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="900" standardDeviationMicrosecondsPerInvocation="189"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectionIncreaseAccessibility" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="1442" standardDeviationMicrosecondsPerInvocation="229"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.IncompatMask" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="1624" standardDeviationMicrosecondsPerInvocation="213"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StringConcatenation" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="1532" standardDeviationMicrosecondsPerInvocation="222"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
