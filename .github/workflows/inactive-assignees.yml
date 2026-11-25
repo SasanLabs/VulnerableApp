@@ -1,0 +1,76 @@
+# Reminds assignees of open issues that have had no activity from them and
+# unassigns them after a configurable inactivity period, so that the issue
+# becomes available to other contributors again.
+#
+# The logic lives in .github/scripts/inactive_assignees.py and is documented in
+# the "Issue assignment and inactivity" section of CONTRIBUTING.md.
+name: Remind and unassign inactive assignees
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Only log what would happen, without commenting or unassigning'
+        type: boolean
+        default: true
+  schedule:
+  - cron: '0 6 */3 * *'
+  pull_request:
+    branches: [ master ]
+    paths:
+    - '.github/scripts/*inactive_assignees*.py'
+    - '.github/workflows/inactive-assignees.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: .github/scripts
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Run unit tests
+      run: python -m unittest discover -s .github/scripts -p 'test_inactive_assignees.py' -v
+
+  process:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    # Never let a scheduled and a manual run post reminders at the same time.
+    concurrency:
+      group: inactive-assignees
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      issues: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: .github/scripts
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Remind and unassign inactive assignees
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Days without activity from an assignee before they are unassigned.
+        INACTIVITY_DAYS: 30
+        # Days without activity before the first reminder, and between reminders.
+        REMINDER_INTERVAL_DAYS: 10
+        # Comma-separated labels whose issues are never processed.
+        EXEMPT_LABELS: 'pinned,do-not-close'
+        DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+      run: python .github/scripts/inactive_assignees.py

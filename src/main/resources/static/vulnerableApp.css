@@ -92,12 +92,33 @@ div.navbar-item-menu a {
 }
 
 .aboutContainer {
-    background: burlywood;
     font-size: 18px;
-    flex-direction: column;
-    text-align: center;
+    text-align: left;
+    margin-top: 3%;
     margin-left: 5%;
     margin-right: 5%;
+    padding-bottom: 5%;
+    display: none;
+}
+
+/* About is a separate page selected through the native anchor navigation:
+ * only #aboutContainer in the URL shows it and hides the home page. */
+.aboutContainer:target {
+    display: block;
+}
+
+body:has(.aboutContainer:target) .homeContainer {
+    display: none;
+}
+
+body:has(.aboutContainer:target) #home {
+    color: inherit;
+    font-weight: normal;
+}
+
+body:has(.aboutContainer:target) #about {
+    color: black;
+    font-weight: 600;
 }
 
 #testScanner {
@@ -342,11 +363,6 @@ hr {
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-#contribution {
-    font-size: 20px;
-    margin-left: 5%;
 }
 
 /**

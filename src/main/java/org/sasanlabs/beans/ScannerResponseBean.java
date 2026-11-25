@@ -1,7 +1,9 @@
 package org.sasanlabs.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.sasanlabs.internal.utility.Protocol;
 import org.sasanlabs.vulnerability.types.VulnerabilityType;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,18 +35,52 @@ public class ScannerResponseBean {
     @JsonProperty("vulnerabilityTypes")
     private List<VulnerabilityType> vulnerabilityTypes;
 
+    @JsonProperty("cweIds")
+    private List<Integer> cweIds;
+
+    @JsonProperty("wascIds")
+    private List<Integer> wascIds;
+
     public ScannerResponseBean(
             String url,
             String variant,
             RequestMethod requestMethod,
             Protocol protocol,
             List<VulnerabilityType> vulnerabilityTypes) {
-        super();
         this.url = url;
         this.variant = variant;
         this.requestMethod = requestMethod;
-        this.protocol = protocol;
+        this.protocol = Protocol.orDefault(protocol);
         this.vulnerabilityTypes = vulnerabilityTypes;
+
+        this.cweIds = extractCweIds(vulnerabilityTypes);
+        this.wascIds = extractWascIds(vulnerabilityTypes);
+    }
+
+    private List<Integer> extractCweIds(List<VulnerabilityType> types) {
+        if (types == null) {
+            return Collections.emptyList();
+        }
+
+        return types.stream()
+                .map(VulnerabilityType::getCweID)
+                .filter(id -> id != null && id > 0)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> extractWascIds(List<VulnerabilityType> types) {
+        if (types == null) {
+            return Collections.emptyList();
+        }
+
+        return types.stream()
+                .map(VulnerabilityType::getWascID)
+                .filter(id -> id != null && id > 0)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     public String getUrl() {
@@ -65,5 +101,13 @@ public class ScannerResponseBean {
 
     public List<VulnerabilityType> getVulnerabilityTypes() {
         return vulnerabilityTypes;
+    }
+
+    public List<Integer> getCweIds() {
+        return cweIds;
+    }
+
+    public List<Integer> getWascIds() {
+        return wascIds;
     }
 }

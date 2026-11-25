@@ -24,19 +24,19 @@ public @interface ChallengeCard {
     /** Container annotation for making {@link ChallengeCard} repeatable. */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = ElementType.METHOD)
-    public @interface ChallengeCards {
+    @interface ChallengeCards {
         ChallengeCard[] value();
     }
 
     /** Defines a hint for the challenge. */
-    public @interface Hint {
+    @interface Hint {
         int order();
 
         String text();
     }
 
     /** Defines the exploit payload for the challenge. */
-    public @interface Payload {
+    @interface Payload {
         String description();
 
         String value();

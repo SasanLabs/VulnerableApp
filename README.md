@@ -92,7 +92,7 @@ There are 2 ways in which this project can be built and used:
 
 ## Contributing to Project
 
-There are multiple ways in which you can contribute to the project:
+There are multiple ways in which you can contribute to the project (see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the full contributing guidelines):
 1. If you are a developer and trying to start on to the project, then the suggestion is to go through the list of [issues](https://github.com/SasanLabs/VulnerableApp/issues) which contains `good first issue` which can be a good starter.
 2. If you are a developer or a security professional looking to add new Vulnerability type then you can Generate the Sample Vulnerability by running `./gradlew GenerateSampleVulnerability`. It will generate the Sample Vulnerability template which has placeholders and comments. Modified files can be seen in the logs of the command or in the github history. You can navigate to those files, fill in the placeholders and then build the project to see the effect of the changes.
 3. In case you are looking to contribute to the project by publicising it or working on the growth of the project, please feel free to add your thoughts to discussions section or issues and we can discuss over them.
@@ -150,6 +150,14 @@ Password: hacker
 13. [LDAP Injection](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/ldapInjection)
 14. [Authentication Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/authentication)
 15. [Password Reset Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/passwordReset)
+16. [Insecure Deserialisation](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/deserialization)
+17. [Session Management](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/sessionManagement)
+18. [OTP Based Vulnerability](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/otp)
+19. [Cache Poisioning](https://github.com/SasanLabs/VulnerableApp/tree/master/src/main/java/org/sasanlabs/service/vulnerability/cachePoisoning)
+
+> **New to security?** To learn what these vulnerabilities are, see the
+> [OWASP Vulnerabilities list](https://community.owasp.org/vulnerabilities/)
+> and the [CWE Top N lists](https://cwe.mitre.org/scoring/index.html#top_n_lists).
 
 ## Benchmarking your scanner
 
@@ -175,14 +183,21 @@ examples.
 In case you are stuck with any of the steps or understanding anything related to project and its goals, read [Security Policy](SECURITY.md) if then also it is not resolved
 feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://github.com/SasanLabs/VulnerableApp/issues), and we will try our best to help you.
 
-## Documentation and References
+## External Usage, Research & Integrations
 
-1. [OWASP Spotlight series overview of project](https://m.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T&pp=iAQB)
-2. [Overview video for OWASP Spotlight series](https://www.youtube.com/watch?v=HRRTrnRgMjs)
-3. [Documentation](https://sasanlabs.github.io/VulnerableApp)
-4. [Design Documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
-5. [Owasp VulnerableApp](https://owasp.org/www-project-vulnerableapp/)
-6. [Overview Video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+OWASP VulnerableApp is used and referenced in independent security research, scanner evaluations, AI-powered security testing, security education, and integrations with other OWASP projects.
+
+See [External Usage, Research & Integrations page](docs/Usage.md) for links to research papers, scanner benchmarks, AI security testing, OWASP integrations, and other public references.
+
+## Project Documentation & Resources
+
+1. [OWASP VulnerableApp overview — OWASP Spotlight](https://www.youtube.com/watch?v=hoCxzQQugZc&list=PLUKo5k_oSrfOTl27gUmk2o-NBKvkTGw0T)
+2. [OWASP Spotlight overview video](https://www.youtube.com/watch?v=HRRTrnRgMjs)
+3. [Project documentation](https://sasanlabs.github.io/VulnerableApp)
+4. [Design documentation](https://sasanlabs.github.io/VulnerableApp/DesignDocumentation.html)
+5. [OWASP project page](https://owasp.org/projects/vulnerableapp)
+6. [OWASP VulnerableApp overview video](https://www.youtube.com/watch?v=AjL4B-WwrrA&ab_channel=OwaspVulnerableApp)
+7. [Scanner benchmarking documentation](benchmarks/README.md)
 
 ### Blogs
 1. [Overview of Owasp-VulnerableApp - Medium article](https://hussaina-begum.medium.com/an-extensible-vulnerable-application-for-testing-the-vulnerability-scanning-tools-cc98f0d94dbc)
@@ -190,9 +205,6 @@ feel free to shoot a mail at karan.sasan@owasp.org or raise an [issue](https://g
 3. [Introduction to Owasp VulnerableApp by Kenji Nakajima](https://jpn.nec.com/cybersecurity/blog/220520/index.html)
 4. [Gen AI based platform Shannon exploiting VulnerableApp](https://qiita.com/fiord/items/9351bcff6d646862f181)
 5. [I Built the OWASP ZAP File Upload Addon. Here’s Why VulnerableApp-Facade Had to Exist First](https://medium.com/p/52c4f2226ed3)
-
-### Usage of OWASP VulnerableApp
-1. [View Global Academic Interest](./docs/Usage.md)
    
 ### Troubleshooting references
 1. [Reddit exploiting SQL Injection Vulnerability](https://www.reddit.com/r/hacking/comments/11wtf17/owasp_vulnerableappfacade_sql_injection/)

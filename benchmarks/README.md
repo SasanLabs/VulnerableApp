@@ -226,6 +226,46 @@ omitted, it defaults to `DAST` so existing payloads keep working.
 | `DAST` (default) | live `/scanner/dast` endpoint               | `url`, `type`                                |
 | `SAST`           | `/scanner/sast` (from `expectedIssues.csv`) | `filePath`, `line`, plus `cwe` and/or `type` |
 
+## DAST ground-truth schema
+
+This schema applies to each row returned by `GET /scanner/dast` as
+applications adopt it.
+
+| Field | Contract |
+|-------|----------|
+| `cweIds` | Always present. JSON array of unique positive CWE integers, sorted in ascending numeric order. |
+| `wascIds` | Always present. JSON array of unique positive WASC integers, sorted in ascending numeric order. |
+| `vulnerabilityTypes` | Keep the existing field and values until consumers have migrated. |
+| `protocol` | Always present as `"HTTP"` or `"WS"`. Preserve the endpoint's protocol. |
+
+Derive both ID arrays from the application's existing vulnerability metadata
+(`VulnerabilityType` in Java). Combine the IDs for all types in the row,
+omitting missing mappings and non-positive IDs such as `0` and `-1`. Use
+`[]` when a field has no valid IDs. Serialize IDs as numbers, for example
+`79`. Deduplicate each array independently. The two arrays have no positional
+relationship, so their indexes cannot be used to pair a CWE with a WASC.
+
+The following example has two XSS types with the same IDs. File upload
+contributes CWE `434` and has no WASC mapping.
+
+```json
+{
+  "url": "https://example.test/VulnerableApp/example",
+  "variant": "UNSECURE",
+  "method": "POST",
+  "protocol": "HTTP",
+  "vulnerabilityTypes": ["UNRESTRICTED_FILE_UPLOAD", "PERSISTENT_XSS", "REFLECTED_XSS", "PATH_TRAVERSAL"],
+  "cweIds": [22, 79, 434],
+  "wascIds": [8, 33]
+}
+```
+
+The Java and PHP applications share this row format. PHP converts its stored
+string IDs to integers and uses `"HTTP"` for its HTTP endpoints. The facade
+groups responses by application and passes through the fields each application
+returns. During rollout, a legacy row can omit the new fields. An empty array
+from an updated application means the row has no mapping for that ID system.
+
 ## DAST input format
 
 ```json
@@ -273,6 +313,12 @@ the field is omitted, the finding matches the URL's ground-truth row regardless
 of method — leniency for scanners whose output format does not include the
 method. This means existing payloads continue to work; emit `method` to enable
 the stricter check.
+
+The ground truth says whether each entry is HTTP or WebSocket (`protocol`;
+entries without it are HTTP). The method check applies to HTTP entries only. A
+WebSocket entry is matched on its URL and one of the axes, whatever `method`
+the finding carries, since a WebSocket level is always opened with a GET
+handshake. WebSocket items in the report have no `method`.
 
 A scanner that emits multiple axes (type + cwe, etc.) for the same alert is
 counted once. A finding that matches no axis on any expected URL ends up in
@@ -441,9 +487,9 @@ For SAST runs, items look like:
 - `coverage` — `detected / totalExpected * 100`. Reported as `0.0` when ground
   truth is empty.
 - `totalExpected` — number of unique ground-truth items. For DAST, count of
-  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries
-  (SECURE entries are intentionally clean and don't count). For SAST, count of
-  rows in the CSV.
+  `(URL, vulnerabilityType)` pairs across all `UNSECURE` ground-truth entries,
+  HTTP and WebSocket alike (SECURE entries are intentionally clean and don't
+  count). For SAST, count of rows in the CSV.
 - `detectedItems` — expected items the scanner reported. Results written before
   this field existed omit it.
 - `missedItems` — expected items the scanner did not report.
