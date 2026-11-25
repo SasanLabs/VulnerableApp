@@ -41,7 +41,7 @@ Both Checkstyle and Spotless checks are verified in CI for every pull request an
 * This is a guideline we should normally be able to hit. If it's been more than a week and you haven't heard then please feel free to add a comment to your PR.
 
 ##### Issue assignment and inactivity
-To keep issues moving and make sure no issue stays blocked by an assignment nobody is working on, the [Remind and unassign inactive assignees](.github/workflows/inactive-assignees.yml) workflow runs every day and checks all open issues that have an assignee:
+To keep issues moving and make sure no issue stays blocked by an assignment nobody is working on, the [Remind and unassign inactive assignees](workflows/inactive-assignees.yml) workflow runs every day and checks all open issues that have an assignee:
 
 * If you have had no activity on an issue assigned to you for 10 days, you will get a reminder asking for a short progress update. Further reminders follow every 10 days while the issue stays inactive.
 * If you still have no activity 30 days after you were assigned or last active, you will be unassigned and a comment will explain that the issue is available for other contributors. You are only unassigned after a reminder has gone unanswered for at least 10 days.
