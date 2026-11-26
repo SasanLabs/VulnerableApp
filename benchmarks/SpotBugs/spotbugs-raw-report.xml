@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="4.10.5" sequence="0" timestamp="1795609666914" analysisTimestamp="1795609666961" release="unspecified">
+<BugCollection version="4.10.5" sequence="0" timestamp="1795694943413" analysisTimestamp="1795694943451" release="unspecified">
   <Project projectName="VulnerableApp (spotbugsMain)">
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/VulnerableAppRestController.class</Jar>
     <Jar>/home/runner/work/VulnerableApp/VulnerableApp/build/classes/java/main/org/sasanlabs/controller/exception/ControllerExceptionHandler.class</Jar>
@@ -2620,7 +2620,7 @@
       <Message>At CachePoisoningVulnerability.java:[lines 480-482]</Message>
     </SourceLine>
   </BugInstance>
-  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="d6c675a04ce031bb5877802ddf3ec31c" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
+  <BugInstance type="COMMAND_INJECTION" priority="1" rank="10" abbrev="SECCI" category="SECURITY" instanceHash="9584183cc4968988cf7592b5c3f341f0" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="78">
     <ShortMessage>Potential Command Injection</ShortMessage>
     <LongMessage>This usage of java/lang/ProcessBuilder.&lt;init&gt;(Ljava/util/List;)V can be vulnerable to Command Injection</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.commandInjection.CommandInjection" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
@@ -2642,17 +2642,17 @@
     <String value="0" role="Sink parameter">
       <Message>Sink parameter 0</Message>
     </String>
-    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0" role="Unknown source">
-      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0</Message>
-    </String>
-    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
+    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
     </String>
     <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1" role="Unknown source">
       <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getResponseFromPingCommandWithoutShell(Ljava/lang/String;Z)Ljava/lang/StringBuilder; parameter 1</Message>
     </String>
-    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;" role="Unknown source">
-      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List;</Message>
+    <String value="java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;" role="Unknown source">
+      <Message>Unknown source java/util/Arrays.asList([Ljava/lang/Object;)Ljava/util/List;</Message>
+    </String>
+    <String value="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0" role="Unknown source">
+      <Message>Unknown source org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.getPingCommandArguments(Ljava/lang/String;)Ljava/util/List; parameter 0</Message>
     </String>
     <String value="with tainted arguments detected" role="Method usage">
       <Message>Method usage with tainted arguments detected</Message>
@@ -5838,17 +5838,17 @@
     <ShortMessage>Potential CRLF Injection for logs</ShortMessage>
     <LongMessage>This use of org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V might be used to include CRLF characters into log messages</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel1" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="108" end="123" startBytecode="0" endBytecode="330" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="112" end="127" startBytecode="0" endBytecode="330" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel1(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="121" end="121" startBytecode="102" endBytecode="102" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 121]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="125" end="125" startBytecode="102" endBytecode="102" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 125]</Message>
     </SourceLine>
     <String value="org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V" role="Sink method">
       <Message>Sink method org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V</Message>
@@ -5861,17 +5861,17 @@
     <ShortMessage>Potential CRLF Injection for logs</ShortMessage>
     <LongMessage>This use of org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V might be used to include CRLF characters into log messages</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel2" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="212" end="220" startBytecode="0" endBytecode="182" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="221" end="229" startBytecode="0" endBytecode="182" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel2(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="218" end="218" startBytecode="32" endBytecode="32" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 218]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="227" end="227" startBytecode="32" endBytecode="32" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 227]</Message>
     </SourceLine>
     <String value="org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V" role="Sink method">
       <Message>Sink method org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V</Message>
@@ -5884,17 +5884,17 @@
     <ShortMessage>Potential CRLF Injection for logs</ShortMessage>
     <LongMessage>This use of org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V might be used to include CRLF characters into log messages</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel3" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="247" end="260" startBytecode="0" endBytecode="204" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="256" end="269" startBytecode="0" endBytecode="204" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel3(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="258" end="258" startBytecode="46" endBytecode="46" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 258]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="267" end="267" startBytecode="46" endBytecode="46" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 267]</Message>
     </SourceLine>
     <String value="org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V" role="Sink method">
       <Message>Sink method org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V</Message>
@@ -5907,17 +5907,17 @@
     <ShortMessage>Potential CRLF Injection for logs</ShortMessage>
     <LongMessage>This use of org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V might be used to include CRLF characters into log messages</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel4" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="287" end="299" startBytecode="0" endBytecode="215" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="296" end="308" startBytecode="0" endBytecode="215" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel4(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="297" end="297" startBytecode="53" endBytecode="53" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 297]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="306" end="306" startBytecode="53" endBytecode="53" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 306]</Message>
     </SourceLine>
     <String value="org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V" role="Sink method">
       <Message>Sink method org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V</Message>
@@ -5930,17 +5930,17 @@
     <ShortMessage>Potential CRLF Injection for logs</ShortMessage>
     <LongMessage>This use of org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V might be used to include CRLF characters into log messages</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel5" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="325" end="339" startBytecode="0" endBytecode="233" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="334" end="348" startBytecode="0" endBytecode="233" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel5(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="337" end="337" startBytecode="63" endBytecode="63" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 337]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="346" end="346" startBytecode="63" endBytecode="63" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 346]</Message>
     </SourceLine>
     <String value="org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V" role="Sink method">
       <Message>Sink method org/apache/logging/log4j/Logger.error(Ljava/lang/Object;)V</Message>
@@ -5953,85 +5953,119 @@
     <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
     <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel3(HttpServletRequest)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel3" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="247" end="260" startBytecode="0" endBytecode="204" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="256" end="269" startBytecode="0" endBytecode="204" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel3(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="257" end="257" startBytecode="41" endBytecode="41" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 257]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="266" end="266" startBytecode="41" endBytecode="41" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 266]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="cc3be11d69a8d6e8a956ff8eb6f69ba0" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
     <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
     <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel4(HttpServletRequest)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel4" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="287" end="299" startBytecode="0" endBytecode="215" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="296" end="308" startBytecode="0" endBytecode="215" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel4(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="296" end="296" startBytecode="48" endBytecode="48" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 296]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="305" end="305" startBytecode="48" endBytecode="48" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 305]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="cc115ba98c2850e4b9c57cc61d919dd3" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
     <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
     <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel5(HttpServletRequest)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel5" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.ChallengeCard,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="325" end="339" startBytecode="0" endBytecode="233" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="334" end="348" startBytecode="0" endBytecode="233" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel5(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="336" end="336" startBytecode="58" endBytecode="58" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 336]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="345" end="345" startBytecode="58" endBytecode="58" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 345]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="3ddf33c568390fe7f5550eb79776a958" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
     <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
     <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel6(HttpServletRequest)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel6" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping,org.sasanlabs.internal.utility.annotations.ChallengeCard">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="358" end="377" startBytecode="0" endBytecode="637" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="367" end="386" startBytecode="0" endBytecode="638" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel6(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="372" end="372" startBytecode="165" endBytecode="165" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 372]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="381" end="381" startBytecode="165" endBytecode="165" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 381]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="c8fb52df35a7f45a84f66fefc07a79d5" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
     <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
     <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel7(HttpServletRequest)</LongMessage>
     <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="60" end="406" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-        <Message>At XXEVulnerability.java:[lines 60-406]</Message>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
       </SourceLine>
       <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
     </Class>
     <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel7" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
-      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="392" end="406" startBytecode="0" endBytecode="264" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="401" end="415" startBytecode="0" endBytecode="264" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
       <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel7(HttpServletRequest)</Message>
     </Method>
-    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="403" end="403" startBytecode="70" endBytecode="70" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
-      <Message>At XXEVulnerability.java:[line 403]</Message>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="412" end="412" startBytecode="70" endBytecode="70" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 412]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="18fce671f6c12762ea19898dd6b52fb3" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
+    <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
+    <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel8(HttpServletRequest)</LongMessage>
+    <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
+      </SourceLine>
+      <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
+    </Class>
+    <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel8" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="433" end="452" startBytecode="0" endBytecode="411" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel8(HttpServletRequest)</Message>
+    </Method>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="449" end="449" startBytecode="104" endBytecode="104" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 449]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="REC_CATCH_EXCEPTION" priority="3" rank="20" abbrev="REC" category="STYLE" instanceHash="33d09c1805c0f0bd4a1b816e502998f1" instanceOccurrenceNum="0" instanceOccurrenceMax="0" cweid="396">
+    <ShortMessage>Exception is caught when Exception is not thrown</ShortMessage>
+    <LongMessage>Exception is caught when Exception is not thrown in org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel9(HttpServletRequest)</LongMessage>
+    <Class classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" classAnnotationNames="org.springframework.context.annotation.Profile,org.sasanlabs.internal.utility.annotations.VulnerableAppRestController">
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="64" end="490" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+        <Message>At XXEVulnerability.java:[lines 64-490]</Message>
+      </SourceLine>
+      <Message>In class org.sasanlabs.service.vulnerability.xxe.XXEVulnerability</Message>
+    </Class>
+    <Method classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" name="getVulnerablePayloadLevel9" signature="(Ljavax/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;" isStatic="false" primary="true" classAnnotationNames="org.sasanlabs.internal.utility.annotations.AttackVector,org.sasanlabs.internal.utility.annotations.VulnerableAppRequestMapping">
+      <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" start="471" end="490" startBytecode="0" endBytecode="326" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java"/>
+      <Message>In method org.sasanlabs.service.vulnerability.xxe.XXEVulnerability.getVulnerablePayloadLevel9(HttpServletRequest)</Message>
+    </Method>
+    <SourceLine classname="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" primary="true" start="487" end="487" startBytecode="96" endBytecode="96" sourcefile="XXEVulnerability.java" sourcepath="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" relSourcepath="java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java">
+      <Message>At XXEVulnerability.java:[line 487]</Message>
     </SourceLine>
   </BugInstance>
   <BugInstance type="MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR" priority="3" rank="20" abbrev="MC" category="MALICIOUS_CODE" instanceHash="77cce8e654aa4ca027d3e41cd8140f04" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
@@ -7695,7 +7729,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <Description>Servlet Parameter</Description>
   </BugCode>
   <Errors errors="0" missingClasses="0"></Errors>
-  <FindBugsSummary timestamp="Wed, 25 Nov 2026 12:27:46 +0000" total_classes="167" referenced_classes="698" total_bugs="277" total_size="7269" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="42.55" clock_seconds="12.86" peak_mbytes="441.11" alloc_mbytes="3996.00" gc_seconds="0.23" priority_3="126" priority_2="111" priority_1="40">
+  <FindBugsSummary timestamp="Thu, 26 Nov 2026 12:09:03 +0000" total_classes="167" referenced_classes="706" total_bugs="279" total_size="7329" num_packages="46" java_version="17.0.21" vm_version="17.0.21+9" cpu_seconds="36.76" clock_seconds="10.96" peak_mbytes="488.77" alloc_mbytes="3996.00" gc_seconds="0.25" priority_3="128" priority_2="111" priority_1="40">
     <FileStats path="org/sasanlabs/Application.java" bugCount="0" size="6"/>
     <FileStats path="org/sasanlabs/beans/AllEndPointsResponseBean.java" bugCount="4" size="28" bugHash="1d64f120f73c55eb47790864e3637b23"/>
     <FileStats path="org/sasanlabs/beans/AttackVectorResponseBean.java" bugCount="2" size="16" bugHash="9547051a1b6809c9de4629cf44458827"/>
@@ -7770,7 +7804,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachePoisoningVulnerability.java" bugCount="4" size="173" bugHash="19675de7fef7365e35bca30d441ba4ca"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cachePoisoning/CachedResponse.java" bugCount="0" size="22"/>
     <FileStats path="org/sasanlabs/service/vulnerability/clickjacking/ClickjackingVulnerability.java" bugCount="0" size="39"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="526dcfbedd58a39994c66df0b874d485"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/commandInjection/CommandInjection.java" bugCount="7" size="137" bugHash="97d37048e7c0d11a0101226bb730cf17"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/CryptographicFailuresVulnerability.java" bugCount="5" size="107" bugHash="cacc896590f80ea0f68fb0384ff9ab46"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresSeeder.java" bugCount="1" size="66" bugHash="5c91121d11b341778c4ff4b35a508bc8"/>
     <FileStats path="org/sasanlabs/service/vulnerability/cryptographicFailures/repo/CryptographicFailuresVaultRepository.java" bugCount="0" size="8"/>
@@ -7830,7 +7864,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/sqlInjection/CarInformationRepository.java" bugCount="0" size="4"/>
     <FileStats path="org/sasanlabs/service/vulnerability/sqlInjection/ErrorBasedSQLInjectionVulnerability.java" bugCount="7" size="189" bugHash="250e7a1a54c1ee5acfe100dc136d6d9e"/>
     <FileStats path="org/sasanlabs/service/vulnerability/sqlInjection/UnionBasedSQLInjectionVulnerability.java" bugCount="6" size="69" bugHash="5e0f6064ee9df358c8d71806d851645e"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock.java" bugCount="0" size="47"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock.java" bugCount="0" size="73"/>
     <FileStats path="org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java" bugCount="3" size="61" bugHash="24ebd3feaa4a5af473326b2e5f1042d7"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xss/persistent/PersistentXSSInHTMLTagVulnerability.java" bugCount="0" size="101"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xss/persistent/Post.java" bugCount="0" size="21"/>
@@ -7839,7 +7873,7 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
     <FileStats path="org/sasanlabs/service/vulnerability/xss/reflected/XSSWithHtmlTagInjection.java" bugCount="0" size="48"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xxe/TimeoutInputStream.java" bugCount="0" size="22"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xxe/TimingXMLFilter.java" bugCount="0" size="28"/>
-    <FileStats path="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" bugCount="10" size="134" bugHash="fbcfa5e1afd90a70c11629076acd8efc"/>
+    <FileStats path="org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java" bugCount="12" size="168" bugHash="fb4baa226d401630aff2a27bfd79249f"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xxe/bean/Book.java" bugCount="0" size="33"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xxe/bean/ObjectFactory.java" bugCount="0" size="10"/>
     <FileStats path="org/sasanlabs/service/vulnerability/xxe/dao/BookEntity.java" bugCount="6" size="54" bugHash="38744b0e2e61fc4196fbe84171c91dfe"/>
@@ -8072,8 +8106,8 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.service.vulnerability.sqlInjection.ErrorBasedSQLInjectionVulnerability" sourceFile="ErrorBasedSQLInjectionVulnerability.java" interface="false" size="189" bugs="7" priority_2="6" priority_1="1"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.sqlInjection.UnionBasedSQLInjectionVulnerability" sourceFile="UnionBasedSQLInjectionVulnerability.java" interface="false" size="69" bugs="6" priority_2="6"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.service.vulnerability.ssrf" total_bugs="3" total_types="3" total_size="108" priority_3="1" priority_1="2">
-      <ClassStats class="org.sasanlabs.service.vulnerability.ssrf.MetaDataServiceMock" sourceFile="MetaDataServiceMock.java" interface="false" size="37" bugs="0"/>
+    <PackageStats package="org.sasanlabs.service.vulnerability.ssrf" total_bugs="3" total_types="3" total_size="134" priority_3="1" priority_1="2">
+      <ClassStats class="org.sasanlabs.service.vulnerability.ssrf.MetaDataServiceMock" sourceFile="MetaDataServiceMock.java" interface="false" size="63" bugs="0"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.ssrf.MetaDataServiceMock$MetaDataEndpointResponseBean" sourceFile="MetaDataServiceMock.java" interface="false" size="10" bugs="0"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.ssrf.SSRFVulnerability" sourceFile="SSRFVulnerability.java" interface="false" size="61" bugs="3" priority_3="1" priority_1="2"/>
     </PackageStats>
@@ -8086,10 +8120,10 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.service.vulnerability.xss.reflected.XSSInImgTagAttribute" sourceFile="XSSInImgTagAttribute.java" interface="false" size="66" bugs="0"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.xss.reflected.XSSWithHtmlTagInjection" sourceFile="XSSWithHtmlTagInjection.java" interface="false" size="48" bugs="0"/>
     </PackageStats>
-    <PackageStats package="org.sasanlabs.service.vulnerability.xxe" total_bugs="10" total_types="3" total_size="184" priority_3="10">
+    <PackageStats package="org.sasanlabs.service.vulnerability.xxe" total_bugs="12" total_types="3" total_size="218" priority_3="12">
       <ClassStats class="org.sasanlabs.service.vulnerability.xxe.TimeoutInputStream" sourceFile="TimeoutInputStream.java" interface="false" size="22" bugs="0"/>
       <ClassStats class="org.sasanlabs.service.vulnerability.xxe.TimingXMLFilter" sourceFile="TimingXMLFilter.java" interface="false" size="28" bugs="0"/>
-      <ClassStats class="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" sourceFile="XXEVulnerability.java" interface="false" size="134" bugs="10" priority_3="10"/>
+      <ClassStats class="org.sasanlabs.service.vulnerability.xxe.XXEVulnerability" sourceFile="XXEVulnerability.java" interface="false" size="168" bugs="12" priority_3="12"/>
     </PackageStats>
     <PackageStats package="org.sasanlabs.service.vulnerability.xxe.bean" total_bugs="0" total_types="2" total_size="43">
       <ClassStats class="org.sasanlabs.service.vulnerability.xxe.bean.Book" sourceFile="Book.java" interface="false" size="33" bugs="0"/>
@@ -8106,81 +8140,79 @@ r.exec("/bin/sh -c some_tool" + input);</pre>
       <ClassStats class="org.sasanlabs.vulnerability.utils.Constants" sourceFile="Constants.java" interface="true" size="9" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="1091" invocations="3056" avgMicrosecondsPerInvocation="357" maxMicrosecondsPerInvocation="25126" standardDeviationMicrosecondsPerInvocation="1035"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="496" invocations="698" avgMicrosecondsPerInvocation="711" maxMicrosecondsPerInvocation="33467" standardDeviationMicrosecondsPerInvocation="1925"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="491" invocations="698" avgMicrosecondsPerInvocation="704" maxMicrosecondsPerInvocation="33758" standardDeviationMicrosecondsPerInvocation="1820"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="406" invocations="3070" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="25394" standardDeviationMicrosecondsPerInvocation="788"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="401" invocations="2074" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="27588" standardDeviationMicrosecondsPerInvocation="821"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="391" invocations="1174" avgMicrosecondsPerInvocation="333" maxMicrosecondsPerInvocation="44345" standardDeviationMicrosecondsPerInvocation="1536"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="368" invocations="1172" avgMicrosecondsPerInvocation="314" maxMicrosecondsPerInvocation="9140" standardDeviationMicrosecondsPerInvocation="560"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="361" invocations="1174" avgMicrosecondsPerInvocation="307" maxMicrosecondsPerInvocation="22141" standardDeviationMicrosecondsPerInvocation="868"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="292" invocations="1264" avgMicrosecondsPerInvocation="231" maxMicrosecondsPerInvocation="8489" standardDeviationMicrosecondsPerInvocation="485"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="285" invocations="1174" avgMicrosecondsPerInvocation="243" maxMicrosecondsPerInvocation="8876" standardDeviationMicrosecondsPerInvocation="526"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="268" invocations="1265" avgMicrosecondsPerInvocation="212" maxMicrosecondsPerInvocation="6549" standardDeviationMicrosecondsPerInvocation="483"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="193" invocations="870" avgMicrosecondsPerInvocation="221" maxMicrosecondsPerInvocation="4505" standardDeviationMicrosecondsPerInvocation="376"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="182" invocations="1270" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="6331" standardDeviationMicrosecondsPerInvocation="298"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="177" invocations="1065" avgMicrosecondsPerInvocation="166" maxMicrosecondsPerInvocation="21748" standardDeviationMicrosecondsPerInvocation="735"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="165" invocations="698" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="9814" standardDeviationMicrosecondsPerInvocation="585"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="138" invocations="698" avgMicrosecondsPerInvocation="197" maxMicrosecondsPerInvocation="11128" standardDeviationMicrosecondsPerInvocation="607"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="134" invocations="698" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="20543" standardDeviationMicrosecondsPerInvocation="869"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="124" invocations="698" avgMicrosecondsPerInvocation="178" maxMicrosecondsPerInvocation="4130" standardDeviationMicrosecondsPerInvocation="418"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="120" invocations="698" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="8425" standardDeviationMicrosecondsPerInvocation="460"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="115" invocations="167" avgMicrosecondsPerInvocation="690" maxMicrosecondsPerInvocation="19040" standardDeviationMicrosecondsPerInvocation="1785"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="103" invocations="1174" avgMicrosecondsPerInvocation="87" maxMicrosecondsPerInvocation="17497" standardDeviationMicrosecondsPerInvocation="530"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="98" invocations="1276" avgMicrosecondsPerInvocation="77" maxMicrosecondsPerInvocation="20300" standardDeviationMicrosecondsPerInvocation="587"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="95" invocations="167" avgMicrosecondsPerInvocation="573" maxMicrosecondsPerInvocation="5007" standardDeviationMicrosecondsPerInvocation="822"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="95" invocations="2964" avgMicrosecondsPerInvocation="32" maxMicrosecondsPerInvocation="3979" standardDeviationMicrosecondsPerInvocation="108"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="95" invocations="698" avgMicrosecondsPerInvocation="136" maxMicrosecondsPerInvocation="27976" standardDeviationMicrosecondsPerInvocation="1089"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="94" invocations="698" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="12766" standardDeviationMicrosecondsPerInvocation="526"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="87" invocations="698" avgMicrosecondsPerInvocation="125" maxMicrosecondsPerInvocation="3649" standardDeviationMicrosecondsPerInvocation="331"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="86" invocations="167" avgMicrosecondsPerInvocation="519" maxMicrosecondsPerInvocation="12224" standardDeviationMicrosecondsPerInvocation="1016"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="82" invocations="167" avgMicrosecondsPerInvocation="492" maxMicrosecondsPerInvocation="9050" standardDeviationMicrosecondsPerInvocation="877"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="78" invocations="698" avgMicrosecondsPerInvocation="112" maxMicrosecondsPerInvocation="2572" standardDeviationMicrosecondsPerInvocation="270"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="69" invocations="698" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="28601" standardDeviationMicrosecondsPerInvocation="1173"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="67" invocations="167" avgMicrosecondsPerInvocation="406" maxMicrosecondsPerInvocation="14480" standardDeviationMicrosecondsPerInvocation="1170"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="62" invocations="167" avgMicrosecondsPerInvocation="371" maxMicrosecondsPerInvocation="3036" standardDeviationMicrosecondsPerInvocation="467"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="58" invocations="167" avgMicrosecondsPerInvocation="349" maxMicrosecondsPerInvocation="3308" standardDeviationMicrosecondsPerInvocation="535"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="53" invocations="24619" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="1056" standardDeviationMicrosecondsPerInvocation="10"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="51" invocations="1067" avgMicrosecondsPerInvocation="48" maxMicrosecondsPerInvocation="2439" standardDeviationMicrosecondsPerInvocation="117"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="49" invocations="167" avgMicrosecondsPerInvocation="294" maxMicrosecondsPerInvocation="4844" standardDeviationMicrosecondsPerInvocation="503"/>
-      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="48" invocations="45848" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="972" standardDeviationMicrosecondsPerInvocation="4"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="48" invocations="167" avgMicrosecondsPerInvocation="290" maxMicrosecondsPerInvocation="10991" standardDeviationMicrosecondsPerInvocation="1187"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="47" invocations="259" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="1132" standardDeviationMicrosecondsPerInvocation="171"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="46" invocations="167" avgMicrosecondsPerInvocation="281" maxMicrosecondsPerInvocation="4769" standardDeviationMicrosecondsPerInvocation="912"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="45" invocations="1172" avgMicrosecondsPerInvocation="38" maxMicrosecondsPerInvocation="2586" standardDeviationMicrosecondsPerInvocation="100"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="266" maxMicrosecondsPerInvocation="11673" standardDeviationMicrosecondsPerInvocation="932"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="44" invocations="167" avgMicrosecondsPerInvocation="266" maxMicrosecondsPerInvocation="9301" standardDeviationMicrosecondsPerInvocation="799"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="43" invocations="1235" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="7710" standardDeviationMicrosecondsPerInvocation="286"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="43" invocations="167" avgMicrosecondsPerInvocation="261" maxMicrosecondsPerInvocation="2192" standardDeviationMicrosecondsPerInvocation="331"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizingOnContentsOfFieldToProtectField" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="238" maxMicrosecondsPerInvocation="17715" standardDeviationMicrosecondsPerInvocation="1367"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="233" maxMicrosecondsPerInvocation="2056" standardDeviationMicrosecondsPerInvocation="338"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="38" invocations="167" avgMicrosecondsPerInvocation="232" maxMicrosecondsPerInvocation="4919" standardDeviationMicrosecondsPerInvocation="428"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="37" invocations="167" avgMicrosecondsPerInvocation="224" maxMicrosecondsPerInvocation="3241" standardDeviationMicrosecondsPerInvocation="366"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="217" maxMicrosecondsPerInvocation="2380" standardDeviationMicrosecondsPerInvocation="363"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="217" maxMicrosecondsPerInvocation="1945" standardDeviationMicrosecondsPerInvocation="301"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="211" maxMicrosecondsPerInvocation="1604" standardDeviationMicrosecondsPerInvocation="270"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="1860" standardDeviationMicrosecondsPerInvocation="335"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="35" invocations="167" avgMicrosecondsPerInvocation="210" maxMicrosecondsPerInvocation="2190" standardDeviationMicrosecondsPerInvocation="297"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="200" maxMicrosecondsPerInvocation="1738" standardDeviationMicrosecondsPerInvocation="261"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="199" maxMicrosecondsPerInvocation="1407" standardDeviationMicrosecondsPerInvocation="249"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="32" invocations="698" avgMicrosecondsPerInvocation="46" maxMicrosecondsPerInvocation="2444" standardDeviationMicrosecondsPerInvocation="114"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="1613" standardDeviationMicrosecondsPerInvocation="282"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="188" maxMicrosecondsPerInvocation="1240" standardDeviationMicrosecondsPerInvocation="237"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="4017" standardDeviationMicrosecondsPerInvocation="404"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="3181" standardDeviationMicrosecondsPerInvocation="335"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnnecessaryEnvUsage" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="7764" standardDeviationMicrosecondsPerInvocation="620"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="1086" standardDeviationMicrosecondsPerInvocation="176"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="1480" standardDeviationMicrosecondsPerInvocation="235"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="1240" standardDeviationMicrosecondsPerInvocation="236"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="172" maxMicrosecondsPerInvocation="1804" standardDeviationMicrosecondsPerInvocation="228"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="1798" standardDeviationMicrosecondsPerInvocation="240"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="170" maxMicrosecondsPerInvocation="2487" standardDeviationMicrosecondsPerInvocation="400"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="2210" standardDeviationMicrosecondsPerInvocation="262"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="26" invocations="167" avgMicrosecondsPerInvocation="160" maxMicrosecondsPerInvocation="934" standardDeviationMicrosecondsPerInvocation="207"/>
-      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="900" standardDeviationMicrosecondsPerInvocation="189"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectionIncreaseAccessibility" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="1442" standardDeviationMicrosecondsPerInvocation="229"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.IncompatMask" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="1624" standardDeviationMicrosecondsPerInvocation="213"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.StringConcatenation" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="1532" standardDeviationMicrosecondsPerInvocation="222"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="864" invocations="3074" avgMicrosecondsPerInvocation="281" maxMicrosecondsPerInvocation="21188" standardDeviationMicrosecondsPerInvocation="898"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="514" invocations="3089" avgMicrosecondsPerInvocation="166" maxMicrosecondsPerInvocation="39757" standardDeviationMicrosecondsPerInvocation="1229"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="384" invocations="706" avgMicrosecondsPerInvocation="545" maxMicrosecondsPerInvocation="31348" standardDeviationMicrosecondsPerInvocation="1584"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="354" invocations="706" avgMicrosecondsPerInvocation="501" maxMicrosecondsPerInvocation="15947" standardDeviationMicrosecondsPerInvocation="1150"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="304" invocations="2081" avgMicrosecondsPerInvocation="146" maxMicrosecondsPerInvocation="19014" standardDeviationMicrosecondsPerInvocation="572"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine" totalMilliseconds="299" invocations="1180" avgMicrosecondsPerInvocation="253" maxMicrosecondsPerInvocation="23173" standardDeviationMicrosecondsPerInvocation="858"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="289" invocations="1178" avgMicrosecondsPerInvocation="246" maxMicrosecondsPerInvocation="8549" standardDeviationMicrosecondsPerInvocation="481"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="274" invocations="1180" avgMicrosecondsPerInvocation="232" maxMicrosecondsPerInvocation="5254" standardDeviationMicrosecondsPerInvocation="448"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="258" invocations="1271" avgMicrosecondsPerInvocation="203" maxMicrosecondsPerInvocation="10443" standardDeviationMicrosecondsPerInvocation="476"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="242" invocations="1180" avgMicrosecondsPerInvocation="205" maxMicrosecondsPerInvocation="18690" standardDeviationMicrosecondsPerInvocation="684"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="216" invocations="1272" avgMicrosecondsPerInvocation="170" maxMicrosecondsPerInvocation="8307" standardDeviationMicrosecondsPerInvocation="386"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="188" invocations="1079" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="19101" standardDeviationMicrosecondsPerInvocation="665"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="167" invocations="875" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="12711" standardDeviationMicrosecondsPerInvocation="577"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="160" invocations="1276" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="8073" standardDeviationMicrosecondsPerInvocation="276"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="153" invocations="706" avgMicrosecondsPerInvocation="217" maxMicrosecondsPerInvocation="12942" standardDeviationMicrosecondsPerInvocation="649"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="150" invocations="706" avgMicrosecondsPerInvocation="213" maxMicrosecondsPerInvocation="30988" standardDeviationMicrosecondsPerInvocation="1555"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="123" invocations="706" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="32835" standardDeviationMicrosecondsPerInvocation="1274"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="108" invocations="706" avgMicrosecondsPerInvocation="154" maxMicrosecondsPerInvocation="33111" standardDeviationMicrosecondsPerInvocation="1651"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="101" invocations="706" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="7913" standardDeviationMicrosecondsPerInvocation="471"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="101" invocations="706" avgMicrosecondsPerInvocation="143" maxMicrosecondsPerInvocation="5350" standardDeviationMicrosecondsPerInvocation="348"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindImproperSynchronization" totalMilliseconds="96" invocations="167" avgMicrosecondsPerInvocation="580" maxMicrosecondsPerInvocation="18461" standardDeviationMicrosecondsPerInvocation="1626"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="88" invocations="1282" avgMicrosecondsPerInvocation="68" maxMicrosecondsPerInvocation="21735" standardDeviationMicrosecondsPerInvocation="618"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ConstructorThrow" totalMilliseconds="84" invocations="167" avgMicrosecondsPerInvocation="503" maxMicrosecondsPerInvocation="11000" standardDeviationMicrosecondsPerInvocation="1037"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="83" invocations="167" avgMicrosecondsPerInvocation="502" maxMicrosecondsPerInvocation="8095" standardDeviationMicrosecondsPerInvocation="861"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="78" invocations="2982" avgMicrosecondsPerInvocation="26" maxMicrosecondsPerInvocation="740" standardDeviationMicrosecondsPerInvocation="52"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="76" invocations="706" avgMicrosecondsPerInvocation="108" maxMicrosecondsPerInvocation="12199" standardDeviationMicrosecondsPerInvocation="488"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildAccessMethodsDatabase" totalMilliseconds="76" invocations="706" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="3646" standardDeviationMicrosecondsPerInvocation="284"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="75" invocations="1180" avgMicrosecondsPerInvocation="64" maxMicrosecondsPerInvocation="5757" standardDeviationMicrosecondsPerInvocation="200"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="72" invocations="706" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="4684" standardDeviationMicrosecondsPerInvocation="277"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ResourceInMultipleThreadsDetector" totalMilliseconds="72" invocations="167" avgMicrosecondsPerInvocation="431" maxMicrosecondsPerInvocation="10690" standardDeviationMicrosecondsPerInvocation="959"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="71" invocations="1073" avgMicrosecondsPerInvocation="66" maxMicrosecondsPerInvocation="25654" standardDeviationMicrosecondsPerInvocation="786"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="55" invocations="167" avgMicrosecondsPerInvocation="331" maxMicrosecondsPerInvocation="2479" standardDeviationMicrosecondsPerInvocation="341"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="49" invocations="24786" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="1080" standardDeviationMicrosecondsPerInvocation="12"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="48" invocations="167" avgMicrosecondsPerInvocation="291" maxMicrosecondsPerInvocation="3332" standardDeviationMicrosecondsPerInvocation="434"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="47" invocations="167" avgMicrosecondsPerInvocation="282" maxMicrosecondsPerInvocation="2584" standardDeviationMicrosecondsPerInvocation="385"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SharedVariableAtomicityDetector" totalMilliseconds="45" invocations="167" avgMicrosecondsPerInvocation="272" maxMicrosecondsPerInvocation="9778" standardDeviationMicrosecondsPerInvocation="1066"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="44" invocations="45872" avgMicrosecondsPerInvocation="0" maxMicrosecondsPerInvocation="1891" standardDeviationMicrosecondsPerInvocation="8"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.password.ConstantPasswordDetector" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="249" maxMicrosecondsPerInvocation="4266" standardDeviationMicrosecondsPerInvocation="473"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueRangeAnalysisFactory" totalMilliseconds="41" invocations="1241" avgMicrosecondsPerInvocation="33" maxMicrosecondsPerInvocation="7811" standardDeviationMicrosecondsPerInvocation="280"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="41" invocations="167" avgMicrosecondsPerInvocation="246" maxMicrosecondsPerInvocation="5514" standardDeviationMicrosecondsPerInvocation="820"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="40" invocations="167" avgMicrosecondsPerInvocation="241" maxMicrosecondsPerInvocation="6127" standardDeviationMicrosecondsPerInvocation="505"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MultipleInstantiationsOfSingletons" totalMilliseconds="40" invocations="167" avgMicrosecondsPerInvocation="240" maxMicrosecondsPerInvocation="14561" standardDeviationMicrosecondsPerInvocation="1125"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="3513" standardDeviationMicrosecondsPerInvocation="358"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="39" invocations="167" avgMicrosecondsPerInvocation="237" maxMicrosecondsPerInvocation="3514" standardDeviationMicrosecondsPerInvocation="472"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="37" invocations="262" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="1119" standardDeviationMicrosecondsPerInvocation="157"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPublicAttributes" totalMilliseconds="36" invocations="167" avgMicrosecondsPerInvocation="219" maxMicrosecondsPerInvocation="7578" standardDeviationMicrosecondsPerInvocation="619"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="33" invocations="1178" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="1052" standardDeviationMicrosecondsPerInvocation="59"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOverridableMethodCall" totalMilliseconds="33" invocations="167" avgMicrosecondsPerInvocation="199" maxMicrosecondsPerInvocation="5318" standardDeviationMicrosecondsPerInvocation="502"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.taintanalysis.extra.PotentialValueTracker" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="196" maxMicrosecondsPerInvocation="19975" standardDeviationMicrosecondsPerInvocation="1539"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="192" maxMicrosecondsPerInvocation="2524" standardDeviationMicrosecondsPerInvocation="377"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="32" invocations="167" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="2506" standardDeviationMicrosecondsPerInvocation="304"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="31" invocations="167" avgMicrosecondsPerInvocation="191" maxMicrosecondsPerInvocation="1894" standardDeviationMicrosecondsPerInvocation="337"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="182" maxMicrosecondsPerInvocation="1252" standardDeviationMicrosecondsPerInvocation="227"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="30" invocations="167" avgMicrosecondsPerInvocation="181" maxMicrosecondsPerInvocation="1469" standardDeviationMicrosecondsPerInvocation="238"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="29" invocations="706" avgMicrosecondsPerInvocation="42" maxMicrosecondsPerInvocation="4559" standardDeviationMicrosecondsPerInvocation="300"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="29" invocations="167" avgMicrosecondsPerInvocation="173" maxMicrosecondsPerInvocation="2312" standardDeviationMicrosecondsPerInvocation="294"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="28" invocations="167" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="3160" standardDeviationMicrosecondsPerInvocation="310"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="27" invocations="706" avgMicrosecondsPerInvocation="39" maxMicrosecondsPerInvocation="2083" standardDeviationMicrosecondsPerInvocation="100"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.file.PathTraversalDetector" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="1230" standardDeviationMicrosecondsPerInvocation="213"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="27" invocations="167" avgMicrosecondsPerInvocation="162" maxMicrosecondsPerInvocation="1606" standardDeviationMicrosecondsPerInvocation="183"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="153" maxMicrosecondsPerInvocation="2421" standardDeviationMicrosecondsPerInvocation="361"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.PredictableRandomDetector" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="1043" standardDeviationMicrosecondsPerInvocation="194"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.WeakFilenameUtilsMethodDetector" totalMilliseconds="25" invocations="167" avgMicrosecondsPerInvocation="150" maxMicrosecondsPerInvocation="1004" standardDeviationMicrosecondsPerInvocation="183"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="147" maxMicrosecondsPerInvocation="1574" standardDeviationMicrosecondsPerInvocation="220"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="24" invocations="167" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="1675" standardDeviationMicrosecondsPerInvocation="241"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="1794" standardDeviationMicrosecondsPerInvocation="243"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="1260" standardDeviationMicrosecondsPerInvocation="189"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="23" invocations="167" avgMicrosecondsPerInvocation="138" maxMicrosecondsPerInvocation="1392" standardDeviationMicrosecondsPerInvocation="199"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine" totalMilliseconds="22" invocations="3148" avgMicrosecondsPerInvocation="7" maxMicrosecondsPerInvocation="4465" standardDeviationMicrosecondsPerInvocation="79"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.IncompatMask" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="1638" standardDeviationMicrosecondsPerInvocation="196"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ThrowingExceptions" totalMilliseconds="22" invocations="167" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1639" standardDeviationMicrosecondsPerInvocation="209"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPotentialSecurityCheckBasedOnUntrustedSource" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="1111" standardDeviationMicrosecondsPerInvocation="185"/>
+      <ClassProfile name="com.h3xstream.findsecbugs.xpath.XPathInjectionDetector" totalMilliseconds="21" invocations="167" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="1907" standardDeviationMicrosecondsPerInvocation="210"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>

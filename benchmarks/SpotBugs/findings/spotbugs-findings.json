@@ -1502,61 +1502,73 @@
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 121,
+      "line": 125,
       "cwe": "CWE-117",
       "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 218,
+      "line": 227,
       "cwe": "CWE-117",
       "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 258,
+      "line": 267,
       "cwe": "CWE-117",
       "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 297,
+      "line": 306,
       "cwe": "CWE-117",
       "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 337,
+      "line": 346,
       "cwe": "CWE-117",
       "type": "Potential CRLF Injection for logs"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 257,
+      "line": 266,
       "cwe": "CWE-396",
       "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 296,
+      "line": 305,
       "cwe": "CWE-396",
       "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 336,
+      "line": 345,
       "cwe": "CWE-396",
       "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 372,
+      "line": 381,
       "cwe": "CWE-396",
       "type": "Exception is caught when Exception is not thrown"
     },
     {
       "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
-      "line": 403,
+      "line": 412,
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 449,
+      "cwe": "CWE-396",
+      "type": "Exception is caught when Exception is not thrown"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 487,
       "cwe": "CWE-396",
       "type": "Exception is caught when Exception is not thrown"
     },
