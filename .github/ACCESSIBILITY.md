@@ -33,13 +33,13 @@ For user-facing changes, please include a short accessibility note in the PR des
 3. **Results and gaps:** What worked, what did not, and what was not tested.
 4. **Optional evidence:** Screenshots or recordings when useful, without exposing sensitive or personal information.
 
-The project's [contribution guidelines](../CONTRIBUTING.md) describe Java formatting and code-quality checks using Spotless and Checkstyle, including CI checks. These are **not accessibility tests**. This document does not assume that a particular automated accessibility tool or accessibility CI check is already in place.
+The project's [contribution guidelines](CONTRIBUTING.md) describe Java formatting and code-quality checks using Spotless and Checkstyle, including CI checks. These are **not accessibility tests**. This document does not assume that a particular automated accessibility tool or accessibility CI check is already in place.
 
 ## Reporting accessibility issues
 
 If something is hard to see, understand, navigate, or use, or you need help with an accessibility barrier, you can:
 
-- [Open a GitHub Issue](https://github.com/SasanLabs/VulnerableApp/issues).
+- [Open a GitHub Issue](https://github.com/SasanLabs/VulnerableApp/issues/new/choose).
 - Email [karan.sasan@owasp.org](mailto:karan.sasan@owasp.org), the contact listed in the project's contribution guidelines, if GitHub is difficult to use or you prefer email.
 
 Please share as much of the following as is practical:
@@ -71,7 +71,7 @@ After a report is submitted, maintainers can review it as capacity allows. Depen
 - Sharing a workaround when one has been checked and is available.
 - Describing a fix and inviting the reporter to verify it, if they are able and willing.
 
-**There is no guaranteed acknowledgement or resolution timeframe for accessibility issues.** The response guidance for PRs in [CONTRIBUTING.md](../CONTRIBUTING.md) should not be treated as a deadline for GitHub Issues. If a report has had no update for some time, you may follow up in the original issue or use the email contact above.
+**There is no guaranteed acknowledgement or resolution timeframe for accessibility issues.** The response guidance for PRs in [CONTRIBUTING.md](CONTRIBUTING.md) should not be treated as a deadline for GitHub Issues. If a report has had no update for some time, you may follow up in the original issue or use the email contact above.
 
 ## Ownership and maintenance
 
@@ -97,7 +97,9 @@ Support can differ between the two interfaces and between device and assistive-t
 
 ## Known limitations
 
-No complete accessibility assessment or verified list of accessibility barriers is available to cite in this statement. **That does not mean the interfaces have no barriers or that the environments above have passed accessibility testing.** This document itself is not evidence that any of those combinations has been tested.
+No complete accessibility assessment is available.
+
+In the Legacy UI, the level selector requires a pointer. Keyboard users cannot focus a level or select it with Enter or Space.
 
 Areas that still need documented checks include:
 
