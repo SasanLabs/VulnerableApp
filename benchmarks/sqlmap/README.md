@@ -112,11 +112,19 @@ command against `targets.txt`. Convert the native report and submit the findings
 python3 benchmarks/sqlmap/scripts/convert_sqlmap_to_benchmark.py \
   --input benchmarks/sqlmap/artifacts/report.json \
   --expected-urls benchmarks/sqlmap/artifacts/targets.txt \
-  --output benchmarks/sqlmap/artifacts/sqlmap-findings.json
+  --output benchmarks/sqlmap/artifacts/sqlmap-findings.json &&
 curl --fail-with-body http://127.0.0.1/VulnerableApp/scanner/benchmark \
   -H 'Content-Type: application/json' \
   --data-binary @benchmarks/sqlmap/artifacts/sqlmap-findings.json \
   -o benchmarks/sqlmap/artifacts/sqlmap-results.json
+```
+
+If conversion fails, inspect the native report and scan log. The findings file
+may still be from a previous run.
+
+Stop the local stack when you are done.
+
+```bash
 docker compose -p vulnerableapp-sqlmap -f docker-compose.without_llm.yml down -v --remove-orphans
 ```
 
