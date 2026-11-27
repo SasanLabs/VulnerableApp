@@ -152,6 +152,8 @@ jobs:
               summary.write('Targets come from the facade sitemap, using GET id=1 and BEU techniques.\n\n')
               summary.write(f"Detected: {result['detected']}; whole-benchmark coverage: {result['coverage']:.2f}%.\n\n")
               summary.write('Coverage denominator includes all Java DAST vulnerabilities, not just SQL injection.\n')
+              summary.write('A run can report zero detections even when no targets were tested. '
+                            'See the native report and scan log for each target\'s outcome.\n')
               summary.write('Unmatched findings require review; they are not automatically false positives.\n')
           PY
 

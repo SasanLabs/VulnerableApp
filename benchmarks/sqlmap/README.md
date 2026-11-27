@@ -128,7 +128,8 @@ is sufficient for both scripts and their tests.
 The comparator's coverage denominator contains all UNSECURE Java DAST expected
 items, not just SQL injection. A finding on a URL the ground truth does not list
 is unmatched; `/scanner/dast` currently lists only Java endpoints. A completed
-negative means the selected scanner settings confirmed no injection; it does not
-establish that a lab is secure.
+negative means sqlmap found no injection on that target with the selected settings.
+A run can also report zero detections when every target was skipped before testing.
+Check the native report and scan log for each target's outcome.
 Results depend on the scanner release, application revision, and settings.
 Unmatched findings require review and are not automatically false positives.
