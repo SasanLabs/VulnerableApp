@@ -105,10 +105,10 @@ def main():
     parser.add_argument('--input', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--expected-urls', type=Path,
-                        help='Check the report against the sqlmap bulk file it was scanned from')
+                        help='Check the report against the UTF-8 sqlmap bulk file it was scanned from')
     args = parser.parse_args()
     try:
-        expected_urls = (scanned_targets(args.expected_urls.read_text().splitlines())
+        expected_urls = (scanned_targets(args.expected_urls.read_text(encoding='utf-8').splitlines())
                          if args.expected_urls else None)
         result = convert(json.loads(args.input.read_text()), expected_urls=expected_urls)
         args.output.parent.mkdir(parents=True, exist_ok=True)

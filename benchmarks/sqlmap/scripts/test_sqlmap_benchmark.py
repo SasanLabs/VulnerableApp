@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -179,6 +180,23 @@ class ConverterTest(unittest.TestCase):
             result = subprocess.run(command, capture_output=True, text=True)
             self.assertIn('Missing expected report entries: 1', result.stderr)
             self.assertFalse(output.exists())
+
+    def test_cli_reads_expected_urls_as_utf8_under_an_ascii_locale(self):
+        url = 'https://example.invalid/café'
+        raw = report('negative')
+        raw['data'][0]['value']['url'] = url
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / 'report.json'
+            output = Path(directory) / 'findings.json'
+            expected = Path(directory) / 'expected-urls.txt'
+            source.write_text(json.dumps(raw), encoding='ascii')
+            expected.write_text(url + '?id=1\n', encoding='utf-8')
+            command = [sys.executable, '-X', 'utf8=0', str(SCRIPTS / 'convert_sqlmap_to_benchmark.py'),
+                       '--input', str(source), '--output', str(output), '--expected-urls', str(expected)]
+            result = subprocess.run(command, capture_output=True,
+                                    env=dict(os.environ, LC_ALL='C', PYTHONCOERCECLOCALE='0'))
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(output.read_text(encoding='utf-8'))['findings'], [])
 
 
 class SitemapTest(unittest.TestCase):
