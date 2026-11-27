@@ -236,6 +236,23 @@ class EndPointsInformationProviderTest {
                                     + "/Fixture.html");
             assertThat(level.getHints()).hasSize(1);
             assertThat(level.getChallengeCards()).hasSize(1);
+            assertThat(level.getProtocol())
+                    .isEqualTo(org.sasanlabs.vulnerableapp.facade.schema.Protocol.WS);
+        }
+    }
+
+    @Test
+    void getVulnerabilityDefinitions_marksRestLevelsAsHttp() throws Exception {
+        VulnerabilityDefinition definition =
+                provider.getVulnerabilityDefinitions().stream()
+                        .filter(d -> "InsecureDeserialization".equals(d.getName()))
+                        .findFirst()
+                        .orElseThrow(() -> new AssertionError("InsecureDeserialization missing"));
+
+        assertThat(definition.getLevelDescriptionSet()).isNotEmpty();
+        for (VulnerabilityLevelDefinition level : definition.getLevelDescriptionSet()) {
+            assertThat(level.getProtocol())
+                    .isEqualTo(org.sasanlabs.vulnerableapp.facade.schema.Protocol.HTTP);
         }
     }
 

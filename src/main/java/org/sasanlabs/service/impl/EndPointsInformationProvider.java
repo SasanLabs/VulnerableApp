@@ -274,7 +274,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 method,
                                                 vulnLevel.value(),
                                                 vulnLevel.variant(),
-                                                vulnLevel.htmlTemplate()));
+                                                vulnLevel.htmlTemplate(),
+                                                Protocol.HTTP));
                     }
                 }
                 vulnerabilityDefinitions.add(facadeVulnerabilityDefinition);
@@ -301,7 +302,8 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
                                                 method,
                                                 vulnLevel.value(),
                                                 vulnLevel.variant(),
-                                                vulnLevel.htmlTemplate()));
+                                                vulnLevel.htmlTemplate(),
+                                                Protocol.WS));
                     }
                 }
                 vulnerabilityDefinitions.add(facadeVulnerabilityDefinition);
@@ -326,12 +328,15 @@ public class EndPointsInformationProvider implements IEndPointsInformationProvid
             Method method,
             String level,
             org.sasanlabs.internal.utility.Variant variant,
-            String htmlTemplate) {
+            String htmlTemplate,
+            Protocol protocol) {
         AttackVector[] attackVectors = method.getAnnotationsByType(AttackVector.class);
         VulnerabilityLevelDefinition facadeVulnerabilityLevelDefinition =
                 new VulnerabilityLevelDefinition();
         facadeVulnerabilityLevelDefinition.setLevel(level);
         facadeVulnerabilityLevelDefinition.setVariant(Variant.valueOf(variant.name()));
+        facadeVulnerabilityLevelDefinition.setProtocol(
+                org.sasanlabs.vulnerableapp.facade.schema.Protocol.valueOf(protocol.name()));
         addFacadeResourceInformation(
                 facadeVulnerabilityDefinition, facadeVulnerabilityLevelDefinition, htmlTemplate);
 
