@@ -8,6 +8,7 @@ from collections import Counter
 import json
 from pathlib import Path
 import re
+from urllib.parse import urlsplit, urlunsplit
 
 NEGATIVE_CONCLUSION = 'all tested parameters do not appear to be injectable.'
 # Logged during tests that still end in an injection or the negative conclusion.
@@ -17,11 +18,16 @@ NEGATIVE_NOTES = ('heuristics detected that the target is protected by some kind
 NOT_TESTED = ('unable to retrieve page content',
               'not authorized, try to provide right HTTP authentication')
 OUTCOMES = (NEGATIVE_CONCLUSION,) + NOT_TESTED
+DEFAULT_PORTS = {'http': 80, 'https': 443}
 
 
 def target_url(url):
-    """The comparator ignores the query when matching, so findings carry the path only."""
-    return url.split('#', 1)[0].split('?', 1)[0]
+    """Drops the query, fragment and default port, as sqlmap's TARGET record does."""
+    parts = urlsplit(url)
+    netloc = parts.netloc
+    if parts.port is not None and parts.port == DEFAULT_PORTS.get(parts.scheme):
+        netloc = netloc.rpartition(':')[0]
+    return urlunsplit((parts.scheme, netloc, parts.path, '', ''))
 
 
 def scanned_targets(lines):

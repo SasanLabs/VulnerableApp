@@ -19,13 +19,15 @@ LLMForge and its model downloads are outside this SQL benchmark.
 ## Discovery and targets
 
 Discovery starts with the facade's `/sitemap.xml`. The small
-`scripts/sitemap_to_targets.py` adapter preserves every listed path and query,
-replaces Docker-internal origins with the configured facade origin, and adds
-`?id=1` only when a URL has no query. sqlmap scans every resulting URL; nothing
-selects vulnerability families, levels, variants, or known-vulnerable endpoints.
-No ground-truth endpoint is read to choose targets. The workflow captures
-`/VulnerableApp/scanner/dast` after scanning for audit; only the benchmark
-comparator uses it for scoring.
+`scripts/sitemap_to_targets.py` adapter keeps every listed URL as it is and adds
+`?id=1` only when a URL has no query. Since SasanLabs/VulnerableApp-facade#139 the
+facade passes the client's Host to the applications, so the sitemap lists the
+facade origin. An older facade image lists Docker-internal hosts that sqlmap cannot
+reach, and the run then stops at conversion. sqlmap scans every resulting URL;
+nothing selects vulnerability families, levels, variants, or known-vulnerable
+endpoints. No ground-truth endpoint is read to choose targets. The workflow
+captures `/VulnerableApp/scanner/dast` after scanning for audit; only the
+benchmark comparator uses it for scoring.
 
 sqlmap 1.10.11 has no `--sitemap-url` option, and its `-m` bulk input skips a URL
 without a query, so a sitemap URL without one would not be scanned at all. sqlmap
@@ -71,9 +73,11 @@ checks distinguish a failed scan from a completed or untested target; they do no
 score findings or validate them against ground truth.
 
 The converter reads `targets.txt` the way sqlmap's `-m` option does and needs
-exactly one report entry per URL. sqlmap skips a repeated path whose parameters it
-has already tested, so `targets.txt` must list each path once. A missing target,
-an extra report entry, or a repeated path stops the run before submission.
+exactly one report entry per URL. Like sqlmap's report, it compares URLs without
+the query and without a default port such as `:80`. sqlmap skips a repeated path
+whose parameters it has already tested, so `targets.txt` must list each path
+once. A missing target, an extra report entry, or a repeated path stops the run
+before submission.
 
 Artifacts retain the sitemap, bulk input, native report, session files, console
 log, scanner version and revision, workflow revision, container image IDs and
@@ -101,7 +105,7 @@ python3 -m unittest discover -s benchmarks/sqlmap/scripts -v
 mkdir -p benchmarks/sqlmap/artifacts
 curl --fail http://127.0.0.1/sitemap.xml -o benchmarks/sqlmap/artifacts/sitemap.xml
 python3 benchmarks/sqlmap/scripts/sitemap_to_targets.py \
-  --sitemap benchmarks/sqlmap/artifacts/sitemap.xml --base-url http://127.0.0.1 \
+  --sitemap benchmarks/sqlmap/artifacts/sitemap.xml \
   --output benchmarks/sqlmap/artifacts/targets.txt
 ```
 

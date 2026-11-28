@@ -181,6 +181,23 @@ class ConverterTest(unittest.TestCase):
             self.assertIn('Missing expected report entries: 1', result.stderr)
             self.assertFalse(output.exists())
 
+    def test_expected_urls_match_sqlmaps_target_without_the_default_port(self):
+        def target(url):
+            raw = report('negative')
+            raw['data'][0]['value']['url'] = url
+            return raw
+        raw = {'success': True, 'targets': [target(url) for url in
+                                            ['http://h/VulnerableApp/lab', 'https://h/secure', 'http://h:8080/other']]}
+        expected = ['http://h:80/VulnerableApp/lab?id=1', 'https://h:443/secure?id=1', 'http://h:8080/other?id=1']
+        self.assertEqual(convert(raw, expected_urls=expected)['findings'], [])
+        wrong = ['http://h:8080/VulnerableApp/lab?id=1', 'https://h:80/secure?id=1', 'http://h/other?id=1']
+        for index, url in enumerate(wrong):
+            with self.subTest(url=url), self.assertRaisesRegex(ValueError, 'Missing expected report entries: 1'):
+                convert(raw, expected_urls=expected[:index] + [url] + expected[index + 1:])
+        positive = report()
+        positive['data'][0]['value']['url'] = 'http://h:80/VulnerableApp/lab'
+        self.assertEqual(convert(positive)['findings'][0]['url'], 'http://h/VulnerableApp/lab')
+
     def test_cli_reads_expected_urls_as_utf8_under_an_ascii_locale(self):
         url = 'https://example.invalid/café'
         raw = report('negative')
@@ -200,22 +217,23 @@ class ConverterTest(unittest.TestCase):
 
 
 class SitemapTest(unittest.TestCase):
-    def test_sitemap_urls_keep_paths_and_existing_queries_with_a_generic_seed(self):
+    def test_sitemap_urls_keep_origins_paths_and_existing_queries_with_a_generic_seed(self):
         with tempfile.TemporaryDirectory() as directory:
             source, output = Path(directory) / 'sitemap.xml', Path(directory) / 'targets.txt'
             source.write_text('''<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-              <url><loc>http://java:9090/lab/LEVEL_1</loc></url>
-              <url><loc>http://php/lab/LEVEL_2?search=two&amp;other=3</loc></url>
-              <url><loc>http://jsp/native-name</loc></url>
+              <url><loc>
+                http://127.0.0.1:80/VulnerableApp/lab/LEVEL_1
+              </loc></url>
+              <url><loc>http://127.0.0.1/VulnerableApp-php/lab/LEVEL_2?search=two&amp;other=3</loc></url>
+              <url><loc>https://lab.example:8443/native-name#part</loc></url>
             </urlset>''')
             result = subprocess.run([sys.executable, str(SCRIPTS / 'sitemap_to_targets.py'),
-                                     '--sitemap', str(source), '--base-url', 'http://127.0.0.1:19090',
-                                     '--output', str(output)], capture_output=True)
+                                     '--sitemap', str(source), '--output', str(output)], capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(output.read_text().splitlines(), [
-                'http://127.0.0.1:19090/lab/LEVEL_1?id=1',
-                'http://127.0.0.1:19090/lab/LEVEL_2?search=two&other=3',
-                'http://127.0.0.1:19090/native-name?id=1'])
+                'http://127.0.0.1:80/VulnerableApp/lab/LEVEL_1?id=1',
+                'http://127.0.0.1/VulnerableApp-php/lab/LEVEL_2?search=two&other=3',
+                'https://lab.example:8443/native-name?id=1'])
 
     def test_invalid_or_empty_sitemap_cannot_become_a_clean_scan(self):
         for content in ['<html>failed</html>', '<urlset/>', 'not XML']:
@@ -223,8 +241,8 @@ class SitemapTest(unittest.TestCase):
                 source, output = Path(directory) / 'sitemap.xml', Path(directory) / 'targets.txt'
                 source.write_text(content)
                 result = subprocess.run([sys.executable, str(SCRIPTS / 'sitemap_to_targets.py'),
-                                         '--sitemap', str(source), '--base-url', 'http://lab',
-                                         '--output', str(output)], capture_output=True)
+                                         '--sitemap', str(source), '--output', str(output)],
+                                        capture_output=True)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertFalse(output.exists())
 

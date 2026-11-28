@@ -104,7 +104,6 @@ jobs:
             -o benchmarks/sqlmap/artifacts/sitemap.xml
           python3 benchmarks/sqlmap/scripts/sitemap_to_targets.py \
             --sitemap benchmarks/sqlmap/artifacts/sitemap.xml \
-            --base-url http://127.0.0.1 \
             --output benchmarks/sqlmap/artifacts/targets.txt
 
       - name: Run sqlmap CLI
