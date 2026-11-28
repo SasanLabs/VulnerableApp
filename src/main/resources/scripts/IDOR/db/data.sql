@@ -1,3 +1,6 @@
-INSERT INTO idor_users VALUES (1, 'Alice', 'A1B2C3D4E5F60708:141efd4aa55f37300ad1c06d63854eca83a8d41953c5667b9d24eaff4a3edd1d', 50000, 'USER');
-INSERT INTO idor_users VALUES (2, 'Bob', '6F1A9D3C7B2E4A10:45a030daed4d65abc5a415713850c1b23393b8439b25e6302e402e78bd6e0779', 60000, 'USER');
-INSERT INTO idor_users VALUES (3, 'Charlie', 'C4E8B1D9A2F63750:3e726031f6e72f90016a76ac7522b76b44bbea801b8fbb86e6e51e4c418f4f53', 70000, 'ADMIN');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (1, NULL, 'Alice', 'A1B2C3D4E5F60708:141efd4aa55f37300ad1c06d63854eca83a8d41953c5667b9d24eaff4a3edd1d', 50000, 'USER', 'ID');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (2, NULL, 'Bob', '6F1A9D3C7B2E4A10:45a030daed4d65abc5a415713850c1b23393b8439b25e6302e402e78bd6e0779', 60000, 'USER', 'ID');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (3, NULL, 'Charlie', 'C4E8B1D9A2F63750:3e726031f6e72f90016a76ac7522b76b44bbea801b8fbb86e6e51e4c418f4f53', 70000, 'ADMIN', 'ID');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (4, '1d860aff-aaee-4069-85d2-db8e8ae30f27', 'David', '9E4B7D21C6A35F08:2b30beeb9aaaf61e1cc80e571033177adc2dc54d98376437058a2c35f9f50501', 55000, 'USER', 'UUID');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (5, '44444444-4444-4444-4444-444444444444', 'Eve', '3C8F1A6E2D9B4705:a617865ad4dc9307eb0cb632f1a2ee699b83d6b81da5faa74087cf60f1b7fc18', 80000, 'ADMIN', 'UUID');
+INSERT INTO idor_users (id, uuid, username, password, salary, role, type) VALUES (6, '87a14494-204e-42cf-bdb7-37ff91f09972', 'Frank', 'B71D5E2A9F4C6830:c0adc0905e5992d893502d54811b8134aaee5c102cd74d2ab9cb3e6123560874', 65000, 'USER', 'UUID');
