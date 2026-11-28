@@ -54,4 +54,5 @@ __pycache__/
 /benchmarks/Semgrep/semgrep-raw-report.json
 !/benchmarks/Wapiti/wapiti-results.json
 /benchmarks/Wapiti/wapiti-raw-report.json
+!/benchmarks/Dalfox/dalfox-results.json
 

