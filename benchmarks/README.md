@@ -216,6 +216,19 @@ See [`benchmarks/Wapiti/README.md`](Wapiti/README.md) for local scan and reprodu
 
 ---
 
+## PMD (SAST)
+
+PMD is benchmarked in `SAST` mode against the ground truth in
+`expectedIssues.csv`, automated daily via the **PMD Benchmark** GitHub Actions
+workflow. Latest findings and results:
+[`benchmarks/PMD/findings/pmd-findings.json`](PMD/findings/pmd-findings.json) and
+[`benchmarks/PMD/pmd-results.json`](PMD/pmd-results.json).
+
+See [`benchmarks/PMD/README.md`](PMD/README.md) for how to run it, the
+rule → CWE mapping, and the input format.
+
+---
+
 ## Choosing a scan type
 
 The optional `scanType` field on the request body selects the strategy. When
@@ -550,5 +563,3 @@ built (`SSRFVulnerability.java:73`), while the expected row is the
 outside the intended vulnerability set (CSRF on request mappings, cookie flags),
 and findings in classes that have no ground-truth rows yet, so it should not be
 read as a list of false positives.
-
-

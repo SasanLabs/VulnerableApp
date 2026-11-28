@@ -1,0 +1,36 @@
+{
+  "tool": "PMD",
+  "scanType": "SAST",
+  "findings": [
+    {
+      "filePath": "src/main/java/org/sasanlabs/internal/utility/GenericUtils.java",
+      "line": 10,
+      "cwe": "CWE-547",
+      "type": "Hard-coded Security-relevant Constant"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock.java",
+      "line": 31,
+      "cwe": "CWE-547",
+      "type": "Hard-coded Security-relevant Constant"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/MetaDataServiceMock.java",
+      "line": 32,
+      "cwe": "CWE-547",
+      "type": "Hard-coded Security-relevant Constant"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/ssrf/SSRFVulnerability.java",
+      "line": 161,
+      "cwe": "CWE-547",
+      "type": "Hard-coded Security-relevant Constant"
+    },
+    {
+      "filePath": "src/main/java/org/sasanlabs/service/vulnerability/xxe/XXEVulnerability.java",
+      "line": 108,
+      "cwe": "CWE-772",
+      "type": "Missing Resource Release"
+    }
+  ]
+}

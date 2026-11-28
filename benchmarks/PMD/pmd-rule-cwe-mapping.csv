@@ -1,0 +1,7 @@
+category,rule,cwe,type
+security,HardCodedCryptoKey,CWE-321,Hard-coded Cryptographic Key
+security,InsecureCryptoIv,CWE-329,Insecure Crypto IV
+bestpractices,AvoidUsingHardCodedIP,CWE-547,Hard-coded Security-relevant Constant
+bestpractices,AvoidPrintStackTrace,CWE-209,Information Exposure Through Error Message
+errorprone,CloseResource,CWE-772,Missing Resource Release
+errorprone,AvoidLosingExceptionInformation,CWE-390,Error Condition Without Action
