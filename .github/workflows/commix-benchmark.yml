@@ -1,0 +1,132 @@
+name: Commix Benchmark
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'benchmarks/commix/**'
+      - '.github/workflows/commix-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  commix-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Remove previously committed reports
+        run: |
+          # The artifact must only contain reports produced by this run.
+          rm -f benchmarks/commix/findings/commix-findings.json benchmarks/commix/commix-results.json
+
+      - name: Run Converter Unit Tests
+        run: python3 -m unittest discover -s benchmarks/commix/scripts -v
+
+      - name: Install latest Commix release
+        run: |
+          # Always benchmark the newest released version so scanner improvements show up over time.
+          tag=$(git ls-remote --tags --refs https://github.com/commixproject/commix.git 'v*' \
+            | sed 's|.*refs/tags/||' | grep -E '^v[0-9]+(\.[0-9]+)*$' | sort -V | tail -n 1)
+          if [ -z "$tag" ]; then
+            echo 'Could not resolve a Commix release tag'
+            exit 1
+          fi
+          echo "Using Commix $tag"
+          git clone --depth 1 --branch "$tag" https://github.com/commixproject/commix.git "$RUNNER_TEMP/commix"
+          mkdir -p benchmarks/commix/artifacts
+          echo "$tag" > benchmarks/commix/artifacts/commix-version.txt
+
+      - name: Start VulnerableApp Stack
+        run: |
+          docker compose -f docker-compose.without_llm.yml up -d
+
+      - name: Wait for VulnerableApp
+        run: |
+          echo "Waiting for VulnerableApp..."
+          for i in {1..40}; do
+            if curl -sf http://localhost/VulnerableApp/scanner >/dev/null; then
+              echo "VulnerableApp is ready"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "App failed to start"
+          docker compose -f docker-compose.without_llm.yml logs
+          exit 1
+
+      - name: Run Commix Scan
+        run: |
+          # Commix only parses sitemap URLs that already carry GET parameters and the sitemap
+          # has none, so the command-injection URLs are taken from the sitemap and the
+          # ipaddress parameter is supplied here. The sitemap lists the container-internal
+          # host, so it is rewritten to the address the runner reaches through the facade.
+          curl -sf http://localhost/VulnerableApp/sitemap.xml \
+            | grep -oE 'https?://[^<[:space:]]*/CommandInjection/[^<[:space:]]*' \
+            | sed -E 's|^https?://[^/]+|http://localhost|; s|$|?ipaddress=127.0.0.1|' > benchmarks/commix/artifacts/commix-targets.txt
+          if [ ! -s benchmarks/commix/artifacts/commix-targets.txt ]; then
+            echo 'No command-injection URLs found in the sitemap'
+            exit 1
+          fi
+          while read -r url; do
+            echo "Scanning $url"
+            python3 "$RUNNER_TEMP/commix/commix.py" \
+              --url "$url" -p ipaddress --technique=c \
+              --batch --ignore-stdin --disable-coloring --timeout=10 --retries=0 \
+              --answers='shell=n,recognize=u,continue=N,skip=Y' \
+              --output-dir=benchmarks/commix/artifacts/commix-output \
+              < /dev/null
+          done < benchmarks/commix/artifacts/commix-targets.txt
+
+      - name: Convert Commix Logs
+        run: |
+          python3 benchmarks/commix/scripts/convert_commix_to_benchmark.py \
+            --input  benchmarks/commix/artifacts/commix-output \
+            --output benchmarks/commix/findings/commix-findings.json
+
+      - name: Submit to Benchmark Endpoint
+        run: |
+          curl -s --fail-with-body --show-error -X POST http://localhost/VulnerableApp/scanner/benchmark \
+            -H "Content-Type: application/json" \
+            -d @benchmarks/commix/findings/commix-findings.json \
+            -o benchmarks/commix/commix-results.json
+
+          echo "=== Commix Benchmark Results ==="
+          python3 -c "
+          import json
+          with open('benchmarks/commix/commix-results.json') as f:
+              data = json.load(f)
+          print(f'  Tool:           {data.get(\"tool\")}')
+          print(f'  Coverage:       {data.get(\"coverage\", 0):.2f}%')
+          print(f'  Total Expected: {data.get(\"totalExpected\")}')
+          print(f'  Detected:       {data.get(\"detected\")}')
+          print(f'  Missed:         {data.get(\"missed\")}')
+          print(f'  Unmatched:      {data.get(\"unmatched\")}')
+          "
+
+      - name: Stop VulnerableApp Stack
+        if: always()
+        run: docker compose -f docker-compose.without_llm.yml down
+
+      - name: Upload Scan Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: commix-benchmark-${{ github.run_id }}
+          path: |
+            benchmarks/commix/artifacts/
+            benchmarks/commix/findings/commix-findings.json
+            benchmarks/commix/commix-results.json
+          retention-days: 30
