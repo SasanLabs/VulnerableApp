@@ -35,10 +35,13 @@ CWE-79,Reflected XSS,src/main/java/org/sasanlabs/service/vulnerability/fileuploa
 CWE-434,Unrestricted File Upload,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,128,7,4
 CWE-730,Denial Of Service,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,128,1,4
 CWE-400,Uncontrolled Resource Consumption,src/main/java/org/sasanlabs/service/vulnerability/fileupload/UnrestrictedFileUpload.java,128,1,4
-CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,82,1,1
-CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,120,1,1
-CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,158,1,1
-CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,207,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,98,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,136,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,174,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,223,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,325,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,371,1,1
+CWE-639,IDOR,src/main/java/org/sasanlabs/service/vulnerability/idor/IDORVulnerability.java,416,1,1
 CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,132,1,1
 CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,205,1,1
 CWE-522,Client Side Vulnerable Jwt,src/main/java/org/sasanlabs/service/vulnerability/jwt/JWTVulnerability.java,266,1,1
